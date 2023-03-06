@@ -1,0 +1,13 @@
+C:\source\opentuner\opentuner\bin\Release\opentuner.exe.config
+C:\source\opentuner\opentuner\bin\Release\opentuner.exe
+C:\source\opentuner\opentuner\bin\Release\opentuner.pdb
+C:\source\opentuner\opentuner\bin\Release\FTD2XX_NET.dll
+C:\source\opentuner\opentuner\bin\Release\FTD2XX_NET.xml
+C:\source\opentuner\opentuner\obj\Release\opentuner.csprojAssemblyReference.cache
+C:\source\opentuner\opentuner\obj\Release\opentuner.Form1.resources
+C:\source\opentuner\opentuner\obj\Release\opentuner.Properties.Resources.resources
+C:\source\opentuner\opentuner\obj\Release\opentuner.csproj.GenerateResource.cache
+C:\source\opentuner\opentuner\obj\Release\opentuner.csproj.CoreCompileInputs.cache
+C:\source\opentuner\opentuner\obj\Release\opentuner.csproj.CopyComplete
+C:\source\opentuner\opentuner\obj\Release\opentuner.exe
+C:\source\opentuner\opentuner\obj\Release\opentuner.pdb
