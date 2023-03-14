@@ -26,5 +26,7 @@ namespace opentuner
         public UInt32 ber { get; set; }
         public UInt32 errors_bch_count { get; set; }
         public UInt32 errors_ldpc_count { get; set; }
+
+        public bool reset { get; set; }
     }
 }

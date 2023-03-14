@@ -18,6 +18,7 @@ namespace opentuner
         bool hardware_connected = false;
 
         ConcurrentQueue<NimConfig> config_queue = new ConcurrentQueue<NimConfig>();
+        ConcurrentQueue<NimStatus> ts_status_queue = new ConcurrentQueue<NimStatus>();
 
         private delegate void updateStatusGuiDelegate(Form1 gui, NimStatus new_status);
 
@@ -113,7 +114,7 @@ namespace opentuner
             Console.WriteLine("Main: Starting TS Thread");
 
             // TS thread
-            TSThread ts_thread = new TSThread(ftdi_hw);
+            TSThread ts_thread = new TSThread(ftdi_hw, ts_status_queue);
             ts_thread_t = new Thread(ts_thread.worker_thread);
             ts_thread_t.Start();
         }
@@ -122,6 +123,8 @@ namespace opentuner
         {
             updateStatusGui(this, nim_status);
 
+            if (nim_status.reset)
+                ts_status_queue.Enqueue(nim_status);
         }
 
         private void button2_Click(object sender, EventArgs e)

@@ -589,7 +589,7 @@ namespace opentuner
             }
 
             err = ftdi_set_mpsse_mode(ftdiDevice_i2c);
-            if (err == 0) err = ftdi_set_mpsse_mode(ftdiDevice_ts);
+            //if (err == 0) err = ftdi_set_mpsse_mode(ftdiDevice_ts);
             if (err == 0) err = ftdi_set_ftdi_io(ftdiDevice_i2c);
             if (err == 0) err = ftdi_nim_reset();
 
@@ -627,6 +627,22 @@ namespace opentuner
             return I2C_Status;
         }
 
+        public byte ftdi_ts_read(ref byte[] data, ref uint bytesRead)
+        {
+            byte err = 0;
+
+            FTDI.FT_STATUS ts_ftdi_status = FTDI.FT_STATUS.FT_OK;
+
+            ts_ftdi_status = ftdiDevice_ts.Read(data, Convert.ToUInt32(data.Length), ref bytesRead);
+
+            //Console.WriteLine(ts_ftdi_status.ToString());
+
+            if (ts_ftdi_status != FTDI.FT_STATUS.FT_OK)
+                err = 1;
+
+            return err;
+        }
+
         public byte ftdi_ts_available(ref uint bytes_available)
         {
             byte err = 0;
@@ -636,7 +652,7 @@ namespace opentuner
             ts_ftdi_status = ftdiDevice_ts.GetRxBytesAvailable(ref bytes_available);
 
             
-            byte[] data = new byte[100];
+            byte[] data = new byte[20*512];
             uint dataRead = 0;
 
             ts_ftdi_status = ftdiDevice_ts.Read(data, 20*512, ref dataRead);

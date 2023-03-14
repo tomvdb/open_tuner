@@ -25,6 +25,7 @@ namespace opentuner
 
         bool lna_top_ok = false;
         bool lna_bottom_ok = false;
+        bool reset = false;
 
         public NimThread(ConcurrentQueue<NimConfig> _config_queue, ftdi _hardware, NimStatusCallback _status_callback)
         {
@@ -45,7 +46,9 @@ namespace opentuner
             NimStatus nim_status = new NimStatus();
 
             byte err = 0;
-            
+
+            nim_status.reset = reset;
+
             // get scan state (demod state)
             byte demod_state = 0;
             err = _stv0910.stv0910_read_scan_state(stv0910.STV0910_DEMOD_TOP, ref demod_state);
@@ -149,6 +152,8 @@ namespace opentuner
                 status_callback(nim_status);
             }
 
+            reset = false;
+
             return err;
         }
 
@@ -212,6 +217,7 @@ namespace opentuner
                             }
 
                             initialConfig = true;
+                            reset = true;
                         }
                     }
                     else
