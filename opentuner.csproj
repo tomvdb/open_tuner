@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FTD2XX_NET">
-      <HintPath>..\FTD2XX_NET.dll</HintPath>
+      <HintPath>.\FTD2XX_NET.dll</HintPath>
     </Reference>
     <Reference Include="LibVLCSharp, Version=3.6.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\LibVLCSharp.3.6.7\lib\net471\LibVLCSharp.dll</HintPath>
