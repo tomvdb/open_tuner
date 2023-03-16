@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ported from longmynd - https://github.com/myorangedragon/longmynd - Heather Lomond
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

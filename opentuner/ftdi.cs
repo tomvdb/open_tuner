@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+// mostly ported from longmynd - https://github.com/myorangedragon/longmynd - Heather Lomond
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,23 +38,14 @@ namespace opentuner
 
         // Sending and receiving
         static uint NumBytesToSend = 0;
-        static uint NumBytesToRead = 0;
         uint NumBytesSent = 0;
         static uint NumBytesRead = 0;
         static byte[] MPSSEbuffer = new byte[500];
         static byte[] InputBuffer = new byte[500];
         static byte[] InputBuffer2 = new byte[500];
         static uint BytesAvailable = 0;
-        static bool I2C_Ack = false;
-        static byte AppStatus = 0;
         static byte I2C_Status = 0;
         public bool Running = true;
-        static bool DeviceOpen = false;
-        // GPIO
-        static byte GPIO_Low_Dat = 0;
-        static byte GPIO_Low_Dir = 0;
-        static byte ADbusReadVal = 0;
-        static byte ACbusReadVal = 0;
 
         FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
         FTDI ftdiDevice_i2c = new FTDI();
@@ -183,9 +177,6 @@ namespace opentuner
 
         private byte ftdi_set_ftdi_io(FTDI ftdi)
         {
-            byte ADbusVal = 0;
-            byte ADbusDir = 0;
-
             /***** Flush the buffer *****/
             I2C_Status = FlushBuffer(ftdi);
 
@@ -194,7 +185,6 @@ namespace opentuner
             MPSSEbuffer[NumBytesToSend++] = 0xAA;
             I2C_Status = Send_Data_i2c(NumBytesToSend);
             if (I2C_Status != 0) return 1; // error();
-            NumBytesToRead = 2;
             I2C_Status = Receive_Data_i2c(2);
             if (I2C_Status != 0) return 1; //error();
 
@@ -212,7 +202,6 @@ namespace opentuner
             MPSSEbuffer[NumBytesToSend++] = 0xAB;
             I2C_Status = Send_Data_i2c(NumBytesToSend);
             if (I2C_Status != 0) return 1; // error();
-            NumBytesToRead = 2;
             I2C_Status = Receive_Data_i2c(2);
             if (I2C_Status != 0) return 1; //error();
 
@@ -368,14 +357,11 @@ namespace opentuner
                 err = Receive_Data_i2c(1);
 
             uint i = NumBytesRead;
-            int x = 0;
 
             if (err == 0 && (InputBuffer2[0] & 0x01) != 0)
             {
                 err = 18;
-                //MessageBox.Show("No I2C Ack");
             }
-
 
             return err;
         }
@@ -571,6 +557,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
+                Console.WriteLine("FTDI Error: " + Ex.Message);
                 return 1;
             }
 

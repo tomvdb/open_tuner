@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibVLCSharp.Shared;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,18 +10,29 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using System.Globalization;
+using WebSocketSharp;
+using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace opentuner
 {
     public partial class Form1 : Form
     {
+        LibVLC libVLC = new LibVLC("--aout=directsound");
+        Media media;
+        TSStreamMediaInput mediaInput;
+
         ftdi ftdi_hw = null;
         bool hardware_connected = false;
 
         ConcurrentQueue<NimConfig> config_queue = new ConcurrentQueue<NimConfig>();
         ConcurrentQueue<NimStatus> ts_status_queue = new ConcurrentQueue<NimStatus>();
+        ConcurrentQueue<byte> ts_data_queue = new ConcurrentQueue<byte>();
 
         private delegate void updateStatusGuiDelegate(Form1 gui, NimStatus new_status);
+        private delegate void UpdateLBDelegate(ListBox LB, Object obj);
 
         // threads
         Thread nim_thread_t = null;
@@ -37,8 +49,69 @@ namespace opentuner
         public string prop_lpdc_errors { set { this.lblLPDCError.Text = value; } }
         public string prop_ber { set { this.lblBer.Text = value; } }
         public string prop_freq_carrier_offset { set { this.lblFreqCar.Text = value; } }
+        public string prop_db_margin { set { this.lbldbMargin.Text = value; } }
 
 
+        // quick tune variables *********************************************************************
+        private static readonly Object list_lock = new Object();
+
+        static int width = 1500;     //web monitor uses 922 points, 6 padded?
+        static int height = 255;    //makes things easier
+        static int bandplan_height = 30;
+
+        Bitmap bmp;
+        static Bitmap bmp2;
+        Pen greenpen = new Pen(Color.FromArgb(200, 20, 200, 20));
+        //Pen greenpen = new Pen(Color.FromArgb(250, 0, 0, 200));
+        SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
+        SolidBrush bandplanBrush = new SolidBrush(Color.FromArgb(180, 250, 250, 255));
+        SolidBrush overpowerBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
+
+        Graphics tmp;
+        Graphics tmp2;
+
+        int[] rx_blocks = new int[3];
+
+        double start_freq = 10490.5f;
+
+        XElement bandplan;
+        Rectangle[] channels;
+        IList<XElement> indexedbandplan;
+        string InfoText;
+        List<string> blocks = new List<string>();
+
+        socket sock;
+        signal sigs;
+
+        int num_rxs_to_scan = 1;
+
+        bool ts_build_queue_flag = false;
+        int prevDemod = 0;
+
+        public static void UpdateLB(ListBox LB, Object obj)
+        {
+            if (LB.InvokeRequired)
+            {
+                UpdateLBDelegate ulb = new UpdateLBDelegate(UpdateLB);
+                LB.Invoke(ulb, new object[] { LB, obj });
+            }
+            else
+            {
+                if (LB.Items.Count > 1000)
+                {
+                    LB.Items.Remove(0);
+                }
+
+                int i = LB.Items.Add(DateTime.Now.ToShortTimeString() + " : " + obj);
+                LB.TopIndex = i;
+            }
+
+        }
+
+        private void debug(string msg)
+        {
+            UpdateLB(dbgListBox, msg);
+        }
 
         public static void updateStatusGui(Form1 gui, NimStatus new_status)
         {
@@ -49,8 +122,9 @@ namespace opentuner
             }
             else
             {
-                gui.prop_demodstate = new_status.demod_status.ToString();
-                gui.prop_mer = (new_status.mer/10).ToString();
+                gui.prop_demodstate = lookups.demod_state_lookup[new_status.demod_status];
+                double mer = new_status.mer / 10;
+                gui.prop_mer = mer.ToString() + " dB";
                 gui.prop_lnagain = new_status.lna_gain.ToString();
                 gui.prop_power_i = new_status.power_i.ToString();
                 gui.prop_power_q = new_status.power_q.ToString();
@@ -59,12 +133,58 @@ namespace opentuner
                 gui.prop_lpdc_errors = new_status.errors_ldpc_count.ToString();
                 gui.prop_ber = new_status.ber.ToString();
                 gui.prop_freq_carrier_offset = new_status.frequency_carrier_offset.ToString();
+
+                double dbmargin = 0;
+
+                try
+                {
+                    switch (new_status.demod_status)
+                    {
+                        case 2:
+                            gui.prop_modcod = lookups.modcod_lookup_dvbs2[new_status.modcode];
+                            dbmargin = (mer - lookups.modcod_lookup_dvbs2_threshold[new_status.modcode]);
+                            gui.prop_db_margin = "D" + dbmargin.ToString("N1");
+                            break;
+                        case 3:
+                            gui.prop_modcod = lookups.modcod_lookup_dvbs[new_status.modcode];
+                            dbmargin = (mer - lookups.modcod_lookup_dvbs_threshold[new_status.modcode]);
+                            gui.prop_db_margin = "D" + dbmargin.ToString("N1");
+                            break;
+                        default:
+                            gui.prop_modcod = "Unknown";
+                            gui.prop_db_margin = "";
+                            break;
+                    }
+                }
+                catch (Exception Ex)
+                {
+                }
+
             }
 
         }
         public Form1()
         {
             InitializeComponent();
+        }
+
+        public void start_video()
+        {
+            Console.WriteLine("Main: Starting VLC");
+
+
+            if (videoView1.MediaPlayer != null)
+                videoView1.MediaPlayer.Play(media);
+        }
+
+        public void stop_video()
+        {
+            Console.WriteLine("Main: Stopping VLC");
+
+            if (videoView1.MediaPlayer != null)
+                videoView1.MediaPlayer.Stop();
+
+           
         }
 
         private void hardware_init()
@@ -83,7 +203,77 @@ namespace opentuner
             hardware_connected = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void MediaPlayer_EncounteredError(object sender, EventArgs e)
+        {
+            Console.WriteLine("VLC: Error: " + e.ToString());
+        }
+
+        private void MediaPlayer_Playing(object sender, EventArgs e)
+        {
+            Console.WriteLine("VLC: Playing ");
+        }
+
+        private void MediaPlayer_Stopped(object sender, EventArgs e)
+        {
+            Console.WriteLine("VLC: Stopped");
+        }
+
+        public void raw_ts_data_callback(RawTSData raw_ts_data)
+        {
+
+        }
+
+        public void nim_status_feedback(NimStatus nim_status)
+        {
+            if (prevDemod != nim_status.demod_status)
+            {
+                Console.WriteLine("Demod State Change: " + prevDemod.ToString() + "->" + nim_status.demod_status.ToString());
+
+                if (nim_status.demod_status >= 2)
+                {
+                    Console.WriteLine("Startng TS queue and VLC");
+                    nim_status.build_queue = true;
+                    ts_build_queue_flag = true;
+                    start_video();
+                }
+                else
+                {
+                    Console.WriteLine("Stopping TS queue and VLC");
+                    nim_status.build_queue = false;
+                    ts_build_queue_flag = false;
+                    stop_video();
+                }
+
+                prevDemod = nim_status.demod_status;
+            }
+            else
+            {
+                nim_status.build_queue = ts_build_queue_flag;
+            }
+            
+            updateStatusGui(this, nim_status);
+
+            // inform ts thread of whats happening
+            ts_status_queue.Enqueue(nim_status);
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (mediaInput != null)
+                mediaInput.Dispose();
+            if (media != null)
+                media.Dispose();
+
+            if (nim_thread_t != null)
+                nim_thread_t.Abort();
+            if (ts_thread_t != null)
+                ts_thread_t.Abort();
+
+            stop_video();
+        }
+
+        private void btnConnectTuner_Click(object sender, EventArgs e)
         {
             hardware_init();
 
@@ -104,7 +294,7 @@ namespace opentuner
 
             NimConfig initialConfig = new NimConfig();
             initialConfig.frequency = 745490;
-            initialConfig.symbol_rate = 333;
+            initialConfig.symbol_rate = 1500;
 
             // we need to make sure we have a config queued before starting the thread
             config_queue.Enqueue(initialConfig);
@@ -114,48 +304,414 @@ namespace opentuner
             Console.WriteLine("Main: Starting TS Thread");
 
             // TS thread
-            TSThread ts_thread = new TSThread(ftdi_hw, ts_status_queue);
+            TSDataCallback ts_data_callback = new TSDataCallback(raw_ts_data_callback);
+
+            TSThread ts_thread = new TSThread(ftdi_hw, ts_status_queue, ts_data_callback, ts_data_queue);
             ts_thread_t = new Thread(ts_thread.worker_thread);
             ts_thread_t.Start();
+
+            videoView1.MediaPlayer = new MediaPlayer(libVLC);
+            videoView1.MediaPlayer.Stopped += MediaPlayer_Stopped;
+            videoView1.MediaPlayer.Playing += MediaPlayer_Playing;
+            videoView1.MediaPlayer.EncounteredError += MediaPlayer_EncounteredError;
+
+            mediaInput = new TSStreamMediaInput(ts_data_queue);
+            media = new Media(libVLC, mediaInput);
+
+            MediaConfiguration mediaConfig = new MediaConfiguration();
+            mediaConfig.EnableHardwareDecoding = false;
+            media.AddOption(mediaConfig);
         }
 
-        public void nim_status_feedback(NimStatus nim_status)
+        private void btnFrequencyChange_Click(object sender, EventArgs e)
         {
-            updateStatusGui(this, nim_status);
-
-            if (nim_status.reset)
-                ts_status_queue.Enqueue(nim_status);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            NimConfig initialConfig = new NimConfig();
             UInt32 freq = Convert.ToUInt32(txtFreq.Text);
             UInt32 lo = Convert.ToUInt32(txtLO.Text);
             UInt32 sr = Convert.ToUInt32(txtSR.Text);
 
-            initialConfig.frequency = freq - lo;
-            initialConfig.symbol_rate = sr;
-
-            Console.WriteLine("Main: New Config: " + initialConfig.ToString());
-
-            // we need to make sure we have a config queued before starting the thread
-            config_queue.Enqueue(initialConfig);
+            change_frequency(freq, lo, sr);
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        void change_frequency(UInt32 freq, UInt32 lo, UInt32 sr)
         {
-            if (nim_thread_t != null)
-                nim_thread_t.Abort();
-            if (ts_thread_t != null)
-                ts_thread_t.Abort();
+            NimConfig newConfig = new NimConfig();
+
+            newConfig.frequency = freq - lo;
+            newConfig.symbol_rate = sr;
+
+            debug("Main: New Config: " + newConfig.ToString());
+
+            config_queue.Enqueue(newConfig);
         }
+
+        // quicktune functions
+        private void drawspectrum_bandplan()
+        {
+            int span = 9;
+            int count = 0;
+
+            float spectrum_w = spectrum.Width;
+            float spectrum_wScale = spectrum_w / 922;
+
+            List<string> blocks = new List<string>();
+
+            //count blocks ('layers' of bandplan)
+            foreach (var channel in bandplan.Elements("channel"))
+            {
+                count++;
+                if (!blocks.Contains(channel.Element("block").Value))
+                {
+                    blocks.Add(channel.Element("block").Value);
+                }
+            }
+
+            channels = new Rectangle[count];
+
+            int n = 0;
+
+            //create rectangle blocks to display bandplan
+            foreach (var channel in bandplan.Elements("channel"))
+            {
+                int w = 0;
+                int offset = 0;
+                float rolloff = 1.35f;
+                string xval = channel.Element("x-freq").Value;
+
+                float freq;
+                int sr;
+
+                freq = Convert.ToSingle(xval, CultureInfo.InvariantCulture);
+                sr = Convert.ToInt32(channel.Element("sr").Value, CultureInfo.InvariantCulture);
+
+                int pos = Convert.ToInt16((922.0 / span) * (freq - start_freq));
+                w = Convert.ToInt32(sr / (span * 1000.0) * 922 * rolloff);
+                w = Convert.ToInt32(w * spectrum_wScale);
+
+                int split = bandplan_height / blocks.Count();
+                int b = blocks.Count();
+                foreach (string blk in blocks)
+                {
+                    if (channel.Element("block").Value == blk)
+                    {
+                        offset = b * split;
+                    }
+                    b--;
+                }
+                channels[n] = new Rectangle(Convert.ToInt32(pos * spectrum_wScale) - (w / 2), offset - (split / 2) - 3, w, split - 2);
+                n++;
+            }
+
+            //draw blocks
+            for (int i = 0; i < count; i++)
+            {
+                tmp2.FillRectangles(bandplanBrush, new RectangleF[] { channels[i] });      //x,y,w,h
+            }
+        }
+
+        private void drawspectrum_signals(List<signal.Sig> signals)
+        {
+            float spectrum_w = spectrum.Width;
+            float spectrum_wScale = spectrum_w / 922;
+
+            lock (list_lock)        //hopefully lock signals list while drawing
+            {
+                //draw the text for each signal found
+                foreach (signal.Sig s in signals)
+                {
+                    tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (25)), (255 - Convert.ToSingle(s.fft_strength + 50))));
+                }
+            }
+            try
+            {
+                this.Invoke(new MethodInvoker(delegate () { spectrum.Image = bmp; spectrum.Update(); }));
+            }
+            catch (Exception Ex)
+            {
+
+            }
+        }
+        private void drawspectrum(UInt16[] fft_data)
+        {
+            tmp.Clear(Color.Black);     //clear canvas
+
+            int spectrum_h = spectrum.Height - bandplan_height;
+            float spectrum_w = spectrum.Width;
+            float spectrum_wScale = spectrum_w / 922;
+
+            PointF[] points = new PointF[fft_data.Length - 2];
+
+            int i = 1;
+
+            for (i = 1; i < fft_data.Length - 3; i++)     //ignore padding?
+            {
+                // tmp.DrawLine(greenpen, i - 1, 255 - fft_data[i - 1] / 255, i, 255 - fft_data[i] / 255);
+                PointF point = new PointF(i * spectrum_wScale, 255 - fft_data[i] / 255);
+                points[i] = point;
+            }
+
+            points[0] = new PointF(0, 255);
+            points[points.Length - 1] = new PointF(spectrum_w, 255);
+
+            //tmp.DrawPolygon(greenpen, points);
+            SolidBrush spectrumBrush = new SolidBrush(Color.Blue);
+
+            System.Drawing.Drawing2D.LinearGradientBrush linGrBrush = new LinearGradientBrush(
+               new Point(0, 0),
+               new Point(0, 255),
+               Color.FromArgb(255, 255, 99, 132),   // Opaque red
+               Color.FromArgb(255, 54, 162, 235));  // Opaque blue
+
+            tmp.FillPolygon(linGrBrush, points);
+
+            tmp.DrawImage(bmp2, 0, 255 - bandplan_height); //bandplan
+
+            //draw block showing signal selected
+            tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[0] * spectrum_wScale) - ((rx_blocks[1] * spectrum_wScale) / 2)), 1, Convert.ToInt32(rx_blocks[1] * spectrum_wScale), (255) - 4) });
+
+            tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
+
+
+            //drawspectrum_signals(sigs.detect_signals(fft_data));
+            sigs.detect_signals(fft_data);
+
+            /*
+            // draw over power
+            foreach (var sig in sigs.signalsData)
+            {
+                if ( sig.overpower )
+                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre) - (Convert.ToInt16(sig.fft_stop-sig.fft_start) / 2), 1, Convert.ToInt16(sig.fft_stop-sig.fft_start), (255) - 4) });
+            }
+            */
+
+            drawspectrum_signals(sigs.signalsData);
+        }
+
+        private void spectrum_Click(object sender, EventArgs e)
+        {
+
+            float spectrum_w = spectrum.Width;
+            float spectrum_wScale = spectrum_w / 922;
+
+            MouseEventArgs me = (MouseEventArgs)e;
+            var pos = me.Location;
+
+
+            int X = pos.X;
+            int Y = pos.Y;
+
+            if (me.Button == MouseButtons.Right)
+            {
+                int freq = Convert.ToInt32((10490.5 + ((X / spectrum_wScale) / 922.0) * 9.0) * 1000.0);
+                //UpdateTextBox(txtFreq, freq.ToString());
+            }
+            else
+            {
+                selectSignal(X);
+            }
+
+        }
+
+
+        // quick tune functions - From https://github.com/m0dts/QO-100-WB-Live-Tune - Rob Swinbank
+        private void selectSignal(int X)
+        {
+
+            float spectrum_w = spectrum.Width;
+            float spectrum_wScale = spectrum_w / 922;
+
+            debug("Select Signal");
+            try
+            {
+                foreach (signal.Sig s in sigs.signals)
+                {
+                    if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
+                    {
+
+                        sigs.set_tuned(s, 0);
+                        rx_blocks[0] = Convert.ToInt16(s.fft_centre);
+                        rx_blocks[1] = Convert.ToInt16((s.fft_stop) - (s.fft_start));
+                        UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
+                        UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));
+
+                        debug("Freq: " + freq.ToString());
+                        debug("SR: " + sr.ToString());
+
+
+                        UInt32 lo = Convert.ToUInt32(txtLO.Text);
+
+                        change_frequency(freq, lo, sr);
+
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+
+            }
+        }
+
+        public void spectrum_MouseMove(object sender, MouseEventArgs e)
+        {
+            //detect mouse over channel, tooltip info
+            int n = 0;
+            if (e.Y > (spectrum.Height - bandplan_height))
+            {
+                if (channels != null)
+                {
+                    foreach (Rectangle ch in channels)
+                    {
+                        if (e.X >= ch.Location.X & e.X <= ch.Location.X + ch.Width)
+                        {
+                            if (e.Y - (spectrum.Height - bandplan_height) >= ch.Location.Y - (ch.Height / 2) + 3 & e.Y - (spectrum.Height - bandplan_height) <= ch.Location.Y + (ch.Height / 2) + 3)
+                            {
+                                InfoText = "SR: " + indexedbandplan[n].Element("name").Value + " Dn: " + indexedbandplan[n].Element("x-freq").Value + " Up: " + indexedbandplan[n].Element("s-freq").Value;
+                            }
+
+                        }
+                        n++;
+                    }
+                }
+            }
+            else
+            {
+                if (InfoText != "")
+                {
+                    InfoText = "";
+                }
+            }
+
+        }
+
+
+        private void webSocketTimeout_Tick(object sender, EventArgs e)
+        {
+            if (sock != null)
+            {
+                TimeSpan t = DateTime.Now - sock.lastdata;
+
+                if (t.Seconds > 2)
+                {
+                    debug("FFT Websocket Timeout, Disconnected");
+                    sock.stop();
+                }
+
+                if (!sock.connected)
+                {
+                    sock.start();
+                }
+            }
+
+        }
+
+        public float align_symbolrate(float width)
+        {
+            if (width < 0.022)
+            {
+                return 0;
+            }
+            else if (width < 0.065)
+            {
+                return 0.035f;
+            }
+            else if (width < 0.086)
+            {
+                return 0.066f;
+            }
+            else if (width < 0.195)
+            {
+                return 0.125f;
+            }
+            else if (width < 0.277)
+            {
+                return 0.250f;
+            }
+            else if (width < 0.388)
+            {
+                return 0.333f;
+            }
+            else if (width < 0.700)
+            {
+                return 0.500f;
+            }
+            else if (width < 1.2)
+            {
+                return 1.000f;
+            }
+            else if (width < 1.6)
+            {
+                return 1.500f;
+            }
+            else if (width < 2.2)
+            {
+                return 2.000f;
+            }
+            else
+            {
+                return Convert.ToSingle(Math.Round(width * 5) / 5.0);
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            bmp2 = new Bitmap(spectrum.Width, bandplan_height);     //bandplan
+            bmp = new Bitmap(spectrum.Width, height + 20);
+            tmp = Graphics.FromImage(bmp);
+            tmp2 = Graphics.FromImage(bmp2);
+
+            try
+            {
+                bandplan = XElement.Load(Path.GetDirectoryName(Application.ExecutablePath) + @"\bandplan.xml");
+                drawspectrum_bandplan();
+                indexedbandplan = bandplan.Elements().ToList();
+                foreach (var channel in bandplan.Elements("channel"))
+                {
+                    if (!blocks.Contains(channel.Element("block").Value))
+                    {
+                        blocks.Add(channel.Element("block").Value);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            sock = new socket();
+            sigs = new signal(list_lock);
+            sock.callback += drawspectrum;
+            sigs.debug += debug;
+            string title = this.Text;
+            sock.start();
+            this.Text = title;
+
+            this.DoubleBuffered = true;
+
+            sigs.set_num_rx_scan(num_rxs_to_scan);
+            sigs.set_num_rx(1);
+            //sigs.set_avoidbeacon(avoidBeacon);
+            sigs.set_avoidbeacon(true);
+
+        }
+
+        private void websocketTimer_Tick(object sender, EventArgs e)
+        {
+            if (sock != null)
+            {
+                TimeSpan t = DateTime.Now - sock.lastdata;
+
+                if (t.Seconds > 2)
+                {
+                    debug("FFT Websocket Timeout, Disconnected");
+                    sock.stop();
+                }
+
+                if (!sock.connected)
+                {
+                    sock.start();
+                }
+            }
+
+        }
+
     }
 }

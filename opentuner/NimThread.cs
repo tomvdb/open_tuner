@@ -164,7 +164,6 @@ namespace opentuner
 
                 Console.WriteLine("Nim Thread: Starting...");
 
-            bool newConfig = false;
             bool initialConfig = false;
 
             NimConfig nim_config = null;
@@ -227,7 +226,7 @@ namespace opentuner
                     }
                 }
             }
-            catch (ThreadAbortException ex)
+            catch (ThreadAbortException)
             {
                 Console.WriteLine("Nim Thread: Closing");
             }
