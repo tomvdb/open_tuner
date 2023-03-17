@@ -39,14 +39,15 @@ namespace opentuner
 
         public override int Read(IntPtr buf, uint len)
         {
-            //Console.WriteLine("Read from VLC");
+            //Console.WriteLine("Read from VLC: " + len.ToString()) ;
 
             int timeout = 0;
 
             // wait for next data
             while (ts_data_queue.Count() < 188)
             {
-                // if we haven't received anything within a second then most likely won't get anything
+                //Console.WriteLine("Waiting: " + timeout.ToString());
+                // if we haven't received anything within a few seconds then most likely won't get anything
                 if (timeout > 5000)
                 {
                     Console.WriteLine("TSStreamMediaInput : Read Timeout");
@@ -86,28 +87,6 @@ namespace opentuner
                 Marshal.Copy(vlc_data.ToArray(), 0, buf, vlc_data.Length);
                 return vlc_data.Length;
 
-                /*
-
-                if (ts_data_queue.TryDequeue(out raw_ts_data))
-                {
-                    //Console.WriteLine("Sending Data to player");
-
-
-                    if (len < raw_ts_data.datalen )
-                    {
-                        Console.WriteLine("oooh, this is about to crash: " + len.ToString());
-                    }
-
-                    //Console.WriteLine("Data: " + raw_ts_data.datalen.ToString() + "," + ts_data_queue.Count());
-
-                    Marshal.Copy(raw_ts_data.rawTSData.ToArray(), 0, buf, raw_ts_data.datalen);
-                    return raw_ts_data.datalen;
-                }
-                else
-                {
-                    Console.WriteLine("DeQueue Failed");
-                }
-                */
             }
 
             Console.WriteLine("TS StreamInput: Shouldn't be here");

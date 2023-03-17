@@ -15,6 +15,10 @@ using System.Globalization;
 using WebSocketSharp;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Runtime.InteropServices;
+//using NAudio.CoreAudioApi;
+//using NAudio.CoreAudioApi.Interfaces;
+//using CoreAudio;
 
 namespace opentuner
 {
@@ -30,15 +34,22 @@ namespace opentuner
         ConcurrentQueue<NimConfig> config_queue = new ConcurrentQueue<NimConfig>();
         ConcurrentQueue<NimStatus> ts_status_queue = new ConcurrentQueue<NimStatus>();
         ConcurrentQueue<byte> ts_data_queue = new ConcurrentQueue<byte>();
+        ConcurrentQueue<byte> ts_parser_data_queue = new ConcurrentQueue<byte>();
 
-        private delegate void updateStatusGuiDelegate(Form1 gui, NimStatus new_status);
+        private delegate void updateNimStatusGuiDelegate(Form1 gui, NimStatus new_status);
+        private delegate void updateTSStatusGuiDelegate(Form1 gui, TSStatus new_status);
+        private delegate void updateMediaStatusGuiDelegate(Form1 gui, MediaStatus new_status);
+
         private delegate void UpdateLBDelegate(ListBox LB, Object obj);
 
         // threads
         Thread nim_thread_t = null;
         Thread ts_thread_t = null;
+        Thread ts_parser_t = null;
 
         // form properties
+
+        // nim status properties
         public string prop_demodstate { set { this.lblDemoState.Text = value; } }
         public string prop_mer { set { this.lblMer.Text = value; } }
         public string prop_lnagain { set { this.lblLnaGain.Text = value; } }
@@ -50,6 +61,18 @@ namespace opentuner
         public string prop_ber { set { this.lblBer.Text = value; } }
         public string prop_freq_carrier_offset { set { this.lblFreqCar.Text = value; } }
         public string prop_db_margin { set { this.lbldbMargin.Text = value; } }
+        public string prop_req_freq { set { this.lblReqFreq.Text = value; } }
+
+        // ts status properties
+        public string prop_service_name { set { this.lblServiceName.Text = value; } }
+        public string prop_service_provider_name { set { this.lblServiceProvider.Text = value; } }
+        public string prop_null_packets { set { this.lblNullPackets.Text = value; } }
+
+        // media status properties
+        public string prop_media_video_codec { set { this.lblVideoCodec.Text = value; } }
+        public string prop_media_video_resolution { set { this.lblVideoResolution.Text = value; } }
+        public string prop_media_audio_codec { set { this.lblAudioCodec.Text = value; } }
+        public string prop_media_audio_rate { set { this.lblAudioRate.Text = value; } }
 
 
         // quick tune variables *********************************************************************
@@ -86,7 +109,9 @@ namespace opentuner
         int num_rxs_to_scan = 1;
 
         bool ts_build_queue_flag = false;
-        int prevDemod = 0;
+        bool prevLocked = false;
+
+        uint current_frequency = 0;
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
@@ -113,11 +138,46 @@ namespace opentuner
             UpdateLB(dbgListBox, msg);
         }
 
-        public static void updateStatusGui(Form1 gui, NimStatus new_status)
+        public static void updateMediaStatusGui(Form1 gui, MediaStatus new_status)
+        {
+            if (gui.InvokeRequired)
+            {
+                updateMediaStatusGuiDelegate del = new updateMediaStatusGuiDelegate(updateMediaStatusGui);
+                gui.Invoke(del, new object[] { gui, new_status });
+            }
+            else
+            {
+                gui.prop_media_video_codec = new_status.VideoCodec;
+                gui.prop_media_video_resolution = new_status.VideoWidth.ToString() + " x " + new_status.VideoHeight.ToString();
+
+                gui.prop_media_audio_codec = new_status.AudioCodec;
+                gui.prop_media_audio_rate = new_status.AudioRate.ToString() + " Hz, " + new_status.AudioChannels.ToString() + " channels";
+            }
+
+        }
+
+
+        public static void updateTSStatusGui(Form1 gui, TSStatus new_status)
+        {
+            if (gui.InvokeRequired)
+            {
+                updateTSStatusGuiDelegate del = new updateTSStatusGuiDelegate(updateTSStatusGui);
+                gui.Invoke(del, new object[] { gui, new_status });
+            }
+            else
+            {
+                gui.prop_service_name = new_status.ServiceName;
+                gui.prop_service_provider_name = new_status.ServiceProvider;
+                gui.prop_null_packets = new_status.NullPacketsPerc.ToString() + "%";
+            }
+
+        }
+
+        public  void updateNimStatusGui(Form1 gui, NimStatus new_status)
         {
             if ( gui.InvokeRequired )
             {
-                updateStatusGuiDelegate del = new updateStatusGuiDelegate(updateStatusGui);
+                updateNimStatusGuiDelegate del = new updateNimStatusGuiDelegate(updateNimStatusGui);
                 gui.Invoke(del, new object[] { gui, new_status });
             }
             else
@@ -134,7 +194,22 @@ namespace opentuner
                 gui.prop_ber = new_status.ber.ToString();
                 gui.prop_freq_carrier_offset = new_status.frequency_carrier_offset.ToString();
 
+
+                gui.prop_req_freq = current_frequency.ToString();
+
                 double dbmargin = 0;
+
+                if ( new_status.demod_status < 2 )
+                {
+                    gui.prop_service_provider_name = "";
+                    gui.prop_service_name = "";
+                    gui.prop_null_packets = "";
+
+                    gui.prop_media_audio_rate = "";
+                    gui.prop_media_video_codec = "";
+                    gui.prop_media_video_resolution = "";
+                    gui.prop_media_audio_codec = "";
+                }
 
                 try
                 {
@@ -218,16 +293,20 @@ namespace opentuner
             Console.WriteLine("VLC: Stopped");
         }
 
-        public void raw_ts_data_callback(RawTSData raw_ts_data)
+        public void parse_ts_data_callback(TSStatus ts_status)
         {
-
+            updateTSStatusGui(this, ts_status);
         }
 
         public void nim_status_feedback(NimStatus nim_status)
         {
-            if (prevDemod != nim_status.demod_status)
+            bool locked = false;
+
+            if (nim_status.demod_status >= 2) locked = true;
+
+            if (prevLocked != locked)
             {
-                Console.WriteLine("Demod State Change: " + prevDemod.ToString() + "->" + nim_status.demod_status.ToString());
+                Console.WriteLine("Lock State Change: " + prevLocked.ToString() + "->" + locked.ToString());
 
                 if (nim_status.demod_status >= 2)
                 {
@@ -244,14 +323,14 @@ namespace opentuner
                     stop_video();
                 }
 
-                prevDemod = nim_status.demod_status;
+                prevLocked = locked;
             }
             else
             {
                 nim_status.build_queue = ts_build_queue_flag;
             }
             
-            updateStatusGui(this, nim_status);
+            updateNimStatusGui(this, nim_status);
 
             // inform ts thread of whats happening
             ts_status_queue.Enqueue(nim_status);
@@ -260,6 +339,8 @@ namespace opentuner
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            stop_video();
+
             if (mediaInput != null)
                 mediaInput.Dispose();
             if (media != null)
@@ -269,8 +350,9 @@ namespace opentuner
                 nim_thread_t.Abort();
             if (ts_thread_t != null)
                 ts_thread_t.Abort();
+            if (ts_parser_t != null)
+                ts_parser_t.Abort();
 
-            stop_video();
         }
 
         private void btnConnectTuner_Click(object sender, EventArgs e)
@@ -279,7 +361,7 @@ namespace opentuner
 
             if (!hardware_connected)
             {
-                Console.WriteLine("Main: Error: No Working Hardware Detected");
+                MessageBox.Show("Error: No Working Hardware Detected");
                 return;
             }
 
@@ -293,8 +375,10 @@ namespace opentuner
             nim_thread_t = new Thread(nim_thread.worker_thread);
 
             NimConfig initialConfig = new NimConfig();
-            initialConfig.frequency = 745490;
+            initialConfig.frequency = 741525;
             initialConfig.symbol_rate = 1500;
+
+            current_frequency = initialConfig.frequency;
 
             // we need to make sure we have a config queued before starting the thread
             config_queue.Enqueue(initialConfig);
@@ -304,16 +388,23 @@ namespace opentuner
             Console.WriteLine("Main: Starting TS Thread");
 
             // TS thread
-            TSDataCallback ts_data_callback = new TSDataCallback(raw_ts_data_callback);
 
-            TSThread ts_thread = new TSThread(ftdi_hw, ts_status_queue, ts_data_callback, ts_data_queue);
+            TSThread ts_thread = new TSThread(ftdi_hw, ts_status_queue, ts_data_queue, ts_parser_data_queue);
             ts_thread_t = new Thread(ts_thread.worker_thread);
             ts_thread_t.Start();
+
+            // TS Parser Thread
+            TSDataCallback ts_data_callback = new TSDataCallback(parse_ts_data_callback);
+            TSParserThread ts_parser_thread = new TSParserThread(ts_data_callback, ts_parser_data_queue);
+            ts_parser_t = new Thread(ts_parser_thread.worker_thread);
+            ts_parser_t.Start();
 
             videoView1.MediaPlayer = new MediaPlayer(libVLC);
             videoView1.MediaPlayer.Stopped += MediaPlayer_Stopped;
             videoView1.MediaPlayer.Playing += MediaPlayer_Playing;
             videoView1.MediaPlayer.EncounteredError += MediaPlayer_EncounteredError;
+            videoView1.MediaPlayer.Vout += MediaPlayer_Vout;
+            
 
             mediaInput = new TSStreamMediaInput(ts_data_queue);
             media = new Media(libVLC, mediaInput);
@@ -321,6 +412,38 @@ namespace opentuner
             MediaConfiguration mediaConfig = new MediaConfiguration();
             mediaConfig.EnableHardwareDecoding = false;
             media.AddOption(mediaConfig);
+
+            // temporary to prevent multiple connection attempts
+            // todo: deal with this properly
+            lblConnected.Text = "Connected";
+            lblConnected.ForeColor = Color.Green;
+
+            btnConnectTuner.Enabled = false;
+
+        }
+
+        private void MediaPlayer_Vout(object sender, MediaPlayerVoutEventArgs e)
+        {
+            MediaStatus media_status = new MediaStatus();
+
+            foreach ( var track in media.Tracks)
+            {
+                switch(track.TrackType)
+                {
+                    case TrackType.Audio:
+                        media_status.AudioChannels = track.Data.Audio.Channels;
+                        media_status.AudioCodec = media.CodecDescription(TrackType.Audio, track.Codec);
+                        media_status.AudioRate = track.Data.Audio.Rate;
+                        break;
+                    case TrackType.Video:
+                        media_status.VideoCodec = media.CodecDescription(TrackType.Video, track.Codec);
+                        media_status.VideoWidth = track.Data.Video.Width;
+                        media_status.VideoHeight = track.Data.Video.Height;
+                        break;
+                }
+            }
+
+            updateMediaStatusGui(this, media_status);
         }
 
         private void btnFrequencyChange_Click(object sender, EventArgs e)
@@ -340,6 +463,8 @@ namespace opentuner
             newConfig.symbol_rate = sr;
 
             debug("Main: New Config: " + newConfig.ToString());
+
+            current_frequency = newConfig.frequency;
 
             config_queue.Enqueue(newConfig);
         }
@@ -713,5 +838,28 @@ namespace opentuner
 
         }
 
+        private void spectrum_SizeChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                bmp2 = new Bitmap(spectrum.Width, bandplan_height);     //bandplan
+                bmp = new Bitmap(spectrum.Width, height + 20);
+                tmp = Graphics.FromImage(bmp);
+                tmp2 = Graphics.FromImage(bmp2);
+
+                drawspectrum_bandplan();
+            }
+            catch (Exception Ex)
+            {
+
+            }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/open-tuner/");
+        }
     }
+
+
 }

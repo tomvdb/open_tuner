@@ -12,23 +12,22 @@ using System.Collections.Concurrent;
 namespace opentuner
 {
 
-    public delegate void TSDataCallback(RawTSData raw_ts_data);
+    public delegate void TSDataCallback(TSStatus ts_status);
 
     public class TSThread
     {
         ftdi hardware;
         ConcurrentQueue<NimStatus> status_queue;
 
-        TSDataCallback ts_data_callback = null;
-
         ConcurrentQueue<byte> raw_ts_data_queue = null;
+        ConcurrentQueue<byte> parser_ts_data_queue = null;
 
-        public TSThread(ftdi _hardware, ConcurrentQueue<NimStatus> _status_queue, TSDataCallback _ts_data_callback, ConcurrentQueue<byte> _raw_ts_data_queue)
+        public TSThread(ftdi _hardware, ConcurrentQueue<NimStatus> _status_queue,  ConcurrentQueue<byte> _raw_ts_data_queue, ConcurrentQueue<byte> _parser_ts_data_queue)
         {
             hardware = _hardware;
             status_queue = _status_queue;
-            ts_data_callback = _ts_data_callback;
             raw_ts_data_queue = _raw_ts_data_queue;
+            parser_ts_data_queue = _parser_ts_data_queue;
         }
 
         public void worker_thread()
@@ -101,6 +100,7 @@ namespace opentuner
                             //raw_ts_data.rawTSData[0] = data[c];
                             //raw_ts_data.datalen = 1;
                             raw_ts_data_queue.Enqueue(data[c]);
+                            parser_ts_data_queue.Enqueue(data[c]);
                         }
                     }
 

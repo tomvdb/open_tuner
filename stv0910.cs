@@ -44,7 +44,7 @@ namespace opentuner
             ushort i = 0;
 
             Console.WriteLine("Flow: STV0910 init regs");
-
+            
             err = nim_device.nim_read_demod(0xf100, ref val1);
 
             if (err == 0) err = nim_device.nim_read_demod(0xf101, ref val2);
@@ -75,9 +75,11 @@ namespace opentuner
             return 0;
         }
 
-        private byte stv0910_setup_carrier_loop(byte demod)
+        private byte stv0910_setup_carrier_loop(byte demod, UInt32 halfscan_sr)
         {
             byte err = 0;
+            Int64 temp;
+
 
             Console.WriteLine("Flow: Setup carrier loop: {0}" , demod);
 
@@ -100,6 +102,23 @@ namespace opentuner
                 {
                     err = stv0910_write_reg(stv0910_regs.RSTV0910_P1_CFRINIT1, 0);
                 }
+            }
+
+            // 0.6 * SR seems to give +/- 0.5 SR lock
+            temp = halfscan_sr * 65536 / 135000;
+
+            // Upper Limit
+            if (err == 0)
+            {
+                err = stv0910_write_reg((demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_CFRUP0 : stv0910_regs.RSTV0910_P1_CFRUP0), (byte)(temp & 0xff));
+                err = stv0910_write_reg((demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_CFRUP1 : stv0910_regs.RSTV0910_P1_CFRUP1), (byte)((temp >> 8) & 0xff));
+            }
+            // the lower value is the negative of the upper value
+            temp = -temp;
+            if (err == 0)
+            {
+                err = stv0910_write_reg((demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_CFRLOW0 : stv0910_regs.RSTV0910_P1_CFRLOW0), (byte)(temp & 0xff));
+                err = stv0910_write_reg((demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_CFRLOW1 : stv0910_regs.RSTV0910_P1_CFRLOW1), (byte)((temp >> 8) & 0xff));
             }
 
             return err;
@@ -218,14 +237,14 @@ namespace opentuner
             if (sr1 != 0)
             {
                 if (err == 0) err = stv0910_setup_equalisers(STV0910_DEMOD_TOP);
-                if (err == 0) err = stv0910_setup_carrier_loop(STV0910_DEMOD_TOP);
+                if (err == 0) err = stv0910_setup_carrier_loop(STV0910_DEMOD_TOP, Convert.ToUInt32(sr1 * 1.5));
                 if (err == 0) err = stv0910_setup_timing_loop(STV0910_DEMOD_TOP, sr1);
             }
 
             if (sr2 != 0)
             {
                 if (err == 0) err = stv0910_setup_equalisers(STV0910_DEMOD_BOTTOM);
-                if (err == 0) err = stv0910_setup_carrier_loop(STV0910_DEMOD_BOTTOM);
+                if (err == 0) err = stv0910_setup_carrier_loop(STV0910_DEMOD_BOTTOM, Convert.ToUInt32(sr2 * 1.5));
                 if (err == 0) err = stv0910_setup_timing_loop(STV0910_DEMOD_BOTTOM, sr2);
             }
 

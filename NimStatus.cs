@@ -30,5 +30,7 @@ namespace opentuner
         public bool build_queue { get; set; }
 
         public bool reset { get; set; }
+
+        public byte[,] constellation { get; set; }
     }
 }

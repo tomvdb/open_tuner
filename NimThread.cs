@@ -69,8 +69,9 @@ namespace opentuner
             nim_status.power_i = power_i;
             nim_status.power_q = power_q;
 
-            /*
-            constellation data
+
+            byte[,] constellation_data = new byte[16, 2];
+
             byte con_i = 0;
             byte con_q = 0;
             if (err == 0)
@@ -78,9 +79,12 @@ namespace opentuner
                 for (byte count = 0; count < 16; count++)
                 {
                     _stv0910.stv0910_read_constellation(stv0910.STV0910_DEMOD_TOP, ref con_i, ref con_q);
+                    constellation_data[count,0] = con_i;
+                    constellation_data[count,1] = con_q;
                 }
             }
-            */
+
+            nim_status.constellation = constellation_data;
 
             /* puncture rate */
             byte puncture_rate = 0;
