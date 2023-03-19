@@ -32,6 +32,12 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.statusPage = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnSnapshot = new System.Windows.Forms.Button();
+            this.btnMute = new System.Windows.Forms.Button();
+            this.lblVolume = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.trackVolume = new System.Windows.Forms.TrackBar();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lblAudioRate = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -92,18 +98,18 @@
             this.videoView1 = new LibVLCSharp.WinForms.VideoView();
             this.spectrum = new System.Windows.Forms.PictureBox();
             this.websocketTimer = new System.Windows.Forms.Timer(this.components);
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.trackVolume = new System.Windows.Forms.TrackBar();
-            this.label20 = new System.Windows.Forms.Label();
-            this.lblVolume = new System.Windows.Forms.Label();
-            this.btnMute = new System.Windows.Forms.Button();
-            this.btnSnapshot = new System.Windows.Forms.Button();
+            this.radioLnbSupplyOff = new System.Windows.Forms.RadioButton();
+            this.radioLnbSupplyVert = new System.Windows.Forms.RadioButton();
+            this.radioLnbSupplyHoriz = new System.Windows.Forms.RadioButton();
+            this.label23 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.statusPage.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -116,8 +122,6 @@
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
-            this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -166,6 +170,69 @@
             this.statusPage.TabIndex = 0;
             this.statusPage.Text = "Status";
             this.statusPage.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btnSnapshot);
+            this.groupBox5.Controls.Add(this.btnMute);
+            this.groupBox5.Controls.Add(this.lblVolume);
+            this.groupBox5.Controls.Add(this.label20);
+            this.groupBox5.Controls.Add(this.trackVolume);
+            this.groupBox5.Location = new System.Drawing.Point(222, 662);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(183, 191);
+            this.groupBox5.TabIndex = 37;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Media Control";
+            // 
+            // btnSnapshot
+            // 
+            this.btnSnapshot.Location = new System.Drawing.Point(18, 136);
+            this.btnSnapshot.Name = "btnSnapshot";
+            this.btnSnapshot.Size = new System.Drawing.Size(147, 23);
+            this.btnSnapshot.TabIndex = 4;
+            this.btnSnapshot.Text = "&Snapshot (Alt-S)";
+            this.btnSnapshot.UseVisualStyleBackColor = true;
+            this.btnSnapshot.Click += new System.EventHandler(this.btnSnapshot_Click);
+            // 
+            // btnMute
+            // 
+            this.btnMute.Location = new System.Drawing.Point(18, 107);
+            this.btnMute.Name = "btnMute";
+            this.btnMute.Size = new System.Drawing.Size(147, 23);
+            this.btnMute.TabIndex = 3;
+            this.btnMute.Text = "&Mute (Alt-M)";
+            this.btnMute.UseVisualStyleBackColor = true;
+            this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
+            // 
+            // lblVolume
+            // 
+            this.lblVolume.AutoSize = true;
+            this.lblVolume.Location = new System.Drawing.Point(69, 30);
+            this.lblVolume.Name = "lblVolume";
+            this.lblVolume.Size = new System.Drawing.Size(36, 13);
+            this.lblVolume.TabIndex = 2;
+            this.lblVolume.Text = "100 %";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(15, 30);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(48, 13);
+            this.label20.TabIndex = 1;
+            this.label20.Text = "Volume: ";
+            // 
+            // trackVolume
+            // 
+            this.trackVolume.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.trackVolume.Location = new System.Drawing.Point(6, 56);
+            this.trackVolume.Maximum = 200;
+            this.trackVolume.Name = "trackVolume";
+            this.trackVolume.Size = new System.Drawing.Size(171, 45);
+            this.trackVolume.TabIndex = 0;
+            this.trackVolume.Value = 100;
+            this.trackVolume.ValueChanged += new System.EventHandler(this.trackVolume_ValueChanged);
             // 
             // groupBox4
             // 
@@ -327,6 +394,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label23);
+            this.groupBox2.Controls.Add(this.radioLnbSupplyHoriz);
+            this.groupBox2.Controls.Add(this.radioLnbSupplyVert);
+            this.groupBox2.Controls.Add(this.radioLnbSupplyOff);
             this.groupBox2.Controls.Add(this.btnFrequencyChange);
             this.groupBox2.Controls.Add(this.txtSR);
             this.groupBox2.Controls.Add(this.label3);
@@ -336,7 +407,7 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(12, 662);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(204, 191);
+            this.groupBox2.Size = new System.Drawing.Size(204, 266);
             this.groupBox2.TabIndex = 34;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tuner Control";
@@ -776,68 +847,49 @@
             this.websocketTimer.Interval = 2000;
             this.websocketTimer.Tick += new System.EventHandler(this.websocketTimer_Tick);
             // 
-            // groupBox5
+            // radioLnbSupplyOff
             // 
-            this.groupBox5.Controls.Add(this.btnSnapshot);
-            this.groupBox5.Controls.Add(this.btnMute);
-            this.groupBox5.Controls.Add(this.lblVolume);
-            this.groupBox5.Controls.Add(this.label20);
-            this.groupBox5.Controls.Add(this.trackVolume);
-            this.groupBox5.Location = new System.Drawing.Point(222, 662);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(183, 191);
-            this.groupBox5.TabIndex = 37;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Media Control";
+            this.radioLnbSupplyOff.AutoSize = true;
+            this.radioLnbSupplyOff.Checked = true;
+            this.radioLnbSupplyOff.Location = new System.Drawing.Point(102, 165);
+            this.radioLnbSupplyOff.Name = "radioLnbSupplyOff";
+            this.radioLnbSupplyOff.Size = new System.Drawing.Size(39, 17);
+            this.radioLnbSupplyOff.TabIndex = 41;
+            this.radioLnbSupplyOff.TabStop = true;
+            this.radioLnbSupplyOff.Text = "Off";
+            this.radioLnbSupplyOff.UseVisualStyleBackColor = true;
+            this.radioLnbSupplyOff.CheckedChanged += new System.EventHandler(this.radioLnbSupply_CheckedChanged);
             // 
-            // trackVolume
+            // radioLnbSupplyVert
             // 
-            this.trackVolume.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.trackVolume.Location = new System.Drawing.Point(6, 56);
-            this.trackVolume.Maximum = 200;
-            this.trackVolume.Name = "trackVolume";
-            this.trackVolume.Size = new System.Drawing.Size(171, 45);
-            this.trackVolume.TabIndex = 0;
-            this.trackVolume.Value = 100;
-            this.trackVolume.ValueChanged += new System.EventHandler(this.trackVolume_ValueChanged);
+            this.radioLnbSupplyVert.AutoSize = true;
+            this.radioLnbSupplyVert.Location = new System.Drawing.Point(102, 188);
+            this.radioLnbSupplyVert.Name = "radioLnbSupplyVert";
+            this.radioLnbSupplyVert.Size = new System.Drawing.Size(88, 17);
+            this.radioLnbSupplyVert.TabIndex = 42;
+            this.radioLnbSupplyVert.Text = "Vertical (13V)";
+            this.radioLnbSupplyVert.UseVisualStyleBackColor = true;
+            this.radioLnbSupplyVert.CheckedChanged += new System.EventHandler(this.radioLnbSupply_CheckedChanged);
             // 
-            // label20
+            // radioLnbSupplyHoriz
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(15, 30);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(48, 13);
-            this.label20.TabIndex = 1;
-            this.label20.Text = "Volume: ";
+            this.radioLnbSupplyHoriz.AutoSize = true;
+            this.radioLnbSupplyHoriz.Location = new System.Drawing.Point(102, 211);
+            this.radioLnbSupplyHoriz.Name = "radioLnbSupplyHoriz";
+            this.radioLnbSupplyHoriz.Size = new System.Drawing.Size(100, 17);
+            this.radioLnbSupplyHoriz.TabIndex = 43;
+            this.radioLnbSupplyHoriz.Text = "Horizontal (18V)";
+            this.radioLnbSupplyHoriz.UseVisualStyleBackColor = true;
+            this.radioLnbSupplyHoriz.CheckedChanged += new System.EventHandler(this.radioLnbSupply_CheckedChanged);
             // 
-            // lblVolume
+            // label23
             // 
-            this.lblVolume.AutoSize = true;
-            this.lblVolume.Location = new System.Drawing.Point(69, 30);
-            this.lblVolume.Name = "lblVolume";
-            this.lblVolume.Size = new System.Drawing.Size(36, 13);
-            this.lblVolume.TabIndex = 2;
-            this.lblVolume.Text = "100 %";
-            // 
-            // btnMute
-            // 
-            this.btnMute.Location = new System.Drawing.Point(18, 107);
-            this.btnMute.Name = "btnMute";
-            this.btnMute.Size = new System.Drawing.Size(147, 23);
-            this.btnMute.TabIndex = 3;
-            this.btnMute.Text = "&Mute (Alt-M)";
-            this.btnMute.UseVisualStyleBackColor = true;
-            this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
-            // 
-            // btnSnapshot
-            // 
-            this.btnSnapshot.Location = new System.Drawing.Point(18, 136);
-            this.btnSnapshot.Name = "btnSnapshot";
-            this.btnSnapshot.Size = new System.Drawing.Size(147, 23);
-            this.btnSnapshot.TabIndex = 4;
-            this.btnSnapshot.Text = "&Snapshot (Alt-S)";
-            this.btnSnapshot.UseVisualStyleBackColor = true;
-            this.btnSnapshot.Click += new System.EventHandler(this.btnSnapshot_Click);
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(18, 165);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(69, 13);
+            this.label23.TabIndex = 44;
+            this.label23.Text = "LNB Supply :";
             // 
             // Form1
             // 
@@ -846,7 +898,7 @@
             this.ClientSize = new System.Drawing.Size(1723, 972);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
-            this.Text = "Open Tuner 0.1 (ZR6TG) - 2023/03/19";
+            this.Text = "Open Tuner 0.1 (ZR6TG) - 2023/03/19 - LNB Supply Test";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -855,6 +907,9 @@
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.statusPage.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -872,9 +927,6 @@
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -950,6 +1002,10 @@
         private System.Windows.Forms.Label lblVolume;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TrackBar trackVolume;
+        private System.Windows.Forms.RadioButton radioLnbSupplyHoriz;
+        private System.Windows.Forms.RadioButton radioLnbSupplyVert;
+        private System.Windows.Forms.RadioButton radioLnbSupplyOff;
+        private System.Windows.Forms.Label label23;
     }
 }
 

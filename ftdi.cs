@@ -57,6 +57,10 @@ namespace opentuner
         /* Default GPIO direction 0xf1 = 0b11110001 = LNB pins, NIM Reset are outputs, TS2SYNC is input (0 for in and 1 for out) */
         byte ftdi_gpio_direction = 0xf1;
 
+        const byte FTDI_GPIO_PINID_NIM_RESET = 0;
+        const byte FTDI_GPIO_PINID_TS2SYNC = 1;
+        const byte FTDI_GPIO_PINID_LNB_BIAS_ENABLE = 4;
+        const byte FTDI_GPIO_PINID_LNB_BIAS_VSEL = 7;
 
         private byte Receive_Data_i2c(uint BytesToRead)
         {
@@ -652,6 +656,35 @@ namespace opentuner
             
 
             return err;
+        }
+
+        public byte ftdi_set_polarization_supply(bool supply_enable, bool supply_horizontal)
+        {
+            byte err = 0;
+
+            if (supply_enable)
+            {
+                /* Set Voltage */
+                if (supply_horizontal)
+                {
+                    ftdi_gpio_write(FTDI_GPIO_PINID_LNB_BIAS_VSEL, true);
+                }
+                else
+                {
+                    ftdi_gpio_write(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
+                }
+                /* Then enable output */
+                ftdi_gpio_write(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, true);
+            }
+            else
+            {
+                /* Disable output */
+                ftdi_gpio_write(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, false);
+            }
+
+
+            return err;
+
         }
     }
 }

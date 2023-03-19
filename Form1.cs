@@ -114,6 +114,11 @@ namespace opentuner
         bool prevLocked = false;
 
         uint current_frequency = 0;
+        uint current_sr = 0;
+        bool current_enable_lnb_supply = false;
+        bool current_enable_horiz_supply = false;
+       
+
         byte rxVolume = 100; // todo, save volume between sessions
         byte beforeMute = 0;
 
@@ -383,6 +388,9 @@ namespace opentuner
             initialConfig.symbol_rate = 1500;
 
             current_frequency = initialConfig.frequency;
+            current_sr = initialConfig.symbol_rate;
+            initialConfig.polarization_supply = false;
+            initialConfig.polarization_supply_horizontal = false;
 
             // we need to make sure we have a config queued before starting the thread
             config_queue.Enqueue(initialConfig);
@@ -466,12 +474,33 @@ namespace opentuner
 
             newConfig.frequency = freq - lo;
             newConfig.symbol_rate = sr;
+            newConfig.polarization_supply = current_enable_lnb_supply;
+            newConfig.polarization_supply_horizontal = current_enable_horiz_supply;
 
             debug("Main: New Config: " + newConfig.ToString());
 
             current_frequency = newConfig.frequency;
+            current_sr = sr;
 
             config_queue.Enqueue(newConfig);
+        }
+
+        void change_lnb_supply(bool enable_supply, bool horiz_supply)
+        {
+            NimConfig newConfig = new NimConfig();
+
+            newConfig.frequency = current_frequency;
+            newConfig.symbol_rate = current_sr;
+            newConfig.polarization_supply = enable_supply;
+            newConfig.polarization_supply_horizontal = horiz_supply;
+
+            current_enable_horiz_supply = horiz_supply;
+            current_enable_lnb_supply = enable_supply;
+
+            debug("Main: New Config: " + newConfig.ToString());
+
+            config_queue.Enqueue(newConfig);
+
         }
 
         // quicktune functions
@@ -907,6 +936,29 @@ namespace opentuner
         {
             TakeSnapshot();
         }
+
+        private void radioLnbSupply_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioLnbSupplyOff.Checked)
+            {
+                change_lnb_supply(false, false);
+                return;
+            }
+
+            if (radioLnbSupplyHoriz.Checked)
+            {
+                change_lnb_supply(true, true);
+                return;
+            }
+
+            if (radioLnbSupplyVert.Checked)
+            {
+                change_lnb_supply(true, false);
+                return;
+            }
+
+        }
+
     }
 
 

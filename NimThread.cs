@@ -208,6 +208,20 @@ namespace opentuner
                             // demod - start scan
                             if (err == 0) err = _stv0910.stv0910_start_scan(stv0910.STV0910_DEMOD_TOP);
 
+                            // lnb power supply
+                            if (err  == 0)
+                            {
+                                if (nim_config.polarization_supply)
+                                {
+                                    hardware.ftdi_set_polarization_supply(true, nim_config.polarization_supply_horizontal);
+                                }
+                                else
+                                {
+                                    hardware.ftdi_set_polarization_supply(false, false);
+                                }
+
+                            }
+
                             // done, if we have errors, then exit thread
                             if (err != 0)
                             {
