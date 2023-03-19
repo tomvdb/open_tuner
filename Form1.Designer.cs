@@ -58,6 +58,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnConnectTuner = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblReqFreq = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.lblConnected = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lbldbMargin = new System.Windows.Forms.Label();
@@ -84,14 +86,18 @@
             this.debugPage = new System.Windows.Forms.TabPage();
             this.dbgListBox = new System.Windows.Forms.ListBox();
             this.tabAbout = new System.Windows.Forms.TabPage();
+            this.label12 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.videoView1 = new LibVLCSharp.WinForms.VideoView();
             this.spectrum = new System.Windows.Forms.PictureBox();
             this.websocketTimer = new System.Windows.Forms.Timer(this.components);
-            this.lblReqFreq = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label12 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.trackVolume = new System.Windows.Forms.TrackBar();
+            this.label20 = new System.Windows.Forms.Label();
+            this.lblVolume = new System.Windows.Forms.Label();
+            this.btnMute = new System.Windows.Forms.Button();
+            this.btnSnapshot = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -110,6 +116,8 @@
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -145,6 +153,7 @@
             // statusPage
             // 
             this.statusPage.AutoScroll = true;
+            this.statusPage.Controls.Add(this.groupBox5);
             this.statusPage.Controls.Add(this.groupBox4);
             this.statusPage.Controls.Add(this.groupBox3);
             this.statusPage.Controls.Add(this.groupBox2);
@@ -170,7 +179,7 @@
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Location = new System.Drawing.Point(12, 528);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(393, 125);
+            this.groupBox4.Size = new System.Drawing.Size(393, 128);
             this.groupBox4.TabIndex = 36;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Media Status";
@@ -325,7 +334,7 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.txtFreq);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 659);
+            this.groupBox2.Location = new System.Drawing.Point(12, 662);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(204, 191);
             this.groupBox2.TabIndex = 34;
@@ -436,6 +445,24 @@
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " NIM Status ";
+            // 
+            // lblReqFreq
+            // 
+            this.lblReqFreq.AutoSize = true;
+            this.lblReqFreq.Location = new System.Drawing.Point(168, 113);
+            this.lblReqFreq.Name = "lblReqFreq";
+            this.lblReqFreq.Size = new System.Drawing.Size(13, 13);
+            this.lblReqFreq.TabIndex = 24;
+            this.lblReqFreq.Text = "0";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(18, 113);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(86, 13);
+            this.label16.TabIndex = 23;
+            this.label16.Text = "Requested Freq:";
             // 
             // lblConnected
             // 
@@ -680,6 +707,26 @@
             this.tabAbout.Text = "Information";
             this.tabAbout.UseVisualStyleBackColor = true;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(21, 27);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(188, 13);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Development Info and Latest Version :";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(21, 51);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(183, 13);
+            this.linkLabel1.TabIndex = 0;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "https://www.zr6tg.co.za/open-tuner/";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -729,43 +776,68 @@
             this.websocketTimer.Interval = 2000;
             this.websocketTimer.Tick += new System.EventHandler(this.websocketTimer_Tick);
             // 
-            // lblReqFreq
+            // groupBox5
             // 
-            this.lblReqFreq.AutoSize = true;
-            this.lblReqFreq.Location = new System.Drawing.Point(168, 113);
-            this.lblReqFreq.Name = "lblReqFreq";
-            this.lblReqFreq.Size = new System.Drawing.Size(13, 13);
-            this.lblReqFreq.TabIndex = 24;
-            this.lblReqFreq.Text = "0";
+            this.groupBox5.Controls.Add(this.btnSnapshot);
+            this.groupBox5.Controls.Add(this.btnMute);
+            this.groupBox5.Controls.Add(this.lblVolume);
+            this.groupBox5.Controls.Add(this.label20);
+            this.groupBox5.Controls.Add(this.trackVolume);
+            this.groupBox5.Location = new System.Drawing.Point(222, 662);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(183, 191);
+            this.groupBox5.TabIndex = 37;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Media Control";
             // 
-            // label16
+            // trackVolume
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(18, 113);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(86, 13);
-            this.label16.TabIndex = 23;
-            this.label16.Text = "Requested Freq:";
+            this.trackVolume.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.trackVolume.Location = new System.Drawing.Point(6, 56);
+            this.trackVolume.Maximum = 200;
+            this.trackVolume.Name = "trackVolume";
+            this.trackVolume.Size = new System.Drawing.Size(171, 45);
+            this.trackVolume.TabIndex = 0;
+            this.trackVolume.Value = 100;
+            this.trackVolume.ValueChanged += new System.EventHandler(this.trackVolume_ValueChanged);
             // 
-            // linkLabel1
+            // label20
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(21, 51);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(183, 13);
-            this.linkLabel1.TabIndex = 0;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "https://www.zr6tg.co.za/open-tuner/";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(15, 30);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(48, 13);
+            this.label20.TabIndex = 1;
+            this.label20.Text = "Volume: ";
             // 
-            // label12
+            // lblVolume
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(21, 27);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(188, 13);
-            this.label12.TabIndex = 1;
-            this.label12.Text = "Development Info and Latest Version :";
+            this.lblVolume.AutoSize = true;
+            this.lblVolume.Location = new System.Drawing.Point(69, 30);
+            this.lblVolume.Name = "lblVolume";
+            this.lblVolume.Size = new System.Drawing.Size(36, 13);
+            this.lblVolume.TabIndex = 2;
+            this.lblVolume.Text = "100 %";
+            // 
+            // btnMute
+            // 
+            this.btnMute.Location = new System.Drawing.Point(18, 107);
+            this.btnMute.Name = "btnMute";
+            this.btnMute.Size = new System.Drawing.Size(147, 23);
+            this.btnMute.TabIndex = 3;
+            this.btnMute.Text = "&Mute (Alt-M)";
+            this.btnMute.UseVisualStyleBackColor = true;
+            this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
+            // 
+            // btnSnapshot
+            // 
+            this.btnSnapshot.Location = new System.Drawing.Point(18, 136);
+            this.btnSnapshot.Name = "btnSnapshot";
+            this.btnSnapshot.Size = new System.Drawing.Size(147, 23);
+            this.btnSnapshot.TabIndex = 4;
+            this.btnSnapshot.Text = "&Snapshot (Alt-S)";
+            this.btnSnapshot.UseVisualStyleBackColor = true;
+            this.btnSnapshot.Click += new System.EventHandler(this.btnSnapshot_Click);
             // 
             // Form1
             // 
@@ -774,7 +846,7 @@
             this.ClientSize = new System.Drawing.Size(1723, 972);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
-            this.Text = "Open Tuner 0.1 (ZR6TG) - 2023/03/17";
+            this.Text = "Open Tuner 0.1 (ZR6TG) - 2023/03/19";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -800,6 +872,9 @@
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -869,6 +944,12 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button btnSnapshot;
+        private System.Windows.Forms.Button btnMute;
+        private System.Windows.Forms.Label lblVolume;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TrackBar trackVolume;
     }
 }
 

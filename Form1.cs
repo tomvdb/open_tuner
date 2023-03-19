@@ -28,6 +28,8 @@ namespace opentuner
         Media media;
         TSStreamMediaInput mediaInput;
 
+        string snapshotPath = AppDomain.CurrentDomain.BaseDirectory;
+
         ftdi ftdi_hw = null;
         bool hardware_connected = false;
 
@@ -112,6 +114,8 @@ namespace opentuner
         bool prevLocked = false;
 
         uint current_frequency = 0;
+        byte rxVolume = 100; // todo, save volume between sessions
+        byte beforeMute = 0;
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
@@ -444,6 +448,7 @@ namespace opentuner
             }
 
             updateMediaStatusGui(this, media_status);
+            videoView1.MediaPlayer.Volume = rxVolume;
         }
 
         private void btnFrequencyChange_Click(object sender, EventArgs e)
@@ -858,6 +863,49 @@ namespace opentuner
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/open-tuner/");
+        }
+
+        private void btnMute_Click(object sender, EventArgs e)
+        {
+            if (rxVolume == 0)
+            {
+                rxVolume = beforeMute;
+            }
+            else
+            {
+                beforeMute = rxVolume;
+                rxVolume = 0;
+            }
+
+            trackVolume.Value = rxVolume;
+        }
+
+        private void trackVolume_ValueChanged(object sender, EventArgs e)
+        {
+            rxVolume = Convert.ToByte(trackVolume.Value);
+            videoView1.MediaPlayer.Volume = rxVolume;
+            lblVolume.Text = rxVolume.ToString() + " %";
+        }
+
+        private void TakeSnapshot()
+        {
+            // get path
+            string path = snapshotPath;
+
+            string filename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".png";
+
+            if (lblServiceName.Text.Length > 0)
+                filename = lblServiceName.Text.ToString() + "_" + filename;
+
+            // remove any possible spaces
+            filename = filename.Replace(" ", "");
+
+            videoView1.MediaPlayer.TakeSnapshot(0, path + filename, 0, 0);
+        }
+
+        private void btnSnapshot_Click(object sender, EventArgs e)
+        {
+            TakeSnapshot();
         }
     }
 
