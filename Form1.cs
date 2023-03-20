@@ -28,7 +28,6 @@ namespace opentuner
         Media media;
         TSStreamMediaInput mediaInput;
 
-        string snapshotPath = AppDomain.CurrentDomain.BaseDirectory;
 
         ftdi ftdi_hw = null;
         bool hardware_connected = false;
@@ -117,10 +116,17 @@ namespace opentuner
         uint current_sr = 0;
         bool current_enable_lnb_supply = false;
         bool current_enable_horiz_supply = false;
+
        
 
         byte rxVolume = 100; // todo, save volume between sessions
         byte beforeMute = 0;
+
+        // settings values
+        string setting_snapshot_path = "";
+        bool setting_enable_spectrum = true;
+        byte setting_default_lnb_supply = 0;    // 0 - off, 1 - vert, 2 - horiz
+        int setting_default_lo_value = 0;
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
@@ -256,7 +262,6 @@ namespace opentuner
         {
             Console.WriteLine("Main: Starting VLC");
 
-
             if (videoView1.MediaPlayer != null)
                 videoView1.MediaPlayer.Play(media);
         }
@@ -268,7 +273,6 @@ namespace opentuner
             if (videoView1.MediaPlayer != null)
                 videoView1.MediaPlayer.Stop();
 
-           
         }
 
         private void hardware_init()
@@ -389,8 +393,8 @@ namespace opentuner
 
             current_frequency = initialConfig.frequency;
             current_sr = initialConfig.symbol_rate;
-            initialConfig.polarization_supply = false;
-            initialConfig.polarization_supply_horizontal = false;
+            initialConfig.polarization_supply = current_enable_lnb_supply;
+            initialConfig.polarization_supply_horizontal = current_enable_horiz_supply;
 
             // we need to make sure we have a config queued before starting the thread
             config_queue.Enqueue(initialConfig);
@@ -411,13 +415,14 @@ namespace opentuner
             ts_parser_t = new Thread(ts_parser_thread.worker_thread);
             ts_parser_t.Start();
 
+            //libVLC.Log += LibVLC_Log;
+
             videoView1.MediaPlayer = new MediaPlayer(libVLC);
             videoView1.MediaPlayer.Stopped += MediaPlayer_Stopped;
             videoView1.MediaPlayer.Playing += MediaPlayer_Playing;
             videoView1.MediaPlayer.EncounteredError += MediaPlayer_EncounteredError;
             videoView1.MediaPlayer.Vout += MediaPlayer_Vout;
             
-
             mediaInput = new TSStreamMediaInput(ts_data_queue);
             media = new Media(libVLC, mediaInput);
 
@@ -430,8 +435,12 @@ namespace opentuner
             lblConnected.Text = "Connected";
             lblConnected.ForeColor = Color.Green;
 
-            btnConnectTuner.Enabled = false;
+            menuConnect.Enabled = false;
+        }
 
+        private void LibVLC_Log(object sender, LogEventArgs e)
+        {
+            debug("VLC Log: " + e.Message + "," + e.Level);
         }
 
         private void MediaPlayer_Vout(object sender, MediaPlayerVoutEventArgs e)
@@ -589,6 +598,7 @@ namespace opentuner
 
             }
         }
+
         private void drawspectrum(UInt16[] fft_data)
         {
             tmp.Clear(Color.Black);     //clear canvas
@@ -810,45 +820,107 @@ namespace opentuner
             }
         }
 
+        private void load_settings()
+        {
+            Properties.Settings.Default.Reload();
+
+            setting_default_lnb_supply = Properties.Settings.Default.default_lnb_supply;
+            setting_default_lo_value = Properties.Settings.Default.tuner1_default_lo;
+            setting_enable_spectrum = Properties.Settings.Default.enable_qo100_spectrum;
+            setting_snapshot_path = Properties.Settings.Default.media_snapshot_path;
+
+            debug("Settings: Default LO: " + setting_default_lo_value.ToString());
+            txtLO.Text = setting_default_lo_value.ToString();
+
+            if (setting_snapshot_path.Length == 0)
+                setting_snapshot_path = AppDomain.CurrentDomain.BaseDirectory;
+
+            debug("Settings: Snapshot Path: " + setting_snapshot_path);
+
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            bmp2 = new Bitmap(spectrum.Width, bandplan_height);     //bandplan
-            bmp = new Bitmap(spectrum.Width, height + 20);
-            tmp = Graphics.FromImage(bmp);
-            tmp2 = Graphics.FromImage(bmp2);
+            load_settings();
 
-            try
+            switch (setting_default_lnb_supply)
             {
-                bandplan = XElement.Load(Path.GetDirectoryName(Application.ExecutablePath) + @"\bandplan.xml");
-                drawspectrum_bandplan();
-                indexedbandplan = bandplan.Elements().ToList();
-                foreach (var channel in bandplan.Elements("channel"))
+                case 0:
+                    current_enable_lnb_supply = false;
+                    current_enable_horiz_supply = false;
+                    radioLnbSupplyOff.Checked = true;
+                    break;
+                case 1:
+                    current_enable_lnb_supply = true;
+                    current_enable_horiz_supply = false;
+                    radioLnbSupplyVert.Checked = true;
+                    break;
+                case 2:
+                    current_enable_lnb_supply = true;
+                    current_enable_horiz_supply = true;
+                    radioLnbSupplyHoriz.Checked = true;
+                    break;
+            }
+
+            debug("Settings: Enable LNB Supply: " + current_enable_lnb_supply.ToString());
+
+            if (current_enable_lnb_supply)
+            {
+                debug("Settings: Enable Vert Supply: " + (!current_enable_horiz_supply).ToString());
+                debug("Settings: Enable Horiz Supply: " + current_enable_horiz_supply.ToString());
+            }
+
+
+            if (setting_enable_spectrum)
+            {
+                debug("Settings: QO-100 Spectrum Enabled");
+
+                bmp2 = new Bitmap(spectrum.Width, bandplan_height);     //bandplan
+                bmp = new Bitmap(spectrum.Width, height + 20);
+                tmp = Graphics.FromImage(bmp);
+                tmp2 = Graphics.FromImage(bmp2);
+
+                try
                 {
-                    if (!blocks.Contains(channel.Element("block").Value))
+                    bandplan = XElement.Load(Path.GetDirectoryName(Application.ExecutablePath) + @"\bandplan.xml");
+                    drawspectrum_bandplan();
+                    indexedbandplan = bandplan.Elements().ToList();
+                    foreach (var channel in bandplan.Elements("channel"))
                     {
-                        blocks.Add(channel.Element("block").Value);
+                        if (!blocks.Contains(channel.Element("block").Value))
+                        {
+                            blocks.Add(channel.Element("block").Value);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                sock = new socket();
+                sigs = new signal(list_lock);
+                sock.callback += drawspectrum;
+                sigs.debug += debug;
+                string title = this.Text;
+                sock.start();
+                this.Text = title;
+
+                this.DoubleBuffered = true;
+
+                sigs.set_num_rx_scan(num_rxs_to_scan);
+                sigs.set_num_rx(1);
+                //sigs.set_avoidbeacon(avoidBeacon);
+                sigs.set_avoidbeacon(true);
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
+                debug("Settings: QO-100 Spectrum Disabled");
+
+                splitContainer2.Panel2Collapsed = true;
+                splitContainer2.Panel2.Enabled = false;
+                websocketTimer.Enabled = false;
             }
-
-            sock = new socket();
-            sigs = new signal(list_lock);
-            sock.callback += drawspectrum;
-            sigs.debug += debug;
-            string title = this.Text;
-            sock.start();
-            this.Text = title;
-
-            this.DoubleBuffered = true;
-
-            sigs.set_num_rx_scan(num_rxs_to_scan);
-            sigs.set_num_rx(1);
-            //sigs.set_avoidbeacon(avoidBeacon);
-            sigs.set_avoidbeacon(true);
 
         }
 
@@ -912,14 +984,23 @@ namespace opentuner
         private void trackVolume_ValueChanged(object sender, EventArgs e)
         {
             rxVolume = Convert.ToByte(trackVolume.Value);
-            videoView1.MediaPlayer.Volume = rxVolume;
+
+            if (videoView1.MediaPlayer != null)
+            {
+                videoView1.MediaPlayer.Volume = rxVolume;
+            }
+
             lblVolume.Text = rxVolume.ToString() + " %";
         }
 
         private void TakeSnapshot()
         {
+
+            if (videoView1.MediaPlayer == null)
+                return;
+
             // get path
-            string path = snapshotPath;
+            string path = setting_snapshot_path;
 
             string filename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".png";
 
@@ -959,6 +1040,48 @@ namespace opentuner
 
         }
 
+        private void openTunerWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/open-tuner/");
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://batc.org.uk/");
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            settingsForm settings_form = new settingsForm();
+
+            settings_form.txtDefaultLO.Text = setting_default_lo_value.ToString();
+            settings_form.comboDefaultLNB.SelectedIndex = setting_default_lnb_supply;
+            settings_form.txtSnapshotPath.Text = setting_snapshot_path;
+            settings_form.checkEnableSpectrum.Checked = setting_enable_spectrum;
+
+            if ( settings_form.ShowDialog() == DialogResult.OK )
+            {
+                Properties.Settings.Default.default_lnb_supply = Convert.ToByte(settings_form.comboDefaultLNB.SelectedIndex);
+                Properties.Settings.Default.tuner1_default_lo = Convert.ToInt32(settings_form.txtDefaultLO.Text);
+                Properties.Settings.Default.enable_qo100_spectrum = settings_form.checkEnableSpectrum.Checked;
+                Properties.Settings.Default.media_snapshot_path = settings_form.txtSnapshotPath.Text;
+
+                Properties.Settings.Default.Save();
+                
+                load_settings();
+            }
+        }
+
+        private void lblConnected_Click(object sender, EventArgs e)
+        {
+            if (!hardware_connected)
+                btnConnectTuner_Click(this, e);
+        }
     }
 
 

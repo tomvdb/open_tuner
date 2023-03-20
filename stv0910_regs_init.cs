@@ -816,9 +816,14 @@ namespace opentuner
     new STReg( stv0910_regs.RSTV0910_RCSTATUS,          0x00 ), /* RCSTATUS         */
     new STReg( stv0910_regs.RSTV0910_RCSPEED,           0xff ), /* RCSPEED          */
 
-    new STReg( stv0910_regs.RSTV0910_TSGENERAL,         0x00 ), /* TSGENERAL        enable output of second line in parallel line
+    
+    new STReg( stv0910_regs.RSTV0910_TSGENERAL,         0x00 ), 
+    
+    /* TSGENERAL        enable output of second line in parallel line
                                                                  override tsfifo_permparal and defineline1->TS3, line2->TS2,RCline->TS1
                                                                  tsfifo_perparal defines line1-> TS3, line2->TS2, RC LIne->TS1 */
+   
+
     /* DISEQC P1 Registers */
     new STReg( stv0910_regs.RSTV0910_P1_DISIRQCFG,      0x00 ), /* P1_DISIRQCFG     */
 /*  new STReg( stv0910_regs.RSTV0910_P1_DISIRQSTAT,     0x00 ),    P1_DISIRQSTAT    R only */

@@ -183,17 +183,28 @@ namespace opentuner
                     {
                         while (config_queue.TryDequeue(out nim_config))
                         {
+                            Console.WriteLine("Init Nim");
                             byte err = _nim.nim_init();
 
                             // init demod
-                            if (err == 0) err = _stv0910.stv0910_init(nim_config.symbol_rate, 0);
+
+                            if (err == 0)
+                            {
+                                Console.WriteLine("Init Demod");
+                                err = _stv0910.stv0910_init(nim_config.symbol_rate, 0);
+                            }
 
                             // init tuner
-                            if (err == 0) err = _stv6120.stv6120_init(nim_config.frequency, 0, false);
+                            if (err == 0)
+                            {
+                                Console.WriteLine("Init Tuner");
+                                err = _stv6120.stv6120_init(nim_config.frequency, 0, false);
+                            }
 
                             // init lna - if found
                             if (err == 0)
                             {
+                                Console.WriteLine("Init LNA Top");
                                 lna_top_ok = false;
                                 err = stvvglna_top.stvvglna_init(nim.NIM_INPUT_TOP, stvvglna.STVVGLNA_ON, ref lna_top_ok);
                             }
@@ -201,12 +212,17 @@ namespace opentuner
                             // init lna - if found
                             if (err == 0)
                             {
+                                Console.WriteLine("Init LNA Bottom");
                                 lna_bottom_ok = false;
                                 err = stvvglna_bottom.stvvglna_init(nim.NIM_INPUT_BOTTOM, stvvglna.STVVGLNA_OFF, ref lna_bottom_ok);
                             }
 
                             // demod - start scan
-                            if (err == 0) err = _stv0910.stv0910_start_scan(stv0910.STV0910_DEMOD_TOP);
+                            if (err == 0)
+                            {
+                                Console.WriteLine("Demod Start Scan");
+                                err = _stv0910.stv0910_start_scan(stv0910.STV0910_DEMOD_TOP);
+                            }
 
                             // lnb power supply
                             if (err  == 0)
@@ -226,7 +242,7 @@ namespace opentuner
                             if (err != 0)
                             {
                                 Console.WriteLine("Nim Thread: Hardware Error: " + err.ToString());
-                                break;
+                                return;
                             }
                             else
                             {

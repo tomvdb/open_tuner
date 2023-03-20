@@ -30,13 +30,13 @@ namespace opentuner
             if (!connected)
             {
                 Console.WriteLine(connected);
-                Console.WriteLine("Try connect..\n");
+                Console.WriteLine("Websocket: QO_Spectrum: Try connect..\n");
                 // System.Threading.Thread.Sleep(500);     //can't catch exception from websocket!?, slow down retries if no network
 
                 ws = new WebSocket("wss://eshail.batc.org.uk/wb/fft", "fft_m0dtslivetune");
                 //ws = new                 WebSocket("ws://192.168.0.244:7681", "fft_m0dtslivetune");
                 ws.OnMessage += (ss, ee) => NewData(ee.RawData);
-                ws.OnOpen += (ss, ee) => { connected = true; Console.WriteLine("Connected.\n"); };
+                ws.OnOpen += (ss, ee) => { connected = true; Console.WriteLine("Websocket: QO_Spectrum: Connected.\n"); };
                 ws.OnClose += (ss, ee) => { connected = false; };
                 ws.Connect();
                 lastdata = DateTime.Now;

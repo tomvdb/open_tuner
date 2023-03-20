@@ -17,6 +17,7 @@ namespace opentuner
 
         private ftdi ftdi_device;
 
+        //public const byte NIM_DEMOD_ADDR = 0xd2;
         public const byte NIM_DEMOD_ADDR = 0xd2;
         public const byte NIM_TUNER_ADDR = 0xc0;
 
@@ -104,7 +105,7 @@ namespace opentuner
         public byte nim_write_demod(ushort reg, byte val)
         {
             //Console.WriteLine("nim demod write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
-
+            //Console.WriteLine("Using Nim Address: " + NIM_DEMOD_ADDR.ToString());
             byte error = 0;
 
             if (repeater_on)
@@ -113,7 +114,7 @@ namespace opentuner
                 error = nim_write_demod(0xf12a, 0x38);
             }
 
-            if (error == 0) error = ftdi_device.ftdi_i2c_write_reg16(0xd2, reg, val);
+            if (error == 0) error = ftdi_device.ftdi_i2c_write_reg16(NIM_DEMOD_ADDR, reg, val);
 
             if (error != 0)
             {
@@ -127,6 +128,7 @@ namespace opentuner
         {
             byte err = 0;
 
+            //Console.WriteLine("Using Nim Address: " + NIM_DEMOD_ADDR.ToString());
 
             if (repeater_on)
             {
@@ -134,7 +136,7 @@ namespace opentuner
                 err = nim_write_demod(0xf12a, 0x38);
             }
 
-            if (err == 0) err = ftdi_device.ftdi_i2c_read_reg16(0xd2, reg, ref val);
+            if (err == 0) err = ftdi_device.ftdi_i2c_read_reg16(NIM_DEMOD_ADDR, reg, ref val);
 
             if (err != 0)
             {
