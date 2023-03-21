@@ -30,19 +30,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(settingsForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.checkEnableSpectrum = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtDefaultLO = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.comboDefaultLNB = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtDefaultLO = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtSnapshotPath = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.txtSnapshotPath = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.checkEnableSpectrum = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -62,6 +62,32 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
+            // comboDefaultLNB
+            // 
+            this.comboDefaultLNB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboDefaultLNB.FormattingEnabled = true;
+            this.comboDefaultLNB.Items.AddRange(new object[] {
+            resources.GetString("comboDefaultLNB.Items"),
+            resources.GetString("comboDefaultLNB.Items1"),
+            resources.GetString("comboDefaultLNB.Items2")});
+            resources.ApplyResources(this.comboDefaultLNB, "comboDefaultLNB");
+            this.comboDefaultLNB.Name = "comboDefaultLNB";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // txtDefaultLO
+            // 
+            resources.ApplyResources(this.txtDefaultLO, "txtDefaultLO");
+            this.txtDefaultLO.Name = "txtDefaultLO";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.comboBox2);
@@ -69,6 +95,21 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.comboBox2, "comboBox2");
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            resources.GetString("comboBox2.Items")});
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
             // 
             // groupBox3
             // 
@@ -78,6 +119,24 @@
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // button1
+            // 
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // txtSnapshotPath
+            // 
+            resources.ApplyResources(this.txtSnapshotPath, "txtSnapshotPath");
+            this.txtSnapshotPath.Name = "txtSnapshotPath";
+            this.txtSnapshotPath.ReadOnly = true;
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
             // 
             // groupBox4
             // 
@@ -91,64 +150,6 @@
             resources.ApplyResources(this.checkEnableSpectrum, "checkEnableSpectrum");
             this.checkEnableSpectrum.Name = "checkEnableSpectrum";
             this.checkEnableSpectrum.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // txtDefaultLO
-            // 
-            resources.ApplyResources(this.txtDefaultLO, "txtDefaultLO");
-            this.txtDefaultLO.Name = "txtDefaultLO";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // comboDefaultLNB
-            // 
-            this.comboDefaultLNB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboDefaultLNB.FormattingEnabled = true;
-            this.comboDefaultLNB.Items.AddRange(new object[] {
-            resources.GetString("comboDefaultLNB.Items"),
-            resources.GetString("comboDefaultLNB.Items1"),
-            resources.GetString("comboDefaultLNB.Items2")});
-            resources.ApplyResources(this.comboDefaultLNB, "comboDefaultLNB");
-            this.comboDefaultLNB.Name = "comboDefaultLNB";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.comboBox2, "comboBox2");
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            resources.GetString("comboBox2.Items")});
-            this.comboBox2.Name = "comboBox2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // txtSnapshotPath
-            // 
-            resources.ApplyResources(this.txtSnapshotPath, "txtSnapshotPath");
-            this.txtSnapshotPath.Name = "txtSnapshotPath";
-            this.txtSnapshotPath.ReadOnly = true;
-            // 
-            // button1
-            // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 

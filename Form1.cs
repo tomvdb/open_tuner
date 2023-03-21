@@ -57,6 +57,8 @@ namespace opentuner
         public string prop_power_i { set { /*this.lblpower_i.Text = value;*/ } }
         public string prop_power_q { set { /*this.lblPower_q.Text = value;*/ } }
 
+        public string prop_rf_input_level { set { this.lblRFInputLevel.Text = value; } }
+
         public string prop_symbol_rate { set { this.lblSR.Text = value; } }
         public string prop_modcod { set { this.lblModcod.Text = value; } }
         public string prop_lpdc_errors { set { this.lblLPDCError.Text = value; } }
@@ -119,7 +121,7 @@ namespace opentuner
         uint current_sr = 0;
         bool current_enable_lnb_supply = false;
         bool current_enable_horiz_supply = false;
-
+        bool current_rf_input = false; // true is A, false is B
        
 
         byte rxVolume = 100; // todo, save volume between sessions
@@ -204,8 +206,9 @@ namespace opentuner
                 double mer = new_status.mer / 10;
                 gui.prop_mer = mer.ToString() + " dB";
                 gui.prop_lnagain = new_status.lna_gain.ToString();
-                gui.prop_power_i = new_status.power_i.ToString();
-                gui.prop_power_q = new_status.power_q.ToString();
+                //gui.prop_power_i = new_status.power_i.ToString();
+                //gui.prop_power_q = new_status.power_q.ToString();
+                gui.prop_rf_input_level = new_status.input_power_level.ToString() + " dB";
                 gui.prop_symbol_rate = new_status.symbol_rate.ToString();
                 gui.prop_modcod = new_status.modcode.ToString();
                 gui.prop_lpdc_errors = new_status.errors_ldpc_count.ToString();
@@ -525,6 +528,7 @@ namespace opentuner
             newConfig.symbol_rate = current_sr;
             newConfig.polarization_supply = enable_supply;
             newConfig.polarization_supply_horizontal = horiz_supply;
+            newConfig.rf_input_B = current_rf_input;
 
             current_enable_horiz_supply = horiz_supply;
             current_enable_lnb_supply = enable_supply;
@@ -533,6 +537,23 @@ namespace opentuner
 
             config_queue.Enqueue(newConfig);
 
+        }
+
+        void change_rf_input(bool rf_input_b)
+        {
+            NimConfig newConfig = new NimConfig();
+
+            newConfig.frequency = current_frequency;
+            newConfig.symbol_rate = current_sr;
+            newConfig.polarization_supply = current_enable_lnb_supply;
+            newConfig.polarization_supply_horizontal = current_enable_horiz_supply;
+            newConfig.rf_input_B = rf_input_b;
+
+            current_rf_input = rf_input_b;
+
+            debug("Main: New Config: " + newConfig.ToString());
+
+            config_queue.Enqueue(newConfig);
         }
 
         // quicktune functions
@@ -1153,6 +1174,21 @@ namespace opentuner
             if (!hardware_connected)
                 btnConnectTuner_Click(this, e);
         }
+
+        private void radioRFInput_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioRFInputA.Checked)
+            {
+                change_rf_input(false);
+            }
+            else
+            {
+                change_rf_input(true);
+            }
+        }
+
+
+
     }
 
 

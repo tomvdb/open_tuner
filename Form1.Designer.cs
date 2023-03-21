@@ -33,6 +33,13 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.statusPage = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.rfRadioInputB = new System.Windows.Forms.RadioButton();
+            this.radioRFInputA = new System.Windows.Forms.RadioButton();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.radioLnbSupplyHoriz = new System.Windows.Forms.RadioButton();
+            this.radioLnbSupplyVert = new System.Windows.Forms.RadioButton();
+            this.radioLnbSupplyOff = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnSnapshot = new System.Windows.Forms.Button();
             this.btnMute = new System.Windows.Forms.Button();
@@ -56,10 +63,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.radioLnbSupplyHoriz = new System.Windows.Forms.RadioButton();
-            this.radioLnbSupplyVert = new System.Windows.Forms.RadioButton();
-            this.radioLnbSupplyOff = new System.Windows.Forms.RadioButton();
             this.btnFrequencyChange = new System.Windows.Forms.Button();
             this.txtSR = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -104,12 +107,16 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblRFInputLevel = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.statusPage.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -151,6 +158,8 @@
             // statusPage
             // 
             resources.ApplyResources(this.statusPage, "statusPage");
+            this.statusPage.Controls.Add(this.groupBox7);
+            this.statusPage.Controls.Add(this.groupBox6);
             this.statusPage.Controls.Add(this.groupBox5);
             this.statusPage.Controls.Add(this.groupBox4);
             this.statusPage.Controls.Add(this.groupBox3);
@@ -158,6 +167,62 @@
             this.statusPage.Controls.Add(this.groupBox1);
             this.statusPage.Name = "statusPage";
             this.statusPage.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.rfRadioInputB);
+            this.groupBox7.Controls.Add(this.radioRFInputA);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.TabStop = false;
+            // 
+            // rfRadioInputB
+            // 
+            resources.ApplyResources(this.rfRadioInputB, "rfRadioInputB");
+            this.rfRadioInputB.Name = "rfRadioInputB";
+            this.rfRadioInputB.UseVisualStyleBackColor = true;
+            this.rfRadioInputB.CheckedChanged += new System.EventHandler(this.radioRFInput_CheckedChanged);
+            // 
+            // radioRFInputA
+            // 
+            resources.ApplyResources(this.radioRFInputA, "radioRFInputA");
+            this.radioRFInputA.Checked = true;
+            this.radioRFInputA.Name = "radioRFInputA";
+            this.radioRFInputA.TabStop = true;
+            this.radioRFInputA.UseVisualStyleBackColor = true;
+            this.radioRFInputA.CheckedChanged += new System.EventHandler(this.radioRFInput_CheckedChanged);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.radioLnbSupplyHoriz);
+            this.groupBox6.Controls.Add(this.radioLnbSupplyVert);
+            this.groupBox6.Controls.Add(this.radioLnbSupplyOff);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // radioLnbSupplyHoriz
+            // 
+            resources.ApplyResources(this.radioLnbSupplyHoriz, "radioLnbSupplyHoriz");
+            this.radioLnbSupplyHoriz.Name = "radioLnbSupplyHoriz";
+            this.radioLnbSupplyHoriz.UseVisualStyleBackColor = true;
+            this.radioLnbSupplyHoriz.CheckedChanged += new System.EventHandler(this.radioLnbSupply_CheckedChanged);
+            // 
+            // radioLnbSupplyVert
+            // 
+            resources.ApplyResources(this.radioLnbSupplyVert, "radioLnbSupplyVert");
+            this.radioLnbSupplyVert.Name = "radioLnbSupplyVert";
+            this.radioLnbSupplyVert.UseVisualStyleBackColor = true;
+            this.radioLnbSupplyVert.CheckedChanged += new System.EventHandler(this.radioLnbSupply_CheckedChanged);
+            // 
+            // radioLnbSupplyOff
+            // 
+            resources.ApplyResources(this.radioLnbSupplyOff, "radioLnbSupplyOff");
+            this.radioLnbSupplyOff.Checked = true;
+            this.radioLnbSupplyOff.Name = "radioLnbSupplyOff";
+            this.radioLnbSupplyOff.TabStop = true;
+            this.radioLnbSupplyOff.UseVisualStyleBackColor = true;
+            this.radioLnbSupplyOff.CheckedChanged += new System.EventHandler(this.radioLnbSupply_CheckedChanged);
             // 
             // groupBox5
             // 
@@ -301,10 +366,6 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label23);
-            this.groupBox2.Controls.Add(this.radioLnbSupplyHoriz);
-            this.groupBox2.Controls.Add(this.radioLnbSupplyVert);
-            this.groupBox2.Controls.Add(this.radioLnbSupplyOff);
             this.groupBox2.Controls.Add(this.btnFrequencyChange);
             this.groupBox2.Controls.Add(this.txtSR);
             this.groupBox2.Controls.Add(this.label3);
@@ -315,34 +376,6 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
-            // 
-            // label23
-            // 
-            resources.ApplyResources(this.label23, "label23");
-            this.label23.Name = "label23";
-            // 
-            // radioLnbSupplyHoriz
-            // 
-            resources.ApplyResources(this.radioLnbSupplyHoriz, "radioLnbSupplyHoriz");
-            this.radioLnbSupplyHoriz.Name = "radioLnbSupplyHoriz";
-            this.radioLnbSupplyHoriz.UseVisualStyleBackColor = true;
-            this.radioLnbSupplyHoriz.CheckedChanged += new System.EventHandler(this.radioLnbSupply_CheckedChanged);
-            // 
-            // radioLnbSupplyVert
-            // 
-            resources.ApplyResources(this.radioLnbSupplyVert, "radioLnbSupplyVert");
-            this.radioLnbSupplyVert.Name = "radioLnbSupplyVert";
-            this.radioLnbSupplyVert.UseVisualStyleBackColor = true;
-            this.radioLnbSupplyVert.CheckedChanged += new System.EventHandler(this.radioLnbSupply_CheckedChanged);
-            // 
-            // radioLnbSupplyOff
-            // 
-            resources.ApplyResources(this.radioLnbSupplyOff, "radioLnbSupplyOff");
-            this.radioLnbSupplyOff.Checked = true;
-            this.radioLnbSupplyOff.Name = "radioLnbSupplyOff";
-            this.radioLnbSupplyOff.TabStop = true;
-            this.radioLnbSupplyOff.UseVisualStyleBackColor = true;
-            this.radioLnbSupplyOff.CheckedChanged += new System.EventHandler(this.radioLnbSupply_CheckedChanged);
             // 
             // btnFrequencyChange
             // 
@@ -383,6 +416,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lblRFInputLevel);
+            this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.lblReqFreq);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.lblConnected);
@@ -627,6 +662,16 @@
             resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
+            // lblRFInputLevel
+            // 
+            resources.ApplyResources(this.lblRFInputLevel, "lblRFInputLevel");
+            this.lblRFInputLevel.Name = "lblRFInputLevel";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -643,6 +688,10 @@
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.statusPage.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
@@ -708,10 +757,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.RadioButton radioLnbSupplyHoriz;
-        private System.Windows.Forms.RadioButton radioLnbSupplyVert;
-        private System.Windows.Forms.RadioButton radioLnbSupplyOff;
         private System.Windows.Forms.Button btnFrequencyChange;
         private System.Windows.Forms.TextBox txtSR;
         private System.Windows.Forms.Label label3;
@@ -744,6 +789,15 @@
         private System.Windows.Forms.TabPage debugPage;
         private System.Windows.Forms.ListBox dbgListBox;
         private System.Windows.Forms.ToolStripMenuItem menuConnect;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.RadioButton radioLnbSupplyHoriz;
+        private System.Windows.Forms.RadioButton radioLnbSupplyVert;
+        private System.Windows.Forms.RadioButton radioLnbSupplyOff;
+        private System.Windows.Forms.RadioButton rfRadioInputB;
+        private System.Windows.Forms.RadioButton radioRFInputA;
+        private System.Windows.Forms.Label lblRFInputLevel;
+        private System.Windows.Forms.Label label11;
     }
 }
 

@@ -569,6 +569,48 @@ namespace opentuner
             return err;
         }
 
+        /* -------------------------------------------------------------------------------------------------- */
+        /* reads the AGC1 Gain registers in the Demodulator and returns the results                           */
+        /* demod: STV0910_DEMOD_TOP | STV0910_DEMOD_BOTTOM: which demodulator is being read                  */
+        /* agc: place to store the results                                                                    */
+        /* return: error state                                                                                */
+        /* -------------------------------------------------------------------------------------------------- */
+
+        public byte stv0910_read_agc1_gain(byte demod, ref ushort agc)
+        {
+
+            byte err = 0;
+            byte agc_low = 0, agc_high = 0;
+
+            err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_AGCIQIN0 : stv0910_regs.RSTV0910_P1_AGCIQIN0, ref agc_low);
+            if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_AGCIQIN1 : stv0910_regs.RSTV0910_P1_AGCIQIN1, ref agc_high);
+            if (err == 0) agc = (ushort)((ushort)agc_high << 8 | (ushort)agc_low);
+
+            if (err != 0) Console.WriteLine("ERROR: STV0910 read agc1 gain\n");
+
+            return err;
+        }
+
+        /* -------------------------------------------------------------------------------------------------- */
+        public byte stv0910_read_agc2_gain(byte demod, ref ushort agc)
+        {
+            /* -------------------------------------------------------------------------------------------------- */
+            /* reads the AGC2 Gain registers in the Demodulator and returns the results                           */
+            /*  demod: STV0910_DEMOD_TOP | STV0910_DEMOD_BOTTOM: which demodulator is being read                  */
+            /* agc: place to store the results                                                                    */
+            /* return: error state                                                                                */
+            /* -------------------------------------------------------------------------------------------------- */
+            byte err;
+            byte agc_low = 0, agc_high = 0;
+
+            err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_AGC2I0 : stv0910_regs.RSTV0910_P1_AGC2I0, ref agc_low);
+            if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_AGC2I1 : stv0910_regs.RSTV0910_P1_AGC2I1, ref agc_high);
+            if (err == 0) agc = (ushort)((ushort)agc_high << 8 | (ushort)agc_low);
+
+            if (err != 0) Console.WriteLine("ERROR: STV0910 read agc2 gain\n");
+
+            return err;
+        }
 
         public byte stv0910_read_power(byte demod, ref byte power_i, ref byte power_q)
         {

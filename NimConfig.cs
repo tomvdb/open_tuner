@@ -14,6 +14,8 @@ namespace opentuner
         public bool polarization_supply { get; set; }
         public bool polarization_supply_horizontal { get; set; }
 
+        public bool rf_input_B { get; set; }
+
         public override string ToString() 
         {
             return "Config: Freq: " + frequency.ToString() + "," + symbol_rate.ToString() + " - LNB Supply :" + polarization_supply.ToString() + ", Horiz Supply :" + polarization_supply_horizontal.ToString();

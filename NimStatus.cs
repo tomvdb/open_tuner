@@ -26,6 +26,11 @@ namespace opentuner
         public UInt32 ber { get; set; }
         public UInt32 errors_bch_count { get; set; }
         public UInt32 errors_ldpc_count { get; set; }
+        public ushort agc1_gain { get; set; }
+        public ushort agc2_gain { get; set; }
+
+        public short input_power_level { get; set; }
+
 
         public bool build_queue { get; set; }
 

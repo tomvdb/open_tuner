@@ -136,7 +136,6 @@ namespace opentuner
             }
             finally
             {
-                Console.WriteLine("Closing TS");
             }
         }
     }

@@ -631,16 +631,30 @@ namespace opentuner
 
                     if (deviceName.Contains("MiniTiouner A"))
                     {
+                        Console.WriteLine("Should be the i2c port for a Minitiouner-S");
+                        i2c_port = c;
+                        detectedDeviceName = "Minitiouner-S";
+                    }
+
+                    if (deviceName.Contains("MiniTiouner B"))
+                    {
+                        Console.WriteLine("Should be the ts port for a Minitiouner-S");
+                        ts_port = c;
+                    }
+
+                    if (deviceName.Contains("MiniTiouner-Express A"))
+                    {
                         Console.WriteLine("Should be the i2c port for a Minitiouner Express");
                         i2c_port = c;
                         detectedDeviceName = "Minitiouner Express";
                     }
 
-                    if (deviceName.Contains("MiniTiouner B"))
+                    if (deviceName.Contains("MiniTiouner-Express B"))
                     {
                         Console.WriteLine("Should be the ts port for a Minitiouner Express");
                         ts_port = c;
                     }
+
 
 
                     ftdi_device.Close();

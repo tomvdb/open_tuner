@@ -41,6 +41,35 @@ namespace opentuner
             stvvglna_bottom = new stvvglna(_nim);
         }
 
+        // https://wiki.batc.org.uk/MiniTiouner_Power_Level_Indication
+        short get_rf_level(ushort agc1, ushort agc2)
+        {
+            int index = -1;
+
+            if (agc1 >= 0)
+            {
+                index = lookups.agc1_lookup.BinarySearch(agc1);
+
+                if (index < 0)
+                    index = ~index;
+            }
+            else
+            {
+                index = lookups.agc2_lookup.BinarySearch(agc2);
+
+                if (index < 0)
+                    index = ~index;
+
+            }
+
+            if (index < 0) index = 0;
+
+            if (index > lookups.rf_power_level.Count())
+                index = lookups.rf_power_level.Count() - 1;
+
+            return lookups.rf_power_level[index];
+        }
+
         byte get_nim_status()
         {
             NimStatus nim_status = new NimStatus();
@@ -126,6 +155,20 @@ namespace opentuner
             if (err == 0) err = _stv0910.stv0910_read_errors_ldpc_count(stv0910.STV0910_DEMOD_TOP, ref errors_ldpc_count);
             nim_status.errors_ldpc_count = errors_ldpc_count;
 
+            // agc1 gain
+            ushort agc1_gain = 0;
+            if (err == 0) err = _stv0910.stv0910_read_agc1_gain(stv0910.STV0910_DEMOD_TOP, ref agc1_gain);
+            nim_status.agc1_gain = agc1_gain;
+
+            // agc2 gain
+            ushort agc2_gain = 0;
+            if (err == 0) err = _stv0910.stv0910_read_agc2_gain(stv0910.STV0910_DEMOD_TOP, ref agc2_gain);
+            nim_status.agc2_gain = agc2_gain;
+
+            //Console.WriteLine(nim_status.agc1_gain.ToString() + "," + nim_status.agc2_gain.ToString());
+
+            nim_status.input_power_level = get_rf_level(agc1_gain, agc2_gain);
+
             UInt32 mer = 0;
 
             if (demod_state == stv0910.DEMOD_S || demod_state == stv0910.DEMOD_S2)
@@ -149,12 +192,9 @@ namespace opentuner
                 nim_status.short_frame = false;
                 nim_status.pilots = false;
             }
-            
+
             // send status callback if available
-            if (status_callback != null)
-            {
-                status_callback(nim_status);
-            }
+            status_callback?.Invoke(nim_status);
 
             reset = false;
 
@@ -198,7 +238,7 @@ namespace opentuner
                             if (err == 0)
                             {
                                 Console.WriteLine("Init Tuner");
-                                err = _stv6120.stv6120_init(nim_config.frequency, 0, false);
+                                err = _stv6120.stv6120_init(nim_config.frequency, 0, nim_config.rf_input_B);
                             }
 
                             // init lna - if found
