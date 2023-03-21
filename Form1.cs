@@ -54,8 +54,9 @@ namespace opentuner
         public string prop_demodstate { set { this.lblDemoState.Text = value; } }
         public string prop_mer { set { this.lblMer.Text = value; } }
         public string prop_lnagain { set { this.lblLnaGain.Text = value; } }
-        public string prop_power_i { set { this.lblpower_i.Text = value; } }
-        public string prop_power_q { set { this.lblPower_q.Text = value; } }
+        public string prop_power_i { set { /*this.lblpower_i.Text = value;*/ } }
+        public string prop_power_q { set { /*this.lblPower_q.Text = value;*/ } }
+
         public string prop_symbol_rate { set { this.lblSR.Text = value; } }
         public string prop_modcod { set { this.lblModcod.Text = value; } }
         public string prop_lpdc_errors { set { this.lblLPDCError.Text = value; } }
@@ -102,6 +103,8 @@ namespace opentuner
         Rectangle[] channels;
         IList<XElement> indexedbandplan;
         string InfoText;
+        string TX_Text;  //dh3cs
+
         List<string> blocks = new List<string>();
 
         socket sock;
@@ -272,13 +275,32 @@ namespace opentuner
 
             if (videoView1.MediaPlayer != null)
                 videoView1.MediaPlayer.Stop();
-
         }
 
         private void hardware_init()
         {
             ftdi_hw = new ftdi();
-            byte err = ftdi_hw.ftdi_init();
+
+            // detect ftdi devices
+            uint i2c_port = 99;
+            uint ts_port = 99;
+            string deviceName = "Unknown";
+
+            byte err = ftdi_hw.ftdi_detect(ref i2c_port, ref ts_port, ref deviceName);
+
+
+            if (i2c_port == 99 || ts_port == 99)    // not detected properly, revert to 0 and 1 and hope for the best
+            {
+                Console.WriteLine("Hardware not detected properly, reverting to 0,1");
+                err = ftdi_hw.ftdi_init(0, 1);
+            }
+            else
+            {
+                Console.WriteLine("Trying detected ports:");
+                Console.WriteLine("i2c port: " + i2c_port.ToString());
+                Console.WriteLine("ts port: " + ts_port.ToString());
+                err = ftdi_hw.ftdi_init(i2c_port, ts_port);
+            }
 
             if (err != 0)
             {
@@ -287,8 +309,9 @@ namespace opentuner
                 return;
             }
 
-
             hardware_connected = true;
+
+            this.Text = this.Text + " - " + deviceName;
         }
 
         private void MediaPlayer_EncounteredError(object sender, EventArgs e)
@@ -638,6 +661,7 @@ namespace opentuner
             tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[0] * spectrum_wScale) - ((rx_blocks[1] * spectrum_wScale) / 2)), 1, Convert.ToInt32(rx_blocks[1] * spectrum_wScale), (255) - 4) });
 
             tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
+            tmp.DrawString(TX_Text, new Font("Tahoma", 15), Brushes.Red, new PointF(70, spectrum.Height - 50));  //dh3cs
 
 
             //drawspectrum_signals(sigs.detect_signals(fft_data));
@@ -672,6 +696,17 @@ namespace opentuner
             {
                 int freq = Convert.ToInt32((10490.5 + ((X / spectrum_wScale) / 922.0) * 9.0) * 1000.0);
                 //UpdateTextBox(txtFreq, freq.ToString());
+
+                string tx_freq = get_bandplan_TX_freq(X, Y);
+                debug("TX-Freq: " + tx_freq + " MHz");
+                // dh3cs
+                if (!string.IsNullOrEmpty(tx_freq))
+                {
+                    //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
+                    Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
+                    TX_Text = " TX: " + tx_freq;
+                }
+
             }
             else
             {
@@ -721,6 +756,9 @@ namespace opentuner
 
         public void spectrum_MouseMove(object sender, MouseEventArgs e)
         {
+            get_bandplan_TX_freq(e.X, e.Y);  // dh3cs
+
+            /*
             //detect mouse over channel, tooltip info
             int n = 0;
             if (e.Y > (spectrum.Height - bandplan_height))
@@ -748,9 +786,42 @@ namespace opentuner
                     InfoText = "";
                 }
             }
-
+            */
         }
 
+        // moved to separate function, to use by right click in spectrum,  dh3cs 
+        private string get_bandplan_TX_freq(int x, int y)  // returns TX-Freq in MHz from the rectangle in Bandplan
+        {
+            int n = 0;
+            string tx_freq_MHz = "";
+            if (x > (spectrum.Height - bandplan_height))
+            {
+                if (channels != null)
+                {
+                    foreach (Rectangle ch in channels)
+                    {
+                        if (x >= ch.Location.X & x <= ch.Location.X + ch.Width)
+                        {
+                            if (y - (spectrum.Height - bandplan_height) >= ch.Location.Y - (ch.Height / 2) + 3 & y - (spectrum.Height - bandplan_height) <= ch.Location.Y + (ch.Height / 2) + 3)
+                            {
+                                tx_freq_MHz = indexedbandplan[n].Element("s-freq").Value;
+                                InfoText = " Dn: " + indexedbandplan[n].Element("x-freq").Value + "  SR: " + indexedbandplan[n].Element("name").Value + Environment.NewLine
+                                    + " Up: " + tx_freq_MHz;
+                            }
+                        }
+                        n++;
+                    }
+                }
+            }
+            else
+            {
+                if (InfoText != "")
+                {
+                    InfoText = "";
+                }
+            }
+            return tx_freq_MHz;
+        }
 
         private void webSocketTimeout_Tick(object sender, EventArgs e)
         {

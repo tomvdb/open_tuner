@@ -549,7 +549,119 @@ namespace opentuner
 
         }
 
-        public byte ftdi_init()
+        public byte ftdi_detect(ref uint i2c_port, ref uint ts_port, ref string detectedDeviceName)
+        {
+            Console.WriteLine("**** FTDI Ports Detection ****");
+
+            byte err = 0;
+            uint devcount = 0;
+
+            ts_port = 99;
+            i2c_port = 99;
+
+            try
+            {
+                ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
+                Console.WriteLine("Number of FTDI Devices: " + devcount.ToString());
+
+                // we need atleast two ports
+                if (devcount < 2)
+                {
+                    Console.WriteLine("Not enough FTDI devices detected");
+                    return 1;
+                }
+
+                for ( uint c = 0; c < devcount; c++)
+                {
+                    FTDI ftdi_device = new FTDI();
+                    ftdi_device.OpenByIndex(c);
+
+                    FTDI.FT_DEVICE device = new FTDI.FT_DEVICE();
+                    ftdi_device.GetDeviceType(ref device);
+
+                    // is this a ft2232 device?
+                    if (device.ToString() != "FT_DEVICE_2232H")
+                    {
+                        Console.WriteLine(c.ToString() + ": not a FT2232H device, skipping");
+                        ftdi_device.Close();
+                        continue;
+                    }
+                    else
+                    {
+                        Console.WriteLine(c.ToString() + ": is a FT2232H device");
+                    }
+
+                    // lets get description
+                    string deviceName = "";
+                    ftdi_device.GetDescription(out deviceName);
+
+                    Console.WriteLine("Description:" + deviceName);
+
+                    FTDI.FT2232H_EEPROM_STRUCTURE eeprom = new FTDI.FT2232H_EEPROM_STRUCTURE();
+                    ftdi_device.ReadFT2232HEEPROM(eeprom);
+
+                    Console.WriteLine("A Fifo: " + eeprom.IFAIsFifo.ToString());
+                    Console.WriteLine("B Fifo: " + eeprom.IFBIsFifo.ToString());
+
+                    if (deviceName.Contains("NIM tuner A"))
+                    {
+                        Console.WriteLine("Should be the i2c port for a BATC V2 Minitiouner");
+                        i2c_port = c;
+                        detectedDeviceName = "BATC V2 Minitiouner";
+                    }
+
+                    if (deviceName.Contains("NIM tuner B"))
+                    {
+                        Console.WriteLine("Should be the ts port for a BATC V2 Minitiouner");
+                        ts_port = c;
+                    }
+
+                    if (deviceName.Contains("MiniTiouner_Pro_TS2 A"))
+                    {
+                        Console.WriteLine("Should be the i2c port for a Minitiouner Pro 2");
+                        i2c_port = c;
+                        detectedDeviceName = "Minitiouner Pro 2";
+                    }
+
+                    if (deviceName.Contains("MiniTiouner_Pro_TS2 B"))
+                    {
+                        Console.WriteLine("Should be the ts port for a Minitiouner Pro 2");
+                        ts_port = c;
+                    }
+
+                    if (deviceName.Contains("MiniTiouner A"))
+                    {
+                        Console.WriteLine("Should be the i2c port for a Minitiouner Express");
+                        i2c_port = c;
+                        detectedDeviceName = "Minitiouner Express";
+                    }
+
+                    if (deviceName.Contains("MiniTiouner B"))
+                    {
+                        Console.WriteLine("Should be the ts port for a Minitiouner Express");
+                        ts_port = c;
+                    }
+
+
+                    ftdi_device.Close();
+                    Console.WriteLine(" ---- ");
+                }
+
+                Console.WriteLine(" **** ");
+
+
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("FTDI Error: " + Ex.Message);
+                return 1;
+            }
+
+
+            return err;
+        }
+
+        public byte ftdi_init(uint i2c_device, uint ts_device)
         {
             byte err = 0;
             uint devcount = 0;
@@ -558,6 +670,7 @@ namespace opentuner
             try
             {
                 ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
+                Console.WriteLine("Number of FTDI Devices: " + devcount.ToString());
             }
             catch (Exception Ex)
             {
@@ -565,14 +678,14 @@ namespace opentuner
                 return 1;
             }
 
-            ftStatus = ftdiDevice_i2c.OpenByIndex(0);
+            ftStatus = ftdiDevice_i2c.OpenByIndex(i2c_device);
 
             if (ftStatus != FTDI.FT_STATUS.FT_OK)
             {
                 return 1;
             }
 
-            ftStatus = ftdiDevice_ts.OpenByIndex(1);
+            ftStatus = ftdiDevice_ts.OpenByIndex(ts_device);
 
             if (ftStatus != FTDI.FT_STATUS.FT_OK)
             {

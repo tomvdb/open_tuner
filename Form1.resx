@@ -130,10 +130,10 @@
     <value>True</value>
   </data>
   <data name="btnSnapshot.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 136</value>
+    <value>18, 144</value>
   </data>
   <data name="btnSnapshot.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 23</value>
+    <value>147, 35</value>
   </data>
   <data name="btnSnapshot.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -157,7 +157,7 @@
     <value>18, 107</value>
   </data>
   <data name="btnMute.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 23</value>
+    <value>147, 35</value>
   </data>
   <data name="btnMute.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -184,7 +184,7 @@
     <value>69, 30</value>
   </data>
   <data name="lblVolume.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 13</value>
+    <value>48, 17</value>
   </data>
   <data name="lblVolume.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -211,7 +211,7 @@
     <value>15, 30</value>
   </data>
   <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 13</value>
+    <value>63, 17</value>
   </data>
   <data name="label20.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -252,11 +252,14 @@
   <data name="&gt;&gt;trackVolume.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="groupBox5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt</value>
+  </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 619</value>
+    <value>222, 596</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 178</value>
+    <value>183, 201</value>
   </data>
   <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
     <value>37</value>
@@ -283,7 +286,7 @@
     <value>168, 100</value>
   </data>
   <data name="lblAudioRate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 13</value>
+    <value>12, 17</value>
   </data>
   <data name="lblAudioRate.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -310,7 +313,7 @@
     <value>18, 100</value>
   </data>
   <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 13</value>
+    <value>82, 17</value>
   </data>
   <data name="label25.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -337,7 +340,7 @@
     <value>168, 78</value>
   </data>
   <data name="lblAudioCodec.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 13</value>
+    <value>12, 17</value>
   </data>
   <data name="lblAudioCodec.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -364,7 +367,7 @@
     <value>18, 78</value>
   </data>
   <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 13</value>
+    <value>92, 17</value>
   </data>
   <data name="label27.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -391,7 +394,7 @@
     <value>168, 53</value>
   </data>
   <data name="lblVideoResolution.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 13</value>
+    <value>12, 17</value>
   </data>
   <data name="lblVideoResolution.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -418,7 +421,7 @@
     <value>18, 53</value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 13</value>
+    <value>119, 17</value>
   </data>
   <data name="label18.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -445,7 +448,7 @@
     <value>168, 30</value>
   </data>
   <data name="lblVideoCodec.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 13</value>
+    <value>12, 17</value>
   </data>
   <data name="lblVideoCodec.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -472,7 +475,7 @@
     <value>18, 30</value>
   </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 13</value>
+    <value>92, 17</value>
   </data>
   <data name="label14.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -492,11 +495,14 @@
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="groupBox4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt</value>
+  </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 485</value>
+    <value>12, 456</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 128</value>
+    <value>393, 134</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
     <value>36</value>
@@ -523,7 +529,7 @@
     <value>168, 83</value>
   </data>
   <data name="lblNullPackets.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 13</value>
+    <value>12, 17</value>
   </data>
   <data name="lblNullPackets.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -550,7 +556,7 @@
     <value>18, 83</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 13</value>
+    <value>90, 17</value>
   </data>
   <data name="label22.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -577,7 +583,7 @@
     <value>168, 58</value>
   </data>
   <data name="lblServiceProvider.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 13</value>
+    <value>12, 17</value>
   </data>
   <data name="lblServiceProvider.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -604,7 +610,7 @@
     <value>168, 34</value>
   </data>
   <data name="lblServiceName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 13</value>
+    <value>12, 17</value>
   </data>
   <data name="lblServiceName.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -631,7 +637,7 @@
     <value>18, 58</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 13</value>
+    <value>157, 17</value>
   </data>
   <data name="label10.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -658,7 +664,7 @@
     <value>18, 34</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 13</value>
+    <value>100, 17</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -678,11 +684,14 @@
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="groupBox3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt</value>
+  </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 366</value>
+    <value>12, 322</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 113</value>
+    <value>393, 128</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>35</value>
@@ -706,10 +715,10 @@
     <value>True</value>
   </data>
   <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 165</value>
+    <value>18, 144</value>
   </data>
   <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 13</value>
+    <value>90, 17</value>
   </data>
   <data name="label23.TabIndex" type="System.Int32, mscorlib">
     <value>44</value>
@@ -733,10 +742,10 @@
     <value>True</value>
   </data>
   <data name="radioLnbSupplyHoriz.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 211</value>
+    <value>21, 215</value>
   </data>
   <data name="radioLnbSupplyHoriz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 17</value>
+    <value>129, 21</value>
   </data>
   <data name="radioLnbSupplyHoriz.TabIndex" type="System.Int32, mscorlib">
     <value>43</value>
@@ -760,10 +769,10 @@
     <value>True</value>
   </data>
   <data name="radioLnbSupplyVert.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 188</value>
+    <value>21, 192</value>
   </data>
   <data name="radioLnbSupplyVert.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 17</value>
+    <value>112, 21</value>
   </data>
   <data name="radioLnbSupplyVert.TabIndex" type="System.Int32, mscorlib">
     <value>42</value>
@@ -787,10 +796,10 @@
     <value>True</value>
   </data>
   <data name="radioLnbSupplyOff.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 165</value>
+    <value>21, 169</value>
   </data>
   <data name="radioLnbSupplyOff.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 17</value>
+    <value>45, 21</value>
   </data>
   <data name="radioLnbSupplyOff.TabIndex" type="System.Int32, mscorlib">
     <value>41</value>
@@ -811,10 +820,10 @@
     <value>3</value>
   </data>
   <data name="btnFrequencyChange.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 111</value>
+    <value>111, 108</value>
   </data>
   <data name="btnFrequencyChange.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 23</value>
+    <value>79, 35</value>
   </data>
   <data name="btnFrequencyChange.TabIndex" type="System.Int32, mscorlib">
     <value>40</value>
@@ -835,10 +844,10 @@
     <value>4</value>
   </data>
   <data name="txtSR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 85</value>
+    <value>111, 82</value>
   </data>
   <data name="txtSR.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 20</value>
+    <value>79, 23</value>
   </data>
   <data name="txtSR.TabIndex" type="System.Int32, mscorlib">
     <value>39</value>
@@ -865,7 +874,7 @@
     <value>18, 88</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 13</value>
+    <value>96, 17</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
@@ -886,10 +895,10 @@
     <value>6</value>
   </data>
   <data name="txtLO.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 60</value>
+    <value>111, 57</value>
   </data>
   <data name="txtLO.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 20</value>
+    <value>79, 23</value>
   </data>
   <data name="txtLO.TabIndex" type="System.Int32, mscorlib">
     <value>37</value>
@@ -916,7 +925,7 @@
     <value>18, 63</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 13</value>
+    <value>54, 17</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>36</value>
@@ -937,10 +946,10 @@
     <value>8</value>
   </data>
   <data name="txtFreq.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 35</value>
+    <value>111, 32</value>
   </data>
   <data name="txtFreq.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 20</value>
+    <value>79, 23</value>
   </data>
   <data name="txtFreq.TabIndex" type="System.Int32, mscorlib">
     <value>35</value>
@@ -967,7 +976,7 @@
     <value>18, 38</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 13</value>
+    <value>83, 17</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>34</value>
@@ -987,8 +996,11 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
+  <data name="groupBox2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt</value>
+  </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 619</value>
+    <value>12, 596</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>204, 242</value>
@@ -1014,11 +1026,14 @@
   <data name="lblReqFreq.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblReqFreq.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="lblReqFreq.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 113</value>
+    <value>175, 113</value>
   </data>
   <data name="lblReqFreq.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 16</value>
   </data>
   <data name="lblReqFreq.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -1041,11 +1056,14 @@
   <data name="label16.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label16.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 113</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 13</value>
+    <value>109, 16</value>
   </data>
   <data name="label16.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -1069,13 +1087,13 @@
     <value>True</value>
   </data>
   <data name="lblConnected.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt, style=Bold, Underline</value>
+    <value>Microsoft Sans Serif, 9.75pt, style=Bold, Underline</value>
   </data>
   <data name="lblConnected.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 38</value>
+    <value>175, 38</value>
   </data>
   <data name="lblConnected.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 13</value>
+    <value>103, 16</value>
   </data>
   <data name="lblConnected.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1099,13 +1117,13 @@
     <value>True</value>
   </data>
   <data name="label8.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 38</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 13</value>
+    <value>118, 16</value>
   </data>
   <data name="label8.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -1135,13 +1153,10 @@
     <value>299, 23</value>
   </data>
   <data name="lbldbMargin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 31</value>
+    <value>0, 31</value>
   </data>
   <data name="lbldbMargin.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
-  </data>
-  <data name="lbldbMargin.Text" xml:space="preserve">
-    <value>D9.9</value>
   </data>
   <data name="&gt;&gt;lbldbMargin.Name" xml:space="preserve">
     <value>lbldbMargin</value>
@@ -1158,11 +1173,14 @@
   <data name="lblFreqCar.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblFreqCar.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="lblFreqCar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 326</value>
+    <value>175, 274</value>
   </data>
   <data name="lblFreqCar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 16</value>
   </data>
   <data name="lblFreqCar.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -1185,11 +1203,14 @@
   <data name="label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label21.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 326</value>
+    <value>18, 274</value>
   </data>
   <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 13</value>
+    <value>155, 16</value>
   </data>
   <data name="label21.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -1212,11 +1233,14 @@
   <data name="lblBer.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblBer.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="lblBer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 298</value>
+    <value>175, 246</value>
   </data>
   <data name="lblBer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 16</value>
   </data>
   <data name="lblBer.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -1239,11 +1263,14 @@
   <data name="label19.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label19.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 298</value>
+    <value>18, 246</value>
   </data>
   <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 13</value>
+    <value>35, 16</value>
   </data>
   <data name="label19.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -1266,11 +1293,14 @@
   <data name="lblLPDCError.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblLPDCError.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="lblLPDCError.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 272</value>
+    <value>175, 220</value>
   </data>
   <data name="lblLPDCError.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 16</value>
   </data>
   <data name="lblLPDCError.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -1293,11 +1323,14 @@
   <data name="label17.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label17.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 272</value>
+    <value>18, 220</value>
   </data>
   <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 13</value>
+    <value>125, 16</value>
   </data>
   <data name="label17.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -1320,11 +1353,14 @@
   <data name="lblModcod.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblModcod.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="lblModcod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 246</value>
+    <value>175, 194</value>
   </data>
   <data name="lblModcod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 16</value>
   </data>
   <data name="lblModcod.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -1347,11 +1383,14 @@
   <data name="label15.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 246</value>
+    <value>18, 194</value>
   </data>
   <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 13</value>
+    <value>61, 16</value>
   </data>
   <data name="label15.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -1374,11 +1413,14 @@
   <data name="lblSR.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblSR.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="lblSR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 219</value>
+    <value>175, 167</value>
   </data>
   <data name="lblSR.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 16</value>
   </data>
   <data name="lblSR.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -1401,11 +1443,14 @@
   <data name="label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label13.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 219</value>
+    <value>18, 167</value>
   </data>
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 13</value>
+    <value>89, 16</value>
   </data>
   <data name="label13.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1425,122 +1470,17 @@
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="lblPower_q.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblPower_q.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 191</value>
-  </data>
-  <data name="lblPower_q.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
-  </data>
-  <data name="lblPower_q.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="lblPower_q.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblPower_q.Name" xml:space="preserve">
-    <value>lblPower_q</value>
-  </data>
-  <data name="&gt;&gt;lblPower_q.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPower_q.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;lblPower_q.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 191</value>
-  </data>
-  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 13</value>
-  </data>
-  <data name="label11.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>Power Q</value>
-  </data>
-  <data name="&gt;&gt;label11.Name" xml:space="preserve">
-    <value>label11</value>
-  </data>
-  <data name="&gt;&gt;label11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="lblpower_i.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblpower_i.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 165</value>
-  </data>
-  <data name="lblpower_i.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
-  </data>
-  <data name="lblpower_i.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="lblpower_i.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblpower_i.Name" xml:space="preserve">
-    <value>lblpower_i</value>
-  </data>
-  <data name="&gt;&gt;lblpower_i.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblpower_i.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;lblpower_i.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
-  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 165</value>
-  </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 13</value>
-  </data>
-  <data name="label9.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Power I:</value>
-  </data>
-  <data name="&gt;&gt;label9.Name" xml:space="preserve">
-    <value>label9</value>
-  </data>
-  <data name="&gt;&gt;label9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>18</value>
-  </data>
   <data name="lblLnaGain.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblLnaGain.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="lblLnaGain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 140</value>
+    <value>175, 140</value>
   </data>
   <data name="lblLnaGain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 16</value>
   </data>
   <data name="lblLnaGain.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1558,16 +1498,19 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;lblLnaGain.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>15</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="label7.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 140</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 13</value>
+    <value>68, 16</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1585,16 +1528,19 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>16</value>
   </data>
   <data name="lblMer.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblMer.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="lblMer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 89</value>
+    <value>175, 89</value>
   </data>
   <data name="lblMer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 16</value>
   </data>
   <data name="lblMer.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1612,16 +1558,19 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;lblMer.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>17</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 89</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+    <value>37, 16</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1639,16 +1588,19 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>18</value>
   </data>
   <data name="lblDemoState.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblDemoState.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
   <data name="lblDemoState.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 64</value>
+    <value>175, 64</value>
   </data>
   <data name="lblDemoState.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>15, 16</value>
   </data>
   <data name="lblDemoState.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1666,16 +1618,19 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;lblDemoState.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>19</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="label4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 64</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 13</value>
+    <value>93, 16</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1693,13 +1648,16 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>20</value>
+  </data>
+  <data name="groupBox1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 6</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 354</value>
+    <value>393, 310</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>

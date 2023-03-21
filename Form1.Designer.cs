@@ -83,10 +83,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.lblSR = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.lblPower_q = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.lblpower_i = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.lblLnaGain = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lblMer = new System.Windows.Forms.Label();
@@ -402,10 +398,6 @@
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.lblSR);
             this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.lblPower_q);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.lblpower_i);
-            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.lblLnaGain);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.lblMer);
@@ -493,26 +485,6 @@
             // 
             resources.ApplyResources(this.label13, "label13");
             this.label13.Name = "label13";
-            // 
-            // lblPower_q
-            // 
-            resources.ApplyResources(this.lblPower_q, "lblPower_q");
-            this.lblPower_q.Name = "lblPower_q";
-            // 
-            // label11
-            // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
-            // 
-            // lblpower_i
-            // 
-            resources.ApplyResources(this.lblpower_i, "lblpower_i");
-            this.lblpower_i.Name = "lblpower_i";
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
             // 
             // lblLnaGain
             // 
@@ -763,10 +735,6 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lblSR;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label lblPower_q;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label lblpower_i;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label lblLnaGain;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblMer;
