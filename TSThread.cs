@@ -56,6 +56,7 @@ namespace opentuner
 
                 while (true)
                 {
+
                     if (status_queue.Count() > 0 )
                     {
                         while (status_queue.TryDequeue(out nim_status))
@@ -81,6 +82,7 @@ namespace opentuner
                                 bufferingData = true;
                             }
 
+                            Thread.Sleep(50);
 
                         }
                     }
@@ -128,8 +130,10 @@ namespace opentuner
                     }
                     */
 
-                    }
+                    //Thread.Sleep(20);
+
                 }
+            }
             catch (ThreadAbortException)
             {
                 Console.WriteLine("TS Thread: Closing ");

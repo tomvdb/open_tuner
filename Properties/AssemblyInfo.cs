@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("opentuner")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Open Tuner")]
+[assembly: AssemblyDescription("Frontend for Minitiouner Variants")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("opentuner")]
-[assembly: AssemblyCopyright("Copyright ©  2023")]
+[assembly: AssemblyCompany("Amateur Radio - ZR6TG")]
+[assembly: AssemblyProduct("Open Tuner")]
+[assembly: AssemblyCopyright("Copyright ©  2023 - Tom Van den Bon")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

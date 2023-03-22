@@ -199,6 +199,10 @@ namespace opentuner
                             }
                         }
                     }
+                    else
+                    {
+                        Thread.Sleep(100);
+                    }
                     
 
                 }

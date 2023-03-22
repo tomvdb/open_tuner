@@ -70,5 +70,41 @@ namespace opentuner.Properties {
                 this["enable_qo100_spectrum"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int language {
+            get {
+                return ((int)(this["language"]));
+            }
+            set {
+                this["language"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int tuner2_default_lo {
+            get {
+                return ((int)(this["tuner2_default_lo"]));
+            }
+            set {
+                this["tuner2_default_lo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int default_volume {
+            get {
+                return ((int)(this["default_volume"]));
+            }
+            set {
+                this["default_volume"] = value;
+            }
+        }
     }
 }

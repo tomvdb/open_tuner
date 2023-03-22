@@ -296,7 +296,7 @@ namespace opentuner
                     else
                     {
                         get_nim_status();
-                        Thread.Sleep(20);
+                        Thread.Sleep(200);
                     }
                 }
             }

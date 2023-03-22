@@ -30,12 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(settingsForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtDefaultLO2 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.comboDefaultLNB = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtDefaultLO = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -54,23 +56,35 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.txtDefaultLO2);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.comboDefaultLNB);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtDefaultLO);
             this.groupBox1.Controls.Add(this.label1);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
+            // txtDefaultLO2
+            // 
+            resources.ApplyResources(this.txtDefaultLO2, "txtDefaultLO2");
+            this.txtDefaultLO2.Name = "txtDefaultLO2";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
             // comboDefaultLNB
             // 
+            resources.ApplyResources(this.comboDefaultLNB, "comboDefaultLNB");
             this.comboDefaultLNB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDefaultLNB.FormattingEnabled = true;
             this.comboDefaultLNB.Items.AddRange(new object[] {
             resources.GetString("comboDefaultLNB.Items"),
             resources.GetString("comboDefaultLNB.Items1"),
             resources.GetString("comboDefaultLNB.Items2")});
-            resources.ApplyResources(this.comboDefaultLNB, "comboDefaultLNB");
             this.comboDefaultLNB.Name = "comboDefaultLNB";
             // 
             // label2
@@ -90,21 +104,25 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.comboBox2);
-            this.groupBox2.Controls.Add(this.label3);
             resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Controls.Add(this.comboLanguage);
+            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
-            // comboBox2
+            // comboLanguage
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.comboBox2, "comboBox2");
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            resources.GetString("comboBox2.Items")});
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            resources.ApplyResources(this.comboLanguage, "comboLanguage");
+            this.comboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboLanguage.FormattingEnabled = true;
+            this.comboLanguage.Items.AddRange(new object[] {
+            resources.GetString("comboLanguage.Items"),
+            resources.GetString("comboLanguage.Items1"),
+            resources.GetString("comboLanguage.Items2"),
+            resources.GetString("comboLanguage.Items3"),
+            resources.GetString("comboLanguage.Items4")});
+            this.comboLanguage.Name = "comboLanguage";
+            this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -113,10 +131,10 @@
             // 
             // groupBox3
             // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.button1);
             this.groupBox3.Controls.Add(this.txtSnapshotPath);
             this.groupBox3.Controls.Add(this.label4);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -140,8 +158,8 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.checkEnableSpectrum);
             resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.checkEnableSpectrum);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -207,7 +225,6 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;
@@ -218,5 +235,8 @@
         public System.Windows.Forms.TextBox txtDefaultLO;
         public System.Windows.Forms.TextBox txtSnapshotPath;
         private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.ComboBox comboLanguage;
+        public System.Windows.Forms.TextBox txtDefaultLO2;
+        private System.Windows.Forms.Label label6;
     }
 }

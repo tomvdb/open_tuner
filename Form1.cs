@@ -71,6 +71,7 @@ namespace opentuner
         public string prop_service_name { set { this.lblServiceName.Text = value; } }
         public string prop_service_provider_name { set { this.lblServiceProvider.Text = value; } }
         public string prop_null_packets { set { this.lblNullPackets.Text = value; } }
+        public int prop_null_packets_bar { set { this.nullPacketsBar.Value = value; } }
 
         // media status properties
         public string prop_media_video_codec { set { this.lblVideoCodec.Text = value; } }
@@ -131,7 +132,10 @@ namespace opentuner
         string setting_snapshot_path = "";
         bool setting_enable_spectrum = true;
         byte setting_default_lnb_supply = 0;    // 0 - off, 1 - vert, 2 - horiz
-        int setting_default_lo_value = 0;
+        int setting_default_lo_value_1 = 0;
+        int setting_default_lo_value_2 = 0;
+        int setting_default_volume = 100;
+        int setting_language = 0;    
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
@@ -189,6 +193,7 @@ namespace opentuner
                 gui.prop_service_name = new_status.ServiceName;
                 gui.prop_service_provider_name = new_status.ServiceProvider;
                 gui.prop_null_packets = new_status.NullPacketsPerc.ToString() + "%";
+                gui.prop_null_packets_bar = Convert.ToInt32(new_status.NullPacketsPerc);
             }
 
         }
@@ -261,6 +266,30 @@ namespace opentuner
         }
         public Form1()
         {
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+            load_settings();
+
+            if (setting_language > 0)
+            {
+                switch(setting_language)
+                {
+                    case 1: Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+                        break;
+                    case 2:
+                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("ja-JP");
+                        break;
+                    case 3:
+                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("it-IT");
+                        break;
+                    case 4:
+                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("nl-NL");
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
+
             InitializeComponent();
         }
 
@@ -378,6 +407,10 @@ namespace opentuner
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // save current volume as default volume
+            Properties.Settings.Default.default_volume = trackVolume.Value;
+            Properties.Settings.Default.Save();
+
             stop_video();
 
             if (mediaInput != null)
@@ -507,10 +540,27 @@ namespace opentuner
         {
             NimConfig newConfig = new NimConfig();
 
+            if (lo > freq)
+            {
+                lblFreqError.Text = "Invalid LO:" + lo.ToString();
+                return;
+            }
+
             newConfig.frequency = freq - lo;
             newConfig.symbol_rate = sr;
             newConfig.polarization_supply = current_enable_lnb_supply;
             newConfig.polarization_supply_horizontal = current_enable_horiz_supply;
+
+            if (newConfig.frequency < 144000 || newConfig.frequency > 2450000)
+            {
+                debug("Error: Invalid Frequency: " + newConfig.frequency);
+                lblFreqError.Text = "Invalid:" + newConfig.frequency.ToString();
+                return;
+            }
+            else
+            {
+                lblFreqError.Text = "";
+            }
 
             debug("Main: New Config: " + newConfig.ToString());
 
@@ -914,26 +964,34 @@ namespace opentuner
 
         private void load_settings()
         {
+            // warning: don't use the debug function in this function as it gets called before components are initialized
+
+            Console.WriteLine("System Culture Setting: " + CultureInfo.CurrentCulture.Name);
+
             Properties.Settings.Default.Reload();
 
             setting_default_lnb_supply = Properties.Settings.Default.default_lnb_supply;
-            setting_default_lo_value = Properties.Settings.Default.tuner1_default_lo;
+            setting_default_lo_value_1 = Properties.Settings.Default.tuner1_default_lo;
+            setting_default_lo_value_2 = Properties.Settings.Default.tuner2_default_lo;
             setting_enable_spectrum = Properties.Settings.Default.enable_qo100_spectrum;
             setting_snapshot_path = Properties.Settings.Default.media_snapshot_path;
+            setting_language = Properties.Settings.Default.language;
+            setting_default_volume = Properties.Settings.Default.default_volume;
+        }
 
-            debug("Settings: Default LO: " + setting_default_lo_value.ToString());
-            txtLO.Text = setting_default_lo_value.ToString();
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            debug("System Culture Setting: " + CultureInfo.CurrentCulture.Name);
+            debug("Settings: Restore Last Volume: " + setting_default_volume.ToString() + "%");
+            trackVolume.Value = setting_default_volume;
+            debug("Settings: Default LO A: " + setting_default_lo_value_1.ToString());
+            txtLO.Text = setting_default_lo_value_1.ToString();
+            debug("Settings: Default LO B: " + setting_default_lo_value_2.ToString());
 
             if (setting_snapshot_path.Length == 0)
                 setting_snapshot_path = AppDomain.CurrentDomain.BaseDirectory;
 
             debug("Settings: Snapshot Path: " + setting_snapshot_path);
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            load_settings();
 
             switch (setting_default_lnb_supply)
             {
@@ -1151,18 +1209,24 @@ namespace opentuner
         {
             settingsForm settings_form = new settingsForm();
 
-            settings_form.txtDefaultLO.Text = setting_default_lo_value.ToString();
+            settings_form.txtDefaultLO.Text = setting_default_lo_value_1.ToString();
+            settings_form.txtDefaultLO2.Text = setting_default_lo_value_2.ToString();
             settings_form.comboDefaultLNB.SelectedIndex = setting_default_lnb_supply;
             settings_form.txtSnapshotPath.Text = setting_snapshot_path;
             settings_form.checkEnableSpectrum.Checked = setting_enable_spectrum;
+            settings_form.comboLanguage.SelectedIndex = setting_language;
 
             if ( settings_form.ShowDialog() == DialogResult.OK )
             {
                 Properties.Settings.Default.default_lnb_supply = Convert.ToByte(settings_form.comboDefaultLNB.SelectedIndex);
                 Properties.Settings.Default.tuner1_default_lo = Convert.ToInt32(settings_form.txtDefaultLO.Text);
+                Properties.Settings.Default.tuner2_default_lo = Convert.ToInt32(settings_form.txtDefaultLO2.Text);
                 Properties.Settings.Default.enable_qo100_spectrum = settings_form.checkEnableSpectrum.Checked;
                 Properties.Settings.Default.media_snapshot_path = settings_form.txtSnapshotPath.Text;
 
+                setting_language = settings_form.comboLanguage.SelectedIndex;
+
+                Properties.Settings.Default.language = setting_language;
                 Properties.Settings.Default.Save();
                 
                 load_settings();
@@ -1180,10 +1244,12 @@ namespace opentuner
             if (radioRFInputA.Checked)
             {
                 change_rf_input(false);
+                txtLO.Text = setting_default_lo_value_1.ToString();
             }
             else
             {
                 change_rf_input(true);
+                txtLO.Text = setting_default_lo_value_2.ToString();
             }
         }
 
