@@ -22,6 +22,10 @@ namespace opentuner
 
         private void wbchat_Load(object sender, EventArgs e)
         {
+            //lbChat.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            //lbChat.MeasureItem += lst_MeasureItem;
+            //lbChat.DrawItem += lst_DrawItem;
+
             if (Properties.Settings.Default.chat_nick.Length > 0)
             {
                 txtNick.Text = Properties.Settings.Default.chat_nick;
@@ -273,9 +277,24 @@ namespace opentuner
             }
         }
 
-        private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
+        /*
+        private void lst_MeasureItem(object sender, MeasureItemEventArgs e)
         {
+            e.ItemHeight = (int)e.Graphics.MeasureString(lbChat.Items[e.Index].ToString(), lbChat.Font, lbChat.Width).Height;
+        }
 
+        private void lst_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            e.DrawFocusRectangle();
+            e.Graphics.DrawString(lbChat.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds);
+        }
+        */
+
+
+        private void lbChat_Resize(object sender, EventArgs e)
+        {
+            //lbChat.Refresh();
         }
     }
 }

@@ -127,6 +127,7 @@
             this.lbChat.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbChat.Size = new System.Drawing.Size(616, 408);
             this.lbChat.TabIndex = 1;
+            this.lbChat.Resize += new System.EventHandler(this.lbChat_Resize);
             // 
             // contextMenuStrip1
             // 

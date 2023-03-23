@@ -442,7 +442,7 @@ namespace opentuner
 
             if (nim_status.demod_status >= 2) locked = true;
 
-
+            updateNimStatusGui(this, nim_status);
 
             if (prevLocked != locked)
             {
@@ -470,7 +470,6 @@ namespace opentuner
                 nim_status.build_queue = ts_build_queue_flag;
             }
 
-            updateNimStatusGui(this, nim_status);
 
             // inform ts thread of whats happening
             ts_status_queue.Enqueue(nim_status);

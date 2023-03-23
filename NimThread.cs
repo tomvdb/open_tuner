@@ -271,11 +271,11 @@ namespace opentuner
                             {
                                 if (nim_config.polarization_supply)
                                 {
-                                    hardware.ftdi_set_polarization_supply(true, nim_config.polarization_supply_horizontal);
+                                    hardware.ftdi_set_polarization_supply(0, true, nim_config.polarization_supply_horizontal);
                                 }
                                 else
                                 {
-                                    hardware.ftdi_set_polarization_supply(false, false);
+                                    hardware.ftdi_set_polarization_supply(0, false, false);
                                 }
 
                             }
