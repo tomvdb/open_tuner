@@ -106,5 +106,64 @@ namespace opentuner.Properties {
                 this["default_volume"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string chat_nick {
+            get {
+                return ((string)(this["chat_nick"]));
+            }
+            set {
+                this["chat_nick"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Font wbchat_font {
+            get {
+                return ((global::System.Drawing.Font)(this["wbchat_font"]));
+            }
+            set {
+                this["wbchat_font"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int wbchat_width {
+            get {
+                return ((int)(this["wbchat_width"]));
+            }
+            set {
+                this["wbchat_width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int wbchat_height {
+            get {
+                return ((int)(this["wbchat_height"]));
+            }
+            set {
+                this["wbchat_height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool wbchat_enable {
+            get {
+                return ((bool)(this["wbchat_enable"]));
+            }
+            set {
+                this["wbchat_enable"] = value;
+            }
+        }
     }
 }

@@ -113,6 +113,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -145,19 +146,17 @@
             // 
             // splitContainer1.Panel1
             // 
-            resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
             this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
             // 
             // splitContainer1.Panel2
             // 
-            resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             // 
             // tabControl1
             // 
-            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Controls.Add(this.statusPage);
             this.tabControl1.Controls.Add(this.debugPage);
+            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             // 
@@ -176,9 +175,9 @@
             // 
             // groupBox7
             // 
-            resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Controls.Add(this.rfRadioInputB);
             this.groupBox7.Controls.Add(this.radioRFInputA);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.TabStop = false;
             // 
@@ -200,10 +199,10 @@
             // 
             // groupBox6
             // 
-            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Controls.Add(this.radioLnbSupplyHoriz);
             this.groupBox6.Controls.Add(this.radioLnbSupplyVert);
             this.groupBox6.Controls.Add(this.radioLnbSupplyOff);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
@@ -232,12 +231,12 @@
             // 
             // groupBox5
             // 
-            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Controls.Add(this.btnSnapshot);
             this.groupBox5.Controls.Add(this.btnMute);
             this.groupBox5.Controls.Add(this.lblVolume);
             this.groupBox5.Controls.Add(this.label20);
             this.groupBox5.Controls.Add(this.trackVolume);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
@@ -267,8 +266,8 @@
             // 
             // trackVolume
             // 
-            resources.ApplyResources(this.trackVolume, "trackVolume");
             this.trackVolume.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            resources.ApplyResources(this.trackVolume, "trackVolume");
             this.trackVolume.Maximum = 200;
             this.trackVolume.Name = "trackVolume";
             this.trackVolume.Value = 100;
@@ -276,7 +275,6 @@
             // 
             // groupBox4
             // 
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.lblAudioRate);
             this.groupBox4.Controls.Add(this.label25);
             this.groupBox4.Controls.Add(this.lblAudioCodec);
@@ -285,6 +283,7 @@
             this.groupBox4.Controls.Add(this.label18);
             this.groupBox4.Controls.Add(this.lblVideoCodec);
             this.groupBox4.Controls.Add(this.label14);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -330,7 +329,6 @@
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.nullPacketsBar);
             this.groupBox3.Controls.Add(this.lblNullPackets);
             this.groupBox3.Controls.Add(this.label22);
@@ -338,6 +336,7 @@
             this.groupBox3.Controls.Add(this.lblServiceName);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label5);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -378,7 +377,6 @@
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.lblFreqError);
             this.groupBox2.Controls.Add(this.btnFrequencyChange);
             this.groupBox2.Controls.Add(this.txtSR);
@@ -387,6 +385,7 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.txtFreq);
             this.groupBox2.Controls.Add(this.label1);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -435,7 +434,6 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.lblRFInputLevel);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.lblReqFreq);
@@ -459,6 +457,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.lblDemoState);
             this.groupBox1.Controls.Add(this.label4);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -582,8 +581,8 @@
             // 
             // debugPage
             // 
-            resources.ApplyResources(this.debugPage, "debugPage");
             this.debugPage.Controls.Add(this.dbgListBox);
+            resources.ApplyResources(this.debugPage, "debugPage");
             this.debugPage.Name = "debugPage";
             this.debugPage.UseVisualStyleBackColor = true;
             // 
@@ -601,25 +600,23 @@
             // 
             // splitContainer2.Panel1
             // 
-            resources.ApplyResources(this.splitContainer2.Panel1, "splitContainer2.Panel1");
             this.splitContainer2.Panel1.Controls.Add(this.videoView1);
             // 
             // splitContainer2.Panel2
             // 
-            resources.ApplyResources(this.splitContainer2.Panel2, "splitContainer2.Panel2");
             this.splitContainer2.Panel2.Controls.Add(this.spectrum);
             // 
             // videoView1
             // 
-            resources.ApplyResources(this.videoView1, "videoView1");
             this.videoView1.BackColor = System.Drawing.Color.Black;
+            resources.ApplyResources(this.videoView1, "videoView1");
             this.videoView1.MediaPlayer = null;
             this.videoView1.Name = "videoView1";
             // 
             // spectrum
             // 
-            resources.ApplyResources(this.spectrum, "spectrum");
             this.spectrum.BackColor = System.Drawing.Color.Black;
+            resources.ApplyResources(this.spectrum, "spectrum");
             this.spectrum.Name = "spectrum";
             this.spectrum.TabStop = false;
             this.spectrum.SizeChanged += new System.EventHandler(this.spectrum_SizeChanged);
@@ -634,15 +631,15 @@
             // 
             // menuStrip1
             // 
-            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTunerToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.qO100WidebandChatToolStripMenuItem});
+            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
             // openTunerToolStripMenuItem
             // 
-            resources.ApplyResources(this.openTunerToolStripMenuItem, "openTunerToolStripMenuItem");
             this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuConnect,
             this.settingsToolStripMenuItem,
@@ -651,60 +648,67 @@
             this.toolStripMenuItem1,
             this.quitToolStripMenuItem});
             this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
+            resources.ApplyResources(this.openTunerToolStripMenuItem, "openTunerToolStripMenuItem");
             // 
             // menuConnect
             // 
-            resources.ApplyResources(this.menuConnect, "menuConnect");
             this.menuConnect.Name = "menuConnect";
+            resources.ApplyResources(this.menuConnect, "menuConnect");
             this.menuConnect.Click += new System.EventHandler(this.btnConnectTuner_Click);
             // 
             // settingsToolStripMenuItem
             // 
-            resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
             // menuFullScreen
             // 
-            resources.ApplyResources(this.menuFullScreen, "menuFullScreen");
             this.menuFullScreen.Name = "menuFullScreen";
+            resources.ApplyResources(this.menuFullScreen, "menuFullScreen");
             this.menuFullScreen.Click += new System.EventHandler(this.menuFullScreen_Click);
             // 
             // toolStripMenuItem1
             // 
-            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // quitToolStripMenuItem
             // 
-            resources.ApplyResources(this.quitToolStripMenuItem, "quitToolStripMenuItem");
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            resources.ApplyResources(this.quitToolStripMenuItem, "quitToolStripMenuItem");
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
-            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTunerWebsiteToolStripMenuItem,
             this.toolStripMenuItem3});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
             // openTunerWebsiteToolStripMenuItem
             // 
-            resources.ApplyResources(this.openTunerWebsiteToolStripMenuItem, "openTunerWebsiteToolStripMenuItem");
             this.openTunerWebsiteToolStripMenuItem.Name = "openTunerWebsiteToolStripMenuItem";
+            resources.ApplyResources(this.openTunerWebsiteToolStripMenuItem, "openTunerWebsiteToolStripMenuItem");
             this.openTunerWebsiteToolStripMenuItem.Click += new System.EventHandler(this.openTunerWebsiteToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
-            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // qO100WidebandChatToolStripMenuItem
+            // 
+            this.qO100WidebandChatToolStripMenuItem.Name = "qO100WidebandChatToolStripMenuItem";
+            resources.ApplyResources(this.qO100WidebandChatToolStripMenuItem, "qO100WidebandChatToolStripMenuItem");
+            this.qO100WidebandChatToolStripMenuItem.Click += new System.EventHandler(this.qO100WidebandChatToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -836,6 +840,7 @@
         private System.Windows.Forms.ProgressBar nullPacketsBar;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem menuFullScreen;
+        private System.Windows.Forms.ToolStripMenuItem qO100WidebandChatToolStripMenuItem;
     }
 }
 

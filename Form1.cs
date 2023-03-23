@@ -16,18 +16,14 @@ using WebSocketSharp;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Runtime.InteropServices;
-//using NAudio.CoreAudioApi;
-//using NAudio.CoreAudioApi.Interfaces;
-//using CoreAudio;
 
 namespace opentuner
 {
     public partial class Form1 : Form
     {
-        LibVLC libVLC = new LibVLC("--aout=directsound ");
+        LibVLC libVLC = new LibVLC("--aout=directsound");
         Media media;
         TSStreamMediaInput mediaInput;
-
 
         ftdi ftdi_hw = null;
         bool hardware_connected = false;
@@ -40,7 +36,6 @@ namespace opentuner
         private delegate void updateNimStatusGuiDelegate(Form1 gui, NimStatus new_status);
         private delegate void updateTSStatusGuiDelegate(Form1 gui, TSStatus new_status);
         private delegate void updateMediaStatusGuiDelegate(Form1 gui, MediaStatus new_status);
-
         private delegate void UpdateLBDelegate(ListBox LB, Object obj);
 
         // threads
@@ -49,10 +44,11 @@ namespace opentuner
         Thread ts_parser_t = null;
 
         // form properties
+        public MediaPlayer prop_media_player { get { return this.videoView1.MediaPlayer; } }
 
         // nim status properties
         public string prop_demodstate { set { this.lblDemoState.Text = value; } }
-        public string prop_mer { set { this.lblMer.Text = value; } }
+        public string prop_mer { set { this.lblMer.Text = value; } get { return this.lblMer.Text; } }
         public string prop_lnagain { set { this.lblLnaGain.Text = value; } }
         public string prop_power_i { set { /*this.lblpower_i.Text = value;*/ } }
         public string prop_power_q { set { /*this.lblPower_q.Text = value;*/ } }
@@ -60,17 +56,17 @@ namespace opentuner
         public string prop_rf_input_level { set { this.lblRFInputLevel.Text = value; } }
 
         public string prop_symbol_rate { set { this.lblSR.Text = value; } }
-        public string prop_modcod { set { this.lblModcod.Text = value; } }
+        public string prop_modcod { set { this.lblModcod.Text = value; } get { return this.lblModcod.Text; } }
         public string prop_lpdc_errors { set { this.lblLPDCError.Text = value; } }
         public string prop_ber { set { this.lblBer.Text = value; } }
         public string prop_freq_carrier_offset { set { this.lblFreqCar.Text = value; } }
-        public string prop_db_margin { set { this.lbldbMargin.Text = value; } }
+        public string prop_db_margin { set { this.lbldbMargin.Text = value; } get { return this.lbldbMargin.Text; } }
         public string prop_req_freq { set { this.lblReqFreq.Text = value; } }
 
         // ts status properties
-        public string prop_service_name { set { this.lblServiceName.Text = value; } }
-        public string prop_service_provider_name { set { this.lblServiceProvider.Text = value; } }
-        public string prop_null_packets { set { this.lblNullPackets.Text = value; } }
+        public string prop_service_name { set { this.lblServiceName.Text = value; } get { return this.lblServiceName.Text;  } }
+        public string prop_service_provider_name { set { this.lblServiceProvider.Text = value; } get { return this.lblServiceProvider.Text;  } }
+        public string prop_null_packets { set { this.lblNullPackets.Text = value; }  }
         public int prop_null_packets_bar { set { this.nullPacketsBar.Value = value; } }
 
         // media status properties
@@ -79,11 +75,12 @@ namespace opentuner
         public string prop_media_audio_codec { set { this.lblAudioCodec.Text = value; } }
         public string prop_media_audio_rate { set { this.lblAudioRate.Text = value; } }
 
+        public bool prop_isFullscreen { get { return this.isFullScreen;  } }
+
 
         // quick tune variables *********************************************************************
         private static readonly Object list_lock = new Object();
 
-        static int width = 1500;     //web monitor uses 922 points, 6 padded?
         static int height = 255;    //makes things easier
         static int bandplan_height = 30;
 
@@ -136,13 +133,23 @@ namespace opentuner
         int setting_default_lo_value_2 = 0;
         int setting_default_volume = 100;
         int setting_language = 0;
+        bool setting_enable_chatform = false;
+
+        Font setting_chat_font;
+        int setting_chat_width = 0;
+        int setting_chat_height = 0;
+
 
         bool isFullScreen = false;
+
+        private wbchat chatForm;
 
         public void toggleFullScreen()
         {
             if (isFullScreen)
             {
+                videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 0);
+
                 this.FormBorderStyle = FormBorderStyle.Sizable;
                 this.WindowState = FormWindowState.Normal;
                 menuStrip1.Visible = true;
@@ -159,6 +166,8 @@ namespace opentuner
             }
             else
             {
+                videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 1);
+
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.WindowState = FormWindowState.Maximized;
                 menuStrip1.Visible = false;
@@ -218,6 +227,8 @@ namespace opentuner
                 gui.prop_media_audio_rate = new_status.AudioRate.ToString() + " Hz, " + new_status.AudioChannels.ToString() + " channels";
             }
 
+
+
         }
 
 
@@ -234,6 +245,8 @@ namespace opentuner
                 gui.prop_service_provider_name = new_status.ServiceProvider;
                 gui.prop_null_packets = new_status.NullPacketsPerc.ToString() + "%";
                 gui.prop_null_packets_bar = Convert.ToInt32(new_status.NullPacketsPerc);
+
+                
             }
 
         }
@@ -270,6 +283,7 @@ namespace opentuner
                     gui.prop_service_provider_name = "";
                     gui.prop_service_name = "";
                     gui.prop_null_packets = "";
+                    gui.prop_null_packets_bar = 0;
 
                     gui.prop_media_audio_rate = "";
                     gui.prop_media_video_codec = "";
@@ -301,8 +315,15 @@ namespace opentuner
                 {
                 }
 
-            }
+                // vlc marquee on fullscreen
+                if (gui.isFullScreen)
+                {
+                    string marquee = lookups.demod_state_lookup[new_status.demod_status] + " - " + gui.prop_db_margin + "(" + gui.prop_mer + ") - " + gui.prop_modcod + " - " + gui.prop_service_name;
 
+                    MediaPlayer mediaPlayer = gui.prop_media_player;
+                    mediaPlayer.SetMarqueeString(VideoMarqueeOption.Text, marquee);
+                }
+            }
         }
         public Form1()
         {
@@ -459,6 +480,13 @@ namespace opentuner
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // save chat location settings
+            if (setting_enable_chatform && chatForm != null)
+            {
+                Properties.Settings.Default.wbchat_height = chatForm.Size.Width;
+                Properties.Settings.Default.wbchat_width = chatForm.Size.Height;
+            }
+
             // save current volume as default volume
             Properties.Settings.Default.default_volume = trackVolume.Value;
             Properties.Settings.Default.Save();
@@ -532,12 +560,14 @@ namespace opentuner
             videoView1.MediaPlayer.Stopped += MediaPlayer_Stopped;
             videoView1.MediaPlayer.Playing += MediaPlayer_Playing;
             videoView1.MediaPlayer.EncounteredError += MediaPlayer_EncounteredError;
-            videoView1.MediaPlayer.Vout += MediaPlayer_Vout;
+            videoView1.MediaPlayer.Vout += MediaPlayer_Vout;            
 
             videoView1.MediaPlayer.EnableMouseInput = false;
             videoView1.MediaPlayer.EnableKeyInput = false;
-            
-            videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 1);
+
+            videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Size, 20);
+            videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.X, 10);
+            videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Y, 10);
 
             //string udp_destination = "127.0.0.1:8090";
             mediaInput = new TSStreamMediaInput(ts_data_queue);
@@ -1013,6 +1043,12 @@ namespace opentuner
             setting_snapshot_path = Properties.Settings.Default.media_snapshot_path;
             setting_language = Properties.Settings.Default.language;
             setting_default_volume = Properties.Settings.Default.default_volume;
+
+            setting_chat_font = Properties.Settings.Default.wbchat_font;
+            setting_chat_width = Properties.Settings.Default.wbchat_width;
+            setting_chat_height = Properties.Settings.Default.wbchat_height;
+            setting_enable_chatform = Properties.Settings.Default.wbchat_enable;
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -1054,6 +1090,28 @@ namespace opentuner
             {
                 debug("Settings: Enable Vert Supply: " + (!current_enable_horiz_supply).ToString());
                 debug("Settings: Enable Horiz Supply: " + current_enable_horiz_supply.ToString());
+            }
+
+            if (setting_enable_chatform)
+            {
+                qO100WidebandChatToolStripMenuItem.Visible = true;
+                chatForm = new wbchat();
+
+                if (setting_chat_width > -1 && setting_chat_height > -1)
+                {
+                    chatForm.Size = new Size(setting_chat_height, setting_chat_width);
+
+                    if (setting_chat_font != null)
+                    {
+                        chatForm.lbChat.Font = setting_chat_font;
+                        chatForm.lbUsers.Font = setting_chat_font;
+                        chatForm.txtMessage.Font = setting_chat_font;
+                    }
+                }
+            }
+            else
+            {
+                qO100WidebandChatToolStripMenuItem.Visible = false;
             }
 
 
@@ -1255,14 +1313,32 @@ namespace opentuner
             settings_form.comboDefaultLNB.SelectedIndex = setting_default_lnb_supply;
             settings_form.txtSnapshotPath.Text = setting_snapshot_path;
             settings_form.checkEnableSpectrum.Checked = setting_enable_spectrum;
+            settings_form.checkEnableChat.Checked = setting_enable_chatform;
             settings_form.comboLanguage.SelectedIndex = setting_language;
+
+
+            if (setting_enable_chatform && chatForm != null)
+            {
+                settings_form.currentChatFont = chatForm.lbChat.Font;
+            }
+            else
+            {
+                if (setting_chat_font != null)
+                    settings_form.currentChatFont = setting_chat_font;
+                else
+                    settings_form.currentChatFont = label8.Font; // just making sure there is somekind of font to start off with
+            }
+
 
             if ( settings_form.ShowDialog() == DialogResult.OK )
             {
+                Properties.Settings.Default.wbchat_font = settings_form.currentChatFont;
+
                 Properties.Settings.Default.default_lnb_supply = Convert.ToByte(settings_form.comboDefaultLNB.SelectedIndex);
                 Properties.Settings.Default.tuner1_default_lo = Convert.ToInt32(settings_form.txtDefaultLO.Text);
                 Properties.Settings.Default.tuner2_default_lo = Convert.ToInt32(settings_form.txtDefaultLO2.Text);
                 Properties.Settings.Default.enable_qo100_spectrum = settings_form.checkEnableSpectrum.Checked;
+                Properties.Settings.Default.wbchat_enable = settings_form.checkEnableChat.Checked;
                 Properties.Settings.Default.media_snapshot_path = settings_form.txtSnapshotPath.Text;
 
                 setting_language = settings_form.comboLanguage.SelectedIndex;
@@ -1302,6 +1378,11 @@ namespace opentuner
         private void menuFullScreen_Click(object sender, EventArgs e)
         {
             toggleFullScreen();
+        }
+
+        private void qO100WidebandChatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chatForm.Show();
         }
     }
 

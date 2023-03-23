@@ -12,6 +12,8 @@ namespace opentuner
 {
     public partial class settingsForm : Form
     {
+        public Font currentChatFont;
+
         public settingsForm()
         {
             InitializeComponent();
@@ -38,12 +40,21 @@ namespace opentuner
             {
                 txtSnapshotPath.Text = fbd.SelectedPath + "\\";
             }
-
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
+        private void btnChatFontSetting_Click(object sender, EventArgs e)
+        {
+            FontDialog fontDialog = new FontDialog();
+
+            fontDialog.ShowEffects = false;
+            fontDialog.ShowHelp = false;
+            fontDialog.Font = currentChatFont;
+
+            if (fontDialog.ShowDialog() == DialogResult.OK)
+            {
+                currentChatFont = fontDialog.Font;
+            }
         }
     }
 }

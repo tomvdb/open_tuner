@@ -117,80 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 13</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>デフォルトローカルオシレータ (B):</value>
-  </data>
-  <data name="comboDefaultLNB.Location" type="System.Drawing.Point, System.Drawing">
-    <value>179, 89</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 13</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>デフォルトLNB電源供給:</value>
-  </data>
-  <data name="txtDefaultLO.Location" type="System.Drawing.Point, System.Drawing">
-    <value>179, 29</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 13</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>デフォルトローカルオシレータ (A):</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>チューナー設定</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 13</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>言語:</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>設定一般</value>
-  </data>
-  <data name="txtSnapshotPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>145, 27</value>
-  </data>
-  <data name="txtSnapshotPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 20</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>129, 13</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>メディアスナップショットパス:</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>メディア設定</value>
-  </data>
-  <data name="checkEnableSpectrum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 17</value>
-  </data>
-  <data name="checkEnableSpectrum.Text" xml:space="preserve">
-    <value>BATC ワイドバンドスペクトラム表示</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>オスカー１００スペシフィック</value>
-  </data>
-  <data name="button2.Text" xml:space="preserve">
-    <value>アップデート</value>
-  </data>
-  <data name="button3.Text" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 13</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>いくつかの設定はアプリケーションの再起動後有効です</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>設定</value>
-  </data>
+  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>133, 17</value>
+  </metadata>
 </root>
