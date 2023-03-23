@@ -117,7 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="statusPage.Text" xml:space="preserve">
+    <value>Stato</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="rfRadioInputB.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 21</value>
+  </data>
+  <data name="rfRadioInputB.Text" xml:space="preserve">
+    <value>B (Sotto)</value>
+  </data>
+  <data name="radioRFInputA.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 21</value>
+  </data>
+  <data name="radioRFInputA.Text" xml:space="preserve">
+    <value>A (Sopra)</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Alimentazione LNB</value>
+  </data>
   <data name="radioLnbSupplyHoriz.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 21</value>
   </data>
@@ -136,8 +154,8 @@
   <data name="radioLnbSupplyOff.Text" xml:space="preserve">
     <value>Spento</value>
   </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Alimentazione LNB</value>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Controllo Media</value>
   </data>
   <data name="btnSnapshot.Text" xml:space="preserve">
     <value>Istantanea</value>
@@ -145,8 +163,8 @@
   <data name="btnMute.Text" xml:space="preserve">
     <value>Silenziamento</value>
   </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Controllo Media</value>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Stato Media</value>
   </data>
   <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 17</value>
@@ -172,8 +190,8 @@
   <data name="label14.Text" xml:space="preserve">
     <value>Codifica Video:</value>
   </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Stato Media</value>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Stato Transport Stream</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 17</value>
@@ -193,8 +211,8 @@
   <data name="label5.Text" xml:space="preserve">
     <value>Nome Servizio:</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Stato Transport Stream</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Controllo Sintonia</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 17</value>
@@ -202,8 +220,8 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Frequenza: </value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Controllo Sintonia</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Stato NIM</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 16</value>
@@ -250,14 +268,14 @@
   <data name="label4.Text" xml:space="preserve">
     <value>Stato Demodulazione: </value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Stato NIM</value>
-  </data>
-  <data name="statusPage.Text" xml:space="preserve">
-    <value>Stato</value>
-  </data>
   <data name="debugPage.Text" xml:space="preserve">
     <value>Controllo Errori</value>
+  </data>
+  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 20</value>
+  </data>
+  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Azioni</value>
   </data>
   <data name="menuConnect.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 22</value>
@@ -279,12 +297,6 @@
   </data>
   <data name="quitToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Spegni</value>
-  </data>
-  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
-  </data>
-  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Azioni</value>
   </data>
   <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 20</value>

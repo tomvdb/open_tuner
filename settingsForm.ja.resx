@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="textBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>179, 55</value>
-  </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>154, 13</value>
   </data>
@@ -144,6 +141,9 @@
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>デフォルトローカルオシレータ (A):</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>チューナー設定</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>設定一般</value>

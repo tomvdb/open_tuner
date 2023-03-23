@@ -284,6 +284,9 @@ namespace opentuner
                     case 4:
                         Thread.CurrentThread.CurrentUICulture = new CultureInfo("nl-NL");
                         break;
+                    case 5:
+                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("pl-PL");
+                        break;
                     default:
                         break;
                 }

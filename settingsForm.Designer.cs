@@ -120,7 +120,8 @@
             resources.GetString("comboLanguage.Items1"),
             resources.GetString("comboLanguage.Items2"),
             resources.GetString("comboLanguage.Items3"),
-            resources.GetString("comboLanguage.Items4")});
+            resources.GetString("comboLanguage.Items4"),
+            resources.GetString("comboLanguage.Items5")});
             this.comboLanguage.Name = "comboLanguage";
             this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 

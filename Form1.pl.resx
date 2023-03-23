@@ -119,19 +119,16 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioLnbSupplyHoriz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 21</value>
+    <value>119, 21</value>
   </data>
   <data name="radioLnbSupplyHoriz.Text" xml:space="preserve">
     <value>Pozioma (18V)</value>
   </data>
   <data name="radioLnbSupplyVert.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 21</value>
+    <value>118, 21</value>
   </data>
   <data name="radioLnbSupplyVert.Text" xml:space="preserve">
     <value>Pionowa (13V)</value>
-  </data>
-  <data name="radioLnbSupplyOff.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 21</value>
   </data>
   <data name="radioLnbSupplyOff.Text" xml:space="preserve">
     <value>Od</value>
@@ -149,25 +146,22 @@
     <value>Sterowanie multimediami</value>
   </data>
   <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 17</value>
+    <value>142, 17</value>
   </data>
   <data name="label25.Text" xml:space="preserve">
     <value>Przepływność Audio :</value>
-  </data>
-  <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 17</value>
   </data>
   <data name="label27.Text" xml:space="preserve">
     <value>Kodek Audio:</value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 17</value>
+    <value>142, 17</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
     <value>Rozdzielczość Video:</value>
   </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 17</value>
+    <value>96, 17</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
     <value>Kodek Wideo:</value>
@@ -176,19 +170,19 @@
     <value>Status Multimediów</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 17</value>
+    <value>97, 17</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
     <value>Puste pakiety:</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 17</value>
+    <value>73, 17</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Dostawca:</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 17</value>
+    <value>107, 17</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Nazwa Serwisu:</value>
@@ -197,7 +191,7 @@
     <value>Stan przesyłu strumienia</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 17</value>
+    <value>100, 17</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Częstotliwość: </value>
@@ -206,13 +200,13 @@
     <value>Kontrola strojenia</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 16</value>
+    <value>163, 16</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
     <value>Wymagana częstotliwość:</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 16</value>
+    <value>110, 16</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Stan połączenia:</value>
@@ -221,31 +215,31 @@
     <value>238, 299</value>
   </data>
   <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 16</value>
+    <value>283, 16</value>
   </data>
   <data name="label21.Text" xml:space="preserve">
     <value>Przemieszczenie częstotliwości nośnej (offset):</value>
   </data>
   <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 16</value>
+    <value>144, 16</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
     <value>Liczba błędów  LDPC :</value>
   </data>
   <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 16</value>
+    <value>107, 16</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
     <value>Typ kodowania :</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 16</value>
+    <value>69, 16</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Zysk LNA:</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 16</value>
+    <value>118, 16</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Stan demodulacji: </value>
@@ -260,34 +254,34 @@
     <value>Kontrola błędów</value>
   </data>
   <data name="menuConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
+    <value>168, 22</value>
   </data>
   <data name="menuConnect.Text" xml:space="preserve">
     <value>&amp;Połączenie</value>
   </data>
   <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
+    <value>168, 22</value>
   </data>
   <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Ustawienia ...</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 6</value>
+    <value>165, 6</value>
   </data>
   <data name="quitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
+    <value>168, 22</value>
   </data>
   <data name="quitToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Zamknij</value>
   </data>
   <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
+    <value>48, 20</value>
   </data>
   <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Akcje</value>
   </data>
   <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
+    <value>57, 20</value>
   </data>
   <data name="helpToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Pomoc</value>
