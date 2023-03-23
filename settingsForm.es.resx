@@ -117,191 +117,83 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="statusPage.Text" xml:space="preserve">
-    <value>Stato</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="rfRadioInputB.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 21</value>
+  <data name="txtDefaultLO2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>195, 55</value>
   </data>
-  <data name="rfRadioInputB.Text" xml:space="preserve">
-    <value>B (Sotto)</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 13</value>
   </data>
-  <data name="radioRFInputA.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 21</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>LO predeterminado B:</value>
   </data>
-  <data name="radioRFInputA.Text" xml:space="preserve">
-    <value>A (Sopra)</value>
+  <data name="comboDefaultLNB.Location" type="System.Drawing.Point, System.Drawing">
+    <value>195, 89</value>
   </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Alimentazione LNB</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 13</value>
   </data>
-  <data name="radioLnbSupplyHoriz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 21</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Suministro de LNB predeterminado:</value>
   </data>
-  <data name="radioLnbSupplyHoriz.Text" xml:space="preserve">
-    <value>Orrizontale (18V)</value>
-  </data>
-  <data name="radioLnbSupplyVert.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 21</value>
-  </data>
-  <data name="radioLnbSupplyVert.Text" xml:space="preserve">
-    <value>Verticale(13V)</value>
-  </data>
-  <data name="radioLnbSupplyOff.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 21</value>
-  </data>
-  <data name="radioLnbSupplyOff.Text" xml:space="preserve">
-    <value>Spento</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Controllo Media</value>
-  </data>
-  <data name="btnSnapshot.Text" xml:space="preserve">
-    <value>Foto Istantanea</value>
-  </data>
-  <data name="btnMute.Text" xml:space="preserve">
-    <value>Silenziamento</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Stato Media</value>
-  </data>
-  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 17</value>
-  </data>
-  <data name="label25.Text" xml:space="preserve">
-    <value>Frequenza Audio :</value>
-  </data>
-  <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 17</value>
-  </data>
-  <data name="label27.Text" xml:space="preserve">
-    <value>Codifica Audio:</value>
-  </data>
-  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 17</value>
-  </data>
-  <data name="label18.Text" xml:space="preserve">
-    <value>Risoluzione Video:</value>
-  </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 17</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Codifica Video:</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Stato Transport Stream</value>
-  </data>
-  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 17</value>
-  </data>
-  <data name="label22.Text" xml:space="preserve">
-    <value>Pacchetti Nulli:</value>
-  </data>
-  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 17</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>Provider:</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 17</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Nome Servizio:</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Controllo Sintonia</value>
+  <data name="txtDefaultLO.Location" type="System.Drawing.Point, System.Drawing">
+    <value>195, 29</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 17</value>
+    <value>110, 13</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Frequenza: </value>
+    <value>LO predeterminado A:</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>Stato NIM</value>
+    <value>Configuración del sintonizador</value>
   </data>
-  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 16</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Configuración general</value>
   </data>
-  <data name="label16.Text" xml:space="preserve">
-    <value>Frequenza Richiesta:</value>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 13</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 16</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Idioma:</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Stato Connessione:</value>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Configuración de medios</value>
   </data>
-  <data name="lblFreqCar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>238, 299</value>
+  <data name="txtSnapshotPath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>176, 27</value>
   </data>
-  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 16</value>
-  </data>
-  <data name="label21.Text" xml:space="preserve">
-    <value>Spostamento Frequenza Portante :</value>
-  </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 16</value>
-  </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>Conteggio errori  LDPC :</value>
-  </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 16</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>Tipo Codifica :</value>
-  </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 16</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Guadagno LNA:</value>
+  <data name="txtSnapshotPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 20</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 16</value>
+    <value>169, 13</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Stato Demodulazione: </value>
+    <value>Ruta de la instantánea multimedia:</value>
   </data>
-  <data name="debugPage.Text" xml:space="preserve">
-    <value>Controllo Errori</value>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>QO-100 Específico</value>
   </data>
-  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
+  <data name="checkEnableSpectrum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 17</value>
   </data>
-  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Azioni</value>
+  <data name="checkEnableSpectrum.Text" xml:space="preserve">
+    <value>Habilitar espectro de banda ancha BATC</value>
   </data>
-  <data name="menuConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
+  <data name="button2.Text" xml:space="preserve">
+    <value>Actualizar</value>
   </data>
-  <data name="menuConnect.Text" xml:space="preserve">
-    <value>&amp;Connetti</value>
+  <data name="button3.Text" xml:space="preserve">
+    <value>&amp;Cancelar</value>
   </data>
-  <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>448, 13</value>
   </data>
-  <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Impostazioni ...</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Nota: Algunas de estas configuraciones solo tendrán efecto después de reiniciar la aplicación</value>
   </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 6</value>
-  </data>
-  <data name="quitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
-  </data>
-  <data name="quitToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Spegni</value>
-  </data>
-  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
-  </data>
-  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Aiuto</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Ajustes</value>
   </data>
 </root>

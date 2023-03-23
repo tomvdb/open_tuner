@@ -131,8 +131,11 @@
   <data name="&gt;&gt;label11.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="lblBer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 271</value>
+  <data name="&gt;&gt;rfRadioInputB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 6</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -146,8 +149,8 @@
   <data name="lblAudioRate.Text" xml:space="preserve">
     <value> </value>
   </data>
-  <data name="&gt;&gt;videoView1.Name" xml:space="preserve">
-    <value>videoView1</value>
+  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="lblMer.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -167,9 +170,8 @@
   <data name="lblAudioCodec.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="videoView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label21.Text" xml:space="preserve">
     <value>Frequency Carrier Offset:</value>
@@ -177,8 +179,8 @@
   <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="lblAudioCodec.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 78</value>
+  <data name="&gt;&gt;lblAudioCodec.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>RF Input Level :</value>
@@ -210,11 +212,8 @@
   <data name="openTunerWebsiteToolStripMenuItem.Text" xml:space="preserve">
     <value>Open Tuner Updates</value>
   </data>
-  <data name="&gt;&gt;lblAudioCodec.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="dbgListBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="&gt;&gt;lblMer.Name" xml:space="preserve">
+    <value>lblMer</value>
   </data>
   <data name="lblLnaGain.Text" xml:space="preserve">
     <value>0</value>
@@ -243,11 +242,17 @@
   <data name="txtLO.Text" xml:space="preserve">
     <value>9750000</value>
   </data>
+  <data name="&gt;&gt;lblServiceName.Name" xml:space="preserve">
+    <value>lblServiceName</value>
+  </data>
   <data name="lblAudioCodec.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
     <value>groupBox1</value>
+  </data>
+  <data name="menuFullScreen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
   </data>
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -327,14 +332,11 @@
   <data name="label8.Text" xml:space="preserve">
     <value>Connection Status:</value>
   </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;label19.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label16.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Offset :</value>
@@ -342,8 +344,8 @@
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="lblConnected.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="menuStrip1.Text" xml:space="preserve">
+    <value>menuStrip1</value>
   </data>
   <data name="btnMute.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 35</value>
@@ -369,9 +371,6 @@
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>20</value>
   </data>
-  <data name="&gt;&gt;lblRFInputLevel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;lblNullPackets.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
@@ -384,8 +383,11 @@
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>22</value>
   </data>
-  <data name="&gt;&gt;label21.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Name" xml:space="preserve">
+    <value>splitContainer1</value>
   </data>
   <data name="&gt;&gt;groupBox7.Parent" xml:space="preserve">
     <value>statusPage</value>
@@ -408,8 +410,8 @@
   <data name="&gt;&gt;btnSnapshot.Parent" xml:space="preserve">
     <value>groupBox5</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Frequency: </value>
+  <data name="&gt;&gt;dbgListBox.Parent" xml:space="preserve">
+    <value>debugPage</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -426,6 +428,9 @@
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
+  <data name="&gt;&gt;txtLO.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;label14.Name" xml:space="preserve">
     <value>label14</value>
   </data>
@@ -438,14 +443,11 @@
   <data name="lblReqFreq.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;trackVolume.Name" xml:space="preserve">
-    <value>trackVolume</value>
+  <data name="&gt;&gt;lblVideoCodec.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="&gt;&gt;statusPage.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Demod State: </value>
@@ -458,9 +460,6 @@
   </data>
   <data name="&gt;&gt;lblVideoResolution.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblNullPackets.Text" xml:space="preserve">
     <value>100 %</value>
@@ -540,8 +539,8 @@
   <data name="txtSR.Location" type="System.Drawing.Point, System.Drawing">
     <value>111, 82</value>
   </data>
-  <data name="&gt;&gt;dbgListBox.Parent" xml:space="preserve">
-    <value>debugPage</value>
+  <data name="lblAudioCodec.Location" type="System.Drawing.Point, System.Drawing">
+    <value>168, 78</value>
   </data>
   <data name="&gt;&gt;lblFreqError.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -570,14 +569,14 @@
   <data name="&gt;&gt;groupBox6.Parent" xml:space="preserve">
     <value>statusPage</value>
   </data>
-  <data name="menuStrip1.Text" xml:space="preserve">
-    <value>menuStrip1</value>
+  <data name="lblSR.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label10.Name" xml:space="preserve">
     <value>label10</value>
   </data>
-  <data name="&gt;&gt;lblVideoResolution.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+  <data name="&gt;&gt;lblConnected.Name" xml:space="preserve">
+    <value>lblConnected</value>
   </data>
   <data name="&gt;&gt;settingsToolStripMenuItem.Name" xml:space="preserve">
     <value>settingsToolStripMenuItem</value>
@@ -627,9 +626,6 @@
   <data name="label8.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
   </data>
-  <data name="lblModcod.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
-  </data>
   <data name="&gt;&gt;label5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -648,11 +644,11 @@
   <data name="dbgListBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Panel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
+  </data>
+  <data name="lblVideoResolution.Size" type="System.Drawing.Size, System.Drawing">
+    <value>12, 17</value>
   </data>
   <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 78</value>
@@ -678,6 +674,7 @@
   <data name="&gt;&gt;btnMute.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="lblRFInputLevel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -708,14 +705,14 @@
   <data name="label11.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
-  <data name="&gt;&gt;lblConnected.Name" xml:space="preserve">
-    <value>lblConnected</value>
-  </data>
-  <data name="lblNullPackets.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;radioLnbSupplyOff.Parent" xml:space="preserve">
+    <value>groupBox6</value>
   </data>
   <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
     <value>menuStrip1</value>
+  </data>
+  <data name="lblNullPackets.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -786,9 +783,6 @@
   <data name="&gt;&gt;videoView1.Parent" xml:space="preserve">
     <value>splitContainer2.Panel1</value>
   </data>
-  <data name="lblServiceName.Text" xml:space="preserve">
-    <value> </value>
-  </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
     <value>16</value>
   </data>
@@ -801,8 +795,8 @@
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>
   </data>
-  <data name="lblVideoResolution.Size" type="System.Drawing.Size, System.Drawing">
-    <value>12, 17</value>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
   <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 299</value>
@@ -810,8 +804,8 @@
   <data name="lblConnected.Text" xml:space="preserve">
     <value>Disconnected</value>
   </data>
-  <data name="videoView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1283, 686</value>
+  <data name="&gt;&gt;toolStripMenuItem3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
     <value>Null Packets:</value>
@@ -852,12 +846,6 @@
   <data name="&gt;&gt;label18.Name" xml:space="preserve">
     <value>label18</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Name" xml:space="preserve">
-    <value>splitContainer1</value>
-  </data>
-  <data name="&gt;&gt;lblVideoCodec.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="rfRadioInputB.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 21</value>
   </data>
@@ -888,6 +876,9 @@
   <data name="&gt;&gt;lbldbMargin.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;label19.Name" xml:space="preserve">
     <value>label19</value>
   </data>
@@ -902,6 +893,9 @@
   </data>
   <data name="txtLO.Location" type="System.Drawing.Point, System.Drawing">
     <value>111, 57</value>
+  </data>
+  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
   </data>
   <data name="label15.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -920,9 +914,6 @@
   </data>
   <data name="lblVideoCodec.Size" type="System.Drawing.Size, System.Drawing">
     <value>12, 17</value>
-  </data>
-  <data name="lbldbMargin.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
   </data>
   <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
     <value>S&amp;ettings ...</value>
@@ -969,6 +960,9 @@
   <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
     <value>92, 17</value>
   </data>
+  <data name="videoView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
@@ -981,8 +975,8 @@
   <data name="lblConnected.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 38</value>
   </data>
-  <data name="&gt;&gt;lblModcod.ZOrder" xml:space="preserve">
-    <value>13</value>
+  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
+    <value>toolStripMenuItem1</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -1002,8 +996,8 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value> NIM Status </value>
   </data>
-  <data name="&gt;&gt;lblMer.Name" xml:space="preserve">
-    <value>lblMer</value>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 165</value>
   </data>
   <data name="&gt;&gt;label13.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -1026,8 +1020,8 @@
   <data name="&gt;&gt;lblVolume.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="statusPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>428, 922</value>
+  <data name="&gt;&gt;splitContainer1.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;lbldbMargin.Name" xml:space="preserve">
     <value>lbldbMargin</value>
@@ -1065,9 +1059,6 @@
   <data name="&gt;&gt;label18.Parent" xml:space="preserve">
     <value>groupBox4</value>
   </data>
-  <data name="&gt;&gt;txtLO.Name" xml:space="preserve">
-    <value>txtLO</value>
-  </data>
   <data name="&gt;&gt;lblSR.Name" xml:space="preserve">
     <value>lblSR</value>
   </data>
@@ -1078,13 +1069,16 @@
     <value>groupBox4</value>
   </data>
   <data name="quitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 17</value>
   </data>
   <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label13.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1110,6 +1104,9 @@
   <data name="&gt;&gt;openTunerWebsiteToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="radioLnbSupplyVert.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
   <data name="&gt;&gt;radioLnbSupplyOff.Name" xml:space="preserve">
     <value>radioLnbSupplyOff</value>
   </data>
@@ -1118,6 +1115,9 @@
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>Media Status</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;spectrum.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -1142,6 +1142,9 @@
   </data>
   <data name="label18.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
     <value>Media Control</value>
@@ -1173,17 +1176,11 @@
   <data name="&gt;&gt;btnSnapshot.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="lblSR.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblReqFreq.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
   <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
     <value>155, 16</value>
-  </data>
-  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
   </data>
   <data name="&gt;&gt;lblSR.ZOrder" xml:space="preserve">
     <value>15</value>
@@ -1206,11 +1203,11 @@
   <data name="groupBox4.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10pt</value>
   </data>
+  <data name="menuFullScreen.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F11</value>
+  </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
-  </data>
-  <data name="radioLnbSupplyOff.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 21</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1221,8 +1218,8 @@
   <data name="radioLnbSupplyVert.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 17</value>
+  <data name="&gt;&gt;groupBox7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="groupBox7.Text" xml:space="preserve">
     <value>RF Input</value>
@@ -1248,8 +1245,8 @@
   <data name="&gt;&gt;splitContainer2.Panel1.Parent" xml:space="preserve">
     <value>splitContainer2</value>
   </data>
-  <data name="debugPage.Text" xml:space="preserve">
-    <value>Debug</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Frequency: </value>
   </data>
   <data name="radioLnbSupplyHoriz.TabIndex" type="System.Int32, mscorlib">
     <value>47</value>
@@ -1268,9 +1265,6 @@
   </data>
   <data name="&gt;&gt;lblLPDCError.Name" xml:space="preserve">
     <value>lblLPDCError</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
-    <value>toolStripMenuItem1</value>
   </data>
   <data name="&gt;&gt;websocketTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1299,8 +1293,14 @@
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
+  <data name="&gt;&gt;lblModcod.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 624</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="nullPacketsBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>228, 81</value>
@@ -1329,17 +1329,20 @@
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
-    <value>groupBox2</value>
+  <data name="&gt;&gt;txtLO.Name" xml:space="preserve">
+    <value>txtLO</value>
   </data>
   <data name="&gt;&gt;lblLPDCError.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="lblVolume.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 17</value>
+  <data name="lblFreqError.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 162</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 6</value>
+    <value>177, 6</value>
+  </data>
+  <data name="&gt;&gt;menuFullScreen.Name" xml:space="preserve">
+    <value>menuFullScreen</value>
   </data>
   <data name="lblBer.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -1347,8 +1350,8 @@
   <data name="&gt;&gt;lblBer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;openTunerToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1401,14 +1404,20 @@
   <data name="statusPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;lblRFInputLevel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblBer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 271</value>
   </data>
   <data name="&gt;&gt;websocketTimer.Name" xml:space="preserve">
     <value>websocketTimer</value>
   </data>
   <data name="&gt;&gt;lblServiceName.Parent" xml:space="preserve">
     <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label21.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblDemoState.Text" xml:space="preserve">
     <value>0</value>
@@ -1445,6 +1454,9 @@
   </data>
   <data name="&gt;&gt;videoView1.Type" xml:space="preserve">
     <value>LibVLCSharp.WinForms.VideoView, LibVLCSharp.WinForms, Version=3.6.7.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="menuFullScreen.Text" xml:space="preserve">
+    <value>Fullscreen</value>
   </data>
   <data name="&gt;&gt;btnSnapshot.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1497,14 +1509,17 @@
   <data name="lblBer.Size" type="System.Drawing.Size, System.Drawing">
     <value>15, 16</value>
   </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="radioRFInputA.Text" xml:space="preserve">
     <value>A (Top)</value>
   </data>
   <data name="lblSR.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 192</value>
   </data>
-  <data name="lblDemoState.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
+  <data name="lbldbMargin.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
   </data>
   <data name="lblDemoState.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 64</value>
@@ -1521,8 +1536,11 @@
   <data name="lblRFInputLevel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;lblServiceName.Name" xml:space="preserve">
-    <value>lblServiceName</value>
+  <data name="btnSnapshot.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblDemoState.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 245</value>
@@ -1575,8 +1593,8 @@
   <data name="label27.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="btnSnapshot.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="videoView1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1283, 686</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -1628,6 +1646,9 @@
   </data>
   <data name="&gt;&gt;lblVideoCodec.Parent" xml:space="preserve">
     <value>groupBox4</value>
+  </data>
+  <data name="label17.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="&gt;&gt;txtSR.Name" xml:space="preserve">
     <value>txtSR</value>
@@ -1701,11 +1722,8 @@
   <data name="trackVolume.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="radioLnbSupplyVert.TabIndex" type="System.Int32, mscorlib">
-    <value>46</value>
-  </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 165</value>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -1713,17 +1731,17 @@
   <data name="&gt;&gt;lblAudioRate.Name" xml:space="preserve">
     <value>lblAudioRate</value>
   </data>
+  <data name="lblConnected.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="dbgListBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="&gt;&gt;lblReqFreq.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="label11.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lblModcod.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="&gt;&gt;lblFreqCar.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -1818,9 +1836,6 @@
   <data name="&gt;&gt;btnMute.Name" xml:space="preserve">
     <value>btnMute</value>
   </data>
-  <data name="&gt;&gt;rfRadioInputB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
@@ -1851,8 +1866,8 @@
   <data name="lblVideoCodec.Text" xml:space="preserve">
     <value> </value>
   </data>
-  <data name="label16.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="radioLnbSupplyOff.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 21</value>
   </data>
   <data name="&gt;&gt;splitContainer2.Panel1.Name" xml:space="preserve">
     <value>splitContainer2.Panel1</value>
@@ -1860,8 +1875,8 @@
   <data name="lblRFInputLevel.Text" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;lblReqFreq.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 64</value>
   </data>
   <data name="&gt;&gt;radioLnbSupplyOff.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -1869,11 +1884,8 @@
   <data name="&gt;&gt;lblReqFreq.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;radioLnbSupplyOff.Parent" xml:space="preserve">
-    <value>groupBox6</value>
-  </data>
   <data name="menuConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="lblLPDCError.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 245</value>
@@ -1896,8 +1908,11 @@
   <data name="lblFreqCar.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
-  <data name="&gt;&gt;groupBox7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 17</value>
+  </data>
+  <data name="lblVolume.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 17</value>
   </data>
   <data name="&gt;&gt;lblVolume.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -1916,6 +1931,9 @@
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>5</value>
+  </data>
+  <data name="&gt;&gt;lblVideoResolution.Parent" xml:space="preserve">
+    <value>groupBox4</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
     <value>393, 128</value>
@@ -1943,9 +1961,6 @@
   </data>
   <data name="&gt;&gt;txtFreq.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
     <value>Requested Freq:</value>
@@ -2004,11 +2019,8 @@
   <data name="&gt;&gt;lblAudioCodec.Parent" xml:space="preserve">
     <value>groupBox4</value>
   </data>
-  <data name="lblFreqError.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 162</value>
-  </data>
-  <data name="trackVolume.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 56</value>
+  <data name="&gt;&gt;splitContainer1.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="spectrum.Size" type="System.Drawing.Size, System.Drawing">
     <value>1283, 258</value>
@@ -2022,8 +2034,8 @@
   <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 83</value>
   </data>
-  <data name="btnSnapshot.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 35</value>
+  <data name="debugPage.Text" xml:space="preserve">
+    <value>Debug</value>
   </data>
   <data name="&gt;&gt;txtLO.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2037,11 +2049,14 @@
   <data name="trackVolume.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 45</value>
   </data>
+  <data name="&gt;&gt;menuFullScreen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="lblFreqError.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10pt, style=Bold</value>
   </data>
-  <data name="label17.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
+  <data name="dbgListBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="radioLnbSupplyOff.TabIndex" type="System.Int32, mscorlib">
     <value>45</value>
@@ -2085,8 +2100,8 @@
   <data name="radioLnbSupplyVert.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 21</value>
   </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lblServiceName.Text" xml:space="preserve">
+    <value> </value>
   </data>
   <data name="&gt;&gt;txtSR.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2109,9 +2124,6 @@
   <data name="lblMer.Text" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 64</value>
-  </data>
   <data name="lblLnaGain.Size" type="System.Drawing.Size, System.Drawing">
     <value>15, 16</value>
   </data>
@@ -2123,6 +2135,9 @@
   </data>
   <data name="menuConnect.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Alt+C</value>
+  </data>
+  <data name="statusPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>428, 922</value>
   </data>
   <data name="lblAudioRate.Location" type="System.Drawing.Point, System.Drawing">
     <value>168, 100</value>
@@ -2146,7 +2161,7 @@
     <value>118, 16</value>
   </data>
   <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="label25.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2178,14 +2193,17 @@
   <data name="&gt;&gt;groupBox6.Name" xml:space="preserve">
     <value>groupBox6</value>
   </data>
-  <data name="&gt;&gt;txtLO.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;videoView1.Name" xml:space="preserve">
+    <value>videoView1</value>
   </data>
   <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 17</value>
   </data>
   <data name="&gt;&gt;label19.Parent" xml:space="preserve">
     <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;trackVolume.Name" xml:space="preserve">
+    <value>trackVolume</value>
   </data>
   <data name="&gt;&gt;label20.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2201,6 +2219,9 @@
   </data>
   <data name="label16.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
+  </data>
+  <data name="btnSnapshot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 35</value>
   </data>
   <data name="label20.Text" xml:space="preserve">
     <value>Volume: </value>
@@ -2237,6 +2258,9 @@
   </data>
   <data name="splitContainer2.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
+  </data>
+  <data name="trackVolume.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 56</value>
   </data>
   <data name="lblLPDCError.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2279,9 +2303,6 @@
   </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>157, 17</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>de</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

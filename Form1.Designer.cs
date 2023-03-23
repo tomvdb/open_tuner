@@ -106,6 +106,8 @@
             this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFullScreen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -644,6 +646,8 @@
             this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuConnect,
             this.settingsToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.menuFullScreen,
             this.toolStripMenuItem1,
             this.quitToolStripMenuItem});
             this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
@@ -659,6 +663,17 @@
             resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            // 
+            // menuFullScreen
+            // 
+            resources.ApplyResources(this.menuFullScreen, "menuFullScreen");
+            this.menuFullScreen.Name = "menuFullScreen";
+            this.menuFullScreen.Click += new System.EventHandler(this.menuFullScreen_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -819,6 +834,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblFreqError;
         private System.Windows.Forms.ProgressBar nullPacketsBar;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem menuFullScreen;
     }
 }
 

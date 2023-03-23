@@ -24,7 +24,7 @@ namespace opentuner
 {
     public partial class Form1 : Form
     {
-        LibVLC libVLC = new LibVLC("--aout=directsound");
+        LibVLC libVLC = new LibVLC("--aout=directsound ");
         Media media;
         TSStreamMediaInput mediaInput;
 
@@ -135,7 +135,47 @@ namespace opentuner
         int setting_default_lo_value_1 = 0;
         int setting_default_lo_value_2 = 0;
         int setting_default_volume = 100;
-        int setting_language = 0;    
+        int setting_language = 0;
+
+        bool isFullScreen = false;
+
+        public void toggleFullScreen()
+        {
+            if (isFullScreen)
+            {
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+                this.WindowState = FormWindowState.Normal;
+                menuStrip1.Visible = true;
+                splitContainer1.Panel1Collapsed = false;
+                splitContainer1.Panel1.Enabled = true;
+
+                if (setting_enable_spectrum)
+                {
+                    splitContainer2.Panel2Collapsed = false;
+                    splitContainer1.Panel2.Enabled = true;
+                }
+
+                isFullScreen = false;
+            }
+            else
+            {
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.WindowState = FormWindowState.Maximized;
+                menuStrip1.Visible = false;
+
+                // hide status
+                splitContainer1.Panel1Collapsed = true;
+                splitContainer1.Panel1.Enabled = false;
+
+                // hide spectrum
+                if (setting_enable_spectrum)
+                {
+                    splitContainer2.Panel2Collapsed = true;
+                    splitContainer1.Panel2.Enabled = false;
+                }
+                isFullScreen = true;
+            }
+        }
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
@@ -287,6 +327,12 @@ namespace opentuner
                     case 5:
                         Thread.CurrentThread.CurrentUICulture = new CultureInfo("pl-PL");
                         break;
+                    case 6:
+                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
+                        break;
+                    case 7:
+                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-EN");
+                        break;
                     default:
                         break;
                 }
@@ -375,6 +421,8 @@ namespace opentuner
 
             if (nim_status.demod_status >= 2) locked = true;
 
+
+
             if (prevLocked != locked)
             {
                 Console.WriteLine("Lock State Change: " + prevLocked.ToString() + "->" + locked.ToString());
@@ -400,11 +448,12 @@ namespace opentuner
             {
                 nim_status.build_queue = ts_build_queue_flag;
             }
-            
+
             updateNimStatusGui(this, nim_status);
 
             // inform ts thread of whats happening
             ts_status_queue.Enqueue(nim_status);
+
 
         }
 
@@ -484,13 +533,28 @@ namespace opentuner
             videoView1.MediaPlayer.Playing += MediaPlayer_Playing;
             videoView1.MediaPlayer.EncounteredError += MediaPlayer_EncounteredError;
             videoView1.MediaPlayer.Vout += MediaPlayer_Vout;
-            
-            mediaInput = new TSStreamMediaInput(ts_data_queue);
-            media = new Media(libVLC, mediaInput);
 
-            MediaConfiguration mediaConfig = new MediaConfiguration();
+            videoView1.MediaPlayer.EnableMouseInput = false;
+            videoView1.MediaPlayer.EnableKeyInput = false;
+            
+            videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 1);
+
+            //string udp_destination = "127.0.0.1:8090";
+            mediaInput = new TSStreamMediaInput(ts_data_queue);
+            //media = new Media(libVLC, mediaInput, ":sout-keep", ":sout=#duplicate{dst=display, dst=std{access=udp, mux=ts, dst=" + udp_destination + "}}" );
+            media = new Media(libVLC, mediaInput /*,  ":sout-keep", ":sout=#duplicate{dst=display, dst=std{access=udp, mux=ts, dst=" + udp_destination + "}}" */);
+
+            MediaConfiguration mediaConfig = new MediaConfiguration();            
             mediaConfig.EnableHardwareDecoding = false;
             media.AddOption(mediaConfig);
+            /*
+            media.AddOption(":sout-keep");
+            media.AddOption(":sout=#duplicate{dst=display, dst=std{access=udp, mux=ts, dst=" + udp_destination + "}}");
+            media.AddOption(":no-overlay");
+            //media.AddOption(":sout=#std{access=udp, mux=ts, dst=" + udp_destination + "}");
+            */
+
+
 
             // temporary to prevent multiple connection attempts
             // todo: deal with this properly
@@ -589,7 +653,6 @@ namespace opentuner
             debug("Main: New Config: " + newConfig.ToString());
 
             config_queue.Enqueue(newConfig);
-
         }
 
         void change_rf_input(bool rf_input_b)
@@ -831,36 +894,6 @@ namespace opentuner
         public void spectrum_MouseMove(object sender, MouseEventArgs e)
         {
             get_bandplan_TX_freq(e.X, e.Y);  // dh3cs
-
-            /*
-            //detect mouse over channel, tooltip info
-            int n = 0;
-            if (e.Y > (spectrum.Height - bandplan_height))
-            {
-                if (channels != null)
-                {
-                    foreach (Rectangle ch in channels)
-                    {
-                        if (e.X >= ch.Location.X & e.X <= ch.Location.X + ch.Width)
-                        {
-                            if (e.Y - (spectrum.Height - bandplan_height) >= ch.Location.Y - (ch.Height / 2) + 3 & e.Y - (spectrum.Height - bandplan_height) <= ch.Location.Y + (ch.Height / 2) + 3)
-                            {
-                                InfoText = "SR: " + indexedbandplan[n].Element("name").Value + " Dn: " + indexedbandplan[n].Element("x-freq").Value + " Up: " + indexedbandplan[n].Element("s-freq").Value;
-                            }
-
-                        }
-                        n++;
-                    }
-                }
-            }
-            else
-            {
-                if (InfoText != "")
-                {
-                    InfoText = "";
-                }
-            }
-            */
         }
 
         // moved to separate function, to use by right click in spectrum,  dh3cs 
@@ -1173,22 +1206,27 @@ namespace opentuner
 
         private void radioLnbSupply_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioLnbSupplyOff.Checked)
+            if (((RadioButton)sender).Checked)  // all the radio buttons will fire this event, only run once for the checked event
             {
-                change_lnb_supply(false, false);
-                return;
-            }
+                stop_video();
 
-            if (radioLnbSupplyHoriz.Checked)
-            {
-                change_lnb_supply(true, true);
-                return;
-            }
+                if (radioLnbSupplyOff.Checked)
+                {
+                    change_lnb_supply(false, false);
+                    return;
+                }
 
-            if (radioLnbSupplyVert.Checked)
-            {
-                change_lnb_supply(true, false);
-                return;
+                if (radioLnbSupplyHoriz.Checked)
+                {
+                    change_lnb_supply(true, true);
+                    return;
+                }
+
+                if (radioLnbSupplyVert.Checked)
+                {
+                    change_lnb_supply(true, false);
+                    return;
+                }
             }
 
         }
@@ -1205,7 +1243,7 @@ namespace opentuner
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
+            Application.Exit();
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1244,20 +1282,27 @@ namespace opentuner
 
         private void radioRFInput_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioRFInputA.Checked)
+            if (((RadioButton)sender).Checked)  // all the radio buttons will fire this event, only run once for the checked event
             {
-                change_rf_input(false);
-                txtLO.Text = setting_default_lo_value_1.ToString();
-            }
-            else
-            {
-                change_rf_input(true);
-                txtLO.Text = setting_default_lo_value_2.ToString();
+                stop_video();
+
+                if (radioRFInputA.Checked)
+                {
+                    change_rf_input(false);
+                    txtLO.Text = setting_default_lo_value_1.ToString();
+                }
+                else
+                {
+                    change_rf_input(true);
+                    txtLO.Text = setting_default_lo_value_2.ToString();
+                }
             }
         }
 
-
-
+        private void menuFullScreen_Click(object sender, EventArgs e)
+        {
+            toggleFullScreen();
+        }
     }
 
 

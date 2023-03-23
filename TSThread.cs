@@ -39,14 +39,15 @@ namespace opentuner
             {
                 Console.WriteLine("TS Thread: Starting...");
 
-                
                 /*
-                IPEndPoint ipep = new IPEndPoint(IPAddress.Any, 9050);
+                IPEndPoint ipep = new IPEndPoint(IPAddress.Any, 12000);
                 UdpClient newsock = new UdpClient(ipep);
-                IPEndPoint dest = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9050);
+                IPEndPoint dest = new IPEndPoint(IPAddress.Parse("192.168.0.105"), 12000);
                 */
-                
 
+                //IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12000);
+                //UdpClient newsock = new UdpClient();
+                //newsock.Connect(ipep);
 
 
                 NimStatus nim_status = null;
@@ -108,7 +109,7 @@ namespace opentuner
                             parser_ts_data_queue.Enqueue(data[c]);
                         }
 
-                        //newsock.Send(data, Convert.ToInt32(dataRead), dest);
+                        //newsock.Send(data, Convert.ToInt32(dataRead));
                     }
 
                     /*
