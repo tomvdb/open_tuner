@@ -223,6 +223,8 @@ namespace opentuner
                     {
                         while (config_queue.TryDequeue(out nim_config))
                         {
+                            Thread.Sleep(10);
+
                             Console.WriteLine("Init Nim");
                             byte err = _nim.nim_init();
 

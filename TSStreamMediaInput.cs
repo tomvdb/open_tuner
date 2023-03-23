@@ -13,12 +13,14 @@ namespace opentuner
     {
 
         ConcurrentQueue<byte> ts_data_queue;
+        bool ts_sync = false;
 
         public TSStreamMediaInput(ConcurrentQueue<byte> _ts_data_queue )
         {
             // we can't seek live data
             CanSeek = false;
             ts_data_queue = _ts_data_queue;
+
         }
 
         public override bool Open(out ulong size)
@@ -80,7 +82,16 @@ namespace opentuner
                     if (ts_data_queue.TryDequeue(out raw_ts_data))
                     {
                         //vlc_data[counter++] = raw_ts_data.rawTSData[0];
-                        vlc_data[counter++] = raw_ts_data;
+
+                        if (ts_sync == false && raw_ts_data != 0x47)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            ts_sync = true;
+                            vlc_data[counter++] = raw_ts_data;
+                        }
                     }
                 }
 
