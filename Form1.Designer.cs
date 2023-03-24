@@ -364,6 +364,7 @@
             // 
             resources.ApplyResources(this.lblServiceName, "lblServiceName");
             this.lblServiceName.Name = "lblServiceName";
+            this.lblServiceName.TextChanged += new System.EventHandler(this.lblServiceName_TextChanged);
             // 
             // label10
             // 

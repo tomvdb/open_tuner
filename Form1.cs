@@ -1383,6 +1383,29 @@ namespace opentuner
         {
             chatForm.Show();
         }
+
+        private void lblServiceName_TextChanged(object sender, EventArgs e)
+        {
+            if (setting_enable_spectrum)
+            {
+                // we have decoded a callsign
+                string callsign = lblServiceName.Text;
+                int offset = 0;
+
+                Int32.TryParse(txtLO.Text, out offset);
+
+                if (callsign.Length > 0)
+                {
+                    double freq = current_frequency + offset;
+                    freq = freq / 1000;
+                    float sr = current_sr;
+
+                    debug("New Callsign: " + callsign + "," + freq.ToString() + "," + sr.ToString());
+                    sigs.updateCurrentSignal(callsign, freq, sr);
+
+                }
+            }
+        }
     }
 
 
