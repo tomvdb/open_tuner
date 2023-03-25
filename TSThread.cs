@@ -17,23 +17,66 @@ namespace opentuner
     public class TSThread
     {
         ftdi hardware;
-        ConcurrentQueue<NimStatus> status_queue;
 
-        ConcurrentQueue<byte> raw_ts_data_queue = null;
-        ConcurrentQueue<byte> parser_ts_data_queue = null;
+        //ConcurrentQueue<byte> raw_ts_data_queue = null;
+        //ConcurrentQueue<byte> parser_ts_data_queue = null;
 
-        public TSThread(ftdi _hardware, ConcurrentQueue<NimStatus> _status_queue,  ConcurrentQueue<byte> _raw_ts_data_queue, ConcurrentQueue<byte> _parser_ts_data_queue)
+        NimThread nim_thread = null;
+
+        bool prev_locked_status = false;
+        bool locked = false;
+        bool ts_build_queue = false;
+
+        private List<ConcurrentQueue<byte>> registered_consumers = new List<ConcurrentQueue<byte>>();
+
+        public TSThread(ftdi _hardware, ConcurrentQueue<byte> _raw_ts_data_queue, NimThread _nim_thread)
         {
+            Console.WriteLine(" >> Starting TS Thread <<");
+
             hardware = _hardware;
-            status_queue = _status_queue;
-            raw_ts_data_queue = _raw_ts_data_queue;
-            parser_ts_data_queue = _parser_ts_data_queue;
+            //raw_ts_data_queue = _raw_ts_data_queue;
+            //parser_ts_data_queue = _parser_ts_data_queue;
+            nim_thread = _nim_thread;
+
+            nim_thread.onNewStatus += Nim_thread_onNewStatus;
+
+            Console.WriteLine(" >> Registering Raw TS Queue << ");
+            registered_consumers.Add(_raw_ts_data_queue);
+        }
+
+        public void RegisterTSConsumer(ConcurrentQueue<byte> raw_ts_data_queue)
+        {
+            Console.WriteLine(" >> Registering New Queue << ");
+            registered_consumers.Add(raw_ts_data_queue);
+        }
+
+        private void Nim_thread_onNewStatus(object sender, StatusEvent e)
+        {
+            //Console.WriteLine("New Nim Status");
+            //Console.WriteLine(e.nim_status.demod_status);
+
+            if (e.nim_status.demod_status >= 2) locked = true;
+
+            if (prev_locked_status != locked)
+            {
+                if (e.nim_status.demod_status >=2 )
+                {
+                    ts_build_queue = true;
+                }
+                else
+                {
+                    ts_build_queue = false;
+                }
+            }
+
+            prev_locked_status = locked;
         }
 
         public void worker_thread()
         {
             //BinaryWriter binWriter = null;
             bool bufferingData = false;
+            Console.WriteLine(">> Starting TS Worked Thread <<");
 
             try
             {
@@ -60,11 +103,32 @@ namespace opentuner
 
                 while (true)
                 {
+                    if (ts_build_queue == false)
+                    {
+                        bufferingData = false;
+                    }
 
+                    if (ts_build_queue == true && bufferingData == false)
+                    {
+                        // clear out the queue first
+                        Console.WriteLine("Clearing out TS Queue");
+
+                        while (registered_consumers[0].Count() > 0)
+                        {
+                            registered_consumers[0].TryDequeue(out raw_data);
+                        }
+
+                        Console.WriteLine("Done... starting buffering");
+
+                        bufferingData = true;
+                    }
+
+                    /*
                     if (status_queue.Count() > 0 )
                     {
                         while (status_queue.TryDequeue(out nim_status))
                         {
+                            
                             // no demod active, throw away ts data received, if any
                             if (nim_status.build_queue == false)
                             {
@@ -73,23 +137,14 @@ namespace opentuner
 
                             if (nim_status.build_queue == true && bufferingData == false)   // if we are locked
                             {
-                                // clear out the queue first
-                                Console.WriteLine("Clearing out TS Queue");
-
-                                while (raw_ts_data_queue.Count() > 0)
-                                {
-                                    raw_ts_data_queue.TryDequeue(out raw_data);
-                                }
-
-                                Console.WriteLine("Done... starting buffering");
-
-                                bufferingData = true;
+                        
                             }
 
                             Thread.Sleep(50);
 
                         }
                     }
+                    */
                            
                     uint dataRead = 0;
                     //Console.WriteLine("TSThread: Reading TS Data");
@@ -105,8 +160,11 @@ namespace opentuner
                             //raw_ts_data.rawTSData = new byte[1];
                             //raw_ts_data.rawTSData[0] = data[c];
                             //raw_ts_data.datalen = 1;
-                            raw_ts_data_queue.Enqueue(data[c]);
-                            parser_ts_data_queue.Enqueue(data[c]);
+                            for (int consumers = 0; consumers < registered_consumers.Count; consumers++)
+                            {
+                                registered_consumers[consumers].Enqueue(data[c]);
+                                //parser_ts_data_queue.Enqueue(data[c]);
+                            }
                         }
 
                         //newsock.Send(data, Convert.ToInt32(dataRead));

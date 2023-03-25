@@ -27,6 +27,8 @@ namespace opentuner
         bool lna_bottom_ok = false;
         bool reset = false;
 
+        public event EventHandler<StatusEvent> onNewStatus;
+
         public NimThread(ConcurrentQueue<NimConfig> _config_queue, ftdi _hardware, NimStatusCallback _status_callback)
         {
             hardware = _hardware;
@@ -193,8 +195,17 @@ namespace opentuner
                 nim_status.pilots = false;
             }
 
+            if (onNewStatus != null)
+            {
+                StatusEvent new_nim_status = new StatusEvent();
+                new_nim_status.nim_status = nim_status;
+                onNewStatus(this, new_nim_status);
+            }
+
+
             // send status callback if available
             status_callback?.Invoke(nim_status);
+
 
             reset = false;
 
@@ -203,6 +214,8 @@ namespace opentuner
 
         public void worker_thread()
         {
+            int hw_errors = 0;
+
             try
             {
 
@@ -235,12 +248,20 @@ namespace opentuner
                                 Console.WriteLine("Init Demod");
                                 err = _stv0910.stv0910_init(nim_config.symbol_rate, 0);
                             }
+                            else
+                            {
+                                Console.WriteLine("Error before Demod");
+                            }
 
                             // init tuner
                             if (err == 0)
                             {
                                 Console.WriteLine("Init Tuner");
                                 err = _stv6120.stv6120_init(nim_config.frequency, 0, nim_config.rf_input_B);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Error before Tuner");
                             }
 
                             // init lna - if found
@@ -250,6 +271,10 @@ namespace opentuner
                                 lna_top_ok = false;
                                 err = stvvglna_top.stvvglna_init(nim.NIM_INPUT_TOP, stvvglna.STVVGLNA_ON, ref lna_top_ok);
                             }
+                            else
+                            {
+                                Console.WriteLine("Error before Lna Top");
+                            }
 
                             // init lna - if found
                             if (err == 0)
@@ -258,12 +283,21 @@ namespace opentuner
                                 lna_bottom_ok = false;
                                 err = stvvglna_bottom.stvvglna_init(nim.NIM_INPUT_BOTTOM, stvvglna.STVVGLNA_OFF, ref lna_bottom_ok);
                             }
+                            else
+                            {
+                                Console.WriteLine("Error before Lna Bottom");
+                            }
+
 
                             // demod - start scan
                             if (err == 0)
                             {
                                 Console.WriteLine("Demod Start Scan");
                                 err = _stv0910.stv0910_start_scan(stv0910.STV0910_DEMOD_TOP);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Error before demod scan");
                             }
 
                             // lnb power supply
@@ -279,12 +313,21 @@ namespace opentuner
                                 }
 
                             }
+                            else
+                            {
+                                Console.WriteLine("Error lnb pwer");
+                            }
 
                             // done, if we have errors, then exit thread
                             if (err != 0)
                             {
-                                Console.WriteLine("Nim Thread: Hardware Error: " + err.ToString());
-                                return;
+                                Console.WriteLine("****** Nim Thread: Hardware Error: " + err.ToString() + " ******");
+                                hw_errors += 1;
+                                if (hw_errors > 5)
+                                {
+                                    Console.WriteLine("Too many hardware errors");
+                                    return;
+                                }
                             }
                             else
                             {
@@ -309,5 +352,10 @@ namespace opentuner
 
         }
 
+    }
+
+    public class StatusEvent : EventArgs
+    {
+        public NimStatus nim_status { get; set; }
     }
 }

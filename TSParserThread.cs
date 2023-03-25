@@ -25,13 +25,13 @@ namespace opentuner
 
         TSDataCallback ts_data_callback = null;
 
-            ConcurrentQueue<byte> parser_ts_data_queue = null;
+        ConcurrentQueue<byte> parser_ts_data_queue = null;
 
-            public TSParserThread(TSDataCallback _ts_data_callback,  ConcurrentQueue<byte> _parser_ts_data_queue)
-            {
-                ts_data_callback = _ts_data_callback;
-                parser_ts_data_queue = _parser_ts_data_queue;
-            }
+        public TSParserThread(TSDataCallback _ts_data_callback,  ConcurrentQueue<byte> _parser_ts_data_queue)
+        {
+            ts_data_callback = _ts_data_callback;
+            parser_ts_data_queue = _parser_ts_data_queue;
+        }
 
         public void worker_thread()
         {

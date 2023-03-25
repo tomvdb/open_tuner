@@ -129,6 +129,120 @@
   <data name="statusPage.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="radioSpectrumTuneAutoHold.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioSpectrumTuneAutoHold.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radioSpectrumTuneAutoHold.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 85</value>
+  </data>
+  <data name="radioSpectrumTuneAutoHold.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 21</value>
+  </data>
+  <data name="radioSpectrumTuneAutoHold.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="radioSpectrumTuneAutoHold.Text" xml:space="preserve">
+    <value>Auto (Hold)</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneAutoHold.Name" xml:space="preserve">
+    <value>radioSpectrumTuneAutoHold</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneAutoHold.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneAutoHold.Parent" xml:space="preserve">
+    <value>groupBox8</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneAutoHold.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="radioSpectrumTuneAutoTimed.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioSpectrumTuneAutoTimed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radioSpectrumTuneAutoTimed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 58</value>
+  </data>
+  <data name="radioSpectrumTuneAutoTimed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 21</value>
+  </data>
+  <data name="radioSpectrumTuneAutoTimed.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="radioSpectrumTuneAutoTimed.Text" xml:space="preserve">
+    <value>Auto (Timed)</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneAutoTimed.Name" xml:space="preserve">
+    <value>radioSpectrumTuneAutoTimed</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneAutoTimed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneAutoTimed.Parent" xml:space="preserve">
+    <value>groupBox8</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneAutoTimed.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="radioSpectrumTuneManual.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioSpectrumTuneManual.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 31</value>
+  </data>
+  <data name="radioSpectrumTuneManual.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 21</value>
+  </data>
+  <data name="radioSpectrumTuneManual.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="radioSpectrumTuneManual.Text" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneManual.Name" xml:space="preserve">
+    <value>radioSpectrumTuneManual</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneManual.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneManual.Parent" xml:space="preserve">
+    <value>groupBox8</value>
+  </data>
+  <data name="&gt;&gt;radioSpectrumTuneManual.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox8.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt</value>
+  </data>
+  <data name="groupBox8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 999</value>
+  </data>
+  <data name="groupBox8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>393, 118</value>
+  </data>
+  <data name="groupBox8.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Spectrum Control</value>
+  </data>
+  <data name="&gt;&gt;groupBox8.Name" xml:space="preserve">
+    <value>groupBox8</value>
+  </data>
+  <data name="&gt;&gt;groupBox8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox8.Parent" xml:space="preserve">
+    <value>statusPage</value>
+  </data>
+  <data name="&gt;&gt;groupBox8.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="rfRadioInputB.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -190,7 +304,7 @@
     <value>Microsoft Sans Serif, 10pt</value>
   </data>
   <data name="groupBox7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 831</value>
+    <value>221, 725</value>
   </data>
   <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
     <value>183, 100</value>
@@ -211,7 +325,7 @@
     <value>statusPage</value>
   </data>
   <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="radioLnbSupplyHoriz.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -307,10 +421,10 @@
     <value>Microsoft Sans Serif, 10pt</value>
   </data>
   <data name="groupBox6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 831</value>
+    <value>221, 624</value>
   </data>
   <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 100</value>
+    <value>184, 100</value>
   </data>
   <data name="groupBox6.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
@@ -328,10 +442,121 @@
     <value>statusPage</value>
   </data>
   <data name="&gt;&gt;groupBox6.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblrecordIndication.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblrecordIndication.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt, style=Bold</value>
+  </data>
+  <data name="lblrecordIndication.Location" type="System.Drawing.Point, System.Drawing">
+    <value>364, 110</value>
+  </data>
+  <data name="lblrecordIndication.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 20</value>
+  </data>
+  <data name="lblrecordIndication.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="lblrecordIndication.Text" xml:space="preserve">
+    <value>R</value>
+  </data>
+  <data name="lblrecordIndication.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblrecordIndication.Name" xml:space="preserve">
+    <value>lblrecordIndication</value>
+  </data>
+  <data name="&gt;&gt;lblrecordIndication.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblrecordIndication.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblrecordIndication.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkRecordAll.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkRecordAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 94</value>
+  </data>
+  <data name="checkRecordAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 21</value>
+  </data>
+  <data name="checkRecordAll.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="checkRecordAll.Text" xml:space="preserve">
+    <value>Record All</value>
+  </data>
+  <data name="&gt;&gt;checkRecordAll.Name" xml:space="preserve">
+    <value>checkRecordAll</value>
+  </data>
+  <data name="&gt;&gt;checkRecordAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkRecordAll.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;checkRecordAll.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="checkUDPEnable.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkUDPEnable.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 122</value>
+  </data>
+  <data name="checkUDPEnable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 21</value>
+  </data>
+  <data name="checkUDPEnable.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="checkUDPEnable.Text" xml:space="preserve">
+    <value>Enable UDP Output</value>
+  </data>
+  <data name="&gt;&gt;checkUDPEnable.Name" xml:space="preserve">
+    <value>checkUDPEnable</value>
+  </data>
+  <data name="&gt;&gt;checkUDPEnable.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkUDPEnable.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;checkUDPEnable.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnRecord.Location" type="System.Drawing.Point, System.Drawing">
+    <value>214, 104</value>
+  </data>
+  <data name="btnRecord.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 35</value>
+  </data>
+  <data name="btnRecord.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="btnRecord.Text" xml:space="preserve">
+    <value>&amp;Record (Alt-R)</value>
+  </data>
+  <data name="&gt;&gt;btnRecord.Name" xml:space="preserve">
+    <value>btnRecord</value>
+  </data>
+  <data name="&gt;&gt;btnRecord.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnRecord.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;btnRecord.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="btnSnapshot.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 144</value>
+    <value>214, 63</value>
   </data>
   <data name="btnSnapshot.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 35</value>
@@ -352,10 +577,10 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;btnSnapshot.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="btnMute.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 103</value>
+    <value>214, 22</value>
   </data>
   <data name="btnMute.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 35</value>
@@ -376,7 +601,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;btnMute.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="lblVolume.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -403,7 +628,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;lblVolume.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="label20.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -430,7 +655,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="trackVolume.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 56</value>
@@ -451,16 +676,16 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;trackVolume.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="groupBox5.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10pt</value>
   </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 624</value>
+    <value>12, 831</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 201</value>
+    <value>392, 162</value>
   </data>
   <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
     <value>37</value>
@@ -478,7 +703,7 @@
     <value>statusPage</value>
   </data>
   <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="lblAudioRate.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -721,7 +946,7 @@
     <value>statusPage</value>
   </data>
   <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="nullPacketsBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>228, 81</value>
@@ -931,7 +1156,7 @@
     <value>statusPage</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="lblFreqError.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1162,7 +1387,7 @@
     <value>statusPage</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="lblRFInputLevel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1882,7 +2107,7 @@
     <value>statusPage</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="statusPage.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -1891,7 +2116,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="statusPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>428, 922</value>
+    <value>428, 1146</value>
   </data>
   <data name="statusPage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1918,7 +2143,7 @@
     <value>3, 3</value>
   </data>
   <data name="dbgListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>422, 916</value>
+    <value>422, 1140</value>
   </data>
   <data name="dbgListBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1942,7 +2167,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="debugPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>428, 922</value>
+    <value>428, 1146</value>
   </data>
   <data name="debugPage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1969,7 +2194,7 @@
     <value>0, 0</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>436, 948</value>
+    <value>436, 1172</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
@@ -2014,7 +2239,7 @@
     <value>0, 0</value>
   </data>
   <data name="videoView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1283, 686</value>
+    <value>1283, 910</value>
   </data>
   <data name="videoView1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2083,10 +2308,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1283, 948</value>
+    <value>1283, 1172</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>686</value>
+    <value>910</value>
   </data>
   <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2116,7 +2341,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1723, 948</value>
+    <value>1723, 1172</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>436</value>
@@ -2232,17 +2457,23 @@
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <metadata name="SpectrumTuneTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>272, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>76</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1723, 972</value>
+    <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner 0.2 (ZR6TG) - 2023/03/22</value>
+    <value>Open Tuner 0.2 (ZR6TG) - 2023/03/xx</value>
   </data>
   <data name="&gt;&gt;websocketTimer.Name" xml:space="preserve">
     <value>websocketTimer</value>
@@ -2315,6 +2546,12 @@
   </data>
   <data name="&gt;&gt;qO100WidebandChatToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SpectrumTuneTimer.Name" xml:space="preserve">
+    <value>SpectrumTuneTimer</value>
+  </data>
+  <data name="&gt;&gt;SpectrumTuneTimer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Form1</value>

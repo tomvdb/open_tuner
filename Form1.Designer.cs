@@ -33,6 +33,10 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.statusPage = new System.Windows.Forms.TabPage();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.radioSpectrumTuneAutoHold = new System.Windows.Forms.RadioButton();
+            this.radioSpectrumTuneAutoTimed = new System.Windows.Forms.RadioButton();
+            this.radioSpectrumTuneManual = new System.Windows.Forms.RadioButton();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.rfRadioInputB = new System.Windows.Forms.RadioButton();
             this.radioRFInputA = new System.Windows.Forms.RadioButton();
@@ -41,6 +45,9 @@
             this.radioLnbSupplyVert = new System.Windows.Forms.RadioButton();
             this.radioLnbSupplyOff = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkRecordAll = new System.Windows.Forms.CheckBox();
+            this.checkUDPEnable = new System.Windows.Forms.CheckBox();
+            this.btnRecord = new System.Windows.Forms.Button();
             this.btnSnapshot = new System.Windows.Forms.Button();
             this.btnMute = new System.Windows.Forms.Button();
             this.lblVolume = new System.Windows.Forms.Label();
@@ -114,12 +121,15 @@
             this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
+            this.lblrecordIndication = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.statusPage.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -163,6 +173,7 @@
             // statusPage
             // 
             resources.ApplyResources(this.statusPage, "statusPage");
+            this.statusPage.Controls.Add(this.groupBox8);
             this.statusPage.Controls.Add(this.groupBox7);
             this.statusPage.Controls.Add(this.groupBox6);
             this.statusPage.Controls.Add(this.groupBox5);
@@ -172,6 +183,38 @@
             this.statusPage.Controls.Add(this.groupBox1);
             this.statusPage.Name = "statusPage";
             this.statusPage.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.radioSpectrumTuneAutoHold);
+            this.groupBox8.Controls.Add(this.radioSpectrumTuneAutoTimed);
+            this.groupBox8.Controls.Add(this.radioSpectrumTuneManual);
+            resources.ApplyResources(this.groupBox8, "groupBox8");
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.TabStop = false;
+            // 
+            // radioSpectrumTuneAutoHold
+            // 
+            resources.ApplyResources(this.radioSpectrumTuneAutoHold, "radioSpectrumTuneAutoHold");
+            this.radioSpectrumTuneAutoHold.Name = "radioSpectrumTuneAutoHold";
+            this.radioSpectrumTuneAutoHold.UseVisualStyleBackColor = true;
+            this.radioSpectrumTuneAutoHold.CheckedChanged += new System.EventHandler(this.radioSpectrumTune_CheckedChanged);
+            // 
+            // radioSpectrumTuneAutoTimed
+            // 
+            resources.ApplyResources(this.radioSpectrumTuneAutoTimed, "radioSpectrumTuneAutoTimed");
+            this.radioSpectrumTuneAutoTimed.Name = "radioSpectrumTuneAutoTimed";
+            this.radioSpectrumTuneAutoTimed.UseVisualStyleBackColor = true;
+            this.radioSpectrumTuneAutoTimed.CheckedChanged += new System.EventHandler(this.radioSpectrumTune_CheckedChanged);
+            // 
+            // radioSpectrumTuneManual
+            // 
+            resources.ApplyResources(this.radioSpectrumTuneManual, "radioSpectrumTuneManual");
+            this.radioSpectrumTuneManual.Checked = true;
+            this.radioSpectrumTuneManual.Name = "radioSpectrumTuneManual";
+            this.radioSpectrumTuneManual.TabStop = true;
+            this.radioSpectrumTuneManual.UseVisualStyleBackColor = true;
+            this.radioSpectrumTuneManual.CheckedChanged += new System.EventHandler(this.radioSpectrumTune_CheckedChanged);
             // 
             // groupBox7
             // 
@@ -231,6 +274,10 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.lblrecordIndication);
+            this.groupBox5.Controls.Add(this.checkRecordAll);
+            this.groupBox5.Controls.Add(this.checkUDPEnable);
+            this.groupBox5.Controls.Add(this.btnRecord);
             this.groupBox5.Controls.Add(this.btnSnapshot);
             this.groupBox5.Controls.Add(this.btnMute);
             this.groupBox5.Controls.Add(this.lblVolume);
@@ -239,6 +286,26 @@
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // checkRecordAll
+            // 
+            resources.ApplyResources(this.checkRecordAll, "checkRecordAll");
+            this.checkRecordAll.Name = "checkRecordAll";
+            this.checkRecordAll.UseVisualStyleBackColor = true;
+            // 
+            // checkUDPEnable
+            // 
+            resources.ApplyResources(this.checkUDPEnable, "checkUDPEnable");
+            this.checkUDPEnable.Name = "checkUDPEnable";
+            this.checkUDPEnable.UseVisualStyleBackColor = true;
+            this.checkUDPEnable.CheckedChanged += new System.EventHandler(this.checkUDPEnable_CheckedChanged);
+            // 
+            // btnRecord
+            // 
+            resources.ApplyResources(this.btnRecord, "btnRecord");
+            this.btnRecord.Name = "btnRecord";
+            this.btnRecord.UseVisualStyleBackColor = true;
+            this.btnRecord.Click += new System.EventHandler(this.btnRecord_Click);
             // 
             // btnSnapshot
             // 
@@ -711,6 +778,17 @@
             resources.ApplyResources(this.qO100WidebandChatToolStripMenuItem, "qO100WidebandChatToolStripMenuItem");
             this.qO100WidebandChatToolStripMenuItem.Click += new System.EventHandler(this.qO100WidebandChatToolStripMenuItem_Click);
             // 
+            // SpectrumTuneTimer
+            // 
+            this.SpectrumTuneTimer.Interval = 1500;
+            this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
+            // 
+            // lblrecordIndication
+            // 
+            resources.ApplyResources(this.lblrecordIndication, "lblrecordIndication");
+            this.lblrecordIndication.ForeColor = System.Drawing.Color.Red;
+            this.lblrecordIndication.Name = "lblrecordIndication";
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -727,6 +805,8 @@
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.statusPage.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -842,6 +922,15 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem menuFullScreen;
         private System.Windows.Forms.ToolStripMenuItem qO100WidebandChatToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.RadioButton radioSpectrumTuneAutoHold;
+        private System.Windows.Forms.RadioButton radioSpectrumTuneAutoTimed;
+        private System.Windows.Forms.RadioButton radioSpectrumTuneManual;
+        private System.Windows.Forms.Button btnRecord;
+        private System.Windows.Forms.Timer SpectrumTuneTimer;
+        private System.Windows.Forms.CheckBox checkUDPEnable;
+        private System.Windows.Forms.CheckBox checkRecordAll;
+        private System.Windows.Forms.Label lblrecordIndication;
     }
 }
 

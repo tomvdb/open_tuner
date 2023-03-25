@@ -304,26 +304,38 @@
   <data name="statusPage.Text" xml:space="preserve">
     <value>ステータス</value>
   </data>
+  <data name="dbgListBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>422, 1140</value>
+  </data>
+  <data name="debugPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>428, 1146</value>
+  </data>
   <data name="debugPage.Text" xml:space="preserve">
     <value>デバッグ</value>
   </data>
   <data name="menuConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="menuConnect.Text" xml:space="preserve">
     <value>接続</value>
   </data>
   <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
     <value>設定 ...</value>
   </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="menuFullScreen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="quitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="quitToolStripMenuItem.Text" xml:space="preserve">
     <value>終了</value>

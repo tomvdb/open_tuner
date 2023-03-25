@@ -196,9 +196,11 @@
     <Compile Include="stvvglna.cs" />
     <Compile Include="stvvglna_regs.cs" />
     <Compile Include="TSParserThread.cs" />
+    <Compile Include="TSRecorderThread.cs" />
     <Compile Include="TSStatus.cs" />
     <Compile Include="TSStreamMediaInput.cs" />
     <Compile Include="TSThread.cs" />
+    <Compile Include="TSUDPThread.cs" />
     <Compile Include="wbchat.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -29,7 +29,7 @@ namespace opentuner
         bool hardware_connected = false;
 
         ConcurrentQueue<NimConfig> config_queue = new ConcurrentQueue<NimConfig>();
-        ConcurrentQueue<NimStatus> ts_status_queue = new ConcurrentQueue<NimStatus>();
+        //ConcurrentQueue<NimStatus> ts_status_queue = new ConcurrentQueue<NimStatus>();
         ConcurrentQueue<byte> ts_data_queue = new ConcurrentQueue<byte>();
         ConcurrentQueue<byte> ts_parser_data_queue = new ConcurrentQueue<byte>();
 
@@ -37,11 +37,17 @@ namespace opentuner
         private delegate void updateTSStatusGuiDelegate(Form1 gui, TSStatus new_status);
         private delegate void updateMediaStatusGuiDelegate(Form1 gui, MediaStatus new_status);
         private delegate void UpdateLBDelegate(ListBox LB, Object obj);
+        private delegate void updateRecordingStatusDelegate(Form1 gui, bool recording_status);
 
         // threads
         Thread nim_thread_t = null;
         Thread ts_thread_t = null;
         Thread ts_parser_t = null;
+        Thread ts_recorder_t = null;
+        Thread ts_udp_t = null;
+
+        TSRecorderThread ts_recorder;
+        TSUDPThread ts_udp;
 
         // form properties
         public MediaPlayer prop_media_player { get { return this.videoView1.MediaPlayer; } }
@@ -75,8 +81,9 @@ namespace opentuner
         public string prop_media_audio_codec { set { this.lblAudioCodec.Text = value; } }
         public string prop_media_audio_rate { set { this.lblAudioRate.Text = value; } }
 
+        
         public bool prop_isFullscreen { get { return this.isFullScreen;  } }
-
+        public bool prop_isRecording { set { lblrecordIndication.Visible = value;  } }
 
         // quick tune variables *********************************************************************
         private static readonly Object list_lock = new Object();
@@ -112,7 +119,6 @@ namespace opentuner
 
         int num_rxs_to_scan = 1;
 
-        bool ts_build_queue_flag = false;
         bool prevLocked = false;
 
         uint current_frequency = 0;
@@ -185,6 +191,23 @@ namespace opentuner
                 isFullScreen = true;
             }
         }
+
+        //         private delegate void updateRecordingStatusDelegate(Form1 gui, bool recording_status);
+
+        public static void updateRecordingStatus(Form1 gui, bool recording_status)
+        {
+            if (gui.InvokeRequired)
+            {
+                updateRecordingStatusDelegate ulb = new updateRecordingStatusDelegate(updateRecordingStatus);
+                gui.Invoke(ulb, new object[] { gui, recording_status });
+            }
+            else
+            {
+                gui.prop_isRecording = recording_status;
+            }
+
+        }
+
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
@@ -261,7 +284,7 @@ namespace opentuner
             else
             {
                 gui.prop_demodstate = lookups.demod_state_lookup[new_status.demod_status];
-                double mer = new_status.mer / 10;
+                double mer = Convert.ToDouble(new_status.mer) / 10;
                 gui.prop_mer = mer.ToString() + " dB";
                 gui.prop_lnagain = new_status.lna_gain.ToString();
                 //gui.prop_power_i = new_status.power_i.ToString();
@@ -369,6 +392,7 @@ namespace opentuner
 
             if (videoView1.MediaPlayer != null)
                 videoView1.MediaPlayer.Play(media);
+
         }
 
         public void stop_video()
@@ -377,6 +401,14 @@ namespace opentuner
 
             if (videoView1.MediaPlayer != null)
                 videoView1.MediaPlayer.Stop();
+
+            Console.WriteLine("Main: Stopping Recording");
+
+            if (ts_recorder != null)
+                ts_recorder.record = false;
+
+            if (ts_udp != null)
+                ts_udp.stream = false;
         }
 
         private void hardware_init()
@@ -418,7 +450,7 @@ namespace opentuner
 
         private void MediaPlayer_EncounteredError(object sender, EventArgs e)
         {
-            Console.WriteLine("VLC: Error: " + e.ToString());
+            Console.WriteLine("VLC: Error: " + libVLC.LastLibVLCError);
         }
 
         private void MediaPlayer_Playing(object sender, EventArgs e)
@@ -450,16 +482,16 @@ namespace opentuner
 
                 if (nim_status.demod_status >= 2)
                 {
-                    Console.WriteLine("Startng TS queue and VLC");
-                    nim_status.build_queue = true;
-                    ts_build_queue_flag = true;
+                    //Console.WriteLine("Startng TS queue and VLC");
+                    //nim_status.build_queue = true;
+                    //ts_build_queue_flag = true;
                     start_video();
                 }
                 else
                 {
-                    Console.WriteLine("Stopping TS queue and VLC");
-                    nim_status.build_queue = false;
-                    ts_build_queue_flag = false;
+                    //Console.WriteLine("Stopping TS queue and VLC");
+                    //nim_status.build_queue = false;
+                    //ts_build_queue_flag = false;
                     stop_video();
                 }
 
@@ -467,12 +499,12 @@ namespace opentuner
             }
             else
             {
-                nim_status.build_queue = ts_build_queue_flag;
+                //nim_status.build_queue = ts_build_queue_flag;
             }
 
 
             // inform ts thread of whats happening
-            ts_status_queue.Enqueue(nim_status);
+            //ts_status_queue.Enqueue(nim_status);
 
 
         }
@@ -499,10 +531,16 @@ namespace opentuner
 
             if (nim_thread_t != null)
                 nim_thread_t.Abort();
+
+            if (ts_recorder_t != null)
+                ts_recorder_t.Abort();
+            if (ts_udp_t != null)
+                ts_udp_t.Abort();
             if (ts_thread_t != null)
                 ts_thread_t.Abort();
             if (ts_parser_t != null)
                 ts_parser_t.Abort();
+
 
         }
 
@@ -543,15 +581,28 @@ namespace opentuner
 
             // TS thread
 
-            TSThread ts_thread = new TSThread(ftdi_hw, ts_status_queue, ts_data_queue, ts_parser_data_queue);
+            TSThread ts_thread = new TSThread(ftdi_hw, ts_data_queue, nim_thread);
             ts_thread_t = new Thread(ts_thread.worker_thread);
             ts_thread_t.Start();
 
             // TS Parser Thread
+            ts_thread.RegisterTSConsumer(ts_parser_data_queue);
+
             TSDataCallback ts_data_callback = new TSDataCallback(parse_ts_data_callback);
             TSParserThread ts_parser_thread = new TSParserThread(ts_data_callback, ts_parser_data_queue);
             ts_parser_t = new Thread(ts_parser_thread.worker_thread);
             ts_parser_t.Start();
+
+            // TS recorder Thread
+            ts_recorder = new TSRecorderThread(ts_thread, setting_snapshot_path);
+            ts_recorder.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
+            ts_recorder_t = new Thread(ts_recorder.worker_thread);
+            ts_recorder_t.Start();
+
+            // TS udp thread
+            ts_udp = new TSUDPThread(ts_thread);
+            ts_udp_t = new Thread(ts_udp.worker_thread);
+            ts_udp_t.Start();
 
             //libVLC.Log += LibVLC_Log;
 
@@ -593,9 +644,14 @@ namespace opentuner
             menuConnect.Enabled = false;
         }
 
+        private void Ts_recorder_onRecordStatusChange(object sender, bool e)
+        {
+            updateRecordingStatus(this, e);
+        }
+
         private void LibVLC_Log(object sender, LogEventArgs e)
         {
-            debug("VLC Log: " + e.Message + "," + e.Level);
+            debug("VLC Log: " + e.FormattedLog + "," + e.Level);
         }
 
         private void MediaPlayer_Vout(object sender, MediaPlayerVoutEventArgs e)
@@ -621,6 +677,21 @@ namespace opentuner
 
             updateMediaStatusGui(this, media_status);
             videoView1.MediaPlayer.Volume = rxVolume;
+
+            if (checkRecordAll.Checked)
+            {
+                if (ts_recorder != null)
+                    ts_recorder.record = true;  // recording will automatically stop when lock is lost
+            }
+
+            if (checkUDPEnable.Checked)
+            {
+                if (ts_udp != null)
+                {
+                    ts_udp.stream = true;
+                }
+                
+            }
         }
 
         private void btnFrequencyChange_Click(object sender, EventArgs e)
@@ -1196,7 +1267,10 @@ namespace opentuner
                 tmp = Graphics.FromImage(bmp);
                 tmp2 = Graphics.FromImage(bmp2);
 
-                drawspectrum_bandplan();
+                if (bandplan != null)
+                {
+                    drawspectrum_bandplan();
+                }
             }
             catch (Exception Ex)
             {
@@ -1403,6 +1477,77 @@ namespace opentuner
                     debug("New Callsign: " + callsign + "," + freq.ToString() + "," + sr.ToString());
                     sigs.updateCurrentSignal(callsign, freq, sr);
 
+                }
+            }
+        }
+
+        private void radioSpectrumTune_CheckedChanged(object sender, EventArgs e)
+        {
+            if ( ((RadioButton)sender).Checked )
+            {
+                if (radioSpectrumTuneManual.Checked)
+                {
+                    SpectrumTuneTimer.Enabled = false;
+                }
+                else
+                {
+                    SpectrumTuneTimer.Enabled = true;
+                }
+            }
+        }
+
+        private void SpectrumTuneTimer_Tick(object sender, EventArgs e)
+        {
+            int mode = 0;
+            float spectrum_w = spectrum.Width;
+            float spectrum_wScale = spectrum_w / 922;
+
+            if (radioSpectrumTuneAutoTimed.Checked)
+            {
+                mode = 2;
+            }
+            else
+            {
+                mode = 1;
+            }
+
+            //float time = Convert.ToSingle(0.5, CultureInfo.InvariantCulture);
+            ushort autotuneWait = 30;
+
+            Tuple<signal.Sig, int> ret = sigs.tune(mode, Convert.ToInt16(autotuneWait), 0);
+            if (ret.Item1.frequency > 0)      //above 0 is a change in signal
+            {
+                System.Threading.Thread.Sleep(100);
+                selectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale));
+                sigs.set_tuned(ret.Item1, 0);
+                rx_blocks[0] = Convert.ToInt16(ret.Item1.fft_centre);
+                rx_blocks[1] = Convert.ToInt16(ret.Item1.fft_stop - ret.Item1.fft_start);
+            }
+
+        }
+
+        private void btnRecord_Click(object sender, EventArgs e)
+        {
+            if (ts_recorder != null)
+            {
+                if (ts_recorder.record)
+                    ts_recorder.record = false;
+                else
+                    ts_recorder.record = true;
+            }
+        }
+
+        private void checkUDPEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ts_udp != null)
+            {
+                if (checkUDPEnable.Checked)
+                {
+                    ts_udp.stream = true;
+                }
+                else
+                {
+                    ts_udp.stream = false;
                 }
             }
         }
