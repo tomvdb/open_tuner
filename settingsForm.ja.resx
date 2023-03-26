@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="txtDefaultLO2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>179, 55</value>
+  </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>154, 13</value>
   </data>
@@ -145,38 +148,38 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>チューナー設定</value>
   </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>設定一般</value>
+  </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 13</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>言語:</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>設定一般</value>
-  </data>
-  <data name="txtSnapshotPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>145, 27</value>
-  </data>
-  <data name="txtSnapshotPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 20</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>129, 13</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>メディアスナップショットパス:</value>
-  </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>メディア設定</value>
+  </data>
+  <data name="txtSnapshotPath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>190, 27</value>
+  </data>
+  <data name="txtSnapshotPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 20</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 13</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>スナップショット保存先フォルダ選択 :</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>オスカー１００スペシフィック</value>
   </data>
   <data name="checkEnableSpectrum.Size" type="System.Drawing.Size, System.Drawing">
     <value>189, 17</value>
   </data>
   <data name="checkEnableSpectrum.Text" xml:space="preserve">
     <value>BATC ワイドバンドスペクトラム表示</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>オスカー１００スペシフィック</value>
   </data>
   <data name="button2.Text" xml:space="preserve">
     <value>アップデート</value>

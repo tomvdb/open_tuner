@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="statusPage.Text" xml:space="preserve">
+    <value>ステータス</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>高周波入力</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="rfRadioInputB.Size" type="System.Drawing.Size, System.Drawing">
     <value>82, 21</value>
@@ -125,13 +131,13 @@
     <value>B（ボトム）</value>
   </data>
   <data name="radioRFInputA.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 21</value>
+    <value>78, 21</value>
   </data>
   <data name="radioRFInputA.Text" xml:space="preserve">
-    <value>A（ボトム）</value>
+    <value>A（トップ）</value>
   </data>
-  <data name="groupBox7.Text" xml:space="preserve">
-    <value>高周波入力</value>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>LNB 電源供給</value>
   </data>
   <data name="radioLnbSupplyHoriz.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 21</value>
@@ -151,8 +157,8 @@
   <data name="radioLnbSupplyOff.Text" xml:space="preserve">
     <value>オフ</value>
   </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>LNB 電源供給</value>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>メディアコントロール</value>
   </data>
   <data name="btnSnapshot.Text" xml:space="preserve">
     <value>スナップショット</value>
@@ -169,8 +175,8 @@
   <data name="label20.Text" xml:space="preserve">
     <value>ボリューム: </value>
   </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>メディアコントロール</value>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>メディアステータス</value>
   </data>
   <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 17</value>
@@ -196,8 +202,8 @@
   <data name="label14.Text" xml:space="preserve">
     <value>ビデオコーデック :</value>
   </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>メディアステータス</value>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>トランスポートステータス</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 17</value>
@@ -217,8 +223,8 @@
   <data name="label5.Text" xml:space="preserve">
     <value>サービスネーム :</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>トランスポートステータス</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>周波数</value>
   </data>
   <data name="btnFrequencyChange.Text" xml:space="preserve">
     <value>アップデート</value>
@@ -241,8 +247,8 @@
   <data name="label1.Text" xml:space="preserve">
     <value>周波数 : </value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>周波数</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>NIM ステータス</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 16</value>
@@ -298,20 +304,14 @@
   <data name="label4.Text" xml:space="preserve">
     <value>復調状態 : </value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>NIM ステータス</value>
-  </data>
-  <data name="statusPage.Text" xml:space="preserve">
-    <value>ステータス</value>
-  </data>
-  <data name="dbgListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>422, 1140</value>
-  </data>
-  <data name="debugPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>428, 1146</value>
-  </data>
   <data name="debugPage.Text" xml:space="preserve">
     <value>デバッグ</value>
+  </data>
+  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 20</value>
+  </data>
+  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
+    <value>操作</value>
   </data>
   <data name="menuConnect.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
@@ -339,12 +339,6 @@
   </data>
   <data name="quitToolStripMenuItem.Text" xml:space="preserve">
     <value>終了</value>
-  </data>
-  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 20</value>
-  </data>
-  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
-    <value>操作</value>
   </data>
   <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 20</value>

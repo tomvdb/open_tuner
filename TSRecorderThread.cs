@@ -46,7 +46,7 @@ namespace opentuner
         {
             BinaryWriter binWriter = null;
             byte data;
-
+            bool ts_sync = true;
             try
             {
                 while (true)
@@ -58,6 +58,7 @@ namespace opentuner
                         string filename = this.media_path + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".ts";
                         binWriter = new BinaryWriter(File.Open(filename, FileMode.Create));
                         recording = true;
+                        ts_sync = true;
 
                         onRecordStatusChange?.Invoke(this, true);
                     }
@@ -85,9 +86,19 @@ namespace opentuner
                         {
                             if (record == true)
                             {
+
                                 if (binWriter != null)
                                 {
-                                    binWriter.Write(data);
+                                    if (ts_sync == true && data == 0x47)
+                                    {
+                                        Console.WriteLine("TS Header Sync");
+                                        ts_sync = false;
+                                    }
+
+                                    if (ts_sync == false)
+                                    { 
+                                        binWriter.Write(data);
+                                    }
                                 }
                             }
                         }

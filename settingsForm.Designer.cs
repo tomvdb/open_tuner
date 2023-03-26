@@ -44,12 +44,12 @@
             this.txtSnapshotPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnChatFontSetting = new System.Windows.Forms.Button();
+            this.checkEnableChat = new System.Windows.Forms.CheckBox();
             this.checkEnableSpectrum = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.checkEnableChat = new System.Windows.Forms.CheckBox();
-            this.btnChatFontSetting = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -58,13 +58,13 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.txtDefaultLO2);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.comboDefaultLNB);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtDefaultLO);
             this.groupBox1.Controls.Add(this.label1);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -80,13 +80,13 @@
             // 
             // comboDefaultLNB
             // 
+            resources.ApplyResources(this.comboDefaultLNB, "comboDefaultLNB");
             this.comboDefaultLNB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDefaultLNB.FormattingEnabled = true;
             this.comboDefaultLNB.Items.AddRange(new object[] {
             resources.GetString("comboDefaultLNB.Items"),
             resources.GetString("comboDefaultLNB.Items1"),
             resources.GetString("comboDefaultLNB.Items2")});
-            resources.ApplyResources(this.comboDefaultLNB, "comboDefaultLNB");
             this.comboDefaultLNB.Name = "comboDefaultLNB";
             // 
             // label2
@@ -106,14 +106,15 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.comboLanguage);
             this.groupBox2.Controls.Add(this.label3);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
             // comboLanguage
             // 
+            resources.ApplyResources(this.comboLanguage, "comboLanguage");
             this.comboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboLanguage.FormattingEnabled = true;
             this.comboLanguage.Items.AddRange(new object[] {
@@ -125,7 +126,6 @@
             resources.GetString("comboLanguage.Items5"),
             resources.GetString("comboLanguage.Items6"),
             resources.GetString("comboLanguage.Items7")});
-            resources.ApplyResources(this.comboLanguage, "comboLanguage");
             this.comboLanguage.Name = "comboLanguage";
             // 
             // label3
@@ -135,10 +135,10 @@
             // 
             // groupBox3
             // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.button1);
             this.groupBox3.Controls.Add(this.txtSnapshotPath);
             this.groupBox3.Controls.Add(this.label4);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -162,12 +162,25 @@
             // 
             // groupBox4
             // 
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.btnChatFontSetting);
             this.groupBox4.Controls.Add(this.checkEnableChat);
             this.groupBox4.Controls.Add(this.checkEnableSpectrum);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // btnChatFontSetting
+            // 
+            resources.ApplyResources(this.btnChatFontSetting, "btnChatFontSetting");
+            this.btnChatFontSetting.Name = "btnChatFontSetting";
+            this.btnChatFontSetting.UseVisualStyleBackColor = true;
+            this.btnChatFontSetting.Click += new System.EventHandler(this.btnChatFontSetting_Click);
+            // 
+            // checkEnableChat
+            // 
+            resources.ApplyResources(this.checkEnableChat, "checkEnableChat");
+            this.checkEnableChat.Name = "checkEnableChat";
+            this.checkEnableChat.UseVisualStyleBackColor = true;
             // 
             // checkEnableSpectrum
             // 
@@ -193,19 +206,6 @@
             // 
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            // 
-            // checkEnableChat
-            // 
-            resources.ApplyResources(this.checkEnableChat, "checkEnableChat");
-            this.checkEnableChat.Name = "checkEnableChat";
-            this.checkEnableChat.UseVisualStyleBackColor = true;
-            // 
-            // btnChatFontSetting
-            // 
-            resources.ApplyResources(this.btnChatFontSetting, "btnChatFontSetting");
-            this.btnChatFontSetting.Name = "btnChatFontSetting";
-            this.btnChatFontSetting.UseVisualStyleBackColor = true;
-            this.btnChatFontSetting.Click += new System.EventHandler(this.btnChatFontSetting_Click);
             // 
             // settingsForm
             // 
