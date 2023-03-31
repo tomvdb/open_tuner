@@ -156,12 +156,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="editStoredFrequencyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="editStoredFrequencyForm.Designer.cs">
+      <DependentUpon>editStoredFrequencyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="errors.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frequencyManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frequencyManagerForm.Designer.cs">
+      <DependentUpon>frequencyManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ftdi.cs" />
     <Compile Include="lookups.cs" />
@@ -188,6 +200,7 @@
     </Compile>
     <Compile Include="signal.cs" />
     <Compile Include="socket.cs" />
+    <Compile Include="StoredFrequency.cs" />
     <Compile Include="stv0910.cs" />
     <Compile Include="stv0910_regs.cs" />
     <Compile Include="stv0910_regs_init.cs" />
@@ -207,6 +220,9 @@
     <Compile Include="wbchat.Designer.cs">
       <DependentUpon>wbchat.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="editStoredFrequencyForm.resx">
+      <DependentUpon>editStoredFrequencyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.af-ZA.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -236,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frequencyManagerForm.resx">
+      <DependentUpon>frequencyManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

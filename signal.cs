@@ -11,6 +11,7 @@ namespace opentuner
     class signal
     {
 
+        public int beacon_strength = -1;
 
         //struct for signal information
         public struct Sig
@@ -23,8 +24,8 @@ namespace opentuner
             public float sr;
             public string callsign;
             public bool overpower;
-
-            public Sig(int _fft_start, int _fft_stop, int _fft_centre, int _fft_strength, double _frequency, float _sr, bool overpower)
+            public float dbb;
+            public Sig(int _fft_start, int _fft_stop, int _fft_centre, int _fft_strength, double _frequency, float _sr, bool overpower, float _dbb)
             {
                 this.fft_start = _fft_start;
                 this.fft_stop = _fft_stop;
@@ -34,6 +35,7 @@ namespace opentuner
                 this.sr = _sr;
                 this.callsign = "";
                 this.overpower = overpower;
+                this.dbb = _dbb;
             }
 
             public Sig(Sig old, string callsign)
@@ -46,6 +48,7 @@ namespace opentuner
                 this.sr = old.sr;
                 this.callsign = callsign;
                 this.overpower = old.overpower;
+                this.dbb = old.dbb;
             }
 
             public void updateCallsign(string callsign)
@@ -387,7 +390,7 @@ namespace opentuner
         {
             if (beacon_strength != 0)
             {
-                if (signal_bw < 0.7)
+                if (signal_bw < 0.4)
                 {
                     return false;
                 }
@@ -397,6 +400,11 @@ namespace opentuner
                     return true;
                 }
             }
+            else
+            {
+                Console.WriteLine("Beacon Strength = 0");
+            }
+
 
             return false;
         }
@@ -421,8 +429,6 @@ namespace opentuner
                 double signal_freq;
                 int acc;
                 int acc_i;
-
-                int beacon_strength = 0;
 
                 for (i = 2; i < fft_data.Length; i++)
                 {
@@ -477,13 +483,14 @@ namespace opentuner
                             signal_bw = align_symbolrate(Convert.ToSingle((end_signal - start_signal) * (9.0 / (fft_data.Length))));
                             signal_freq = Convert.ToDouble(start_freq + (((mid_signal + 1) / (fft_data.Length)) * 9.0));
 
+
                             // Exclude signals in beacon band
                             if (signal_bw >= 0.033)
                             {
                                 if (signal_freq < 10492000 && signal_bw >= 1.0)
                                 {
                                     beacon_strength = strength_signal;
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal / 255, signal_freq, signal_bw, false));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal / 255, signal_freq, signal_bw, false, 0));
                                 }
                                 else
                                 {
@@ -492,7 +499,7 @@ namespace opentuner
                                     if (isOverPower(beacon_strength, strength_signal, signal_bw))
                                         overpower = true;
 
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal / 255, signal_freq, signal_bw, overpower));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal / 255, signal_freq, signal_bw, overpower, 0));
                                 }
                             }
 

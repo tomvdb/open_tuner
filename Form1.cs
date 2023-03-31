@@ -16,6 +16,7 @@ using WebSocketSharp;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
 
 namespace opentuner
 {
@@ -93,8 +94,8 @@ namespace opentuner
 
         Bitmap bmp;
         static Bitmap bmp2;
-        Pen greenpen = new Pen(Color.FromArgb(200, 20, 200, 20));
-        //Pen greenpen = new Pen(Color.FromArgb(250, 0, 0, 200));
+        Pen greyPen = new Pen(Color.FromArgb(200, 123, 123, 123));
+        Pen greyPen2 = new Pen(Color.FromArgb(200, 123, 123, 123));
         SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
         SolidBrush bandplanBrush = new SolidBrush(Color.FromArgb(180, 250, 250, 255));
         SolidBrush overpowerBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
@@ -140,6 +141,12 @@ namespace opentuner
         int setting_default_volume = 100;
         int setting_language = 0;
         bool setting_enable_chatform = false;
+        bool setting_auto_connect = false;
+
+        int setting_window_width = -1;
+        int setting_window_height = -1;
+        int setting_window_x = -1;
+        int setting_window_y = -1;
 
         Font setting_chat_font;
         int setting_chat_width = 0;
@@ -149,6 +156,8 @@ namespace opentuner
         bool isFullScreen = false;
 
         private wbchat chatForm;
+
+        List<StoredFrequency> stored_frequencies = new List<StoredFrequency>();
 
         public void toggleFullScreen()
         {
@@ -165,14 +174,14 @@ namespace opentuner
                 if (setting_enable_spectrum)
                 {
                     splitContainer2.Panel2Collapsed = false;
-                    splitContainer1.Panel2.Enabled = true;
+                    splitContainer2.Panel2.Enabled = true;
                 }
 
                 isFullScreen = false;
             }
             else
             {
-                videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 1);
+                //videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 1);
 
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.WindowState = FormWindowState.Maximized;
@@ -186,9 +195,12 @@ namespace opentuner
                 if (setting_enable_spectrum)
                 {
                     splitContainer2.Panel2Collapsed = true;
-                    splitContainer1.Panel2.Enabled = false;
+                    splitContainer2.Panel2.Enabled = false;
                 }
                 isFullScreen = true;
+
+                videoView1.MediaPlayer.EnableMouseInput = false;
+
             }
         }
 
@@ -384,6 +396,12 @@ namespace opentuner
             }
 
             InitializeComponent();
+
+            greyPen.DashCap = System.Drawing.Drawing2D.DashCap.Round;
+            greyPen.DashPattern = new float[] { 4.0F, 4.0F };
+
+            greyPen2.DashCap = System.Drawing.Drawing2D.DashCap.Round;
+            greyPen2.DashPattern = new float[] { 1F, 4.0F };
         }
 
         public void start_video()
@@ -391,7 +409,10 @@ namespace opentuner
             Console.WriteLine("Main: Starting VLC");
 
             if (videoView1.MediaPlayer != null)
+            {
                 videoView1.MediaPlayer.Play(media);
+            }
+            
 
         }
 
@@ -520,7 +541,16 @@ namespace opentuner
 
             // save current volume as default volume
             Properties.Settings.Default.default_volume = trackVolume.Value;
+
+            // save current windows properties
+            Properties.Settings.Default.window_width = this.Width;
+            Properties.Settings.Default.window_height = this.Height;
+            Properties.Settings.Default.window_x = this.Left;
+            Properties.Settings.Default.window_y = this.Top;
+
+
             Properties.Settings.Default.Save();
+
 
             stop_video();
 
@@ -619,6 +649,10 @@ namespace opentuner
             videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.X, 10);
             videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Y, 10);
 
+            videoView1.MouseWheel += VideoView1_MouseWheel;
+
+
+
             //string udp_destination = "127.0.0.1:8090";
             mediaInput = new TSStreamMediaInput(ts_data_queue);
             //media = new Media(libVLC, mediaInput, ":sout-keep", ":sout=#duplicate{dst=display, dst=std{access=udp, mux=ts, dst=" + udp_destination + "}}" );
@@ -642,6 +676,25 @@ namespace opentuner
             lblConnected.ForeColor = Color.Green;
 
             menuConnect.Enabled = false;
+        }
+
+        private void VideoView1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            byte volumeDelta = 1;
+            if (e.Delta < 0 && rxVolume >= (0 + volumeDelta))
+            {
+                rxVolume -= volumeDelta;
+                trackVolume.Value = rxVolume;
+                return;
+            }
+
+            if (e.Delta > 0 && rxVolume <= (200 - volumeDelta))
+            {
+                rxVolume += volumeDelta;
+                trackVolume.Value = rxVolume;
+                return;
+            }
+
         }
 
         private void Ts_recorder_onRecordStatusChange(object sender, bool e)
@@ -692,6 +745,7 @@ namespace opentuner
                 }
                 
             }
+
         }
 
         private void btnFrequencyChange_Click(object sender, EventArgs e)
@@ -703,74 +757,7 @@ namespace opentuner
             change_frequency(freq, lo, sr);
         }
 
-        void change_frequency(UInt32 freq, UInt32 lo, UInt32 sr)
-        {
-            NimConfig newConfig = new NimConfig();
 
-            if (lo > freq)
-            {
-                lblFreqError.Text = "Invalid LO:" + lo.ToString();
-                return;
-            }
-
-            newConfig.frequency = freq - lo;
-            newConfig.symbol_rate = sr;
-            newConfig.polarization_supply = current_enable_lnb_supply;
-            newConfig.polarization_supply_horizontal = current_enable_horiz_supply;
-
-            if (newConfig.frequency < 144000 || newConfig.frequency > 2450000)
-            {
-                debug("Error: Invalid Frequency: " + newConfig.frequency);
-                lblFreqError.Text = "Invalid:" + newConfig.frequency.ToString();
-                return;
-            }
-            else
-            {
-                lblFreqError.Text = "";
-            }
-
-            debug("Main: New Config: " + newConfig.ToString());
-
-            current_frequency = newConfig.frequency;
-            current_sr = sr;
-
-            config_queue.Enqueue(newConfig);
-        }
-
-        void change_lnb_supply(bool enable_supply, bool horiz_supply)
-        {
-            NimConfig newConfig = new NimConfig();
-
-            newConfig.frequency = current_frequency;
-            newConfig.symbol_rate = current_sr;
-            newConfig.polarization_supply = enable_supply;
-            newConfig.polarization_supply_horizontal = horiz_supply;
-            newConfig.rf_input_B = current_rf_input;
-
-            current_enable_horiz_supply = horiz_supply;
-            current_enable_lnb_supply = enable_supply;
-
-            debug("Main: New Config: " + newConfig.ToString());
-
-            config_queue.Enqueue(newConfig);
-        }
-
-        void change_rf_input(bool rf_input_b)
-        {
-            NimConfig newConfig = new NimConfig();
-
-            newConfig.frequency = current_frequency;
-            newConfig.symbol_rate = current_sr;
-            newConfig.polarization_supply = current_enable_lnb_supply;
-            newConfig.polarization_supply_horizontal = current_enable_horiz_supply;
-            newConfig.rf_input_B = rf_input_b;
-
-            current_rf_input = rf_input_b;
-
-            debug("Main: New Config: " + newConfig.ToString());
-
-            config_queue.Enqueue(newConfig);
-        }
 
         // quicktune functions
         private void drawspectrum_bandplan()
@@ -863,17 +850,25 @@ namespace opentuner
         {
             tmp.Clear(Color.Black);     //clear canvas
 
+
             int spectrum_h = spectrum.Height - bandplan_height;
             float spectrum_w = spectrum.Width;
             float spectrum_wScale = spectrum_w / 922;
 
+            int i = 1;
+
+            for (i = 1; i <= 4; i++)
+            {
+                int y = spectrum_h - ((i * (spectrum_h / 4)) - (spectrum_h / 6));
+                tmp.DrawLine(greyPen, 10, y, spectrum_w - 10, y);
+            }
+
+
             PointF[] points = new PointF[fft_data.Length - 2];
 
-            int i = 1;
 
             for (i = 1; i < fft_data.Length - 3; i++)     //ignore padding?
             {
-                // tmp.DrawLine(greenpen, i - 1, 255 - fft_data[i - 1] / 255, i, 255 - fft_data[i] / 255);
                 PointF point = new PointF(i * spectrum_wScale, 255 - fft_data[i] / 255);
                 points[i] = point;
             }
@@ -904,14 +899,14 @@ namespace opentuner
             //drawspectrum_signals(sigs.detect_signals(fft_data));
             sigs.detect_signals(fft_data);
 
-            /*
             // draw over power
             foreach (var sig in sigs.signalsData)
             {
-                if ( sig.overpower )
-                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre) - (Convert.ToInt16(sig.fft_stop-sig.fft_start) / 2), 1, Convert.ToInt16(sig.fft_stop-sig.fft_start), (255) - 4) });
+                if (sig.overpower)
+                {
+                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale)  / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), (255) - 4) });
+                }
             }
-            */
 
             drawspectrum_signals(sigs.signalsData);
         }
@@ -1029,75 +1024,7 @@ namespace opentuner
             }
             return tx_freq_MHz;
         }
-
-        private void webSocketTimeout_Tick(object sender, EventArgs e)
-        {
-            if (sock != null)
-            {
-                TimeSpan t = DateTime.Now - sock.lastdata;
-
-                if (t.Seconds > 2)
-                {
-                    debug("FFT Websocket Timeout, Disconnected");
-                    sock.stop();
-                }
-
-                if (!sock.connected)
-                {
-                    sock.start();
-                }
-            }
-
-        }
-
-        public float align_symbolrate(float width)
-        {
-            if (width < 0.022)
-            {
-                return 0;
-            }
-            else if (width < 0.065)
-            {
-                return 0.035f;
-            }
-            else if (width < 0.086)
-            {
-                return 0.066f;
-            }
-            else if (width < 0.195)
-            {
-                return 0.125f;
-            }
-            else if (width < 0.277)
-            {
-                return 0.250f;
-            }
-            else if (width < 0.388)
-            {
-                return 0.333f;
-            }
-            else if (width < 0.700)
-            {
-                return 0.500f;
-            }
-            else if (width < 1.2)
-            {
-                return 1.000f;
-            }
-            else if (width < 1.6)
-            {
-                return 1.500f;
-            }
-            else if (width < 2.2)
-            {
-                return 2.000f;
-            }
-            else
-            {
-                return Convert.ToSingle(Math.Round(width * 5) / 5.0);
-            }
-        }
-
+        
         private void load_settings()
         {
             // warning: don't use the debug function in this function as it gets called before components are initialized
@@ -1119,6 +1046,10 @@ namespace opentuner
             setting_chat_height = Properties.Settings.Default.wbchat_height;
             setting_enable_chatform = Properties.Settings.Default.wbchat_enable;
 
+            setting_window_width = Properties.Settings.Default.window_width;
+            setting_window_height = Properties.Settings.Default.window_height;
+            setting_window_x = Properties.Settings.Default.window_x;
+            setting_window_y = Properties.Settings.Default.window_y;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -1160,6 +1091,34 @@ namespace opentuner
             {
                 debug("Settings: Enable Vert Supply: " + (!current_enable_horiz_supply).ToString());
                 debug("Settings: Enable Horiz Supply: " + current_enable_horiz_supply.ToString());
+            }
+
+            string[] args = Environment.GetCommandLineArgs();
+
+            bool first = true;
+            
+            foreach (string arg in args)
+            {
+                if (first)
+                {
+                    first = false;
+                    continue;
+                }
+
+                Console.WriteLine(arg);
+
+                if (arg == "DISABLEQO100")
+                {
+                    Console.WriteLine("Disabling QO-100 Features due to command line");
+                    setting_enable_chatform = false;
+                    setting_enable_spectrum = false;
+                }
+
+                if (arg == "AUTOCONNECT")
+                {
+                    Console.WriteLine("Auto Connect Enabled due to command line");
+                    setting_auto_connect = true;
+                }
             }
 
             if (setting_enable_chatform)
@@ -1236,6 +1195,190 @@ namespace opentuner
                 websocketTimer.Enabled = false;
             }
 
+            //setting_window_width = Properties.Settings.Default.window_width;
+            //setting_window_height = Properties.Settings.Default.window_height;
+            //setting_window_x = Properties.Settings.Default.window_x;
+            //setting_window_y = Properties.Settings.Default.window_y;
+
+            if (setting_window_height > -1 && setting_window_width > -1)
+            {
+                this.Height = setting_window_height;
+                this.Width = setting_window_width;
+            }
+
+            if (setting_window_x > -1 && setting_window_y > -1)
+            {
+                this.Left = setting_window_x;
+                this.Top = setting_window_y;
+            }
+
+
+            if (setting_auto_connect)
+            {
+                btnConnectTuner_Click(this, e);
+            }
+
+
+            load_stored_frequencies();
+            rebuild_stored_frequencies();
+        }
+
+        private void rebuild_stored_frequencies()
+        {
+            storedFrequenciesToolStripMenuItem.DropDownItems.Clear();
+
+            if (stored_frequencies.Count == 0)
+            {
+                storedFrequenciesToolStripMenuItem.Visible = false;
+                return;
+            }
+
+            storedFrequenciesToolStripMenuItem.Visible = true;
+
+            for (int c = 0; c < stored_frequencies.Count; c++)
+            {
+                ToolStripMenuItem sf_menu = new ToolStripMenuItem(stored_frequencies[c].Name + " (" + stored_frequencies[c].Frequency + ")");
+                sf_menu.Tag = c;
+                sf_menu.Click += Sf_menu_Click;
+
+                storedFrequenciesToolStripMenuItem.DropDownItems.Add(sf_menu);
+            }
+        }
+
+        private void Sf_menu_Click(object sender, EventArgs e)
+        {
+            int tag = Convert.ToInt32(((ToolStripMenuItem)(sender)).Tag);
+            Console.WriteLine(tag.ToString());
+
+            if (tag < stored_frequencies.Count)
+            {
+                tune_stored_frequency(stored_frequencies[tag]);
+            }
+        }
+
+        void tune_stored_frequency(StoredFrequency sf)
+        {
+            NimConfig newConfig = new NimConfig();
+
+            newConfig.frequency = sf.Frequency - sf.Offset;            
+            newConfig.symbol_rate = sf.SymbolRate;
+            newConfig.polarization_supply = current_enable_lnb_supply;
+            newConfig.polarization_supply_horizontal = current_enable_horiz_supply;
+
+            if (sf.RFInput == 0)
+                newConfig.rf_input_B = false;
+            else
+                newConfig.rf_input_B = true;
+
+            if (newConfig.frequency < 144000 || newConfig.frequency > 2450000)
+            {
+                debug("Error: Invalid Frequency: " + newConfig.frequency);
+                lblFreqError.Text = "Invalid:" + newConfig.frequency.ToString();
+                return;
+            }
+            else
+            {
+                lblFreqError.Text = "";
+            }
+
+            debug("Main: New Config: " + newConfig.ToString());
+
+            current_frequency = newConfig.frequency;
+            current_sr = newConfig.symbol_rate;
+            current_rf_input = newConfig.rf_input_B;
+
+            config_queue.Enqueue(newConfig);
+        }
+
+        void change_frequency(UInt32 freq, UInt32 sr, bool lnb_supply, bool polarization_supply_horizontal, bool rf_input_B)
+        {
+            NimConfig newConfig = new NimConfig();
+
+            newConfig.frequency = freq;
+            newConfig.symbol_rate = sr;
+            newConfig.polarization_supply = lnb_supply;
+            newConfig.polarization_supply_horizontal = polarization_supply_horizontal;
+            newConfig.rf_input_B = rf_input_B;
+
+            if (newConfig.frequency < 144000 || newConfig.frequency > 2450000)
+            {
+                debug("Error: Invalid Frequency: " + newConfig.frequency);
+                lblFreqError.Text = "Invalid:" + newConfig.frequency.ToString();
+                return;
+            }
+            else
+            {
+                lblFreqError.Text = "";
+            }
+
+            debug("Main: New Config: " + newConfig.ToString());
+
+            current_frequency = newConfig.frequency;
+            current_sr = sr;
+            current_enable_lnb_supply = lnb_supply;
+            current_enable_horiz_supply = polarization_supply_horizontal;
+            current_rf_input = rf_input_B;
+
+            config_queue.Enqueue(newConfig);
+        }
+
+        void change_frequency(UInt32 freq, UInt32 lo, UInt32 sr)
+        {
+            change_frequency(freq - lo, sr, current_enable_lnb_supply, current_enable_horiz_supply, current_rf_input);
+        }
+
+        void change_lnb_supply(bool enable_supply, bool horiz_supply)
+        {
+            change_frequency(current_frequency, current_sr, current_enable_lnb_supply, current_enable_horiz_supply, current_rf_input);
+        }
+
+        void change_rf_input(bool rf_input_b)
+        {
+            NimConfig newConfig = new NimConfig();
+
+            newConfig.frequency = current_frequency;
+            newConfig.symbol_rate = current_sr;
+            newConfig.polarization_supply = current_enable_lnb_supply;
+            newConfig.polarization_supply_horizontal = current_enable_horiz_supply;
+            newConfig.rf_input_B = rf_input_b;
+
+            current_rf_input = rf_input_b;
+
+            debug("Main: New Config: " + newConfig.ToString());
+
+            config_queue.Enqueue(newConfig);
+        }
+
+        private void load_stored_frequencies()
+        {
+            string frequency_file = AppDomain.CurrentDomain.BaseDirectory + "\\frequencies.json";
+            string json = "";
+
+            try
+            {
+                json = File.ReadAllText(frequency_file);
+                stored_frequencies = JsonConvert.DeserializeObject<List<StoredFrequency>>(json);
+            }
+            catch(Exception Ex)
+            {
+                Console.WriteLine("Error reading frequencies.json - file missing, or wrong format :" + Ex.Message);
+            }
+        }
+
+        private void save_stored_frequencies()
+        {
+            string json = JsonConvert.SerializeObject(stored_frequencies, Formatting.Indented);
+
+            string frequency_file = AppDomain.CurrentDomain.BaseDirectory + "\\frequencies.json";
+
+            try
+            {
+                File.WriteAllText(frequency_file, json);
+            }
+            catch(Exception Ex)
+            {
+                Console.WriteLine("Error writing frequencies file: " + Ex.Message);
+            }
         }
 
         private void websocketTimer_Tick(object sender, EventArgs e)
@@ -1276,11 +1419,6 @@ namespace opentuner
             {
 
             }
-        }
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/open-tuner/");
         }
 
         private void btnMute_Click(object sender, EventArgs e)
@@ -1550,6 +1688,51 @@ namespace opentuner
                     ts_udp.stream = false;
                 }
             }
+        }
+
+        private void videoView1_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                toggleFullScreen();
+            }
+            catch (Exception Ex)
+            {
+
+            }
+        }
+
+        private void toggleFullscreenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                toggleFullScreen();
+            }
+            catch (Exception Ex)
+            {
+
+            }
+        }
+
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            if (videoView1.MediaPlayer != null)
+                videoView1.MediaPlayer.AspectRatio = "4:3";
+        }
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            if (videoView1.MediaPlayer != null)
+                videoView1.MediaPlayer.AspectRatio = "16:9";
+        }
+
+        private void manageStoredFrequenciesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frequencyManagerForm freqForm = new frequencyManagerForm(stored_frequencies);
+            freqForm.ShowDialog();
+
+            save_stored_frequencies();
+            rebuild_stored_frequencies();
         }
     }
 

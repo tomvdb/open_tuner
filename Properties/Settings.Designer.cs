@@ -165,5 +165,53 @@ namespace opentuner.Properties {
                 this["wbchat_enable"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int window_width {
+            get {
+                return ((int)(this["window_width"]));
+            }
+            set {
+                this["window_width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int window_height {
+            get {
+                return ((int)(this["window_height"]));
+            }
+            set {
+                this["window_height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int window_x {
+            get {
+                return ((int)(this["window_x"]));
+            }
+            set {
+                this["window_x"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int window_y {
+            get {
+                return ((int)(this["window_y"]));
+            }
+            set {
+                this["window_y"] = value;
+            }
+        }
     }
 }
