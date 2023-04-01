@@ -26,10 +26,11 @@ namespace opentuner
         bool lna_top_ok = false;
         bool lna_bottom_ok = false;
         bool reset = false;
+        bool no_lna = false;
 
         public event EventHandler<StatusEvent> onNewStatus;
 
-        public NimThread(ConcurrentQueue<NimConfig> _config_queue, ftdi _hardware, NimStatusCallback _status_callback)
+        public NimThread(ConcurrentQueue<NimConfig> _config_queue, ftdi _hardware, NimStatusCallback _status_callback, bool _no_lna)
         {
             hardware = _hardware;
             config_queue = _config_queue;
@@ -39,6 +40,7 @@ namespace opentuner
 
             _stv0910 = new stv0910(_nim);
             _stv6120 = new stv6120(_nim);
+            no_lna = _no_lna;
             stvvglna_top = new stvvglna(_nim);
             stvvglna_bottom = new stvvglna(_nim);
         }
@@ -85,13 +87,22 @@ namespace opentuner
             err = _stv0910.stv0910_read_scan_state(stv0910.STV0910_DEMOD_TOP, ref demod_state);
             nim_status.demod_status = demod_state;
 
-            // get lna info
-            nim_status.lna_bottom_ok = lna_bottom_ok;
-            nim_status.lna_top_ok = lna_top_ok;
+            if (no_lna)
+            {
+                nim_status.lna_bottom_ok = false;
+                nim_status.lna_top_ok = false;
+                nim_status.lna_gain = 0;
+            }
+            else
+            {
+                // get lna info
+                nim_status.lna_bottom_ok = lna_bottom_ok;
+                nim_status.lna_top_ok = lna_top_ok;
 
-            byte lna_gain = 0, lna_vgo = 0;
-            if (err == 0) stvvglna_top.stvvglna_read_agc(nim.NIM_INPUT_TOP, ref lna_gain, ref lna_vgo);
-            nim_status.lna_gain = (ushort)((lna_gain << 5) | lna_vgo);
+                byte lna_gain = 0, lna_vgo = 0;
+                if (err == 0) stvvglna_top.stvvglna_read_agc(nim.NIM_INPUT_TOP, ref lna_gain, ref lna_vgo);
+                nim_status.lna_gain = (ushort)((lna_gain << 5) | lna_vgo);
+            }
 
             // power
             byte power_i = 0;
@@ -264,30 +275,33 @@ namespace opentuner
                                 Console.WriteLine("Error before Tuner");
                             }
 
-                            // init lna - if found
-                            if (err == 0)
+                            if (no_lna == false)
                             {
-                                Console.WriteLine("Init LNA Top");
-                                lna_top_ok = false;
-                                err = stvvglna_top.stvvglna_init(nim.NIM_INPUT_TOP, stvvglna.STVVGLNA_ON, ref lna_top_ok);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Error before Lna Top");
-                            }
 
-                            // init lna - if found
-                            if (err == 0)
-                            {
-                                Console.WriteLine("Init LNA Bottom");
-                                lna_bottom_ok = false;
-                                err = stvvglna_bottom.stvvglna_init(nim.NIM_INPUT_BOTTOM, stvvglna.STVVGLNA_OFF, ref lna_bottom_ok);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Error before Lna Bottom");
-                            }
+                                // init lna - if found
+                                if (err == 0)
+                                {
+                                    Console.WriteLine("Init LNA Top");
+                                    lna_top_ok = false;
+                                    err = stvvglna_top.stvvglna_init(nim.NIM_INPUT_TOP, stvvglna.STVVGLNA_ON, ref lna_top_ok);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Error before Lna Top");
+                                }
 
+                                // init lna - if found
+                                if (err == 0)
+                                {
+                                    Console.WriteLine("Init LNA Bottom");
+                                    lna_bottom_ok = false;
+                                    err = stvvglna_bottom.stvvglna_init(nim.NIM_INPUT_BOTTOM, stvvglna.STVVGLNA_OFF, ref lna_bottom_ok);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Error before Lna Bottom");
+                                }
+                            }
 
                             // demod - start scan
                             if (err == 0)

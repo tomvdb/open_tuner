@@ -123,15 +123,15 @@
             this.menuFullScreen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageStoredFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.storedFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.manageStoredFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-            this.storedFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -805,6 +805,31 @@
             resources.ApplyResources(this.quitToolStripMenuItem, "quitToolStripMenuItem");
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manageStoredFrequenciesToolStripMenuItem,
+            this.toolStripMenuItem6,
+            this.storedFrequenciesToolStripMenuItem});
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
+            // 
+            // manageStoredFrequenciesToolStripMenuItem
+            // 
+            this.manageStoredFrequenciesToolStripMenuItem.Name = "manageStoredFrequenciesToolStripMenuItem";
+            resources.ApplyResources(this.manageStoredFrequenciesToolStripMenuItem, "manageStoredFrequenciesToolStripMenuItem");
+            this.manageStoredFrequenciesToolStripMenuItem.Click += new System.EventHandler(this.manageStoredFrequenciesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            resources.ApplyResources(this.toolStripMenuItem6, "toolStripMenuItem6");
+            // 
+            // storedFrequenciesToolStripMenuItem
+            // 
+            this.storedFrequenciesToolStripMenuItem.Name = "storedFrequenciesToolStripMenuItem";
+            resources.ApplyResources(this.storedFrequenciesToolStripMenuItem, "storedFrequenciesToolStripMenuItem");
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -835,31 +860,6 @@
             // 
             this.SpectrumTuneTimer.Interval = 1500;
             this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manageStoredFrequenciesToolStripMenuItem,
-            this.toolStripMenuItem6,
-            this.storedFrequenciesToolStripMenuItem});
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
-            // 
-            // manageStoredFrequenciesToolStripMenuItem
-            // 
-            this.manageStoredFrequenciesToolStripMenuItem.Name = "manageStoredFrequenciesToolStripMenuItem";
-            resources.ApplyResources(this.manageStoredFrequenciesToolStripMenuItem, "manageStoredFrequenciesToolStripMenuItem");
-            this.manageStoredFrequenciesToolStripMenuItem.Click += new System.EventHandler(this.manageStoredFrequenciesToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            resources.ApplyResources(this.toolStripMenuItem6, "toolStripMenuItem6");
-            // 
-            // storedFrequenciesToolStripMenuItem
-            // 
-            this.storedFrequenciesToolStripMenuItem.Name = "storedFrequenciesToolStripMenuItem";
-            resources.ApplyResources(this.storedFrequenciesToolStripMenuItem, "storedFrequenciesToolStripMenuItem");
             // 
             // Form1
             // 

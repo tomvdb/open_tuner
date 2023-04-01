@@ -151,7 +151,7 @@ namespace opentuner
         Font setting_chat_font;
         int setting_chat_width = 0;
         int setting_chat_height = 0;
-
+        bool setting_disable_lna = false;
 
         bool isFullScreen = false;
 
@@ -181,7 +181,7 @@ namespace opentuner
             }
             else
             {
-                //videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 1);
+                videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 1);
 
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.WindowState = FormWindowState.Maximized;
@@ -589,7 +589,7 @@ namespace opentuner
             // NIM thread
             NimStatusCallback status_callback = new NimStatusCallback(nim_status_feedback);
 
-            NimThread nim_thread = new NimThread(config_queue, ftdi_hw, status_callback);
+            NimThread nim_thread = new NimThread(config_queue, ftdi_hw, status_callback, setting_disable_lna);
 
             nim_thread_t = new Thread(nim_thread.worker_thread);
 
@@ -1106,6 +1106,12 @@ namespace opentuner
                 }
 
                 Console.WriteLine(arg);
+
+                if (arg == "DISABLELNA")
+                {
+                    Console.WriteLine("Disabling LNA Configure due to command line");
+                    setting_disable_lna = true;
+                }
 
                 if (arg == "DISABLEQO100")
                 {

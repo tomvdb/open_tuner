@@ -138,16 +138,26 @@ namespace opentuner
 
             /* lookup the ICP value in the lookup table as per datasheet */
             pos = 0;
-            while (f_vco > stv6120_icp_lookup[pos++,1]) ;
+            while (f_vco > stv6120_icp_lookup[pos++,1] && pos < 7) ;
+
             icp = (byte)stv6120_icp_lookup[pos - 1,2];
 
             /* lookup the high freq filter cutoff setting as per datasheet */
             cfhf = 0;
+
             while ((3 * freq / 1000) <= stv6120_cfhf[cfhf])
             {
                 cfhf++;
+
+                if (cfhf >= 32)
+                {
+                    cfhf = 32;
+                    break;
+                }
             }
-            cfhf--; /* we are sure it isn't greater then the first array element so this is safe */
+
+            if (cfhf > 1)
+                cfhf--; // this can be 0 ...
 
             //printf("      Status: tuner:%i, f_vco=0x%x, icp=0x%x, f=0x%x, n=0x%x,\n", tuner, f_vco, icp, f, n);
             //printf("              rdiv=0x%x, p=0x%x, freq=%i, cfhf=%i\n", rdiv, p, freq, stv6120_cfhf[cfhf]);
