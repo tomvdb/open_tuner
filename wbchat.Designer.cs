@@ -111,6 +111,7 @@
             this.lbUsers.Location = new System.Drawing.Point(0, 0);
             this.lbUsers.Name = "lbUsers";
             this.lbUsers.Size = new System.Drawing.Size(180, 428);
+            this.lbUsers.Sorted = true;
             this.lbUsers.TabIndex = 0;
             this.lbUsers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseDoubleClick);
             // 

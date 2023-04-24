@@ -26,12 +26,12 @@ namespace opentuner.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("9750000")]
-        public int tuner1_default_lo {
+        public int default_lo_B {
             get {
-                return ((int)(this["tuner1_default_lo"]));
+                return ((int)(this["default_lo_B"]));
             }
             set {
-                this["tuner1_default_lo"] = value;
+                this["default_lo_B"] = value;
             }
         }
         
@@ -86,12 +86,12 @@ namespace opentuner.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int tuner2_default_lo {
+        public int default_lo_A {
             get {
-                return ((int)(this["tuner2_default_lo"]));
+                return ((int)(this["default_lo_A"]));
             }
             set {
-                this["tuner2_default_lo"] = value;
+                this["default_lo_A"] = value;
             }
         }
         
@@ -168,7 +168,7 @@ namespace opentuner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1739")]
         public int window_width {
             get {
                 return ((int)(this["window_width"]));
@@ -180,7 +180,7 @@ namespace opentuner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1235")]
         public int window_height {
             get {
                 return ((int)(this["window_height"]));
@@ -192,7 +192,7 @@ namespace opentuner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int window_x {
             get {
                 return ((int)(this["window_x"]));
@@ -204,7 +204,7 @@ namespace opentuner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int window_y {
             get {
                 return ((int)(this["window_y"]));

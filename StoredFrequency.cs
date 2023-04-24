@@ -13,5 +13,6 @@ namespace opentuner
         public uint Offset;
         public uint SymbolRate;
         public byte RFInput;
+        public byte DefaultTuner;
     }
 }

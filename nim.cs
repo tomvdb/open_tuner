@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace opentuner
 {
@@ -17,8 +18,8 @@ namespace opentuner
 
         private ftdi ftdi_device;
 
-        //public const byte NIM_DEMOD_ADDR = 0xd2;
-        public const byte NIM_DEMOD_ADDR = 0xd2;
+        public const byte NIM_DEMOD_ADDR = 0xd2; 
+
         public const byte NIM_TUNER_ADDR = 0xc0;
 
         public const byte NIM_LNA_0_ADDR = stvvglna_regs.STVVGLNA_I2C_ADDR3;
@@ -104,6 +105,7 @@ namespace opentuner
 
         public byte nim_write_demod(ushort reg, byte val)
         {
+            //Thread.Sleep(1);
             //Console.WriteLine("nim demod write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
             //Console.WriteLine("Using Nim Address: " + NIM_DEMOD_ADDR.ToString());
             byte error = 0;
@@ -126,6 +128,8 @@ namespace opentuner
 
         public byte nim_read_demod(ushort reg, ref byte val)
         {
+            //Thread.Sleep(1);
+
             byte err = 0;
 
             //Console.WriteLine("Using Nim Address: " + NIM_DEMOD_ADDR.ToString());
@@ -144,7 +148,6 @@ namespace opentuner
             }
 
             //Console.WriteLine("nim demod read: {0}, {1}", reg.ToString("X"), val.ToString("X"));
-
 
             return err;
         }

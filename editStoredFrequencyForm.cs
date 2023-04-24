@@ -27,11 +27,18 @@ namespace opentuner
         private void btnSave_Click(object sender, EventArgs e)
         {
             // do some validation
+            if (comboDefaultTuner.SelectedIndex < 0)
+            {
+                MessageBox.Show("You need to select a default Tuner");
+                return;
+            }
+
             if (comboRFInput.SelectedIndex < 0)
             {
                 MessageBox.Show("You need to select a RF Input");
                 return;
             }
+            
 
             if (txtName.Text.Length == 0)
             {

@@ -13,6 +13,9 @@ namespace opentuner
 {
     public class ftdi
     {
+        public const byte TS1 = 0;
+        public const byte TS2 = 1;
+
         // ###### I2C Library defines ######
         const byte I2C_Dir_SDAin_SCLin = 0x00;
         const byte I2C_Dir_SDAin_SCLout = 0x01;
@@ -50,6 +53,7 @@ namespace opentuner
         FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
         FTDI ftdiDevice_i2c = new FTDI();
         FTDI ftdiDevice_ts = new FTDI();
+        FTDI ftdiDevice_ts2 = new FTDI();
 
         // high byte
         /* Default GPIO value 0x6f = 0b01101111 = LNB Bias Off, LNB Voltage 12V, NIM not reset */
@@ -125,7 +129,6 @@ namespace opentuner
 
         private byte Send_Data_i2c(uint BytesToSend)
         {
-
             NumBytesToSend = BytesToSend;
 
             // Send data. This will return once all sent or if times out
@@ -480,6 +483,7 @@ namespace opentuner
 
         public byte ftdi_i2c_write_reg16(byte addr, ushort reg, byte val)
         {
+
             byte err = 0;
             short i;
             short timeout = 0;
@@ -513,6 +517,7 @@ namespace opentuner
 
         public byte ftdi_i2c_read_reg16(byte addr, ushort reg, ref byte val)
         {
+
             byte err = 0;
             int i = 0;
             int timeout = 0;
@@ -556,7 +561,7 @@ namespace opentuner
 
         }
 
-        public byte ftdi_detect(ref uint i2c_port, ref uint ts_port, ref string detectedDeviceName)
+        public byte ftdi_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName)
         {
             Console.WriteLine("**** FTDI Ports Detection ****");
 
@@ -565,6 +570,7 @@ namespace opentuner
 
             ts_port = 99;
             i2c_port = 99;
+            ts_port2 = 99;
 
             try
             {
@@ -589,7 +595,7 @@ namespace opentuner
                     // is this a ft2232 device?
                     if (device.ToString() != "FT_DEVICE_2232H")
                     {
-                        Console.WriteLine(c.ToString() + ": not a FT2232H device, skipping");
+                        Console.WriteLine(c.ToString() + ": not a FT2232H device (" + device.ToString() + ") skipping");
                         ftdi_device.Close();
                         continue;
                     }
@@ -623,6 +629,12 @@ namespace opentuner
                         ts_port = c;
                     }
 
+                    if (deviceName.Contains("NIM tuner B DB"))
+                    {
+                        Console.WriteLine("Should be the ts port for a BATC V2 Minitiouner");
+                        ts_port2 = c;
+                    }
+
                     if (deviceName.Contains("MiniTiouner_Pro_TS2 A"))
                     {
                         Console.WriteLine("Should be the i2c port for a Minitiouner Pro 2");
@@ -635,6 +647,13 @@ namespace opentuner
                         Console.WriteLine("Should be the ts port for a Minitiouner Pro 2");
                         ts_port = c;
                     }
+
+                    if (deviceName.Contains("MiniTiouner_Pro_TS1 B"))
+                    {
+                        Console.WriteLine("Should be the ts port for a Minitiouner Pro 2");
+                        ts_port2 = c;
+                    }
+
 
                     if (deviceName.Contains("MiniTiouner A"))
                     {
@@ -662,8 +681,6 @@ namespace opentuner
                         ts_port = c;
                     }
 
-
-
                     ftdi_device.Close();
                     Console.WriteLine(" ---- ");
                 }
@@ -682,7 +699,7 @@ namespace opentuner
             return err;
         }
 
-        public byte ftdi_init(uint i2c_device, uint ts_device)
+        public byte ftdi_init(uint i2c_device, uint ts_device, uint ts_device2)
         {
             byte err = 0;
             uint devcount = 0;
@@ -713,8 +730,18 @@ namespace opentuner
                 return 1;
             }
 
+            if (ts_device2 != 99)
+            {
+                ftStatus = ftdiDevice_ts2.OpenByIndex(ts_device2);
+
+                if (ftStatus != FTDI.FT_STATUS.FT_OK)
+                {
+                    return 1;
+                }
+            }
+
+
             err = ftdi_set_mpsse_mode(ftdiDevice_i2c);
-            //if (err == 0) err = ftdi_set_mpsse_mode(ftdiDevice_ts);
             if (err == 0) err = ftdi_set_ftdi_io(ftdiDevice_i2c);
             if (err == 0) err = ftdi_nim_reset();
 
@@ -781,13 +808,20 @@ namespace opentuner
             return I2C_Status;
         }
 
-        public byte ftdi_ts_read(ref byte[] data, ref uint bytesRead)
+        public byte ftdi_ts_read(int device, ref byte[] data, ref uint bytesRead)
         {
             byte err = 0;
 
             FTDI.FT_STATUS ts_ftdi_status = FTDI.FT_STATUS.FT_OK;
 
-            ts_ftdi_status = ftdiDevice_ts.Read(data, Convert.ToUInt32(data.Length), ref bytesRead);
+            if (device == TS2)
+            {
+                ts_ftdi_status = ftdiDevice_ts.Read(data, Convert.ToUInt32(data.Length), ref bytesRead);
+            }
+            else
+            {
+                ts_ftdi_status = ftdiDevice_ts2.Read(data, Convert.ToUInt32(data.Length), ref bytesRead);
+            }
 
             //Console.WriteLine(ts_ftdi_status.ToString());
 
@@ -797,29 +831,44 @@ namespace opentuner
             return err;
         }
 
-        public byte ftdi_ts_available(ref uint bytes_available)
+        public byte ftdi_ts_available(int device, ref uint bytes_available)
         {
             byte err = 0;
 
             FTDI.FT_STATUS ts_ftdi_status = FTDI.FT_STATUS.FT_OK;
 
-            ts_ftdi_status = ftdiDevice_ts.GetRxBytesAvailable(ref bytes_available);
+            if (device == TS2)
+                ts_ftdi_status = ftdiDevice_ts.GetRxBytesAvailable(ref bytes_available);
+            else
+                ts_ftdi_status = ftdiDevice_ts2.GetRxBytesAvailable(ref bytes_available);
 
-            
-            byte[] data = new byte[20*512];
-            uint dataRead = 0;
-
-            ts_ftdi_status = ftdiDevice_ts.Read(data, 20*512, ref dataRead);
-
-            Console.WriteLine(ts_ftdi_status.ToString());
-            Console.WriteLine(dataRead.ToString());
-
-            // todo check result
-            //Console.WriteLine(ts_ftdi_status.ToString());
-            
+            if (ts_ftdi_status != FTDI.FT_STATUS.FT_OK)
+                err = 1;
 
             return err;
         }
+
+        public byte ftdi_ts_flush(int device)
+        {
+            byte err = 0;
+
+            FTDI.FT_STATUS ts_ftdi_status = FTDI.FT_STATUS.FT_OK;
+
+            if (device == TS2)
+            {
+                ts_ftdi_status = ftdiDevice_ts.Purge(FTDI.FT_PURGE.FT_PURGE_RX);
+            }
+            else
+            {
+                ts_ftdi_status = ftdiDevice_ts2.Purge(FTDI.FT_PURGE.FT_PURGE_RX);
+            }
+
+            if (ts_ftdi_status != FTDI.FT_STATUS.FT_OK)
+                err = 1;
+
+            return err;
+        }
+
 
         // on minitiouner pro 2 there are 2 outputs for the 2 different lnb switching - longmynd originally only catered for 1 output, the pro 2 needs two outputs. 
         // need to confirm express and S versions.

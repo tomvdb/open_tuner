@@ -158,5 +158,13 @@ namespace opentuner
 
         public static byte STV6120_CTRL23 = 0x18;
 
+        public static byte STV6120_CTRL10_RESET = 0xbf;		// register reset value
+        public static byte STV6120_CTRL8_CALTIME_MASK = 0x20;
+        //public static byte STV6120_CTRL7_CF_5MHZ = 0x00;
+        public static byte STV6120_CTRL7_CF_23MHZ = 0x12;
+        //public static byte STV6120_CTRL1_OSHAPE_SHIFT = 1;
+        //public static byte STV6120_CTRL10_LNADON_SHIFT = 5;
+        //public statuc byte STV6120_CTRL10_LNACON_SHIFT = 4;
+
     }
 }

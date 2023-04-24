@@ -11,7 +11,8 @@ namespace opentuner
 
     class stv0910
     {
-
+        public const byte KHZ22ON = 0;
+        public const byte KHZ22OFF = 1;
         public const byte DEMOD_HUNTING = 0;
         public const byte DEMOD_FOUND_HEADER = 1;
         public const byte DEMOD_S2 = 2;
@@ -83,25 +84,11 @@ namespace opentuner
 
             Console.WriteLine("Flow: Setup carrier loop: {0}" , demod);
 
-            if (demod == STV0910_DEMOD_TOP)
-            {
-                err = stv0910_write_reg(stv0910_regs.RSTV0910_P2_CFRINIT0, 0);
-            }
-            else
-            {
-                err = stv0910_write_reg(stv0910_regs.RSTV0910_P1_CFRINIT0, 0);
-            }
+            err = stv0910_write_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_CFRINIT0 : stv0910_regs.RSTV0910_P1_CFRINIT0, 0);
 
             if (err == 0)
             {
-                if (demod == STV0910_DEMOD_TOP)
-                {
-                    err = stv0910_write_reg(stv0910_regs.RSTV0910_P2_CFRINIT1, 0);
-                }
-                else
-                {
-                    err = stv0910_write_reg(stv0910_regs.RSTV0910_P1_CFRINIT1, 0);
-                }
+                err = stv0910_write_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_CFRINIT0 : stv0910_regs.RSTV0910_P1_CFRINIT0, 0);
             }
 
             // 0.6 * SR seems to give +/- 0.5 SR lock
@@ -115,6 +102,7 @@ namespace opentuner
             }
             // the lower value is the negative of the upper value
             temp = -temp;
+
             if (err == 0)
             {
                 err = stv0910_write_reg((demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_CFRLOW0 : stv0910_regs.RSTV0910_P1_CFRLOW0), (byte)(temp & 0xff));
@@ -123,6 +111,24 @@ namespace opentuner
 
             return err;
 
+        }
+
+        public byte stv0910_read_ts_status(byte demod, ref UInt32 info)  
+        {
+            byte err;
+            byte temp0 = 0;
+            byte temp1 = 0;
+
+            err = 0;
+
+            err |= stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_TSSTATUS : stv0910_regs.RSTV0910_P1_TSSTATUS, ref temp0);
+            err |= stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_TSSTATUS2 : stv0910_regs.RSTV0910_P1_TSSTATUS2, ref temp1);
+
+            info = (UInt32)(temp0 | (temp1 << 8));
+
+            if (err != 0) Console.WriteLine("ERROR: STV0910 read multistream0\r\n");
+
+            return (err);
         }
 
         byte stv0910_setup_timing_loop(byte demod, UInt32 sr)
@@ -137,26 +143,12 @@ namespace opentuner
 
             if (err == 0)
             {
-                if (demod == STV0910_DEMOD_TOP)
-                {
-                    err = stv0910_write_reg(stv0910_regs.RSTV0910_P2_SFRINIT1, (byte)(sr_reg >> 8));
-                }
-                else
-                {
-                    err = stv0910_write_reg(stv0910_regs.RSTV0910_P1_SFRINIT0, (byte)(sr_reg >> 8));
-                }
+                    err = stv0910_write_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_SFRINIT1 : stv0910_regs.RSTV0910_P1_SFRINIT1, (byte)(sr_reg >> 8));
             }
 
             if (err == 0)
             {
-                if (demod == STV0910_DEMOD_TOP)
-                {
-                    err = stv0910_write_reg(stv0910_regs.RSTV0910_P2_SFRINIT0, (byte)(sr_reg & 0xFF));
-                }
-                else
-                {
-                    err = stv0910_write_reg(stv0910_regs.RSTV0910_P1_SFRINIT1, (byte)(sr_reg & 0xFF));
-                }
+                    err = stv0910_write_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_SFRINIT0 : stv0910_regs.RSTV0910_P1_SFRINIT0, (byte)(sr_reg & 0xFF));
             }
 
 
@@ -180,11 +172,15 @@ namespace opentuner
 
             odf = 4;
             idf = 1;
+
             if (err == 0) err = stv0910_write_reg_field(stv0910_regs.FSTV0910_ODF, odf);
             if (err == 0) err = stv0910_write_reg_field(stv0910_regs.FSTV0910_IDF, idf);
+
             f_xtal = nim.NIM_TUNER_XTAL / 1000; /* in MHz */
+
             f_phi = 135000000 / 1000000;
             ndiv = (f_phi * odf * idf) / f_xtal;
+
             if (err == 0) err = stv0910_write_reg_field(stv0910_regs.FSTV0910_N_DIV, (byte)ndiv);
 
             /* Set CP according to NDIV */
@@ -219,7 +215,8 @@ namespace opentuner
             nim_device = _nim_device;
         }
 
-        public byte stv0910_init(UInt32 sr1, UInt32 sr2)
+
+        public byte stv0910_init()
         {
             byte err = 0;
 
@@ -233,23 +230,57 @@ namespace opentuner
             if (err == 0) err = stv0910_init_regs();
             if (err == 0) err = stv0910_setup_clocks();
 
+            return err;
+        }
 
-            if (sr1 != 0)
+        public byte stv0910_setup_receive(byte demod, UInt32 sr)
+        {
+            byte err = 0;
+
+            if (err == 0) err = stv0910_setup_equalisers(demod);
+            if (err == 0) err = stv0910_setup_carrier_loop(demod, Convert.ToUInt32(sr * 1.5));
+            if (err == 0) err = stv0910_setup_timing_loop(demod, sr);
+
+            return err;
+        }
+
+        public byte stv0910_switch_22Khz_p1(bool switch_flag)
+        {
+            byte err = 0;
+
+            if (switch_flag)
             {
-                if (err == 0) err = stv0910_setup_equalisers(STV0910_DEMOD_TOP);
-                if (err == 0) err = stv0910_setup_carrier_loop(STV0910_DEMOD_TOP, Convert.ToUInt32(sr1 * 1.5));
-                if (err == 0) err = stv0910_setup_timing_loop(STV0910_DEMOD_TOP, sr1);
+                err = stv0910_write_reg(stv0910_regs.RSTV0910_P1_DISTXCFG, KHZ22ON);
+            }
+            else
+            {
+                err = stv0910_write_reg(stv0910_regs.RSTV0910_P1_DISTXCFG, KHZ22OFF);
             }
 
-            if (sr2 != 0)
+            if (err != 0)
             {
-                if (err == 0) err = stv0910_setup_equalisers(STV0910_DEMOD_BOTTOM);
-                if (err == 0) err = stv0910_setup_carrier_loop(STV0910_DEMOD_BOTTOM, Convert.ToUInt32(sr2 * 1.5));
-                if (err == 0) err = stv0910_setup_timing_loop(STV0910_DEMOD_BOTTOM, sr2);
+                Console.WriteLine("Error switching 22khz - P1");
+            }
+
+            if (err == 0)
+            {
+                if (switch_flag)
+                {
+                    err = stv0910_write_reg(stv0910_regs.RSTV0910_P2_DISTXCFG, KHZ22ON);
+                }
+                else
+                {
+                    err = stv0910_write_reg(stv0910_regs.RSTV0910_P2_DISTXCFG, KHZ22OFF);
+                }
+
+                if (err != 0)
+                {
+                    Console.WriteLine("Error switching 22khz - P2");
+                }
+
             }
 
             return err;
-
         }
 
         private byte stv0910_write_reg_field(UInt32 field, byte field_val)
@@ -268,12 +299,10 @@ namespace opentuner
             return err;
         }
 
+
         private byte stv0910_read_reg_field( UInt32 field, ref byte field_val)
         {
-            //Console.WriteLine("Read REG Field {0} {1}", field.ToString(), field_val.ToString());
-
             byte err = 0;
-
             byte val = 0;
 
             if (err == 0) err = nim_device.nim_read_demod((ushort)(field >> 16), ref val);

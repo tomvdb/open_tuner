@@ -24,16 +24,19 @@ namespace opentuner
 
         public static STReg[] STV0910DefVal = new STReg[]
         {
-    /* SYS registers */
+ /* SYS registers */
 /*  new STReg( stv0910_regs.RSTV0910_MID,               0x51 ),    MID              R only */
 /*  new STReg( stv0910_regs.RSTV0910_DID,               0x20 ),    DID              R only */
     new STReg( stv0910_regs.RSTV0910_DACR1,             0x00 ), /* DACR1            DAC 1 freq=0, mode=0 */
     new STReg( stv0910_regs.RSTV0910_DACR2,             0x00 ), /* DACR2            DAC 2 freq=0, mode=0 */
     new STReg( stv0910_regs.RSTV0910_PADCFG,            0x05 ), /* PADCFG           AGCRF_1 inverted, Push-pull, AGCRF_2 same*/
-    new STReg( stv0910_regs.RSTV0910_OUTCFG2,           0x00 ), /* OUTCFG2          all Transport stream signals not inverted  */
-    new STReg( stv0910_regs.RSTV0910_OUTCFG,            0x00 ), /* OUTCFG           TS2 serial pins push-pull, ts1 serial pins push-pull, 
-                                                                 ts2 parallel pins push-pull, ts1 parallel pins push-pull 
-                                                                 serial data output is D7 */
+///    new STReg( stv0910_regs.RSTV0910_OUTCFG2,           0x00 ), /* OUTCFG2          all Transport stream signals not inverted  */
+///    new STReg( stv0910_regs.RSTV0910_OUTCFG2,           0x44 ), /* OUTCFG2    invert VALID (DPN) */
+///    new STReg( stv0910_regs.RSTV0910_OUTCFG2,           0x55 ), /* OUTCFG2    invert VALID and CLOCK */
+///    new STReg( stv0910_regs.RSTV0910_OUTCFG2,           0x11 ), /* OUTCFG2    CLOCK */
+    new STReg( stv0910_regs.RSTV0910_OUTCFG2,           0x00 ),
+    new STReg( stv0910_regs.RSTV0910_OUTCFG,            0x00 ), /* OUTCFG           TS2 serial pins push-pull, ts1 serial pins push-pull, /                                                                 ts2 parallel pins push-pull, ts1 parallel pins push-pull 
+                                                              serial data output is D7 */
     new STReg( stv0910_regs.RSTV0910_IRQSTATUS3,        0x00 ), /* IRQSTATUS3       reset all pending IRQs */
     new STReg( stv0910_regs.RSTV0910_IRQSTATUS2,        0x00 ), /* IRQSTATUS2       reset all pending IRQs */
     new STReg( stv0910_regs.RSTV0910_IRQSTATUS1,        0x00 ), /* IRQSTATUS1       reset all pending IRQs */
@@ -120,16 +123,20 @@ namespace opentuner
     new STReg( stv0910_regs.RSTV0910_PREGCTL,           0x00 ), /* PREGCTL          DCDC 3v3 to 2v5 on */
     new STReg( stv0910_regs.RSTV0910_TSTTNR0,           0x00 ), /* TSTTNR0          was 0x04 updated to  0x00
                                                                  FSK analog cell off */
-    new STReg( stv0910_regs.RSTV0910_TSTTNR1,           0x44 ), /* TSTTNR1          was 0x46 updated to 0x44
-                                                                 ADC1 power off. note reset=0x26, upper bits are reserved */
-    new STReg( stv0910_regs.RSTV0910_TSTTNR2,           0x4b ), /* TSTTNR2          was 0x6b updated to 0x4b
-                                                                 I2C DiSEqC ADC 1 power off, diseqc clock div = 0xb
-                                                                 f_diseqc = 135MHz/2*(diseq_clk_div+17) = 2.41MHz */
+
+    // ***
+    new STReg( stv0910_regs.RSTV0910_TSTTNR1,           0x44 ),  //TSTTNR1          was 0x46 updated to 0x44
+                                                                 //ADC1 power off. note reset=0x26, upper bits are reserved 
+    new STReg( stv0910_regs.RSTV0910_TSTTNR1,           0x46 ), // TSTTNR1           ADC1 power on		(~!~!~)
+    new STReg( stv0910_regs.RSTV0910_TSTTNR2,           0x4b ), // TSTTNR2          was 0x6b updated to 0x4b
+///                                                                 I2C DiSEqC ADC 1 power off, diseqc clock div = 0xb
+///                                                                 f_diseqc = 135MHz/2*(diseq_clk_div+17) = 2.41MHz y
     new STReg( stv0910_regs.RSTV0910_TSTTNR3,           0x46 ), /* TSTTNR3          ADC2 power on. note again reset=0x26 again 0x46 writes to reserved  */
+    // ***
 
     /* DMD P2 Registers */
     new STReg( stv0910_regs.RSTV0910_P2_IQCONST,        0x00 ), /* P2_IQCONST */
-    new STReg( stv0910_regs.RSTV0910_P2_NOSCFG,         0x14 ), /* P2_NOSCFG */
+    new STReg( stv0910_regs.RSTV0910_P2_NOSCFG,   0x20 +      0x14 ), /* P2_NOSCFG */
     new STReg( stv0910_regs.RSTV0910_P2_ISYMB,          0x0e ), /* P2_ISYMB */
     new STReg( stv0910_regs.RSTV0910_P2_QSYMB,          0xfc ), /* P2_QSYMB */
     new STReg( stv0910_regs.RSTV0910_P2_AGC1CFG,        0x54 ), /* P2_AGC1CFG */
@@ -367,100 +374,13 @@ namespace opentuner
     new STReg( stv0910_regs.RSTV0910_P2_KDIV78,         0x50 ), /* P2_KDIV78 */
     new STReg( stv0910_regs.RSTV0910_P2_TSPIDFLT1,      0x00 ), /* P2_TSPIDFLT1 */
     new STReg( stv0910_regs.RSTV0910_P2_TSPIDFLT0,      0x00 ), /* P2_TSPIDFLT0 */
+
     /* DVB2 P2 Registers */
-    new STReg( stv0910_regs.RSTV0910_P2_PDELCTRL0,      0x01 ), /* P2_PDELCTRL0 */
-    new STReg( stv0910_regs.RSTV0910_P2_PDELCTRL1,      0x00 ), /* P2_PDELCTRL1 */
-    new STReg( stv0910_regs.RSTV0910_P2_PDELCTRL2,      0x20 ), /* P2_PDELCTRL2 */
-    new STReg( stv0910_regs.RSTV0910_P2_HYSTTHRESH,     0x41 ), /* P2_HYSTTHRESH */
-    new STReg( stv0910_regs.RSTV0910_P2_UPLCCST0,       0xe6 ), /* P2_UPLCCST0 */
-    new STReg( stv0910_regs.RSTV0910_P2_ISIENTRY,       0x00 ), /* P2_ISIENTRY */
-    new STReg( stv0910_regs.RSTV0910_P2_ISIBITENA,      0x00 ), /* P2_ISIBITENA */
-    new STReg( stv0910_regs.RSTV0910_P2_MATSTR1,        0xf0 ), /* P2_MATSTR1 */
-    new STReg( stv0910_regs.RSTV0910_P2_MATSTR0,        0x00 ), /* P2_MATSTR0 */
-    new STReg( stv0910_regs.RSTV0910_P2_UPLSTR1,        0x05 ), /* P2_UPLSTR1 */
-    new STReg( stv0910_regs.RSTV0910_P2_UPLSTR0,        0xe0 ), /* P2_UPLSTR0 */
-    new STReg( stv0910_regs.RSTV0910_P2_DFLSTR1,        0x7d ), /* P2_DFLSTR1 */
-    new STReg( stv0910_regs.RSTV0910_P2_DFLSTR0,        0x80 ), /* P2_DFLSTR0 */
-    new STReg( stv0910_regs.RSTV0910_P2_SYNCSTR,        0x47 ), /* P2_SYNCSTR */
-    new STReg( stv0910_regs.RSTV0910_P2_SYNCDSTR1,      0x00 ), /* P2_SYNCDSTR1 */
-    new STReg( stv0910_regs.RSTV0910_P2_SYNCDSTR0,      0x00 ), /* P2_SYNCDSTR0 */
-    new STReg( stv0910_regs.RSTV0910_P2_PDELSTATUS1,    0x94 ), /* P2_PDELSTATUS1 */
-    new STReg( stv0910_regs.RSTV0910_P2_PDELSTATUS2,    0x92 ), /* P2_PDELSTATUS2 */
-    new STReg( stv0910_regs.RSTV0910_P2_BBFCRCKO1,      0x00 ), /* P2_BBFCRCKO1 */
-    new STReg( stv0910_regs.RSTV0910_P2_BBFCRCKO0,      0x00 ), /* P2_BBFCRCKO0 */
-    new STReg( stv0910_regs.RSTV0910_P2_UPCRCKO1,       0x00 ), /* P2_UPCRCKO1 */
-    new STReg( stv0910_regs.RSTV0910_P2_UPCRCKO0,       0x00 ), /* P2_UPCRCKO0 */
-    new STReg( stv0910_regs.RSTV0910_P2_PDELCTRL3,      0x00 ), /* P2_PDELCTRL3 */
-    /* TS P2 Registers */
-    new STReg( stv0910_regs.RSTV0910_P2_TSSTATEM,       0xf0 ), /* P2_TSSTATEM */
-    new STReg( stv0910_regs.RSTV0910_P2_TSSTATEL,       0x12 ), /* P2_TSSTATEL */
-    new STReg( stv0910_regs.RSTV0910_P2_TSCFGH,         0x80 ), /* P2_TSCFGH */
-    new STReg( stv0910_regs.RSTV0910_P2_TSCFGM,         0x04 ), /* P2_TSCFGM */
-    new STReg( stv0910_regs.RSTV0910_P2_TSCFGL,         0x20 ), /* P2_TSCFGL */
-    new STReg( stv0910_regs.RSTV0910_P2_TSSYNC,         0x00 ), /* P2_TSSYNC */
-    new STReg( stv0910_regs.RSTV0910_P2_TSINSDELH,      0x00 ), /* P2_TSINSDELH */
-    new STReg( stv0910_regs.RSTV0910_P2_TSINSDELM,      0x00 ), /* P2_TSINSDELM */
-    new STReg( stv0910_regs.RSTV0910_P2_TSINSDELL,      0x00 ), /* P2_TSINSDELL */
-    new STReg( stv0910_regs.RSTV0910_P2_TSDIVN,         0x03 ), /* P2_TSDIVN */
-    new STReg( stv0910_regs.RSTV0910_P2_TSCFG4,         0x00 ), /* P2_TSCFG4 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSSPEED,        0x33 ), /* P2_TSSPEED */
-/*  new STReg( stv0910_regs.RSTV0910_P2_TSSTATUS,       0x52 ),    P2_TSSTATUS */
-    new STReg( stv0910_regs.RSTV0910_P2_TSSTATUS2,      0x02 ), /* P2_TSSTATUS2 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSBITRATE1,     0x00 ), /* P2_TSBITRATE1 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSBITRATE0,     0x03 ), /* P2_TSBITRATE0 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSPACKLEN1,     0x00 ), /* P2_TSPACKLEN1 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSDLY2,         0x00 ), /* P2_TSDLY2 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSDLY1,         0x00 ), /* P2_TSDLY1 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSDLY0,         0x00 ), /* P2_TSDLY0 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSNPDAV,        0x00 ), /* P2_TSNPDAV */
-    new STReg( stv0910_regs.RSTV0910_P2_TSBUFSTAT2,     0x00 ), /* P2_TSBUFSTAT2 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSBUFSTAT1,     0x00 ), /* P2_TSBUFSTAT1 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSBUFSTAT0,     0x00 ), /* P2_TSBUFSTAT0 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSDEBUGL,       0x04 ), /* P2_TSDEBUGL */
-    new STReg( stv0910_regs.RSTV0910_P2_TSDLYSET2,      0x01 ), /* P2_TSDLYSET2 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSDLYSET1,      0x18 ), /* P2_TSDLYSET1 */
-    new STReg( stv0910_regs.RSTV0910_P2_TSDLYSET0,      0x00 ), /* P2_TSDLYSET0 */
-    new STReg( stv0910_regs.RSTV0910_P2_ERRCTRL1,       0x67 ), /* P2_ERRCTRL1 */
-    new STReg( stv0910_regs.RSTV0910_P2_ERRCNT12,       0x00 ), /* P2_ERRCNT12 */
-    new STReg( stv0910_regs.RSTV0910_P2_ERRCNT11,       0x00 ), /* P2_ERRCNT11 */
-    new STReg( stv0910_regs.RSTV0910_P2_ERRCNT10,       0x00 ), /* P2_ERRCNT10 */
-    new STReg( stv0910_regs.RSTV0910_P2_ERRCTRL2,       0xc1 ), /* P2_ERRCTRL2 */
-    new STReg( stv0910_regs.RSTV0910_P2_ERRCNT22,       0x00 ), /* P2_ERRCNT22 */
-    new STReg( stv0910_regs.RSTV0910_P2_ERRCNT21,       0x00 ), /* P2_ERRCNT21 */
-    new STReg( stv0910_regs.RSTV0910_P2_ERRCNT20,       0x00 ), /* P2_ERRCNT20 */
-    new STReg( stv0910_regs.RSTV0910_P2_FECSPY,         0xa8 ), /* P2_FECSPY */
-    new STReg( stv0910_regs.RSTV0910_P2_FSPYCFG,        0x2c ), /* P2_FSPYCFG */
-    new STReg( stv0910_regs.RSTV0910_P2_FSPYDATA,       0x3a ), /* P2_FSPYDATA */
-    new STReg( stv0910_regs.RSTV0910_P2_FSPYOUT,        0x07 ), /* P2_FSPYOUT */
-    new STReg( stv0910_regs.RSTV0910_P2_FSTATUS,        0x00 ), /* P2_FSTATUS */
-    new STReg( stv0910_regs.RSTV0910_P2_FBERCPT4,       0x00 ), /* P2_FBERCPT4 */
-    new STReg( stv0910_regs.RSTV0910_P2_FBERCPT3,       0x00 ), /* P2_FBERCPT3 */
-    new STReg( stv0910_regs.RSTV0910_P2_FBERCPT2,       0x00 ), /* P2_FBERCPT2 */
-    new STReg( stv0910_regs.RSTV0910_P2_FBERCPT1,       0x00 ), /* P2_FBERCPT1 */
-    new STReg( stv0910_regs.RSTV0910_P2_FBERCPT0,       0x00 ), /* P2_FBERCPT0 */
-    new STReg( stv0910_regs.RSTV0910_P2_FBERERR2,       0x00 ), /* P2_FBERERR2 */
-    new STReg( stv0910_regs.RSTV0910_P2_FBERERR1,       0x00 ), /* P2_FBERERR1 */
-    new STReg( stv0910_regs.RSTV0910_P2_FBERERR0,       0x00 ), /* P2_FBERERR0 */
-    new STReg( stv0910_regs.RSTV0910_P2_FSPYBER,        0x12 ), /* P2_FSPYBER */
-    new STReg( stv0910_regs.RSTV0910_P2_SFERROR,        0xff ), /* P2_SFERROR */
-    /* SFEC P2 Registers */
-    new STReg( stv0910_regs.RSTV0910_P2_SFECSTATUS,     0x46 ), /* P2_SFECSTATUS */
-    new STReg( stv0910_regs.RSTV0910_P2_SFKDIV12,       0x1f ), /* P2_SFKDIV12 */
-    new STReg( stv0910_regs.RSTV0910_P2_SFKDIV23,       0x22 ), /* P2_SFKDIV23 */
-    new STReg( stv0910_regs.RSTV0910_P2_SFKDIV34,       0x24 ), /* P2_SFKDIV34 */
-    new STReg( stv0910_regs.RSTV0910_P2_SFKDIV56,       0x24 ), /* P2_SFKDIV56 */
-    new STReg( stv0910_regs.RSTV0910_P2_SFKDIV67,       0x29 ), /* P2_SFKDIV67 */
-    new STReg( stv0910_regs.RSTV0910_P2_SFKDIV78,       0x2c ), /* P2_SFKDIV78 */
-    new STReg( stv0910_regs.RSTV0910_P2_SFSTATUS,       0x4e ), /* P2_SFSTATUS */
-    new STReg( stv0910_regs.RSTV0910_P2_SFDLYSET2,      0x00 ), /* P2_SFDLYSET2 */
-    new STReg( stv0910_regs.RSTV0910_P2_SFERRCTRL,      0x94 ), /* P2_SFERRCTRL */
-    new STReg( stv0910_regs.RSTV0910_P2_SFERRCNT2,      0x80 ), /* P2_SFERRCNT2 */
-    new STReg( stv0910_regs.RSTV0910_P2_SFERRCNT1,      0x00 ), /* P2_SFERRCNT1 */
-    new STReg( stv0910_regs.RSTV0910_P2_SFERRCNT0,      0x00 ), /* P2_SFERRCNT0 */
+
 
     /* DMD P1 Registers */
     new STReg( stv0910_regs.RSTV0910_P1_IQCONST,        0x00 ), /* P1_IQCONST */
-    new STReg( stv0910_regs.RSTV0910_P1_NOSCFG,         0x14 ), /* P1_NOSCFG */
+    new STReg( stv0910_regs.RSTV0910_P1_NOSCFG,  0x20 +       0x14 ), /* P1_NOSCFG */
     new STReg( stv0910_regs.RSTV0910_P1_ISYMB,          0x0e ), /* P1_ISYMB         was 0xfe */
     new STReg( stv0910_regs.RSTV0910_P1_QSYMB,          0xf7 ), /* P1_QSYMB         was 0x07 */
     new STReg( stv0910_regs.RSTV0910_P1_AGC1CFG,        0x54 ), /* P1_AGC1CFG */
@@ -471,7 +391,8 @@ namespace opentuner
     new STReg( stv0910_regs.RSTV0910_P1_POWERI,         0x09 ), /* P1_POWERI */
     new STReg( stv0910_regs.RSTV0910_P1_POWERQ,         0x0a ), /* P1_POWERQ        was 0x09 */
     new STReg( stv0910_regs.RSTV0910_P1_AGC1AMM,        0xfd ), /* P1_AGC1AMM */
-    new STReg( stv0910_regs.RSTV0910_P1_AGC1QUAD,       0x05 ), /* P1_AGC1QUAD */
+///    new STReg( stv0910_regs.RSTV0910_P1_AGC1QUAD,       0x05 ), /* P1_AGC1QUAD */
+    new STReg( stv0910_regs.RSTV0910_P1_AGC1QUAD,       0xfd ), /* P1_AGC1QUAD */
     new STReg( stv0910_regs.RSTV0910_P1_AGCIQIN1,       0x00 ), /* P1_AGCIQIN1 */
     new STReg( stv0910_regs.RSTV0910_P1_AGCIQIN0,       0x00 ), /* P1_AGCIQIN0 */
     /* demodulator registers */
@@ -711,119 +632,11 @@ namespace opentuner
     new STReg( stv0910_regs.RSTV0910_P1_KDIV78,         0x50 ), /* P1_KDIV78 */
     new STReg( stv0910_regs.RSTV0910_P1_TSPIDFLT1,      0x00 ), /* P1_TSPIDFLT1 */
     new STReg( stv0910_regs.RSTV0910_P1_TSPIDFLT0,      0x00 ), /* P1_TSPIDFLT0 */
+
     /* DVB2 P1 Registers */
-    new STReg( stv0910_regs.RSTV0910_P1_PDELCTRL0,      0x01 ), /* P1_PDELCTRL0 */
-    new STReg( stv0910_regs.RSTV0910_P1_PDELCTRL1,      0x00 ), /* P1_PDELCTRL1 */
-    new STReg( stv0910_regs.RSTV0910_P1_PDELCTRL2,      0x20 ), /* P1_PDELCTRL2     was 0x00 */
-    new STReg( stv0910_regs.RSTV0910_P1_HYSTTHRESH,     0x41 ), /* P1_HYSTTHRESH */
-    new STReg( stv0910_regs.RSTV0910_P1_UPLCCST0,       0xe6 ), /* P1_UPLCCST0 */
-    new STReg( stv0910_regs.RSTV0910_P1_ISIENTRY,       0x00 ), /* P1_ISIENTRY */
-    new STReg( stv0910_regs.RSTV0910_P1_ISIBITENA,      0x00 ), /* P1_ISIBITENA */
-    new STReg( stv0910_regs.RSTV0910_P1_MATSTR1,        0xf0 ), /* P1_MATSTR1 */
-    new STReg( stv0910_regs.RSTV0910_P1_MATSTR0,        0x00 ), /* P1_MATSTR0 */
-    new STReg( stv0910_regs.RSTV0910_P1_UPLSTR1,        0x05 ), /* P1_UPLSTR1 */
-    new STReg( stv0910_regs.RSTV0910_P1_UPLSTR0,        0xe0 ), /* P1_UPLSTR0 */
-    new STReg( stv0910_regs.RSTV0910_P1_DFLSTR1,        0x7d ), /* P1_DFLSTR1 */
-    new STReg( stv0910_regs.RSTV0910_P1_DFLSTR0,        0x80 ), /* P1_DFLSTR0 */
-    new STReg( stv0910_regs.RSTV0910_P1_SYNCSTR,        0x47 ), /* P1_SYNCSTR */
-    new STReg( stv0910_regs.RSTV0910_P1_SYNCDSTR1,      0x00 ), /* P1_SYNCDSTR1 */
-    new STReg( stv0910_regs.RSTV0910_P1_SYNCDSTR0,      0x00 ), /* P1_SYNCDSTR0 */
-    new STReg( stv0910_regs.RSTV0910_P1_PDELSTATUS1,    0x94 ), /* P1_PDELSTATUS1 */
-    new STReg( stv0910_regs.RSTV0910_P1_PDELSTATUS2,    0x92 ), /* P1_PDELSTATUS2   was 0x12 */
-    new STReg( stv0910_regs.RSTV0910_P1_BBFCRCKO1,      0x00 ), /* P1_BBFCRCKO1 */
-    new STReg( stv0910_regs.RSTV0910_P1_BBFCRCKO0,      0x00 ), /* P1_BBFCRCKO0 */
-    new STReg( stv0910_regs.RSTV0910_P1_UPCRCKO1,       0x00 ), /* P1_UPCRCKO1 */
-    new STReg( stv0910_regs.RSTV0910_P1_UPCRCKO0,       0x00 ), /* P1_UPCRCKO0 */
-    new STReg( stv0910_regs.RSTV0910_P1_PDELCTRL3,      0x00 ), /* P1_PDELCTRL3 */
-    /* TS P1 Registers */
-    new STReg( stv0910_regs.RSTV0910_P1_TSSTATEM,       0xf0 ), /* P1_TSSTATEM      deinterleaver on, reed-solomon on, descrambler on,
-                                                                 TS enabled, immediate output of data*/
-    new STReg( stv0910_regs.RSTV0910_P1_TSSTATEL,       0x12 ), /* P1_TSSTATEL */
-    new STReg( stv0910_regs.RSTV0910_P1_TSCFGH,         0x80 ), /* P1_TSCFGH        was 0x40
-                                                                 DVBCI mode, max granularity, parallel output, no headers,
-                                                                 label error packets */
-    new STReg( stv0910_regs.RSTV0910_P1_TSCFGM,         0x04 ), /* P1_TSCFGM        auto speed, d0-d7 not switched, no invert */
-    new STReg( stv0910_regs.RSTV0910_P1_TSCFGL,         0x20 ), /* P1_TSCFGL        no delay on clkout, error mode=0b10, d/p=1 suring header and footer
-                                                                 don't load legacy, auto bitspeed */
-    new STReg( stv0910_regs.RSTV0910_P1_TSSYNC,         0x00 ), /* P1_TSSYNC */
-    new STReg( stv0910_regs.RSTV0910_P1_TSINSDELH,      0x00 ), /* P1_TSINSDELH */
-    new STReg( stv0910_regs.RSTV0910_P1_TSINSDELM,      0x00 ), /* P1_TSINSDELM */
-    new STReg( stv0910_regs.RSTV0910_P1_TSINSDELL,      0x00 ), /* P1_TSINSDELL */
-    new STReg( stv0910_regs.RSTV0910_P1_TSDIVN,         0x03 ), /* P1_TSDIVN */
-    new STReg( stv0910_regs.RSTV0910_P1_TSCFG4,         0x00 ), /* P1_TSCFG4 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSSPEED,        0x33 ), /* P1_TSSPEED       was 0xff */
-    new STReg( stv0910_regs.RSTV0910_P1_TSSTATUS,       0x52 ), /* P1_TSSTATUS      R Only */
-    new STReg( stv0910_regs.RSTV0910_P1_TSSTATUS2,      0x02 ), /* P1_TSSTATUS2     was 0xa8 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSBITRATE1,     0x00 ), /* P1_TSBITRATE1 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSBITRATE0,     0x03 ), /* P1_TSBITRATE0 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSPACKLEN1,     0x00 ), /* P1_TSPACKLEN1 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSDLY2,         0x00 ), /* P1_TSDLY2 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSDLY1,         0x00 ), /* P1_TSDLY1 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSDLY0,         0x00 ), /* P1_TSDLY0 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSNPDAV,        0x00 ), /* P1_TSNPDAV */
-    new STReg( stv0910_regs.RSTV0910_P1_TSBUFSTAT2,     0x00 ), /* P1_TSBUFSTAT2 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSBUFSTAT1,     0x00 ), /* P1_TSBUFSTAT1 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSBUFSTAT0,     0x00 ), /* P1_TSBUFSTAT0 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSDEBUGL,       0x04 ), /* P1_TSDEBUGL */
-    new STReg( stv0910_regs.RSTV0910_P1_TSDLYSET2,      0x01 ), /* P1_TSDLYSET2 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSDLYSET1,      0x18 ), /* P1_TSDLYSET1 */
-    new STReg( stv0910_regs.RSTV0910_P1_TSDLYSET0,      0x00 ), /* P1_TSDLYSET0 */
-    new STReg( stv0910_regs.RSTV0910_P1_ERRCTRL1,       0x67 ), /* P1_ERRCTRL1 */
-    new STReg( stv0910_regs.RSTV0910_P1_ERRCNT12,       0x00 ), /* P1_ERRCNT12 */
-    new STReg( stv0910_regs.RSTV0910_P1_ERRCNT11,       0x00 ), /* P1_ERRCNT11 */
-    new STReg( stv0910_regs.RSTV0910_P1_ERRCNT10,       0x00 ), /* P1_ERRCNT10 */
-    new STReg( stv0910_regs.RSTV0910_P1_ERRCTRL2,       0xc1 ), /* P1_ERRCTRL2 */
-    new STReg( stv0910_regs.RSTV0910_P1_ERRCNT22,       0x00 ), /* P1_ERRCNT22 */
-    new STReg( stv0910_regs.RSTV0910_P1_ERRCNT21,       0x00 ), /* P1_ERRCNT21 */
-    new STReg( stv0910_regs.RSTV0910_P1_ERRCNT20,       0x00 ), /* P1_ERRCNT20 */
-    new STReg( stv0910_regs.RSTV0910_P1_FECSPY,         0xa8 ), /* P1_FECSPY   enable, serial mode, BER, lmode=0, Normal operation */
-    new STReg( stv0910_regs.RSTV0910_P1_FSPYCFG,        0x2c ), /* P1_FSPYCFG  */
-    new STReg( stv0910_regs.RSTV0910_P1_FSPYDATA,       0x3a ), /* P1_FSPYDATA */
-    new STReg( stv0910_regs.RSTV0910_P1_FSPYOUT,        0x07 ), /* P1_FSPYOUT  */
-    new STReg( stv0910_regs.RSTV0910_P1_FSTATUS,        0x00 ), /* P1_FSTATUS  */
-    new STReg( stv0910_regs.RSTV0910_P1_FBERCPT4,       0x00 ), /* P1_FBERCPT4 */
-    new STReg( stv0910_regs.RSTV0910_P1_FBERCPT3,       0x00 ), /* P1_FBERCPT3 */
-    new STReg( stv0910_regs.RSTV0910_P1_FBERCPT2,       0x00 ), /* P1_FBERCPT2 */
-    new STReg( stv0910_regs.RSTV0910_P1_FBERCPT1,       0x00 ), /* P1_FBERCPT1 */
-    new STReg( stv0910_regs.RSTV0910_P1_FBERCPT0,       0x00 ), /* P1_FBERCPT0 */
-    new STReg( stv0910_regs.RSTV0910_P1_FBERERR2,       0x00 ), /* P1_FBERERR2 */
-    new STReg( stv0910_regs.RSTV0910_P1_FBERERR1,       0x00 ), /* P1_FBERERR1 */
-    new STReg( stv0910_regs.RSTV0910_P1_FBERERR0,       0x00 ), /* P1_FBERERR0 */
-    new STReg( stv0910_regs.RSTV0910_P1_FSPYBER,        0x12 ), /* P1_FSPYBER  was 0x11, set couting to 2^15 bytes */
-    new STReg( stv0910_regs.RSTV0910_P1_SFERROR,        0xff ), /* P1_SFERROR  */
-    /* SFEC P1 Registers */
-    new STReg( stv0910_regs.RSTV0910_P1_SFECSTATUS,     0x46 ), /* P1_SFECSTATUS    was 0x44 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFKDIV12,       0x1f ), /* P1_SFKDIV12 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFKDIV23,       0x22 ), /* P1_SFKDIV23 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFKDIV34,       0x24 ), /* P1_SFKDIV34 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFKDIV56,       0x24 ), /* P1_SFKDIV56 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFKDIV67,       0x29 ), /* P1_SFKDIV67 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFKDIV78,       0x2c ), /* P1_SFKDIV78 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFSTATUS,       0x4e ), /* P1_SFSTATUS      was 0x46 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFDLYSET2,      0x00 ), /* P1_SFDLYSET2 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFERRCTRL,      0x94 ), /* P1_SFERRCTRL */
-    new STReg( stv0910_regs.RSTV0910_P1_SFERRCNT2,      0x80 ), /* P1_SFERRCNT2 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFERRCNT1,      0x00 ), /* P1_SFERRCNT1 */
-    new STReg( stv0910_regs.RSTV0910_P1_SFERRCNT0,      0x00 ), /* P1_SFERRCNT0 */
-
-    /* RC registers */
-    new STReg( stv0910_regs.RSTV0910_RCCFG2,            0x60 ), /* RCCFG2           */
-    new STReg( stv0910_regs.RSTV0910_RCCFG1,            0x00 ), /* RCCFG1           */
-    new STReg( stv0910_regs.RSTV0910_RCCFG0,            0x00 ), /* RCCFG0           */
-    new STReg( stv0910_regs.RSTV0910_RCINSDEL2,         0x00 ), /* RCINSDEL2        */
-    new STReg( stv0910_regs.RSTV0910_RCINSDEL1,         0x00 ), /* RCINSDEL1        */
-    new STReg( stv0910_regs.RSTV0910_RCINSDEL0,         0x00 ), /* RCINSDEL0        */
-    new STReg( stv0910_regs.RSTV0910_RCSTATUS,          0x00 ), /* RCSTATUS         */
-    new STReg( stv0910_regs.RSTV0910_RCSPEED,           0xff ), /* RCSPEED          */
-
-    
-    new STReg( stv0910_regs.RSTV0910_TSGENERAL,         0x00 ), 
-    
-    /* TSGENERAL        enable output of second line in parallel line
-                                                                 override tsfifo_permparal and defineline1->TS3, line2->TS2,RCline->TS1
-                                                                 tsfifo_perparal defines line1-> TS3, line2->TS2, RC LIne->TS1 */
-   
-
+    new STReg( stv0910_regs.RSTV0910_TSGENERAL,         0x00 ), // TSGENERAL        enable output of second line in parallel line
+///                                                                 override tsfifo_permparal and defineline1->TS3, line2->TS2,RCline->TS1
+///                                                                 tsfifo_perparal defines line1-> TS3, line2->TS2, RC LIne->TS1 
     /* DISEQC P1 Registers */
     new STReg( stv0910_regs.RSTV0910_P1_DISIRQCFG,      0x00 ), /* P1_DISIRQCFG     */
 /*  new STReg( stv0910_regs.RSTV0910_P1_DISIRQSTAT,     0x00 ),    P1_DISIRQSTAT    R only */
@@ -994,7 +807,7 @@ namespace opentuner
     new STReg( stv0910_regs.RSTV0910_GAINLLR_SF26,      0x20 ), /* GAINLLR_SF26     */
     new STReg( stv0910_regs.RSTV0910_GAINLLR_SF27,      0x20 ), /* GAINLLR_SF27     */
     new STReg( stv0910_regs.RSTV0910_CFGEXT,            0x02 ), /* CFGEXT           */
-    new STReg( stv0910_regs.RSTV0910_GENCFG,            0x15 ), /* GENCFG           IP is in dual demod mode so both input streams are processed */
+///
 /*  new STReg( stv0910_regs.RSTV0910_LDPCERR1,          0x00 ),    LDPCERR1         R only : error counter MSByte */
 /*  new STReg( stv0910_regs.RSTV0910_LDPCERR0,          0x00 ),    LDPCERR0         R only : error counter LSByte */
 /*  new STReg( stv0910_regs.RSTV0910_BCHERR,            0x00 ),    BCHERR           R only : error flag and error counter */
@@ -1060,10 +873,49 @@ namespace opentuner
     new STReg( stv0910_regs.RSTV0910_P2_NBITER_SF26,    0x1b ), /* P2_NBITER_SF26 */
     new STReg( stv0910_regs.RSTV0910_P2_NBITER_SF27,    0x1c ), /* P2_NBITER_SF27 */
 
-    new STReg( stv0910_regs.RSTV0910_TSTRES0,           0x00 ), /* TSTRES0          */
-    new STReg( stv0910_regs.RSTV0910_TSTOUT,            0x00 ), /* TSTOUT           */
-    new STReg( stv0910_regs.RSTV0910_TSTIN,             0x00 ), /* TSTIN            */
 
+///    new STReg( stv0910_regs.RSTV0910_P1_TSINSDELH,      0x01 ), 		// send CRC at end of packet for DVB-S2
+///    new STReg( stv0910_regs.RSTV0910_P2_TSINSDELH,      0x01 ), 		// send CRC at end of packet for DVB-S2   
+    new STReg( stv0910_regs.RSTV0910_P1_TSCFGH,         0x80 ), 		// serial output, clock off when no data   
+    new STReg( stv0910_regs.RSTV0910_P2_TSCFGH,         0x80 ),
+    new STReg( stv0910_regs.RSTV0910_GENCFG,            0x15), 	// dual TS mode -  CROSSOVER bit 1 appears to do nothing
+    new STReg( stv0910_regs.RSTV0910_OUTCFG2,           0x00 ), 		// invert VALID and CLOCK 
+///    new STReg( stv0910_regs.RSTV0910_P1_TSDIVN,         0x83 ), 		// output clock adapts to data rate
+///    new STReg( stv0910_regs.RSTV0910_P2_TSDIVN,         0x83 ), 
+    new STReg( stv0910_regs.RSTV0910_P1_TSDIVN,         0x03 ), 		// default
+    new STReg( stv0910_regs.RSTV0910_P2_TSDIVN,         0x03 ), 
+
+    new STReg( stv0910_regs.RSTV0910_P1_TSSTATUS2,      0x02 ), 		// *
+    new STReg( stv0910_regs.RSTV0910_P2_TSSTATUS2,      0x02 ), 		// *
+
+
+
+
+///
+///    new STReg( stv0910_regs.RSTV0910_TSTRES0,           0x00 ), /* TSTRES0          */
+///    new STReg( stv0910_regs.RSTV0910_TSTOUT,            0x00 ), /* TSTOUT           */
+///    new STReg( stv0910_regs.RSTV0910_TSTIN,             0x00 ), /* TSTIN            */
+
+// SR scan range
+
+///    new STReg( stv0910_regs.RSTV0910_P2_SFRUP1,         0x3f ), /* P2_SFRUP1 */
+///    new STReg( stv0910_regs.RSTV0910_P2_SFRUP0,         0xff ), /* P2_SFRUP0 */
+///    new STReg( stv0910_regs.RSTV0910_P1_SFRLOW1,        0x2e ), /* P2_SFRLOW1 */
+///    new STReg( stv0910_regs.RSTV0910_P2_SFRLOW1,        0x2e ), /* P2_SFRLOW1 */
+
+/*
+    new STReg( stv0910_regs.RSTV0910_P1_SFRUP1,         0x80 ), 
+    new STReg( stv0910_regs.RSTV0910_P1_SFRUP0,         0x00 ), 
+    new STReg( stv0910_regs.RSTV0910_P1_SFRLOW1,        0x80 ), 
+    new STReg( stv0910_regs.RSTV0910_P1_SFRLOW0,        0x00 ),
+    new STReg( stv0910_regs.RSTV0910_P2_SFRUP1,         0x80 ),
+    new STReg( stv0910_regs.RSTV0910_P2_SFRUP0,         0x00 ),
+    new STReg( stv0910_regs.RSTV0910_P2_SFRLOW1,        0x80 ),
+    new STReg( stv0910_regs.RSTV0910_P2_SFRLOW0,        0x00 ),
+*/
+
+// wh52
+//
     new STReg( stv0910_regs.RSTV0910_P2_TSTDMD,         0x00 ), /* P2_TSTDMD */
     new STReg( stv0910_regs.RSTV0910_P2_TCTL1,          0x00 ), /* P2_TCTL1 */
     /* TST P2 Registers */
@@ -1075,8 +927,7 @@ namespace opentuner
     new STReg( stv0910_regs.RSTV0910_P1_TCTL4,          0x00 ), /* P1_TCTL4 */
     new STReg( stv0910_regs.RSTV0910_P1_TPKTDELIN,      0x00 ), /* P1_TPKTDELIN */
 
-    new STReg( stv0910_regs.RSTV0910_TSTTSRS,           0x00 ), /* TSTTSRS          */
-        };
+    new STReg( stv0910_regs.RSTV0910_TSTTSRS,           0x00 ), /* TSTTSRS          */        };
 
     }
 }

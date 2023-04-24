@@ -40,6 +40,8 @@
             this.comboRFInput = new System.Windows.Forms.ComboBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.comboDefaultTuner = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -129,7 +131,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(219, 168);
+            this.btnSave.Location = new System.Drawing.Point(219, 176);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 10;
@@ -139,7 +141,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(138, 168);
+            this.btnCancel.Location = new System.Drawing.Point(138, 176);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 11;
@@ -147,12 +149,35 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // comboDefaultTuner
+            // 
+            this.comboDefaultTuner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboDefaultTuner.FormattingEnabled = true;
+            this.comboDefaultTuner.Items.AddRange(new object[] {
+            "1",
+            "2"});
+            this.comboDefaultTuner.Location = new System.Drawing.Point(128, 143);
+            this.comboDefaultTuner.Name = "comboDefaultTuner";
+            this.comboDefaultTuner.Size = new System.Drawing.Size(121, 21);
+            this.comboDefaultTuner.TabIndex = 13;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(14, 146);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Default Tuner:";
+            // 
             // editStoredFrequencyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(313, 211);
             this.ControlBox = false;
+            this.Controls.Add(this.comboDefaultTuner);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.comboRFInput);
@@ -188,5 +213,7 @@
         public System.Windows.Forms.TextBox txtOffset;
         public System.Windows.Forms.TextBox txtSR;
         public System.Windows.Forms.ComboBox comboRFInput;
+        public System.Windows.Forms.ComboBox comboDefaultTuner;
+        private System.Windows.Forms.Label label6;
     }
 }

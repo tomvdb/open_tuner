@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="opentuner.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="tuner1_default_lo" Type="System.Int32" Scope="User">
+    <Setting Name="default_lo_B" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">9750000</Value>
     </Setting>
     <Setting Name="default_lnb_supply" Type="System.Byte" Scope="User">
@@ -17,7 +17,7 @@
     <Setting Name="language" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="tuner2_default_lo" Type="System.Int32" Scope="User">
+    <Setting Name="default_lo_A" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="default_volume" Type="System.Int32" Scope="User">
@@ -39,16 +39,16 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="window_width" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">-1</Value>
+      <Value Profile="(Default)">1739</Value>
     </Setting>
     <Setting Name="window_height" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">-1</Value>
+      <Value Profile="(Default)">1235</Value>
     </Setting>
     <Setting Name="window_x" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">-1</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="window_y" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">-1</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
   </Settings>
 </SettingsFile>

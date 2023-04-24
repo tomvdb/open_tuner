@@ -225,6 +225,17 @@ namespace opentuner
 
         public static Dictionary<uint, string> modcod_lookup_dvbs = new Dictionary<uint, string>()
         {
+            { 0, "" },
+            { 1, "QPSK 1/2" },
+            { 2, "QPSK 2/3" },
+            { 3, "QPSK 3/4" },
+            { 4, "" },
+            { 5, "QPSK 5/6" },
+            { 6, "QPSK 6/7" },
+            { 7, "QPSK 7/8" },
+            { 8, "" },
+
+            /*
             { 4 , "QPSK 1/2" },
             { 5 , "QPSK 3/5" },
             { 6 , "QPSK 2/3" },
@@ -232,11 +243,24 @@ namespace opentuner
             { 9 , "QPSK 5/6" },
             { 10 , "QPSK 6/7" },
             { 11 , "QPSK 7/8" }
+            */
         };
 
         // values obtained from longmynd.py in rydeplayer
         public static Dictionary<uint, double> modcod_lookup_dvbs_threshold = new Dictionary<uint, double>()
         {
+
+            { 0, 0 },
+            { 1, 1.7 },
+            { 2, 3.3 },
+            { 3, 4.2 },
+            { 4, 0 },
+            { 5, 5.1 },
+            { 6, 5.5 },
+            { 7, 5.8 },
+            { 8, 0 },
+
+            /*
             { 4 , 1.7 },
             { 5 , 4.8 }, // not sure about this one
             { 6 , 3.3 },
@@ -244,6 +268,7 @@ namespace opentuner
             { 9 , 5.1 },
             { 10 , 5.5  },
             { 11 , 5.8 }
+            */
         };
 
         public static Dictionary<uint, string> modcod_lookup_dvbs2 = new Dictionary<uint, string>()

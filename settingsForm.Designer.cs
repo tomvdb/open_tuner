@@ -58,13 +58,13 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.txtDefaultLO2);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.comboDefaultLNB);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtDefaultLO);
             this.groupBox1.Controls.Add(this.label1);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -80,13 +80,13 @@
             // 
             // comboDefaultLNB
             // 
-            resources.ApplyResources(this.comboDefaultLNB, "comboDefaultLNB");
             this.comboDefaultLNB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDefaultLNB.FormattingEnabled = true;
             this.comboDefaultLNB.Items.AddRange(new object[] {
             resources.GetString("comboDefaultLNB.Items"),
             resources.GetString("comboDefaultLNB.Items1"),
             resources.GetString("comboDefaultLNB.Items2")});
+            resources.ApplyResources(this.comboDefaultLNB, "comboDefaultLNB");
             this.comboDefaultLNB.Name = "comboDefaultLNB";
             // 
             // label2
@@ -106,15 +106,14 @@
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.comboLanguage);
             this.groupBox2.Controls.Add(this.label3);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
             // comboLanguage
             // 
-            resources.ApplyResources(this.comboLanguage, "comboLanguage");
             this.comboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboLanguage.FormattingEnabled = true;
             this.comboLanguage.Items.AddRange(new object[] {
@@ -126,6 +125,7 @@
             resources.GetString("comboLanguage.Items5"),
             resources.GetString("comboLanguage.Items6"),
             resources.GetString("comboLanguage.Items7")});
+            resources.ApplyResources(this.comboLanguage, "comboLanguage");
             this.comboLanguage.Name = "comboLanguage";
             // 
             // label3
@@ -135,10 +135,10 @@
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.button1);
             this.groupBox3.Controls.Add(this.txtSnapshotPath);
             this.groupBox3.Controls.Add(this.label4);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -162,10 +162,10 @@
             // 
             // groupBox4
             // 
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.btnChatFontSetting);
             this.groupBox4.Controls.Add(this.checkEnableChat);
             this.groupBox4.Controls.Add(this.checkEnableSpectrum);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 

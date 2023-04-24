@@ -29,7 +29,9 @@ namespace opentuner
 
         private List<ConcurrentQueue<byte>> registered_consumers = new List<ConcurrentQueue<byte>>();
 
-        public TSThread(ftdi _hardware, ConcurrentQueue<byte> _raw_ts_data_queue, NimThread _nim_thread)
+        public byte ts_device = ftdi.TS2;
+
+        public TSThread(ftdi _hardware, ConcurrentQueue<byte> _raw_ts_data_queue, NimThread _nim_thread, byte _ts_device)
         {
             Console.WriteLine(" >> Starting TS Thread <<");
 
@@ -38,10 +40,15 @@ namespace opentuner
             //parser_ts_data_queue = _parser_ts_data_queue;
             nim_thread = _nim_thread;
 
-            nim_thread.onNewStatus += Nim_thread_onNewStatus;
+            //nim_thread.onNewStatus += Nim_thread_onNewStatus;
+            NimStatusCallback status_callback = new NimStatusCallback(Nim_thread_onNewStatus);
+
+            //nim_thread.register_callback(status_callback);
 
             Console.WriteLine(" >> Registering Raw TS Queue << ");
             registered_consumers.Add(_raw_ts_data_queue);
+
+            ts_device = _ts_device;
         }
 
         public void RegisterTSConsumer(ConcurrentQueue<byte> raw_ts_data_queue)
@@ -50,26 +57,79 @@ namespace opentuner
             registered_consumers.Add(raw_ts_data_queue);
         }
 
-        private void Nim_thread_onNewStatus(object sender, StatusEvent e)
+        //private void Nim_thread_onNewStatus(object sender, StatusEvent e)
+        private void Nim_thread_onNewStatus(NimStatus nim_status)
         {
-            //Console.WriteLine("New Nim Status");
-            //Console.WriteLine(e.nim_status.demod_status);
+            /*
+            //Console.WriteLine("new Nim status - " + ts_device.ToString());
+            Console.WriteLine(locked.ToString() + " - " + prev_locked_status.ToString());
 
-            if (e.nim_status.demod_status >= 2) locked = true;
+            byte raw_data = 0;
 
             if (prev_locked_status != locked)
             {
-                if (e.nim_status.demod_status >=2 )
+                Console.WriteLine( ts_device.ToString() + " - "  + locked.ToString() + " - " + prev_locked_status.ToString());
+            }
+
+            if (ts_device == ftdi.TS2)
+            {
+
+                if (nim_status.T1P2_demod_status >= 2) locked = true;
+
+                if (prev_locked_status != locked)
                 {
-                    ts_build_queue = true;
+                    Console.WriteLine("New Nim Status : T1P2");
+                    Console.WriteLine(nim_status.T1P2_demod_status.ToString());
+
+                    if (nim_status.T1P2_demod_status >= 2)
+                    {
+                        ts_build_queue = true;
+                    }
+                    else
+                    {
+                        ts_build_queue = false;
+                    }
                 }
-                else
+
+            }
+            else
+            {
+
+                if (nim_status.T2P1_demod_status >= 2) locked = true;
+
+                if (prev_locked_status != locked)
                 {
-                    ts_build_queue = false;
+                    Console.WriteLine("New Nim Status : T2P1");
+                    Console.WriteLine(nim_status.T2P1_demod_status.ToString());
+
+                    if (nim_status.T2P1_demod_status >= 2)
+                    {
+                        ts_build_queue = true;
+                    }
+                    else
+                    {
+                        ts_build_queue = false;
+                    }
                 }
+
+
             }
 
             prev_locked_status = locked;
+            */
+
+        }
+
+        public void stop_ts()
+        {
+            Console.WriteLine("Stop TS" + ts_device.ToString());
+            ts_build_queue = false;
+        }
+
+        public void start_ts()
+        {
+            Console.WriteLine("Start TS" + ts_device.ToString());
+            ts_build_queue = true;
         }
 
         public void worker_thread()
@@ -103,15 +163,30 @@ namespace opentuner
 
                 while (true)
                 {
+
                     if (ts_build_queue == false)
                     {
+                        //Console.WriteLine("ts build queue, false");
+
+                        hardware.ftdi_ts_flush(ts_device);
+
                         bufferingData = false;
+                        while (registered_consumers[0].Count() > 0)
+                        {
+                            registered_consumers[0].TryDequeue(out raw_data);
+                        }
+
+                        continue;
                     }
 
                     if (ts_build_queue == true && bufferingData == false)
                     {
+                        Console.WriteLine("ts build queue, true");
+
                         // clear out the queue first
                         Console.WriteLine("Clearing out TS Queue");
+
+                        hardware.ftdi_ts_flush(ts_device);
 
                         while (registered_consumers[0].Count() > 0)
                         {
@@ -149,11 +224,13 @@ namespace opentuner
                     uint dataRead = 0;
                     //Console.WriteLine("TSThread: Reading TS Data");
 
-                    if (hardware.ftdi_ts_read(ref data, ref dataRead) != 0)
-                        Console.WriteLine("Read Error");
+                        if (hardware.ftdi_ts_read(ts_device, ref data, ref dataRead) != 0)
+                            Console.WriteLine("Read Error");
 
                     if (dataRead > 0)
                     {
+                        //Console.WriteLine(dataRead);
+
                         for ( int c = 0; c < dataRead; c++)
                         {
                             //RawTSData raw_ts_data = new RawTSData();
@@ -162,7 +239,8 @@ namespace opentuner
                             //raw_ts_data.datalen = 1;
                             for (int consumers = 0; consumers < registered_consumers.Count; consumers++)
                             {
-                                registered_consumers[consumers].Enqueue(data[c]);
+                                if (registered_consumers[consumers] != null)
+                                    registered_consumers[consumers].Enqueue(data[c]);
                                 //parser_ts_data_queue.Enqueue(data[c]);
                             }
                         }
