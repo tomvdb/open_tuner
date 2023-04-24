@@ -226,7 +226,6 @@ namespace opentuner
                 e.Cancel = true;
                 Hide();
             }
-
         }
 
         private void lbUsers_MouseDoubleClick(object sender, MouseEventArgs e)

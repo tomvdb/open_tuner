@@ -218,6 +218,7 @@
             this.MinimizeBox = false;
             this.Name = "tunerControlForm";
             this.Text = "Tuner Control";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.tunerControlForm_FormClosing);
             this.Load += new System.EventHandler(this.tunerControlForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

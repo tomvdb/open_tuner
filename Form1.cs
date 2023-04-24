@@ -2174,10 +2174,6 @@ namespace opentuner
 
         }
 
-        private void frequencyControlToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tuner1ControlForm.Show();
-        }
 
         private void btnTuner_Click(object sender, EventArgs e)
         {
