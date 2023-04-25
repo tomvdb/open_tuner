@@ -33,10 +33,14 @@ namespace opentuner
 
         bool streaming = false;
 
+        string udp_address = "";
+        int udp_port = 0;
 
-        public TSUDPThread(TSThread _ts_thread)
+        public TSUDPThread(TSThread _ts_thread, string udp_address, int udp_port)
         {
             _ts_thread.RegisterTSConsumer(_ts_data_queue);
+            this.udp_address = udp_address;
+            this.udp_port = udp_port;
         }
 
         public void worker_thread()
@@ -47,8 +51,8 @@ namespace opentuner
             UdpClient udpClient = new UdpClient();
 
             // Set the destination IP address and port of VLC
-            IPAddress vlcIpAddress = IPAddress.Parse("127.0.0.1"); // replace with the actual IP address of VLC
-            int vlcPort = 9080; // replace with the actual port number used by VLC
+            IPAddress vlcIpAddress = IPAddress.Parse(udp_address); // replace with the actual IP address of VLC
+            int vlcPort = udp_port; 
 
             try
             {

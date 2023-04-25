@@ -163,6 +163,8 @@
             this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
+            this.ffmpegVideoView2 = new FlyleafLib.Controls.WinForms.FlyleafHost();
+            this.ffmpegVideoView1 = new FlyleafLib.Controls.WinForms.FlyleafHost();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -867,10 +869,12 @@
             // 
             // videoPlayersSplitter.Panel1
             // 
+            this.videoPlayersSplitter.Panel1.Controls.Add(this.ffmpegVideoView1);
             this.videoPlayersSplitter.Panel1.Controls.Add(this.videoView1);
             // 
             // videoPlayersSplitter.Panel2
             // 
+            this.videoPlayersSplitter.Panel2.Controls.Add(this.ffmpegVideoView2);
             this.videoPlayersSplitter.Panel2.Controls.Add(this.videoView2);
             // 
             // videoView1
@@ -1080,6 +1084,40 @@
             this.SpectrumTuneTimer.Interval = 1500;
             this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
             // 
+            // ffmpegVideoView2
+            // 
+            resources.ApplyResources(this.ffmpegVideoView2, "ffmpegVideoView2");
+            this.ffmpegVideoView2.BackColor = System.Drawing.Color.Black;
+            this.ffmpegVideoView2.DragMove = false;
+            this.ffmpegVideoView2.IsFullScreen = false;
+            this.ffmpegVideoView2.KeyBindings = false;
+            this.ffmpegVideoView2.Name = "ffmpegVideoView2";
+            this.ffmpegVideoView2.OpenOnDrop = false;
+            this.ffmpegVideoView2.PanMoveOnCtrl = true;
+            this.ffmpegVideoView2.PanRotateOnShiftWheel = true;
+            this.ffmpegVideoView2.PanZoomOnCtrlWheel = true;
+            this.ffmpegVideoView2.Player = null;
+            this.ffmpegVideoView2.SwapDragEnterOnShift = true;
+            this.ffmpegVideoView2.SwapOnDrop = true;
+            this.ffmpegVideoView2.ToggleFullScreenOnDoubleClick = false;
+            // 
+            // ffmpegVideoView1
+            // 
+            resources.ApplyResources(this.ffmpegVideoView1, "ffmpegVideoView1");
+            this.ffmpegVideoView1.BackColor = System.Drawing.Color.Black;
+            this.ffmpegVideoView1.DragMove = false;
+            this.ffmpegVideoView1.IsFullScreen = false;
+            this.ffmpegVideoView1.KeyBindings = false;
+            this.ffmpegVideoView1.Name = "ffmpegVideoView1";
+            this.ffmpegVideoView1.OpenOnDrop = false;
+            this.ffmpegVideoView1.PanMoveOnCtrl = true;
+            this.ffmpegVideoView1.PanRotateOnShiftWheel = true;
+            this.ffmpegVideoView1.PanZoomOnCtrlWheel = true;
+            this.ffmpegVideoView1.Player = null;
+            this.ffmpegVideoView1.SwapDragEnterOnShift = true;
+            this.ffmpegVideoView1.SwapOnDrop = true;
+            this.ffmpegVideoView1.ToggleFullScreenOnDoubleClick = false;
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -1110,7 +1148,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.videoPlayersSplitter.Panel1.ResumeLayout(false);
+            this.videoPlayersSplitter.Panel1.PerformLayout();
             this.videoPlayersSplitter.Panel2.ResumeLayout(false);
+            this.videoPlayersSplitter.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoPlayersSplitter)).EndInit();
             this.videoPlayersSplitter.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
@@ -1259,6 +1299,8 @@
         private System.Windows.Forms.Button btnTuner;
         private System.Windows.Forms.Label lblRfInput2;
         private System.Windows.Forms.Label lblRfInput;
+        private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView2;
+        private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView1;
     }
 }
 

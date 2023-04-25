@@ -196,6 +196,9 @@ namespace opentuner
         bool setting_enable_chatform = false;
         bool setting_auto_connect = false;
 
+        int setting_mediaplayer_1 = 0;
+        int setting_mediaplayer_2 = 1;
+
         int setting_window_width = -1;
         int setting_window_height = -1;
         int setting_window_x = -1;
@@ -205,6 +208,9 @@ namespace opentuner
         int setting_chat_width = 0;
         int setting_chat_height = 0;
         bool setting_disable_lna = false;
+
+        string setting_udp_address1 = "127.0.0.1";
+        int setting_udp_port1 = 9080;
 
         bool isFullScreen = false;
 
@@ -532,11 +538,12 @@ namespace opentuner
                 }
                 
             }
+            greyPen.DashCap = System.Drawing.Drawing2D.DashCap.Round;
+            greyPen.DashPattern = new float[] { 4.0F, 4.0F };
 
             InitializeComponent();
 
-            greyPen.DashCap = System.Drawing.Drawing2D.DashCap.Round;
-            greyPen.DashPattern = new float[] { 4.0F, 4.0F };
+            Console.WriteLine("Init done");
         }
 
         public void start_video1()
@@ -782,7 +789,7 @@ namespace opentuner
             Console.WriteLine("Main: Starting TS Thread");
 
             // TS thread - T1P2
-            ts_thread = new TSThread(ftdi_hw, ts_data_queue, nim_thread, ftdi.TS2 );
+            ts_thread = new TSThread(ftdi_hw, ts_data_queue, nim_thread, ftdi.TS2);
             ts_thread_t = new Thread(ts_thread.worker_thread);
             ts_thread_t.Start();
 
@@ -806,7 +813,6 @@ namespace opentuner
                 TSParserThread ts_parser_thread2 = new TSParserThread(ts_data_callback2, ts_parser_data_queue2);
                 ts_parser_2_t = new Thread(ts_parser_thread2.worker_thread);
                 ts_parser_2_t.Start();
-
             }
 
             // TS recorder Thread
@@ -816,19 +822,40 @@ namespace opentuner
             ts_recorder_t.Start();
 
             // TS udp thread
-            ts_udp = new TSUDPThread(ts_thread);
+            ts_udp = new TSUDPThread(ts_thread, setting_udp_address1, setting_udp_port1);
             ts_udp_t = new Thread(ts_udp.worker_thread);
             ts_udp_t.Start();
 
-            media_player_1 = new VLCMediaPlayer(videoView1);        
+            if (setting_mediaplayer_1 == 0)
+            {
+                media_player_1 = new VLCMediaPlayer(videoView1);
+                ffmpegVideoView1.Visible = false;
+            }
+            else
+            {
+                media_player_1 = new FFMPEGMediaPlayer(ffmpegVideoView1);
+                videoView1.Visible = false;
+            }
+
             media_player_1.onVideoOut += MediaPlayer_Vout;
             media_player_1.Initialize(ts_data_queue);
 
             if (ts_devices == 2)
             {
-                media_player_2 = new VLCMediaPlayer(videoView2);
+                if (setting_mediaplayer_2 == 0)
+                {
+                    media_player_2 = new VLCMediaPlayer(videoView2);
+                    ffmpegVideoView2.Visible = false;
+                }
+                else
+                {
+                    media_player_2 = new FFMPEGMediaPlayer(ffmpegVideoView2);
+                    videoView2.Visible = false;
+                }
+
                 media_player_2.onVideoOut += MediaPlayer_Vout2;
                 media_player_2.Initialize(ts_data_queue2);
+
             }
             else
             {
@@ -1245,13 +1272,16 @@ namespace opentuner
             setting_window_height = Properties.Settings.Default.window_height;
             setting_window_x = Properties.Settings.Default.window_x;
             setting_window_y = Properties.Settings.Default.window_y;
+
+            setting_mediaplayer_1 = Properties.Settings.Default.mediaplayer_tuner1; // 0 = vlc, 1 = ffmpeg
+            setting_mediaplayer_2 = Properties.Settings.Default.mediaplayer_tuner2; // 0 = vlc, 1 = ffmpeg
+
+            setting_udp_address1 = Properties.Settings.Default.udp_address1;
+            setting_udp_port1 = Properties.Settings.Default.udp_port1;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // set drop down default values
-            //dropdownRfInput1.SelectedIndex = 0;
-            //dropdownRfInput2.SelectedIndex = 0;
 
             debug("System Culture Setting: " + CultureInfo.CurrentCulture.Name);
             debug("Settings: Restore Last Volume: " + setting_default_volume.ToString() + "%");
@@ -1267,6 +1297,9 @@ namespace opentuner
                 setting_snapshot_path = AppDomain.CurrentDomain.BaseDirectory;
 
             debug("Settings: Snapshot Path: " + setting_snapshot_path);
+
+            debug("Settings MediaPlayer 1 : " + (setting_mediaplayer_1 == 0 ? "VLC" : "FFMPEG"));
+            debug("Settings MediaPlayer 2 : " + (setting_mediaplayer_2 == 0 ? "VLC" : "FFMPEG"));
 
             /*
             switch (setting_default_lnb_supply)
@@ -1427,6 +1460,7 @@ namespace opentuner
             load_stored_frequencies();
             rebuild_stored_frequencies();
 
+            Console.WriteLine("Frequencies Done");
             // tuner control windows
             TunerChangeCallback tuner1Callback = new TunerChangeCallback(tuner1_change_callback);
             TunerChangeCallback tuner2Callback = new TunerChangeCallback(tuner2_change_callback);
@@ -1439,6 +1473,8 @@ namespace opentuner
 
             tuner1ControlForm.set_offset(current_offset_A, current_offset_B);
             tuner2ControlForm.set_offset(current_offset_A, current_offset_B);
+
+            Console.WriteLine("Load Done");
         }
 
         void tuner1_change_callback(uint freq, uint rf_input, uint symbol_rate)
@@ -1739,7 +1775,11 @@ namespace opentuner
             settings_form.checkEnableSpectrum.Checked = setting_enable_spectrum;
             settings_form.checkEnableChat.Checked = setting_enable_chatform;
             settings_form.comboLanguage.SelectedIndex = setting_language;
+            settings_form.comboMediaPlayer1.SelectedIndex = setting_mediaplayer_1;
+            settings_form.comboMediaPlayer2.SelectedIndex = setting_mediaplayer_2;
 
+            settings_form.textUDPAddress.Text = setting_udp_address1;
+            settings_form.numUdpPort.Value = setting_udp_port1;
 
             if (setting_enable_chatform && chatForm != null)
             {
@@ -1764,6 +1804,10 @@ namespace opentuner
                 Properties.Settings.Default.enable_qo100_spectrum = settings_form.checkEnableSpectrum.Checked;
                 Properties.Settings.Default.wbchat_enable = settings_form.checkEnableChat.Checked;
                 Properties.Settings.Default.media_snapshot_path = settings_form.txtSnapshotPath.Text;
+                Properties.Settings.Default.mediaplayer_tuner1 = settings_form.comboMediaPlayer1.SelectedIndex;
+                Properties.Settings.Default.mediaplayer_tuner2 = settings_form.comboMediaPlayer2.SelectedIndex;
+                Properties.Settings.Default.udp_address1 = settings_form.textUDPAddress.Text;
+                Properties.Settings.Default.udp_port1 = Convert.ToInt32(settings_form.numUdpPort.Value);
 
                 setting_language = settings_form.comboLanguage.SelectedIndex;
 

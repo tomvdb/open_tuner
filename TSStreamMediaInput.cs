@@ -13,14 +13,13 @@ namespace opentuner
     {
 
         ConcurrentQueue<byte> ts_data_queue;
-        bool ts_sync = false;
+        public bool ts_sync = false;
 
         public TSStreamMediaInput(ConcurrentQueue<byte> _ts_data_queue )
         {
             // we can't seek live data
             CanSeek = false;
             ts_data_queue = _ts_data_queue;
-
         }
 
         public override bool Open(out ulong size)

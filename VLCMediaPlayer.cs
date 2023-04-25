@@ -21,6 +21,7 @@ namespace opentuner
 
         public override event EventHandler<MediaStatus> onVideoOut;
 
+        ConcurrentQueue<byte> ts_data_queue;
         public VLCMediaPlayer(LibVLCSharp.WinForms.VideoView VideoView)
         {
             Console.WriteLine("VLC Media Player OT Called");
@@ -47,6 +48,7 @@ namespace opentuner
 
         public override void Initialize(ConcurrentQueue<byte> TSDataQueue)
         {
+            ts_data_queue = TSDataQueue;
             videoView.MediaPlayer = new MediaPlayer(libVLC);
             videoView.MediaPlayer.Stopped += MediaPlayer_Stopped;
             videoView.MediaPlayer.Playing += MediaPlayer_Playing;
@@ -125,6 +127,25 @@ namespace opentuner
 
         public override void Play()
         {
+            if (videoView.MediaPlayer != null)
+            {
+                videoView.MediaPlayer.Stop();
+            }
+
+            int count = ts_data_queue.Count();
+
+            byte raw_ts_data = 0;
+            if (count > 0)
+                Console.WriteLine("Clearing " + count.ToString() + " bytes");
+
+            while (count > 0)
+            {
+                ts_data_queue.TryDequeue(out raw_ts_data);
+                count--;
+            }
+
+            mediaInput.ts_sync = false;
+
             if (videoView.MediaPlayer != null)
             {
                 videoView.MediaPlayer.Play(media);

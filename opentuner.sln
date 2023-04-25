@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30503.244
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "opentuner", "opentuner.csproj", "{2E89E032-7250-4223-93EC-FBA2482988DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{252F1368-533A-4D22-9111-4A42F83B1470}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
