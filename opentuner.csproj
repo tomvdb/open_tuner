@@ -184,6 +184,7 @@
     <Compile Include="NimConfig.cs" />
     <Compile Include="NimStatus.cs" />
     <Compile Include="NimThread.cs" />
+    <Compile Include="OTMediaPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawTSData.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="tunerControlForm.Designer.cs">
       <DependentUpon>tunerControlForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="VLCMediaPlayer.cs" />
     <Compile Include="wbchat.cs">
       <SubType>Form</SubType>
     </Compile>

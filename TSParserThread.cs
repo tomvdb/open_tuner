@@ -151,13 +151,28 @@ namespace opentuner
 
                                     Int32 ts_service_provider_name_length = ts_packet[ts_payload_offset + 19];
 
-                                    string service_provider = System.Text.Encoding.ASCII.GetString(ts_packet, ts_payload_offset + 19 + 1, ts_service_provider_name_length);
+                                    string service_provider = "";
+                                    try
+                                    {
+                                        service_provider = System.Text.Encoding.ASCII.GetString(ts_packet, ts_payload_offset + 19 + 1, ts_service_provider_name_length);
+                                    }
+                                    catch (Exception Ex)
+                                    { }
 
                                     //Console.WriteLine(service_provider);
 
                                     Int32 ts_service_name_length = ts_packet[ts_payload_offset + 19 + ts_service_provider_name_length + 1];
 
-                                    string service_provider_name = System.Text.Encoding.ASCII.GetString(ts_packet, ts_payload_offset + 19 + ts_service_provider_name_length + 2, ts_service_name_length);
+                                    string service_provider_name = "";
+
+                                    try
+                                    {
+                                        service_provider_name = System.Text.Encoding.ASCII.GetString(ts_packet, ts_payload_offset + 19 + ts_service_provider_name_length + 2, ts_service_name_length);
+                                    }
+                                    catch (Exception Ex)
+                                    {
+
+                                    }
 
                                     //Console.WriteLine(service_provider);
                                     //Console.WriteLine(service_provider_name);

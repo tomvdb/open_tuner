@@ -23,13 +23,8 @@ namespace opentuner
 {
     public partial class Form1 : Form
     {
-        LibVLC libVLC1 = new LibVLC("--aout=directsound");
-        Media media1;
-        TSStreamMediaInput mediaInput1;
-
-        LibVLC libVLC2 = new LibVLC("--aout=directsound");
-        Media media2;
-        TSStreamMediaInput mediaInput2;
+        OTMediaPlayer media_player_1;
+        OTMediaPlayer media_player_2;
 
         ftdi ftdi_hw = null;
         bool hardware_connected = false;
@@ -65,7 +60,7 @@ namespace opentuner
         TSThread ts_thread2;
 
         // form properties
-        public MediaPlayer prop_media_player { get { return this.videoView1.MediaPlayer; } }
+        //public MediaPlayer prop_media_player { get { return this.videoView1.MediaPlayer; } }
 
         // nim status properties
 
@@ -196,6 +191,7 @@ namespace opentuner
         int setting_default_lo_value_1 = 0;
         int setting_default_lo_value_2 = 0;
         int setting_default_volume = 100;
+        int setting_default_volume2 = 100;
         int setting_language = 0;
         bool setting_enable_chatform = false;
         bool setting_auto_connect = false;
@@ -220,6 +216,7 @@ namespace opentuner
 
         int ts_devices = 1;
 
+        /*
         public void toggleFullScreen()
         {
             if (isFullScreen)
@@ -264,6 +261,7 @@ namespace opentuner
 
             }
         }
+        */
 
         //         private delegate void updateRecordingStatusDelegate(Form1 gui, bool recording_status);
 
@@ -488,7 +486,7 @@ namespace opentuner
                     gui.prop_db_margin2 = "";
                 }
 
-
+                /*
                 // vlc marquee on fullscreen
                 if (gui.isFullScreen)
                 {
@@ -497,6 +495,7 @@ namespace opentuner
                     MediaPlayer mediaPlayer = gui.prop_media_player;
                     mediaPlayer.SetMarqueeString(VideoMarqueeOption.Text, marquee);
                 }
+                */
             }
         }
         public Form1()
@@ -542,37 +541,37 @@ namespace opentuner
 
         public void start_video1()
         {
-            Console.WriteLine("Main: Starting VLC Player 1");
+            Console.WriteLine("Main: Starting Media Player 1");
 
             if (ts_thread != null)
                 ts_thread.start_ts();
 
-            if (videoView1.MediaPlayer != null)
-            {
-                videoView1.MediaPlayer.Play(media1);
-            }
+            if (media_player_1 != null)
+                media_player_1.Play();
+
         }
 
         public void start_video2()
         {
-            Console.WriteLine("Main: Starting VLC - Player 2");
+            Console.WriteLine("Main: Starting Media Player 2");
 
             if (ts_thread2 != null)
                 ts_thread2.start_ts();
 
-            if (videoView2.MediaPlayer != null)
-            {
-                videoView2.MediaPlayer.Play(media2);
-            }
+            if (media_player_2 != null)
+                media_player_2.Play();
         }
 
 
         public void stop_video1()
         {
-            Console.WriteLine("Main: Stopping VLC - Player 1");
+            Console.WriteLine("Main: Stopping Media Player 1");
 
-            if (videoView1.MediaPlayer != null)
-                videoView1.MediaPlayer.Stop();
+            if (media_player_1 != null)
+            {
+                media_player_1.Stop();
+            }
+
 
             if (ts_thread != null)
                 ts_thread.stop_ts();
@@ -589,14 +588,13 @@ namespace opentuner
 
         public void stop_video2()
         {
-            Console.WriteLine("Main: Stopping VLC - Player 2");
+            Console.WriteLine("Main: Stopping Media Player 2");
 
             if (ts_thread2 != null)
                 ts_thread2.start_ts();
 
-            if (videoView2.MediaPlayer != null)
-                videoView2.MediaPlayer.Stop();
-
+            if (media_player_2 != null)
+                media_player_2.Stop();
         }
 
         private void hardware_init()
@@ -643,20 +641,6 @@ namespace opentuner
             this.Text = this.Text + " - " + deviceName;
         }
 
-        private void MediaPlayer_EncounteredError(object sender, EventArgs e)
-        {
-            Console.WriteLine("VLC: Error: " + libVLC1.LastLibVLCError);
-        }
-
-        private void MediaPlayer_Playing(object sender, EventArgs e)
-        {
-            Console.WriteLine("VLC: Playing ");
-        }
-
-        private void MediaPlayer_Stopped(object sender, EventArgs e)
-        {
-            Console.WriteLine("VLC: Stopped");
-        }
 
         public void parse_ts_data_callback(TSStatus ts_status)
         {
@@ -711,9 +695,6 @@ namespace opentuner
                     T2P1_prevLocked = T2P1Locked;
                 }
             }
-
-
-
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -727,6 +708,7 @@ namespace opentuner
 
             // save current volume as default volume
             Properties.Settings.Default.default_volume = trackVolume.Value;
+            Properties.Settings.Default.default_volume2 = trackVolume2.Value;
 
             // save current windows properties
             Properties.Settings.Default.window_width = this.Width;
@@ -734,27 +716,15 @@ namespace opentuner
             Properties.Settings.Default.window_x = this.Left;
             Properties.Settings.Default.window_y = this.Top;
 
-
             Properties.Settings.Default.Save();
 
             stop_video1();
-
             if (ts_devices == 2)
                 stop_video2();
 
-            if (mediaInput1 != null)
-                mediaInput1.Dispose();
-            if (media1 != null)
-                media1.Dispose();
-
-            if (mediaInput2 != null)
-                mediaInput2.Dispose();
-            if (media2 != null)
-                media2.Dispose();
-
+            // close threads
             if (nim_thread_t != null)
                 nim_thread_t.Abort();
-
             if (ts_recorder_t != null)
                 ts_recorder_t.Abort();
             if (ts_udp_t != null)
@@ -768,13 +738,17 @@ namespace opentuner
             if (ts_parser_2_t != null)
                 ts_parser_2_t.Abort();
 
+            // close media players
+            if (media_player_1 != null)
+                media_player_1.Close();
+            if (media_player_2 != null)
+                media_player_2.Close();
+
             // close forms
             if (chatForm != null)
                 chatForm.Close();
-
             if (tuner1ControlForm != null)
                 tuner1ControlForm.Close();
-
             if (tuner2ControlForm != null)
                 tuner2ControlForm.Close();
         }
@@ -835,8 +809,6 @@ namespace opentuner
 
             }
 
-
-
             // TS recorder Thread
             ts_recorder = new TSRecorderThread(ts_thread, setting_snapshot_path);
             ts_recorder.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
@@ -848,45 +820,15 @@ namespace opentuner
             ts_udp_t = new Thread(ts_udp.worker_thread);
             ts_udp_t.Start();
 
-            //libVLC.Log += LibVLC_Log;
-
-            videoView1.MediaPlayer = new MediaPlayer(libVLC1);
-            videoView1.MediaPlayer.Stopped += MediaPlayer_Stopped;
-            videoView1.MediaPlayer.Playing += MediaPlayer_Playing;
-            videoView1.MediaPlayer.EncounteredError += MediaPlayer_EncounteredError;
-            videoView1.MediaPlayer.Vout += MediaPlayer_Vout;        
-
-            videoView1.MediaPlayer.EnableMouseInput = false;
-            videoView1.MediaPlayer.EnableKeyInput = false;
-
-            videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Size, 20);
-            videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.X, 10);
-            videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Y, 10);
-
-            videoView1.MouseWheel += VideoView1_MouseWheel;
-
-            mediaInput1 = new TSStreamMediaInput(ts_data_queue);
-            media1 = new Media(libVLC1, mediaInput1);
-
-            MediaConfiguration mediaConfig1 = new MediaConfiguration();            
-            mediaConfig1.EnableHardwareDecoding = false;
-            media1.AddOption(mediaConfig1);
+            media_player_1 = new VLCMediaPlayer(videoView1);        
+            media_player_1.onVideoOut += MediaPlayer_Vout;
+            media_player_1.Initialize(ts_data_queue);
 
             if (ts_devices == 2)
             {
-                // video 2
-                videoView2.MediaPlayer = new MediaPlayer(libVLC2);
-                videoView2.MediaPlayer.Stopped += MediaPlayer_Stopped2;
-                videoView2.MediaPlayer.Playing += MediaPlayer_Playing2; ;
-                videoView2.MediaPlayer.EncounteredError += MediaPlayer_EncounteredError2;
-                videoView2.MediaPlayer.Vout += MediaPlayer_Vout2;
-
-                mediaInput2 = new TSStreamMediaInput(ts_data_queue2);
-                media2 = new Media(libVLC2, mediaInput2);
-
-                MediaConfiguration mediaConfig2 = new MediaConfiguration();
-                mediaConfig2.EnableHardwareDecoding = false;
-                media2.AddOption(mediaConfig2);
+                media_player_2 = new VLCMediaPlayer(videoView2);
+                media_player_2.onVideoOut += MediaPlayer_Vout2;
+                media_player_2.Initialize(ts_data_queue2);
             }
             else
             {
@@ -903,44 +845,15 @@ namespace opentuner
             menuConnect.Enabled = false;
         }
 
-        private void MediaPlayer_Vout2(object sender, MediaPlayerVoutEventArgs e)
+        private void MediaPlayer_Vout2(object sender, MediaStatus media_status)
         {
-            MediaStatus media_status = new MediaStatus();
-
-            foreach (var track in media1.Tracks)
-            {
-                switch (track.TrackType)
-                {
-                    case TrackType.Audio:
-                        media_status.AudioChannels = track.Data.Audio.Channels;
-                        media_status.AudioCodec = media1.CodecDescription(TrackType.Audio, track.Codec);
-                        media_status.AudioRate = track.Data.Audio.Rate;
-                        break;
-                    case TrackType.Video:
-                        media_status.VideoCodec = media1.CodecDescription(TrackType.Video, track.Codec);
-                        media_status.VideoWidth = track.Data.Video.Width;
-                        media_status.VideoHeight = track.Data.Video.Height;
-                        break;
-                }
-            }
-
             updateMediaStatusGui(2, this, media_status);
-            videoView2.MediaPlayer.Volume = rxVolume2;
 
+            if (media_player_2 != null)
+                media_player_2.SetVolume(rxVolume2);
         }
 
-        private void MediaPlayer_EncounteredError2(object sender, EventArgs e)
-        {
-        }
-
-        private void MediaPlayer_Playing2(object sender, EventArgs e)
-        {
-        }
-
-        private void MediaPlayer_Stopped2(object sender, EventArgs e)
-        {
-        }
-
+        /*
         private void VideoView1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             byte volumeDelta = 5;
@@ -966,6 +879,7 @@ namespace opentuner
             }
 
         }
+        */
 
         private void Ts_recorder_onRecordStatusChange(object sender, bool e)
         {
@@ -977,29 +891,13 @@ namespace opentuner
             debug("VLC Log: " + e.FormattedLog + "," + e.Level);
         }
 
-        private void MediaPlayer_Vout(object sender, MediaPlayerVoutEventArgs e)
+        private void MediaPlayer_Vout(object sender, MediaStatus media_status)
         {
-            MediaStatus media_status = new MediaStatus();
-
-            foreach ( var track in media1.Tracks)
-            {
-                switch(track.TrackType)
-                {
-                    case TrackType.Audio:
-                        media_status.AudioChannels = track.Data.Audio.Channels;
-                        media_status.AudioCodec = media1.CodecDescription(TrackType.Audio, track.Codec);
-                        media_status.AudioRate = track.Data.Audio.Rate;
-                        break;
-                    case TrackType.Video:
-                        media_status.VideoCodec = media1.CodecDescription(TrackType.Video, track.Codec);
-                        media_status.VideoWidth = track.Data.Video.Width;
-                        media_status.VideoHeight = track.Data.Video.Height;
-                        break;
-                }
-            }
 
             updateMediaStatusGui(1, this, media_status);
-            videoView1.MediaPlayer.Volume = rxVolume;
+
+            if (media_player_1 != null)
+                media_player_1.SetVolume(rxVolume);
 
             if (recordAllToolStripMenuItem.Checked)
             {
@@ -1336,6 +1234,7 @@ namespace opentuner
             setting_snapshot_path = Properties.Settings.Default.media_snapshot_path;
             setting_language = Properties.Settings.Default.language;
             setting_default_volume = Properties.Settings.Default.default_volume;
+            setting_default_volume2 = Properties.Settings.Default.default_volume2;
 
             setting_chat_font = Properties.Settings.Default.wbchat_font;
             setting_chat_width = Properties.Settings.Default.wbchat_width;
@@ -1357,6 +1256,8 @@ namespace opentuner
             debug("System Culture Setting: " + CultureInfo.CurrentCulture.Name);
             debug("Settings: Restore Last Volume: " + setting_default_volume.ToString() + "%");
             trackVolume.Value = setting_default_volume;
+            debug("Settings: Restore Last Volume2: " + setting_default_volume2.ToString() + "%");
+            trackVolume2.Value = setting_default_volume2;
             debug("Settings: Default Offset A: " + setting_default_lo_value_1.ToString());
             current_offset_A = setting_default_lo_value_1;
             debug("Settings: Default Offset B: " + setting_default_lo_value_2.ToString());
@@ -1730,39 +1631,38 @@ namespace opentuner
         private void trackVolume_ValueChanged(object sender, EventArgs e)
         {
             rxVolume = Convert.ToByte(trackVolume.Value);
-
-            if (videoView1.MediaPlayer != null)
-            {
-                videoView1.MediaPlayer.Volume = rxVolume;
-            }
-
+            if (media_player_1 != null) 
+                media_player_1.SetVolume(rxVolume);
             lblVolume.Text = rxVolume.ToString() + " %";
         }
 
         private void TakeSnapshot(int tuner)
         {
-
-            if (videoView1.MediaPlayer == null)
-                return;
-
             // get path
             string path = setting_snapshot_path;
-
             string filename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".png";
 
-            if (lblServiceName.Text.Length > 0 && tuner == 1)
-                filename = lblServiceName.Text.ToString() + "_" + filename;
 
-            if (lblServiceName2.Text.Length > 0 && tuner == 2)
-                filename = lblServiceName2.Text.ToString() + "_" + filename;
+            if (tuner == 1)
+            {
+                if (lblServiceName.Text.Length > 0 && tuner == 1)
+                    filename = lblServiceName.Text.ToString() + "_" + filename;
 
-            // remove any possible spaces
-            filename = filename.Replace(" ", "");
+                filename = filename.Replace(" ", "");
 
-            if (tuner == 1)            
-                videoView1.MediaPlayer.TakeSnapshot(0, path + filename, 0, 0);
+                if (media_player_1 != null)
+                    media_player_1.SnapShot(path + filename);
+            }
             else
-                videoView2.MediaPlayer.TakeSnapshot(0, path + filename, 0, 0);
+            {
+                if (lblServiceName2.Text.Length > 0 && tuner == 2)
+                    filename = lblServiceName2.Text.ToString() + "_" + filename;
+
+                filename = filename.Replace(" ", "");
+
+                if (media_player_2 != null)
+                    media_player_2.SnapShot(path + filename);
+            }
         }
 
         private void btnSnapshot_Click(object sender, EventArgs e)
@@ -1904,7 +1804,7 @@ namespace opentuner
 
         private void menuFullScreen_Click(object sender, EventArgs e)
         {
-            toggleFullScreen();
+            //toggleFullScreen();
         }
 
         private void qO100WidebandChatToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1970,6 +1870,7 @@ namespace opentuner
 
         }
 
+        /*
         private void videoView1_DoubleClick(object sender, EventArgs e)
         {
             try
@@ -1981,9 +1882,11 @@ namespace opentuner
 
             }
         }
+        */
 
         private void toggleFullscreenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             try
             {
                 toggleFullScreen();
@@ -1992,19 +1895,9 @@ namespace opentuner
             {
 
             }
+            */
         }
 
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
-        {
-            if (videoView1.MediaPlayer != null)
-                videoView1.MediaPlayer.AspectRatio = "4:3";
-        }
-
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
-        {
-            if (videoView1.MediaPlayer != null)
-                videoView1.MediaPlayer.AspectRatio = "16:9";
-        }
 
         private void manageStoredFrequenciesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2096,13 +1989,12 @@ namespace opentuner
         {
             rxVolume2 = Convert.ToByte(trackVolume2.Value);
 
-            if (videoView2.MediaPlayer != null)
+            if ( media_player_2 != null )
             {
-                videoView2.MediaPlayer.Volume = rxVolume2;
+                media_player_2.SetVolume(rxVolume2);
             }
 
             lblVolume2.Text = rxVolume2.ToString() + " %";
-
         }
 
         

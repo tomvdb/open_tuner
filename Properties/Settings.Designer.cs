@@ -213,5 +213,17 @@ namespace opentuner.Properties {
                 this["window_y"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int default_volume2 {
+            get {
+                return ((int)(this["default_volume2"]));
+            }
+            set {
+                this["default_volume2"] = value;
+            }
+        }
     }
 }

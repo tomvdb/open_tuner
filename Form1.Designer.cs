@@ -141,11 +141,6 @@
             this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoTimedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoHoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.videoPlayerContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toggleFullscreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.forceAspectRatioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.websocketTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -192,7 +187,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.videoView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
             this.contextSpectrumMenu.SuspendLayout();
-            this.videoPlayerContextMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -940,40 +934,6 @@
             resources.ApplyResources(this.autoHoldToolStripMenuItem, "autoHoldToolStripMenuItem");
             this.autoHoldToolStripMenuItem.Click += new System.EventHandler(this.autoHoldToolStripMenuItem_Click);
             // 
-            // videoPlayerContextMenu
-            // 
-            this.videoPlayerContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toggleFullscreenToolStripMenuItem,
-            this.forceAspectRatioToolStripMenuItem});
-            this.videoPlayerContextMenu.Name = "videoPlayerContextMenu";
-            resources.ApplyResources(this.videoPlayerContextMenu, "videoPlayerContextMenu");
-            // 
-            // toggleFullscreenToolStripMenuItem
-            // 
-            this.toggleFullscreenToolStripMenuItem.Name = "toggleFullscreenToolStripMenuItem";
-            resources.ApplyResources(this.toggleFullscreenToolStripMenuItem, "toggleFullscreenToolStripMenuItem");
-            this.toggleFullscreenToolStripMenuItem.Click += new System.EventHandler(this.toggleFullscreenToolStripMenuItem_Click);
-            // 
-            // forceAspectRatioToolStripMenuItem
-            // 
-            this.forceAspectRatioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5});
-            this.forceAspectRatioToolStripMenuItem.Name = "forceAspectRatioToolStripMenuItem";
-            resources.ApplyResources(this.forceAspectRatioToolStripMenuItem, "forceAspectRatioToolStripMenuItem");
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
-            // 
             // websocketTimer
             // 
             this.websocketTimer.Enabled = true;
@@ -1157,7 +1117,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.videoView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).EndInit();
             this.contextSpectrumMenu.ResumeLayout(false);
-            this.videoPlayerContextMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -1208,11 +1167,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuFullScreen;
         private System.Windows.Forms.ToolStripMenuItem qO100WidebandChatToolStripMenuItem;
         private System.Windows.Forms.Timer SpectrumTuneTimer;
-        private System.Windows.Forms.ContextMenuStrip videoPlayerContextMenu;
-        private System.Windows.Forms.ToolStripMenuItem toggleFullscreenToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem forceAspectRatioToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem manageStoredFrequenciesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
