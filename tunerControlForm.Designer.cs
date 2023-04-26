@@ -199,6 +199,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(619, 270);
             this.Controls.Add(this.comboSR);
             this.Controls.Add(this.label4);
@@ -213,7 +214,6 @@
             this.Controls.Add(this.lblkHz);
             this.Controls.Add(this.lblmHz);
             this.Controls.Add(this.lblgHz);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "tunerControlForm";

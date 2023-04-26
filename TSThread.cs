@@ -176,6 +176,7 @@ namespace opentuner
                             registered_consumers[0].TryDequeue(out raw_data);
                         }
 
+
                         continue;
                     }
 

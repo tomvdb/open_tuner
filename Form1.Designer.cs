@@ -133,7 +133,9 @@
             this.dbgListBox = new System.Windows.Forms.ListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.videoPlayersSplitter = new System.Windows.Forms.SplitContainer();
+            this.ffmpegVideoView1 = new FlyleafLib.Controls.WinForms.FlyleafHost();
             this.videoView1 = new LibVLCSharp.WinForms.VideoView();
+            this.ffmpegVideoView2 = new FlyleafLib.Controls.WinForms.FlyleafHost();
             this.videoView2 = new LibVLCSharp.WinForms.VideoView();
             this.spectrum = new System.Windows.Forms.PictureBox();
             this.contextSpectrumMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -158,13 +160,18 @@
             this.tuner1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recordAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableUDPOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.lNBPowerSupplyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lNBAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vertical13VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.horizontal18VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
-            this.ffmpegVideoView2 = new FlyleafLib.Controls.WinForms.FlyleafHost();
-            this.ffmpegVideoView1 = new FlyleafLib.Controls.WinForms.FlyleafHost();
+            this.kHzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -877,12 +884,48 @@
             this.videoPlayersSplitter.Panel2.Controls.Add(this.ffmpegVideoView2);
             this.videoPlayersSplitter.Panel2.Controls.Add(this.videoView2);
             // 
+            // ffmpegVideoView1
+            // 
+            this.ffmpegVideoView1.AllowDrop = true;
+            resources.ApplyResources(this.ffmpegVideoView1, "ffmpegVideoView1");
+            this.ffmpegVideoView1.BackColor = System.Drawing.Color.Black;
+            this.ffmpegVideoView1.DragMove = false;
+            this.ffmpegVideoView1.IsFullScreen = false;
+            this.ffmpegVideoView1.KeyBindings = false;
+            this.ffmpegVideoView1.Name = "ffmpegVideoView1";
+            this.ffmpegVideoView1.OpenOnDrop = false;
+            this.ffmpegVideoView1.PanMoveOnCtrl = true;
+            this.ffmpegVideoView1.PanRotateOnShiftWheel = true;
+            this.ffmpegVideoView1.PanZoomOnCtrlWheel = true;
+            this.ffmpegVideoView1.Player = null;
+            this.ffmpegVideoView1.SwapDragEnterOnShift = true;
+            this.ffmpegVideoView1.SwapOnDrop = true;
+            this.ffmpegVideoView1.ToggleFullScreenOnDoubleClick = false;
+            // 
             // videoView1
             // 
             this.videoView1.BackColor = System.Drawing.Color.Black;
             resources.ApplyResources(this.videoView1, "videoView1");
             this.videoView1.MediaPlayer = null;
             this.videoView1.Name = "videoView1";
+            // 
+            // ffmpegVideoView2
+            // 
+            this.ffmpegVideoView2.AllowDrop = true;
+            resources.ApplyResources(this.ffmpegVideoView2, "ffmpegVideoView2");
+            this.ffmpegVideoView2.BackColor = System.Drawing.Color.Black;
+            this.ffmpegVideoView2.DragMove = false;
+            this.ffmpegVideoView2.IsFullScreen = false;
+            this.ffmpegVideoView2.KeyBindings = false;
+            this.ffmpegVideoView2.Name = "ffmpegVideoView2";
+            this.ffmpegVideoView2.OpenOnDrop = false;
+            this.ffmpegVideoView2.PanMoveOnCtrl = true;
+            this.ffmpegVideoView2.PanRotateOnShiftWheel = true;
+            this.ffmpegVideoView2.PanZoomOnCtrlWheel = true;
+            this.ffmpegVideoView2.Player = null;
+            this.ffmpegVideoView2.SwapDragEnterOnShift = true;
+            this.ffmpegVideoView2.SwapOnDrop = true;
+            this.ffmpegVideoView2.ToggleFullScreenOnDoubleClick = false;
             // 
             // videoView2
             // 
@@ -950,6 +993,7 @@
             this.openTunerToolStripMenuItem,
             this.toolStripMenuItem2,
             this.tunerControlToolStripMenuItem,
+            this.toolStripMenuItem4,
             this.qO100WidebandChatToolStripMenuItem,
             this.helpToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
@@ -1053,6 +1097,50 @@
             resources.ApplyResources(this.enableUDPOutputToolStripMenuItem, "enableUDPOutputToolStripMenuItem");
             this.enableUDPOutputToolStripMenuItem.Click += new System.EventHandler(this.enableUDPOutputToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lNBPowerSupplyToolStripMenuItem,
+            this.kHzToolStripMenuItem});
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
+            // 
+            // lNBPowerSupplyToolStripMenuItem
+            // 
+            this.lNBPowerSupplyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lNBAToolStripMenuItem});
+            this.lNBPowerSupplyToolStripMenuItem.Name = "lNBPowerSupplyToolStripMenuItem";
+            resources.ApplyResources(this.lNBPowerSupplyToolStripMenuItem, "lNBPowerSupplyToolStripMenuItem");
+            // 
+            // lNBAToolStripMenuItem
+            // 
+            this.lNBAToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.offToolStripMenuItem,
+            this.vertical13VToolStripMenuItem,
+            this.horizontal18VToolStripMenuItem});
+            this.lNBAToolStripMenuItem.Name = "lNBAToolStripMenuItem";
+            resources.ApplyResources(this.lNBAToolStripMenuItem, "lNBAToolStripMenuItem");
+            // 
+            // offToolStripMenuItem
+            // 
+            this.offToolStripMenuItem.Checked = true;
+            this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
+            resources.ApplyResources(this.offToolStripMenuItem, "offToolStripMenuItem");
+            this.offToolStripMenuItem.Click += new System.EventHandler(this.offToolStripMenuItem_Click);
+            // 
+            // vertical13VToolStripMenuItem
+            // 
+            this.vertical13VToolStripMenuItem.Name = "vertical13VToolStripMenuItem";
+            resources.ApplyResources(this.vertical13VToolStripMenuItem, "vertical13VToolStripMenuItem");
+            this.vertical13VToolStripMenuItem.Click += new System.EventHandler(this.vertical13VToolStripMenuItem_Click);
+            // 
+            // horizontal18VToolStripMenuItem
+            // 
+            this.horizontal18VToolStripMenuItem.Name = "horizontal18VToolStripMenuItem";
+            resources.ApplyResources(this.horizontal18VToolStripMenuItem, "horizontal18VToolStripMenuItem");
+            this.horizontal18VToolStripMenuItem.Click += new System.EventHandler(this.horizontal18VToolStripMenuItem_Click);
+            // 
             // qO100WidebandChatToolStripMenuItem
             // 
             this.qO100WidebandChatToolStripMenuItem.Name = "qO100WidebandChatToolStripMenuItem";
@@ -1084,39 +1172,11 @@
             this.SpectrumTuneTimer.Interval = 1500;
             this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
             // 
-            // ffmpegVideoView2
+            // kHzToolStripMenuItem
             // 
-            resources.ApplyResources(this.ffmpegVideoView2, "ffmpegVideoView2");
-            this.ffmpegVideoView2.BackColor = System.Drawing.Color.Black;
-            this.ffmpegVideoView2.DragMove = false;
-            this.ffmpegVideoView2.IsFullScreen = false;
-            this.ffmpegVideoView2.KeyBindings = false;
-            this.ffmpegVideoView2.Name = "ffmpegVideoView2";
-            this.ffmpegVideoView2.OpenOnDrop = false;
-            this.ffmpegVideoView2.PanMoveOnCtrl = true;
-            this.ffmpegVideoView2.PanRotateOnShiftWheel = true;
-            this.ffmpegVideoView2.PanZoomOnCtrlWheel = true;
-            this.ffmpegVideoView2.Player = null;
-            this.ffmpegVideoView2.SwapDragEnterOnShift = true;
-            this.ffmpegVideoView2.SwapOnDrop = true;
-            this.ffmpegVideoView2.ToggleFullScreenOnDoubleClick = false;
-            // 
-            // ffmpegVideoView1
-            // 
-            resources.ApplyResources(this.ffmpegVideoView1, "ffmpegVideoView1");
-            this.ffmpegVideoView1.BackColor = System.Drawing.Color.Black;
-            this.ffmpegVideoView1.DragMove = false;
-            this.ffmpegVideoView1.IsFullScreen = false;
-            this.ffmpegVideoView1.KeyBindings = false;
-            this.ffmpegVideoView1.Name = "ffmpegVideoView1";
-            this.ffmpegVideoView1.OpenOnDrop = false;
-            this.ffmpegVideoView1.PanMoveOnCtrl = true;
-            this.ffmpegVideoView1.PanRotateOnShiftWheel = true;
-            this.ffmpegVideoView1.PanZoomOnCtrlWheel = true;
-            this.ffmpegVideoView1.Player = null;
-            this.ffmpegVideoView1.SwapDragEnterOnShift = true;
-            this.ffmpegVideoView1.SwapOnDrop = true;
-            this.ffmpegVideoView1.ToggleFullScreenOnDoubleClick = false;
+            this.kHzToolStripMenuItem.Name = "kHzToolStripMenuItem";
+            resources.ApplyResources(this.kHzToolStripMenuItem, "kHzToolStripMenuItem");
+            this.kHzToolStripMenuItem.Click += new System.EventHandler(this.kHzToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -1301,6 +1361,13 @@
         private System.Windows.Forms.Label lblRfInput;
         private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView2;
         private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem lNBPowerSupplyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lNBAToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vertical13VToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem horizontal18VToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kHzToolStripMenuItem;
     }
 }
 

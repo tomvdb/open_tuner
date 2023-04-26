@@ -85,8 +85,6 @@ namespace opentuner
 
         byte get_nim_status()
         {
-            //Console.WriteLine("Get nim status");
-
             NimStatus nim_status = new NimStatus();
 
             byte err = 0;
@@ -286,22 +284,9 @@ namespace opentuner
                 nim_status.T2P1_pilots = false;
             }
 
-            /*
-            if (onNewStatus != null)
-            {
-                StatusEvent new_nim_status = new StatusEvent();
-                new_nim_status.nim_status = nim_status;
-                onNewStatus(this, new_nim_status);
-            }
-            */
-
             // send status callback if available
-            //Console.WriteLine("Do callback");
-            //Console.WriteLine(status_callback.Count);
-
             for ( int c = 0;c < status_callback.Count; c++)
             {
-
                 status_callback[c](nim_status);
             }
 
@@ -405,31 +390,13 @@ namespace opentuner
                                 Console.WriteLine("Error before demod scan");
                             }
 
-                            /*
-                            // lnb power supply
-                            if (err  == 0)
-                            {
-                                if (nim_config.polarization_supply)
-                                {
-                                    hardware.ftdi_set_polarization_supply(0, true, nim_config.polarization_supply_horizontal);
-                                }
-                                else
-                                {
-                                    hardware.ftdi_set_polarization_supply(0, false, false);
-                                }
-
-                            }
-                            else
-                            {
-                                Console.WriteLine("Error lnb pwer");
-                            }
-
+                           
                             // 22 kHz - P1
                             if (err == 0)
                             {
                                 err = _stv0910.stv0910_switch_22Khz_p1(nim_config.tone_22kHz_P1);
                             }
-                            */
+                            
 
                             // done, if we have errors, then exit thread
                             if (err != 0)

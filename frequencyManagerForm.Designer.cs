@@ -30,6 +30,8 @@
         {
             this.listFreq = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblDefaultTuner = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.lblRFInput = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.lblSymbolRate = new System.Windows.Forms.Label();
@@ -44,8 +46,6 @@
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lblDefaultTuner = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,6 +78,23 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Frequency Information";
+            // 
+            // lblDefaultTuner
+            // 
+            this.lblDefaultTuner.AutoSize = true;
+            this.lblDefaultTuner.Location = new System.Drawing.Point(111, 142);
+            this.lblDefaultTuner.Name = "lblDefaultTuner";
+            this.lblDefaultTuner.Size = new System.Drawing.Size(0, 13);
+            this.lblDefaultTuner.TabIndex = 11;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(19, 142);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(75, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Default Tuner:";
             // 
             // lblRFInput
             // 
@@ -204,27 +221,11 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 142);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Default Tuner:";
-            // 
-            // lblDefaultTuner
-            // 
-            this.lblDefaultTuner.AutoSize = true;
-            this.lblDefaultTuner.Location = new System.Drawing.Point(111, 142);
-            this.lblDefaultTuner.Name = "lblDefaultTuner";
-            this.lblDefaultTuner.Size = new System.Drawing.Size(0, 13);
-            this.lblDefaultTuner.TabIndex = 11;
-            // 
             // frequencyManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(656, 445);
             this.ControlBox = false;
             this.Controls.Add(this.btnClose);
@@ -233,7 +234,6 @@
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.listFreq);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "frequencyManagerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Frequency Manager";

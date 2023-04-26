@@ -4671,36 +4671,6 @@
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>157, 17</value>
   </metadata>
-  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Actions</value>
-  </data>
-  <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 20</value>
-  </data>
-  <data name="toolStripMenuItem2.Text" xml:space="preserve">
-    <value>&amp;Frequency Manager</value>
-  </data>
-  <data name="tunerControlToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
-  </data>
-  <data name="tunerControlToolStripMenuItem.Text" xml:space="preserve">
-    <value>Media</value>
-  </data>
-  <data name="qO100WidebandChatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 20</value>
-  </data>
-  <data name="qO100WidebandChatToolStripMenuItem.Text" xml:space="preserve">
-    <value>QO-100 Wideband Chat</value>
-  </data>
-  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -4724,6 +4694,12 @@
   </data>
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Actions</value>
   </data>
   <data name="menuConnect.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Alt+C</value>
@@ -4761,6 +4737,12 @@
   <data name="quitToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Quit</value>
   </data>
+  <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 20</value>
+  </data>
+  <data name="toolStripMenuItem2.Text" xml:space="preserve">
+    <value>&amp;Frequency Manager</value>
+  </data>
   <data name="manageStoredFrequenciesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>232, 22</value>
   </data>
@@ -4775,6 +4757,12 @@
   </data>
   <data name="storedFrequenciesToolStripMenuItem.Text" xml:space="preserve">
     <value>Stored Frequencies</value>
+  </data>
+  <data name="tunerControlToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 20</value>
+  </data>
+  <data name="tunerControlToolStripMenuItem.Text" xml:space="preserve">
+    <value>Media</value>
   </data>
   <data name="tuner1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 22</value>
@@ -4794,6 +4782,54 @@
   <data name="enableUDPOutputToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Enable UDP Output</value>
   </data>
+  <data name="toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 20</value>
+  </data>
+  <data name="toolStripMenuItem4.Text" xml:space="preserve">
+    <value>IO Control</value>
+  </data>
+  <data name="lNBPowerSupplyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="lNBPowerSupplyToolStripMenuItem.Text" xml:space="preserve">
+    <value>LNB Power Supply</value>
+  </data>
+  <data name="lNBAToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 22</value>
+  </data>
+  <data name="lNBAToolStripMenuItem.Text" xml:space="preserve">
+    <value>LNB A</value>
+  </data>
+  <data name="offToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 22</value>
+  </data>
+  <data name="offToolStripMenuItem.Text" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="vertical13VToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 22</value>
+  </data>
+  <data name="vertical13VToolStripMenuItem.Text" xml:space="preserve">
+    <value>Vertical (13V)</value>
+  </data>
+  <data name="horizontal18VToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 22</value>
+  </data>
+  <data name="horizontal18VToolStripMenuItem.Text" xml:space="preserve">
+    <value>Horizontal (18V)</value>
+  </data>
+  <data name="qO100WidebandChatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 20</value>
+  </data>
+  <data name="qO100WidebandChatToolStripMenuItem.Text" xml:space="preserve">
+    <value>QO-100 Wideband Chat</value>
+  </data>
+  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
   <data name="openTunerWebsiteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>238, 22</value>
   </data>
@@ -4809,6 +4845,12 @@
   <metadata name="SpectrumTuneTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>272, 17</value>
   </metadata>
+  <data name="kHzToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="kHzToolStripMenuItem.Text" xml:space="preserve">
+    <value>22 kHz</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -4822,7 +4864,7 @@
     <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner 0.6 (ZR6TG) - 2023/04/25</value>
+    <value>Open Tuner 0.6 (ZR6TG) - 2023/04/26b</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>
@@ -4944,6 +4986,42 @@
   <data name="&gt;&gt;enableUDPOutputToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripMenuItem4.Name" xml:space="preserve">
+    <value>toolStripMenuItem4</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lNBPowerSupplyToolStripMenuItem.Name" xml:space="preserve">
+    <value>lNBPowerSupplyToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;lNBPowerSupplyToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lNBAToolStripMenuItem.Name" xml:space="preserve">
+    <value>lNBAToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;lNBAToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;offToolStripMenuItem.Name" xml:space="preserve">
+    <value>offToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;offToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;vertical13VToolStripMenuItem.Name" xml:space="preserve">
+    <value>vertical13VToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;vertical13VToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;horizontal18VToolStripMenuItem.Name" xml:space="preserve">
+    <value>horizontal18VToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;horizontal18VToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;qO100WidebandChatToolStripMenuItem.Name" xml:space="preserve">
     <value>qO100WidebandChatToolStripMenuItem</value>
   </data>
@@ -4973,6 +5051,12 @@
   </data>
   <data name="&gt;&gt;SpectrumTuneTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;kHzToolStripMenuItem.Name" xml:space="preserve">
+    <value>kHzToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;kHzToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Form1</value>

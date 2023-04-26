@@ -115,6 +115,7 @@ namespace opentuner
             }
 
             media_stream.ts_sync = false;
+            media_stream.end = false;
             Console.WriteLine("FFMPEG Play");
             player.OpenAsync(media_stream);
             player.Play();
@@ -122,6 +123,7 @@ namespace opentuner
         public override void Stop()
         {
             Console.WriteLine("FFMPEG Stop");
+            media_stream.end = true;
             if (player.IsPlaying) { player.Stop(); }
         }
 
@@ -147,6 +149,7 @@ namespace opentuner
     {
         ConcurrentQueue<byte> ts_data_queue;
         public bool ts_sync = false;
+        public bool end = false;
 
         public MediaStream(ConcurrentQueue<byte> TSDataQueue) 
         {
@@ -176,6 +179,11 @@ namespace opentuner
             // wait for next data
             while (ts_data_queue.Count() < 188)
             {
+                if (end == true)
+                {
+                    Console.WriteLine("Broken out of wait loop due to signal");
+                    return 0;
+                }
                 //Console.WriteLine("Waiting: " + timeout.ToString() + "," + ts_data_queue.Count().ToString());
                 // if we haven't received anything within a few seconds then most likely won't get anything
                 //if (timeout > 5000)

@@ -64,12 +64,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(456, 81);
             this.ControlBox = false;
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btnSetNick);
             this.Controls.Add(this.txtNick);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "setnickdialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wideband Chat Nickname";

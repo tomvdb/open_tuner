@@ -333,6 +333,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="setnickdialog.resx">
+      <DependentUpon>setnickdialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="settingsForm.de.resx">
       <DependentUpon>settingsForm.cs</DependentUpon>
     </EmbeddedResource>

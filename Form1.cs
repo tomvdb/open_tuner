@@ -679,6 +679,7 @@ namespace opentuner
                 else
                 {
                     stop_video1();
+                    ftdi_hw.ftdi_ts_led(0, false);
                 }
 
                 T1P2_prevLocked = T1P2locked;
@@ -697,6 +698,7 @@ namespace opentuner
                     else
                     {
                         stop_video2();
+                        ftdi_hw.ftdi_ts_led(0, false);
                     }
 
                     T2P1_prevLocked = T2P1Locked;
@@ -771,6 +773,13 @@ namespace opentuner
             }
 
             Console.WriteLine("Main: Starting Nim Thread");
+
+            // switch off ts leds
+            ftdi_hw.ftdi_ts_led(0, false);
+            ftdi_hw.ftdi_ts_led(1, false);
+
+            // set default lnb supply
+            ftdi_hw.ftdi_set_polarization_supply(0, current_enable_lnb_supply, current_enable_horiz_supply);
 
             // NIM thread
             NimStatusCallback status_callback = new NimStatusCallback(nim_status_feedback);
@@ -870,43 +879,19 @@ namespace opentuner
             lblConnected.ForeColor = Color.Green;
 
             menuConnect.Enabled = false;
+            lblConnected.Enabled = false;
+
         }
 
         private void MediaPlayer_Vout2(object sender, MediaStatus media_status)
         {
+            ftdi_hw.ftdi_ts_led(1, true);
+
             updateMediaStatusGui(2, this, media_status);
 
             if (media_player_2 != null)
                 media_player_2.SetVolume(rxVolume2);
         }
-
-        /*
-        private void VideoView1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            byte volumeDelta = 5;
-
-            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
-            {
-                volumeDelta = 1;
-            }
-
-
-            if (e.Delta < 0 && rxVolume >= (0 + volumeDelta))
-            {
-                rxVolume -= volumeDelta;
-                trackVolume.Value = rxVolume;
-                return;
-            }
-
-            if (e.Delta > 0 && rxVolume <= (200 - volumeDelta))
-            {
-                rxVolume += volumeDelta;
-                trackVolume.Value = rxVolume;
-                return;
-            }
-
-        }
-        */
 
         private void Ts_recorder_onRecordStatusChange(object sender, bool e)
         {
@@ -920,6 +905,7 @@ namespace opentuner
 
         private void MediaPlayer_Vout(object sender, MediaStatus media_status)
         {
+            ftdi_hw.ftdi_ts_led(0, true);
 
             updateMediaStatusGui(1, this, media_status);
 
@@ -1140,7 +1126,6 @@ namespace opentuner
             else
             {
                 selectSignal(X, Y);
-                Console.WriteLine(Y.ToString());
             }
 
         }
@@ -1301,26 +1286,28 @@ namespace opentuner
             debug("Settings MediaPlayer 1 : " + (setting_mediaplayer_1 == 0 ? "VLC" : "FFMPEG"));
             debug("Settings MediaPlayer 2 : " + (setting_mediaplayer_2 == 0 ? "VLC" : "FFMPEG"));
 
-            /*
+            offToolStripMenuItem.Checked = false;
+            vertical13VToolStripMenuItem.Checked = false;
+            horizontal18VToolStripMenuItem.Checked = false;
+
             switch (setting_default_lnb_supply)
             {
                 case 0:
                     current_enable_lnb_supply = false;
                     current_enable_horiz_supply = false;
-                    radioLnbSupplyOff.Checked = true;
+                    offToolStripMenuItem.Checked = true;
                     break;
                 case 1:
                     current_enable_lnb_supply = true;
                     current_enable_horiz_supply = false;
-                    radioLnbSupplyVert.Checked = true;
+                    vertical13VToolStripMenuItem.Checked = true;
                     break;
                 case 2:
                     current_enable_lnb_supply = true;
                     current_enable_horiz_supply = true;
-                    radioLnbSupplyHoriz.Checked = true;
+                    horizontal18VToolStripMenuItem.Checked = true;
                     break;
             }
-            */
 
             debug("Settings: Enable LNB Supply: " + current_enable_lnb_supply.ToString());
 
@@ -1349,8 +1336,6 @@ namespace opentuner
                     Console.WriteLine("Disabling LNA Configure due to command line");
                     setting_disable_lna = true;
                 }
-
-                //setting_disable_lna = true;
 
                 if (arg == "DISABLEQO100")
                 {
@@ -1701,54 +1686,6 @@ namespace opentuner
             }
         }
 
-        private void btnSnapshot_Click(object sender, EventArgs e)
-        {
-        }
-
-        /*
-        private void radio22kHz_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((RadioButton)sender).Checked)
-            {
-                if ( radio22kHzP1On.Checked )
-                {
-                    change_22kHz_p1(true);
-                    return;
-                }
-
-                change_22kHz_p1(false);
-            }
-
-        }
-        */
-
-            /*
-            private void radioLnbSupply_CheckedChanged(object sender, EventArgs e)
-            {
-                if (((RadioButton)sender).Checked)  // all the radio buttons will fire this event, only run once for the checked event
-                {
-                    if (radioLnbSupplyOff.Checked)
-                    {
-                        change_lnb_supply(false, false);
-                        return;
-                    }
-
-                    if (radioLnbSupplyHoriz.Checked)
-                    {
-                        change_lnb_supply(true, true);
-                        return;
-                    }
-
-                    if (radioLnbSupplyVert.Checked)
-                    {
-                        change_lnb_supply(true, false);
-                        return;
-                    }
-                }
-
-            }
-            */
-
         private void openTunerWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/open-tuner/");
@@ -1823,28 +1760,6 @@ namespace opentuner
             if (!hardware_connected)
                 btnConnectTuner_Click(this, e);
         }
-
-        /*
-        private void radioRFInput_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((RadioButton)sender).Checked)  // all the radio buttons will fire this event, only run once for the checked event
-            {
-                stop_video1();
-                stop_video2();
-
-                if (radioRFInputA.Checked)
-                {
-                    //change_rf_input(false);
-                    txtLO.Text = setting_default_lo_value_1.ToString();
-                }
-                else
-                {
-                    //change_rf_input(true);
-                    txtLO.Text = setting_default_lo_value_2.ToString();
-                }
-            }
-        }
-        */
 
         private void menuFullScreen_Click(object sender, EventArgs e)
         {
@@ -2150,6 +2065,56 @@ namespace opentuner
                 }
             }
 
+        }
+
+        private void offToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!hardware_connected)
+                return;
+
+            ftdi_hw.ftdi_set_polarization_supply(0, false, false);
+
+            offToolStripMenuItem.Checked = true;
+            vertical13VToolStripMenuItem.Checked = false;
+            horizontal18VToolStripMenuItem.Checked = false;
+        }
+
+        private void vertical13VToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!hardware_connected)
+                return;
+
+            ftdi_hw.ftdi_set_polarization_supply(0, true, false);
+
+            offToolStripMenuItem.Checked = false;
+            vertical13VToolStripMenuItem.Checked = true;
+            horizontal18VToolStripMenuItem.Checked = false;
+        }
+
+        private void horizontal18VToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!hardware_connected)
+                return;
+
+            ftdi_hw.ftdi_set_polarization_supply(0, true, true);
+
+            offToolStripMenuItem.Checked = false;
+            vertical13VToolStripMenuItem.Checked = false;
+            horizontal18VToolStripMenuItem.Checked = true;
+        }
+
+        private void toggleLed1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void toggleLed2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void kHzToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            kHzToolStripMenuItem.Checked = !kHzToolStripMenuItem.Checked;
+            change_frequency(1, current_frequency_1, current_sr_1, current_enable_lnb_supply, current_enable_horiz_supply, current_rf_input_1, kHzToolStripMenuItem.Checked);
         }
     }
 

@@ -66,10 +66,17 @@ namespace opentuner
         byte ftdi_gpio_lowbyte_value = 0x00;
         byte ftdi_gpio_lowbyte_direction = 0xFF;
 
+        // high byte pins
         const byte FTDI_GPIO_PINID_NIM_RESET = 0;
         const byte FTDI_GPIO_PINID_TS2SYNC = 1;
         const byte FTDI_GPIO_PINID_LNB_BIAS_ENABLE = 4;
+        const byte FTDI_GPIO_PINID_LED1 = 5;
+        const byte FTDI_GPIO_PINID_LED2 = 6;
         const byte FTDI_GPIO_PINID_LNB_BIAS_VSEL = 7;
+
+        const byte FTDI_GPIO_PINID_LNB2_BIAS_ENABLE = 4;
+        const byte FTDI_GPIO_PINID_LNB2_BIAS_VSEL = 5;
+
 
 
 
@@ -231,8 +238,8 @@ namespace opentuner
             NumBytesToSend = 0;
 
             MPSSEbuffer[NumBytesToSend++] = 0x8A; 	// Disable clock divide by 5 for 60Mhz master clock
-            MPSSEbuffer[NumBytesToSend++] = 0x97;	// Turn off adaptive clocking
-            MPSSEbuffer[NumBytesToSend++] = 0x8D;
+            MPSSEbuffer[NumBytesToSend++] = 0x97;	// Disable adaptive clocking
+            MPSSEbuffer[NumBytesToSend++] = 0x8D;   // Disable 3 phase data clocking
 
             I2C_Status = Send_Data_i2c(NumBytesToSend);
             if (I2C_Status != 0)
@@ -243,8 +250,8 @@ namespace opentuner
             NumBytesToSend = 0;
 
             MPSSEbuffer[NumBytesToSend++] = 0x80; // set ouput, low byte
-            MPSSEbuffer[NumBytesToSend++] = 0x13; // value
-            MPSSEbuffer[NumBytesToSend++] = 0x13; // direction
+            MPSSEbuffer[NumBytesToSend++] = 0x00; // value
+            MPSSEbuffer[NumBytesToSend++] = 0xFF; // direction
 
             MPSSEbuffer[NumBytesToSend++] = 0x82; // set output, high byte
             MPSSEbuffer[NumBytesToSend++] = 0x6F; // value
@@ -350,19 +357,22 @@ namespace opentuner
         {
             byte err;
 
-            MPSSEbuffer[NumBytesToSend++] = 0x80;
-            MPSSEbuffer[NumBytesToSend++] = 0x00;
-            MPSSEbuffer[NumBytesToSend++] = 0x13;
-            MPSSEbuffer[NumBytesToSend++] = 0x11;
-            MPSSEbuffer[NumBytesToSend++] = 0x00;
-            MPSSEbuffer[NumBytesToSend++] = 0x00;
-            MPSSEbuffer[NumBytesToSend++] = b;
-            MPSSEbuffer[NumBytesToSend++] = 0x80;
-            MPSSEbuffer[NumBytesToSend++] = 0x00;
-            MPSSEbuffer[NumBytesToSend++] = 0x11;
-            MPSSEbuffer[NumBytesToSend++] = 0x27;
-            MPSSEbuffer[NumBytesToSend++] = 0x00;
-            MPSSEbuffer[NumBytesToSend++] = 0x87;
+            MPSSEbuffer[NumBytesToSend++] = 0x80; // low byte
+            MPSSEbuffer[NumBytesToSend++] = 0x00; // value
+            MPSSEbuffer[NumBytesToSend++] = 0x13; // direction
+
+            MPSSEbuffer[NumBytesToSend++] = 0x11; // clock data bytes out
+            MPSSEbuffer[NumBytesToSend++] = 0x00; // length l
+            MPSSEbuffer[NumBytesToSend++] = 0x00; // length h
+            MPSSEbuffer[NumBytesToSend++] = b;    // byte
+
+            MPSSEbuffer[NumBytesToSend++] = 0x80; // low byte
+            MPSSEbuffer[NumBytesToSend++] = 0x00; // value
+            MPSSEbuffer[NumBytesToSend++] = 0x11; // direction
+
+            MPSSEbuffer[NumBytesToSend++] = 0x27; // ?
+            MPSSEbuffer[NumBytesToSend++] = 0x00; // ?
+            MPSSEbuffer[NumBytesToSend++] = 0x87; // ?
 
             err = Send_Data_i2c(NumBytesToSend);
             NumBytesToSend = 0;
@@ -387,13 +397,15 @@ namespace opentuner
             MPSSEbuffer[NumBytesToSend++] = 0x80;
             MPSSEbuffer[NumBytesToSend++] = 0x00;
             MPSSEbuffer[NumBytesToSend++] = 0x13;
+
             MPSSEbuffer[NumBytesToSend++] = 0x80;
             MPSSEbuffer[NumBytesToSend++] = 0x00;
             MPSSEbuffer[NumBytesToSend++] = 0x11;
-            MPSSEbuffer[NumBytesToSend++] = 0x25;
-            MPSSEbuffer[NumBytesToSend++] = 0x00;
-            MPSSEbuffer[NumBytesToSend++] = 0x00;
-            MPSSEbuffer[NumBytesToSend++] = 0x87;
+
+            MPSSEbuffer[NumBytesToSend++] = 0x25; // ?
+            MPSSEbuffer[NumBytesToSend++] = 0x00; // ?
+            MPSSEbuffer[NumBytesToSend++] = 0x00; // ?
+            MPSSEbuffer[NumBytesToSend++] = 0x87; // ?
 
 
             err = Send_Data_i2c(NumBytesToSend);
@@ -780,9 +792,9 @@ namespace opentuner
 
         byte ftdi_gpio_write_highbyte(byte pin_id, bool pin_value)
         {
-            Console.WriteLine("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
+            //Console.WriteLine("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
 
-            Console.WriteLine("ftdi_gpio_highbyte_value: before: " + Convert.ToString(ftdi_gpio_highbyte_value, 2));
+            //Console.WriteLine("ftdi_gpio_highbyte_value: before: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
 
             if (pin_value)
             {
@@ -793,8 +805,7 @@ namespace opentuner
                 ftdi_gpio_highbyte_value &= (byte)(~(1 << pin_id));
             }
 
-            Console.WriteLine("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_highbyte_value, 2));
-
+            //Console.WriteLine("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
 
             NumBytesToSend = 0;
             MPSSEbuffer[NumBytesToSend++] = 0x82; /* aka. MPSSE_CMD_SET_DATA_BITS_HIGHBYTE */
@@ -870,6 +881,24 @@ namespace opentuner
         }
 
 
+        public byte ftdi_ts_led(int led, bool setting)
+        {
+            byte err = 0;
+
+            switch (led)
+            {
+                case 0: 
+                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LED1, setting);
+                    break;
+                case 1:
+                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LED2, setting);
+                    break;
+            }
+
+
+            return err;
+        }
+
         // on minitiouner pro 2 there are 2 outputs for the 2 different lnb switching - longmynd originally only catered for 1 output, the pro 2 needs two outputs. 
         // need to confirm express and S versions.
         public byte ftdi_set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
@@ -883,19 +912,26 @@ namespace opentuner
                 {
                     if (lnb_num == 0)
                     {
+                        Console.WriteLine("Enable LNB2 VSEL");
                         ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, true);
+                        //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, true);
                     }
                 }
                 else
                 {
+                    Console.WriteLine("Disable LNB2 VSEL");
                     if (lnb_num == 0)
                     {
                         ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
+                        //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, false);
                     }
                 }
+
                 if (lnb_num == 0)
                 {
+                    Console.WriteLine("Enable LNB2 Power");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, true);
+                    //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, true);
                 }
             }
             else
@@ -903,7 +939,11 @@ namespace opentuner
                 // disable
                 if (lnb_num == 0)
                 {
+                    Console.WriteLine("Disable LNB2 Power");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, false);
+                    Console.WriteLine("Disable LNB2 VSEL");
+                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
+                    //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, false);
                 }
             }
 

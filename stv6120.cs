@@ -79,19 +79,15 @@ namespace opentuner
         {
             byte err = 0;
             byte k;
-            byte temp;
-            byte temp9;
-            byte temp10;
+            byte temp = 0;
+            byte temp9 = 0;
+            byte temp10 = 0;
 
-            Console.WriteLine("Flow: Tuner%d init %d antenna%d \r\n", nimtuner, freq_tuner, antenna);
+            Console.WriteLine("Flow: Tuner " + nimtuner.ToString() + " init " + freq_tuner.ToString() + "  antenna " + antenna.ToString() + " \r\n");
 
             // Note: the tuners are set up separately as required, so the other one must not be disturbed
 
-            temp = 0;
-            err = stv6120_read_reg(stv6120_regs.STV6120_CTRL10, ref temp);
-            Console.WriteLine("<%02X %02X>\r\n", temp, stv6120_regs.STV6120_CTRL10_RESET); /////////////////
-            ///	if (temp == STV6120_CTRL10_RESET)					// chip has been reset, so set up the common clock
-            if (true) //////////////////
+            if (true) 
             {                                                   // LNA-A and LNA-D will be turned off lower down		
 
                 // we calculate K from: F_xtal / (K+16) = 1MHz, as specified in the datasheet
@@ -492,9 +488,7 @@ namespace opentuner
                 cfhf++;
             }
             cfhf--;    /* we are sure it isn't greater then the first array element so this is safe */
-
-            Console.WriteLine("      Status: tuner:%i, f_vco=0x%x, icp=0x%x, f=0x%x, n=0x%x,\n", nimtuner, f_vco, icp, f, n);
-            Console.WriteLine("              rdiv=0x%x, p=0x%x, freq=%i, cfhf=%i\n", rdiv, p, freq, stv6120_cfhf[cfhf]);
+            
 
             /* now we fill in the PLL and ICP values */
 
