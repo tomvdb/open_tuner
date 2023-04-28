@@ -37,6 +37,8 @@ namespace opentuner
 
             config = new Config();
             config.Video.BackgroundColor = System.Windows.Media.Colors.Black;
+            config.Demuxer.AllowTimeouts = false;
+            //config.Demuxer.BufferDuration = 20;
 
             player = new Player(config);
 
@@ -44,7 +46,7 @@ namespace opentuner
 
             player.OpenCompleted += Player_OpenCompleted;
             player.PlaybackStopped += Player_PlaybackStopped;
-            player.BufferingStarted += Player_BufferingStarted;
+            //player.BufferingStarted += Player_BufferingStarted;
             player.PropertyChanged += Player_PropertyChanged;
 
             media_player.Enabled = true;
@@ -53,7 +55,7 @@ namespace opentuner
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            //Console.WriteLine("FFMPEG : Player Property Changed");
+            //Console.WriteLine("FFMPEG : Player Property Changed: " + e.PropertyName);
         }
 
         private void Player_BufferingStarted(object sender, EventArgs e)
@@ -196,7 +198,7 @@ namespace opentuner
                 //timeout += 50;
                 //return 0;
                 //Console.Write(".");
-                Thread.Sleep(50);
+                Thread.Sleep(10);
             }
 
             int queue_count = ts_data_queue.Count();    // this is slow, so we do it once here and use an internal variable

@@ -19,12 +19,12 @@ namespace opentuner
             {
                 FFmpegPath = @"ffmpeg\",
                 FFmpegDevices = false,    // Prevents loading avdevice/avfilter dll files. Enable it only if you plan to use dshow/gdigrab etc.
-                LogLevel = LogLevel.Quiet,
-                //LogOutput = ":console",
+                LogLevel = LogLevel.Error,
+                LogOutput = ":console",
 
-                UIRefresh = false,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true
+                UIRefresh = true,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true
                 UIRefreshInterval = 250,      // How often (in ms) to notify the UI
-                UICurTimePerSecond = true,     // Whether to notify UI for CurTime only when it's second changed or by UIRefreshInterval
+                UICurTimePerSecond = false,     // Whether to notify UI for CurTime only when it's second changed or by UIRefreshInterval
             });
 
             Application.EnableVisualStyles();

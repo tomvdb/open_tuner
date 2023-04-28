@@ -641,9 +641,9 @@ namespace opentuner
                         ts_port = c;
                     }
 
-                    if (deviceName.Contains("NIM tuner B DB"))
+                    if (deviceName.Contains("NIM DB tuner B"))
                     {
-                        Console.WriteLine("Should be the ts port for a BATC V2 Minitiouner");
+                        Console.WriteLine("Should be the 2nd ts port for a BATC V2 Minitiouner");
                         ts_port2 = c;
                     }
 

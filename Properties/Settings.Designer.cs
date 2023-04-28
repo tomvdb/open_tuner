@@ -273,5 +273,29 @@ namespace opentuner.Properties {
                 this["udp_port1"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string udp_address2 {
+            get {
+                return ((string)(this["udp_address2"]));
+            }
+            set {
+                this["udp_address2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9081")]
+        public int udp_port2 {
+            get {
+                return ((int)(this["udp_port2"]));
+            }
+            set {
+                this["udp_port2"] = value;
+            }
+        }
     }
 }

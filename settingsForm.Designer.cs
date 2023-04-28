@@ -37,9 +37,17 @@
             this.txtDefaultLO = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.numUdpPort = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textUDPAddress = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.comboMediaPlayer2 = new System.Windows.Forms.ComboBox();
+            this.comboMediaPlayer1 = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.txtSnapshotPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -50,19 +58,16 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.comboMediaPlayer1 = new System.Windows.Forms.ComboBox();
-            this.comboMediaPlayer2 = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.textUDPAddress = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.numUdpPort = new System.Windows.Forms.NumericUpDown();
+            this.numUdpPort2 = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textUDPAddress2 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -115,6 +120,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.numUdpPort2);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.textUDPAddress2);
+            this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.numUdpPort);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.textUDPAddress);
@@ -124,6 +133,31 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // numUdpPort
+            // 
+            resources.ApplyResources(this.numUdpPort, "numUdpPort");
+            this.numUdpPort.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.numUdpPort.Name = "numUdpPort";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // textUDPAddress
+            // 
+            resources.ApplyResources(this.textUDPAddress, "textUDPAddress");
+            this.textUDPAddress.Name = "textUDPAddress";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
             // 
             // comboLanguage
             // 
@@ -158,6 +192,36 @@
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // comboMediaPlayer2
+            // 
+            this.comboMediaPlayer2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboMediaPlayer2.FormattingEnabled = true;
+            this.comboMediaPlayer2.Items.AddRange(new object[] {
+            resources.GetString("comboMediaPlayer2.Items"),
+            resources.GetString("comboMediaPlayer2.Items1")});
+            resources.ApplyResources(this.comboMediaPlayer2, "comboMediaPlayer2");
+            this.comboMediaPlayer2.Name = "comboMediaPlayer2";
+            // 
+            // comboMediaPlayer1
+            // 
+            this.comboMediaPlayer1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboMediaPlayer1.FormattingEnabled = true;
+            this.comboMediaPlayer1.Items.AddRange(new object[] {
+            resources.GetString("comboMediaPlayer1.Items"),
+            resources.GetString("comboMediaPlayer1.Items1")});
+            resources.ApplyResources(this.comboMediaPlayer1, "comboMediaPlayer1");
+            this.comboMediaPlayer1.Name = "comboMediaPlayer1";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
             // 
             // button1
             // 
@@ -224,60 +288,30 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // label7
+            // numUdpPort2
             // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // comboMediaPlayer1
-            // 
-            this.comboMediaPlayer1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboMediaPlayer1.FormattingEnabled = true;
-            this.comboMediaPlayer1.Items.AddRange(new object[] {
-            resources.GetString("comboMediaPlayer1.Items"),
-            resources.GetString("comboMediaPlayer1.Items1")});
-            resources.ApplyResources(this.comboMediaPlayer1, "comboMediaPlayer1");
-            this.comboMediaPlayer1.Name = "comboMediaPlayer1";
-            // 
-            // comboMediaPlayer2
-            // 
-            this.comboMediaPlayer2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboMediaPlayer2.FormattingEnabled = true;
-            this.comboMediaPlayer2.Items.AddRange(new object[] {
-            resources.GetString("comboMediaPlayer2.Items"),
-            resources.GetString("comboMediaPlayer2.Items1")});
-            resources.ApplyResources(this.comboMediaPlayer2, "comboMediaPlayer2");
-            this.comboMediaPlayer2.Name = "comboMediaPlayer2";
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
-            // 
-            // textUDPAddress
-            // 
-            resources.ApplyResources(this.textUDPAddress, "textUDPAddress");
-            this.textUDPAddress.Name = "textUDPAddress";
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // numUdpPort
-            // 
-            resources.ApplyResources(this.numUdpPort, "numUdpPort");
-            this.numUdpPort.Maximum = new decimal(new int[] {
+            resources.ApplyResources(this.numUdpPort2, "numUdpPort2");
+            this.numUdpPort2.Maximum = new decimal(new int[] {
             20000,
             0,
             0,
             0});
-            this.numUdpPort.Name = "numUdpPort";
+            this.numUdpPort2.Name = "numUdpPort2";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // textUDPAddress2
+            // 
+            resources.ApplyResources(this.textUDPAddress2, "textUDPAddress2");
+            this.textUDPAddress2.Name = "textUDPAddress2";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
             // 
             // settingsForm
             // 
@@ -299,11 +333,12 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -340,5 +375,9 @@
         public System.Windows.Forms.TextBox textUDPAddress;
         private System.Windows.Forms.Label label9;
         public System.Windows.Forms.NumericUpDown numUdpPort;
+        public System.Windows.Forms.NumericUpDown numUdpPort2;
+        private System.Windows.Forms.Label label11;
+        public System.Windows.Forms.TextBox textUDPAddress2;
+        private System.Windows.Forms.Label label12;
     }
 }

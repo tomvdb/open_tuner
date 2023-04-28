@@ -52,10 +52,12 @@ namespace opentuner
         Thread ts_parser_t = null;
         Thread ts_parser_2_t = null;
         Thread ts_recorder_t = null;
-        Thread ts_udp_t = null;
+        Thread ts_udp_t1 = null;
+        Thread ts_udp_t2 = null;
 
         TSRecorderThread ts_recorder;
-        TSUDPThread ts_udp;
+        TSUDPThread ts_udp1;
+        TSUDPThread ts_udp2;
         TSThread ts_thread;
         TSThread ts_thread2;
 
@@ -211,6 +213,8 @@ namespace opentuner
 
         string setting_udp_address1 = "127.0.0.1";
         int setting_udp_port1 = 9080;
+        string setting_udp_address2 = "127.0.0.1";
+        int setting_udp_port2 = 9081;
 
         bool isFullScreen = false;
 
@@ -585,12 +589,11 @@ namespace opentuner
 
             if (ts_recorder != null)
             {
-                Console.WriteLine("Main: Stopping Recording");
                 ts_recorder.record = false;
             }
 
-            if (ts_udp != null)
-                ts_udp.stream = false;
+            if (ts_udp1 != null)
+                ts_udp1.stream = false;
         }
 
         public void stop_video2()
@@ -602,6 +605,10 @@ namespace opentuner
 
             if (media_player_2 != null)
                 media_player_2.Stop();
+
+            if (ts_udp2 != null)
+                ts_udp2.stream = false;
+
         }
 
         private void hardware_init()
@@ -736,8 +743,10 @@ namespace opentuner
                 nim_thread_t.Abort();
             if (ts_recorder_t != null)
                 ts_recorder_t.Abort();
-            if (ts_udp_t != null)
-                ts_udp_t.Abort();
+            if (ts_udp_t1 != null)
+                ts_udp_t1.Abort();
+            if (ts_udp_t2 != null)
+                ts_udp_t2.Abort();
             if (ts_thread_t != null)
                 ts_thread_t.Abort();
             if (ts_thread_2_t != null)
@@ -830,10 +839,19 @@ namespace opentuner
             ts_recorder_t = new Thread(ts_recorder.worker_thread);
             ts_recorder_t.Start();
 
-            // TS udp thread
-            ts_udp = new TSUDPThread(ts_thread, setting_udp_address1, setting_udp_port1);
-            ts_udp_t = new Thread(ts_udp.worker_thread);
-            ts_udp_t.Start();
+            // TS udp thread - tuner 1
+            ts_udp1 = new TSUDPThread(ts_thread, setting_udp_address1, setting_udp_port1);
+            ts_udp_t1 = new Thread(ts_udp1.worker_thread);
+            ts_udp_t1.Start();
+
+            if (ts_devices == 2)
+            {
+                // TS udp thread - tuner 2
+                ts_udp2 = new TSUDPThread(ts_thread2, setting_udp_address2, setting_udp_port2);
+                ts_udp_t2 = new Thread(ts_udp2.worker_thread);
+                ts_udp_t2.Start();
+
+            }
 
             if (setting_mediaplayer_1 == 0)
             {
@@ -871,6 +889,7 @@ namespace opentuner
                 videoPlayersSplitter.Panel2Collapsed = true;
                 videoPlayersSplitter.Panel2.Hide();
                 groupTuner2.Visible = false;
+                tuner2ToolStripMenuItem.Visible = false;
             }
 
             // temporary to prevent multiple connection attempts
@@ -880,7 +899,6 @@ namespace opentuner
 
             menuConnect.Enabled = false;
             lblConnected.Enabled = false;
-
         }
 
         private void MediaPlayer_Vout2(object sender, MediaStatus media_status)
@@ -891,6 +909,15 @@ namespace opentuner
 
             if (media_player_2 != null)
                 media_player_2.SetVolume(rxVolume2);
+
+            if (enableUDPOutputToolStripMenuItem1.Checked)
+            {
+                if (ts_udp2 != null)
+                {
+                    ts_udp2.stream = true;
+                }
+            }
+
         }
 
         private void Ts_recorder_onRecordStatusChange(object sender, bool e)
@@ -920,11 +947,10 @@ namespace opentuner
 
             if (enableUDPOutputToolStripMenuItem.Checked)
             {
-                if (ts_udp != null)
+                if (ts_udp1 != null)
                 {
-                    ts_udp.stream = true;
+                    ts_udp1.stream = true;
                 }
-                
             }
 
         }
@@ -1263,6 +1289,10 @@ namespace opentuner
 
             setting_udp_address1 = Properties.Settings.Default.udp_address1;
             setting_udp_port1 = Properties.Settings.Default.udp_port1;
+
+            setting_udp_address2 = Properties.Settings.Default.udp_address2;
+            setting_udp_port2 = Properties.Settings.Default.udp_port2;
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -1349,6 +1379,8 @@ namespace opentuner
                     Console.WriteLine("Auto Connect Enabled due to command line");
                     setting_auto_connect = true;
                 }
+
+
             }
 
             if (setting_enable_chatform)
@@ -1437,10 +1469,6 @@ namespace opentuner
             this.Left = setting_window_x;
             this.Top = setting_window_y;
 
-            if (setting_auto_connect)
-            {
-                btnConnectTuner_Click(this, e);
-            }
 
             load_stored_frequencies();
             rebuild_stored_frequencies();
@@ -1460,6 +1488,13 @@ namespace opentuner
             tuner2ControlForm.set_offset(current_offset_A, current_offset_B);
 
             Console.WriteLine("Load Done");
+
+            // this needs to go last
+            if (setting_auto_connect)
+            {
+                btnConnectTuner_Click(this, e);
+            }
+
         }
 
         void tuner1_change_callback(uint freq, uint rf_input, uint symbol_rate)
@@ -1718,6 +1753,9 @@ namespace opentuner
             settings_form.textUDPAddress.Text = setting_udp_address1;
             settings_form.numUdpPort.Value = setting_udp_port1;
 
+            settings_form.textUDPAddress2.Text = setting_udp_address2;
+            settings_form.numUdpPort2.Value = setting_udp_port2;
+
             if (setting_enable_chatform && chatForm != null)
             {
                 settings_form.currentChatFont = chatForm.lbChat.Font;
@@ -1745,6 +1783,9 @@ namespace opentuner
                 Properties.Settings.Default.mediaplayer_tuner2 = settings_form.comboMediaPlayer2.SelectedIndex;
                 Properties.Settings.Default.udp_address1 = settings_form.textUDPAddress.Text;
                 Properties.Settings.Default.udp_port1 = Convert.ToInt32(settings_form.numUdpPort.Value);
+
+                Properties.Settings.Default.udp_address2 = settings_form.textUDPAddress2.Text;
+                Properties.Settings.Default.udp_port2 = Convert.ToInt32(settings_form.numUdpPort2.Value);
 
                 setting_language = settings_form.comboLanguage.SelectedIndex;
 
@@ -2011,15 +2052,15 @@ namespace opentuner
         {
             enableUDPOutputToolStripMenuItem.Checked = !enableUDPOutputToolStripMenuItem.Checked;
 
-            if (ts_udp != null)
+            if (ts_udp1 != null)
             {
                 if (enableUDPOutputToolStripMenuItem.Checked)
                 {
-                    ts_udp.stream = true;
+                    ts_udp1.stream = true;
                 }
                 else
                 {
-                    ts_udp.stream = false;
+                    ts_udp1.stream = false;
                 }
             }
 
@@ -2115,6 +2156,29 @@ namespace opentuner
         {
             kHzToolStripMenuItem.Checked = !kHzToolStripMenuItem.Checked;
             change_frequency(1, current_frequency_1, current_sr_1, current_enable_lnb_supply, current_enable_horiz_supply, current_rf_input_1, kHzToolStripMenuItem.Checked);
+        }
+
+        private void enableUDPOutputToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            enableUDPOutputToolStripMenuItem1.Checked = !enableUDPOutputToolStripMenuItem1.Checked;
+
+            if (ts_udp2 != null)
+            {
+                if (enableUDPOutputToolStripMenuItem1.Checked)
+                {
+                    ts_udp2.stream = true;
+                }
+                else
+                {
+                    ts_udp2.stream = false;
+                }
+            }
+
+        }
+
+        private void addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/adding-2nd-transport-to-batc-minitiouner-v2/");
         }
     }
 

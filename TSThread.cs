@@ -225,8 +225,8 @@ namespace opentuner
                     uint dataRead = 0;
                     //Console.WriteLine("TSThread: Reading TS Data");
 
-                        if (hardware.ftdi_ts_read(ts_device, ref data, ref dataRead) != 0)
-                            Console.WriteLine("Read Error");
+                    if (hardware.ftdi_ts_read(ts_device, ref data, ref dataRead) != 0)
+                        Console.WriteLine("Read Error");
 
                     if (dataRead > 0)
                     {
@@ -234,15 +234,10 @@ namespace opentuner
 
                         for ( int c = 0; c < dataRead; c++)
                         {
-                            //RawTSData raw_ts_data = new RawTSData();
-                            //raw_ts_data.rawTSData = new byte[1];
-                            //raw_ts_data.rawTSData[0] = data[c];
-                            //raw_ts_data.datalen = 1;
                             for (int consumers = 0; consumers < registered_consumers.Count; consumers++)
                             {
                                 if (registered_consumers[consumers] != null)
                                     registered_consumers[consumers].Enqueue(data[c]);
-                                //parser_ts_data_queue.Enqueue(data[c]);
                             }
                         }
 

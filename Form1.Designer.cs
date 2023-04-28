@@ -166,12 +166,17 @@
             this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vertical13VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.horizontal18VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kHzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
-            this.kHzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.genTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.tuner2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableUDPOutputToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -289,6 +294,7 @@
             // 
             resources.ApplyResources(this.btnTuner2, "btnTuner2");
             this.btnTuner2.Name = "btnTuner2";
+            this.genTooltip.SetToolTip(this.btnTuner2, resources.GetString("btnTuner2.ToolTip"));
             this.btnTuner2.UseVisualStyleBackColor = true;
             this.btnTuner2.Click += new System.EventHandler(this.btnTuner2_Click);
             // 
@@ -309,6 +315,7 @@
             // 
             resources.ApplyResources(this.btnVid2Snapshot, "btnVid2Snapshot");
             this.btnVid2Snapshot.Name = "btnVid2Snapshot";
+            this.genTooltip.SetToolTip(this.btnVid2Snapshot, resources.GetString("btnVid2Snapshot.ToolTip"));
             this.btnVid2Snapshot.UseVisualStyleBackColor = true;
             this.btnVid2Snapshot.Click += new System.EventHandler(this.btnVid2Snapshot_Click);
             // 
@@ -316,6 +323,7 @@
             // 
             resources.ApplyResources(this.btnVid2Mute, "btnVid2Mute");
             this.btnVid2Mute.Name = "btnVid2Mute";
+            this.genTooltip.SetToolTip(this.btnVid2Mute, resources.GetString("btnVid2Mute.ToolTip"));
             this.btnVid2Mute.UseVisualStyleBackColor = true;
             this.btnVid2Mute.Click += new System.EventHandler(this.btnVid2Mute_Click);
             // 
@@ -608,6 +616,7 @@
             // 
             resources.ApplyResources(this.btnTuner, "btnTuner");
             this.btnTuner.Name = "btnTuner";
+            this.genTooltip.SetToolTip(this.btnTuner, resources.GetString("btnTuner.ToolTip"));
             this.btnTuner.UseVisualStyleBackColor = true;
             this.btnTuner.Click += new System.EventHandler(this.btnTuner_Click);
             // 
@@ -615,6 +624,7 @@
             // 
             resources.ApplyResources(this.btnVid1Record, "btnVid1Record");
             this.btnVid1Record.Name = "btnVid1Record";
+            this.genTooltip.SetToolTip(this.btnVid1Record, resources.GetString("btnVid1Record.ToolTip"));
             this.btnVid1Record.UseVisualStyleBackColor = true;
             this.btnVid1Record.Click += new System.EventHandler(this.btnVid1Record_Click);
             // 
@@ -635,6 +645,7 @@
             // 
             resources.ApplyResources(this.btnVid1Snapshot, "btnVid1Snapshot");
             this.btnVid1Snapshot.Name = "btnVid1Snapshot";
+            this.genTooltip.SetToolTip(this.btnVid1Snapshot, resources.GetString("btnVid1Snapshot.ToolTip"));
             this.btnVid1Snapshot.UseVisualStyleBackColor = true;
             this.btnVid1Snapshot.Click += new System.EventHandler(this.btnVid1Snapshot_Click);
             // 
@@ -642,6 +653,7 @@
             // 
             resources.ApplyResources(this.btnVid1Mute, "btnVid1Mute");
             this.btnVid1Mute.Name = "btnVid1Mute";
+            this.genTooltip.SetToolTip(this.btnVid1Mute, resources.GetString("btnVid1Mute.ToolTip"));
             this.btnVid1Mute.UseVisualStyleBackColor = true;
             this.btnVid1Mute.Click += new System.EventHandler(this.btnVid1Mute_Click);
             // 
@@ -1073,7 +1085,8 @@
             // tunerControlToolStripMenuItem
             // 
             this.tunerControlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tuner1ToolStripMenuItem});
+            this.tuner1ToolStripMenuItem,
+            this.tuner2ToolStripMenuItem});
             this.tunerControlToolStripMenuItem.Name = "tunerControlToolStripMenuItem";
             resources.ApplyResources(this.tunerControlToolStripMenuItem, "tunerControlToolStripMenuItem");
             // 
@@ -1141,6 +1154,12 @@
             resources.ApplyResources(this.horizontal18VToolStripMenuItem, "horizontal18VToolStripMenuItem");
             this.horizontal18VToolStripMenuItem.Click += new System.EventHandler(this.horizontal18VToolStripMenuItem_Click);
             // 
+            // kHzToolStripMenuItem
+            // 
+            this.kHzToolStripMenuItem.Name = "kHzToolStripMenuItem";
+            resources.ApplyResources(this.kHzToolStripMenuItem, "kHzToolStripMenuItem");
+            this.kHzToolStripMenuItem.Click += new System.EventHandler(this.kHzToolStripMenuItem_Click);
+            // 
             // qO100WidebandChatToolStripMenuItem
             // 
             this.qO100WidebandChatToolStripMenuItem.Name = "qO100WidebandChatToolStripMenuItem";
@@ -1151,7 +1170,9 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTunerWebsiteToolStripMenuItem,
-            this.toolStripMenuItem3});
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem5,
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
@@ -1172,11 +1193,29 @@
             this.SpectrumTuneTimer.Interval = 1500;
             this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
             // 
-            // kHzToolStripMenuItem
+            // tuner2ToolStripMenuItem
             // 
-            this.kHzToolStripMenuItem.Name = "kHzToolStripMenuItem";
-            resources.ApplyResources(this.kHzToolStripMenuItem, "kHzToolStripMenuItem");
-            this.kHzToolStripMenuItem.Click += new System.EventHandler(this.kHzToolStripMenuItem_Click);
+            this.tuner2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enableUDPOutputToolStripMenuItem1});
+            this.tuner2ToolStripMenuItem.Name = "tuner2ToolStripMenuItem";
+            resources.ApplyResources(this.tuner2ToolStripMenuItem, "tuner2ToolStripMenuItem");
+            // 
+            // enableUDPOutputToolStripMenuItem1
+            // 
+            this.enableUDPOutputToolStripMenuItem1.Name = "enableUDPOutputToolStripMenuItem1";
+            resources.ApplyResources(this.enableUDPOutputToolStripMenuItem1, "enableUDPOutputToolStripMenuItem1");
+            this.enableUDPOutputToolStripMenuItem1.Click += new System.EventHandler(this.enableUDPOutputToolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
+            // 
+            // addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem
+            // 
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Name = "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem";
+            resources.ApplyResources(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem, "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem");
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Click += new System.EventHandler(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -1368,6 +1407,11 @@
         private System.Windows.Forms.ToolStripMenuItem vertical13VToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem horizontal18VToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kHzToolStripMenuItem;
+        private System.Windows.Forms.ToolTip genTooltip;
+        private System.Windows.Forms.ToolStripMenuItem tuner2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableUDPOutputToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem;
     }
 }
 

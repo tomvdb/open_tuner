@@ -385,7 +385,7 @@
     <value>0</value>
   </data>
   <metadata name="contextSpectrumMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>621, 17</value>
+    <value>437, 14</value>
   </metadata>
   <data name="contextSpectrumMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 26</value>
@@ -1140,6 +1140,9 @@
   <data name="&gt;&gt;lblRfInput2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="genTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>613, 14</value>
+  </metadata>
   <data name="btnTuner2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1154,6 +1157,9 @@
   </data>
   <data name="btnTuner2.Text" xml:space="preserve">
     <value>T</value>
+  </data>
+  <data name="btnTuner2.ToolTip" xml:space="preserve">
+    <value>Tuning Controls - Tuner 2</value>
   </data>
   <data name="&gt;&gt;btnTuner2.Name" xml:space="preserve">
     <value>btnTuner2</value>
@@ -1248,6 +1254,9 @@
   <data name="btnVid2Snapshot.Text" xml:space="preserve">
     <value>S</value>
   </data>
+  <data name="btnVid2Snapshot.ToolTip" xml:space="preserve">
+    <value>Take Snapshot</value>
+  </data>
   <data name="&gt;&gt;btnVid2Snapshot.Name" xml:space="preserve">
     <value>btnVid2Snapshot</value>
   </data>
@@ -1274,6 +1283,9 @@
   </data>
   <data name="btnVid2Mute.Text" xml:space="preserve">
     <value>M</value>
+  </data>
+  <data name="btnVid2Mute.ToolTip" xml:space="preserve">
+    <value>Mute Audio</value>
   </data>
   <data name="&gt;&gt;btnVid2Mute.Name" xml:space="preserve">
     <value>btnVid2Mute</value>
@@ -3291,6 +3303,9 @@
   <data name="btnTuner.Text" xml:space="preserve">
     <value>T</value>
   </data>
+  <data name="btnTuner.ToolTip" xml:space="preserve">
+    <value>Tuning Controls - Tuner 1</value>
+  </data>
   <data name="&gt;&gt;btnTuner.Name" xml:space="preserve">
     <value>btnTuner</value>
   </data>
@@ -3317,6 +3332,9 @@
   </data>
   <data name="btnVid1Record.Text" xml:space="preserve">
     <value>R</value>
+  </data>
+  <data name="btnVid1Record.ToolTip" xml:space="preserve">
+    <value>Record TS Stream</value>
   </data>
   <data name="&gt;&gt;btnVid1Record.Name" xml:space="preserve">
     <value>btnVid1Record</value>
@@ -3411,6 +3429,9 @@
   <data name="btnVid1Snapshot.Text" xml:space="preserve">
     <value>S</value>
   </data>
+  <data name="btnVid1Snapshot.ToolTip" xml:space="preserve">
+    <value>Take Snapshot</value>
+  </data>
   <data name="&gt;&gt;btnVid1Snapshot.Name" xml:space="preserve">
     <value>btnVid1Snapshot</value>
   </data>
@@ -3434,6 +3455,9 @@
   </data>
   <data name="btnVid1Mute.Text" xml:space="preserve">
     <value>M</value>
+  </data>
+  <data name="btnVid1Mute.ToolTip" xml:space="preserve">
+    <value>Mute Audio</value>
   </data>
   <data name="&gt;&gt;btnVid1Mute.Name" xml:space="preserve">
     <value>btnVid1Mute</value>
@@ -4765,19 +4789,19 @@
     <value>Media</value>
   </data>
   <data name="tuner1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="tuner1ToolStripMenuItem.Text" xml:space="preserve">
     <value>Tuner 1</value>
   </data>
   <data name="recordAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="recordAllToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Record All</value>
   </data>
   <data name="enableUDPOutputToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="enableUDPOutputToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Enable UDP Output</value>
@@ -4818,6 +4842,12 @@
   <data name="horizontal18VToolStripMenuItem.Text" xml:space="preserve">
     <value>Horizontal (18V)</value>
   </data>
+  <data name="kHzToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="kHzToolStripMenuItem.Text" xml:space="preserve">
+    <value>22 kHz</value>
+  </data>
   <data name="qO100WidebandChatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 20</value>
   </data>
@@ -4831,13 +4861,13 @@
     <value>&amp;Help</value>
   </data>
   <data name="openTunerWebsiteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>238, 22</value>
+    <value>322, 22</value>
   </data>
   <data name="openTunerWebsiteToolStripMenuItem.Text" xml:space="preserve">
     <value>Open Tuner Updates</value>
   </data>
   <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>238, 22</value>
+    <value>322, 22</value>
   </data>
   <data name="toolStripMenuItem3.Text" xml:space="preserve">
     <value>British Amateur Television Club</value>
@@ -4845,11 +4875,29 @@
   <metadata name="SpectrumTuneTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>272, 17</value>
   </metadata>
-  <data name="kHzToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <metadata name="genTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>613, 14</value>
+  </metadata>
+  <data name="tuner2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>180, 22</value>
   </data>
-  <data name="kHzToolStripMenuItem.Text" xml:space="preserve">
-    <value>22 kHz</value>
+  <data name="tuner2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tuner 2</value>
+  </data>
+  <data name="enableUDPOutputToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="enableUDPOutputToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Enable UDP Output</value>
+  </data>
+  <data name="toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 6</value>
+  </data>
+  <data name="addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>322, 22</value>
+  </data>
+  <data name="addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Adding a 2nd Transport to BATC Minitiouner V2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -4864,7 +4912,7 @@
     <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner 0.6 (ZR6TG) - 2023/04/26b</value>
+    <value>Open Tuner 0.7 (ZR6TG) - 2023/04/27</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>
@@ -5022,6 +5070,12 @@
   <data name="&gt;&gt;horizontal18VToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;kHzToolStripMenuItem.Name" xml:space="preserve">
+    <value>kHzToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;kHzToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;qO100WidebandChatToolStripMenuItem.Name" xml:space="preserve">
     <value>qO100WidebandChatToolStripMenuItem</value>
   </data>
@@ -5052,10 +5106,34 @@
   <data name="&gt;&gt;SpectrumTuneTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;kHzToolStripMenuItem.Name" xml:space="preserve">
-    <value>kHzToolStripMenuItem</value>
+  <data name="&gt;&gt;genTooltip.Name" xml:space="preserve">
+    <value>genTooltip</value>
   </data>
-  <data name="&gt;&gt;kHzToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;genTooltip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tuner2ToolStripMenuItem.Name" xml:space="preserve">
+    <value>tuner2ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;tuner2ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;enableUDPOutputToolStripMenuItem1.Name" xml:space="preserve">
+    <value>enableUDPOutputToolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;enableUDPOutputToolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem5.Name" xml:space="preserve">
+    <value>toolStripMenuItem5</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Name" xml:space="preserve">
+    <value>addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

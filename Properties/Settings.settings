@@ -65,5 +65,11 @@
     <Setting Name="udp_port1" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">9080</Value>
     </Setting>
+    <Setting Name="udp_address2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="udp_port2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">9081</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
