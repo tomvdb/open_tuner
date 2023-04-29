@@ -297,5 +297,29 @@ namespace opentuner.Properties {
                 this["udp_port2"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool windowed_player1 {
+            get {
+                return ((bool)(this["windowed_player1"]));
+            }
+            set {
+                this["windowed_player1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool windowed_player2 {
+            get {
+                return ((bool)(this["windowed_player2"]));
+            }
+            set {
+                this["windowed_player2"] = value;
+            }
+        }
     }
 }

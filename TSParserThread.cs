@@ -25,9 +25,10 @@ namespace opentuner
 
         TSDataCallback ts_data_callback = null;
 
-        ConcurrentQueue<byte> parser_ts_data_queue = null;
+        //ConcurrentQueue<byte> parser_ts_data_queue = null;
+        CircularBuffer parser_ts_data_queue = null;
 
-        public TSParserThread(TSDataCallback _ts_data_callback,  ConcurrentQueue<byte> _parser_ts_data_queue)
+        public TSParserThread(TSDataCallback _ts_data_callback, CircularBuffer _parser_ts_data_queue)
         {
             ts_data_callback = _ts_data_callback;
             parser_ts_data_queue = _parser_ts_data_queue;
@@ -44,16 +45,19 @@ namespace opentuner
 
             try
             {
-                while(true)
+                while (true)
                 {
-                    int ts_data_count = parser_ts_data_queue.Count();
+                    int ts_data_count = parser_ts_data_queue.Count;
 
                     if (ts_data_count > TS_PACKET_SIZE)
                     {
                         byte check = 0;
 
-                        if (parser_ts_data_queue.TryPeek(out check))
+                        //if (parser_ts_data_queue.TryPeek(out check))
+                        if (parser_ts_data_queue.Count > 0)
                         {
+                            check = parser_ts_data_queue.Peek();
+
                             if (check == TS_HEADER_SYNC)
                             {
                                 // get the complete packet
@@ -65,8 +69,10 @@ namespace opentuner
                                 {
                                     byte data;
 
-                                    if (parser_ts_data_queue.TryDequeue(out data))
+                                    //if (parser_ts_data_queue.TryDequeue(out data))
+                                    if (parser_ts_data_queue.Count > 0)
                                     {
+                                        data = parser_ts_data_queue.Dequeue();
                                         ts_packet[byte_counter++] = data;
                                     }
 
@@ -140,7 +146,7 @@ namespace opentuner
                                         continue;
                                     }
 
-                                    UInt32 ts_payload_section_length = ((UInt32)(ts_packet[ts_payload_offset+1] & 0x0F) << 8) | (UInt32)ts_packet[ts_payload_offset+2];
+                                    UInt32 ts_payload_section_length = ((UInt32)(ts_packet[ts_payload_offset + 1] & 0x0F) << 8) | (UInt32)ts_packet[ts_payload_offset + 2];
 
                                     if (ts_payload_section_length < 1)
                                     {
@@ -209,7 +215,8 @@ namespace opentuner
                             else
                             {
                                 // remove the byte and continue
-                                parser_ts_data_queue.TryDequeue(out check);
+                                
+                                check = parser_ts_data_queue.Dequeue();
                                 continue;
                             }
                         }
@@ -218,20 +225,20 @@ namespace opentuner
                     {
                         Thread.Sleep(100);
                     }
-                    
 
-                }
 
-                }
-                catch (ThreadAbortException)
-                {
-                    Console.WriteLine("TS Thread: Closing ");
-                }
-                finally
-                {
-                    Console.WriteLine("Closing TS");
                 }
 
             }
+            catch (ThreadAbortException)
+            {
+                Console.WriteLine("TS Thread: Closing ");
+            }
+            finally
+            {
+                Console.WriteLine("Closing TS");
+            }
+
+        }
     }
 }

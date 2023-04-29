@@ -71,5 +71,11 @@
     <Setting Name="udp_port2" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">9081</Value>
     </Setting>
+    <Setting Name="windowed_player1" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="windowed_player2" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

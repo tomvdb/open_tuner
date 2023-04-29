@@ -10,7 +10,7 @@ namespace opentuner
     public abstract class OTMediaPlayer
     {
         public abstract event EventHandler<MediaStatus> onVideoOut;
-        public abstract void Initialize(ConcurrentQueue<byte> TSDataQueue);
+        public abstract void Initialize(CircularBuffer TSDataQueue);
         public abstract void Close();
         public abstract void Play();
         public abstract void Stop();

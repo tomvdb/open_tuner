@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace opentuner
 {
-    public class RawTSData
+    public static class GlobalDefines
     {
-        public byte[] rawTSData { get; set; }
-        public int datalen { get; set; }
+        public const int CircularBufferStartingCapacity = 160000;
     }
 }

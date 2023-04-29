@@ -207,7 +207,7 @@ namespace opentuner
                     temp9 |= (byte)(stv6120_regs.STV6120_CTRL9_RFSEL_RFB_IN << stv6120_regs.STV6120_CTRL9_RFSEL_1_SHIFT);
                     temp10 |= (byte)(1 << stv6120_regs.STV6120_CTRL10_LNABON_SHIFT);         // LNA-B is on
                 }
-                else if (antenna == nim.NIM_INPUT_TOP)
+                else if (antenna == nim.NIM_INPUT_BOTTOM)
                 {
                     temp9 |= (byte)(stv6120_regs.STV6120_CTRL9_RFSEL_RFC_IN << stv6120_regs.STV6120_CTRL9_RFSEL_1_SHIFT);
                     temp10 |= (byte)(1 << stv6120_regs.STV6120_CTRL10_LNACON_SHIFT);         // LNA-C is on
@@ -477,7 +477,7 @@ namespace opentuner
             /* lookup the ICP value in the lookup table as per datasheet */
 
             pos = 0;
-            while (f_vco > stv6120_icp_lookup[pos++,1]) ;
+            while (f_vco > stv6120_icp_lookup[pos++,1] && pos < 7) ;
             icp = (byte)stv6120_icp_lookup[pos - 1,2];
 
             /* lookup the high freq filter cutoff setting as per datasheet */
@@ -486,9 +486,16 @@ namespace opentuner
             while ((3 * freq / 1000) <= stv6120_cfhf[cfhf])
             {
                 cfhf++;
+
+                if (cfhf >= 32)
+                {
+                    cfhf = 32;
+                    break;
+                }
             }
-            cfhf--;    /* we are sure it isn't greater then the first array element so this is safe */
-            
+
+            if (cfhf > 1)
+                cfhf--; // this can be 0 ...            
 
             /* now we fill in the PLL and ICP values */
 

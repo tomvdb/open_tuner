@@ -232,7 +232,7 @@
     <value>ffmpegVideoView1</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.7.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.9.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel1</value>
@@ -304,7 +304,7 @@
     <value>ffmpegVideoView2</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.7.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.9.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel2</value>
@@ -513,16 +513,16 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;groupTuner1.Name" xml:space="preserve">
+    <value>groupTuner1</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;groupTuner1.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupTuner1.Parent" xml:space="preserve">
     <value>statusPage</value>
   </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;groupTuner1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="statusPage.Location" type="System.Drawing.Point, System.Drawing">
@@ -2698,7 +2698,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblRfInput.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblRfInput.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -2710,7 +2710,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnTuner.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;btnTuner.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -2722,7 +2722,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnVid1Record.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;btnVid1Record.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -2734,7 +2734,7 @@
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAdjust1.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblAdjust1.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -2746,7 +2746,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblrecordIndication.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblrecordIndication.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -2758,7 +2758,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnVid1Snapshot.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;btnVid1Snapshot.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -2770,7 +2770,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnVid1Mute.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;btnVid1Mute.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -2782,7 +2782,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblVolume.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblVolume.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -2794,7 +2794,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label20.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
     <value>8</value>
@@ -2806,7 +2806,7 @@
     <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;trackVolume.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;trackVolume.ZOrder" xml:space="preserve">
     <value>9</value>
@@ -2818,7 +2818,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAudioRate.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblAudioRate.ZOrder" xml:space="preserve">
     <value>10</value>
@@ -2830,7 +2830,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label25.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -2842,7 +2842,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAudioCodec.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblAudioCodec.ZOrder" xml:space="preserve">
     <value>12</value>
@@ -2854,7 +2854,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label27.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
     <value>13</value>
@@ -2866,7 +2866,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblVideoResolution.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblVideoResolution.ZOrder" xml:space="preserve">
     <value>14</value>
@@ -2878,7 +2878,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label18.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
     <value>15</value>
@@ -2890,7 +2890,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblVideoCodec.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblVideoCodec.ZOrder" xml:space="preserve">
     <value>16</value>
@@ -2902,7 +2902,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label14.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
     <value>17</value>
@@ -2914,7 +2914,7 @@
     <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;nullPacketsBar.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;nullPacketsBar.ZOrder" xml:space="preserve">
     <value>18</value>
@@ -2926,7 +2926,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblNullPackets.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblNullPackets.ZOrder" xml:space="preserve">
     <value>19</value>
@@ -2938,7 +2938,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label22.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
     <value>20</value>
@@ -2950,7 +2950,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblServiceProvider.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblServiceProvider.ZOrder" xml:space="preserve">
     <value>21</value>
@@ -2962,7 +2962,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblServiceName.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblServiceName.ZOrder" xml:space="preserve">
     <value>22</value>
@@ -2974,7 +2974,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label10.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
     <value>23</value>
@@ -2986,7 +2986,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>24</value>
@@ -2998,7 +2998,7 @@
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblChatSigReport.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblChatSigReport.ZOrder" xml:space="preserve">
     <value>25</value>
@@ -3010,7 +3010,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblRFInputLevel.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblRFInputLevel.ZOrder" xml:space="preserve">
     <value>26</value>
@@ -3022,7 +3022,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label11.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
     <value>27</value>
@@ -3034,7 +3034,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblReqFreq.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblReqFreq.ZOrder" xml:space="preserve">
     <value>28</value>
@@ -3046,7 +3046,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label16.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
     <value>29</value>
@@ -3058,7 +3058,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lbldbMargin.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lbldbMargin.ZOrder" xml:space="preserve">
     <value>30</value>
@@ -3070,7 +3070,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblFreqCar.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblFreqCar.ZOrder" xml:space="preserve">
     <value>31</value>
@@ -3082,7 +3082,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label21.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
     <value>32</value>
@@ -3094,7 +3094,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblBer.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblBer.ZOrder" xml:space="preserve">
     <value>33</value>
@@ -3106,7 +3106,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label19.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
     <value>34</value>
@@ -3118,7 +3118,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblModcod.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblModcod.ZOrder" xml:space="preserve">
     <value>35</value>
@@ -3130,7 +3130,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label15.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
     <value>36</value>
@@ -3142,7 +3142,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSR.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblSR.ZOrder" xml:space="preserve">
     <value>37</value>
@@ -3154,7 +3154,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label13.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
     <value>38</value>
@@ -3166,7 +3166,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblLnaGain.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblLnaGain.ZOrder" xml:space="preserve">
     <value>39</value>
@@ -3178,7 +3178,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>40</value>
@@ -3190,7 +3190,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblMer.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblMer.ZOrder" xml:space="preserve">
     <value>41</value>
@@ -3202,7 +3202,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>42</value>
@@ -3214,7 +3214,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblDemoState.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblDemoState.ZOrder" xml:space="preserve">
     <value>43</value>
@@ -3226,36 +3226,36 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>44</value>
   </data>
-  <data name="groupBox1.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="groupTuner1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="groupTuner1.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 109</value>
   </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="groupTuner1.Size" type="System.Drawing.Size, System.Drawing">
     <value>393, 553</value>
   </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="groupTuner1.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
+  <data name="groupTuner1.Text" xml:space="preserve">
     <value> Tuner 1 </value>
   </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;groupTuner1.Name" xml:space="preserve">
+    <value>groupTuner1</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;groupTuner1.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupTuner1.Parent" xml:space="preserve">
     <value>statusPage</value>
   </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;groupTuner1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="lblRfInput.AutoSize" type="System.Boolean, mscorlib">
@@ -3283,7 +3283,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblRfInput.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblRfInput.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -3313,7 +3313,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnTuner.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;btnTuner.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -3343,7 +3343,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnVid1Record.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;btnVid1Record.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -3373,7 +3373,7 @@
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAdjust1.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblAdjust1.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -3409,7 +3409,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblrecordIndication.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblrecordIndication.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -3439,7 +3439,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnVid1Snapshot.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;btnVid1Snapshot.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -3466,7 +3466,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnVid1Mute.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;btnVid1Mute.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -3496,7 +3496,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblVolume.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblVolume.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -3526,7 +3526,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label20.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
     <value>8</value>
@@ -3550,7 +3550,7 @@
     <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;trackVolume.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;trackVolume.ZOrder" xml:space="preserve">
     <value>9</value>
@@ -3580,7 +3580,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAudioRate.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblAudioRate.ZOrder" xml:space="preserve">
     <value>10</value>
@@ -3610,7 +3610,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label25.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -3640,7 +3640,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAudioCodec.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblAudioCodec.ZOrder" xml:space="preserve">
     <value>12</value>
@@ -3670,7 +3670,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label27.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
     <value>13</value>
@@ -3700,7 +3700,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblVideoResolution.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblVideoResolution.ZOrder" xml:space="preserve">
     <value>14</value>
@@ -3730,7 +3730,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label18.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
     <value>15</value>
@@ -3760,7 +3760,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblVideoCodec.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblVideoCodec.ZOrder" xml:space="preserve">
     <value>16</value>
@@ -3790,7 +3790,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label14.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
     <value>17</value>
@@ -3814,7 +3814,7 @@
     <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;nullPacketsBar.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;nullPacketsBar.ZOrder" xml:space="preserve">
     <value>18</value>
@@ -3844,7 +3844,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblNullPackets.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblNullPackets.ZOrder" xml:space="preserve">
     <value>19</value>
@@ -3874,7 +3874,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label22.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
     <value>20</value>
@@ -3904,7 +3904,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblServiceProvider.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblServiceProvider.ZOrder" xml:space="preserve">
     <value>21</value>
@@ -3934,7 +3934,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblServiceName.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblServiceName.ZOrder" xml:space="preserve">
     <value>22</value>
@@ -3964,7 +3964,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label10.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
     <value>23</value>
@@ -3994,7 +3994,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>24</value>
@@ -4024,7 +4024,7 @@
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblChatSigReport.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblChatSigReport.ZOrder" xml:space="preserve">
     <value>25</value>
@@ -4057,7 +4057,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblRFInputLevel.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblRFInputLevel.ZOrder" xml:space="preserve">
     <value>26</value>
@@ -4090,7 +4090,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label11.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
     <value>27</value>
@@ -4120,7 +4120,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblReqFreq.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblReqFreq.ZOrder" xml:space="preserve">
     <value>28</value>
@@ -4150,7 +4150,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label16.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
     <value>29</value>
@@ -4177,7 +4177,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lbldbMargin.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lbldbMargin.ZOrder" xml:space="preserve">
     <value>30</value>
@@ -4207,7 +4207,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblFreqCar.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblFreqCar.ZOrder" xml:space="preserve">
     <value>31</value>
@@ -4237,7 +4237,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label21.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
     <value>32</value>
@@ -4267,7 +4267,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblBer.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblBer.ZOrder" xml:space="preserve">
     <value>33</value>
@@ -4297,7 +4297,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label19.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
     <value>34</value>
@@ -4327,7 +4327,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblModcod.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblModcod.ZOrder" xml:space="preserve">
     <value>35</value>
@@ -4357,7 +4357,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label15.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
     <value>36</value>
@@ -4387,7 +4387,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSR.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblSR.ZOrder" xml:space="preserve">
     <value>37</value>
@@ -4417,7 +4417,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label13.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
     <value>38</value>
@@ -4447,7 +4447,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblLnaGain.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblLnaGain.ZOrder" xml:space="preserve">
     <value>39</value>
@@ -4477,7 +4477,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>40</value>
@@ -4507,7 +4507,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblMer.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblMer.ZOrder" xml:space="preserve">
     <value>41</value>
@@ -4537,7 +4537,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>42</value>
@@ -4567,7 +4567,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblDemoState.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;lblDemoState.ZOrder" xml:space="preserve">
     <value>43</value>
@@ -4597,7 +4597,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupTuner1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>44</value>
@@ -4789,21 +4789,33 @@
     <value>Media</value>
   </data>
   <data name="tuner1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>113, 22</value>
   </data>
   <data name="tuner1ToolStripMenuItem.Text" xml:space="preserve">
     <value>Tuner 1</value>
   </data>
   <data name="recordAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>176, 22</value>
   </data>
   <data name="recordAllToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Record All</value>
   </data>
   <data name="enableUDPOutputToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>176, 22</value>
   </data>
   <data name="enableUDPOutputToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Enable UDP Output</value>
+  </data>
+  <data name="tuner2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 22</value>
+  </data>
+  <data name="tuner2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tuner 2</value>
+  </data>
+  <data name="enableUDPOutputToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 22</value>
+  </data>
+  <data name="enableUDPOutputToolStripMenuItem1.Text" xml:space="preserve">
     <value>&amp;Enable UDP Output</value>
   </data>
   <data name="toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
@@ -4813,7 +4825,7 @@
     <value>IO Control</value>
   </data>
   <data name="lNBPowerSupplyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="lNBPowerSupplyToolStripMenuItem.Text" xml:space="preserve">
     <value>LNB Power Supply</value>
@@ -4843,7 +4855,7 @@
     <value>Horizontal (18V)</value>
   </data>
   <data name="kHzToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="kHzToolStripMenuItem.Text" xml:space="preserve">
     <value>22 kHz</value>
@@ -4872,24 +4884,6 @@
   <data name="toolStripMenuItem3.Text" xml:space="preserve">
     <value>British Amateur Television Club</value>
   </data>
-  <metadata name="SpectrumTuneTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>272, 17</value>
-  </metadata>
-  <metadata name="genTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>613, 14</value>
-  </metadata>
-  <data name="tuner2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="tuner2ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tuner 2</value>
-  </data>
-  <data name="enableUDPOutputToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="enableUDPOutputToolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;Enable UDP Output</value>
-  </data>
   <data name="toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
     <value>319, 6</value>
   </data>
@@ -4899,6 +4893,12 @@
   <data name="addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Text" xml:space="preserve">
     <value>Adding a 2nd Transport to BATC Minitiouner V2</value>
   </data>
+  <metadata name="SpectrumTuneTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>272, 17</value>
+  </metadata>
+  <metadata name="genTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>613, 14</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -4912,7 +4912,7 @@
     <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner 0.7 (ZR6TG) - 2023/04/27</value>
+    <value>Open Tuner 0.7b (ZR6TG) - 2023/04/29</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>
@@ -5034,6 +5034,18 @@
   <data name="&gt;&gt;enableUDPOutputToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;tuner2ToolStripMenuItem.Name" xml:space="preserve">
+    <value>tuner2ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;tuner2ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;enableUDPOutputToolStripMenuItem1.Name" xml:space="preserve">
+    <value>enableUDPOutputToolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;enableUDPOutputToolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripMenuItem4.Name" xml:space="preserve">
     <value>toolStripMenuItem4</value>
   </data>
@@ -5100,30 +5112,6 @@
   <data name="&gt;&gt;toolStripMenuItem3.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SpectrumTuneTimer.Name" xml:space="preserve">
-    <value>SpectrumTuneTimer</value>
-  </data>
-  <data name="&gt;&gt;SpectrumTuneTimer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;genTooltip.Name" xml:space="preserve">
-    <value>genTooltip</value>
-  </data>
-  <data name="&gt;&gt;genTooltip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tuner2ToolStripMenuItem.Name" xml:space="preserve">
-    <value>tuner2ToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;tuner2ToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;enableUDPOutputToolStripMenuItem1.Name" xml:space="preserve">
-    <value>enableUDPOutputToolStripMenuItem1</value>
-  </data>
-  <data name="&gt;&gt;enableUDPOutputToolStripMenuItem1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;toolStripMenuItem5.Name" xml:space="preserve">
     <value>toolStripMenuItem5</value>
   </data>
@@ -5135,6 +5123,18 @@
   </data>
   <data name="&gt;&gt;addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SpectrumTuneTimer.Name" xml:space="preserve">
+    <value>SpectrumTuneTimer</value>
+  </data>
+  <data name="&gt;&gt;SpectrumTuneTimer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;genTooltip.Name" xml:space="preserve">
+    <value>genTooltip</value>
+  </data>
+  <data name="&gt;&gt;genTooltip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Form1</value>

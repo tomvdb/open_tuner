@@ -37,6 +37,10 @@
             this.txtDefaultLO = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.numUdpPort2 = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textUDPAddress2 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.numUdpPort = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.textUDPAddress = new System.Windows.Forms.TextBox();
@@ -58,16 +62,14 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.numUdpPort2 = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textUDPAddress2 = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
+            this.checkWindowed1 = new System.Windows.Forms.CheckBox();
+            this.checkWindowed2 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUdpPort)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -134,6 +136,31 @@
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
+            // numUdpPort2
+            // 
+            resources.ApplyResources(this.numUdpPort2, "numUdpPort2");
+            this.numUdpPort2.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.numUdpPort2.Name = "numUdpPort2";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // textUDPAddress2
+            // 
+            resources.ApplyResources(this.textUDPAddress2, "textUDPAddress2");
+            this.textUDPAddress2.Name = "textUDPAddress2";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
             // numUdpPort
             // 
             resources.ApplyResources(this.numUdpPort, "numUdpPort");
@@ -182,6 +209,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.checkWindowed2);
+            this.groupBox3.Controls.Add(this.checkWindowed1);
             this.groupBox3.Controls.Add(this.comboMediaPlayer2);
             this.groupBox3.Controls.Add(this.comboMediaPlayer1);
             this.groupBox3.Controls.Add(this.label8);
@@ -288,30 +317,17 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // numUdpPort2
+            // checkWindowed1
             // 
-            resources.ApplyResources(this.numUdpPort2, "numUdpPort2");
-            this.numUdpPort2.Maximum = new decimal(new int[] {
-            20000,
-            0,
-            0,
-            0});
-            this.numUdpPort2.Name = "numUdpPort2";
+            resources.ApplyResources(this.checkWindowed1, "checkWindowed1");
+            this.checkWindowed1.Name = "checkWindowed1";
+            this.checkWindowed1.UseVisualStyleBackColor = true;
             // 
-            // label11
+            // checkWindowed2
             // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
-            // 
-            // textUDPAddress2
-            // 
-            resources.ApplyResources(this.textUDPAddress2, "textUDPAddress2");
-            this.textUDPAddress2.Name = "textUDPAddress2";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
+            resources.ApplyResources(this.checkWindowed2, "checkWindowed2");
+            this.checkWindowed2.Name = "checkWindowed2";
+            this.checkWindowed2.UseVisualStyleBackColor = true;
             // 
             // settingsForm
             // 
@@ -333,12 +349,12 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUdpPort)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -379,5 +395,7 @@
         private System.Windows.Forms.Label label11;
         public System.Windows.Forms.TextBox textUDPAddress2;
         private System.Windows.Forms.Label label12;
+        public System.Windows.Forms.CheckBox checkWindowed2;
+        public System.Windows.Forms.CheckBox checkWindowed1;
     }
 }

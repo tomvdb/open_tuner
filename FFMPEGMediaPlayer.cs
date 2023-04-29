@@ -29,14 +29,14 @@ namespace opentuner
         MediaStream media_stream;
 
         int counter = 0;
-        ConcurrentQueue<byte> ts_data_queue;
+        CircularBuffer ts_data_queue;
 
         public FFMPEGMediaPlayer( FlyleafHost MediaPlayer )
         {
             media_player = MediaPlayer;
 
             config = new Config();
-            config.Video.BackgroundColor = System.Windows.Media.Colors.Black;
+            config.Video.BackgroundColor = System.Windows.Media.Colors.IndianRed;
             config.Demuxer.AllowTimeouts = false;
             //config.Demuxer.BufferDuration = 20;
 
@@ -89,7 +89,7 @@ namespace opentuner
             }
         }
 
-        public override void Initialize(ConcurrentQueue<byte> TSDataQueue)
+        public override void Initialize(CircularBuffer TSDataQueue)
         {
             ts_data_queue = TSDataQueue;
             media_stream = new MediaStream(TSDataQueue);
@@ -106,7 +106,8 @@ namespace opentuner
 
             player.Stop();
 
-            int count = ts_data_queue.Count();
+            /*
+            int count = ts_data_queue.Count;
 
             byte raw_ts_data = 0;
 
@@ -115,6 +116,9 @@ namespace opentuner
                 ts_data_queue.TryDequeue(out raw_ts_data);
                 count--;
             }
+            */
+
+            ts_data_queue.Clear();
 
             media_stream.ts_sync = false;
             media_stream.end = false;
@@ -149,11 +153,11 @@ namespace opentuner
 
     public class MediaStream : Stream
     {
-        ConcurrentQueue<byte> ts_data_queue;
+        CircularBuffer ts_data_queue;
         public bool ts_sync = false;
         public bool end = false;
 
-        public MediaStream(ConcurrentQueue<byte> TSDataQueue) 
+        public MediaStream(CircularBuffer TSDataQueue) 
         {
             ts_data_queue = TSDataQueue;
         }
@@ -179,7 +183,7 @@ namespace opentuner
             int timeout = 0;
 
             // wait for next data
-            while (ts_data_queue.Count() < 188)
+            while (ts_data_queue.Count< 20)
             {
                 if (end == true)
                 {
@@ -201,7 +205,7 @@ namespace opentuner
                 Thread.Sleep(10);
             }
 
-            int queue_count = ts_data_queue.Count();    // this is slow, so we do it once here and use an internal variable
+            int queue_count = ts_data_queue.Count;    // this is slow, so we do it once here and use an internal variable
 
             if (queue_count > 0)
             {
@@ -218,13 +222,19 @@ namespace opentuner
 
                 int counter = 0;
 
+                int buildLenSearch = 0;
+
                 while (counter < buildLen)
                 {
-                    if (ts_data_queue.TryDequeue(out raw_ts_data))
+                    //if (ts_data_queue.TryDequeue(out raw_ts_data))
+                    //{
+                    if (ts_data_queue.Count > 0)
                     {
+                        raw_ts_data = ts_data_queue.Dequeue();
 
                         if (ts_sync == false && raw_ts_data != 0x47)
                         {
+                            buildLen--;
                             continue;
                         }
                         else
@@ -233,6 +243,11 @@ namespace opentuner
                             buffer[counter++] = raw_ts_data;
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("Warning: Trying to dequeue, but nothing available : ffmpeg: read : " + queue_count.ToString());
+                    }
+                    //}
                 }
 
                 //Console.WriteLine("Returning " + buildLen.ToString());

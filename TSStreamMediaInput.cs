@@ -12,10 +12,10 @@ namespace opentuner
     public class TSStreamMediaInput : LibVLCSharp.Shared.MediaInput
     {
 
-        ConcurrentQueue<byte> ts_data_queue;
+        CircularBuffer ts_data_queue;
         public bool ts_sync = false;
 
-        public TSStreamMediaInput(ConcurrentQueue<byte> _ts_data_queue )
+        public TSStreamMediaInput(CircularBuffer _ts_data_queue )
         {
             // we can't seek live data
             CanSeek = false;
@@ -45,7 +45,7 @@ namespace opentuner
             int timeout = 0;
 
             // wait for next data
-            while (ts_data_queue.Count() < 188)
+            while (ts_data_queue.Count < 100)
             {
                 //Console.WriteLine("Waiting: " + timeout.ToString());
                 // if we haven't received anything within a few seconds then most likely won't get anything
@@ -55,11 +55,11 @@ namespace opentuner
                     return 0;
                 }
 
-                Thread.Sleep(50);
+                Thread.Sleep(20);
                 timeout += 50;
             }
 
-            int queue_count = ts_data_queue.Count();    // this is slow, so we do it once here and use an internal variable
+            int queue_count = ts_data_queue.Count; 
 
             if (queue_count > 0)
             {
@@ -78,12 +78,17 @@ namespace opentuner
 
                 while (counter < buildLen)
                 {
-                    if (ts_data_queue.TryDequeue(out raw_ts_data))
+                    //if (ts_data_queue.TryDequeue(out raw_ts_data))
+                    //{
+                    if (ts_data_queue.Count > 0)
                     {
+                        raw_ts_data = ts_data_queue.Dequeue();
+
                         //vlc_data[counter++] = raw_ts_data.rawTSData[0];
 
                         if (ts_sync == false && raw_ts_data != 0x47)
                         {
+                            buildLen--;
                             continue;
                         }
                         else
@@ -92,6 +97,11 @@ namespace opentuner
                             vlc_data[counter++] = raw_ts_data;
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("Warning: Failing to dequeue, nothing to dequeue: TSStream");
+                    }
+                    //}
                 }
 
                 Marshal.Copy(vlc_data.ToArray(), 0, buf, vlc_data.Length);

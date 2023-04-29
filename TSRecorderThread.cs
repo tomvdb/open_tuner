@@ -12,7 +12,7 @@ namespace opentuner
     public class TSRecorderThread
     {
 
-        ConcurrentQueue<byte> _ts_data_queue = new ConcurrentQueue<byte>();
+        CircularBuffer _ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
 
         object locker = new object();
 
@@ -78,12 +78,14 @@ namespace opentuner
                         }
                     }
 
-                    int ts_data_count = _ts_data_queue.Count();
+                    int ts_data_count = _ts_data_queue.Count;
 
                     if (ts_data_count > 0)
                     {
-                        if (_ts_data_queue.TryDequeue(out data))
-                        {
+                        //if (_ts_data_queue.TryDequeue(out data))
+                        //{                        
+                        data = _ts_data_queue.Dequeue();
+
                             if (record == true)
                             {
 
@@ -101,7 +103,7 @@ namespace opentuner
                                     }
                                 }
                             }
-                        }
+                        //}
                     }
                     else
                     {

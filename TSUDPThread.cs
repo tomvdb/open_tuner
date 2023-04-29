@@ -12,7 +12,7 @@ namespace opentuner
 {
     public class TSUDPThread
     {
-        ConcurrentQueue<byte> _ts_data_queue = new ConcurrentQueue<byte>();
+        CircularBuffer _ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
 
         object locker = new object();
 
@@ -71,7 +71,7 @@ namespace opentuner
                         }
                     }
 
-                    int ts_data_count = _ts_data_queue.Count();
+                    int ts_data_count = _ts_data_queue.Count;
 
                     if (ts_data_count >= 188)
                     {
@@ -80,8 +80,16 @@ namespace opentuner
 
                         while (count < 188)
                         {
-                            if (_ts_data_queue.TryDequeue(out data))
+                            //if (_ts_data_queue.TryDequeue(out data))
+                            if (_ts_data_queue.Count > 0)
+                            {
+                                data = _ts_data_queue.Dequeue();
                                 dt[count++] = data;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Warning: Trying to dequeue, but no bytes : TSUdpThread");
+                            }
                         }
 
                         if (streaming)

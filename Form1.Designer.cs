@@ -83,7 +83,7 @@
             this.label17 = new System.Windows.Forms.Label();
             this.lblConnected = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupTuner1 = new System.Windows.Forms.GroupBox();
             this.lblRfInput = new System.Windows.Forms.Label();
             this.btnTuner = new System.Windows.Forms.Button();
             this.btnVid1Record = new System.Windows.Forms.Button();
@@ -160,6 +160,8 @@
             this.tuner1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recordAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableUDPOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tuner2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableUDPOutputToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.lNBPowerSupplyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lNBAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -171,12 +173,10 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
-            this.genTooltip = new System.Windows.Forms.ToolTip(this.components);
-            this.tuner2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enableUDPOutputToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
+            this.genTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -186,7 +186,7 @@
             this.groupTuner2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume2)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.groupTuner1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             this.debugPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -231,7 +231,7 @@
             resources.ApplyResources(this.statusPage, "statusPage");
             this.statusPage.Controls.Add(this.groupTuner2);
             this.statusPage.Controls.Add(this.groupBox2);
-            this.statusPage.Controls.Add(this.groupBox1);
+            this.statusPage.Controls.Add(this.groupTuner1);
             this.statusPage.Name = "statusPage";
             this.statusPage.UseVisualStyleBackColor = true;
             // 
@@ -556,56 +556,56 @@
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
             // 
-            // groupBox1
+            // groupTuner1
             // 
-            this.groupBox1.Controls.Add(this.lblRfInput);
-            this.groupBox1.Controls.Add(this.btnTuner);
-            this.groupBox1.Controls.Add(this.btnVid1Record);
-            this.groupBox1.Controls.Add(this.lblAdjust1);
-            this.groupBox1.Controls.Add(this.lblrecordIndication);
-            this.groupBox1.Controls.Add(this.btnVid1Snapshot);
-            this.groupBox1.Controls.Add(this.btnVid1Mute);
-            this.groupBox1.Controls.Add(this.lblVolume);
-            this.groupBox1.Controls.Add(this.label20);
-            this.groupBox1.Controls.Add(this.trackVolume);
-            this.groupBox1.Controls.Add(this.lblAudioRate);
-            this.groupBox1.Controls.Add(this.label25);
-            this.groupBox1.Controls.Add(this.lblAudioCodec);
-            this.groupBox1.Controls.Add(this.label27);
-            this.groupBox1.Controls.Add(this.lblVideoResolution);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.lblVideoCodec);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.nullPacketsBar);
-            this.groupBox1.Controls.Add(this.lblNullPackets);
-            this.groupBox1.Controls.Add(this.label22);
-            this.groupBox1.Controls.Add(this.lblServiceProvider);
-            this.groupBox1.Controls.Add(this.lblServiceName);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.lblChatSigReport);
-            this.groupBox1.Controls.Add(this.lblRFInputLevel);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.lblReqFreq);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.lbldbMargin);
-            this.groupBox1.Controls.Add(this.lblFreqCar);
-            this.groupBox1.Controls.Add(this.label21);
-            this.groupBox1.Controls.Add(this.lblBer);
-            this.groupBox1.Controls.Add(this.label19);
-            this.groupBox1.Controls.Add(this.lblModcod);
-            this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.lblSR);
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.lblLnaGain);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.lblMer);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.lblDemoState);
-            this.groupBox1.Controls.Add(this.label4);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
+            this.groupTuner1.Controls.Add(this.lblRfInput);
+            this.groupTuner1.Controls.Add(this.btnTuner);
+            this.groupTuner1.Controls.Add(this.btnVid1Record);
+            this.groupTuner1.Controls.Add(this.lblAdjust1);
+            this.groupTuner1.Controls.Add(this.lblrecordIndication);
+            this.groupTuner1.Controls.Add(this.btnVid1Snapshot);
+            this.groupTuner1.Controls.Add(this.btnVid1Mute);
+            this.groupTuner1.Controls.Add(this.lblVolume);
+            this.groupTuner1.Controls.Add(this.label20);
+            this.groupTuner1.Controls.Add(this.trackVolume);
+            this.groupTuner1.Controls.Add(this.lblAudioRate);
+            this.groupTuner1.Controls.Add(this.label25);
+            this.groupTuner1.Controls.Add(this.lblAudioCodec);
+            this.groupTuner1.Controls.Add(this.label27);
+            this.groupTuner1.Controls.Add(this.lblVideoResolution);
+            this.groupTuner1.Controls.Add(this.label18);
+            this.groupTuner1.Controls.Add(this.lblVideoCodec);
+            this.groupTuner1.Controls.Add(this.label14);
+            this.groupTuner1.Controls.Add(this.nullPacketsBar);
+            this.groupTuner1.Controls.Add(this.lblNullPackets);
+            this.groupTuner1.Controls.Add(this.label22);
+            this.groupTuner1.Controls.Add(this.lblServiceProvider);
+            this.groupTuner1.Controls.Add(this.lblServiceName);
+            this.groupTuner1.Controls.Add(this.label10);
+            this.groupTuner1.Controls.Add(this.label5);
+            this.groupTuner1.Controls.Add(this.lblChatSigReport);
+            this.groupTuner1.Controls.Add(this.lblRFInputLevel);
+            this.groupTuner1.Controls.Add(this.label11);
+            this.groupTuner1.Controls.Add(this.lblReqFreq);
+            this.groupTuner1.Controls.Add(this.label16);
+            this.groupTuner1.Controls.Add(this.lbldbMargin);
+            this.groupTuner1.Controls.Add(this.lblFreqCar);
+            this.groupTuner1.Controls.Add(this.label21);
+            this.groupTuner1.Controls.Add(this.lblBer);
+            this.groupTuner1.Controls.Add(this.label19);
+            this.groupTuner1.Controls.Add(this.lblModcod);
+            this.groupTuner1.Controls.Add(this.label15);
+            this.groupTuner1.Controls.Add(this.lblSR);
+            this.groupTuner1.Controls.Add(this.label13);
+            this.groupTuner1.Controls.Add(this.lblLnaGain);
+            this.groupTuner1.Controls.Add(this.label7);
+            this.groupTuner1.Controls.Add(this.lblMer);
+            this.groupTuner1.Controls.Add(this.label6);
+            this.groupTuner1.Controls.Add(this.lblDemoState);
+            this.groupTuner1.Controls.Add(this.label4);
+            resources.ApplyResources(this.groupTuner1, "groupTuner1");
+            this.groupTuner1.Name = "groupTuner1";
+            this.groupTuner1.TabStop = false;
             // 
             // lblRfInput
             // 
@@ -888,11 +888,13 @@
             // 
             // videoPlayersSplitter.Panel1
             // 
+            this.videoPlayersSplitter.Panel1.BackColor = System.Drawing.Color.Black;
             this.videoPlayersSplitter.Panel1.Controls.Add(this.ffmpegVideoView1);
             this.videoPlayersSplitter.Panel1.Controls.Add(this.videoView1);
             // 
             // videoPlayersSplitter.Panel2
             // 
+            this.videoPlayersSplitter.Panel2.BackColor = System.Drawing.Color.Black;
             this.videoPlayersSplitter.Panel2.Controls.Add(this.ffmpegVideoView2);
             this.videoPlayersSplitter.Panel2.Controls.Add(this.videoView2);
             // 
@@ -1110,6 +1112,19 @@
             resources.ApplyResources(this.enableUDPOutputToolStripMenuItem, "enableUDPOutputToolStripMenuItem");
             this.enableUDPOutputToolStripMenuItem.Click += new System.EventHandler(this.enableUDPOutputToolStripMenuItem_Click);
             // 
+            // tuner2ToolStripMenuItem
+            // 
+            this.tuner2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enableUDPOutputToolStripMenuItem1});
+            this.tuner2ToolStripMenuItem.Name = "tuner2ToolStripMenuItem";
+            resources.ApplyResources(this.tuner2ToolStripMenuItem, "tuner2ToolStripMenuItem");
+            // 
+            // enableUDPOutputToolStripMenuItem1
+            // 
+            this.enableUDPOutputToolStripMenuItem1.Name = "enableUDPOutputToolStripMenuItem1";
+            resources.ApplyResources(this.enableUDPOutputToolStripMenuItem1, "enableUDPOutputToolStripMenuItem1");
+            this.enableUDPOutputToolStripMenuItem1.Click += new System.EventHandler(this.enableUDPOutputToolStripMenuItem1_Click);
+            // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1188,24 +1203,6 @@
             resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
-            // SpectrumTuneTimer
-            // 
-            this.SpectrumTuneTimer.Interval = 1500;
-            this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
-            // 
-            // tuner2ToolStripMenuItem
-            // 
-            this.tuner2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enableUDPOutputToolStripMenuItem1});
-            this.tuner2ToolStripMenuItem.Name = "tuner2ToolStripMenuItem";
-            resources.ApplyResources(this.tuner2ToolStripMenuItem, "tuner2ToolStripMenuItem");
-            // 
-            // enableUDPOutputToolStripMenuItem1
-            // 
-            this.enableUDPOutputToolStripMenuItem1.Name = "enableUDPOutputToolStripMenuItem1";
-            resources.ApplyResources(this.enableUDPOutputToolStripMenuItem1, "enableUDPOutputToolStripMenuItem1");
-            this.enableUDPOutputToolStripMenuItem1.Click += new System.EventHandler(this.enableUDPOutputToolStripMenuItem1_Click);
-            // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
@@ -1216,6 +1213,11 @@
             this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Name = "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem";
             resources.ApplyResources(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem, "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem");
             this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Click += new System.EventHandler(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click);
+            // 
+            // SpectrumTuneTimer
+            // 
+            this.SpectrumTuneTimer.Interval = 1500;
+            this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
             // 
             // Form1
             // 
@@ -1238,8 +1240,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume2)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupTuner1.ResumeLayout(false);
+            this.groupTuner1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
             this.debugPage.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -1279,7 +1281,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage statusPage;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupTuner1;
         private System.Windows.Forms.Label lblReqFreq;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label lbldbMargin;

@@ -18,6 +18,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Windows.Input;
+using NAudio.Utils;
 
 namespace opentuner
 {
@@ -31,11 +32,17 @@ namespace opentuner
 
         ConcurrentQueue<NimConfig> config_queue = new ConcurrentQueue<NimConfig>();
 
-        ConcurrentQueue<byte> ts_data_queue = new ConcurrentQueue<byte>();
-        ConcurrentQueue<byte> ts_data_queue2 = new ConcurrentQueue<byte>();
+        CircularBuffer ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
+        CircularBuffer ts_data_queue2 = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
 
-        ConcurrentQueue<byte> ts_parser_data_queue = new ConcurrentQueue<byte>();
-        ConcurrentQueue<byte> ts_parser_data_queue2 = new ConcurrentQueue<byte>();
+        CircularBuffer ts_parser_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
+        CircularBuffer ts_parser_data_queue2 = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
+
+        //ConcurrentQueue<byte> ts_data_queue = new ConcurrentQueue<byte>();
+        //ConcurrentQueue<byte> ts_data_queue2 = new ConcurrentQueue<byte>();
+
+        //ConcurrentQueue<byte> ts_parser_data_queue = new ConcurrentQueue<byte>();
+        //ConcurrentQueue<byte> ts_parser_data_queue2 = new ConcurrentQueue<byte>();
 
         private delegate void updateNimStatusGuiDelegate(Form1 gui, NimStatus new_status);
         private delegate void updateTSStatusGuiDelegate(int device, Form1 gui, TSStatus new_status);
@@ -216,11 +223,17 @@ namespace opentuner
         string setting_udp_address2 = "127.0.0.1";
         int setting_udp_port2 = 9081;
 
+        bool setting_windowed_mediaPlayer1 = false;
+        bool setting_windowed_mediaPlayer2 = false;
+
         bool isFullScreen = false;
 
+        // custom forms
         private wbchat chatForm;
         private tunerControlForm tuner1ControlForm;
         private tunerControlForm tuner2ControlForm;
+        private VideoViewForm mediaPlayer1Window;
+        private VideoViewForm mediaPlayer2Window;
 
         List<StoredFrequency> stored_frequencies = new List<StoredFrequency>();
 
@@ -386,6 +399,12 @@ namespace opentuner
             }
             else
             {
+                if (mediaPlayer1Window != null)
+                    mediaPlayer1Window.updateStatus(new_status);
+
+                if (mediaPlayer2Window != null)
+                    mediaPlayer2Window.updateStatus(new_status);
+
                 // nim specific
                 gui.prop_lpdc_errors = new_status.errors_ldpc_count.ToString();
 
@@ -601,7 +620,7 @@ namespace opentuner
             Console.WriteLine("Main: Stopping Media Player 2");
 
             if (ts_thread2 != null)
-                ts_thread2.start_ts();
+                ts_thread2.stop_ts();
 
             if (media_player_2 != null)
                 media_player_2.Stop();
@@ -811,9 +830,9 @@ namespace opentuner
             ts_thread_t = new Thread(ts_thread.worker_thread);
             ts_thread_t.Start();
 
+
             // TS Parser Thread
             ts_thread.RegisterTSConsumer(ts_parser_data_queue);
-
             TSDataCallback ts_data_callback = new TSDataCallback(parse_ts_data_callback);
             TSParserThread ts_parser_thread = new TSParserThread(ts_data_callback, ts_parser_data_queue);
             ts_parser_t = new Thread(ts_parser_thread.worker_thread);
@@ -853,15 +872,43 @@ namespace opentuner
 
             }
 
+
+
             if (setting_mediaplayer_1 == 0)
             {
-                media_player_1 = new VLCMediaPlayer(videoView1);
-                ffmpegVideoView1.Visible = false;
+                if (setting_windowed_mediaPlayer1 == true)
+                {
+                    mediaPlayer1Window = new VideoViewForm(setting_mediaplayer_1, 1);
+                    media_player_1 = new VLCMediaPlayer(mediaPlayer1Window.vlcPlayer);
+                    mediaPlayer1Window.Show();
+                    ffmpegVideoView1.Visible = false;
+                    videoView1.Visible = false;
+                }
+                else
+                {
+                    media_player_1 = new VLCMediaPlayer(videoView1);
+                    ffmpegVideoView1.Visible = false;
+                }
+
+                groupTuner1.Text = "Tuner 1 - VLC";
             }
             else
             {
-                media_player_1 = new FFMPEGMediaPlayer(ffmpegVideoView1);
-                videoView1.Visible = false;
+                if (setting_windowed_mediaPlayer1 == true)
+                {
+                    mediaPlayer1Window = new VideoViewForm(setting_mediaplayer_1,1 );
+                    media_player_1 = new FFMPEGMediaPlayer(mediaPlayer1Window.ffmpegPlayer);
+                    mediaPlayer1Window.Show();
+                    ffmpegVideoView1.Visible = false;
+                    videoView1.Visible = false;
+                }
+                else
+                {
+
+                    media_player_1 = new FFMPEGMediaPlayer(ffmpegVideoView1);
+                    videoView1.Visible = false;
+                    groupTuner1.Text = "Tuner 1 - FFMPEG";
+                }
             }
 
             media_player_1.onVideoOut += MediaPlayer_Vout;
@@ -871,13 +918,40 @@ namespace opentuner
             {
                 if (setting_mediaplayer_2 == 0)
                 {
-                    media_player_2 = new VLCMediaPlayer(videoView2);
-                    ffmpegVideoView2.Visible = false;
+                    if (setting_windowed_mediaPlayer2 == true)
+                    {
+                        mediaPlayer2Window = new VideoViewForm(setting_mediaplayer_2, 2);
+                        media_player_2 = new VLCMediaPlayer(mediaPlayer2Window.vlcPlayer);
+                        mediaPlayer2Window.Show();
+                        ffmpegVideoView2.Visible = false;
+                        videoView2.Visible = false;
+
+                    }
+                    else
+                    {
+                        media_player_2 = new VLCMediaPlayer(videoView2);
+                        ffmpegVideoView2.Visible = false;
+                    }
+                    groupTuner2.Text = "Tuner 2 - VLC";
                 }
                 else
                 {
-                    media_player_2 = new FFMPEGMediaPlayer(ffmpegVideoView2);
-                    videoView2.Visible = false;
+                    if (setting_windowed_mediaPlayer2 == true)
+                    {
+                        mediaPlayer2Window = new VideoViewForm(setting_mediaplayer_2,2 );
+                        media_player_2 = new FFMPEGMediaPlayer(mediaPlayer2Window.ffmpegPlayer);
+                        mediaPlayer1Window.Show();
+                        ffmpegVideoView2.Visible = false;
+                        videoView2.Visible = false;
+                    }
+                    else
+                    {
+
+                        media_player_2 = new FFMPEGMediaPlayer(ffmpegVideoView2);
+                        videoView2.Visible = false;
+                    }
+
+                    groupTuner2.Text = "Tuner 2 - FFMPEG";
                 }
 
                 media_player_2.onVideoOut += MediaPlayer_Vout2;
@@ -891,6 +965,20 @@ namespace opentuner
                 groupTuner2.Visible = false;
                 tuner2ToolStripMenuItem.Visible = false;
             }
+
+            // if we have either 1 of the 2 video players windowed then increase the size on the remaining one
+            if (setting_windowed_mediaPlayer1 == true && setting_windowed_mediaPlayer2 == false )
+            {
+                videoPlayersSplitter.Panel1Collapsed = true;
+                videoPlayersSplitter.Panel1.Hide();
+            }
+
+            if (setting_windowed_mediaPlayer1 == false && setting_windowed_mediaPlayer2 == true)
+            {
+                videoPlayersSplitter.Panel2Collapsed = true;
+                videoPlayersSplitter.Panel2.Hide();
+            }
+
 
             // temporary to prevent multiple connection attempts
             // todo: deal with this properly
@@ -1293,6 +1381,8 @@ namespace opentuner
             setting_udp_address2 = Properties.Settings.Default.udp_address2;
             setting_udp_port2 = Properties.Settings.Default.udp_port2;
 
+            setting_windowed_mediaPlayer1 = Properties.Settings.Default.windowed_player1;
+            setting_windowed_mediaPlayer2 = Properties.Settings.Default.windowed_player2;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -1550,6 +1640,14 @@ namespace opentuner
             if (!hardware_connected)
                 return;
 
+            Console.WriteLine("Change Frequency: " + tuner.ToString());
+            switch(rf_input)
+            {
+                case nim.NIM_INPUT_TOP: Console.WriteLine("RF Input: Nim Input Top Specified"); break;
+                case nim.NIM_INPUT_BOTTOM: Console.WriteLine("RF Input: Nim Input Bottom Specified"); break;
+                default: Console.WriteLine("Error: Invalid RF Input: " + rf_input.ToString()); break;
+            }
+
             NimConfig newConfig = new NimConfig();
 
             newConfig.tuner = tuner;
@@ -1756,6 +1854,9 @@ namespace opentuner
             settings_form.textUDPAddress2.Text = setting_udp_address2;
             settings_form.numUdpPort2.Value = setting_udp_port2;
 
+            settings_form.checkWindowed1.Checked = setting_windowed_mediaPlayer1;
+            settings_form.checkWindowed2.Checked = setting_windowed_mediaPlayer2;
+
             if (setting_enable_chatform && chatForm != null)
             {
                 settings_form.currentChatFont = chatForm.lbChat.Font;
@@ -1790,6 +1891,10 @@ namespace opentuner
                 setting_language = settings_form.comboLanguage.SelectedIndex;
 
                 Properties.Settings.Default.language = setting_language;
+
+                Properties.Settings.Default.windowed_player1 = settings_form.checkWindowed1.Checked;
+                Properties.Settings.Default.windowed_player2 = settings_form.checkWindowed2.Checked;
+
                 Properties.Settings.Default.Save();
                 
                 load_settings();

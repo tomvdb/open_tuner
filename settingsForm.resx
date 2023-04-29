@@ -606,6 +606,63 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="checkWindowed2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkWindowed2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkWindowed2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>128, 131</value>
+  </data>
+  <data name="checkWindowed2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 17</value>
+  </data>
+  <data name="checkWindowed2.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="checkWindowed2.Text" xml:space="preserve">
+    <value>Seperate Window</value>
+  </data>
+  <data name="&gt;&gt;checkWindowed2.Name" xml:space="preserve">
+    <value>checkWindowed2</value>
+  </data>
+  <data name="&gt;&gt;checkWindowed2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkWindowed2.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;checkWindowed2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkWindowed1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkWindowed1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>128, 80</value>
+  </data>
+  <data name="checkWindowed1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 17</value>
+  </data>
+  <data name="checkWindowed1.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="checkWindowed1.Text" xml:space="preserve">
+    <value>Seperate Window</value>
+  </data>
+  <data name="&gt;&gt;checkWindowed1.Name" xml:space="preserve">
+    <value>checkWindowed1</value>
+  </data>
+  <data name="&gt;&gt;checkWindowed1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkWindowed1.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;checkWindowed1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="comboMediaPlayer2.Items" xml:space="preserve">
     <value>VLC</value>
   </data>
@@ -613,7 +670,7 @@
     <value>FFMPEG</value>
   </data>
   <data name="comboMediaPlayer2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>128, 80</value>
+    <value>128, 104</value>
   </data>
   <data name="comboMediaPlayer2.Size" type="System.Drawing.Size, System.Drawing">
     <value>165, 21</value>
@@ -631,7 +688,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;comboMediaPlayer2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="comboMediaPlayer1.Items" xml:space="preserve">
     <value>VLC</value>
@@ -658,7 +715,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;comboMediaPlayer1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -667,7 +724,7 @@
     <value>NoControl</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 83</value>
+    <value>10, 107</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 13</value>
@@ -688,7 +745,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -718,7 +775,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
     <value>299, 26</value>
@@ -742,7 +799,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="txtSnapshotPath.Location" type="System.Drawing.Point, System.Drawing">
     <value>128, 27</value>
@@ -763,7 +820,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;txtSnapshotPath.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -790,13 +847,13 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 244</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 122</value>
+    <value>350, 233</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -895,7 +952,7 @@
     <value>2</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>368, 216</value>
+    <value>368, 196</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
     <value>362, 97</value>
@@ -919,7 +976,7 @@
     <value>3</value>
   </data>
   <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>655, 343</value>
+    <value>655, 454</value>
   </data>
   <data name="button2.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -943,7 +1000,7 @@
     <value>2</value>
   </data>
   <data name="button3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>577, 343</value>
+    <value>577, 454</value>
   </data>
   <data name="button3.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -970,7 +1027,7 @@
     <value>True</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>382, 327</value>
+    <value>382, 438</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>337, 13</value>
@@ -1000,7 +1057,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>744, 378</value>
+    <value>742, 488</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
