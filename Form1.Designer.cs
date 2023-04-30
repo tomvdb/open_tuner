@@ -34,10 +34,11 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.statusPage = new System.Windows.Forms.TabPage();
             this.groupTuner2 = new System.Windows.Forms.GroupBox();
+            this.btnVidRecord2 = new System.Windows.Forms.Button();
             this.lblRfInput2 = new System.Windows.Forms.Label();
             this.btnTuner2 = new System.Windows.Forms.Button();
             this.lblAdjust2 = new System.Windows.Forms.LinkLabel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblRecordIndication2 = new System.Windows.Forms.Label();
             this.btnVid2Snapshot = new System.Windows.Forms.Button();
             this.btnVid2Mute = new System.Windows.Forms.Button();
             this.lblVolume2 = new System.Windows.Forms.Label();
@@ -88,7 +89,7 @@
             this.btnTuner = new System.Windows.Forms.Button();
             this.btnVid1Record = new System.Windows.Forms.Button();
             this.lblAdjust1 = new System.Windows.Forms.LinkLabel();
-            this.lblrecordIndication = new System.Windows.Forms.Label();
+            this.lblrecordIndication1 = new System.Windows.Forms.Label();
             this.btnVid1Snapshot = new System.Windows.Forms.Button();
             this.btnVid1Mute = new System.Windows.Forms.Button();
             this.lblVolume = new System.Windows.Forms.Label();
@@ -237,10 +238,11 @@
             // 
             // groupTuner2
             // 
+            this.groupTuner2.Controls.Add(this.btnVidRecord2);
             this.groupTuner2.Controls.Add(this.lblRfInput2);
             this.groupTuner2.Controls.Add(this.btnTuner2);
             this.groupTuner2.Controls.Add(this.lblAdjust2);
-            this.groupTuner2.Controls.Add(this.label1);
+            this.groupTuner2.Controls.Add(this.lblRecordIndication2);
             this.groupTuner2.Controls.Add(this.btnVid2Snapshot);
             this.groupTuner2.Controls.Add(this.btnVid2Mute);
             this.groupTuner2.Controls.Add(this.lblVolume2);
@@ -285,6 +287,14 @@
             this.groupTuner2.Name = "groupTuner2";
             this.groupTuner2.TabStop = false;
             // 
+            // btnVidRecord2
+            // 
+            resources.ApplyResources(this.btnVidRecord2, "btnVidRecord2");
+            this.btnVidRecord2.Name = "btnVidRecord2";
+            this.genTooltip.SetToolTip(this.btnVidRecord2, resources.GetString("btnVidRecord2.ToolTip"));
+            this.btnVidRecord2.UseVisualStyleBackColor = true;
+            this.btnVidRecord2.Click += new System.EventHandler(this.btnVidRecord2_Click);
+            // 
             // lblRfInput2
             // 
             resources.ApplyResources(this.lblRfInput2, "lblRfInput2");
@@ -305,11 +315,11 @@
             this.lblAdjust2.TabStop = true;
             this.lblAdjust2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblAdjust2_LinkClicked);
             // 
-            // label1
+            // lblRecordIndication2
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.lblRecordIndication2, "lblRecordIndication2");
+            this.lblRecordIndication2.ForeColor = System.Drawing.Color.Red;
+            this.lblRecordIndication2.Name = "lblRecordIndication2";
             // 
             // btnVid2Snapshot
             // 
@@ -562,7 +572,7 @@
             this.groupTuner1.Controls.Add(this.btnTuner);
             this.groupTuner1.Controls.Add(this.btnVid1Record);
             this.groupTuner1.Controls.Add(this.lblAdjust1);
-            this.groupTuner1.Controls.Add(this.lblrecordIndication);
+            this.groupTuner1.Controls.Add(this.lblrecordIndication1);
             this.groupTuner1.Controls.Add(this.btnVid1Snapshot);
             this.groupTuner1.Controls.Add(this.btnVid1Mute);
             this.groupTuner1.Controls.Add(this.lblVolume);
@@ -635,11 +645,11 @@
             this.lblAdjust1.TabStop = true;
             this.lblAdjust1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblAdjust1_LinkClicked);
             // 
-            // lblrecordIndication
+            // lblrecordIndication1
             // 
-            resources.ApplyResources(this.lblrecordIndication, "lblrecordIndication");
-            this.lblrecordIndication.ForeColor = System.Drawing.Color.Red;
-            this.lblrecordIndication.Name = "lblrecordIndication";
+            resources.ApplyResources(this.lblrecordIndication1, "lblrecordIndication1");
+            this.lblrecordIndication1.ForeColor = System.Drawing.Color.Red;
+            this.lblrecordIndication1.Name = "lblrecordIndication1";
             // 
             // btnVid1Snapshot
             // 
@@ -957,6 +967,7 @@
             this.spectrum.TabStop = false;
             this.spectrum.SizeChanged += new System.EventHandler(this.spectrum_SizeChanged);
             this.spectrum.Click += new System.EventHandler(this.spectrum_Click);
+            this.spectrum.MouseLeave += new System.EventHandler(this.spectrum_MouseLeave);
             this.spectrum.MouseMove += new System.Windows.Forms.MouseEventHandler(this.spectrum_MouseMove);
             // 
             // contextSpectrumMenu
@@ -1379,13 +1390,13 @@
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label lblLPDCError;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblRecordIndication2;
         private System.Windows.Forms.Button btnVid2Snapshot;
         private System.Windows.Forms.Button btnVid2Mute;
         private System.Windows.Forms.Label lblVolume2;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TrackBar trackVolume2;
-        private System.Windows.Forms.Label lblrecordIndication;
+        private System.Windows.Forms.Label lblrecordIndication1;
         private System.Windows.Forms.Button btnVid1Snapshot;
         private System.Windows.Forms.Button btnVid1Mute;
         private System.Windows.Forms.Label lblVolume;
@@ -1414,6 +1425,7 @@
         private System.Windows.Forms.ToolStripMenuItem enableUDPOutputToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem;
+        private System.Windows.Forms.Button btnVidRecord2;
     }
 }
 

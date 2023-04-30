@@ -19,6 +19,7 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Windows.Input;
 using NAudio.Utils;
+using System.Diagnostics;
 
 namespace opentuner
 {
@@ -48,7 +49,7 @@ namespace opentuner
         private delegate void updateTSStatusGuiDelegate(int device, Form1 gui, TSStatus new_status);
         private delegate void updateMediaStatusGuiDelegate(int tuner, Form1 gui, MediaStatus new_status);
         private delegate void UpdateLBDelegate(ListBox LB, Object obj);
-        private delegate void updateRecordingStatusDelegate(Form1 gui, bool recording_status);
+        private delegate void updateRecordingStatusDelegate(Form1 gui, bool recording_status, string id);
 
         // threads
         Thread nim_thread_t = null;
@@ -58,11 +59,13 @@ namespace opentuner
 
         Thread ts_parser_t = null;
         Thread ts_parser_2_t = null;
-        Thread ts_recorder_t = null;
+        Thread ts_recorder_1_t = null;
+        Thread ts_recorder_2_t = null;
         Thread ts_udp_t1 = null;
         Thread ts_udp_t2 = null;
 
-        TSRecorderThread ts_recorder;
+        TSRecorderThread ts_recorder1;
+        TSRecorderThread ts_recorder2;
         TSUDPThread ts_udp1;
         TSUDPThread ts_udp2;
         TSThread ts_thread;
@@ -130,7 +133,8 @@ namespace opentuner
 
 
         public bool prop_isFullscreen { get { return this.isFullScreen;  } }
-        public bool prop_isRecording { set { lblrecordIndication.Visible = value;  } }
+        public bool prop_isRecording1 { set { lblrecordIndication1.Visible = value;  } }
+        public bool prop_isRecording2 { set { lblRecordIndication2.Visible = value; } }
 
         // quick tune variables *********************************************************************
         private static readonly Object list_lock = new Object();
@@ -145,6 +149,9 @@ namespace opentuner
         SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
         SolidBrush bandplanBrush = new SolidBrush(Color.FromArgb(180, 250, 250, 255));
         SolidBrush overpowerBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
+
+        SolidBrush tuner1Brush = new SolidBrush(Color.FromArgb(50, Color.Blue));
+        SolidBrush tuner2Brush = new SolidBrush(Color.FromArgb(50, Color.Green));
 
         Graphics tmp;
         Graphics tmp2;
@@ -288,16 +295,36 @@ namespace opentuner
 
         //         private delegate void updateRecordingStatusDelegate(Form1 gui, bool recording_status);
 
-        public static void updateRecordingStatus(Form1 gui, bool recording_status)
+        private async void SoftBlink(Control ctrl, Color c1, Color c2, short CycleTime_ms, bool BkClr)
+        {
+            var sw = new Stopwatch(); sw.Start();
+            short halfCycle = (short)Math.Round(CycleTime_ms * 0.5);
+            while (true)
+            {
+                await Task.Delay(1);
+                var n = sw.ElapsedMilliseconds % CycleTime_ms;
+                var per = (double)Math.Abs(n - halfCycle) / halfCycle;
+                var red = (short)Math.Round((c2.R - c1.R) * per) + c1.R;
+                var grn = (short)Math.Round((c2.G - c1.G) * per) + c1.G;
+                var blw = (short)Math.Round((c2.B - c1.B) * per) + c1.B;
+                var clr = Color.FromArgb(red, grn, blw);
+                if (BkClr) ctrl.BackColor = clr; else ctrl.ForeColor = clr;
+            }
+        }
+
+        public static void updateRecordingStatus(Form1 gui, bool recording_status, string id)
         {
             if (gui.InvokeRequired)
             {
                 updateRecordingStatusDelegate ulb = new updateRecordingStatusDelegate(updateRecordingStatus);
-                gui.Invoke(ulb, new object[] { gui, recording_status });
+                gui.Invoke(ulb, new object[] { gui, recording_status, id });
             }
             else
             {
-                gui.prop_isRecording = recording_status;
+                if (id=="t1")
+                    gui.prop_isRecording1 = recording_status;
+                else
+                    gui.prop_isRecording2 = recording_status;
             }
 
         }
@@ -566,6 +593,10 @@ namespace opentuner
 
             InitializeComponent();
 
+            // test
+            SoftBlink(lblrecordIndication1, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
+            SoftBlink(lblRecordIndication2, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
+
             Console.WriteLine("Init done");
         }
 
@@ -606,9 +637,9 @@ namespace opentuner
             if (ts_thread != null)
                 ts_thread.stop_ts();
 
-            if (ts_recorder != null)
+            if (ts_recorder1 != null)
             {
-                ts_recorder.record = false;
+                ts_recorder1.record = false;
             }
 
             if (ts_udp1 != null)
@@ -624,6 +655,11 @@ namespace opentuner
 
             if (media_player_2 != null)
                 media_player_2.Stop();
+
+            if (ts_recorder1 != null)
+            {
+                ts_recorder1.record = false;
+            }
 
             if (ts_udp2 != null)
                 ts_udp2.stream = false;
@@ -760,8 +796,10 @@ namespace opentuner
             // close threads
             if (nim_thread_t != null)
                 nim_thread_t.Abort();
-            if (ts_recorder_t != null)
-                ts_recorder_t.Abort();
+            if (ts_recorder_1_t != null)
+                ts_recorder_1_t.Abort();
+            if (ts_recorder_2_t != null)
+                ts_recorder_2_t.Abort();
             if (ts_udp_t1 != null)
                 ts_udp_t1.Abort();
             if (ts_udp_t2 != null)
@@ -853,10 +891,10 @@ namespace opentuner
             }
 
             // TS recorder Thread
-            ts_recorder = new TSRecorderThread(ts_thread, setting_snapshot_path);
-            ts_recorder.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
-            ts_recorder_t = new Thread(ts_recorder.worker_thread);
-            ts_recorder_t.Start();
+            ts_recorder1 = new TSRecorderThread(ts_thread, setting_snapshot_path, "t1");
+            ts_recorder1.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
+            ts_recorder_1_t = new Thread(ts_recorder1.worker_thread);
+            ts_recorder_1_t.Start();
 
             // TS udp thread - tuner 1
             ts_udp1 = new TSUDPThread(ts_thread, setting_udp_address1, setting_udp_port1);
@@ -869,6 +907,12 @@ namespace opentuner
                 ts_udp2 = new TSUDPThread(ts_thread2, setting_udp_address2, setting_udp_port2);
                 ts_udp_t2 = new Thread(ts_udp2.worker_thread);
                 ts_udp_t2.Start();
+
+                // TS recorder Thread
+                ts_recorder2 = new TSRecorderThread(ts_thread2, setting_snapshot_path, "t2");
+                ts_recorder2.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
+                ts_recorder_2_t = new Thread(ts_recorder2.worker_thread);
+                ts_recorder_2_t.Start();
 
             }
 
@@ -1010,7 +1054,8 @@ namespace opentuner
 
         private void Ts_recorder_onRecordStatusChange(object sender, bool e)
         {
-            updateRecordingStatus(this, e);
+            TSRecorderThread whichRecorder = (TSRecorderThread)sender;
+            updateRecordingStatus(this, e, whichRecorder.id);
         }
 
         private void LibVLC_Log(object sender, LogEventArgs e)
@@ -1029,8 +1074,8 @@ namespace opentuner
 
             if (recordAllToolStripMenuItem.Checked)
             {
-                if (ts_recorder != null)
-                    ts_recorder.record = true;  // recording will automatically stop when lock is lost
+                if (ts_recorder1 != null)
+                    ts_recorder1.record = true;  // recording will automatically stop when lock is lost
             }
 
             if (enableUDPOutputToolStripMenuItem.Checked)
@@ -1160,6 +1205,9 @@ namespace opentuner
             points[0] = new PointF(0, 255);
             points[points.Length - 1] = new PointF(spectrum_w, 255);
 
+            if (spectrumTunerHighlight > 0)
+                tmp.FillRectangle( (spectrumTunerHighlight == 1 ? tuner1Brush : tuner2Brush), new RectangleF(0, (spectrumTunerHighlight == 1 ? 0 : spectrum_h/2), spectrum_w, spectrum_h / 2));
+
             //tmp.DrawPolygon(greenpen, points);
             SolidBrush spectrumBrush = new SolidBrush(Color.Blue);
 
@@ -1189,6 +1237,7 @@ namespace opentuner
                 }
             }
 
+
             tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
             tmp.DrawString(TX_Text, new Font("Tahoma", 15), Brushes.Red, new PointF(70, spectrum.Height - 50));  //dh3cs
 
@@ -1204,6 +1253,9 @@ namespace opentuner
                     tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale)  / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), (255) - 4) });
                 }
             }
+
+            if (spectrumTunerHighlight > 0)
+                tmp.DrawString("RX" + spectrumTunerHighlight.ToString(), new Font("Tahoma", 15), Brushes.White, new PointF(10, (spectrum_h / 2) + (spectrumTunerHighlight == 1 ? -30 : 10)));
 
             drawspectrum_signals(sigs.signalsData);
         }
@@ -1306,9 +1358,16 @@ namespace opentuner
             }
         }
 
+        int spectrumTunerHighlight = 0;
+
         public void spectrum_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             get_bandplan_TX_freq(e.X, e.Y);  // dh3cs
+
+            if (e.Y <= spectrum.Height / 2)
+                spectrumTunerHighlight = 1;
+            else
+                spectrumTunerHighlight = 2;
         }
 
         // moved to separate function, to use by right click in spectrum,  dh3cs 
@@ -2139,12 +2198,12 @@ namespace opentuner
 
         private void btnVid1Record_Click(object sender, EventArgs e)
         {
-            if (ts_recorder != null)
+            if (ts_recorder1 != null)
             {
-                if (ts_recorder.record)
-                    ts_recorder.record = false;
+                if (ts_recorder1.record)
+                    ts_recorder1.record = false;
                 else
-                    ts_recorder.record = true;
+                    ts_recorder1.record = true;
             }
         }
 
@@ -2284,6 +2343,23 @@ namespace opentuner
         private void addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/adding-2nd-transport-to-batc-minitiouner-v2/");
+        }
+
+        private void btnVidRecord2_Click(object sender, EventArgs e)
+        {
+            if (ts_recorder2 != null)
+            {
+                if (ts_recorder2.record)
+                    ts_recorder2.record = false;
+                else
+                    ts_recorder2.record = true;
+            }
+
+        }
+
+        private void spectrum_MouseLeave(object sender, EventArgs e)
+        {
+            spectrumTunerHighlight = 0;
         }
     }
 

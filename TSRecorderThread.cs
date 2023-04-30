@@ -35,11 +35,13 @@ namespace opentuner
 
         bool recording = false;
         string media_path = "";
+        public string id = "";
 
-        public TSRecorderThread(TSThread _ts_thread, string _media_path)
+        public TSRecorderThread(TSThread _ts_thread, string _media_path, string _id)
         {
             _ts_thread.RegisterTSConsumer(_ts_data_queue);
             media_path = _media_path;
+            id = _id;
         }
 
         public void worker_thread()
@@ -55,7 +57,7 @@ namespace opentuner
                     {
                         // open a new file
                         Console.WriteLine("recording");
-                        string filename = this.media_path + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".ts";
+                        string filename = this.media_path + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + id + ".ts";
                         binWriter = new BinaryWriter(File.Open(filename, FileMode.Create));
                         recording = true;
                         ts_sync = true;

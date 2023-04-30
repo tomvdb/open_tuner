@@ -232,7 +232,7 @@
     <value>ffmpegVideoView1</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.9.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.10.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel1</value>
@@ -259,7 +259,7 @@
     <value>videoView1</value>
   </data>
   <data name="&gt;&gt;videoView1.Type" xml:space="preserve">
-    <value>LibVLCSharp.WinForms.VideoView, LibVLCSharp.WinForms, Version=3.6.7.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>LibVLCSharp.WinForms.VideoView, LibVLCSharp.WinForms, Version=3.7.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;videoView1.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel1</value>
@@ -304,7 +304,7 @@
     <value>ffmpegVideoView2</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.9.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.10.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel2</value>
@@ -331,7 +331,7 @@
     <value>videoView2</value>
   </data>
   <data name="&gt;&gt;videoView2.Type" xml:space="preserve">
-    <value>LibVLCSharp.WinForms.VideoView, LibVLCSharp.WinForms, Version=3.6.7.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>LibVLCSharp.WinForms.VideoView, LibVLCSharp.WinForms, Version=3.7.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;videoView2.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel2</value>
@@ -552,6 +552,18 @@
   <data name="&gt;&gt;statusPage.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;btnVidRecord2.Name" xml:space="preserve">
+    <value>btnVidRecord2</value>
+  </data>
+  <data name="&gt;&gt;btnVidRecord2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnVidRecord2.Parent" xml:space="preserve">
+    <value>groupTuner2</value>
+  </data>
+  <data name="&gt;&gt;btnVidRecord2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="&gt;&gt;lblRfInput2.Name" xml:space="preserve">
     <value>lblRfInput2</value>
   </data>
@@ -562,7 +574,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblRfInput2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;btnTuner2.Name" xml:space="preserve">
     <value>btnTuner2</value>
@@ -574,7 +586,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnTuner2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;lblAdjust2.Name" xml:space="preserve">
     <value>lblAdjust2</value>
@@ -586,19 +598,19 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblAdjust2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
+  <data name="&gt;&gt;lblRecordIndication2.Name" xml:space="preserve">
+    <value>lblRecordIndication2</value>
   </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRecordIndication2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRecordIndication2.Parent" xml:space="preserve">
     <value>groupTuner2</value>
   </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;lblRecordIndication2.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="&gt;&gt;btnVid2Snapshot.Name" xml:space="preserve">
     <value>btnVid2Snapshot</value>
@@ -610,7 +622,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnVid2Snapshot.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;btnVid2Mute.Name" xml:space="preserve">
     <value>btnVid2Mute</value>
@@ -622,7 +634,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnVid2Mute.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;lblVolume2.Name" xml:space="preserve">
     <value>lblVolume2</value>
@@ -634,7 +646,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblVolume2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;label26.Name" xml:space="preserve">
     <value>label26</value>
@@ -646,7 +658,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;trackVolume2.Name" xml:space="preserve">
     <value>trackVolume2</value>
@@ -658,7 +670,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;trackVolume2.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;lblAudioRate2.Name" xml:space="preserve">
     <value>lblAudioRate2</value>
@@ -670,7 +682,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblAudioRate2.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -682,7 +694,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="&gt;&gt;lblAudioCodec2.Name" xml:space="preserve">
     <value>lblAudioCodec2</value>
@@ -694,7 +706,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblAudioCodec2.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="&gt;&gt;label23.Name" xml:space="preserve">
     <value>label23</value>
@@ -706,7 +718,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="&gt;&gt;lblVideoResolution2.Name" xml:space="preserve">
     <value>lblVideoResolution2</value>
@@ -718,7 +730,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblVideoResolution2.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="&gt;&gt;label29.Name" xml:space="preserve">
     <value>label29</value>
@@ -730,7 +742,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label29.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="&gt;&gt;lblVideoCodec2.Name" xml:space="preserve">
     <value>lblVideoCodec2</value>
@@ -742,7 +754,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblVideoCodec2.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="&gt;&gt;label33.Name" xml:space="preserve">
     <value>label33</value>
@@ -754,7 +766,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="&gt;&gt;nullPacketsBar2.Name" xml:space="preserve">
     <value>nullPacketsBar2</value>
@@ -766,7 +778,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;nullPacketsBar2.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="&gt;&gt;lblNullPackets2.Name" xml:space="preserve">
     <value>lblNullPackets2</value>
@@ -778,7 +790,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblNullPackets2.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="&gt;&gt;label37.Name" xml:space="preserve">
     <value>label37</value>
@@ -790,7 +802,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label37.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="&gt;&gt;lblServiceProvider2.Name" xml:space="preserve">
     <value>lblServiceProvider2</value>
@@ -802,7 +814,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblServiceProvider2.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="&gt;&gt;lblServiceName2.Name" xml:space="preserve">
     <value>lblServiceName2</value>
@@ -814,7 +826,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblServiceName2.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="&gt;&gt;label42.Name" xml:space="preserve">
     <value>label42</value>
@@ -826,7 +838,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label42.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="&gt;&gt;label43.Name" xml:space="preserve">
     <value>label43</value>
@@ -838,7 +850,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label43.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>24</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
     <value>linkLabel1</value>
@@ -850,7 +862,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>25</value>
   </data>
   <data name="&gt;&gt;lblRFInputLevel2.Name" xml:space="preserve">
     <value>lblRFInputLevel2</value>
@@ -862,7 +874,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblRFInputLevel2.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>26</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -874,7 +886,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>27</value>
   </data>
   <data name="&gt;&gt;lblReqFreq2.Name" xml:space="preserve">
     <value>lblReqFreq2</value>
@@ -886,7 +898,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblReqFreq2.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>28</value>
   </data>
   <data name="&gt;&gt;label9.Name" xml:space="preserve">
     <value>label9</value>
@@ -898,7 +910,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>29</value>
   </data>
   <data name="&gt;&gt;lbldbMargin2.Name" xml:space="preserve">
     <value>lbldbMargin2</value>
@@ -910,7 +922,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lbldbMargin2.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>30</value>
   </data>
   <data name="&gt;&gt;lblFreqCar2.Name" xml:space="preserve">
     <value>lblFreqCar2</value>
@@ -922,7 +934,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblFreqCar2.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>31</value>
   </data>
   <data name="&gt;&gt;label24.Name" xml:space="preserve">
     <value>label24</value>
@@ -934,7 +946,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>32</value>
   </data>
   <data name="&gt;&gt;lblBer2.Name" xml:space="preserve">
     <value>lblBer2</value>
@@ -946,7 +958,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblBer2.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>33</value>
   </data>
   <data name="&gt;&gt;label28.Name" xml:space="preserve">
     <value>label28</value>
@@ -958,7 +970,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>34</value>
   </data>
   <data name="&gt;&gt;lblModcod2.Name" xml:space="preserve">
     <value>lblModcod2</value>
@@ -970,7 +982,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblModcod2.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>35</value>
   </data>
   <data name="&gt;&gt;label32.Name" xml:space="preserve">
     <value>label32</value>
@@ -982,7 +994,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>36</value>
   </data>
   <data name="&gt;&gt;lblSR2.Name" xml:space="preserve">
     <value>lblSR2</value>
@@ -994,7 +1006,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblSR2.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>37</value>
   </data>
   <data name="&gt;&gt;label34.Name" xml:space="preserve">
     <value>label34</value>
@@ -1006,7 +1018,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>38</value>
   </data>
   <data name="&gt;&gt;lblLnaGain2.Name" xml:space="preserve">
     <value>lblLnaGain2</value>
@@ -1018,7 +1030,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblLnaGain2.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>39</value>
   </data>
   <data name="&gt;&gt;label36.Name" xml:space="preserve">
     <value>label36</value>
@@ -1030,7 +1042,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label36.ZOrder" xml:space="preserve">
-    <value>39</value>
+    <value>40</value>
   </data>
   <data name="&gt;&gt;lblMer2.Name" xml:space="preserve">
     <value>lblMer2</value>
@@ -1042,7 +1054,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblMer2.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>41</value>
   </data>
   <data name="&gt;&gt;label38.Name" xml:space="preserve">
     <value>label38</value>
@@ -1054,7 +1066,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label38.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>42</value>
   </data>
   <data name="&gt;&gt;lblDemoState2.Name" xml:space="preserve">
     <value>lblDemoState2</value>
@@ -1066,7 +1078,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblDemoState2.ZOrder" xml:space="preserve">
-    <value>42</value>
+    <value>43</value>
   </data>
   <data name="&gt;&gt;label40.Name" xml:space="preserve">
     <value>label40</value>
@@ -1078,7 +1090,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label40.ZOrder" xml:space="preserve">
-    <value>43</value>
+    <value>44</value>
   </data>
   <data name="groupTuner2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
@@ -1105,6 +1117,39 @@
     <value>statusPage</value>
   </data>
   <data name="&gt;&gt;groupTuner2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="genTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>613, 14</value>
+  </metadata>
+  <data name="btnVidRecord2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnVidRecord2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>291, 519</value>
+  </data>
+  <data name="btnVidRecord2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 23</value>
+  </data>
+  <data name="btnVidRecord2.TabIndex" type="System.Int32, mscorlib">
+    <value>72</value>
+  </data>
+  <data name="btnVidRecord2.Text" xml:space="preserve">
+    <value>R</value>
+  </data>
+  <data name="btnVidRecord2.ToolTip" xml:space="preserve">
+    <value>Record TS Stream</value>
+  </data>
+  <data name="&gt;&gt;btnVidRecord2.Name" xml:space="preserve">
+    <value>btnVidRecord2</value>
+  </data>
+  <data name="&gt;&gt;btnVidRecord2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnVidRecord2.Parent" xml:space="preserve">
+    <value>groupTuner2</value>
+  </data>
+  <data name="&gt;&gt;btnVidRecord2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="lblRfInput2.AutoSize" type="System.Boolean, mscorlib">
@@ -1138,11 +1183,8 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblRfInput2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
-  <metadata name="genTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>613, 14</value>
-  </metadata>
   <data name="btnTuner2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1171,7 +1213,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnTuner2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lblAdjust2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1201,43 +1243,43 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblAdjust2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRecordIndication2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="lblRecordIndication2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt, style=Bold</value>
   </data>
-  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRecordIndication2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRecordIndication2.Location" type="System.Drawing.Point, System.Drawing">
     <value>210, 484</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>22, 20</value>
+  <data name="lblRecordIndication2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 20</value>
   </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRecordIndication2.TabIndex" type="System.Int32, mscorlib">
     <value>64</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>R</value>
+  <data name="lblRecordIndication2.Text" xml:space="preserve">
+    <value>Rec</value>
   </data>
-  <data name="label1.Visible" type="System.Boolean, mscorlib">
+  <data name="lblRecordIndication2.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
+  <data name="&gt;&gt;lblRecordIndication2.Name" xml:space="preserve">
+    <value>lblRecordIndication2</value>
   </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRecordIndication2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRecordIndication2.Parent" xml:space="preserve">
     <value>groupTuner2</value>
   </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;lblRecordIndication2.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="btnVid2Snapshot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1267,7 +1309,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnVid2Snapshot.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="btnVid2Mute.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1297,7 +1339,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnVid2Mute.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="lblVolume2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1327,7 +1369,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblVolume2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label26.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1357,7 +1399,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="trackVolume2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1381,7 +1423,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;trackVolume2.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="lblAudioRate2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1411,7 +1453,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblAudioRate2.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1441,7 +1483,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="lblAudioCodec2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1471,7 +1513,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblAudioCodec2.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="label23.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1501,7 +1543,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="lblVideoResolution2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1531,7 +1573,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblVideoResolution2.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="label29.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1561,7 +1603,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label29.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="lblVideoCodec2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1591,7 +1633,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblVideoCodec2.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="label33.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1621,7 +1663,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="nullPacketsBar2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1645,7 +1687,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;nullPacketsBar2.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="lblNullPackets2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1675,7 +1717,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblNullPackets2.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="label37.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1705,7 +1747,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label37.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="lblServiceProvider2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1735,7 +1777,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblServiceProvider2.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="lblServiceName2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1765,7 +1807,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblServiceName2.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="label42.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1795,7 +1837,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label42.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="label43.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1825,7 +1867,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label43.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>24</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1858,7 +1900,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>25</value>
   </data>
   <data name="lblRFInputLevel2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1891,7 +1933,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblRFInputLevel2.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>26</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1924,7 +1966,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>27</value>
   </data>
   <data name="lblReqFreq2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1957,7 +1999,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblReqFreq2.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>28</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1990,7 +2032,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>29</value>
   </data>
   <data name="lbldbMargin2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2020,7 +2062,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lbldbMargin2.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>30</value>
   </data>
   <data name="lblFreqCar2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2053,7 +2095,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblFreqCar2.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>31</value>
   </data>
   <data name="label24.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2086,7 +2128,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>32</value>
   </data>
   <data name="lblBer2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2119,7 +2161,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblBer2.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>33</value>
   </data>
   <data name="label28.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2152,7 +2194,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>34</value>
   </data>
   <data name="lblModcod2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2185,7 +2227,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblModcod2.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>35</value>
   </data>
   <data name="label32.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2218,7 +2260,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>36</value>
   </data>
   <data name="lblSR2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2251,7 +2293,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblSR2.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>37</value>
   </data>
   <data name="label34.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2284,7 +2326,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>38</value>
   </data>
   <data name="lblLnaGain2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2317,7 +2359,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblLnaGain2.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>39</value>
   </data>
   <data name="label36.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2350,7 +2392,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label36.ZOrder" xml:space="preserve">
-    <value>39</value>
+    <value>40</value>
   </data>
   <data name="lblMer2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2383,7 +2425,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblMer2.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>41</value>
   </data>
   <data name="label38.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2416,7 +2458,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label38.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>42</value>
   </data>
   <data name="lblDemoState2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2449,7 +2491,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblDemoState2.ZOrder" xml:space="preserve">
-    <value>42</value>
+    <value>43</value>
   </data>
   <data name="label40.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2482,7 +2524,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label40.ZOrder" xml:space="preserve">
-    <value>43</value>
+    <value>44</value>
   </data>
   <data name="&gt;&gt;lblLPDCError.Name" xml:space="preserve">
     <value>lblLPDCError</value>
@@ -2739,16 +2781,16 @@
   <data name="&gt;&gt;lblAdjust1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;lblrecordIndication.Name" xml:space="preserve">
-    <value>lblrecordIndication</value>
+  <data name="&gt;&gt;lblrecordIndication1.Name" xml:space="preserve">
+    <value>lblrecordIndication1</value>
   </data>
-  <data name="&gt;&gt;lblrecordIndication.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblrecordIndication1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblrecordIndication.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblrecordIndication1.Parent" xml:space="preserve">
     <value>groupTuner1</value>
   </data>
-  <data name="&gt;&gt;lblrecordIndication.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblrecordIndication1.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="&gt;&gt;btnVid1Snapshot.Name" xml:space="preserve">
@@ -3378,40 +3420,40 @@
   <data name="&gt;&gt;lblAdjust1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="lblrecordIndication.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblrecordIndication1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lblrecordIndication.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="lblrecordIndication1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt, style=Bold</value>
   </data>
-  <data name="lblrecordIndication.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblrecordIndication1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblrecordIndication.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblrecordIndication1.Location" type="System.Drawing.Point, System.Drawing">
     <value>210, 484</value>
   </data>
-  <data name="lblrecordIndication.Size" type="System.Drawing.Size, System.Drawing">
-    <value>22, 20</value>
+  <data name="lblrecordIndication1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 20</value>
   </data>
-  <data name="lblrecordIndication.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblrecordIndication1.TabIndex" type="System.Int32, mscorlib">
     <value>49</value>
   </data>
-  <data name="lblrecordIndication.Text" xml:space="preserve">
-    <value>R</value>
+  <data name="lblrecordIndication1.Text" xml:space="preserve">
+    <value>Rec</value>
   </data>
-  <data name="lblrecordIndication.Visible" type="System.Boolean, mscorlib">
+  <data name="lblrecordIndication1.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;lblrecordIndication.Name" xml:space="preserve">
-    <value>lblrecordIndication</value>
+  <data name="&gt;&gt;lblrecordIndication1.Name" xml:space="preserve">
+    <value>lblrecordIndication1</value>
   </data>
-  <data name="&gt;&gt;lblrecordIndication.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblrecordIndication1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblrecordIndication.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblrecordIndication1.Parent" xml:space="preserve">
     <value>groupTuner1</value>
   </data>
-  <data name="&gt;&gt;lblrecordIndication.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblrecordIndication1.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="btnVid1Snapshot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -4912,7 +4954,7 @@
     <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner 0.7b (ZR6TG) - 2023/04/29</value>
+    <value>Open Tuner 0.7c (ZR6TG) - 2023/04/30</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>

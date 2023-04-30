@@ -36,7 +36,7 @@ namespace opentuner
             media_player = MediaPlayer;
 
             config = new Config();
-            config.Video.BackgroundColor = System.Windows.Media.Colors.IndianRed;
+            config.Video.BackgroundColor = System.Windows.Media.Colors.Black;
             config.Demuxer.AllowTimeouts = false;
             //config.Demuxer.BufferDuration = 20;
 
@@ -105,18 +105,6 @@ namespace opentuner
             Console.WriteLine("FFMPEG: Playing");
 
             player.Stop();
-
-            /*
-            int count = ts_data_queue.Count;
-
-            byte raw_ts_data = 0;
-
-            while (count > 0)
-            {
-                ts_data_queue.TryDequeue(out raw_ts_data);
-                count--;
-            }
-            */
 
             ts_data_queue.Clear();
 
@@ -190,22 +178,11 @@ namespace opentuner
                     Console.WriteLine("Broken out of wait loop due to signal");
                     return 0;
                 }
-                //Console.WriteLine("Waiting: " + timeout.ToString() + "," + ts_data_queue.Count().ToString());
-                // if we haven't received anything within a few seconds then most likely won't get anything
-                //if (timeout > 5000)
-                //{
-                //    Console.WriteLine("TSStreamMediaInput : Read Timeout");
-                //    return 0;
-                //}
-
-                //Application.DoEvents();
-                //timeout += 50;
-                //return 0;
                 //Console.Write(".");
-                Thread.Sleep(10);
+                //Thread.Sleep(10);
             }
 
-            int queue_count = ts_data_queue.Count;    // this is slow, so we do it once here and use an internal variable
+            int queue_count = ts_data_queue.Count;   
 
             if (queue_count > 0)
             {
@@ -221,8 +198,6 @@ namespace opentuner
 
 
                 int counter = 0;
-
-                int buildLenSearch = 0;
 
                 while (counter < buildLen)
                 {
@@ -250,7 +225,7 @@ namespace opentuner
                     //}
                 }
 
-                //Console.WriteLine("Returning " + buildLen.ToString());
+                //Console.WriteLine("Returning: BuildLen:" + buildLen.ToString() + ", Counter: " +  counter.ToString() );
                 return buildLen;
             }
 
