@@ -14,6 +14,7 @@ namespace opentuner
 
         CircularBuffer ts_data_queue;
         public bool ts_sync = false;
+        public bool end = false;
 
         public TSStreamMediaInput(CircularBuffer _ts_data_queue )
         {
@@ -45,17 +46,21 @@ namespace opentuner
             int timeout = 0;
 
             // wait for next data
-            while (ts_data_queue.Count < 100)
+            while (ts_data_queue.Count < 200)
             {
+                if (end == true)
+                {
+                    return 0;
+                }
                 //Console.WriteLine("Waiting: " + timeout.ToString());
                 // if we haven't received anything within a few seconds then most likely won't get anything
-                if (timeout > 5000)
+                if (timeout > 500000)
                 {
                     Console.WriteLine("TSStreamMediaInput : Read Timeout");
                     return 0;
                 }
 
-                Thread.Sleep(20);
+                Thread.Sleep(5);
                 timeout += 50;
             }
 
@@ -116,6 +121,7 @@ namespace opentuner
         public override bool Seek(ulong offset)
         {
             // seeking is not allowed/possible
+            Console.WriteLine("VLC Trying to Seek" + offset.ToString());
             return false;
         }
 

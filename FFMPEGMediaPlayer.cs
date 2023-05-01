@@ -11,6 +11,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using static FlyleafLib.Config;
 
 namespace opentuner
 {
@@ -31,6 +32,7 @@ namespace opentuner
         int counter = 0;
         CircularBuffer ts_data_queue;
 
+
         public FFMPEGMediaPlayer( FlyleafHost MediaPlayer )
         {
             media_player = MediaPlayer;
@@ -38,19 +40,32 @@ namespace opentuner
             config = new Config();
             config.Video.BackgroundColor = System.Windows.Media.Colors.Black;
             config.Demuxer.AllowTimeouts = false;
-            //config.Demuxer.BufferDuration = 20;
+
+            config.Player.MinBufferDuration = TimeSpan.FromSeconds(1.5).Ticks;
+            config.Decoder.MaxAudioFrames = 40;
+            //config.Decoder.VideoThreads = 2;
+            config.Demuxer.BufferDuration = TimeSpan.FromSeconds(10).Ticks;
+
+
+            /*
+            config.Player.MinBufferDuration = TimeSpan.FromSeconds(1.5).Ticks;
+            config.Demuxer.BufferDuration = TimeSpan.FromSeconds(10).Ticks;
+            //config.Demuxer.AllowFindStreamInfo = false;
+            config.Demuxer.FormatOpt["probesize"] = (5 * (long)1024 * 1024).ToString();
+            config.Demuxer.FormatOpt["analyzeduration"] = (2 * (long)1000 * 1000).ToString();
+            config.Decoder.MaxAudioFrames = 7;
+            config.Decoder.MaxVideoFrames = 3;
+            */
 
             player = new Player(config);
 
             media_player.Player = player;
-
             player.OpenCompleted += Player_OpenCompleted;
             player.PlaybackStopped += Player_PlaybackStopped;
             //player.BufferingStarted += Player_BufferingStarted;
-            player.PropertyChanged += Player_PropertyChanged;
+            //player.PropertyChanged += Player_PropertyChanged;
 
             media_player.Enabled = true;
-
         }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -104,8 +119,6 @@ namespace opentuner
         {
             Console.WriteLine("FFMPEG: Playing");
 
-            player.Stop();
-
             ts_data_queue.Clear();
 
             media_stream.ts_sync = false;
@@ -145,6 +158,9 @@ namespace opentuner
         public bool ts_sync = false;
         public bool end = false;
 
+        BinaryWriter testFile = null;
+
+
         public MediaStream(CircularBuffer TSDataQueue) 
         {
             ts_data_queue = TSDataQueue;
@@ -167,42 +183,34 @@ namespace opentuner
 
         public override int Read(byte[] buffer, int offset, int count)
         {
+            //Console.WriteLine("Buffer: Len: " + buffer.Length.ToString() + "," + offset.ToString() + "," + count.ToString());
 
-            int timeout = 0;
-
-            // wait for next data
-            while (ts_data_queue.Count< 20)
+            while (ts_data_queue.Count< 10000)
             {
                 if (end == true)
                 {
-                    Console.WriteLine("Broken out of wait loop due to signal");
                     return 0;
                 }
                 //Console.Write(".");
-                //Thread.Sleep(10);
             }
 
             int queue_count = ts_data_queue.Count;   
 
             if (queue_count > 0)
             {
-                //RawTSData raw_ts_data = null;
                 byte raw_ts_data = 0;
 
-                int buildLen = count;
+                int buildLen = count-1;
 
                 if (queue_count < buildLen)
                 {
                     buildLen = queue_count;
                 }
 
-
                 int counter = 0;
 
                 while (counter < buildLen)
                 {
-                    //if (ts_data_queue.TryDequeue(out raw_ts_data))
-                    //{
                     if (ts_data_queue.Count > 0)
                     {
                         raw_ts_data = ts_data_queue.Dequeue();
@@ -222,10 +230,8 @@ namespace opentuner
                     {
                         Console.WriteLine("Warning: Trying to dequeue, but nothing available : ffmpeg: read : " + queue_count.ToString());
                     }
-                    //}
                 }
 
-                //Console.WriteLine("Returning: BuildLen:" + buildLen.ToString() + ", Counter: " +  counter.ToString() );
                 return buildLen;
             }
 
@@ -235,7 +241,9 @@ namespace opentuner
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            Console.WriteLine("MediaStream: Seeking");
+            
+            Console.WriteLine("MediaStream: Seeking " + offset.ToString() + "," + origin.ToString());
+
             return 0;
         }
 

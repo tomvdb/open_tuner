@@ -130,9 +130,6 @@ namespace opentuner
         public string prop_media_audio_codec2 { set { this.lblAudioCodec2.Text = value; } }
         public string prop_media_audio_rate2 { set { this.lblAudioRate2.Text = value; } }
 
-
-
-        public bool prop_isFullscreen { get { return this.isFullScreen;  } }
         public bool prop_isRecording1 { set { lblrecordIndication1.Visible = value;  } }
         public bool prop_isRecording2 { set { lblRecordIndication2.Visible = value; } }
 
@@ -380,11 +377,7 @@ namespace opentuner
                     gui.prop_media_audio_codec2 = new_status.AudioCodec;
                     gui.prop_media_audio_rate2 = new_status.AudioRate.ToString() + " Hz, " + new_status.AudioChannels.ToString() + " channels";
                 }
-
             }
-
-
-
         }
 
 
@@ -1799,6 +1792,7 @@ namespace opentuner
 
         private void websocketTimer_Tick(object sender, EventArgs e)
         {
+            /*
             if (sock != null)
             {
                 TimeSpan t = DateTime.Now - sock.lastdata;
@@ -1814,6 +1808,7 @@ namespace opentuner
                     sock.start();
                 }
             }
+            */
 
         }
 

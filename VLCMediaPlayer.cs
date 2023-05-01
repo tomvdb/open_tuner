@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using LibVLCSharp.Shared;
 
@@ -121,8 +123,10 @@ namespace opentuner
         {
             if (videoView.MediaPlayer != null)
             {
+                mediaInput.end = true;
                 videoView.MediaPlayer.Stop();
             }
+
         }
 
         public override void Play()
@@ -132,22 +136,10 @@ namespace opentuner
                 videoView.MediaPlayer.Stop();
             }
 
-            //int count = ts_data_queue.Count;
-
-            /*
-            byte raw_ts_data = 0;
-            if (count > 0)
-                Console.WriteLine("Clearing " + count.ToString() + " bytes");
-
-            while (count > 0)
-            {
-                ts_data_queue.TryDequeue(out raw_ts_data);
-                count--;
-            }
-            */
             ts_data_queue.Clear();
 
             mediaInput.ts_sync = false;
+            mediaInput.end = false;
 
             if (videoView.MediaPlayer != null)
             {
