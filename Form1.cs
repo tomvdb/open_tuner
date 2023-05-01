@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System.Windows.Input;
 using NAudio.Utils;
 using System.Diagnostics;
+using FFmpeg.AutoGen;
 
 namespace opentuner
 {
@@ -216,6 +217,7 @@ namespace opentuner
         int setting_window_height = -1;
         int setting_window_x = -1;
         int setting_window_y = -1;
+        int setting_main_splitter_position = 436;
 
         Font setting_chat_font;
         int setting_chat_width = 0;
@@ -549,7 +551,12 @@ namespace opentuner
         }
         public Form1()
         {
+
+            ThreadPool.GetMinThreads(out int workers, out int ports);
+            ThreadPool.SetMinThreads(workers + 6, ports + 6);
+
             //Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+
             load_settings();
 
             if (setting_language > 0)
@@ -779,6 +786,7 @@ namespace opentuner
             Properties.Settings.Default.window_height = this.Height;
             Properties.Settings.Default.window_x = this.Left;
             Properties.Settings.Default.window_y = this.Top;
+            Properties.Settings.Default.main_splitter_pos = splitContainer1.SplitterDistance;
 
             Properties.Settings.Default.Save();
 
@@ -908,8 +916,6 @@ namespace opentuner
                 ts_recorder_2_t.Start();
 
             }
-
-
 
             if (setting_mediaplayer_1 == 0)
             {
@@ -1423,6 +1429,7 @@ namespace opentuner
             setting_window_height = Properties.Settings.Default.window_height;
             setting_window_x = Properties.Settings.Default.window_x;
             setting_window_y = Properties.Settings.Default.window_y;
+            setting_main_splitter_position = Properties.Settings.Default.main_splitter_pos;
 
             setting_mediaplayer_1 = Properties.Settings.Default.mediaplayer_tuner1; // 0 = vlc, 1 = ffmpeg
             setting_mediaplayer_2 = Properties.Settings.Default.mediaplayer_tuner2; // 0 = vlc, 1 = ffmpeg
@@ -1611,6 +1618,7 @@ namespace opentuner
             this.Left = setting_window_x;
             this.Top = setting_window_y;
 
+            splitContainer1.SplitterDistance = setting_main_splitter_position;
 
             load_stored_frequencies();
             rebuild_stored_frequencies();

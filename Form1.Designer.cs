@@ -1424,8 +1424,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem;
         private System.Windows.Forms.Button btnVidRecord2;
-        private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView1;
         private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView2;
+        private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView1;
     }
 }
 

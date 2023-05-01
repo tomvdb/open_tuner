@@ -11,7 +11,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using static FlyleafLib.Config;
+using FlyleafLib;
 
 namespace opentuner
 {
@@ -45,7 +45,8 @@ namespace opentuner
             config.Decoder.MaxAudioFrames = 40;
             //config.Decoder.VideoThreads = 2;
             config.Demuxer.BufferDuration = TimeSpan.FromSeconds(10).Ticks;
-
+            //config.Player.ThreadPriority = ThreadPriority.Highest;
+            //config.Demuxer.AllowFindStreamInfo = false;
 
             /*
             config.Player.MinBufferDuration = TimeSpan.FromSeconds(1.5).Ticks;

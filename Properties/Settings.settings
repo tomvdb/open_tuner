@@ -77,5 +77,8 @@
     <Setting Name="windowed_player2" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="main_splitter_pos" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">436</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

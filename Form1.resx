@@ -3253,7 +3253,7 @@
     <value>ffmpegVideoView1</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.11.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.12.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel1</value>
@@ -3325,7 +3325,7 @@
     <value>ffmpegVideoView2</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.11.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.12.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel2</value>

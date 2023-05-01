@@ -321,5 +321,17 @@ namespace opentuner.Properties {
                 this["windowed_player2"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("436")]
+        public int main_splitter_pos {
+            get {
+                return ((int)(this["main_splitter_pos"]));
+            }
+            set {
+                this["main_splitter_pos"] = value;
+            }
+        }
     }
 }
