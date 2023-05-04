@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FTD2XX_NET;
 using System.Threading;
+using FlyleafLib.MediaFramework.MediaDevice;
 
 namespace opentuner
 {
@@ -76,9 +77,6 @@ namespace opentuner
 
         const byte FTDI_GPIO_PINID_LNB2_BIAS_ENABLE = 4;
         const byte FTDI_GPIO_PINID_LNB2_BIAS_VSEL = 5;
-
-
-
 
         private byte Receive_Data_i2c(uint BytesToRead)
         {
@@ -570,7 +568,58 @@ namespace opentuner
             }
 
             return err;
+        }
 
+        // get a list of all detected ft2232 devices
+        public List<FTDIDevice> detect_all_ftdi()
+        {
+            uint device_count = 0;
+            List<FTDIDevice> ftdi_devices = new List<FTDIDevice>();
+
+            try
+            {
+                ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref device_count);
+                Console.WriteLine("Number of FTDI Devices: " + device_count.ToString());
+
+                for (uint c = 0; c < device_count; c++)
+                {
+                    FTDI ftdi_device = new FTDI();
+                    ftdi_device.OpenByIndex(c);
+
+                    FTDI.FT_DEVICE device = new FTDI.FT_DEVICE();
+                    ftdi_device.GetDeviceType(ref device);
+
+                    // is this a ft2232 device?
+                    if (device.ToString() != "FT_DEVICE_2232H")
+                    {
+                        ftdi_device.Close();
+                        continue;
+                    }
+
+                    FTDIDevice detected_ftdi_device = new FTDIDevice();
+                    
+                    // device index
+                    detected_ftdi_device.device_index = c;
+
+                    // device serial number
+                    ftdi_device.GetSerialNumber(out string SerialNumber);
+                    detected_ftdi_device.device_serial_number = SerialNumber;
+
+                    // lets get description
+                    ftdi_device.GetDescription(out string DeviceName);
+                    detected_ftdi_device.device_description = DeviceName;
+
+                    ftdi_device.Close();
+
+                    ftdi_devices.Add(detected_ftdi_device);
+                }
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("FTDI Detect Error: " + Ex.Message);               
+            }
+
+            return ftdi_devices;
         }
 
         public byte ftdi_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName)
@@ -603,6 +652,10 @@ namespace opentuner
 
                     FTDI.FT_DEVICE device = new FTDI.FT_DEVICE();
                     ftdi_device.GetDeviceType(ref device);
+
+                    ftdi_device.GetSerialNumber(out string SerialNumber);
+
+                    Console.WriteLine("Serial Number: " + SerialNumber.ToString());
 
                     // is this a ft2232 device?
                     if (device.ToString() != "FT_DEVICE_2232H")
@@ -662,10 +715,9 @@ namespace opentuner
 
                     if (deviceName.Contains("MiniTiouner_Pro_TS1 B"))
                     {
-                        Console.WriteLine("Should be the ts port for a Minitiouner Pro 2");
+                        Console.WriteLine("Should be the 2nd ts port for a Minitiouner Pro 2");
                         ts_port2 = c;
                     }
-
 
                     if (deviceName.Contains("MiniTiouner A"))
                     {
@@ -951,5 +1003,12 @@ namespace opentuner
             return err;
 
         }
+    }
+
+    public class FTDIDevice
+    {
+        public uint device_index { get; set; }
+        public string device_serial_number { get; set; }
+        public string device_description { get; set; }
     }
 }

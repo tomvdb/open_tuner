@@ -80,5 +80,14 @@
     <Setting Name="main_splitter_pos" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">436</Value>
     </Setting>
+    <Setting Name="signreport_template" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}</Value>
+    </Setting>
+    <Setting Name="tuner1_start_freq" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Default</Value>
+    </Setting>
+    <Setting Name="tuner2_start_freq" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Default</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

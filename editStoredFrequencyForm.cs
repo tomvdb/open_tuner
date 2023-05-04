@@ -21,7 +21,6 @@ namespace opentuner
         {
             this.DialogResult = DialogResult.Cancel;
             Close();
-
         }
 
         private void btnSave_Click(object sender, EventArgs e)

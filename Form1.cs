@@ -21,6 +21,8 @@ using System.Windows.Input;
 using NAudio.Utils;
 using System.Diagnostics;
 using FFmpeg.AutoGen;
+using System.Net.Sockets;
+using System.Net;
 
 namespace opentuner
 {
@@ -29,7 +31,8 @@ namespace opentuner
         OTMediaPlayer media_player_1;
         OTMediaPlayer media_player_2;
 
-        ftdi ftdi_hw = null;
+        ftdi ftdi_hw = new ftdi();
+
         bool hardware_connected = false;
 
         ConcurrentQueue<NimConfig> config_queue = new ConcurrentQueue<NimConfig>();
@@ -40,11 +43,6 @@ namespace opentuner
         CircularBuffer ts_parser_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
         CircularBuffer ts_parser_data_queue2 = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
 
-        //ConcurrentQueue<byte> ts_data_queue = new ConcurrentQueue<byte>();
-        //ConcurrentQueue<byte> ts_data_queue2 = new ConcurrentQueue<byte>();
-
-        //ConcurrentQueue<byte> ts_parser_data_queue = new ConcurrentQueue<byte>();
-        //ConcurrentQueue<byte> ts_parser_data_queue2 = new ConcurrentQueue<byte>();
 
         private delegate void updateNimStatusGuiDelegate(Form1 gui, NimStatus new_status);
         private delegate void updateTSStatusGuiDelegate(int device, Form1 gui, TSStatus new_status);
@@ -232,7 +230,10 @@ namespace opentuner
         bool setting_windowed_mediaPlayer1 = false;
         bool setting_windowed_mediaPlayer2 = false;
 
-        bool isFullScreen = false;
+        string setting_tuner1_startfreq = "Default";
+        string setting_tuner2_startfreq = "Default";
+
+        string setting_sigreport_template = "SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}";
 
         // custom forms
         private wbchat chatForm;
@@ -242,57 +243,13 @@ namespace opentuner
         private VideoViewForm mediaPlayer2Window;
 
         List<StoredFrequency> stored_frequencies = new List<StoredFrequency>();
+        List<ExternalTool> external_tools = new List<ExternalTool>();
 
         int ts_devices = 1;
 
-        /*
-        public void toggleFullScreen()
-        {
-            if (isFullScreen)
-            {
-                videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 0);
-
-                this.FormBorderStyle = FormBorderStyle.Sizable;
-                this.WindowState = FormWindowState.Normal;
-                menuStrip1.Visible = true;
-                splitContainer1.Panel1Collapsed = false;
-                splitContainer1.Panel1.Enabled = true;
-
-                if (setting_enable_spectrum)
-                {
-                    splitContainer2.Panel2Collapsed = false;
-                    splitContainer2.Panel2.Enabled = true;
-                }
-
-                isFullScreen = false;
-            }
-            else
-            {
-                videoView1.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Enable, 1);
-
-                this.FormBorderStyle = FormBorderStyle.None;
-                this.WindowState = FormWindowState.Maximized;
-                menuStrip1.Visible = false;
-
-                // hide status
-                splitContainer1.Panel1Collapsed = true;
-                splitContainer1.Panel1.Enabled = false;
-
-                // hide spectrum
-                if (setting_enable_spectrum)
-                {
-                    splitContainer2.Panel2Collapsed = true;
-                    splitContainer2.Panel2.Enabled = false;
-                }
-                isFullScreen = true;
-
-                videoView1.MediaPlayer.EnableMouseInput = false;
-
-            }
-        }
-        */
-
-        //         private delegate void updateRecordingStatusDelegate(Form1 gui, bool recording_status);
+        // datv easy - commands
+        UdpClient tx_client = new UdpClient();
+        System.Net.IPEndPoint tx_end_point;
 
         private async void SoftBlink(Control ctrl, Color c1, Color c2, short CycleTime_ms, bool BkClr)
         {
@@ -313,10 +270,15 @@ namespace opentuner
 
         public static void updateRecordingStatus(Form1 gui, bool recording_status, string id)
         {
+            if (gui == null)
+                return;
+
             if (gui.InvokeRequired)
             {
                 updateRecordingStatusDelegate ulb = new updateRecordingStatusDelegate(updateRecordingStatus);
-                gui.Invoke(ulb, new object[] { gui, recording_status, id });
+
+                if (gui != null)
+                    gui.Invoke(ulb, new object[] { gui, recording_status, id });
             }
             else
             {
@@ -331,10 +293,14 @@ namespace opentuner
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
+            if (LB == null)
+                return;
+
             if (LB.InvokeRequired)
             {
                 UpdateLBDelegate ulb = new UpdateLBDelegate(UpdateLB);
-                LB.Invoke(ulb, new object[] { LB, obj });
+                if (LB != null)
+                    LB.Invoke(ulb, new object[] { LB, obj });
             }
             else
             {
@@ -356,6 +322,9 @@ namespace opentuner
 
         public static void updateMediaStatusGui(int tuner, Form1 gui, MediaStatus new_status)
         {
+            if (gui == null)
+                return;
+
             if (gui.InvokeRequired)
             {
                 updateMediaStatusGuiDelegate del = new updateMediaStatusGuiDelegate(updateMediaStatusGui);
@@ -385,6 +354,9 @@ namespace opentuner
 
         public static void updateTSStatusGui(int device, Form1 gui, TSStatus new_status)
         {
+            if (gui == null)
+                return;
+
             if (gui.InvokeRequired)
             {
                 updateTSStatusGuiDelegate del = new updateTSStatusGuiDelegate(updateTSStatusGui);
@@ -414,6 +386,9 @@ namespace opentuner
 
         public  void updateNimStatusGui(Form1 gui, NimStatus new_status)
         {
+            if (gui == null)
+                return;
+
             if ( gui.InvokeRequired )
             {
                 updateNimStatusGuiDelegate del = new updateNimStatusGuiDelegate(updateNimStatusGui);
@@ -614,13 +589,16 @@ namespace opentuner
 
         public void start_video2()
         {
-            Console.WriteLine("Main: Starting Media Player 2");
+            if (checkDisableVideo2.Checked == false)
+            {
+                Console.WriteLine("Main: Starting Media Player 2");
 
-            if (ts_thread2 != null)
-                ts_thread2.start_ts();
+                if (ts_thread2 != null)
+                    ts_thread2.start_ts();
 
-            if (media_player_2 != null)
-                media_player_2.Play();
+                if (media_player_2 != null)
+                    media_player_2.Play();
+            }
         }
 
 
@@ -668,7 +646,6 @@ namespace opentuner
 
         private void hardware_init()
         {
-            ftdi_hw = new ftdi();
 
             // detect ftdi devices
             uint i2c_port = 99;
@@ -790,43 +767,54 @@ namespace opentuner
 
             Properties.Settings.Default.Save();
 
-            stop_video1();
-            if (ts_devices == 2)
-                stop_video2();
+            try
+            {
 
-            // close threads
-            if (nim_thread_t != null)
-                nim_thread_t.Abort();
-            if (ts_recorder_1_t != null)
-                ts_recorder_1_t.Abort();
-            if (ts_recorder_2_t != null)
-                ts_recorder_2_t.Abort();
-            if (ts_udp_t1 != null)
-                ts_udp_t1.Abort();
-            if (ts_udp_t2 != null)
-                ts_udp_t2.Abort();
-            if (ts_thread_t != null)
-                ts_thread_t.Abort();
-            if (ts_thread_2_t != null)
-                ts_thread_2_t.Abort();
-            if (ts_parser_t != null)
-                ts_parser_t.Abort();
-            if (ts_parser_2_t != null)
-                ts_parser_2_t.Abort();
+                stop_video1();
+                if (ts_devices == 2)
+                    stop_video2();
 
-            // close media players
-            if (media_player_1 != null)
-                media_player_1.Close();
-            if (media_player_2 != null)
-                media_player_2.Close();
+                // close forms
+                if (chatForm != null)
+                    chatForm.Close();
+                if (tuner1ControlForm != null)
+                    tuner1ControlForm.Close();
+                if (tuner2ControlForm != null)
+                    tuner2ControlForm.Close();
 
-            // close forms
-            if (chatForm != null)
-                chatForm.Close();
-            if (tuner1ControlForm != null)
-                tuner1ControlForm.Close();
-            if (tuner2ControlForm != null)
-                tuner2ControlForm.Close();
+                // close media players
+                if (media_player_1 != null)
+                    media_player_1.Close();
+                if (media_player_2 != null)
+                    media_player_2.Close();
+
+                // close threads
+                if (ts_recorder_1_t != null)
+                    ts_recorder_1_t.Abort();
+                if (ts_recorder_2_t != null)
+                    ts_recorder_2_t.Abort();
+                if (ts_udp_t1 != null)
+                    ts_udp_t1.Abort();
+                if (ts_udp_t2 != null)
+                    ts_udp_t2.Abort();
+                if (ts_thread_t != null)
+                    ts_thread_t.Abort();
+                if (ts_thread_2_t != null)
+                    ts_thread_2_t.Abort();
+                if (ts_parser_t != null)
+                    ts_parser_t.Abort();
+                if (ts_parser_2_t != null)
+                    ts_parser_2_t.Abort();
+                if (nim_thread_t != null)
+                    nim_thread_t.Abort();
+
+            }
+            catch ( Exception Ex)
+            {
+                // we are closing, we don't really care about exceptions at this point
+            }
+
+            Application.Exit();
         }
 
         private void btnConnectTuner_Click(object sender, EventArgs e)
@@ -855,10 +843,37 @@ namespace opentuner
 
             nim_thread_t = new Thread(nim_thread.worker_thread);
 
-            for (byte c = 1; c < 3; c++)
+            // set startup frequencies
+            StoredFrequency default_freq = new StoredFrequency();
+            default_freq.Offset = 0;
+            default_freq.Frequency = 741525;
+            default_freq.SymbolRate = 1500;
+            default_freq.RFInput = 1;
+
+            StoredFrequency tuner_freq1 = default_freq;
+            StoredFrequency tuner_freq2 = default_freq;
+
+            Console.WriteLine("Startup Freq 1: " + setting_tuner1_startfreq);
+            Console.WriteLine("Startup Freq 2: " + setting_tuner2_startfreq);
+
+            for ( int c = 0; c < stored_frequencies.Count; c++)
             {
-                change_frequency(c, 741525, 1500, current_enable_lnb_supply, current_enable_horiz_supply, nim.NIM_INPUT_TOP, current_tone_22kHz_P1);
+                Console.WriteLine(stored_frequencies[c].Name + " - " + stored_frequencies[c].DefaultTuner);
+
+                if (stored_frequencies[c].Name == setting_tuner1_startfreq && stored_frequencies[c].DefaultTuner == 0)
+                {
+                    Console.WriteLine("Setting startup freq tuner 1 to " + stored_frequencies[c].Name);
+                    tuner_freq1 = stored_frequencies[c];
+                }
+                if (stored_frequencies[c].Name == setting_tuner2_startfreq && stored_frequencies[c].DefaultTuner == 1)
+                {
+                    Console.WriteLine("Setting startup freq tuner 2 to " + stored_frequencies[c].Name);
+                    tuner_freq2 = stored_frequencies[c];
+                }
             }
+
+            change_frequency(1, tuner_freq1.Frequency - tuner_freq1.Offset, tuner_freq1.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq1.RFInput, current_tone_22kHz_P1);
+            change_frequency(2, tuner_freq2.Frequency - tuner_freq2.Offset, tuner_freq2.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq2.RFInput, current_tone_22kHz_P1);
 
             nim_thread_t.Start();
 
@@ -1442,6 +1457,11 @@ namespace opentuner
 
             setting_windowed_mediaPlayer1 = Properties.Settings.Default.windowed_player1;
             setting_windowed_mediaPlayer2 = Properties.Settings.Default.windowed_player2;
+
+            setting_sigreport_template = Properties.Settings.Default.signreport_template;
+
+            setting_tuner1_startfreq = Properties.Settings.Default.tuner1_start_freq;
+            setting_tuner2_startfreq = Properties.Settings.Default.tuner2_start_freq;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -1623,7 +1643,9 @@ namespace opentuner
             load_stored_frequencies();
             rebuild_stored_frequencies();
 
-            Console.WriteLine("Frequencies Done");
+            load_external_tools();
+            rebuild_external_tools();
+
             // tuner control windows
             TunerChangeCallback tuner1Callback = new TunerChangeCallback(tuner1_change_callback);
             TunerChangeCallback tuner2Callback = new TunerChangeCallback(tuner2_change_callback);
@@ -1657,6 +1679,71 @@ namespace opentuner
             change_frequency(2, freq, symbol_rate, current_enable_lnb_supply, current_enable_horiz_supply, rf_input, current_tone_22kHz_P1);
         }
 
+        private void rebuild_external_tools()
+        {
+
+            if (external_tools.Count == 0)
+            {
+                externalToolsToolStripMenuItem1.Visible = false;
+                return;
+            }
+
+            externalToolsToolStripMenuItem1.Visible = true;
+
+            for (int c = 0; c < external_tools.Count; c++)
+            {
+                ToolStripMenuItem et_menu = new ToolStripMenuItem(external_tools[c].ToolName);
+                et_menu.Tag = c;
+                et_menu.Click += Et_menu_Click;
+
+                externalToolsToolStripMenuItem1.DropDownItems.Add(et_menu);
+            }
+        }
+
+        private void Et_menu_Click(object sender, EventArgs e)
+        {
+            int tag = Convert.ToInt32(((ToolStripMenuItem)(sender)).Tag);
+            Console.WriteLine(tag.ToString());
+
+            if (tag < external_tools.Count)
+            {
+                //MessageBox.Show("Run " + external_tools[tag].ToolName);
+                try
+                {
+                    if (external_tools[tag].EnableUDP1 )
+                    {
+                        if (ts_udp1 != null)
+                        {
+                            ts_udp1.stream = true;
+                            enableUDPOutputToolStripMenuItem.Checked = true;
+                        }
+                    }
+
+                    if (external_tools[tag].EnableUDP2)
+                    {
+                        if (ts_udp2 != null)
+                        { 
+                            ts_udp2.stream = true;
+                            enableUDPOutputToolStripMenuItem1.Checked = true;
+                        }
+                    }
+
+                    string parameters = external_tools[tag].ToolParameters;
+
+                    parameters = parameters.Replace("{UDP1PORT}", setting_udp_port1.ToString());
+                    parameters = parameters.Replace("{UDP2PORT}", setting_udp_port2.ToString());
+                    parameters = parameters.Replace("{UDP1URL}", setting_udp_address1.ToString());
+                    parameters = parameters.Replace("{UDP2URL}", setting_udp_address2.ToString());
+
+                    System.Diagnostics.Process.Start(external_tools[tag].ToolPath, parameters);
+                }
+                catch( Exception Ex) 
+                {
+                    MessageBox.Show("Error running external tool: " + Ex.Message);
+                }
+            }
+        }
+
         private void rebuild_stored_frequencies()
         {
             storedFrequenciesToolStripMenuItem.DropDownItems.Clear();
@@ -1678,6 +1765,7 @@ namespace opentuner
                 storedFrequenciesToolStripMenuItem.DropDownItems.Add(sf_menu);
             }
         }
+       
 
         private void Sf_menu_Click(object sender, EventArgs e)
         {
@@ -1766,6 +1854,22 @@ namespace opentuner
             change_frequency(tuner, tuner == 1 ? current_frequency_1 : current_frequency_2, tuner == 1 ? current_sr_1 : current_sr_2, current_enable_lnb_supply, current_enable_horiz_supply, rf_input, current_tone_22kHz_P1);
         }
 
+        private void load_external_tools()
+        {
+            string tools_file = AppDomain.CurrentDomain.BaseDirectory + "\\tools.json";
+            string json = "";
+
+            try
+            {
+                json = File.ReadAllText(tools_file);
+                external_tools = JsonConvert.DeserializeObject<List<ExternalTool>>(json);
+            }
+            catch(Exception Ex) 
+            {
+                Console.WriteLine("Error reading tools.json - file missing, or wrong format :" + Ex.Message);
+            }
+        }
+
         private void load_stored_frequencies()
         {
             string frequency_file = AppDomain.CurrentDomain.BaseDirectory + "\\frequencies.json";
@@ -1779,6 +1883,22 @@ namespace opentuner
             catch(Exception Ex)
             {
                 Console.WriteLine("Error reading frequencies.json - file missing, or wrong format :" + Ex.Message);
+            }
+        }
+
+        private void save_external_tools()
+        {
+            string json = JsonConvert.SerializeObject(external_tools, Formatting.Indented);
+
+            string tools_file = AppDomain.CurrentDomain.BaseDirectory + "\\tools.json";
+
+            try
+            {
+                File.WriteAllText(tools_file, json);
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Error writing tools file: " + Ex.Message);
             }
         }
 
@@ -1800,7 +1920,6 @@ namespace opentuner
 
         private void websocketTimer_Tick(object sender, EventArgs e)
         {
-            /*
             if (sock != null)
             {
                 TimeSpan t = DateTime.Now - sock.lastdata;
@@ -1816,8 +1935,6 @@ namespace opentuner
                     sock.start();
                 }
             }
-            */
-
         }
 
         private void spectrum_SizeChanged(object sender, EventArgs e)
@@ -1919,6 +2036,8 @@ namespace opentuner
             settings_form.checkWindowed1.Checked = setting_windowed_mediaPlayer1;
             settings_form.checkWindowed2.Checked = setting_windowed_mediaPlayer2;
 
+            settings_form.txtSigReportTemplate.Text = setting_sigreport_template;
+
             if (setting_enable_chatform && chatForm != null)
             {
                 settings_form.currentChatFont = chatForm.lbChat.Font;
@@ -1929,6 +2048,30 @@ namespace opentuner
                     settings_form.currentChatFont = setting_chat_font;
                 else
                     settings_form.currentChatFont = label8.Font; // just making sure there is somekind of font to start off with
+            }
+
+            settings_form.comboTuner1Start.Items.Add("Default");
+            settings_form.comboTuner2Start.Items.Add("Default");
+
+            settings_form.comboTuner1Start.SelectedIndex = 0;
+            settings_form.comboTuner2Start.SelectedIndex = 0;
+
+            for ( int c = 0; c < stored_frequencies.Count; c++)
+            {
+                if (stored_frequencies[c].DefaultTuner == 0)
+                {
+                    int index = settings_form.comboTuner1Start.Items.Add(stored_frequencies[c].Name);
+
+                    if (stored_frequencies[c].Name == setting_tuner1_startfreq)
+                        settings_form.comboTuner1Start.SelectedIndex = index;
+                }
+                else
+                {
+                    int index = settings_form.comboTuner2Start.Items.Add(stored_frequencies[c].Name);
+
+                    if (stored_frequencies[c].Name == setting_tuner2_startfreq)
+                        settings_form.comboTuner2Start.SelectedIndex = index;
+                }
             }
 
 
@@ -1956,6 +2099,12 @@ namespace opentuner
 
                 Properties.Settings.Default.windowed_player1 = settings_form.checkWindowed1.Checked;
                 Properties.Settings.Default.windowed_player2 = settings_form.checkWindowed2.Checked;
+                Properties.Settings.Default.signreport_template = settings_form.txtSigReportTemplate.Text;
+
+                Properties.Settings.Default.tuner1_start_freq = settings_form.comboTuner1Start.Text;
+                Properties.Settings.Default.tuner2_start_freq = settings_form.comboTuner2Start.Text;
+
+                setting_sigreport_template = settings_form.txtSigReportTemplate.Text;
 
                 Properties.Settings.Default.Save();
                 
@@ -1971,7 +2120,6 @@ namespace opentuner
 
         private void menuFullScreen_Click(object sender, EventArgs e)
         {
-            //toggleFullScreen();
         }
 
         private void qO100WidebandChatToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2080,7 +2228,17 @@ namespace opentuner
             float freq = current_frequency_1;
             freq = freq / 1000;
 
-            string signalReport = "SigReport: " + lblServiceName.Text.ToString() + "/" + lblServiceProvider.Text.ToString() + " - " + lbldbMargin.Text.ToString() + " (" + lblMer.Text.ToString() + ") - " + lblSR.Text.ToString() + "" + " - " + (freq).ToString() + " ";
+            //string signalReport = "SigReport: " + lblServiceName.Text.ToString() + "/" + lblServiceProvider.Text.ToString() + " - " + lbldbMargin.Text.ToString() + " (" + lblMer.Text.ToString() + ") - " + lblSR.Text.ToString() + "" + " - " + (freq).ToString() + " ";
+            string signalReport = setting_sigreport_template.ToString();
+
+            // SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}
+
+            signalReport = signalReport.Replace("{SN}", lblServiceName.Text);
+            signalReport = signalReport.Replace("{SP}", lblServiceProvider.Text);
+            signalReport = signalReport.Replace("{DBM}", lbldbMargin.Text);
+            signalReport = signalReport.Replace("{MER}", lblMer.Text);
+            signalReport = signalReport.Replace("{SR}", lblSR.Text);
+            signalReport = signalReport.Replace("{FREQ}", freq.ToString());
 
             chatForm.txtMessage.Text = signalReport;
 
@@ -2363,6 +2521,95 @@ namespace opentuner
         private void spectrum_MouseLeave(object sender, EventArgs e)
         {
             spectrumTunerHighlight = 0;
+        }
+
+        private void checkDisableVideo2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkDisableVideo2.Checked)
+            {
+                stop_video2();
+
+                lblVideoCodecTitle.Enabled = false;
+                lblVideoResTitle.Enabled = false;
+                lblAudioCodecTitle.Enabled = false;
+                lblAudioRateTitle.Enabled = false;
+                lblServiceNameTitle2.Enabled = false;
+                lblServiceProviderTitle2.Enabled = false;
+                lblNullPacketsTitle2.Enabled = false;
+                lblNullPackets2.Enabled = false;
+                nullPacketsBar2.Enabled = false;
+
+                lblVideoCodec2.Text = "";
+                lblVideoResolution2.Text = "";
+                lblAudioRate2.Text = "";
+                lblAudioCodec2.Text = "";
+
+                lblServiceName2.Text = "";
+                lblServiceProvider2.Text = "";
+                lblNullPackets2.Text = "";
+                nullPacketsBar.Value = 0;
+
+                if (setting_windowed_mediaPlayer2 == false)
+                {
+                    videoPlayersSplitter.Panel2.Hide();
+                    videoPlayersSplitter.Panel2Collapsed = true;
+                }
+            }
+            else
+            {
+                lblVideoCodecTitle.Enabled = true;
+                lblVideoResTitle.Enabled = true;
+                lblAudioCodecTitle.Enabled = true;
+                lblAudioRateTitle.Enabled = true;
+                lblServiceNameTitle2.Enabled = true;
+                lblServiceProviderTitle2.Enabled = true;
+                lblNullPacketsTitle2.Enabled = true;
+                lblNullPackets2.Enabled = true;
+                nullPacketsBar2.Enabled = true;
+
+                if (setting_windowed_mediaPlayer2 == false)
+                {
+                    videoPlayersSplitter.Panel2.Show();
+                    videoPlayersSplitter.Panel2Collapsed = false;
+                }
+            }
+        }
+
+        private void toolStripMenuItem7_Click(object sender, EventArgs e)
+        {
+            // detect ftdi devices
+            hardwareInfoForm hwForm = new hardwareInfoForm(ftdi_hw);
+            hwForm.ShowDialog();
+        }
+
+        private void manageExternalToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            externalToolsManager etManager = new externalToolsManager(external_tools);
+            etManager.ShowDialog();
+
+            save_external_tools();
+            rebuild_external_tools();
+        }
+
+        private void btnNotifyTX_Click(object sender, EventArgs e)
+        {
+            tx_udp_send(0,0);
+        }
+
+        private void tx_udp_send(int freq, int symbol_rate)
+        {
+            string data = "Freq=438000 Srate=1500";
+            byte[] outStream = Encoding.ASCII.GetBytes(data);
+            tx_end_point = new System.Net.IPEndPoint(IPAddress.Parse("127.0.0.1"), 9920);
+
+            try
+            {
+                tx_client.Client.SendTo(outStream, tx_end_point);
+            }
+            catch( Exception ex) 
+            { 
+                Console.WriteLine("Error sending command to TX UDP: " + ex.Message );
+            }
         }
     }
 

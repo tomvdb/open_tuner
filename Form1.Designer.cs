@@ -34,6 +34,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.statusPage = new System.Windows.Forms.TabPage();
             this.groupTuner2 = new System.Windows.Forms.GroupBox();
+            this.checkDisableVideo2 = new System.Windows.Forms.CheckBox();
             this.btnVidRecord2 = new System.Windows.Forms.Button();
             this.lblRfInput2 = new System.Windows.Forms.Label();
             this.btnTuner2 = new System.Windows.Forms.Button();
@@ -45,20 +46,20 @@
             this.label26 = new System.Windows.Forms.Label();
             this.trackVolume2 = new System.Windows.Forms.TrackBar();
             this.lblAudioRate2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblAudioRateTitle = new System.Windows.Forms.Label();
             this.lblAudioCodec2 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
+            this.lblAudioCodecTitle = new System.Windows.Forms.Label();
             this.lblVideoResolution2 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
+            this.lblVideoResTitle = new System.Windows.Forms.Label();
             this.lblVideoCodec2 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
+            this.lblVideoCodecTitle = new System.Windows.Forms.Label();
             this.nullPacketsBar2 = new System.Windows.Forms.ProgressBar();
             this.lblNullPackets2 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
+            this.lblNullPacketsTitle2 = new System.Windows.Forms.Label();
             this.lblServiceProvider2 = new System.Windows.Forms.Label();
             this.lblServiceName2 = new System.Windows.Forms.Label();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label43 = new System.Windows.Forms.Label();
+            this.lblServiceProviderTitle2 = new System.Windows.Forms.Label();
+            this.lblServiceNameTitle2 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.lblRFInputLevel2 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -105,7 +106,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.nullPacketsBar = new System.Windows.Forms.ProgressBar();
             this.lblNullPackets = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
+            this.lblNullPacketsTitle = new System.Windows.Forms.Label();
             this.lblServiceProvider = new System.Windows.Forms.Label();
             this.lblServiceName = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -149,14 +150,17 @@
             this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.menuFullScreen = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.manageStoredFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.storedFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.externalToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageExternalToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
+            this.externalToolsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tunerControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tuner1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recordAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -238,6 +242,7 @@
             // 
             // groupTuner2
             // 
+            this.groupTuner2.Controls.Add(this.checkDisableVideo2);
             this.groupTuner2.Controls.Add(this.btnVidRecord2);
             this.groupTuner2.Controls.Add(this.lblRfInput2);
             this.groupTuner2.Controls.Add(this.btnTuner2);
@@ -249,20 +254,20 @@
             this.groupTuner2.Controls.Add(this.label26);
             this.groupTuner2.Controls.Add(this.trackVolume2);
             this.groupTuner2.Controls.Add(this.lblAudioRate2);
-            this.groupTuner2.Controls.Add(this.label3);
+            this.groupTuner2.Controls.Add(this.lblAudioRateTitle);
             this.groupTuner2.Controls.Add(this.lblAudioCodec2);
-            this.groupTuner2.Controls.Add(this.label23);
+            this.groupTuner2.Controls.Add(this.lblAudioCodecTitle);
             this.groupTuner2.Controls.Add(this.lblVideoResolution2);
-            this.groupTuner2.Controls.Add(this.label29);
+            this.groupTuner2.Controls.Add(this.lblVideoResTitle);
             this.groupTuner2.Controls.Add(this.lblVideoCodec2);
-            this.groupTuner2.Controls.Add(this.label33);
+            this.groupTuner2.Controls.Add(this.lblVideoCodecTitle);
             this.groupTuner2.Controls.Add(this.nullPacketsBar2);
             this.groupTuner2.Controls.Add(this.lblNullPackets2);
-            this.groupTuner2.Controls.Add(this.label37);
+            this.groupTuner2.Controls.Add(this.lblNullPacketsTitle2);
             this.groupTuner2.Controls.Add(this.lblServiceProvider2);
             this.groupTuner2.Controls.Add(this.lblServiceName2);
-            this.groupTuner2.Controls.Add(this.label42);
-            this.groupTuner2.Controls.Add(this.label43);
+            this.groupTuner2.Controls.Add(this.lblServiceProviderTitle2);
+            this.groupTuner2.Controls.Add(this.lblServiceNameTitle2);
             this.groupTuner2.Controls.Add(this.linkLabel1);
             this.groupTuner2.Controls.Add(this.lblRFInputLevel2);
             this.groupTuner2.Controls.Add(this.label2);
@@ -286,6 +291,13 @@
             resources.ApplyResources(this.groupTuner2, "groupTuner2");
             this.groupTuner2.Name = "groupTuner2";
             this.groupTuner2.TabStop = false;
+            // 
+            // checkDisableVideo2
+            // 
+            resources.ApplyResources(this.checkDisableVideo2, "checkDisableVideo2");
+            this.checkDisableVideo2.Name = "checkDisableVideo2";
+            this.checkDisableVideo2.UseVisualStyleBackColor = true;
+            this.checkDisableVideo2.CheckedChanged += new System.EventHandler(this.checkDisableVideo2_CheckedChanged);
             // 
             // btnVidRecord2
             // 
@@ -361,40 +373,40 @@
             resources.ApplyResources(this.lblAudioRate2, "lblAudioRate2");
             this.lblAudioRate2.Name = "lblAudioRate2";
             // 
-            // label3
+            // lblAudioRateTitle
             // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
+            resources.ApplyResources(this.lblAudioRateTitle, "lblAudioRateTitle");
+            this.lblAudioRateTitle.Name = "lblAudioRateTitle";
             // 
             // lblAudioCodec2
             // 
             resources.ApplyResources(this.lblAudioCodec2, "lblAudioCodec2");
             this.lblAudioCodec2.Name = "lblAudioCodec2";
             // 
-            // label23
+            // lblAudioCodecTitle
             // 
-            resources.ApplyResources(this.label23, "label23");
-            this.label23.Name = "label23";
+            resources.ApplyResources(this.lblAudioCodecTitle, "lblAudioCodecTitle");
+            this.lblAudioCodecTitle.Name = "lblAudioCodecTitle";
             // 
             // lblVideoResolution2
             // 
             resources.ApplyResources(this.lblVideoResolution2, "lblVideoResolution2");
             this.lblVideoResolution2.Name = "lblVideoResolution2";
             // 
-            // label29
+            // lblVideoResTitle
             // 
-            resources.ApplyResources(this.label29, "label29");
-            this.label29.Name = "label29";
+            resources.ApplyResources(this.lblVideoResTitle, "lblVideoResTitle");
+            this.lblVideoResTitle.Name = "lblVideoResTitle";
             // 
             // lblVideoCodec2
             // 
             resources.ApplyResources(this.lblVideoCodec2, "lblVideoCodec2");
             this.lblVideoCodec2.Name = "lblVideoCodec2";
             // 
-            // label33
+            // lblVideoCodecTitle
             // 
-            resources.ApplyResources(this.label33, "label33");
-            this.label33.Name = "label33";
+            resources.ApplyResources(this.lblVideoCodecTitle, "lblVideoCodecTitle");
+            this.lblVideoCodecTitle.Name = "lblVideoCodecTitle";
             // 
             // nullPacketsBar2
             // 
@@ -406,10 +418,10 @@
             resources.ApplyResources(this.lblNullPackets2, "lblNullPackets2");
             this.lblNullPackets2.Name = "lblNullPackets2";
             // 
-            // label37
+            // lblNullPacketsTitle2
             // 
-            resources.ApplyResources(this.label37, "label37");
-            this.label37.Name = "label37";
+            resources.ApplyResources(this.lblNullPacketsTitle2, "lblNullPacketsTitle2");
+            this.lblNullPacketsTitle2.Name = "lblNullPacketsTitle2";
             // 
             // lblServiceProvider2
             // 
@@ -422,15 +434,15 @@
             this.lblServiceName2.Name = "lblServiceName2";
             this.lblServiceName2.TextChanged += new System.EventHandler(this.lblServiceName2_TextChanged);
             // 
-            // label42
+            // lblServiceProviderTitle2
             // 
-            resources.ApplyResources(this.label42, "label42");
-            this.label42.Name = "label42";
+            resources.ApplyResources(this.lblServiceProviderTitle2, "lblServiceProviderTitle2");
+            this.lblServiceProviderTitle2.Name = "lblServiceProviderTitle2";
             // 
-            // label43
+            // lblServiceNameTitle2
             // 
-            resources.ApplyResources(this.label43, "label43");
-            this.label43.Name = "label43";
+            resources.ApplyResources(this.lblServiceNameTitle2, "lblServiceNameTitle2");
+            this.lblServiceNameTitle2.Name = "lblServiceNameTitle2";
             // 
             // linkLabel1
             // 
@@ -588,7 +600,7 @@
             this.groupTuner1.Controls.Add(this.label14);
             this.groupTuner1.Controls.Add(this.nullPacketsBar);
             this.groupTuner1.Controls.Add(this.lblNullPackets);
-            this.groupTuner1.Controls.Add(this.label22);
+            this.groupTuner1.Controls.Add(this.lblNullPacketsTitle);
             this.groupTuner1.Controls.Add(this.lblServiceProvider);
             this.groupTuner1.Controls.Add(this.lblServiceName);
             this.groupTuner1.Controls.Add(this.label10);
@@ -736,10 +748,10 @@
             resources.ApplyResources(this.lblNullPackets, "lblNullPackets");
             this.lblNullPackets.Name = "lblNullPackets";
             // 
-            // label22
+            // lblNullPacketsTitle
             // 
-            resources.ApplyResources(this.label22, "label22");
-            this.label22.Name = "label22";
+            resources.ApplyResources(this.lblNullPacketsTitle, "lblNullPacketsTitle");
+            this.lblNullPacketsTitle.Name = "lblNullPacketsTitle";
             // 
             // lblServiceProvider
             // 
@@ -961,7 +973,6 @@
             // spectrum
             // 
             this.spectrum.BackColor = System.Drawing.Color.Black;
-            this.spectrum.ContextMenuStrip = this.contextSpectrumMenu;
             resources.ApplyResources(this.spectrum, "spectrum");
             this.spectrum.Name = "spectrum";
             this.spectrum.TabStop = false;
@@ -1017,6 +1028,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTunerToolStripMenuItem,
             this.toolStripMenuItem2,
+            this.externalToolsToolStripMenuItem,
             this.tunerControlToolStripMenuItem,
             this.toolStripMenuItem4,
             this.qO100WidebandChatToolStripMenuItem,
@@ -1029,9 +1041,8 @@
             this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuConnect,
             this.settingsToolStripMenuItem,
+            this.toolStripMenuItem7,
             this.toolStripSeparator1,
-            this.menuFullScreen,
-            this.toolStripMenuItem1,
             this.quitToolStripMenuItem});
             this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
             resources.ApplyResources(this.openTunerToolStripMenuItem, "openTunerToolStripMenuItem");
@@ -1048,21 +1059,16 @@
             resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            resources.ApplyResources(this.toolStripMenuItem7, "toolStripMenuItem7");
+            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-            // 
-            // menuFullScreen
-            // 
-            this.menuFullScreen.Name = "menuFullScreen";
-            resources.ApplyResources(this.menuFullScreen, "menuFullScreen");
-            this.menuFullScreen.Click += new System.EventHandler(this.menuFullScreen_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // quitToolStripMenuItem
             // 
@@ -1094,6 +1100,31 @@
             // 
             this.storedFrequenciesToolStripMenuItem.Name = "storedFrequenciesToolStripMenuItem";
             resources.ApplyResources(this.storedFrequenciesToolStripMenuItem, "storedFrequenciesToolStripMenuItem");
+            // 
+            // externalToolsToolStripMenuItem
+            // 
+            this.externalToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manageExternalToolsToolStripMenuItem,
+            this.toolStripMenuItem8,
+            this.externalToolsToolStripMenuItem1});
+            this.externalToolsToolStripMenuItem.Name = "externalToolsToolStripMenuItem";
+            resources.ApplyResources(this.externalToolsToolStripMenuItem, "externalToolsToolStripMenuItem");
+            // 
+            // manageExternalToolsToolStripMenuItem
+            // 
+            this.manageExternalToolsToolStripMenuItem.Name = "manageExternalToolsToolStripMenuItem";
+            resources.ApplyResources(this.manageExternalToolsToolStripMenuItem, "manageExternalToolsToolStripMenuItem");
+            this.manageExternalToolsToolStripMenuItem.Click += new System.EventHandler(this.manageExternalToolsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            resources.ApplyResources(this.toolStripMenuItem8, "toolStripMenuItem8");
+            // 
+            // externalToolsToolStripMenuItem1
+            // 
+            this.externalToolsToolStripMenuItem1.Name = "externalToolsToolStripMenuItem1";
+            resources.ApplyResources(this.externalToolsToolStripMenuItem1, "externalToolsToolStripMenuItem1");
             // 
             // tunerControlToolStripMenuItem
             // 
@@ -1285,7 +1316,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem openTunerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTunerWebsiteToolStripMenuItem;
@@ -1316,7 +1346,6 @@
         private System.Windows.Forms.Label lblRFInputLevel;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem menuFullScreen;
         private System.Windows.Forms.ToolStripMenuItem qO100WidebandChatToolStripMenuItem;
         private System.Windows.Forms.Timer SpectrumTuneTimer;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
@@ -1368,26 +1397,26 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ProgressBar nullPacketsBar;
         private System.Windows.Forms.Label lblNullPackets;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label lblNullPacketsTitle;
         private System.Windows.Forms.Label lblServiceProvider;
         private System.Windows.Forms.Label lblServiceName;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblAudioRate2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblAudioRateTitle;
         private System.Windows.Forms.Label lblAudioCodec2;
-        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label lblAudioCodecTitle;
         private System.Windows.Forms.Label lblVideoResolution2;
-        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label lblVideoResTitle;
         private System.Windows.Forms.Label lblVideoCodec2;
-        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label lblVideoCodecTitle;
         private System.Windows.Forms.ProgressBar nullPacketsBar2;
         private System.Windows.Forms.Label lblNullPackets2;
-        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label lblNullPacketsTitle2;
         private System.Windows.Forms.Label lblServiceProvider2;
         private System.Windows.Forms.Label lblServiceName2;
-        private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label lblServiceProviderTitle2;
+        private System.Windows.Forms.Label lblServiceNameTitle2;
         private System.Windows.Forms.Label lblLPDCError;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label lblRecordIndication2;
@@ -1426,6 +1455,12 @@
         private System.Windows.Forms.Button btnVidRecord2;
         private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView2;
         private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView1;
+        private System.Windows.Forms.CheckBox checkDisableVideo2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
+        private System.Windows.Forms.ToolStripMenuItem externalToolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manageExternalToolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
+        private System.Windows.Forms.ToolStripMenuItem externalToolsToolStripMenuItem1;
     }
 }
 

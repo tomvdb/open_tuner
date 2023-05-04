@@ -129,11 +129,38 @@
   <data name="statusPage.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="checkDisableVideo2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkDisableVideo2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>193, 548</value>
+  </data>
+  <data name="checkDisableVideo2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 20</value>
+  </data>
+  <data name="checkDisableVideo2.TabIndex" type="System.Int32, mscorlib">
+    <value>73</value>
+  </data>
+  <data name="checkDisableVideo2.Text" xml:space="preserve">
+    <value>Disable TS/Video</value>
+  </data>
+  <data name="&gt;&gt;checkDisableVideo2.Name" xml:space="preserve">
+    <value>checkDisableVideo2</value>
+  </data>
+  <data name="&gt;&gt;checkDisableVideo2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkDisableVideo2.Parent" xml:space="preserve">
+    <value>groupTuner2</value>
+  </data>
+  <data name="&gt;&gt;checkDisableVideo2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="btnVidRecord2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnVidRecord2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>291, 519</value>
+    <value>269, 519</value>
   </data>
   <data name="btnVidRecord2.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 23</value>
@@ -160,7 +187,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnVidRecord2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="lblRfInput2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -193,13 +220,13 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblRfInput2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="btnTuner2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnTuner2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>329, 519</value>
+    <value>309, 519</value>
   </data>
   <data name="btnTuner2.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 23</value>
@@ -223,7 +250,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnTuner2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="lblAdjust2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -253,7 +280,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblAdjust2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lblRecordIndication2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -265,7 +292,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblRecordIndication2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>210, 484</value>
+    <value>193, 484</value>
   </data>
   <data name="lblRecordIndication2.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 20</value>
@@ -289,13 +316,13 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblRecordIndication2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="btnVid2Snapshot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnVid2Snapshot.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 519</value>
+    <value>231, 519</value>
   </data>
   <data name="btnVid2Snapshot.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 23</value>
@@ -319,13 +346,13 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnVid2Snapshot.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="btnVid2Mute.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnVid2Mute.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 519</value>
+    <value>193, 519</value>
   </data>
   <data name="btnVid2Mute.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 23</value>
@@ -349,7 +376,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;btnVid2Mute.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="lblVolume2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -379,7 +406,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblVolume2.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="label26.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -409,7 +436,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="trackVolume2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -433,7 +460,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;trackVolume2.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="lblAudioRate2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -463,37 +490,37 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblAudioRate2.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblAudioRateTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblAudioRateTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblAudioRateTitle.Location" type="System.Drawing.Point, System.Drawing">
     <value>19, 449</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblAudioRateTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 16</value>
   </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblAudioRateTitle.TabIndex" type="System.Int32, mscorlib">
     <value>56</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
+  <data name="lblAudioRateTitle.Text" xml:space="preserve">
     <value>Audio Rate:</value>
   </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
+  <data name="&gt;&gt;lblAudioRateTitle.Name" xml:space="preserve">
+    <value>lblAudioRateTitle</value>
   </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblAudioRateTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblAudioRateTitle.Parent" xml:space="preserve">
     <value>groupTuner2</value>
   </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>11</value>
+  <data name="&gt;&gt;lblAudioRateTitle.ZOrder" xml:space="preserve">
+    <value>12</value>
   </data>
   <data name="lblAudioCodec2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -523,37 +550,37 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblAudioCodec2.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
-  <data name="label23.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblAudioCodecTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label23.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblAudioCodecTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblAudioCodecTitle.Location" type="System.Drawing.Point, System.Drawing">
     <value>19, 427</value>
   </data>
-  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblAudioCodecTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 16</value>
   </data>
-  <data name="label23.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblAudioCodecTitle.TabIndex" type="System.Int32, mscorlib">
     <value>54</value>
   </data>
-  <data name="label23.Text" xml:space="preserve">
+  <data name="lblAudioCodecTitle.Text" xml:space="preserve">
     <value>Audio Codec:</value>
   </data>
-  <data name="&gt;&gt;label23.Name" xml:space="preserve">
-    <value>label23</value>
+  <data name="&gt;&gt;lblAudioCodecTitle.Name" xml:space="preserve">
+    <value>lblAudioCodecTitle</value>
   </data>
-  <data name="&gt;&gt;label23.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblAudioCodecTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label23.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblAudioCodecTitle.Parent" xml:space="preserve">
     <value>groupTuner2</value>
   </data>
-  <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>13</value>
+  <data name="&gt;&gt;lblAudioCodecTitle.ZOrder" xml:space="preserve">
+    <value>14</value>
   </data>
   <data name="lblVideoResolution2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -583,37 +610,37 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblVideoResolution2.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
-  <data name="label29.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblVideoResTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label29.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblVideoResTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblVideoResTitle.Location" type="System.Drawing.Point, System.Drawing">
     <value>19, 402</value>
   </data>
-  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblVideoResTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 16</value>
   </data>
-  <data name="label29.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblVideoResTitle.TabIndex" type="System.Int32, mscorlib">
     <value>52</value>
   </data>
-  <data name="label29.Text" xml:space="preserve">
+  <data name="lblVideoResTitle.Text" xml:space="preserve">
     <value>Video Resolution:</value>
   </data>
-  <data name="&gt;&gt;label29.Name" xml:space="preserve">
-    <value>label29</value>
+  <data name="&gt;&gt;lblVideoResTitle.Name" xml:space="preserve">
+    <value>lblVideoResTitle</value>
   </data>
-  <data name="&gt;&gt;label29.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblVideoResTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label29.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblVideoResTitle.Parent" xml:space="preserve">
     <value>groupTuner2</value>
   </data>
-  <data name="&gt;&gt;label29.ZOrder" xml:space="preserve">
-    <value>15</value>
+  <data name="&gt;&gt;lblVideoResTitle.ZOrder" xml:space="preserve">
+    <value>16</value>
   </data>
   <data name="lblVideoCodec2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -643,37 +670,37 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblVideoCodec2.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
-  <data name="label33.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblVideoCodecTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label33.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblVideoCodecTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblVideoCodecTitle.Location" type="System.Drawing.Point, System.Drawing">
     <value>19, 379</value>
   </data>
-  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblVideoCodecTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 16</value>
   </data>
-  <data name="label33.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblVideoCodecTitle.TabIndex" type="System.Int32, mscorlib">
     <value>50</value>
   </data>
-  <data name="label33.Text" xml:space="preserve">
+  <data name="lblVideoCodecTitle.Text" xml:space="preserve">
     <value>Video Codec:</value>
   </data>
-  <data name="&gt;&gt;label33.Name" xml:space="preserve">
-    <value>label33</value>
+  <data name="&gt;&gt;lblVideoCodecTitle.Name" xml:space="preserve">
+    <value>lblVideoCodecTitle</value>
   </data>
-  <data name="&gt;&gt;label33.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblVideoCodecTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label33.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblVideoCodecTitle.Parent" xml:space="preserve">
     <value>groupTuner2</value>
   </data>
-  <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
-    <value>17</value>
+  <data name="&gt;&gt;lblVideoCodecTitle.ZOrder" xml:space="preserve">
+    <value>18</value>
   </data>
   <data name="nullPacketsBar2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -697,7 +724,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;nullPacketsBar2.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="lblNullPackets2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -727,37 +754,37 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblNullPackets2.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
-  <data name="label37.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblNullPacketsTitle2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label37.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblNullPacketsTitle2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label37.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblNullPacketsTitle2.Location" type="System.Drawing.Point, System.Drawing">
     <value>19, 337</value>
   </data>
-  <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblNullPacketsTitle2.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 16</value>
   </data>
-  <data name="label37.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblNullPacketsTitle2.TabIndex" type="System.Int32, mscorlib">
     <value>47</value>
   </data>
-  <data name="label37.Text" xml:space="preserve">
+  <data name="lblNullPacketsTitle2.Text" xml:space="preserve">
     <value>Null Packets:</value>
   </data>
-  <data name="&gt;&gt;label37.Name" xml:space="preserve">
-    <value>label37</value>
+  <data name="&gt;&gt;lblNullPacketsTitle2.Name" xml:space="preserve">
+    <value>lblNullPacketsTitle2</value>
   </data>
-  <data name="&gt;&gt;label37.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblNullPacketsTitle2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label37.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblNullPacketsTitle2.Parent" xml:space="preserve">
     <value>groupTuner2</value>
   </data>
-  <data name="&gt;&gt;label37.ZOrder" xml:space="preserve">
-    <value>20</value>
+  <data name="&gt;&gt;lblNullPacketsTitle2.ZOrder" xml:space="preserve">
+    <value>21</value>
   </data>
   <data name="lblServiceProvider2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -787,7 +814,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblServiceProvider2.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="lblServiceName2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -817,67 +844,67 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblServiceName2.ZOrder" xml:space="preserve">
-    <value>22</value>
-  </data>
-  <data name="label42.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label42.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label42.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 312</value>
-  </data>
-  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 16</value>
-  </data>
-  <data name="label42.TabIndex" type="System.Int32, mscorlib">
-    <value>44</value>
-  </data>
-  <data name="label42.Text" xml:space="preserve">
-    <value>Service Name Provider:</value>
-  </data>
-  <data name="&gt;&gt;label42.Name" xml:space="preserve">
-    <value>label42</value>
-  </data>
-  <data name="&gt;&gt;label42.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label42.Parent" xml:space="preserve">
-    <value>groupTuner2</value>
-  </data>
-  <data name="&gt;&gt;label42.ZOrder" xml:space="preserve">
     <value>23</value>
   </data>
-  <data name="label43.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblServiceProviderTitle2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label43.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblServiceProviderTitle2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label43.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 288</value>
+  <data name="lblServiceProviderTitle2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 312</value>
   </data>
-  <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 16</value>
+  <data name="lblServiceProviderTitle2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 16</value>
   </data>
-  <data name="label43.TabIndex" type="System.Int32, mscorlib">
-    <value>43</value>
+  <data name="lblServiceProviderTitle2.TabIndex" type="System.Int32, mscorlib">
+    <value>44</value>
   </data>
-  <data name="label43.Text" xml:space="preserve">
-    <value>Service Name:</value>
+  <data name="lblServiceProviderTitle2.Text" xml:space="preserve">
+    <value>Service Name Provider:</value>
   </data>
-  <data name="&gt;&gt;label43.Name" xml:space="preserve">
-    <value>label43</value>
+  <data name="&gt;&gt;lblServiceProviderTitle2.Name" xml:space="preserve">
+    <value>lblServiceProviderTitle2</value>
   </data>
-  <data name="&gt;&gt;label43.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblServiceProviderTitle2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label43.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblServiceProviderTitle2.Parent" xml:space="preserve">
     <value>groupTuner2</value>
   </data>
-  <data name="&gt;&gt;label43.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblServiceProviderTitle2.ZOrder" xml:space="preserve">
     <value>24</value>
+  </data>
+  <data name="lblServiceNameTitle2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblServiceNameTitle2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblServiceNameTitle2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 288</value>
+  </data>
+  <data name="lblServiceNameTitle2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 16</value>
+  </data>
+  <data name="lblServiceNameTitle2.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="lblServiceNameTitle2.Text" xml:space="preserve">
+    <value>Service Name:</value>
+  </data>
+  <data name="&gt;&gt;lblServiceNameTitle2.Name" xml:space="preserve">
+    <value>lblServiceNameTitle2</value>
+  </data>
+  <data name="&gt;&gt;lblServiceNameTitle2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblServiceNameTitle2.Parent" xml:space="preserve">
+    <value>groupTuner2</value>
+  </data>
+  <data name="&gt;&gt;lblServiceNameTitle2.ZOrder" xml:space="preserve">
+    <value>25</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -910,7 +937,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>26</value>
   </data>
   <data name="lblRFInputLevel2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -943,7 +970,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblRFInputLevel2.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>27</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -976,7 +1003,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>28</value>
   </data>
   <data name="lblReqFreq2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1009,7 +1036,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblReqFreq2.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>29</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1042,7 +1069,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>30</value>
   </data>
   <data name="lbldbMargin2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1072,7 +1099,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lbldbMargin2.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>31</value>
   </data>
   <data name="lblFreqCar2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1105,7 +1132,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblFreqCar2.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>32</value>
   </data>
   <data name="label24.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1138,7 +1165,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>33</value>
   </data>
   <data name="lblBer2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1171,7 +1198,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblBer2.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>34</value>
   </data>
   <data name="label28.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1204,7 +1231,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>35</value>
   </data>
   <data name="lblModcod2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1237,7 +1264,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblModcod2.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>36</value>
   </data>
   <data name="label32.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1270,7 +1297,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>37</value>
   </data>
   <data name="lblSR2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1303,7 +1330,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblSR2.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>38</value>
   </data>
   <data name="label34.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1336,7 +1363,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>39</value>
   </data>
   <data name="lblLnaGain2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1369,7 +1396,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblLnaGain2.ZOrder" xml:space="preserve">
-    <value>39</value>
+    <value>40</value>
   </data>
   <data name="label36.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1402,7 +1429,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label36.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>41</value>
   </data>
   <data name="lblMer2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1435,7 +1462,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblMer2.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>42</value>
   </data>
   <data name="label38.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1468,7 +1495,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label38.ZOrder" xml:space="preserve">
-    <value>42</value>
+    <value>43</value>
   </data>
   <data name="lblDemoState2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1501,7 +1528,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;lblDemoState2.ZOrder" xml:space="preserve">
-    <value>43</value>
+    <value>44</value>
   </data>
   <data name="label40.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1534,7 +1561,7 @@
     <value>groupTuner2</value>
   </data>
   <data name="&gt;&gt;label40.ZOrder" xml:space="preserve">
-    <value>44</value>
+    <value>45</value>
   </data>
   <data name="groupTuner2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
@@ -1543,7 +1570,7 @@
     <value>13, 668</value>
   </data>
   <data name="groupTuner2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 555</value>
+    <value>393, 584</value>
   </data>
   <data name="groupTuner2.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -1756,7 +1783,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnTuner.Location" type="System.Drawing.Point, System.Drawing">
-    <value>330, 518</value>
+    <value>309, 518</value>
   </data>
   <data name="btnTuner.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 23</value>
@@ -1786,7 +1813,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnVid1Record.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 518</value>
+    <value>269, 518</value>
   </data>
   <data name="btnVid1Record.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 23</value>
@@ -1852,7 +1879,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblrecordIndication1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>210, 484</value>
+    <value>193, 483</value>
   </data>
   <data name="lblrecordIndication1.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 20</value>
@@ -1882,7 +1909,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnVid1Snapshot.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 518</value>
+    <value>231, 518</value>
   </data>
   <data name="btnVid1Snapshot.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 23</value>
@@ -1909,7 +1936,7 @@
     <value>5</value>
   </data>
   <data name="btnVid1Mute.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 518</value>
+    <value>193, 518</value>
   </data>
   <data name="btnVid1Mute.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 23</value>
@@ -2313,34 +2340,34 @@
   <data name="&gt;&gt;lblNullPackets.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
-  <data name="label22.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblNullPacketsTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label22.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblNullPacketsTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblNullPacketsTitle.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 342</value>
   </data>
-  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblNullPacketsTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 16</value>
   </data>
-  <data name="label22.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblNullPacketsTitle.TabIndex" type="System.Int32, mscorlib">
     <value>32</value>
   </data>
-  <data name="label22.Text" xml:space="preserve">
+  <data name="lblNullPacketsTitle.Text" xml:space="preserve">
     <value>Null Packets:</value>
   </data>
-  <data name="&gt;&gt;label22.Name" xml:space="preserve">
-    <value>label22</value>
+  <data name="&gt;&gt;lblNullPacketsTitle.Name" xml:space="preserve">
+    <value>lblNullPacketsTitle</value>
   </data>
-  <data name="&gt;&gt;label22.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblNullPacketsTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label22.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblNullPacketsTitle.Parent" xml:space="preserve">
     <value>groupTuner1</value>
   </data>
-  <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblNullPacketsTitle.ZOrder" xml:space="preserve">
     <value>20</value>
   </data>
   <data name="lblServiceProvider.AutoSize" type="System.Boolean, mscorlib">
@@ -3253,7 +3280,7 @@
     <value>ffmpegVideoView1</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.12.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.14.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel1</value>
@@ -3325,7 +3352,7 @@
     <value>ffmpegVideoView2</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.12.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.14.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel2</value>
@@ -3404,42 +3431,6 @@
   </data>
   <data name="&gt;&gt;splitContainer2.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <metadata name="contextSpectrumMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>437, 14</value>
-  </metadata>
-  <data name="manualToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="manualToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Manual</value>
-  </data>
-  <data name="autoTimedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="autoTimedToolStripMenuItem.Text" xml:space="preserve">
-    <value>Auto (Timed)</value>
-  </data>
-  <data name="autoHoldToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="autoHoldToolStripMenuItem.Text" xml:space="preserve">
-    <value>Auto (Hold)</value>
-  </data>
-  <data name="autoTuneToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 22</value>
-  </data>
-  <data name="autoTuneToolStripMenuItem.Text" xml:space="preserve">
-    <value>AutoTune</value>
-  </data>
-  <data name="contextSpectrumMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 26</value>
-  </data>
-  <data name="&gt;&gt;contextSpectrumMenu.Name" xml:space="preserve">
-    <value>contextSpectrumMenu</value>
-  </data>
-  <data name="&gt;&gt;contextSpectrumMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="spectrum.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -3531,6 +3522,42 @@
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <metadata name="contextSpectrumMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>437, 14</value>
+  </metadata>
+  <data name="manualToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 22</value>
+  </data>
+  <data name="manualToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Manual</value>
+  </data>
+  <data name="autoTimedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 22</value>
+  </data>
+  <data name="autoTimedToolStripMenuItem.Text" xml:space="preserve">
+    <value>Auto (Timed)</value>
+  </data>
+  <data name="autoHoldToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 22</value>
+  </data>
+  <data name="autoHoldToolStripMenuItem.Text" xml:space="preserve">
+    <value>Auto (Hold)</value>
+  </data>
+  <data name="autoTuneToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="autoTuneToolStripMenuItem.Text" xml:space="preserve">
+    <value>AutoTune</value>
+  </data>
+  <data name="contextSpectrumMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 26</value>
+  </data>
+  <data name="&gt;&gt;contextSpectrumMenu.Name" xml:space="preserve">
+    <value>contextSpectrumMenu</value>
+  </data>
+  <data name="&gt;&gt;contextSpectrumMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <metadata name="websocketTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -3541,34 +3568,28 @@
     <value>Alt+C</value>
   </data>
   <data name="menuConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>161, 22</value>
   </data>
   <data name="menuConnect.Text" xml:space="preserve">
     <value>&amp;Connect</value>
   </data>
   <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>161, 22</value>
   </data>
   <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
     <value>S&amp;ettings ...</value>
   </data>
+  <data name="toolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 22</value>
+  </data>
+  <data name="toolStripMenuItem7.Text" xml:space="preserve">
+    <value>Hardware Info ...</value>
+  </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 6</value>
-  </data>
-  <data name="menuFullScreen.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>F11</value>
-  </data>
-  <data name="menuFullScreen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
-  </data>
-  <data name="menuFullScreen.Text" xml:space="preserve">
-    <value>Fullscreen</value>
-  </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 6</value>
+    <value>158, 6</value>
   </data>
   <data name="quitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>161, 22</value>
   </data>
   <data name="quitToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Quit</value>
@@ -3600,6 +3621,27 @@
   <data name="toolStripMenuItem2.Text" xml:space="preserve">
     <value>&amp;Frequency Manager</value>
   </data>
+  <data name="manageExternalToolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="manageExternalToolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Manage External Tools ...</value>
+  </data>
+  <data name="toolStripMenuItem8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 6</value>
+  </data>
+  <data name="externalToolsToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="externalToolsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>External Tools</value>
+  </data>
+  <data name="externalToolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 20</value>
+  </data>
+  <data name="externalToolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>External Tools</value>
+  </data>
   <data name="recordAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 22</value>
   </data>
@@ -3613,7 +3655,7 @@
     <value>&amp;Enable UDP Output</value>
   </data>
   <data name="tuner1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="tuner1ToolStripMenuItem.Text" xml:space="preserve">
     <value>Tuner 1</value>
@@ -3625,7 +3667,7 @@
     <value>&amp;Enable UDP Output</value>
   </data>
   <data name="tuner2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="tuner2ToolStripMenuItem.Text" xml:space="preserve">
     <value>Tuner 2</value>
@@ -3661,13 +3703,13 @@
     <value>LNB A</value>
   </data>
   <data name="lNBPowerSupplyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="lNBPowerSupplyToolStripMenuItem.Text" xml:space="preserve">
     <value>LNB Power Supply</value>
   </data>
   <data name="kHzToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="kHzToolStripMenuItem.Text" xml:space="preserve">
     <value>22 kHz</value>
@@ -3751,7 +3793,7 @@
     <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner 0.7d (ZR6TG) - 2023/05/01</value>
+    <value>Open Tuner 0.7e (ZR6TG) - 2023/05/03</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>
@@ -3801,22 +3843,16 @@
   <data name="&gt;&gt;settingsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripMenuItem7.Name" xml:space="preserve">
+    <value>toolStripMenuItem7</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
     <value>toolStripSeparator1</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuFullScreen.Name" xml:space="preserve">
-    <value>menuFullScreen</value>
-  </data>
-  <data name="&gt;&gt;menuFullScreen.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
-    <value>toolStripMenuItem1</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;quitToolStripMenuItem.Name" xml:space="preserve">
@@ -3847,6 +3883,30 @@
     <value>storedFrequenciesToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;storedFrequenciesToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;externalToolsToolStripMenuItem.Name" xml:space="preserve">
+    <value>externalToolsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;externalToolsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;manageExternalToolsToolStripMenuItem.Name" xml:space="preserve">
+    <value>manageExternalToolsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;manageExternalToolsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem8.Name" xml:space="preserve">
+    <value>toolStripMenuItem8</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;externalToolsToolStripMenuItem1.Name" xml:space="preserve">
+    <value>externalToolsToolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;externalToolsToolStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tunerControlToolStripMenuItem.Name" xml:space="preserve">

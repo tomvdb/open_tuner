@@ -48,6 +48,8 @@
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkWindowed2 = new System.Windows.Forms.CheckBox();
+            this.checkWindowed1 = new System.Windows.Forms.CheckBox();
             this.comboMediaPlayer2 = new System.Windows.Forms.ComboBox();
             this.comboMediaPlayer1 = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -62,8 +64,13 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.checkWindowed1 = new System.Windows.Forms.CheckBox();
-            this.checkWindowed2 = new System.Windows.Forms.CheckBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtSigReportTemplate = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.comboTuner1Start = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.comboTuner2Start = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).BeginInit();
@@ -74,6 +81,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label16);
+            this.groupBox1.Controls.Add(this.comboTuner2Start);
+            this.groupBox1.Controls.Add(this.label15);
+            this.groupBox1.Controls.Add(this.comboTuner1Start);
             this.groupBox1.Controls.Add(this.txtDefaultLO2);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.comboDefaultLNB);
@@ -222,6 +233,18 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
+            // checkWindowed2
+            // 
+            resources.ApplyResources(this.checkWindowed2, "checkWindowed2");
+            this.checkWindowed2.Name = "checkWindowed2";
+            this.checkWindowed2.UseVisualStyleBackColor = true;
+            // 
+            // checkWindowed1
+            // 
+            resources.ApplyResources(this.checkWindowed1, "checkWindowed1");
+            this.checkWindowed1.Name = "checkWindowed1";
+            this.checkWindowed1.UseVisualStyleBackColor = true;
+            // 
             // comboMediaPlayer2
             // 
             this.comboMediaPlayer2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -272,6 +295,9 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Controls.Add(this.txtSigReportTemplate);
+            this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.btnChatFontSetting);
             this.groupBox4.Controls.Add(this.checkEnableChat);
             this.groupBox4.Controls.Add(this.checkEnableSpectrum);
@@ -317,17 +343,44 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // checkWindowed1
+            // label13
             // 
-            resources.ApplyResources(this.checkWindowed1, "checkWindowed1");
-            this.checkWindowed1.Name = "checkWindowed1";
-            this.checkWindowed1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
             // 
-            // checkWindowed2
+            // txtSigReportTemplate
             // 
-            resources.ApplyResources(this.checkWindowed2, "checkWindowed2");
-            this.checkWindowed2.Name = "checkWindowed2";
-            this.checkWindowed2.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.txtSigReportTemplate, "txtSigReportTemplate");
+            this.txtSigReportTemplate.Name = "txtSigReportTemplate";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // comboTuner1Start
+            // 
+            this.comboTuner1Start.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboTuner1Start.FormattingEnabled = true;
+            resources.ApplyResources(this.comboTuner1Start, "comboTuner1Start");
+            this.comboTuner1Start.Name = "comboTuner1Start";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // comboTuner2Start
+            // 
+            this.comboTuner2Start.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboTuner2Start.FormattingEnabled = true;
+            resources.ApplyResources(this.comboTuner2Start, "comboTuner2Start");
+            this.comboTuner2Start.Name = "comboTuner2Start";
             // 
             // settingsForm
             // 
@@ -397,5 +450,12 @@
         private System.Windows.Forms.Label label12;
         public System.Windows.Forms.CheckBox checkWindowed2;
         public System.Windows.Forms.CheckBox checkWindowed1;
+        private System.Windows.Forms.Label label13;
+        public System.Windows.Forms.TextBox txtSigReportTemplate;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        public System.Windows.Forms.ComboBox comboTuner2Start;
+        public System.Windows.Forms.ComboBox comboTuner1Start;
     }
 }

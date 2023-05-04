@@ -333,5 +333,41 @@ namespace opentuner.Properties {
                 this["main_splitter_pos"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}")]
+        public string signreport_template {
+            get {
+                return ((string)(this["signreport_template"]));
+            }
+            set {
+                this["signreport_template"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Default")]
+        public string tuner1_start_freq {
+            get {
+                return ((string)(this["tuner1_start_freq"]));
+            }
+            set {
+                this["tuner1_start_freq"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Default")]
+        public string tuner2_start_freq {
+            get {
+                return ((string)(this["tuner2_start_freq"]));
+            }
+            set {
+                this["tuner2_start_freq"] = value;
+            }
+        }
     }
 }

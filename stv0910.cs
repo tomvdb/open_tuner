@@ -21,6 +21,7 @@ namespace opentuner
         const byte STV0910_PLL_LOCK_TIMEOUT = 100;
 
         const byte STV0910_SCAN_BLIND_BEST_GUESS = 0x15;
+        const byte STV0910_DEMOD_STOP = 0x1C;
 
         public const byte STV0910_DEMOD_TOP = 1;
         public const byte STV0910_DEMOD_BOTTOM = 2;
