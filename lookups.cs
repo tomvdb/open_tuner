@@ -8,6 +8,13 @@ namespace opentuner
 {
     public static class lookups
     {
+        public static List<string> stream_format_lookups = new List<string>()
+        {
+            "Generic Packetized",
+            "Generic Continuous",
+            "Generic Packetized", // ?
+            "Transport"
+        };
 
         // https://wiki.batc.org.uk/MiniTiouner_Power_Level_Indication
         public static List<int> agc1_lookup = new List<int>()

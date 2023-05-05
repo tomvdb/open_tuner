@@ -43,7 +43,6 @@ namespace opentuner
         CircularBuffer ts_parser_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
         CircularBuffer ts_parser_data_queue2 = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
 
-
         private delegate void updateNimStatusGuiDelegate(Form1 gui, NimStatus new_status);
         private delegate void updateTSStatusGuiDelegate(int device, Form1 gui, TSStatus new_status);
         private delegate void updateMediaStatusGuiDelegate(int tuner, Form1 gui, MediaStatus new_status);
@@ -69,6 +68,10 @@ namespace opentuner
         TSUDPThread ts_udp2;
         TSThread ts_thread;
         TSThread ts_thread2;
+
+        // test
+        //BBFrameUDP bbframe_udp1;
+        //Thread bbframe_udp_t1 = null;
 
         // form properties
         //public MediaPlayer prop_media_player { get { return this.videoView1.MediaPlayer; } }
@@ -105,12 +108,16 @@ namespace opentuner
 
 
         // tuner 1 - ts status properties
+
+        public string prop_stream_format1 { set { this.lblStreamFormat1.Text = value; } }
+
         public string prop_service_name { set { this.lblServiceName.Text = value; } get { return this.lblServiceName.Text;  } }
         public string prop_service_provider_name { set { this.lblServiceProvider.Text = value; } get { return this.lblServiceProvider.Text;  } }
         public string prop_null_packets { set { this.lblNullPackets.Text = value; }  }
         public int prop_null_packets_bar { set { this.nullPacketsBar.Value = value; } }
 
         // tuner 2 - ts status properties
+        public string prop_stream_format2 { set { this.lblStreamFormat2.Text = value;  } }
         public string prop_service_name2 { set { this.lblServiceName2.Text = value; } get { return this.lblServiceName2.Text; } }
         public string prop_service_provider_name2 { set { this.lblServiceProvider2.Text = value; } get { return this.lblServiceProvider2.Text; } }
         public string prop_null_packets2 { set { this.lblNullPackets2.Text = value; } }
@@ -217,7 +224,8 @@ namespace opentuner
         int setting_window_y = -1;
         int setting_main_splitter_position = 436;
 
-        Font setting_chat_font;
+        //Font setting_chat_font;
+        int setting_chat_font_size = 12;
         int setting_chat_width = 0;
         int setting_chat_height = 0;
         bool setting_disable_lna = false;
@@ -430,6 +438,29 @@ namespace opentuner
                 gui.prop_req_freq2 = current_frequency_2.ToString();
                 gui.prop_rf_input2 = new_status.T2P1_rf_input;
 
+                try
+                {
+                    gui.prop_stream_format1 = lookups.stream_format_lookups[Convert.ToInt32(new_status.T1P2_stream_format)].ToString();
+
+                    if (new_status.T1P2_stream_format == 1)
+                    {
+                        //bbframe_udp1.stream = true;
+                    }
+                }
+                catch (Exception Ex)
+                {
+                    gui.prop_stream_format1 = "Unknown : " + new_status.T1P2_stream_format.ToString();
+                }
+
+                try
+                {
+                    gui.prop_stream_format2 = lookups.stream_format_lookups[Convert.ToInt32(new_status.T2P1_stream_format)].ToString();
+                }
+                catch (Exception Ex)
+                {
+                    gui.prop_stream_format2 = "Unknown : " + new_status.T2P1_stream_format.ToString();
+                }
+
                 // reset transport and media fields if no lock
                 if ( new_status.T1P2_demod_status < 2 )
                 {
@@ -622,6 +653,10 @@ namespace opentuner
 
             if (ts_udp1 != null)
                 ts_udp1.stream = false;
+
+            //if (bbframe_udp1 != null)
+            //    bbframe_udp1.stream = false;
+
         }
 
         public void stop_video2()
@@ -797,6 +832,10 @@ namespace opentuner
                     ts_udp_t1.Abort();
                 if (ts_udp_t2 != null)
                     ts_udp_t2.Abort();
+
+                //if (bbframe_udp_t1 != null)
+                //    bbframe_udp_t1.Abort();
+
                 if (ts_thread_t != null)
                     ts_thread_t.Abort();
                 if (ts_thread_2_t != null)
@@ -916,6 +955,11 @@ namespace opentuner
             ts_udp1 = new TSUDPThread(ts_thread, setting_udp_address1, setting_udp_port1);
             ts_udp_t1 = new Thread(ts_udp1.worker_thread);
             ts_udp_t1.Start();
+
+            // test 
+            //bbframe_udp1 = new BBFrameUDP(ts_thread, "127.0.0.1", 9060);
+            //bbframe_udp_t1 = new Thread(bbframe_udp1.worker_thread);
+            //bbframe_udp_t1.Start();
 
             if (ts_devices == 2)
             {
@@ -1099,6 +1143,7 @@ namespace opentuner
                     ts_udp1.stream = true;
                 }
             }
+
 
         }
 
@@ -1434,8 +1479,9 @@ namespace opentuner
             setting_language = Properties.Settings.Default.language;
             setting_default_volume = Properties.Settings.Default.default_volume;
             setting_default_volume2 = Properties.Settings.Default.default_volume2;
+            setting_chat_font_size = Properties.Settings.Default.wbchat_font_size;
 
-            setting_chat_font = Properties.Settings.Default.wbchat_font;
+            //setting_chat_font = Properties.Settings.Default.wbchat_font;
             setting_chat_width = Properties.Settings.Default.wbchat_width;
             setting_chat_height = Properties.Settings.Default.wbchat_height;
             setting_enable_chatform = Properties.Settings.Default.wbchat_enable;
@@ -1555,7 +1601,7 @@ namespace opentuner
             if (setting_enable_chatform)
             {
                 qO100WidebandChatToolStripMenuItem.Visible = true;
-                chatForm = new wbchat();
+                chatForm = new wbchat(setting_chat_font_size);
 
                 lblChatSigReport.Visible = true;
 
@@ -1563,12 +1609,14 @@ namespace opentuner
                 {
                     chatForm.Size = new Size(setting_chat_height, setting_chat_width);
 
+                    /*
                     if (setting_chat_font != null)
                     {
                         chatForm.lbChat.Font = setting_chat_font;
                         chatForm.lbUsers.Font = setting_chat_font;
                         chatForm.txtMessage.Font = setting_chat_font;
                     }
+                    */
                 }
             }
             else
@@ -2038,17 +2086,7 @@ namespace opentuner
 
             settings_form.txtSigReportTemplate.Text = setting_sigreport_template;
 
-            if (setting_enable_chatform && chatForm != null)
-            {
-                settings_form.currentChatFont = chatForm.lbChat.Font;
-            }
-            else
-            {
-                if (setting_chat_font != null)
-                    settings_form.currentChatFont = setting_chat_font;
-                else
-                    settings_form.currentChatFont = label8.Font; // just making sure there is somekind of font to start off with
-            }
+            settings_form.numChatFontSize.Value = setting_chat_font_size;
 
             settings_form.comboTuner1Start.Items.Add("Default");
             settings_form.comboTuner2Start.Items.Add("Default");
@@ -2077,7 +2115,8 @@ namespace opentuner
 
             if ( settings_form.ShowDialog() == DialogResult.OK )
             {
-                Properties.Settings.Default.wbchat_font = settings_form.currentChatFont;
+                //Properties.Settings.Default.wbchat_font = settings_form.currentChatFont;
+                Properties.Settings.Default.wbchat_font_size = Convert.ToInt32(settings_form.numChatFontSize.Value);
 
                 Properties.Settings.Default.default_lnb_supply = Convert.ToByte(settings_form.comboDefaultLNB.SelectedIndex);
                 Properties.Settings.Default.default_lo_B = Convert.ToInt32(settings_form.txtDefaultLO.Text);
@@ -2610,6 +2649,11 @@ namespace opentuner
             { 
                 Console.WriteLine("Error sending command to TX UDP: " + ex.Message );
             }
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

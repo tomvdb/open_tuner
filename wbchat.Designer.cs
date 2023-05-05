@@ -40,6 +40,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copySelectedTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtMessage = new System.Windows.Forms.TextBox();
+            this.richChat = new System.Windows.Forms.RichTextBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -97,6 +98,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.richChat);
             this.splitContainer1.Panel2.Controls.Add(this.lbChat);
             this.splitContainer1.Panel2.Controls.Add(this.txtMessage);
             this.splitContainer1.Size = new System.Drawing.Size(800, 428);
@@ -105,15 +107,21 @@
             // 
             // lbUsers
             // 
+            this.lbUsers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.lbUsers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbUsers.FormattingEnabled = true;
             this.lbUsers.IntegralHeight = false;
+            this.lbUsers.ItemHeight = 15;
             this.lbUsers.Location = new System.Drawing.Point(0, 0);
             this.lbUsers.Name = "lbUsers";
             this.lbUsers.Size = new System.Drawing.Size(180, 428);
             this.lbUsers.Sorted = true;
             this.lbUsers.TabIndex = 0;
+            this.lbUsers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseClick);
+            this.lbUsers.SelectedIndexChanged += new System.EventHandler(this.lbUsers_SelectedIndexChanged);
             this.lbUsers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseDoubleClick);
+            this.lbUsers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseDown);
             // 
             // lbChat
             // 
@@ -156,6 +164,18 @@
             this.txtMessage.TabIndex = 2;
             this.txtMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMessage_KeyPress);
             // 
+            // richChat
+            // 
+            this.richChat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.richChat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richChat.Location = new System.Drawing.Point(0, 0);
+            this.richChat.Name = "richChat";
+            this.richChat.ReadOnly = true;
+            this.richChat.Size = new System.Drawing.Size(616, 408);
+            this.richChat.TabIndex = 3;
+            this.richChat.Text = "";
+            this.richChat.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richChat_LinkClicked);
+            // 
             // wbchat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,5 +214,6 @@
         public System.Windows.Forms.ToolStripStatusLabel txtNick;
         public System.Windows.Forms.ListBox lbChat;
         public System.Windows.Forms.TextBox txtMessage;
+        private System.Windows.Forms.RichTextBox richChat;
     }
 }

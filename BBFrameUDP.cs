@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net;
-using System.Net.Sockets;
-using System.CodeDom;
+using System.IO;
+using System.Windows.Forms.VisualStyles;
 
 namespace opentuner
 {
-    public class TSUDPThread
+    public class BBFrameUDP
     {
         CircularBuffer _ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
 
@@ -37,7 +37,7 @@ namespace opentuner
         string udp_address = "";
         int udp_port = 0;
 
-        public TSUDPThread(TSThread _ts_thread, string udp_address, int udp_port)
+        public BBFrameUDP(TSThread _ts_thread, string udp_address, int udp_port)
         {
             _ts_thread.RegisterTSConsumer(_ts_data_queue);
             this.udp_address = udp_address;
@@ -48,35 +48,43 @@ namespace opentuner
         {
             byte data;
 
-            // Create a UDP client to send data to VLC
+            // Create a UDP client 
             UdpClient udpClient = new UdpClient();
 
-            // Set the destination IP address and port of VLC
-            IPAddress vlcIpAddress = IPAddress.Parse(udp_address); // replace with the actual IP address of VLC
+            IPAddress vlcIpAddress = IPAddress.Parse(udp_address); 
             int vlcPort = udp_port;
 
-            bool ts_sync = false;
+            bool header_sync = false;
+
+            BinaryWriter binWriter = null;
 
             try
             {
                 while (true)
                 {
-
                     if (streaming == false && stream == true)
                     {
+                        string fileName = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" +  ".bin";
+                        Console.WriteLine("New BBFrame File: " + fileName);
+                        binWriter = new BinaryWriter(File.Open(fileName, FileMode.Create));
                         streaming = true;
-                        ts_sync = false;
+                        header_sync = false;
                     }
                     else
                     {
                         if (streaming == true && stream == false)
                         {
                             streaming = false;
+                            if (binWriter != null)
+                            {
+                                binWriter.Close();
+                            }
                         }
                     }
 
+                    /*
                     // if we are streaming, throw away data until synced
-                    if (streaming == true && ts_sync == false) 
+                    if (streaming == true && header_sync == false)
                     {
                         if (_ts_data_queue.Count > 0)
                         {
@@ -91,37 +99,18 @@ namespace opentuner
                             }
                         }
                     }
+                    */
 
                     // we are streaming and in sync
-                    if (streaming && ts_sync)
+                    if (streaming )
                     {
-                        if (_ts_data_queue.Count >= 188)
+                        if (_ts_data_queue.Count > 0)
                         {
+                            data = _ts_data_queue.Dequeue();
 
-                            if (_ts_data_queue.TryPeek() != 0x47)
-                            {
-                                Console.WriteLine("TS Sync Lost");
-                                ts_sync = false;
-                                continue;
-                            }
+                            binWriter.Write(data);
 
-                            byte[] dt = new byte[188];
-                            int count = 0;
-
-                            while (count < 188)
-                            {
-                                if (_ts_data_queue.Count > 0)
-                                {
-                                    data = _ts_data_queue.Dequeue();
-                                    dt[count++] = data;
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Warning: Trying to dequeue, but no bytes : TSUdpThread");
-                                }
-                            }
-
-                            udpClient.Send(dt, count, new IPEndPoint(vlcIpAddress, vlcPort));
+                            //udpClient.Send(dt, count, new IPEndPoint(vlcIpAddress, vlcPort));
                         }
                         else  // streaming but not enough data yet
                         {
@@ -139,11 +128,16 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Console.WriteLine("TS UDP Thread: Closing ");
+                Console.WriteLine("BBFrame Thread: Closing ");
             }
             finally
             {
-                Console.WriteLine("Closing TS UDP");
+                Console.WriteLine("Closing BBFrame UDP");
+                if (binWriter != null)
+                {
+                    binWriter.Close();
+                }
+
             }
         }
     }

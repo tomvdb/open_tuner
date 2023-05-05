@@ -121,17 +121,6 @@ namespace opentuner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Font wbchat_font {
-            get {
-                return ((global::System.Drawing.Font)(this["wbchat_font"]));
-            }
-            set {
-                this["wbchat_font"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public int wbchat_width {
             get {
@@ -367,6 +356,18 @@ namespace opentuner.Properties {
             }
             set {
                 this["tuner2_start_freq"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        public int wbchat_font_size {
+            get {
+                return ((int)(this["wbchat_font_size"]));
+            }
+            set {
+                this["wbchat_font_size"] = value;
             }
         }
     }

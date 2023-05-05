@@ -30,6 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(settingsForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.comboTuner2Start = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.comboTuner1Start = new System.Windows.Forms.ComboBox();
             this.txtDefaultLO2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.comboDefaultLNB = new System.Windows.Forms.ComboBox();
@@ -58,25 +62,23 @@
             this.txtSnapshotPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnChatFontSetting = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtSigReportTemplate = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.checkEnableChat = new System.Windows.Forms.CheckBox();
             this.checkEnableSpectrum = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txtSigReportTemplate = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.comboTuner1Start = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.comboTuner2Start = new System.Windows.Forms.ComboBox();
+            this.numChatFontSize = new System.Windows.Forms.NumericUpDown();
+            this.label17 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUdpPort)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numChatFontSize)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -94,6 +96,30 @@
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // comboTuner2Start
+            // 
+            this.comboTuner2Start.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboTuner2Start.FormattingEnabled = true;
+            resources.ApplyResources(this.comboTuner2Start, "comboTuner2Start");
+            this.comboTuner2Start.Name = "comboTuner2Start";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // comboTuner1Start
+            // 
+            this.comboTuner1Start.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboTuner1Start.FormattingEnabled = true;
+            resources.ApplyResources(this.comboTuner1Start, "comboTuner1Start");
+            this.comboTuner1Start.Name = "comboTuner1Start";
             // 
             // txtDefaultLO2
             // 
@@ -295,22 +321,31 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label17);
+            this.groupBox4.Controls.Add(this.numChatFontSize);
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.txtSigReportTemplate);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Controls.Add(this.btnChatFontSetting);
             this.groupBox4.Controls.Add(this.checkEnableChat);
             this.groupBox4.Controls.Add(this.checkEnableSpectrum);
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
-            // btnChatFontSetting
+            // label14
             // 
-            resources.ApplyResources(this.btnChatFontSetting, "btnChatFontSetting");
-            this.btnChatFontSetting.Name = "btnChatFontSetting";
-            this.btnChatFontSetting.UseVisualStyleBackColor = true;
-            this.btnChatFontSetting.Click += new System.EventHandler(this.btnChatFontSetting_Click);
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // txtSigReportTemplate
+            // 
+            resources.ApplyResources(this.txtSigReportTemplate, "txtSigReportTemplate");
+            this.txtSigReportTemplate.Name = "txtSigReportTemplate";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
             // 
             // checkEnableChat
             // 
@@ -343,44 +378,31 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // label13
+            // numChatFontSize
             // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
+            resources.ApplyResources(this.numChatFontSize, "numChatFontSize");
+            this.numChatFontSize.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numChatFontSize.Minimum = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+            this.numChatFontSize.Name = "numChatFontSize";
+            this.numChatFontSize.ReadOnly = true;
+            this.numChatFontSize.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
             // 
-            // txtSigReportTemplate
+            // label17
             // 
-            resources.ApplyResources(this.txtSigReportTemplate, "txtSigReportTemplate");
-            this.txtSigReportTemplate.Name = "txtSigReportTemplate";
-            // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
-            // comboTuner1Start
-            // 
-            this.comboTuner1Start.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboTuner1Start.FormattingEnabled = true;
-            resources.ApplyResources(this.comboTuner1Start, "comboTuner1Start");
-            this.comboTuner1Start.Name = "comboTuner1Start";
-            // 
-            // label15
-            // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
-            // comboTuner2Start
-            // 
-            this.comboTuner2Start.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboTuner2Start.FormattingEnabled = true;
-            resources.ApplyResources(this.comboTuner2Start, "comboTuner2Start");
-            this.comboTuner2Start.Name = "comboTuner2Start";
+            resources.ApplyResources(this.label17, "label17");
+            this.label17.Name = "label17";
             // 
             // settingsForm
             // 
@@ -408,6 +430,7 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numChatFontSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -434,7 +457,6 @@
         public System.Windows.Forms.ComboBox comboLanguage;
         public System.Windows.Forms.TextBox txtDefaultLO2;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button btnChatFontSetting;
         public System.Windows.Forms.CheckBox checkEnableChat;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
@@ -457,5 +479,7 @@
         private System.Windows.Forms.Label label15;
         public System.Windows.Forms.ComboBox comboTuner2Start;
         public System.Windows.Forms.ComboBox comboTuner1Start;
+        private System.Windows.Forms.Label label17;
+        public System.Windows.Forms.NumericUpDown numChatFontSize;
     }
 }

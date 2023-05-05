@@ -235,6 +235,16 @@ namespace opentuner
             nim_status.T2P1_agc2_gain = agc2_gain;
             nim_status.T2P1_input_power_level = get_rf_level(agc1_gain, agc2_gain);
 
+            // ma type
+            UInt32 ma_type1 = 0;
+            UInt32 ma_type2 = 0;
+
+            if (err == 0) _stv0910.stv0910_read_matype(stv0910.STV0910_DEMOD_TOP, ref ma_type1, ref ma_type2);
+            nim_status.T1P2_stream_format = (ma_type1 & 0xC0) >> 6; ;
+
+            if (err == 0) _stv0910.stv0910_read_matype(stv0910.STV0910_DEMOD_BOTTOM, ref ma_type1, ref ma_type2);
+            nim_status.T2P1_stream_format = (ma_type1 & 0xC0) >> 6; ;
+
             UInt32 mer = 0;
 
             if (nim_status.T1P2_demod_status == stv0910.DEMOD_S || nim_status.T1P2_demod_status == stv0910.DEMOD_S2)

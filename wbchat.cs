@@ -9,22 +9,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.Json.Serialization;
+using System.Windows.Interop;
+using System.Web.UI.WebControls;
+using System.Text.RegularExpressions;
+using System.Diagnostics.Contracts;
+using System.Security.Cryptography;
 
 namespace opentuner
 {
     public partial class wbchat : Form
     {
-        public wbchat()
+
+        static Font consoleFont; 
+        static Font consoleFontBold;
+
+        public string prop_title { set { this.Text = value; } }
+
+        public wbchat(int fontSize)
         {
             InitializeComponent();
+            consoleFont = new Font("Consolas", fontSize);
+            consoleFontBold = new Font("Consolas", fontSize + 1, FontStyle.Bold);
         }
+
         private SocketIO client = null;
 
         private void wbchat_Load(object sender, EventArgs e)
         {
-            //lbChat.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            //lbChat.MeasureItem += lst_MeasureItem;
-            //lbChat.DrawItem += lst_DrawItem;
 
             if (Properties.Settings.Default.chat_nick.Length > 0)
             {
@@ -56,8 +67,16 @@ namespace opentuner
             client.On("message", callbackMessage);
             client.On("nicks", callbackNicks);
             client.On("viewers", callbackViewers);
-            AddItem(lbChat, "Connecting ...");
+
+            lbUsers.Font = consoleFontBold;
+            lbUsers.ForeColor = Color.FromArgb(204, 204, 204);
+            txtMessage.BackColor = Color.FromArgb(63, 70, 76);
+            txtMessage.ForeColor = Color.FromArgb(204, 204, 204);
+            txtMessage.Font = consoleFontBold;
+
+            AddChat(richChat, "", "", "Connecting...");
             client.ConnectAsync();
+
         }
 
         private void Client_OnDisconnected(object sender, string e)
@@ -65,9 +84,9 @@ namespace opentuner
             lblConnected.Text = "Connected: False";
         }
 
-        private delegate void UpdateLBDelegate(ListBox LB, Object obj);
+        private delegate void UpdateLBDelegate(System.Windows.Forms.ListBox LB, Object obj);
 
-        public static void AddItem(ListBox LB, Object obj)
+        public static void AddItem(System.Windows.Forms.ListBox LB, Object obj)
         {
             if (LB.InvokeRequired)
             {
@@ -86,7 +105,59 @@ namespace opentuner
             }
         }
 
-        public static void ClearAll(ListBox LB, Object obj)
+        private delegate void UpdateFormTitle(wbchat frm, string new_title);
+
+        public void updateTitle(wbchat frm, string new_title)
+        {
+
+            if (frm.InvokeRequired)
+            {
+                UpdateFormTitle ulb = new UpdateFormTitle(updateTitle);
+                frm.Invoke(ulb, new object[] { frm, new_title });
+            }
+            else
+            {
+                frm.prop_title = new_title;
+            }
+        }
+
+        private delegate void UpdateRTBDelegate(RichTextBox LB, string tstr, string nick, string msg);
+
+        public static void AddChat(RichTextBox rtb, string tstr, string nick, string msg)
+        {
+            if (rtb.InvokeRequired)
+            {
+                UpdateRTBDelegate ulb = new UpdateRTBDelegate(AddChat);
+                rtb.Invoke(ulb, new object[] { rtb, tstr, nick, msg });
+            }
+            else
+            {
+
+                // 204, 204, 204
+                rtb.SelectionStart = rtb.TextLength;
+                rtb.ScrollToCaret();
+                rtb.SelectionFont = consoleFont;
+                rtb.SelectionColor = Color.FromArgb(204, 204, 204);
+                rtb.SelectionStart = rtb.TextLength;
+                rtb.AppendText(tstr);
+
+
+                rtb.SelectionFont = consoleFontBold;
+                rtb.SelectionStart = rtb.TextLength;
+                rtb.SelectionLength = 0;
+                rtb.SelectionColor = Color.FromArgb(251, 222, 45);
+                rtb.AppendText(" <" + nick + "> ");
+
+                rtb.SelectionFont = consoleFont;
+                rtb.SelectionColor = Color.FromArgb(204, 204, 204);
+                rtb.SelectionStart = rtb.TextLength;
+                rtb.AppendText(msg + "\n");
+                rtb.SelectionStart = rtb.TextLength;
+                rtb.ScrollToCaret();
+            }
+        }
+
+            public static void ClearAll(System.Windows.Forms.ListBox LB, Object obj)
         {
             if (LB.InvokeRequired)
             {
@@ -121,16 +192,17 @@ namespace opentuner
             foreach (System.Text.Json.JsonElement hist_item in history)
             {
                 string time = hist_item.GetProperty("time").ToString();
-
                 DateTime timeobj = Convert.ToDateTime(time);
-                string historymsg = timeobj.ToString("HH:mm") + " <" + hist_item.GetProperty("name").ToString() + ">" + " " + hist_item.GetProperty("message").ToString();
-                AddItem(lbChat, historymsg);
+
+                //string historymsg = timeobj.ToString("HH:mm") + " <" + hist_item.GetProperty("name").ToString() + ">" + " " + hist_item.GetProperty("message").ToString();
+                //AddItem(lbChat, historymsg);
+                AddChat(richChat, timeobj.ToString("HH:mm"), hist_item.GetProperty("name").ToString(), hist_item.GetProperty("message").ToString());
             }
         }
 
         private void onViewersCallback(SocketIOResponse response)
         {
-            lblViewers.Text = "Viewers: " + response.GetValue(0).GetProperty("num").ToString();
+            updateTitle(this, "QO-100 Wideband Chat - Viewers: " + response.GetValue(0).GetProperty("num").ToString());
         }
 
         private void onMessageCallback(SocketIOResponse response)
@@ -138,8 +210,10 @@ namespace opentuner
             var newMessage = response.GetValue(0);
             string time = newMessage.GetProperty("time").ToString();
             DateTime timeobj = Convert.ToDateTime(time);
-            string newMsg = timeobj.ToString("HH:mm") + " <" + newMessage.GetProperty("name").ToString() + ">" + " " + newMessage.GetProperty("message").ToString();
-            AddItem(lbChat, newMsg);
+            //string newMsg = timeobj.ToString("HH:mm") + " <" + newMessage.GetProperty("name").ToString() + ">" + " " + newMessage.GetProperty("message").ToString();
+            //AddItem(lbChat, newMsg);
+
+            AddChat(richChat, timeobj.ToString("HH:mm"), newMessage.GetProperty("name").ToString(), newMessage.GetProperty("message").ToString());
         }
 
         private void onNicksCallback(SocketIOResponse response)
@@ -294,6 +368,59 @@ namespace opentuner
         private void lbChat_Resize(object sender, EventArgs e)
         {
             //lbChat.Refresh();
+        }
+
+        private void richChat_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to follow this link?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start(e.LinkText);
+            }
+        }
+
+        private void lbUsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lbUsers.SelectedIndex > 0)
+            {
+                // from Chris - DH3CS
+                string user = lbUsers.GetItemText(lbUsers.SelectedItem);
+                string result = null;
+                try
+                {
+                    richChat.SelectionStart = 0;
+                    richChat.SelectionLength = richChat.Text.Length - 1;
+                    richChat.SelectionBackColor = Color.FromArgb(63, 70, 76);
+                    // set the current caret position to the end, if nothing will be found
+                    richChat.SelectionStart = richChat.Text.Length;
+
+                    foreach (Match match in Regex.Matches(richChat.Text, user))
+                    {
+                        richChat.SelectionStart = match.Index;
+                        richChat.SelectionLength = match.Length;
+                        richChat.SelectionBackColor = Color.FromArgb(63, 0, 0);
+                    }
+                    // scroll it automatically
+                    richChat.ScrollToCaret();
+                }
+                catch { }
+            }
+            else
+            {
+                richChat.SelectionStart = 0;
+                richChat.SelectionLength = richChat.Text.Length - 1;
+                richChat.SelectionBackColor = Color.FromArgb(63, 70, 76);
+                richChat.SelectionStart = richChat.Text.Length;
+                richChat.ScrollToCaret();
+            }
+        }
+
+        private void lbUsers_MouseClick(object sender, MouseEventArgs e)
+        {
+        }
+
+        private void lbUsers_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right) { lbUsers.SelectedIndex = -1; }
         }
     }
 }

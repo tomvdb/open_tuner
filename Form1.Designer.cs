@@ -34,6 +34,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.statusPage = new System.Windows.Forms.TabPage();
             this.groupTuner2 = new System.Windows.Forms.GroupBox();
+            this.lblStreamFormat2 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.checkDisableVideo2 = new System.Windows.Forms.CheckBox();
             this.btnVidRecord2 = new System.Windows.Forms.Button();
             this.lblRfInput2 = new System.Windows.Forms.Label();
@@ -86,6 +88,8 @@
             this.lblConnected = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.groupTuner1 = new System.Windows.Forms.GroupBox();
+            this.lblStreamFormat1 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblRfInput = new System.Windows.Forms.Label();
             this.btnTuner = new System.Windows.Forms.Button();
             this.btnVid1Record = new System.Windows.Forms.Button();
@@ -242,6 +246,8 @@
             // 
             // groupTuner2
             // 
+            this.groupTuner2.Controls.Add(this.lblStreamFormat2);
+            this.groupTuner2.Controls.Add(this.label12);
             this.groupTuner2.Controls.Add(this.checkDisableVideo2);
             this.groupTuner2.Controls.Add(this.btnVidRecord2);
             this.groupTuner2.Controls.Add(this.lblRfInput2);
@@ -291,6 +297,18 @@
             resources.ApplyResources(this.groupTuner2, "groupTuner2");
             this.groupTuner2.Name = "groupTuner2";
             this.groupTuner2.TabStop = false;
+            // 
+            // lblStreamFormat2
+            // 
+            this.lblStreamFormat2.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            resources.ApplyResources(this.lblStreamFormat2, "lblStreamFormat2");
+            this.lblStreamFormat2.Name = "lblStreamFormat2";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // checkDisableVideo2
             // 
@@ -580,6 +598,8 @@
             // 
             // groupTuner1
             // 
+            this.groupTuner1.Controls.Add(this.lblStreamFormat1);
+            this.groupTuner1.Controls.Add(this.label1);
             this.groupTuner1.Controls.Add(this.lblRfInput);
             this.groupTuner1.Controls.Add(this.btnTuner);
             this.groupTuner1.Controls.Add(this.btnVid1Record);
@@ -628,6 +648,16 @@
             resources.ApplyResources(this.groupTuner1, "groupTuner1");
             this.groupTuner1.Name = "groupTuner1";
             this.groupTuner1.TabStop = false;
+            // 
+            // lblStreamFormat1
+            // 
+            resources.ApplyResources(this.lblStreamFormat1, "lblStreamFormat1");
+            this.lblStreamFormat1.Name = "lblStreamFormat1";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // lblRfInput
             // 
@@ -973,6 +1003,7 @@
             // spectrum
             // 
             this.spectrum.BackColor = System.Drawing.Color.Black;
+            this.spectrum.ContextMenuStrip = this.contextSpectrumMenu;
             resources.ApplyResources(this.spectrum, "spectrum");
             this.spectrum.Name = "spectrum";
             this.spectrum.TabStop = false;
@@ -1461,6 +1492,10 @@
         private System.Windows.Forms.ToolStripMenuItem manageExternalToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripMenuItem externalToolsToolStripMenuItem1;
+        private System.Windows.Forms.Label lblStreamFormat2;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lblStreamFormat1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

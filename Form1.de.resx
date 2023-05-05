@@ -118,86 +118,50 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="rfRadioInputB.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 21</value>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 16</value>
   </data>
-  <data name="rfRadioInputB.Text" xml:space="preserve">
-    <value>B (Unten)</value>
+  <data name="label17.Text" xml:space="preserve">
+    <value>LDPC Fehlerrate :</value>
   </data>
-  <data name="radioRFInputA.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 21</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 16</value>
   </data>
-  <data name="radioRFInputA.Text" xml:space="preserve">
-    <value>A (Oben)</value>
-  </data>
-  <data name="groupBox7.Text" xml:space="preserve">
-    <value>HF Eingang</value>
-  </data>
-  <data name="radioLnbSupplyVert.Text" xml:space="preserve">
-    <value>Vertikal (13V)</value>
-  </data>
-  <data name="radioLnbSupplyOff.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 21</value>
-  </data>
-  <data name="radioLnbSupplyOff.Text" xml:space="preserve">
-    <value>Aus</value>
-  </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>LNB Versorgung</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Frequenz: </value>
   </data>
   <data name="lblVolume.Location" type="System.Drawing.Point, System.Drawing">
-    <value>92, 30</value>
+    <value>99, 521</value>
   </data>
   <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 17</value>
+    <value>75, 16</value>
   </data>
   <data name="label20.Text" xml:space="preserve">
     <value>Lautstärke: </value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 17</value>
+    <value>108, 16</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
     <value>Video Auflösung:</value>
   </data>
-  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 17</value>
-  </data>
-  <data name="label22.Text" xml:space="preserve">
-    <value>Null Pakete:</value>
-  </data>
-  <data name="btnFrequencyChange.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 108</value>
-  </data>
-  <data name="btnFrequencyChange.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 35</value>
-  </data>
-  <data name="btnFrequencyChange.Text" xml:space="preserve">
-    <value>Anwenden</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 17</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Frequenz: </value>
-  </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 16</value>
+    <value>114, 16</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
     <value>Gewünschte Freq:</value>
   </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 16</value>
-  </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>LDPC Fehlerrate :</value>
-  </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 16</value>
+    <value>98, 16</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Demod Status :</value>
+  </data>
+  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 20</value>
+  </data>
+  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Aktionen</value>
   </data>
   <data name="menuConnect.Size" type="System.Drawing.Size, System.Drawing">
     <value>165, 22</value>
@@ -211,7 +175,10 @@
   <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Einstellungen</value>
   </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="toolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>162, 6</value>
   </data>
   <data name="quitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
@@ -219,12 +186,6 @@
   </data>
   <data name="quitToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Beenden</value>
-  </data>
-  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 20</value>
-  </data>
-  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Aktionen</value>
   </data>
   <data name="helpToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Hilfe</value>

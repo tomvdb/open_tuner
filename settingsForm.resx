@@ -972,6 +972,54 @@
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="label17.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>285, 53</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 13</value>
+  </data>
+  <data name="label17.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Chat Font Size:</value>
+  </data>
+  <data name="&gt;&gt;label17.Name" xml:space="preserve">
+    <value>label17</value>
+  </data>
+  <data name="&gt;&gt;label17.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="numChatFontSize.Location" type="System.Drawing.Point, System.Drawing">
+    <value>370, 51</value>
+  </data>
+  <data name="numChatFontSize.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="numChatFontSize.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;numChatFontSize.Name" xml:space="preserve">
+    <value>numChatFontSize</value>
+  </data>
+  <data name="&gt;&gt;numChatFontSize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numChatFontSize.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;numChatFontSize.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1003,7 +1051,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="txtSigReportTemplate.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 104</value>
@@ -1024,7 +1072,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;txtSigReportTemplate.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1051,31 +1099,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnChatFontSetting.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 48</value>
-  </data>
-  <data name="btnChatFontSetting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 23</value>
-  </data>
-  <data name="btnChatFontSetting.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="btnChatFontSetting.Text" xml:space="preserve">
-    <value>Chat Font Settings</value>
-  </data>
-  <data name="&gt;&gt;btnChatFontSetting.Name" xml:space="preserve">
-    <value>btnChatFontSetting</value>
-  </data>
-  <data name="&gt;&gt;btnChatFontSetting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnChatFontSetting.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;btnChatFontSetting.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="checkEnableChat.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1102,7 +1126,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;checkEnableChat.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="checkEnableSpectrum.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1129,7 +1153,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;checkEnableSpectrum.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
     <value>370, 229</value>

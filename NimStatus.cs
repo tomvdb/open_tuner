@@ -18,6 +18,7 @@ namespace opentuner
 
         public byte T1P2_demod_status { get; set; }
         public UInt32 T1P2_ts_status { get; set; }
+        public UInt32 T1P2_stream_format { get; set; }
         public ushort T1P2_lna_gain { get; set; }
         public byte T1P2_power_i { get; set; }
         public byte T1P2_power_q { get; set; }
@@ -43,7 +44,7 @@ namespace opentuner
         // tuner 2 - demod 1 (TS1)(P1)
         public byte T2P1_demod_status { get; set; }
         public UInt32 T2P1_ts_status { get; set; }
-        
+        public UInt32 T2P1_stream_format { get; set; }
         public ushort T2P1_lna_gain { get; set; }
         public byte T2P1_power_i { get; set; }
         public byte T2P1_power_q { get; set; }

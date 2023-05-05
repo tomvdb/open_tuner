@@ -53,7 +53,6 @@ namespace opentuner
                     {
                         byte check = 0;
 
-                        //if (parser_ts_data_queue.TryPeek(out check))
                         if (parser_ts_data_queue.Count > 0)
                         {
                             check = parser_ts_data_queue.Peek();

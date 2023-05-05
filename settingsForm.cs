@@ -43,18 +43,5 @@ namespace opentuner
         }
 
 
-        private void btnChatFontSetting_Click(object sender, EventArgs e)
-        {
-            FontDialog fontDialog = new FontDialog();
-
-            fontDialog.ShowEffects = false;
-            fontDialog.ShowHelp = false;
-            fontDialog.Font = currentChatFont;
-
-            if (fontDialog.ShowDialog() == DialogResult.OK)
-            {
-                currentChatFont = fontDialog.Font;
-            }
-        }
     }
 }

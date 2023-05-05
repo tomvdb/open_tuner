@@ -33,7 +33,7 @@ namespace opentuner
             hardware = _hardware;
             nim_thread = _nim_thread;
 
-            NimStatusCallback status_callback = new NimStatusCallback(Nim_thread_onNewStatus);
+            //NimStatusCallback status_callback = new NimStatusCallback(Nim_thread_onNewStatus);
 
             Console.WriteLine(" >> Registering Raw TS Queue << ");
             registered_consumers.Add(_raw_ts_data_queue);
@@ -47,9 +47,19 @@ namespace opentuner
             registered_consumers.Add(raw_ts_data_queue);
         }
 
+        /*
         private void Nim_thread_onNewStatus(NimStatus nim_status)
         {
+            if (ts_device == ftdi.TS2)
+            {
+                Console.WriteLine("Stream Format (1): " + nim_status.T1P2_stream_format.ToString());
+            }
+            else
+            {
+                Console.WriteLine("Stream Format (2): " + nim_status.T2P1_stream_format.ToString());
+            }
         }
+        */
 
         public void stop_ts()
         {

@@ -334,6 +334,22 @@ namespace opentuner
             return nim_device.nim_write_demod(reg, val);
         }
 
+        public byte stv0910_read_matype(byte demod, ref UInt32 matype1, ref UInt32 matype2)
+        {
+            byte err;
+            byte regval = 0;
+
+            err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? Convert.ToUInt16(stv0910_regs.RSTV0910_P2_MATSTR0 - 1) : Convert.ToUInt16(stv0910_regs.RSTV0910_P1_MATSTR0 - 1), ref regval);
+            matype1 = regval;
+
+            err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_MATSTR0 : stv0910_regs.RSTV0910_P1_MATSTR0, ref regval);
+            matype2 = regval;
+
+            if (err != 0) Console.WriteLine("ERROR: STV0910 read MATYPE");
+
+            return err;
+        }
+
         public byte stv0910_read_mer(byte demod, ref UInt32 mer)
         {
             byte err = 0;

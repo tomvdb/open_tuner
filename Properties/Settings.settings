@@ -26,9 +26,6 @@
     <Setting Name="chat_nick" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="wbchat_font" Type="System.Drawing.Font" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="wbchat_width" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">-1</Value>
     </Setting>
@@ -88,6 +85,9 @@
     </Setting>
     <Setting Name="tuner2_start_freq" Type="System.String" Scope="User">
       <Value Profile="(Default)">Default</Value>
+    </Setting>
+    <Setting Name="wbchat_font_size" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">12</Value>
     </Setting>
   </Settings>
 </SettingsFile>
