@@ -112,7 +112,7 @@ namespace opentuner
             }
         }
 
-        public void set_freq(NimConfig newConfig)
+        public void set_freq(TunerConfig newConfig)
         {
             frequency = Convert.ToInt32(newConfig.frequency);
             comboRFInput.SelectedIndex = (int)(newConfig.rf_input - 1);

@@ -33,7 +33,7 @@ namespace opentuner
             this.Text = "Tuner " + tuner.ToString() + " - " + (video_player == 0 ? "VLC" : "FFMPEG");
         }
 
-        public void updateStatus(NimStatus status)
+        public void updateStatus(TunerStatus status)
         {
             string info = "Tuner " + tuner.ToString() + " - " + (video_player == 0 ? "VLC" : "FFMPEG") + " : ";
 

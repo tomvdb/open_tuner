@@ -260,6 +260,7 @@
     </Compile>
     <Compile Include="lookups.cs" />
     <Compile Include="MediaStatus.cs" />
+    <Compile Include="MinitiounerSource.cs" />
     <Compile Include="nim.cs" />
     <Compile Include="NimConfig.cs" />
     <Compile Include="NimStatus.cs" />

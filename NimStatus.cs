@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace opentuner
 {
-    public class NimStatus
+    public class TunerStatus
     {
         // nim specific
         public bool lna_top_ok { get; set; }
@@ -22,7 +22,7 @@ namespace opentuner
         public ushort T1P2_lna_gain { get; set; }
         public byte T1P2_power_i { get; set; }
         public byte T1P2_power_q { get; set; }
-        public UInt32 T1P2_mer { get; set; }
+        public Int32 T1P2_mer { get; set; }
         public bool T1P2_short_frame { get; set; }
         public bool T1P2_pilots { get; set; }
         public Int32 T1P2_frequency_carrier_offset { get; set; }
@@ -48,7 +48,7 @@ namespace opentuner
         public ushort T2P1_lna_gain { get; set; }
         public byte T2P1_power_i { get; set; }
         public byte T2P1_power_q { get; set; }
-        public UInt32 T2P1_mer { get; set; }
+        public Int32 T2P1_mer { get; set; }
         public bool T2P1_short_frame { get; set; }
         public bool T2P1_pilots { get; set; }
         public Int32 T2P1_frequency_carrier_offset { get; set; }

@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace opentuner
 {
-    public delegate void NimStatusCallback(NimStatus status);
+    public delegate void SourceStatusCallback(TunerStatus status);
 
     public class NimThread
     {
@@ -20,8 +20,8 @@ namespace opentuner
         stvvglna stvvglna_top;
         stvvglna stvvglna_bottom;
 
-        ConcurrentQueue<NimConfig> config_queue;
-        private List<NimStatusCallback> status_callback = null;
+        ConcurrentQueue<TunerConfig> config_queue;
+        private List<SourceStatusCallback> status_callback = null;
 
         bool lna_top_ok = false;
         bool lna_bottom_ok = false;
@@ -32,12 +32,12 @@ namespace opentuner
 
         public event EventHandler<StatusEvent> onNewStatus;
 
-        public NimThread(ConcurrentQueue<NimConfig> _config_queue, ftdi _hardware, NimStatusCallback _status_callback, bool _no_lna)
+        public NimThread(ConcurrentQueue<TunerConfig> _config_queue, ftdi _hardware, SourceStatusCallback _status_callback, bool _no_lna)
         {
             hardware = _hardware;
             config_queue = _config_queue;
             //status_callback = _status_callback;
-            status_callback = new List<NimStatusCallback>();
+            status_callback = new List<SourceStatusCallback>();
             status_callback.Add(_status_callback);
 
             _nim = new nim(hardware);
@@ -49,7 +49,7 @@ namespace opentuner
             stvvglna_bottom = new stvvglna(_nim);
         }
 
-        public void register_callback(NimStatusCallback cb)
+        public void register_callback(SourceStatusCallback cb)
         {
             status_callback.Add(cb);
         }
@@ -85,7 +85,7 @@ namespace opentuner
 
         byte get_nim_status()
         {
-            NimStatus nim_status = new NimStatus();
+            TunerStatus nim_status = new TunerStatus();
 
             byte err = 0;
 
@@ -245,7 +245,7 @@ namespace opentuner
             if (err == 0) _stv0910.stv0910_read_matype(stv0910.STV0910_DEMOD_BOTTOM, ref ma_type1, ref ma_type2);
             nim_status.T2P1_stream_format = (ma_type1 & 0xC0) >> 6; ;
 
-            UInt32 mer = 0;
+            Int32 mer = 0;
 
             if (nim_status.T1P2_demod_status == stv0910.DEMOD_S || nim_status.T1P2_demod_status == stv0910.DEMOD_S2)
             {
@@ -317,7 +317,7 @@ namespace opentuner
 
             bool initialConfig = false;
 
-            NimConfig nim_config = null;
+            TunerConfig nim_config = null;
 
                 byte err = _stv0910.stv0910_init();
 
@@ -446,6 +446,6 @@ namespace opentuner
 
     public class StatusEvent : EventArgs
     {
-        public NimStatus nim_status { get; set; }
+        public TunerStatus nim_status { get; set; }
     }
 }

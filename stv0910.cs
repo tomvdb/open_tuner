@@ -350,7 +350,7 @@ namespace opentuner
             return err;
         }
 
-        public byte stv0910_read_mer(byte demod, ref UInt32 mer)
+        public byte stv0910_read_mer(byte demod, ref Int32 mer)
         {
             byte err = 0;
             byte high = 0;
@@ -362,7 +362,14 @@ namespace opentuner
             if (((high >> 2) & 0x01) == 1)
             {
                 /* Px_NOSRAM_CNRVAL is valid */
-                mer = (uint)(((high & 0x03) << 8) | low);
+                if (((high >> 1) & 0x01) == 1)
+                {
+                    mer = (int)(((high & 0x01) << 8) | low) - 512;
+                }
+                else
+                {
+                    mer = (int)(((high & 0x01) << 8) | low); 
+                }
             }
             else
             {

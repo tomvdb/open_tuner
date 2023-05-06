@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace opentuner
 {
-    public class NimConfig
+    public class TunerConfig
     {
         // tuner / demod specific
 
