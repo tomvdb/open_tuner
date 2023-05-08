@@ -622,9 +622,79 @@ namespace opentuner
             return ftdi_devices;
         }
 
+        public byte ftdi_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName, string i2c_serial, string ts_serial, string ts2_serial)
+        {
+            byte err = 0;
+
+            uint devcount = 0;
+
+            ts_port = 99;
+            i2c_port = 99;
+            ts_port2 = 99;
+
+            detectedDeviceName = "Manual";
+
+            try
+            {
+                ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
+                Console.WriteLine("Number of FTDI Devices: " + devcount.ToString());
+
+                // we need atleast two ports
+                if (devcount < 2)
+                {
+                    Console.WriteLine("Not enough FTDI devices detected");
+                    return 1;
+                }
+
+                for (uint c = 0; c < devcount; c++)
+                {
+                    FTDI ftdi_device = new FTDI();
+                    ftdi_device.OpenByIndex(c);
+
+                    FTDI.FT_DEVICE device = new FTDI.FT_DEVICE();
+                    ftdi_device.GetDeviceType(ref device);
+
+                    ftdi_device.GetSerialNumber(out string SerialNumber);
+
+                    Console.WriteLine("Serial Number: " + SerialNumber.ToString());
+
+                    if (SerialNumber == i2c_serial) 
+                    { 
+                        i2c_port=c;
+                        ftdi_device.Close();
+                        continue;
+                    }
+
+                    if (SerialNumber ==  ts_serial)
+                    {
+                        ts_port = c;
+                        ftdi_device.Close();
+                        continue;
+                    }
+
+                    if (SerialNumber == ts2_serial)
+                    {
+                        ts_port2 = c;
+                        ftdi_device.Close();
+                        continue;
+                    }
+
+                    ftdi_device.Close();
+                }
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("FTDI Error: " + Ex.Message);
+                return 1;
+            }
+
+
+            return err;
+        }
+
         public byte ftdi_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName)
         {
-            Console.WriteLine("**** FTDI Ports Detection ****");
+            Console.WriteLine("**** FTDI Port(s) Detection ****");
 
             byte err = 0;
             uint devcount = 0;
@@ -702,20 +772,20 @@ namespace opentuner
 
                     if (deviceName.Contains("MiniTiouner_Pro_TS2 A"))
                     {
-                        Console.WriteLine("Should be the i2c port for a Minitiouner Pro 2");
+                        Console.WriteLine("Should be the i2c port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
                         i2c_port = c;
                         detectedDeviceName = "Minitiouner Pro 2";
                     }
 
                     if (deviceName.Contains("MiniTiouner_Pro_TS2 B"))
                     {
-                        Console.WriteLine("Should be the ts port for a Minitiouner Pro 2");
+                        Console.WriteLine("Should be the ts port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
                         ts_port = c;
                     }
 
                     if (deviceName.Contains("MiniTiouner_Pro_TS1 B"))
                     {
-                        Console.WriteLine("Should be the 2nd ts port for a Minitiouner Pro 2");
+                        Console.WriteLine("Should be the 2nd ts port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
                         ts_port2 = c;
                     }
 
@@ -731,6 +801,21 @@ namespace opentuner
                         Console.WriteLine("Should be the ts port for a Minitiouner-S");
                         ts_port = c;
                     }
+
+                    if (deviceName.Contains("Minitiouner S A"))
+                    {
+                        
+                        Console.WriteLine("Should be the i2c port for a Minitiouner-S");
+                        i2c_port = c;
+                        detectedDeviceName = "Minitiouner-S";
+                    }
+
+                    if (deviceName.Contains("Minitiouner S B"))
+                    {
+                        Console.WriteLine("Should be the ts port for a Minitiouner-S");
+                        ts_port = c;
+                    }
+
 
                     if (deviceName.Contains("MiniTiouner-Express A"))
                     {

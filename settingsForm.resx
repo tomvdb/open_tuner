@@ -138,6 +138,9 @@
   <data name="label16.Text" xml:space="preserve">
     <value>Start Freq (Tuner 2):</value>
   </data>
+  <data name="label16.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;label16.Name" xml:space="preserve">
     <value>label16</value>
   </data>
@@ -158,6 +161,9 @@
   </data>
   <data name="comboTuner2Start.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
+  </data>
+  <data name="comboTuner2Start.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;comboTuner2Start.Name" xml:space="preserve">
     <value>comboTuner2Start</value>
@@ -186,6 +192,9 @@
   <data name="label15.Text" xml:space="preserve">
     <value>Start Freq (Tuner 1):</value>
   </data>
+  <data name="label15.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;label15.Name" xml:space="preserve">
     <value>label15</value>
   </data>
@@ -206,6 +215,9 @@
   </data>
   <data name="comboTuner1Start.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
+  </data>
+  <data name="comboTuner1Start.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;comboTuner1Start.Name" xml:space="preserve">
     <value>comboTuner1Start</value>

@@ -62,6 +62,8 @@
             this.txtSnapshotPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.numChatFontSize = new System.Windows.Forms.NumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
             this.txtSigReportTemplate = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -70,8 +72,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.numChatFontSize = new System.Windows.Forms.NumericUpDown();
-            this.label17 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).BeginInit();
@@ -332,6 +332,32 @@
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
+            // label17
+            // 
+            resources.ApplyResources(this.label17, "label17");
+            this.label17.Name = "label17";
+            // 
+            // numChatFontSize
+            // 
+            resources.ApplyResources(this.numChatFontSize, "numChatFontSize");
+            this.numChatFontSize.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numChatFontSize.Minimum = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+            this.numChatFontSize.Name = "numChatFontSize";
+            this.numChatFontSize.ReadOnly = true;
+            this.numChatFontSize.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+            // 
             // label14
             // 
             resources.ApplyResources(this.label14, "label14");
@@ -377,32 +403,6 @@
             // 
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            // 
-            // numChatFontSize
-            // 
-            resources.ApplyResources(this.numChatFontSize, "numChatFontSize");
-            this.numChatFontSize.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.numChatFontSize.Minimum = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
-            this.numChatFontSize.Name = "numChatFontSize";
-            this.numChatFontSize.ReadOnly = true;
-            this.numChatFontSize.Value = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
-            // 
-            // label17
-            // 
-            resources.ApplyResources(this.label17, "label17");
-            this.label17.Name = "label17";
             // 
             // settingsForm
             // 

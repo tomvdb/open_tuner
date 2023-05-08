@@ -14,6 +14,7 @@ using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace opentuner
 {
@@ -157,7 +158,21 @@ namespace opentuner
             }
         }
 
-            public static void ClearAll(System.Windows.Forms.ListBox LB, Object obj)
+        private delegate void ClearRTBDelegate(RichTextBox rtb);
+        public static void ClearChat(RichTextBox rtb)
+        {
+            if (rtb.InvokeRequired)
+            {
+                ClearRTBDelegate crd = new ClearRTBDelegate(ClearChat);
+                rtb.Invoke(crd, new Object[] { rtb });
+            }
+            else
+            {
+                rtb.Clear();
+            }
+        }
+
+        public static void ClearAll(System.Windows.Forms.ListBox LB, Object obj)
         {
             if (LB.InvokeRequired)
             {
@@ -185,7 +200,8 @@ namespace opentuner
 
         private void initHistory(SocketIOResponse response)
         {
-            ClearAll(lbChat, "");
+            //ClearAll(lbChat, "");
+            ClearChat(richChat);
 
             var history = response.GetValue(0).GetProperty("history").EnumerateArray();
 
@@ -347,6 +363,10 @@ namespace opentuner
             {
                 txtNick.Text = nickDialog.txtNick.Text;
                 setNick();
+
+                DateTime timeobj = DateTime.Now;
+                AddChat(richChat, timeobj.ToString("HH:mm"), "Chat","You are now known as '" + txtNick.Text + "'");
+
             }
         }
 
@@ -397,7 +417,7 @@ namespace opentuner
                     {
                         richChat.SelectionStart = match.Index;
                         richChat.SelectionLength = match.Length;
-                        richChat.SelectionBackColor = Color.FromArgb(63, 0, 0);
+                        richChat.SelectionBackColor = Color.FromArgb(0, 255, 0);
                     }
                     // scroll it automatically
                     richChat.ScrollToCaret();

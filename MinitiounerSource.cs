@@ -12,7 +12,7 @@ namespace opentuner
 {
     public class MinitiounerSource : OTSource
     {
-        ftdi ftdi_hw = new ftdi();
+        public ftdi ftdi_hw = new ftdi();
         public bool hardware_connected = false;
 
         public int ts_devices = 1;
@@ -37,11 +37,11 @@ namespace opentuner
         // tuner specific
         public uint current_frequency_1 = 0;
         public uint current_sr_1 = 0;
-        public uint current_rf_input_1 = nim.NIM_INPUT_TOP; // true is A, false is B
+        public uint current_rf_input_1 = nim.NIM_INPUT_TOP; 
 
         public uint current_frequency_2 = 0;
         public uint current_sr_2 = 0;
-        public uint current_rf_input_2 = nim.NIM_INPUT_TOP; // true is A, false is B
+        public uint current_rf_input_2 = nim.NIM_INPUT_TOP; 
 
         // other
         public bool current_enable_lnb_supply = false;
@@ -51,6 +51,8 @@ namespace opentuner
 
         private VideoChangeCallback VideoChangeCB;
         private SourceStatusCallback SourceStatusCB;
+
+        public string HardwareDevice { get; set; }
 
         public MinitiounerSource() { }
 
@@ -143,12 +145,18 @@ namespace opentuner
 
         public bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB)
         {
+            return Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "");
+        }
+
+
+        public bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial)
+        {
             bool result = true;
 
             this.VideoChangeCB = VideoChangeCB;
             this.SourceStatusCB = SourceStatusCB;
 
-            hardware_init();
+            hardware_init(manual, i2c_serial, ts_serial, ts2_serial);
 
             if (!hardware_connected)
             {
@@ -163,7 +171,7 @@ namespace opentuner
             //ftdi_hw.ftdi_ts_led(1, false);
 
             // set default lnb supply
-            //ftdi_hw.ftdi_set_polarization_supply(0, current_enable_lnb_supply, current_enable_horiz_supply);
+            ftdi_hw.ftdi_set_polarization_supply(0, current_enable_lnb_supply, current_enable_horiz_supply);
 
             // NIM thread
             //SourceStatusCallback status_callback = new SourceStatusCallback(nim_status_feedback);
@@ -224,7 +232,7 @@ namespace opentuner
             return result;
         }
 
-        private void hardware_init()
+        private void hardware_init(bool manual, string i2c_serial, string ts_serial, string ts2_serial)
         {
 
             // detect ftdi devices
@@ -234,15 +242,29 @@ namespace opentuner
 
             string deviceName = "Unknown";
 
-            byte err = ftdi_hw.ftdi_detect(ref i2c_port, ref ts_port, ref ts_port2, ref deviceName);
+            byte err = 0;
+
+            if (manual) 
+            { 
+                err = ftdi_hw.ftdi_detect(ref i2c_port, ref ts_port, ref ts_port2, ref deviceName, i2c_serial, ts_serial, ts2_serial);
+            }
+            else
+            {
+                err = ftdi_hw.ftdi_detect(ref i2c_port, ref ts_port, ref ts_port2, ref deviceName);
+            }
+
+            //err = ftdi_hw.ftdi_detect(ref i2c_port, ref ts_port, ref ts_port2, ref deviceName);
 
             if (ts_port2 == 99)
                 ts_devices = 1;
             else
                 ts_devices = 2;
 
+            //ts_devices = 1;
+
             if (i2c_port == 99 || ts_port == 99)    // not detected properly, revert to 0 and 1 and hope for the best
             {
+                ts_devices = 1;
                 Console.WriteLine("Hardware not detected properly, reverting to 0,1");
                 err = ftdi_hw.ftdi_init(0, 1, 99);
             }
@@ -251,7 +273,7 @@ namespace opentuner
                 Console.WriteLine("Trying detected ports:");
                 Console.WriteLine("i2c port: " + i2c_port.ToString());
                 Console.WriteLine("ts port: " + ts_port.ToString());
-                Console.WriteLine("ts2 port: " + ts_port.ToString());
+                Console.WriteLine("ts2 port: " + ts_port2.ToString());
                 err = ftdi_hw.ftdi_init(i2c_port, ts_port, ts_port2);
             }
 
@@ -264,8 +286,7 @@ namespace opentuner
 
             hardware_connected = true;
 
-            // todo: fix
-            // this.Text = this.Text + " - " + deviceName;
+            HardwareDevice = deviceName;
         }
     }
 }

@@ -32,11 +32,11 @@
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblDeviceDescription = new System.Windows.Forms.Label();
-            this.lblDeviceSerialNumber = new System.Windows.Forms.Label();
             this.lblDeviceIndex = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.lblDeviceSerialNumber = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,8 +61,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.lblDeviceDescription);
             this.groupBox1.Controls.Add(this.lblDeviceSerialNumber);
+            this.groupBox1.Controls.Add(this.lblDeviceDescription);
             this.groupBox1.Controls.Add(this.lblDeviceIndex);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
@@ -82,15 +82,6 @@
             this.lblDeviceDescription.Size = new System.Drawing.Size(35, 13);
             this.lblDeviceDescription.TabIndex = 14;
             this.lblDeviceDescription.Text = "label8";
-            // 
-            // lblDeviceSerialNumber
-            // 
-            this.lblDeviceSerialNumber.AutoSize = true;
-            this.lblDeviceSerialNumber.Location = new System.Drawing.Point(150, 61);
-            this.lblDeviceSerialNumber.Name = "lblDeviceSerialNumber";
-            this.lblDeviceSerialNumber.Size = new System.Drawing.Size(35, 13);
-            this.lblDeviceSerialNumber.TabIndex = 13;
-            this.lblDeviceSerialNumber.Text = "label7";
             // 
             // lblDeviceIndex
             // 
@@ -128,6 +119,14 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Device Index:";
             // 
+            // lblDeviceSerialNumber
+            // 
+            this.lblDeviceSerialNumber.Location = new System.Drawing.Point(153, 58);
+            this.lblDeviceSerialNumber.Name = "lblDeviceSerialNumber";
+            this.lblDeviceSerialNumber.ReadOnly = true;
+            this.lblDeviceSerialNumber.Size = new System.Drawing.Size(100, 20);
+            this.lblDeviceSerialNumber.TabIndex = 15;
+            // 
             // hardwareInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,10 +151,10 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label lblDeviceDescription;
-        private System.Windows.Forms.Label lblDeviceSerialNumber;
         private System.Windows.Forms.Label lblDeviceIndex;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox lblDeviceSerialNumber;
     }
 }

@@ -308,7 +308,6 @@
             // 
             resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
-            this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // checkDisableVideo2
             // 
