@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace opentuner
+namespace opentuner.Forms
 {
-    public partial class setnickdialog : Form
+    public partial class Setnickdialog : Form
     {
-        public setnickdialog()
+        public Setnickdialog()
         {
             InitializeComponent();
         }

@@ -3,7 +3,7 @@
 using System;
 using WebSocketSharp;
 
-namespace opentuner
+namespace opentuner.Transport
 {
     class socket
     {

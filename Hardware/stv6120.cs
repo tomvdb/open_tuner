@@ -1,8 +1,9 @@
 ﻿// ported from longmynd - https://github.com/myorangedragon/longmynd - Heather Lomond
 
 using System;
+using opentuner.Classes;
 
-namespace opentuner
+namespace opentuner.Hardware
 {
     class stv6120
     {
@@ -385,7 +386,7 @@ namespace opentuner
                     timeout++;
                     if (timeout == STV6120_CAL_TIMEOUT)
                     {
-                        err = errors.ERROR_TUNER_CAL_LOWPASS_TIMEOUT;
+                        err = Errors.ERROR_TUNER_CAL_LOWPASS_TIMEOUT;
                         Console.WriteLine("ERROR: tuner wait on CAL_lowpass timed out\n");
                     }
                 } while ((err == 0) && ((val & (1 << stv6120_regs.STV6120_STAT1_CALRCSTRT_SHIFT)) == (1 << stv6120_regs.STV6120_STAT1_CALRCSTRT_SHIFT)));
@@ -586,7 +587,7 @@ namespace opentuner
                 if ((err == 0) && (timeout == STV6120_CAL_TIMEOUT))
                 {
                     Console.WriteLine("ERROR: tuner wait on CAL timed out\n");
-                    err = errors.ERROR_TUNER_CAL_TIMEOUT;
+                    err = Errors.ERROR_TUNER_CAL_TIMEOUT;
                 }
             }
 
@@ -611,7 +612,7 @@ namespace opentuner
                 if ((err == 0) && (timeout == STV6120_CAL_TIMEOUT))
                 {
                     Console.WriteLine("ERROR: tuner wait on lock timed out\n");
-                    err = errors.ERROR_TUNER_LOCK_TIMEOUT;
+                    err = Errors.ERROR_TUNER_LOCK_TIMEOUT;
                 }
             }
 

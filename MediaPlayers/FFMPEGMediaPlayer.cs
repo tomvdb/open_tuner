@@ -1,10 +1,12 @@
 ﻿using System;
+using System.IO;
 using FlyleafLib;
 using FlyleafLib.Controls.WinForms;
 using FlyleafLib.MediaPlayer;
-using System.IO;
+using opentuner.Classes;
+using opentuner.Transport;
 
-namespace opentuner
+namespace opentuner.MediaPlayers
 {
    
     public class FFMPEGMediaPlayer : OTMediaPlayer

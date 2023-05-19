@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Net.Sockets;
-using System.Net;
-using System.Threading;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using opentuner.Classes;
 
-namespace opentuner
+namespace opentuner.Transport
 {
     public class BBFrameUDP
     {

@@ -1,8 +1,9 @@
 ﻿// ported from longmynd - https://github.com/myorangedragon/longmynd - Heather Lomond
 
 using System;
+using opentuner.Classes;
 
-namespace opentuner
+namespace opentuner.Hardware
 {
     class stvvglna
     {
@@ -57,7 +58,7 @@ namespace opentuner
                 timeout++;
                 if ((err == 0) && (timeout == STVVGLNA_AGC_TIMEOUT))
                 {
-                    err = errors.ERROR_LNA_AGC_TIMEOUT;
+                    err = Errors.ERROR_LNA_AGC_TIMEOUT;
                     Console.WriteLine("Error: read AGC timeout\n");
                 }
             }
@@ -107,7 +108,7 @@ namespace opentuner
                 if ((val & stvvglna_regs.STVVGLNA_REG0_IDENT_MASK) != stvvglna_regs.STVVGLNA_REG0_IDENT_DEFAULT)
                 {
                     Console.WriteLine("ERROR: failed to recognise LNA ID {0} {1}", input, val);
-                    err = errors.ERROR_LNA_ID;
+                    err = Errors.ERROR_LNA_ID;
                 }
 
                 if (state == STVVGLNA_ON)

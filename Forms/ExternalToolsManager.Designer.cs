@@ -1,6 +1,6 @@
-﻿namespace opentuner
+﻿namespace opentuner.Forms
 {
-    partial class externalToolsManager
+    partial class ExternalToolsManager
     {
         /// <summary>
         /// Required designer variable.
@@ -220,7 +220,7 @@
             this.Controls.Add(this.listTools);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "externalToolsManager";
+            this.Name = "ExternalToolsManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "External Tools Manager";
             this.Load += new System.EventHandler(this.externalToolsManager_Load);

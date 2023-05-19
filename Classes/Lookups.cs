@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace opentuner
+namespace opentuner.Classes
 {
-    public static class lookups
+    public static class Lookups
     {
         public static List<string> stream_format_lookups = new List<string>()
         {

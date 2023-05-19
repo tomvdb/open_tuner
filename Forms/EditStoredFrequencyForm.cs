@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace opentuner
+namespace opentuner.Forms
 {
-    public partial class editStoredFrequencyForm : Form
+    public partial class EditStoredFrequencyForm : Form
     {
-        public editStoredFrequencyForm()
+        public EditStoredFrequencyForm()
         {
             InitializeComponent();
         }

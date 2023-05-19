@@ -1,6 +1,6 @@
 ﻿// ported from longmynd - https://github.com/myorangedragon/longmynd - Heather Lomond
 
-namespace opentuner
+namespace opentuner.Hardware
 {
     static class stvvglna_regs
     {

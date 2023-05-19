@@ -1,6 +1,6 @@
-﻿namespace opentuner
+﻿namespace opentuner.Forms
 {
-    partial class frequencyManagerForm
+    partial class FrequencyManagerForm
     {
         /// <summary>
         /// Required designer variable.
@@ -234,7 +234,7 @@
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.listFreq);
-            this.Name = "frequencyManagerForm";
+            this.Name = "FrequencyManagerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Frequency Manager";
             this.groupBox1.ResumeLayout(false);

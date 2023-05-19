@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using opentuner.Classes;
 
-namespace opentuner
+namespace opentuner.Forms
 {
-    public partial class externalToolsManager : Form
+    public partial class ExternalToolsManager : Form
     {
         private List<ExternalTool> externalToolList;
 
-        public externalToolsManager(List<ExternalTool> externalTools)
+        public ExternalToolsManager(List<ExternalTool> externalTools)
         {
             InitializeComponent();
             externalToolList = externalTools;

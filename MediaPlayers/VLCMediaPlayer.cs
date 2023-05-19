@@ -1,7 +1,9 @@
 ﻿using System;
 using LibVLCSharp.Shared;
+using opentuner.Classes;
+using opentuner.Transport;
 
-namespace opentuner
+namespace opentuner.MediaPlayers
 {
     public class VLCMediaPlayer : OTMediaPlayer
     {

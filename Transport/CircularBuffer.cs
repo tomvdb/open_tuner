@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace opentuner
+namespace opentuner.Transport
 {
 
     public class CircularBuffer

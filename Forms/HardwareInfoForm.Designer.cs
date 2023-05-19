@@ -1,6 +1,6 @@
-﻿namespace opentuner
+﻿namespace opentuner.Forms
 {
-    partial class hardwareInfoForm
+    partial class HardwareInfoForm
     {
         /// <summary>
         /// Required designer variable.
@@ -137,7 +137,7 @@
             this.Controls.Add(this.listBox1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "hardwareInfoForm";
+            this.Name = "HardwareInfoForm";
             this.Text = "Detected Hardware Info";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

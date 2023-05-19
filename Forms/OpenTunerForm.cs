@@ -1,20 +1,24 @@
-﻿using LibVLCSharp.Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Globalization;
-using System.Drawing.Drawing2D;
-using System.IO;
+using LibVLCSharp.Shared;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Net.Sockets;
+using opentuner.Classes;
+using opentuner.Hardware;
+using opentuner.MediaPlayers;
+using opentuner.Transport;
 
-namespace opentuner
+namespace opentuner.Forms
 {
     public partial class OpenTunerForm : Form
     {
@@ -197,9 +201,9 @@ namespace opentuner
         string setting_sigreport_template = "SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}";
 
         // custom forms
-        private wbchat chatForm;
-        private tunerControlForm tuner1ControlForm;
-        private tunerControlForm tuner2ControlForm;
+        private WideBandChatForm chatForm;
+        private TunerControlForm tuner1ControlForm;
+        private TunerControlForm tuner2ControlForm;
         private VideoViewForm mediaPlayer1Window;
         private VideoViewForm mediaPlayer2Window;
 
@@ -369,7 +373,7 @@ namespace opentuner
                 gui.prop_lpdc_errors = new_status.errors_ldpc_count.ToString();
 
                 // tuner 1
-                gui.prop_demodstate = lookups.demod_state_lookup[new_status.T1P2_demod_status];
+                gui.prop_demodstate = Lookups.demod_state_lookup[new_status.T1P2_demod_status];
                 double mer = Convert.ToDouble(new_status.T1P2_mer) / 10;
                 gui.prop_mer = mer.ToString() + " dB";
                 gui.prop_lnagain = new_status.T1P2_lna_gain.ToString();
@@ -381,7 +385,7 @@ namespace opentuner
                 gui.prop_req_freq =  (mt.current_frequency_1 + mt.current_offset_A).ToString("N0") + " (" + mt.current_frequency_1.ToString("N0") + ")";
                 gui.prop_rf_input = new_status.T1P2_rf_input;
 
-                gui.prop_demodstate2 = lookups.demod_state_lookup[new_status.T2P1_demod_status];
+                gui.prop_demodstate2 = Lookups.demod_state_lookup[new_status.T2P1_demod_status];
                 double mer2 = Convert.ToDouble(new_status.T2P1_mer) / 10;
                 gui.prop_mer2 = mer2.ToString() + " dB";
                 gui.prop_lnagain2 = new_status.T2P1_lna_gain.ToString();
@@ -395,7 +399,7 @@ namespace opentuner
 
                 try
                 {
-                    gui.prop_stream_format1 = lookups.stream_format_lookups[Convert.ToInt32(new_status.T1P2_stream_format)].ToString();
+                    gui.prop_stream_format1 = Lookups.stream_format_lookups[Convert.ToInt32(new_status.T1P2_stream_format)].ToString();
 
                     if (new_status.T1P2_stream_format == 1)
                     {
@@ -409,7 +413,7 @@ namespace opentuner
 
                 try
                 {
-                    gui.prop_stream_format2 = lookups.stream_format_lookups[Convert.ToInt32(new_status.T2P1_stream_format)].ToString();
+                    gui.prop_stream_format2 = Lookups.stream_format_lookups[Convert.ToInt32(new_status.T2P1_stream_format)].ToString();
                 }
                 catch (Exception Ex)
                 {
@@ -451,13 +455,13 @@ namespace opentuner
                     switch (new_status.T1P2_demod_status)
                     {
                         case 2:
-                            gui.prop_modcod = lookups.modcod_lookup_dvbs2[new_status.T1P2_modcode];
-                            dbmargin = (mer - lookups.modcod_lookup_dvbs2_threshold[new_status.T1P2_modcode]);
+                            gui.prop_modcod = Lookups.modcod_lookup_dvbs2[new_status.T1P2_modcode];
+                            dbmargin = (mer - Lookups.modcod_lookup_dvbs2_threshold[new_status.T1P2_modcode]);
                             gui.prop_db_margin = "D" + dbmargin.ToString("N1");
                             break;
                         case 3:
-                            gui.prop_modcod = lookups.modcod_lookup_dvbs[new_status.T1P2_modcode];
-                            dbmargin = (mer - lookups.modcod_lookup_dvbs_threshold[new_status.T1P2_modcode]);
+                            gui.prop_modcod = Lookups.modcod_lookup_dvbs[new_status.T1P2_modcode];
+                            dbmargin = (mer - Lookups.modcod_lookup_dvbs_threshold[new_status.T1P2_modcode]);
                             gui.prop_db_margin = "D" + dbmargin.ToString("N1");
                             break;
                         default:
@@ -477,13 +481,13 @@ namespace opentuner
                     switch (new_status.T2P1_demod_status)
                     {
                         case 2:
-                            gui.prop_modcod2 = lookups.modcod_lookup_dvbs2[new_status.T2P1_modcode];
-                            dbmargin = (mer2 - lookups.modcod_lookup_dvbs2_threshold[new_status.T2P1_modcode]);
+                            gui.prop_modcod2 = Lookups.modcod_lookup_dvbs2[new_status.T2P1_modcode];
+                            dbmargin = (mer2 - Lookups.modcod_lookup_dvbs2_threshold[new_status.T2P1_modcode]);
                             gui.prop_db_margin2 = "D" + dbmargin.ToString("N1");
                             break;
                         case 3:
-                            gui.prop_modcod2 = lookups.modcod_lookup_dvbs[new_status.T2P1_modcode];
-                            dbmargin = (mer2 - lookups.modcod_lookup_dvbs_threshold[new_status.T2P1_modcode]);
+                            gui.prop_modcod2 = Lookups.modcod_lookup_dvbs[new_status.T2P1_modcode];
+                            dbmargin = (mer2 - Lookups.modcod_lookup_dvbs_threshold[new_status.T2P1_modcode]);
                             gui.prop_db_margin2 = "D" + dbmargin.ToString("N1");
                             break;
                         default:
@@ -1491,7 +1495,7 @@ namespace opentuner
             if (setting_enable_chatform)
             {
                 qO100WidebandChatToolStripMenuItem.Visible = true;
-                chatForm = new wbchat(setting_chat_font_size);
+                chatForm = new WideBandChatForm(setting_chat_font_size);
 
                 lblChatSigReport.Visible = true;
 
@@ -1579,8 +1583,8 @@ namespace opentuner
             TunerChangeCallback tuner1Callback = new TunerChangeCallback(tuner1_change_callback);
             TunerChangeCallback tuner2Callback = new TunerChangeCallback(tuner2_change_callback);
 
-            tuner1ControlForm = new tunerControlForm(tuner1Callback);
-            tuner2ControlForm = new tunerControlForm(tuner2Callback);
+            tuner1ControlForm = new TunerControlForm(tuner1Callback);
+            tuner2ControlForm = new TunerControlForm(tuner2Callback);
 
             tuner1ControlForm.Text = "Tuner 1";
             tuner2ControlForm.Text = "Tuner 2";
@@ -1887,7 +1891,7 @@ namespace opentuner
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            settingsForm settings_form = new settingsForm();
+            SettingsForm settings_form = new SettingsForm();
 
             settings_form.txtDefaultLO.Text = setting_default_lo_value_1.ToString();
             settings_form.txtDefaultLO2.Text = setting_default_lo_value_2.ToString();
@@ -2079,7 +2083,7 @@ namespace opentuner
 
         private void manageStoredFrequenciesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frequencyManagerForm freqForm = new frequencyManagerForm(stored_frequencies);
+            FrequencyManagerForm freqForm = new FrequencyManagerForm(stored_frequencies);
             freqForm.ShowDialog();
 
             save_stored_frequencies();
@@ -2423,13 +2427,13 @@ namespace opentuner
         private void toolStripMenuItem7_Click(object sender, EventArgs e)
         {
             // detect ftdi devices
-            hardwareInfoForm hwForm = new hardwareInfoForm(mt.ftdi_hw);
+            HardwareInfoForm hwForm = new HardwareInfoForm(mt.ftdi_hw);
             hwForm.ShowDialog();
         }
 
         private void manageExternalToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            externalToolsManager etManager = new externalToolsManager(external_tools);
+            ExternalToolsManager etManager = new ExternalToolsManager(external_tools);
             etManager.ShowDialog();
 
             save_external_tools();

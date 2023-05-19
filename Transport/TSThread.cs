@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using opentuner.Hardware;
 
-namespace opentuner
+namespace opentuner.Transport
 {
 
     public delegate void TSDataCallback(TSStatus ts_status);

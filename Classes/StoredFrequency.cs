@@ -1,4 +1,4 @@
-﻿namespace opentuner
+﻿namespace opentuner.Classes
 {
     public class StoredFrequency
     {

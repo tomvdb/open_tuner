@@ -1,6 +1,6 @@
-﻿namespace opentuner
+﻿namespace opentuner.Forms
 {
-    partial class editStoredFrequencyForm
+    partial class EditStoredFrequencyForm
     {
         /// <summary>
         /// Required designer variable.
@@ -191,7 +191,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label1);
-            this.Name = "editStoredFrequencyForm";
+            this.Name = "EditStoredFrequencyForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Stored Frequency";
             this.ResumeLayout(false);

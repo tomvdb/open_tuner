@@ -1,4 +1,4 @@
-﻿namespace opentuner
+﻿namespace opentuner.Forms
 {
     partial class VideoViewForm
     {

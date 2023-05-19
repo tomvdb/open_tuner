@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using opentuner.Classes;
 
-namespace opentuner
+namespace opentuner.Forms
 {
-    public partial class frequencyManagerForm : Form
+    public partial class FrequencyManagerForm : Form
     {
         private List<StoredFrequency> stored_frequencies = null;
-        public frequencyManagerForm(List<StoredFrequency> _stored_frequencies)
+        public FrequencyManagerForm(List<StoredFrequency> _stored_frequencies)
         {
             InitializeComponent();
 
@@ -84,7 +85,7 @@ namespace opentuner
             {
                 int index = listFreq.SelectedIndex;
 
-                editStoredFrequencyForm editForm = new editStoredFrequencyForm();
+                EditStoredFrequencyForm editForm = new EditStoredFrequencyForm();
                 editForm.txtName.Text = stored_frequencies[index].Name;
                 editForm.txtFreq.Text = stored_frequencies[index].Frequency.ToString();
                 editForm.txtOffset.Text = stored_frequencies[index].Offset.ToString();
@@ -109,7 +110,7 @@ namespace opentuner
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            editStoredFrequencyForm editForm = new editStoredFrequencyForm();
+            EditStoredFrequencyForm editForm = new EditStoredFrequencyForm();
 
             if (editForm.ShowDialog() == DialogResult.OK)
             {

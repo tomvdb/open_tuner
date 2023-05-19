@@ -3,7 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace opentuner
+namespace opentuner.Transport
 {
     public class TSStreamMediaInput : LibVLCSharp.Shared.MediaInput
     {

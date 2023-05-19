@@ -2,13 +2,13 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace opentuner
+namespace opentuner.Forms
 {
-    public partial class settingsForm : Form
+    public partial class SettingsForm : Form
     {
         public Font currentChatFont;
 
-        public settingsForm()
+        public SettingsForm()
         {
             InitializeComponent();
         }

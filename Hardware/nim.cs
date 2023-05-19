@@ -2,7 +2,7 @@
 
 using System;
 
-namespace opentuner
+namespace opentuner.Hardware
 {
 
 

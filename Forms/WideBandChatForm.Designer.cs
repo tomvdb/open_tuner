@@ -1,6 +1,6 @@
-﻿namespace opentuner
+﻿namespace opentuner.Forms
 {
-    partial class wbchat
+    partial class WideBandChatForm
     {
         /// <summary>
         /// Required designer variable.
@@ -183,7 +183,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
-            this.Name = "wbchat";
+            this.Name = "WideBandChatForm";
             this.ShowIcon = false;
             this.Text = "QO-100 Wideband Chat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.wbchat_FormClosing);

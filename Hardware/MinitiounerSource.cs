@@ -2,8 +2,10 @@
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Windows.Forms;
+using opentuner.Classes;
+using opentuner.Transport;
 
-namespace opentuner
+namespace opentuner.Hardware
 {
     public class MinitiounerSource : OTSource
     {

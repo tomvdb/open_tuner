@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
+using opentuner.Hardware;
 
-namespace opentuner
+namespace opentuner.Forms
 {
     public partial class VideoViewForm : Form
     {

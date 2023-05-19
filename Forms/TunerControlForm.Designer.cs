@@ -1,6 +1,6 @@
-﻿namespace opentuner
+﻿namespace opentuner.Forms
 {
-    partial class tunerControlForm
+    partial class TunerControlForm
     {
         /// <summary>
         /// Required designer variable.
@@ -216,7 +216,7 @@
             this.Controls.Add(this.lblgHz);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "tunerControlForm";
+            this.Name = "TunerControlForm";
             this.Text = "Tuner Control";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.tunerControlForm_FormClosing);
             this.Load += new System.EventHandler(this.tunerControlForm_Load);

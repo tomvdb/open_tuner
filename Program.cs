@@ -1,6 +1,7 @@
 ﻿using FlyleafLib;
 using System;
 using System.Windows.Forms;
+using opentuner.Forms;
 
 namespace opentuner
 {

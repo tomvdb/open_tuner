@@ -1,8 +1,9 @@
 ﻿// ported from longmynd - https://github.com/myorangedragon/longmynd - Heather Lomond
 
 using System;
+using opentuner.Classes;
 
-namespace opentuner
+namespace opentuner.Hardware
 {
 
     class stv0910
@@ -51,7 +52,7 @@ namespace opentuner
 
             if ( (val1 != 0x51) || (val2 != 0x20 ))
             {
-                return errors.ERROR_DEMOD_INIT;
+                return Errors.ERROR_DEMOD_INIT;
             }
 
             // init all registers in the list
@@ -196,7 +197,7 @@ namespace opentuner
                 timeout++;
                 if (timeout == STV0910_PLL_LOCK_TIMEOUT)
                 {
-                    err = errors.ERROR_DEMOD_PLL_TIMEOUT;
+                    err = Errors.ERROR_DEMOD_PLL_TIMEOUT;
                     //printf("ERROR: STV0910 pll lock timeout\n");
                 }
                 if (err == 0) stv0910_read_reg_field(stv0910_regs.FSTV0910_PLLLOCK, ref _lock) ;
@@ -597,7 +598,7 @@ namespace opentuner
                 case STV0910_PUNCTURE_5_6: rate = 5; break;
                 case STV0910_PUNCTURE_6_7: rate = 6; break;
                 case STV0910_PUNCTURE_7_8: rate = 7; break;
-                default: err = errors.ERROR_VITERBI_PUNCTURE_RATE; break;
+                default: err = Errors.ERROR_VITERBI_PUNCTURE_RATE; break;
             }
 
             if (err != 0) Console.WriteLine("ERROR: STV0910 read puncture rate");

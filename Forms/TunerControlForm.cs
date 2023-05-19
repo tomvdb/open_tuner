@@ -2,12 +2,13 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Input;
+using opentuner.Hardware;
 
-namespace opentuner
+namespace opentuner.Forms
 {
     public delegate void TunerChangeCallback(UInt32 freq, uint rf_input, uint symbol_rate);
 
-    public partial class tunerControlForm : Form
+    public partial class TunerControlForm : Form
     {
         private int frequency = 0;
         private int offset = 0;
@@ -17,7 +18,7 @@ namespace opentuner
 
         private TunerChangeCallback tuner_change;
 
-        public tunerControlForm(TunerChangeCallback TunerChangeCallback)
+        public TunerControlForm(TunerChangeCallback TunerChangeCallback)
         {
             InitializeComponent();
             lblkHz.MouseWheel += LblkHz_MouseWheel;

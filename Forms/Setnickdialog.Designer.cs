@@ -1,6 +1,6 @@
-﻿namespace opentuner
+﻿namespace opentuner.Forms
 {
-    partial class setnickdialog
+    partial class Setnickdialog
     {
         /// <summary>
         /// Required designer variable.
@@ -72,7 +72,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btnSetNick);
             this.Controls.Add(this.txtNick);
-            this.Name = "setnickdialog";
+            this.Name = "Setnickdialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wideband Chat Nickname";
             this.TopMost = true;

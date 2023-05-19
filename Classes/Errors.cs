@@ -1,6 +1,6 @@
-﻿namespace opentuner
+﻿namespace opentuner.Classes
 {
-    static class errors
+    static class Errors
     {
         public const byte ERROR_NONE = 0;
         public const byte ERROR_ARGS = 1;

@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using opentuner.Hardware;
 
-namespace opentuner
+namespace opentuner.Forms
 {
-    public partial class hardwareInfoForm : Form
+    public partial class HardwareInfoForm : Form
     {
         private ftdi ftdi_hw = null;
         List<FTDIDevice> ftdi_devices = null;
 
-        public hardwareInfoForm(ftdi ftdi_hardware)
+        public HardwareInfoForm(ftdi ftdi_hardware)
         {
             InitializeComponent();
 

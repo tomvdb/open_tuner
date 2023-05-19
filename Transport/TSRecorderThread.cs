@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using opentuner.Classes;
 
-namespace opentuner
+namespace opentuner.Transport
 {
     public class TSRecorderThread
     {

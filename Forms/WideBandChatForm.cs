@@ -1,14 +1,14 @@
-﻿using SocketIOClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using SocketIOClient;
 
-namespace opentuner
+namespace opentuner.Forms
 {
-    public partial class wbchat : Form
+    public partial class WideBandChatForm : Form
     {
 
         static Font consoleFont; 
@@ -16,7 +16,7 @@ namespace opentuner
 
         public string prop_title { set { this.Text = value; } }
 
-        public wbchat(int fontSize)
+        public WideBandChatForm(int fontSize)
         {
             InitializeComponent();
             consoleFont = new Font("Consolas", fontSize);
@@ -96,9 +96,9 @@ namespace opentuner
             }
         }
 
-        private delegate void UpdateFormTitle(wbchat frm, string new_title);
+        private delegate void UpdateFormTitle(WideBandChatForm frm, string new_title);
 
-        public void updateTitle(wbchat frm, string new_title)
+        public void updateTitle(WideBandChatForm frm, string new_title)
         {
 
             if (frm.InvokeRequired)
@@ -345,7 +345,7 @@ namespace opentuner
 
         private void txtNick_Click(object sender, EventArgs e)
         {
-            setnickdialog nickDialog = new setnickdialog();
+            Setnickdialog nickDialog = new Setnickdialog();
 
             nickDialog.txtNick.Text = txtNick.Text;
 

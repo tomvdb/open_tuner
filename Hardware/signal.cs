@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace opentuner
+namespace opentuner.Hardware
 {
     class signal
     {

@@ -215,10 +215,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\errors.cs" />
+    <Compile Include="Classes\Errors.cs" />
     <Compile Include="Classes\ExternalTool.cs" />
     <Compile Include="Classes\GlobalDefines.cs" />
-    <Compile Include="Classes\lookups.cs" />
+    <Compile Include="Classes\Lookups.cs" />
     <Compile Include="Classes\MediaStatus.cs" />
     <Compile Include="Classes\OTSource.cs" />
     <Compile Include="Classes\StoredFrequency.cs" />
@@ -228,17 +228,17 @@
     <Compile Include="Forms\EditExternalToolForm.Designer.cs">
       <DependentUpon>EditExternalToolForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\editStoredFrequencyForm.cs">
+    <Compile Include="Forms\EditStoredFrequencyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\editStoredFrequencyForm.Designer.cs">
-      <DependentUpon>editStoredFrequencyForm.cs</DependentUpon>
+    <Compile Include="Forms\EditStoredFrequencyForm.Designer.cs">
+      <DependentUpon>EditStoredFrequencyForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\externalToolsManager.cs">
+    <Compile Include="Forms\ExternalToolsManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\externalToolsManager.Designer.cs">
-      <DependentUpon>externalToolsManager.cs</DependentUpon>
+    <Compile Include="Forms\ExternalToolsManager.Designer.cs">
+      <DependentUpon>ExternalToolsManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\OpenTunerForm.cs">
       <SubType>Form</SubType>
@@ -246,35 +246,35 @@
     <Compile Include="Forms\OpenTunerForm.Designer.cs">
       <DependentUpon>OpenTunerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frequencyManagerForm.cs">
+    <Compile Include="Forms\FrequencyManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frequencyManagerForm.Designer.cs">
-      <DependentUpon>frequencyManagerForm.cs</DependentUpon>
+    <Compile Include="Forms\FrequencyManagerForm.Designer.cs">
+      <DependentUpon>FrequencyManagerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\hardwareInfoForm.cs">
+    <Compile Include="Forms\HardwareInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\hardwareInfoForm.Designer.cs">
-      <DependentUpon>hardwareInfoForm.cs</DependentUpon>
+    <Compile Include="Forms\HardwareInfoForm.Designer.cs">
+      <DependentUpon>HardwareInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\setnickdialog.cs">
+    <Compile Include="Forms\Setnickdialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\setnickdialog.Designer.cs">
-      <DependentUpon>setnickdialog.cs</DependentUpon>
+    <Compile Include="Forms\Setnickdialog.Designer.cs">
+      <DependentUpon>Setnickdialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\settingsForm.cs">
+    <Compile Include="Forms\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\settingsForm.Designer.cs">
-      <DependentUpon>settingsForm.cs</DependentUpon>
+    <Compile Include="Forms\SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\tunerControlForm.cs">
+    <Compile Include="Forms\TunerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\tunerControlForm.Designer.cs">
-      <DependentUpon>tunerControlForm.cs</DependentUpon>
+    <Compile Include="Forms\TunerControlForm.Designer.cs">
+      <DependentUpon>TunerControlForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\VideoViewForm.cs">
       <SubType>Form</SubType>
@@ -282,11 +282,11 @@
     <Compile Include="Forms\VideoViewForm.Designer.cs">
       <DependentUpon>VideoViewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\wbchat.cs">
+    <Compile Include="Forms\WideBandChatForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\wbchat.Designer.cs">
-      <DependentUpon>wbchat.cs</DependentUpon>
+    <Compile Include="Forms\WideBandChatForm.Designer.cs">
+      <DependentUpon>WideBandChatForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Hardware\ftdi.cs" />
     <Compile Include="Hardware\MinitiounerSource.cs" />
@@ -320,11 +320,11 @@
     <EmbeddedResource Include="Forms\EditExternalToolForm.resx">
       <DependentUpon>EditExternalToolForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\editStoredFrequencyForm.resx">
-      <DependentUpon>editStoredFrequencyForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EditStoredFrequencyForm.resx">
+      <DependentUpon>EditStoredFrequencyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\externalToolsManager.resx">
-      <DependentUpon>externalToolsManager.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ExternalToolsManager.resx">
+      <DependentUpon>ExternalToolsManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OpenTunerForm.af-ZA.resx">
       <DependentUpon>OpenTunerForm.cs</DependentUpon>
@@ -356,41 +356,41 @@
     <EmbeddedResource Include="Forms\OpenTunerForm.resx">
       <DependentUpon>OpenTunerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frequencyManagerForm.resx">
-      <DependentUpon>frequencyManagerForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrequencyManagerForm.resx">
+      <DependentUpon>FrequencyManagerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\hardwareInfoForm.resx">
-      <DependentUpon>hardwareInfoForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\HardwareInfoForm.resx">
+      <DependentUpon>HardwareInfoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\setnickdialog.resx">
-      <DependentUpon>setnickdialog.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Setnickdialog.resx">
+      <DependentUpon>Setnickdialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\settingsForm.de.resx">
-      <DependentUpon>settingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SettingsForm.de.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\settingsForm.es.resx">
-      <DependentUpon>settingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SettingsForm.es.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\settingsForm.it.resx">
-      <DependentUpon>settingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SettingsForm.it.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\settingsForm.ja.resx">
-      <DependentUpon>settingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SettingsForm.ja.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\settingsForm.nl.resx">
-      <DependentUpon>settingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SettingsForm.nl.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\settingsForm.resx">
-      <DependentUpon>settingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\tunerControlForm.resx">
-      <DependentUpon>tunerControlForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\TunerControlForm.resx">
+      <DependentUpon>TunerControlForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\VideoViewForm.resx">
       <DependentUpon>VideoViewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\wbchat.resx">
-      <DependentUpon>wbchat.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\WideBandChatForm.resx">
+      <DependentUpon>WideBandChatForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -431,6 +431,8 @@
     <Content Include="ResourceFiles\bandplan.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ResourceFiles\FTD2XX_NET.dll" />
+    <Content Include="ResourceFiles\FTD2XX_NET.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" />

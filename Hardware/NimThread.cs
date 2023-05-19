@@ -3,8 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using opentuner.Classes;
 
-namespace opentuner
+namespace opentuner.Hardware
 {
     public delegate void SourceStatusCallback(TunerStatus status);
 
@@ -59,14 +60,14 @@ namespace opentuner
 
             if (agc1 >= 0)
             {
-                index = lookups.agc1_lookup.BinarySearch(agc1);
+                index = Lookups.agc1_lookup.BinarySearch(agc1);
 
                 if (index < 0)
                     index = ~index;
             }
             else
             {
-                index = lookups.agc2_lookup.BinarySearch(agc2);
+                index = Lookups.agc2_lookup.BinarySearch(agc2);
 
                 if (index < 0)
                     index = ~index;
@@ -75,10 +76,10 @@ namespace opentuner
 
             if (index < 0) index = 0;
 
-            if (index >= lookups.rf_power_level.Count())
-                index = lookups.rf_power_level.Count() - 1;
+            if (index >= Lookups.rf_power_level.Count())
+                index = Lookups.rf_power_level.Count() - 1;
 
-            return lookups.rf_power_level[index];
+            return Lookups.rf_power_level[index];
         }
 
         byte get_nim_status()

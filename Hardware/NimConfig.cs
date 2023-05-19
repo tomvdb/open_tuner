@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace opentuner
+namespace opentuner.Hardware
 {
     public class TunerConfig
     {

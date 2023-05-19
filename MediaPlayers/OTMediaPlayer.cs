@@ -1,6 +1,8 @@
 ﻿using System;
+using opentuner.Classes;
+using opentuner.Transport;
 
-namespace opentuner
+namespace opentuner.MediaPlayers
 {
     public abstract class OTMediaPlayer
     {

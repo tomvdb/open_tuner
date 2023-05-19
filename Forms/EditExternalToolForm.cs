@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace opentuner
+namespace opentuner.Forms
 {
     public partial class EditExternalToolForm : Form
     {

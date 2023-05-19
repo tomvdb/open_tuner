@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using FTD2XX_NET;
 using System.Threading;
+using FTD2XX_NET;
 
-namespace opentuner
+namespace opentuner.Hardware
 {
     public class ftdi
     {
