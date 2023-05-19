@@ -14,7 +14,7 @@ namespace opentuner.Forms
         static Font consoleFont; 
         static Font consoleFontBold;
 
-        public string prop_title { set { this.Text = value; } }
+        public string prop_title { set { Text = value; } }
 
         public WideBandChatForm(int fontSize)
         {
@@ -75,9 +75,9 @@ namespace opentuner.Forms
             lblConnected.Text = "Connected: False";
         }
 
-        private delegate void UpdateLBDelegate(System.Windows.Forms.ListBox LB, Object obj);
+        private delegate void UpdateLBDelegate(ListBox LB, Object obj);
 
-        public static void AddItem(System.Windows.Forms.ListBox LB, Object obj)
+        public static void AddItem(ListBox LB, Object obj)
         {
             if (LB.InvokeRequired)
             {
@@ -162,7 +162,7 @@ namespace opentuner.Forms
             }
         }
 
-        public static void ClearAll(System.Windows.Forms.ListBox LB, Object obj)
+        public static void ClearAll(ListBox LB, Object obj)
         {
             if (LB.InvokeRequired)
             {

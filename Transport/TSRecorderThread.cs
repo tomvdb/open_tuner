@@ -53,7 +53,7 @@ namespace opentuner.Transport
                     {
                         // open a new file
                         Console.WriteLine("recording");
-                        string filename = this.media_path + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + id + ".ts";
+                        string filename = media_path + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + id + ".ts";
                         binWriter = new BinaryWriter(File.Open(filename, FileMode.Create));
                         recording = true;
                         ts_sync = true;

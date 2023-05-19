@@ -24,28 +24,28 @@ namespace opentuner.Hardware
             public float dbb;
             public Sig(int _fft_start, int _fft_stop, int _fft_centre, int _fft_strength, double _frequency, float _sr, bool overpower, float _dbb)
             {
-                this.fft_start = _fft_start;
-                this.fft_stop = _fft_stop;
-                this.fft_centre = _fft_centre;
-                this.fft_strength = _fft_strength;
-                this.frequency = _frequency;
-                this.sr = _sr;
-                this.callsign = "";
+                fft_start = _fft_start;
+                fft_stop = _fft_stop;
+                fft_centre = _fft_centre;
+                fft_strength = _fft_strength;
+                frequency = _frequency;
+                sr = _sr;
+                callsign = "";
                 this.overpower = overpower;
-                this.dbb = _dbb;
+                dbb = _dbb;
             }
 
             public Sig(Sig old, string callsign)
             {
-                this.fft_start = old.fft_start;
-                this.fft_stop = old.fft_stop;
-                this.fft_centre = old.fft_centre;
-                this.fft_strength = old.fft_strength;
-                this.frequency = old.frequency;
-                this.sr = old.sr;
+                fft_start = old.fft_start;
+                fft_stop = old.fft_stop;
+                fft_centre = old.fft_centre;
+                fft_strength = old.fft_strength;
+                frequency = old.frequency;
+                sr = old.sr;
                 this.callsign = callsign;
-                this.overpower = old.overpower;
-                this.dbb = old.dbb;
+                overpower = old.overpower;
+                dbb = old.dbb;
             }
 
             public void updateCallsign(string callsign)

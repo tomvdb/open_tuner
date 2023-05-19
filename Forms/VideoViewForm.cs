@@ -22,7 +22,7 @@ namespace opentuner.Forms
             video_player = videoPlayer;
             tuner = _tuner;
 
-            this.Text = "Tuner " + tuner.ToString() + " - " + (video_player == 0 ? "VLC" : "FFMPEG");
+            Text = "Tuner " + tuner.ToString() + " - " + (video_player == 0 ? "VLC" : "FFMPEG");
         }
 
         public void updateStatus(TunerStatus status)
@@ -32,7 +32,7 @@ namespace opentuner.Forms
             if (tuner == 1) { info += (status.T1P2_demod_status >= 2 ? "Locked" : "Not Locked "); }
             if (tuner == 2) { info += (status.T2P1_demod_status >= 2 ? "Locked" : "Not Locked "); }
 
-            this.Text = info;
+            Text = info;
         }
     }
 }

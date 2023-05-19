@@ -55,62 +55,62 @@ namespace opentuner.Forms
         // nim status properties
 
         // tuner 1 properties
-        public string prop_demodstate { set { this.lblDemoState.Text = value; } }
-        public string prop_mer { set { this.lblMer.Text = value; } get { return this.lblMer.Text; } }
-        public string prop_lnagain { set { this.lblLnaGain.Text = value; } }
-        public string prop_rf_input_level { set { this.lblRFInputLevel.Text = value; } }
-        public string prop_symbol_rate { set { this.lblSR.Text = value; } }
-        public string prop_modcod { set { this.lblModcod.Text = value; } get { return this.lblModcod.Text; } }
-        public string prop_lpdc_errors { set { this.lblLPDCError.Text = value; } }
-        public string prop_ber { set { this.lblBer.Text = value; } }
-        public string prop_freq_carrier_offset { set { this.lblFreqCar.Text = value; } }
-        public string prop_db_margin { set { this.lbldbMargin.Text = value; } get { return this.lbldbMargin.Text; } }
-        public string prop_req_freq { set { this.lblReqFreq.Text = value; } }
+        public string prop_demodstate { set { lblDemoState.Text = value; } }
+        public string prop_mer { set { lblMer.Text = value; } get { return lblMer.Text; } }
+        public string prop_lnagain { set { lblLnaGain.Text = value; } }
+        public string prop_rf_input_level { set { lblRFInputLevel.Text = value; } }
+        public string prop_symbol_rate { set { lblSR.Text = value; } }
+        public string prop_modcod { set { lblModcod.Text = value; } get { return lblModcod.Text; } }
+        public string prop_lpdc_errors { set { lblLPDCError.Text = value; } }
+        public string prop_ber { set { lblBer.Text = value; } }
+        public string prop_freq_carrier_offset { set { lblFreqCar.Text = value; } }
+        public string prop_db_margin { set { lbldbMargin.Text = value; } get { return lbldbMargin.Text; } }
+        public string prop_req_freq { set { lblReqFreq.Text = value; } }
 
-        public int prop_rf_input { set { this.lblRfInput.Text = (value == 1 ? "A" : "B"); } }
+        public int prop_rf_input { set { lblRfInput.Text = (value == 1 ? "A" : "B"); } }
 
         // tuner 2 properties
-        public string prop_demodstate2 { set { this.lblDemoState2.Text = value; } }
-        public string prop_mer2 { set { this.lblMer2.Text = value; } get { return this.lblMer2.Text; } }
-        public string prop_lnagain2 { set { this.lblLnaGain2.Text = value; } }
-        public string prop_rf_input_level2 { set { this.lblRFInputLevel2.Text = value; } }
-        public string prop_symbol_rate2 { set { this.lblSR2.Text = value; } }
-        public string prop_modcod2 { set { this.lblModcod2.Text = value; } get { return this.lblModcod2.Text; } }
-        public string prop_ber2 { set { this.lblBer2.Text = value; } }
-        public string prop_freq_carrier_offset2 { set { this.lblFreqCar2.Text = value; } }
-        public string prop_db_margin2 { set { this.lbldbMargin2.Text = value; } get { return this.lbldbMargin2.Text; } }
-        public string prop_req_freq2 { set { this.lblReqFreq2.Text = value; } }
-        public int prop_rf_input2 { set { this.lblRfInput2.Text = (value == 1 ? "A" : "B"); } }
+        public string prop_demodstate2 { set { lblDemoState2.Text = value; } }
+        public string prop_mer2 { set { lblMer2.Text = value; } get { return lblMer2.Text; } }
+        public string prop_lnagain2 { set { lblLnaGain2.Text = value; } }
+        public string prop_rf_input_level2 { set { lblRFInputLevel2.Text = value; } }
+        public string prop_symbol_rate2 { set { lblSR2.Text = value; } }
+        public string prop_modcod2 { set { lblModcod2.Text = value; } get { return lblModcod2.Text; } }
+        public string prop_ber2 { set { lblBer2.Text = value; } }
+        public string prop_freq_carrier_offset2 { set { lblFreqCar2.Text = value; } }
+        public string prop_db_margin2 { set { lbldbMargin2.Text = value; } get { return lbldbMargin2.Text; } }
+        public string prop_req_freq2 { set { lblReqFreq2.Text = value; } }
+        public int prop_rf_input2 { set { lblRfInput2.Text = (value == 1 ? "A" : "B"); } }
 
 
         // tuner 1 - ts status properties
 
-        public string prop_stream_format1 { set { this.lblStreamFormat1.Text = value; } }
+        public string prop_stream_format1 { set { lblStreamFormat1.Text = value; } }
 
-        public string prop_service_name { set { this.lblServiceName.Text = value; } get { return this.lblServiceName.Text;  } }
-        public string prop_service_provider_name { set { this.lblServiceProvider.Text = value; } get { return this.lblServiceProvider.Text;  } }
-        public string prop_null_packets { set { this.lblNullPackets.Text = value; }  }
-        public int prop_null_packets_bar { set { this.nullPacketsBar.Value = value; } }
+        public string prop_service_name { set { lblServiceName.Text = value; } get { return lblServiceName.Text;  } }
+        public string prop_service_provider_name { set { lblServiceProvider.Text = value; } get { return lblServiceProvider.Text;  } }
+        public string prop_null_packets { set { lblNullPackets.Text = value; }  }
+        public int prop_null_packets_bar { set { nullPacketsBar.Value = value; } }
 
         // tuner 2 - ts status properties
-        public string prop_stream_format2 { set { this.lblStreamFormat2.Text = value;  } }
-        public string prop_service_name2 { set { this.lblServiceName2.Text = value; } get { return this.lblServiceName2.Text; } }
-        public string prop_service_provider_name2 { set { this.lblServiceProvider2.Text = value; } get { return this.lblServiceProvider2.Text; } }
-        public string prop_null_packets2 { set { this.lblNullPackets2.Text = value; } }
-        public int prop_null_packets_bar2 { set { this.nullPacketsBar2.Value = value; } }
+        public string prop_stream_format2 { set { lblStreamFormat2.Text = value;  } }
+        public string prop_service_name2 { set { lblServiceName2.Text = value; } get { return lblServiceName2.Text; } }
+        public string prop_service_provider_name2 { set { lblServiceProvider2.Text = value; } get { return lblServiceProvider2.Text; } }
+        public string prop_null_packets2 { set { lblNullPackets2.Text = value; } }
+        public int prop_null_packets_bar2 { set { nullPacketsBar2.Value = value; } }
 
 
         // media status properties
-        public string prop_media_video_codec { set { this.lblVideoCodec.Text = value; } }
-        public string prop_media_video_resolution { set { this.lblVideoResolution.Text = value; } }
-        public string prop_media_audio_codec { set { this.lblAudioCodec.Text = value; } }
-        public string prop_media_audio_rate { set { this.lblAudioRate.Text = value; } }
+        public string prop_media_video_codec { set { lblVideoCodec.Text = value; } }
+        public string prop_media_video_resolution { set { lblVideoResolution.Text = value; } }
+        public string prop_media_audio_codec { set { lblAudioCodec.Text = value; } }
+        public string prop_media_audio_rate { set { lblAudioRate.Text = value; } }
 
         // media status properties
-        public string prop_media_video_codec2 { set { this.lblVideoCodec2.Text = value; } }
-        public string prop_media_video_resolution2 { set { this.lblVideoResolution2.Text = value; } }
-        public string prop_media_audio_codec2 { set { this.lblAudioCodec2.Text = value; } }
-        public string prop_media_audio_rate2 { set { this.lblAudioRate2.Text = value; } }
+        public string prop_media_video_codec2 { set { lblVideoCodec2.Text = value; } }
+        public string prop_media_video_resolution2 { set { lblVideoResolution2.Text = value; } }
+        public string prop_media_audio_codec2 { set { lblAudioCodec2.Text = value; } }
+        public string prop_media_audio_rate2 { set { lblAudioRate2.Text = value; } }
 
         public bool prop_isRecording1 { set { lblrecordIndication1.Visible = value;  } }
         public bool prop_isRecording2 { set { lblRecordIndication2.Visible = value; } }
@@ -554,7 +554,7 @@ namespace opentuner.Forms
                 }
                 
             }
-            greyPen.DashCap = System.Drawing.Drawing2D.DashCap.Round;
+            greyPen.DashCap = DashCap.Round;
             greyPen.DashPattern = new float[] { 4.0F, 4.0F };
 
             InitializeComponent();
@@ -713,10 +713,10 @@ namespace opentuner.Forms
             Properties.Settings.Default.default_volume2 = trackVolume2.Value;
 
             // save current windows properties
-            Properties.Settings.Default.window_width = this.Width;
-            Properties.Settings.Default.window_height = this.Height;
-            Properties.Settings.Default.window_x = this.Left;
-            Properties.Settings.Default.window_y = this.Top;
+            Properties.Settings.Default.window_width = Width;
+            Properties.Settings.Default.window_height = Height;
+            Properties.Settings.Default.window_x = Left;
+            Properties.Settings.Default.window_y = Top;
             Properties.Settings.Default.main_splitter_pos = splitContainer1.SplitterDistance;
 
             Properties.Settings.Default.Save();
@@ -789,7 +789,7 @@ namespace opentuner.Forms
                 error = mt.Initialize(ChangeVideo, nim_status_feedback, true, (manual_serial_devices.Count() > 0) ? manual_serial_devices[0] : "", (manual_serial_devices.Count() > 1) ? manual_serial_devices[1] : "", (manual_serial_devices.Count() > 2) ? manual_serial_devices[2] : "");
             }
 
-            this.Text = this.Text += " - " + mt.HardwareDevice;
+            Text = Text += " - " + mt.HardwareDevice;
 
             return error;
         }
@@ -1091,7 +1091,7 @@ namespace opentuner.Forms
             }
             try
             {
-                this.Invoke(new MethodInvoker(delegate () { spectrum.Image = bmp; spectrum.Update(); }));
+                Invoke(new MethodInvoker(delegate () { spectrum.Image = bmp; spectrum.Update(); }));
             }
             catch (Exception Ex)
             {
@@ -1134,7 +1134,7 @@ namespace opentuner.Forms
             //tmp.DrawPolygon(greenpen, points);
             SolidBrush spectrumBrush = new SolidBrush(Color.Blue);
 
-            System.Drawing.Drawing2D.LinearGradientBrush linGrBrush = new LinearGradientBrush(
+            LinearGradientBrush linGrBrush = new LinearGradientBrush(
                new Point(0, 0),
                new Point(0, 255),
                Color.FromArgb(255, 255, 99, 132),   // Opaque red
@@ -1156,7 +1156,7 @@ namespace opentuner.Forms
                 if (rx_blocks[tuner, 0] > 0)
                 {
                     //tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[0] * spectrum_wScale) - ((rx_blocks[1] * spectrum_wScale) / 2)), 1, Convert.ToInt32(rx_blocks[1] * spectrum_wScale), (255) - 4) });
-                    tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[tuner, 0] - (rx_blocks[tuner, 1] / 2)) * spectrum_wScale), spectrum_h - y + 1, Convert.ToInt32((rx_blocks[tuner, 1] * spectrum_wScale)), (mt.ts_devices == 1 ? spectrum_h : spectrum_h / 2) - 4) });
+                    tmp.FillRectangles(shadowBrush, new RectangleF[] { new Rectangle(Convert.ToInt32((rx_blocks[tuner, 0] - (rx_blocks[tuner, 1] / 2)) * spectrum_wScale), spectrum_h - y + 1, Convert.ToInt32((rx_blocks[tuner, 1] * spectrum_wScale)), (mt.ts_devices == 1 ? spectrum_h : spectrum_h / 2) - 4) });
                 }
             }
 
@@ -1173,7 +1173,7 @@ namespace opentuner.Forms
             {
                 if (sig.overpower)
                 {
-                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale)  / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), (255) - 4) });
+                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale)  / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), (255) - 4) });
                 }
             }
 
@@ -1189,7 +1189,7 @@ namespace opentuner.Forms
             float spectrum_w = spectrum.Width;
             float spectrum_wScale = spectrum_w / 922;
 
-            System.Windows.Forms.MouseEventArgs me = (System.Windows.Forms.MouseEventArgs)e;
+            MouseEventArgs me = (MouseEventArgs)e;
             var pos = me.Location;
 
 
@@ -1286,7 +1286,7 @@ namespace opentuner.Forms
 
         int spectrumTunerHighlight = 0;
 
-        public void spectrum_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        public void spectrum_MouseMove(object sender, MouseEventArgs e)
         {
             get_bandplan_TX_freq(e.X, e.Y);  // dh3cs
 
@@ -1541,11 +1541,11 @@ namespace opentuner.Forms
                 sigs = new signal(list_lock);
                 sock.callback += drawspectrum;
                 sigs.debug += debug;
-                string title = this.Text;
+                string title = Text;
                 sock.start();
-                this.Text = title;
+                Text = title;
 
-                this.DoubleBuffered = true;
+                DoubleBuffered = true;
 
                 sigs.set_num_rx_scan(num_rxs_to_scan);
                 sigs.set_num_rx(1);
@@ -1565,11 +1565,11 @@ namespace opentuner.Forms
             Console.WriteLine(" Size: (" + setting_window_height.ToString() + "," + setting_window_width.ToString() + ")");
             Console.WriteLine(" Position: (" + setting_window_x.ToString() + "," + setting_window_y.ToString() + ")");
 
-            this.Height = setting_window_height;
-            this.Width = setting_window_width;
+            Height = setting_window_height;
+            Width = setting_window_width;
 
-            this.Left = setting_window_x;
-            this.Top = setting_window_y;
+            Left = setting_window_x;
+            Top = setting_window_y;
 
             splitContainer1.SplitterDistance = setting_main_splitter_position;
 
@@ -1668,7 +1668,7 @@ namespace opentuner.Forms
                     parameters = parameters.Replace("{UDP1URL}", setting_udp_address1.ToString());
                     parameters = parameters.Replace("{UDP2URL}", setting_udp_address2.ToString());
 
-                    System.Diagnostics.Process.Start(external_tools[tag].ToolPath, parameters);
+                    Process.Start(external_tools[tag].ToolPath, parameters);
                 }
                 catch( Exception Ex) 
                 {
@@ -1876,12 +1876,12 @@ namespace opentuner.Forms
 
         private void openTunerWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/open-tuner/");
+            Process.Start("https://www.zr6tg.co.za/open-tuner/");
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://batc.org.uk/");
+            Process.Start("https://batc.org.uk/");
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2043,7 +2043,7 @@ namespace opentuner.Forms
             Tuple<signal.Sig, int> ret = sigs.tune(mode, Convert.ToInt16(autotuneWait), 0);
             if (ret.Item1.frequency > 0)      //above 0 is a change in signal
             {
-                System.Threading.Thread.Sleep(100);
+                Thread.Sleep(100);
                 selectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale), 0);
                 sigs.set_tuned(ret.Item1, 0);
                 rx_blocks[0, 0] = Convert.ToInt16(ret.Item1.fft_centre);
@@ -2352,7 +2352,7 @@ namespace opentuner.Forms
 
         private void addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/adding-2nd-transport-to-batc-minitiouner-v2/");
+            Process.Start("https://www.zr6tg.co.za/adding-2nd-transport-to-batc-minitiouner-v2/");
         }
 
         private void btnVidRecord2_Click(object sender, EventArgs e)
