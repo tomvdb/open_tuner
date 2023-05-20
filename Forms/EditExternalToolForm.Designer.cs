@@ -92,6 +92,7 @@
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button1.Location = new System.Drawing.Point(364, 45);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(24, 21);
@@ -122,6 +123,7 @@
             // 
             // btnSave
             // 
+            this.btnSave.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnSave.Location = new System.Drawing.Point(283, 181);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
@@ -132,6 +134,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnCancel.Location = new System.Drawing.Point(202, 181);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -145,6 +148,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(409, 216);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
@@ -158,6 +162,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.ForeColor = System.Drawing.SystemColors.Control;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditExternalToolForm";
@@ -165,7 +170,6 @@
             this.Text = "Edit External Tool Properties";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

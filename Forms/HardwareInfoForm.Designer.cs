@@ -31,12 +31,12 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblDeviceSerialNumber = new System.Windows.Forms.TextBox();
             this.lblDeviceDescription = new System.Windows.Forms.Label();
             this.lblDeviceIndex = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.lblDeviceSerialNumber = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,6 +51,7 @@
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button1.Location = new System.Drawing.Point(15, 396);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -73,6 +74,14 @@
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Device Properties";
+            // 
+            // lblDeviceSerialNumber
+            // 
+            this.lblDeviceSerialNumber.Location = new System.Drawing.Point(153, 58);
+            this.lblDeviceSerialNumber.Name = "lblDeviceSerialNumber";
+            this.lblDeviceSerialNumber.ReadOnly = true;
+            this.lblDeviceSerialNumber.Size = new System.Drawing.Size(100, 20);
+            this.lblDeviceSerialNumber.TabIndex = 15;
             // 
             // lblDeviceDescription
             // 
@@ -119,22 +128,16 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Device Index:";
             // 
-            // lblDeviceSerialNumber
-            // 
-            this.lblDeviceSerialNumber.Location = new System.Drawing.Point(153, 58);
-            this.lblDeviceSerialNumber.Name = "lblDeviceSerialNumber";
-            this.lblDeviceSerialNumber.ReadOnly = true;
-            this.lblDeviceSerialNumber.Size = new System.Drawing.Size(100, 20);
-            this.lblDeviceSerialNumber.TabIndex = 15;
-            // 
-            // hardwareInfoForm
+            // HardwareInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(689, 438);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listBox1);
+            this.ForeColor = System.Drawing.SystemColors.Control;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "HardwareInfoForm";
@@ -142,7 +145,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         #endregion

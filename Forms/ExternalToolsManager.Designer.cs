@@ -30,16 +30,16 @@
         {
             this.listTools = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lblToolName = new System.Windows.Forms.Label();
-            this.lblToolPath = new System.Windows.Forms.Label();
-            this.lblToolParameters = new System.Windows.Forms.Label();
-            this.lblEnableUDP1 = new System.Windows.Forms.Label();
             this.lblUDP2 = new System.Windows.Forms.Label();
+            this.lblEnableUDP1 = new System.Windows.Forms.Label();
+            this.lblToolParameters = new System.Windows.Forms.Label();
+            this.lblToolPath = new System.Windows.Forms.Label();
+            this.lblToolName = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -75,77 +75,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "External Tool Properties";
             // 
-            // label1
+            // lblUDP2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Tool Name:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 58);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Tool Path:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 84);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(87, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Tool Parameters:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 112);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(109, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Enable UDP Tuner 1:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(22, 141);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(109, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Enable UDP Tuner 2:";
-            // 
-            // lblToolName
-            // 
-            this.lblToolName.AutoSize = true;
-            this.lblToolName.Location = new System.Drawing.Point(149, 33);
-            this.lblToolName.Name = "lblToolName";
-            this.lblToolName.Size = new System.Drawing.Size(10, 13);
-            this.lblToolName.TabIndex = 5;
-            this.lblToolName.Text = " ";
-            // 
-            // lblToolPath
-            // 
-            this.lblToolPath.AutoSize = true;
-            this.lblToolPath.Location = new System.Drawing.Point(149, 58);
-            this.lblToolPath.Name = "lblToolPath";
-            this.lblToolPath.Size = new System.Drawing.Size(10, 13);
-            this.lblToolPath.TabIndex = 6;
-            this.lblToolPath.Text = " ";
-            // 
-            // lblToolParameters
-            // 
-            this.lblToolParameters.AutoSize = true;
-            this.lblToolParameters.Location = new System.Drawing.Point(149, 84);
-            this.lblToolParameters.Name = "lblToolParameters";
-            this.lblToolParameters.Size = new System.Drawing.Size(10, 13);
-            this.lblToolParameters.TabIndex = 7;
-            this.lblToolParameters.Text = " ";
+            this.lblUDP2.AutoSize = true;
+            this.lblUDP2.Location = new System.Drawing.Point(149, 141);
+            this.lblUDP2.Name = "lblUDP2";
+            this.lblUDP2.Size = new System.Drawing.Size(10, 13);
+            this.lblUDP2.TabIndex = 9;
+            this.lblUDP2.Text = " ";
             // 
             // lblEnableUDP1
             // 
@@ -156,17 +93,81 @@
             this.lblEnableUDP1.TabIndex = 8;
             this.lblEnableUDP1.Text = " ";
             // 
-            // lblUDP2
+            // lblToolParameters
             // 
-            this.lblUDP2.AutoSize = true;
-            this.lblUDP2.Location = new System.Drawing.Point(149, 141);
-            this.lblUDP2.Name = "lblUDP2";
-            this.lblUDP2.Size = new System.Drawing.Size(10, 13);
-            this.lblUDP2.TabIndex = 9;
-            this.lblUDP2.Text = " ";
+            this.lblToolParameters.AutoSize = true;
+            this.lblToolParameters.Location = new System.Drawing.Point(149, 84);
+            this.lblToolParameters.Name = "lblToolParameters";
+            this.lblToolParameters.Size = new System.Drawing.Size(10, 13);
+            this.lblToolParameters.TabIndex = 7;
+            this.lblToolParameters.Text = " ";
+            // 
+            // lblToolPath
+            // 
+            this.lblToolPath.AutoSize = true;
+            this.lblToolPath.Location = new System.Drawing.Point(149, 58);
+            this.lblToolPath.Name = "lblToolPath";
+            this.lblToolPath.Size = new System.Drawing.Size(10, 13);
+            this.lblToolPath.TabIndex = 6;
+            this.lblToolPath.Text = " ";
+            // 
+            // lblToolName
+            // 
+            this.lblToolName.AutoSize = true;
+            this.lblToolName.Location = new System.Drawing.Point(149, 33);
+            this.lblToolName.Name = "lblToolName";
+            this.lblToolName.Size = new System.Drawing.Size(10, 13);
+            this.lblToolName.TabIndex = 5;
+            this.lblToolName.Text = " ";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(22, 141);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(109, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Enable UDP Tuner 2:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(22, 112);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(109, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Enable UDP Tuner 1:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(22, 84);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(87, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Tool Parameters:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(22, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Tool Path:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(22, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Tool Name:";
             // 
             // btnDelete
             // 
+            this.btnDelete.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnDelete.Location = new System.Drawing.Point(569, 201);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
@@ -177,6 +178,7 @@
             // 
             // btnEdit
             // 
+            this.btnEdit.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnEdit.Location = new System.Drawing.Point(488, 201);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
@@ -187,6 +189,7 @@
             // 
             // btnAdd
             // 
+            this.btnAdd.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnAdd.Location = new System.Drawing.Point(407, 201);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
@@ -197,6 +200,7 @@
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button1.Location = new System.Drawing.Point(569, 409);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -205,11 +209,12 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // externalToolsManager
+            // ExternalToolsManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(656, 450);
             this.ControlBox = false;
             this.Controls.Add(this.button1);
@@ -218,6 +223,7 @@
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.listTools);
+            this.ForeColor = System.Drawing.SystemColors.Control;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ExternalToolsManager";
@@ -227,7 +233,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         #endregion

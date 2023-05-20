@@ -558,6 +558,8 @@ namespace opentuner.Forms
             greyPen.DashPattern = new float[] { 4.0F, 4.0F };
 
             InitializeComponent();
+            // Add various renderers for component types
+            menuStrip1.Renderer = new ToolStripRenderer();
 
             // test
             SoftBlink(lblrecordIndication1, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
@@ -949,8 +951,7 @@ namespace opentuner.Forms
             // temporary to prevent multiple connection attempts
             // todo: deal with this properly
             lblConnected.Text = "Connected";
-            lblConnected.ForeColor = Color.Green;
-
+            lblConnected.ForeColor = Color.Coral;
             menuConnect.Enabled = false;
             lblConnected.Enabled = false;
         }
@@ -2462,7 +2463,41 @@ namespace opentuner.Forms
             }
         }
                 */
+        private class ToolStripRenderer : ToolStripProfessionalRenderer
+        {
+            public ToolStripRenderer() : base(new MyColors()) { }
+        }
 
+        private class MyColors : ProfessionalColorTable
+        {
+            private Color _darkTheme = Color.FromArgb(63, 70, 76);
+
+            public override Color MenuItemSelected
+            {
+                get { return _darkTheme; }
+            }
+            public override Color MenuItemSelectedGradientBegin
+            {
+                get { return _darkTheme; }
+            }
+            public override Color MenuItemSelectedGradientEnd
+            {
+                get { return _darkTheme; }
+            }
+            public override Color MenuItemPressedGradientEnd
+            {
+                get { return _darkTheme; }
+            }
+            public override Color MenuItemPressedGradientBegin
+            {
+                get { return _darkTheme; }
+            }
+
+            //public override Color MenuItemPressedGradientEnd
+            //{
+            //    get { return Color.Yellow; }
+            //}
+        }
     }
 
 

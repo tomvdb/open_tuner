@@ -151,19 +151,12 @@
             this.autoHoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.websocketTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuConnect = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.manageStoredFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.storedFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.externalToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageExternalToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.externalToolsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tunerControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tuner1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -179,13 +172,20 @@
             this.horizontal18VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kHzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
             this.genTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuConnect = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -238,14 +238,15 @@
             // statusPage
             // 
             resources.ApplyResources(this.statusPage, "statusPage");
+            this.statusPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.statusPage.Controls.Add(this.groupTuner2);
             this.statusPage.Controls.Add(this.groupBox2);
             this.statusPage.Controls.Add(this.groupTuner1);
             this.statusPage.Name = "statusPage";
-            this.statusPage.UseVisualStyleBackColor = true;
             // 
             // groupTuner2
             // 
+            this.groupTuner2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.groupTuner2.Controls.Add(this.lblStreamFormat2);
             this.groupTuner2.Controls.Add(this.label12);
             this.groupTuner2.Controls.Add(this.checkDisableVideo2);
@@ -295,6 +296,7 @@
             this.groupTuner2.Controls.Add(this.lblDemoState2);
             this.groupTuner2.Controls.Add(this.label40);
             resources.ApplyResources(this.groupTuner2, "groupTuner2");
+            this.groupTuner2.ForeColor = System.Drawing.SystemColors.Control;
             this.groupTuner2.Name = "groupTuner2";
             this.groupTuner2.TabStop = false;
             // 
@@ -318,6 +320,7 @@
             // 
             // btnVidRecord2
             // 
+            this.btnVidRecord2.ForeColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.btnVidRecord2, "btnVidRecord2");
             this.btnVidRecord2.Name = "btnVidRecord2";
             this.genTooltip.SetToolTip(this.btnVidRecord2, resources.GetString("btnVidRecord2.ToolTip"));
@@ -331,6 +334,7 @@
             // 
             // btnTuner2
             // 
+            this.btnTuner2.ForeColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.btnTuner2, "btnTuner2");
             this.btnTuner2.Name = "btnTuner2";
             this.genTooltip.SetToolTip(this.btnTuner2, resources.GetString("btnTuner2.ToolTip"));
@@ -340,6 +344,7 @@
             // lblAdjust2
             // 
             resources.ApplyResources(this.lblAdjust2, "lblAdjust2");
+            this.lblAdjust2.LinkColor = System.Drawing.Color.Silver;
             this.lblAdjust2.Name = "lblAdjust2";
             this.lblAdjust2.TabStop = true;
             this.lblAdjust2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblAdjust2_LinkClicked);
@@ -352,6 +357,7 @@
             // 
             // btnVid2Snapshot
             // 
+            this.btnVid2Snapshot.ForeColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.btnVid2Snapshot, "btnVid2Snapshot");
             this.btnVid2Snapshot.Name = "btnVid2Snapshot";
             this.genTooltip.SetToolTip(this.btnVid2Snapshot, resources.GetString("btnVid2Snapshot.ToolTip"));
@@ -360,6 +366,7 @@
             // 
             // btnVid2Mute
             // 
+            this.btnVid2Mute.ForeColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.btnVid2Mute, "btnVid2Mute");
             this.btnVid2Mute.Name = "btnVid2Mute";
             this.genTooltip.SetToolTip(this.btnVid2Mute, resources.GetString("btnVid2Mute.ToolTip"));
@@ -378,7 +385,7 @@
             // 
             // trackVolume2
             // 
-            this.trackVolume2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.trackVolume2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             resources.ApplyResources(this.trackVolume2, "trackVolume2");
             this.trackVolume2.Maximum = 200;
             this.trackVolume2.Name = "trackVolume2";
@@ -464,6 +471,7 @@
             // linkLabel1
             // 
             resources.ApplyResources(this.linkLabel1, "linkLabel1");
+            this.linkLabel1.LinkColor = System.Drawing.Color.Silver;
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.TabStop = true;
             // 
@@ -564,11 +572,13 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.groupBox2.Controls.Add(this.lblLPDCError);
             this.groupBox2.Controls.Add(this.label17);
             this.groupBox2.Controls.Add(this.lblConnected);
             this.groupBox2.Controls.Add(this.label8);
             resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.ForeColor = System.Drawing.SystemColors.Control;
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -597,6 +607,7 @@
             // 
             // groupTuner1
             // 
+            this.groupTuner1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.groupTuner1.Controls.Add(this.lblStreamFormat1);
             this.groupTuner1.Controls.Add(this.label1);
             this.groupTuner1.Controls.Add(this.lblRfInput);
@@ -645,6 +656,7 @@
             this.groupTuner1.Controls.Add(this.lblDemoState);
             this.groupTuner1.Controls.Add(this.label4);
             resources.ApplyResources(this.groupTuner1, "groupTuner1");
+            this.groupTuner1.ForeColor = System.Drawing.SystemColors.Control;
             this.groupTuner1.Name = "groupTuner1";
             this.groupTuner1.TabStop = false;
             // 
@@ -665,6 +677,7 @@
             // 
             // btnTuner
             // 
+            this.btnTuner.ForeColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.btnTuner, "btnTuner");
             this.btnTuner.Name = "btnTuner";
             this.genTooltip.SetToolTip(this.btnTuner, resources.GetString("btnTuner.ToolTip"));
@@ -673,6 +686,7 @@
             // 
             // btnVid1Record
             // 
+            this.btnVid1Record.ForeColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.btnVid1Record, "btnVid1Record");
             this.btnVid1Record.Name = "btnVid1Record";
             this.genTooltip.SetToolTip(this.btnVid1Record, resources.GetString("btnVid1Record.ToolTip"));
@@ -682,6 +696,7 @@
             // lblAdjust1
             // 
             resources.ApplyResources(this.lblAdjust1, "lblAdjust1");
+            this.lblAdjust1.LinkColor = System.Drawing.Color.Silver;
             this.lblAdjust1.Name = "lblAdjust1";
             this.lblAdjust1.TabStop = true;
             this.lblAdjust1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblAdjust1_LinkClicked);
@@ -694,6 +709,7 @@
             // 
             // btnVid1Snapshot
             // 
+            this.btnVid1Snapshot.ForeColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.btnVid1Snapshot, "btnVid1Snapshot");
             this.btnVid1Snapshot.Name = "btnVid1Snapshot";
             this.genTooltip.SetToolTip(this.btnVid1Snapshot, resources.GetString("btnVid1Snapshot.ToolTip"));
@@ -702,6 +718,7 @@
             // 
             // btnVid1Mute
             // 
+            this.btnVid1Mute.ForeColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.btnVid1Mute, "btnVid1Mute");
             this.btnVid1Mute.Name = "btnVid1Mute";
             this.genTooltip.SetToolTip(this.btnVid1Mute, resources.GetString("btnVid1Mute.ToolTip"));
@@ -720,7 +737,7 @@
             // 
             // trackVolume
             // 
-            this.trackVolume.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.trackVolume.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             resources.ApplyResources(this.trackVolume, "trackVolume");
             this.trackVolume.Maximum = 200;
             this.trackVolume.Name = "trackVolume";
@@ -806,6 +823,7 @@
             // lblChatSigReport
             // 
             resources.ApplyResources(this.lblChatSigReport, "lblChatSigReport");
+            this.lblChatSigReport.LinkColor = System.Drawing.Color.Silver;
             this.lblChatSigReport.Name = "lblChatSigReport";
             this.lblChatSigReport.TabStop = true;
             this.lblChatSigReport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblChatSigReport_LinkClicked);
@@ -914,7 +932,9 @@
             // 
             // dbgListBox
             // 
+            this.dbgListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             resources.ApplyResources(this.dbgListBox, "dbgListBox");
+            this.dbgListBox.ForeColor = System.Drawing.SystemColors.Control;
             this.dbgListBox.FormattingEnabled = true;
             this.dbgListBox.Name = "dbgListBox";
             // 
@@ -1055,6 +1075,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTunerToolStripMenuItem,
             this.toolStripMenuItem2,
@@ -1066,68 +1087,35 @@
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
-            // openTunerToolStripMenuItem
-            // 
-            this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuConnect,
-            this.settingsToolStripMenuItem,
-            this.toolStripMenuItem7,
-            this.toolStripSeparator1,
-            this.quitToolStripMenuItem});
-            this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
-            resources.ApplyResources(this.openTunerToolStripMenuItem, "openTunerToolStripMenuItem");
-            // 
-            // menuConnect
-            // 
-            this.menuConnect.Name = "menuConnect";
-            resources.ApplyResources(this.menuConnect, "menuConnect");
-            this.menuConnect.Click += new System.EventHandler(this.btnConnectTuner_Click);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            resources.ApplyResources(this.toolStripMenuItem7, "toolStripMenuItem7");
-            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-            // 
-            // quitToolStripMenuItem
-            // 
-            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            resources.ApplyResources(this.quitToolStripMenuItem, "quitToolStripMenuItem");
-            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
-            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.manageStoredFrequenciesToolStripMenuItem,
             this.toolStripMenuItem6,
             this.storedFrequenciesToolStripMenuItem});
+            this.toolStripMenuItem2.ForeColor = System.Drawing.SystemColors.Control;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
             // 
             // manageStoredFrequenciesToolStripMenuItem
             // 
+            this.manageStoredFrequenciesToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.manageStoredFrequenciesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.manageStoredFrequenciesToolStripMenuItem.Name = "manageStoredFrequenciesToolStripMenuItem";
             resources.ApplyResources(this.manageStoredFrequenciesToolStripMenuItem, "manageStoredFrequenciesToolStripMenuItem");
             this.manageStoredFrequenciesToolStripMenuItem.Click += new System.EventHandler(this.manageStoredFrequenciesToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
+            this.toolStripMenuItem6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.toolStripMenuItem6.ForeColor = System.Drawing.SystemColors.Control;
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
             resources.ApplyResources(this.toolStripMenuItem6, "toolStripMenuItem6");
             // 
             // storedFrequenciesToolStripMenuItem
             // 
+            this.storedFrequenciesToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.storedFrequenciesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.storedFrequenciesToolStripMenuItem.Name = "storedFrequenciesToolStripMenuItem";
             resources.ApplyResources(this.storedFrequenciesToolStripMenuItem, "storedFrequenciesToolStripMenuItem");
             // 
@@ -1137,22 +1125,22 @@
             this.manageExternalToolsToolStripMenuItem,
             this.toolStripMenuItem8,
             this.externalToolsToolStripMenuItem1});
-            this.externalToolsToolStripMenuItem.Name = "externalToolsToolStripMenuItem";
+            this.externalToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             resources.ApplyResources(this.externalToolsToolStripMenuItem, "externalToolsToolStripMenuItem");
+            this.externalToolsToolStripMenuItem.Name = "externalToolsToolStripMenuItem";
             // 
             // manageExternalToolsToolStripMenuItem
             // 
+            this.manageExternalToolsToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.manageExternalToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.manageExternalToolsToolStripMenuItem.Name = "manageExternalToolsToolStripMenuItem";
             resources.ApplyResources(this.manageExternalToolsToolStripMenuItem, "manageExternalToolsToolStripMenuItem");
             this.manageExternalToolsToolStripMenuItem.Click += new System.EventHandler(this.manageExternalToolsToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem8
-            // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            resources.ApplyResources(this.toolStripMenuItem8, "toolStripMenuItem8");
-            // 
             // externalToolsToolStripMenuItem1
             // 
+            this.externalToolsToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.externalToolsToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.Control;
             this.externalToolsToolStripMenuItem1.Name = "externalToolsToolStripMenuItem1";
             resources.ApplyResources(this.externalToolsToolStripMenuItem1, "externalToolsToolStripMenuItem1");
             // 
@@ -1161,33 +1149,42 @@
             this.tunerControlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tuner1ToolStripMenuItem,
             this.tuner2ToolStripMenuItem});
+            this.tunerControlToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.tunerControlToolStripMenuItem.Name = "tunerControlToolStripMenuItem";
             resources.ApplyResources(this.tunerControlToolStripMenuItem, "tunerControlToolStripMenuItem");
             // 
             // tuner1ToolStripMenuItem
             // 
+            this.tuner1ToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.tuner1ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recordAllToolStripMenuItem,
             this.enableUDPOutputToolStripMenuItem});
+            this.tuner1ToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.tuner1ToolStripMenuItem.Name = "tuner1ToolStripMenuItem";
             resources.ApplyResources(this.tuner1ToolStripMenuItem, "tuner1ToolStripMenuItem");
             // 
             // recordAllToolStripMenuItem
             // 
+            this.recordAllToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.recordAllToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.recordAllToolStripMenuItem.Name = "recordAllToolStripMenuItem";
             resources.ApplyResources(this.recordAllToolStripMenuItem, "recordAllToolStripMenuItem");
             this.recordAllToolStripMenuItem.Click += new System.EventHandler(this.recordAllToolStripMenuItem_Click);
             // 
             // enableUDPOutputToolStripMenuItem
             // 
+            this.enableUDPOutputToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.enableUDPOutputToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.enableUDPOutputToolStripMenuItem.Name = "enableUDPOutputToolStripMenuItem";
             resources.ApplyResources(this.enableUDPOutputToolStripMenuItem, "enableUDPOutputToolStripMenuItem");
             this.enableUDPOutputToolStripMenuItem.Click += new System.EventHandler(this.enableUDPOutputToolStripMenuItem_Click);
             // 
             // tuner2ToolStripMenuItem
             // 
+            this.tuner2ToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.tuner2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enableUDPOutputToolStripMenuItem1});
+            this.tuner2ToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.tuner2ToolStripMenuItem.Name = "tuner2ToolStripMenuItem";
             resources.ApplyResources(this.tuner2ToolStripMenuItem, "tuner2ToolStripMenuItem");
             // 
@@ -1202,99 +1199,171 @@
             this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lNBPowerSupplyToolStripMenuItem,
             this.kHzToolStripMenuItem});
+            this.toolStripMenuItem4.ForeColor = System.Drawing.SystemColors.Control;
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
             // 
             // lNBPowerSupplyToolStripMenuItem
             // 
+            this.lNBPowerSupplyToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.lNBPowerSupplyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lNBAToolStripMenuItem});
+            this.lNBPowerSupplyToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.lNBPowerSupplyToolStripMenuItem.Name = "lNBPowerSupplyToolStripMenuItem";
             resources.ApplyResources(this.lNBPowerSupplyToolStripMenuItem, "lNBPowerSupplyToolStripMenuItem");
             // 
             // lNBAToolStripMenuItem
             // 
+            this.lNBAToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.lNBAToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.offToolStripMenuItem,
             this.vertical13VToolStripMenuItem,
             this.horizontal18VToolStripMenuItem});
+            this.lNBAToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.lNBAToolStripMenuItem.Name = "lNBAToolStripMenuItem";
             resources.ApplyResources(this.lNBAToolStripMenuItem, "lNBAToolStripMenuItem");
             // 
             // offToolStripMenuItem
             // 
+            this.offToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.offToolStripMenuItem.Checked = true;
             this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.offToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
             resources.ApplyResources(this.offToolStripMenuItem, "offToolStripMenuItem");
             this.offToolStripMenuItem.Click += new System.EventHandler(this.offToolStripMenuItem_Click);
             // 
             // vertical13VToolStripMenuItem
             // 
+            this.vertical13VToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.vertical13VToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.vertical13VToolStripMenuItem.Name = "vertical13VToolStripMenuItem";
             resources.ApplyResources(this.vertical13VToolStripMenuItem, "vertical13VToolStripMenuItem");
             this.vertical13VToolStripMenuItem.Click += new System.EventHandler(this.vertical13VToolStripMenuItem_Click);
             // 
             // horizontal18VToolStripMenuItem
             // 
+            this.horizontal18VToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.horizontal18VToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.horizontal18VToolStripMenuItem.Name = "horizontal18VToolStripMenuItem";
             resources.ApplyResources(this.horizontal18VToolStripMenuItem, "horizontal18VToolStripMenuItem");
             this.horizontal18VToolStripMenuItem.Click += new System.EventHandler(this.horizontal18VToolStripMenuItem_Click);
             // 
             // kHzToolStripMenuItem
             // 
+            this.kHzToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.kHzToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.kHzToolStripMenuItem.Name = "kHzToolStripMenuItem";
             resources.ApplyResources(this.kHzToolStripMenuItem, "kHzToolStripMenuItem");
             this.kHzToolStripMenuItem.Click += new System.EventHandler(this.kHzToolStripMenuItem_Click);
             // 
             // qO100WidebandChatToolStripMenuItem
             // 
+            this.qO100WidebandChatToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.qO100WidebandChatToolStripMenuItem.Name = "qO100WidebandChatToolStripMenuItem";
             resources.ApplyResources(this.qO100WidebandChatToolStripMenuItem, "qO100WidebandChatToolStripMenuItem");
             this.qO100WidebandChatToolStripMenuItem.Click += new System.EventHandler(this.qO100WidebandChatToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openTunerWebsiteToolStripMenuItem,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem5,
-            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
-            // 
-            // openTunerWebsiteToolStripMenuItem
-            // 
-            this.openTunerWebsiteToolStripMenuItem.Name = "openTunerWebsiteToolStripMenuItem";
-            resources.ApplyResources(this.openTunerWebsiteToolStripMenuItem, "openTunerWebsiteToolStripMenuItem");
-            this.openTunerWebsiteToolStripMenuItem.Click += new System.EventHandler(this.openTunerWebsiteToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
-            // 
-            // addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem
-            // 
-            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Name = "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem";
-            resources.ApplyResources(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem, "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem");
-            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Click += new System.EventHandler(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click);
             // 
             // SpectrumTuneTimer
             // 
             this.SpectrumTuneTimer.Interval = 1500;
             this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
             // 
-            // Form1
+            // openTunerWebsiteToolStripMenuItem
+            // 
+            this.openTunerWebsiteToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.openTunerWebsiteToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.openTunerWebsiteToolStripMenuItem.Name = "openTunerWebsiteToolStripMenuItem";
+            resources.ApplyResources(this.openTunerWebsiteToolStripMenuItem, "openTunerWebsiteToolStripMenuItem");
+            this.openTunerWebsiteToolStripMenuItem.Click += new System.EventHandler(this.openTunerWebsiteToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.toolStripMenuItem3.ForeColor = System.Drawing.SystemColors.Control;
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem
+            // 
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Name = "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem";
+            resources.ApplyResources(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem, "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem");
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Click += new System.EventHandler(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.BackColor = System.Drawing.Color.Transparent;
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openTunerWebsiteToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem5,
+            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem});
+            this.helpToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
+            // 
+            // menuConnect
+            // 
+            this.menuConnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.menuConnect.ForeColor = System.Drawing.SystemColors.Control;
+            this.menuConnect.Name = "menuConnect";
+            resources.ApplyResources(this.menuConnect, "menuConnect");
+            this.menuConnect.Click += new System.EventHandler(this.btnConnectTuner_Click);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.toolStripMenuItem7.ForeColor = System.Drawing.SystemColors.Control;
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            resources.ApplyResources(this.toolStripMenuItem7, "toolStripMenuItem7");
+            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.quitToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            resources.ApplyResources(this.quitToolStripMenuItem, "quitToolStripMenuItem");
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            // 
+            // openTunerToolStripMenuItem
+            // 
+            this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuConnect,
+            this.toolStripMenuItem7,
+            this.settingsToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.quitToolStripMenuItem});
+            this.openTunerToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
+            resources.ApplyResources(this.openTunerToolStripMenuItem, "openTunerToolStripMenuItem");
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            resources.ApplyResources(this.toolStripMenuItem8, "toolStripMenuItem8");
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
+            // 
+            // OpenTunerForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -1344,12 +1413,6 @@
         private System.Windows.Forms.PictureBox spectrum;
         private System.Windows.Forms.Timer websocketTimer;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem openTunerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openTunerWebsiteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage statusPage;
         private System.Windows.Forms.GroupBox groupTuner1;
@@ -1372,10 +1435,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TabPage debugPage;
         private System.Windows.Forms.ListBox dbgListBox;
-        private System.Windows.Forms.ToolStripMenuItem menuConnect;
         private System.Windows.Forms.Label lblRFInputLevel;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem qO100WidebandChatToolStripMenuItem;
         private System.Windows.Forms.Timer SpectrumTuneTimer;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
@@ -1480,21 +1541,29 @@
         private System.Windows.Forms.ToolTip genTooltip;
         private System.Windows.Forms.ToolStripMenuItem tuner2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableUDPOutputToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem;
         private System.Windows.Forms.Button btnVidRecord2;
         private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView2;
         private FlyleafLib.Controls.WinForms.FlyleafHost ffmpegVideoView1;
         private System.Windows.Forms.CheckBox checkDisableVideo2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem externalToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageExternalToolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripMenuItem externalToolsToolStripMenuItem1;
         private System.Windows.Forms.Label lblStreamFormat2;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lblStreamFormat1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openTunerWebsiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openTunerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuConnect;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
     }
 }
 
