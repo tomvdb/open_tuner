@@ -121,7 +121,9 @@
             // 
             this.comboRFInput.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboRFInput.FormattingEnabled = true;
-            this.comboRFInput.Items.AddRange(new object[] { "A", "B" });
+            this.comboRFInput.Items.AddRange(new object[] {
+            "A",
+            "B"});
             this.comboRFInput.Location = new System.Drawing.Point(128, 116);
             this.comboRFInput.Name = "comboRFInput";
             this.comboRFInput.Size = new System.Drawing.Size(121, 21);
@@ -129,7 +131,6 @@
             // 
             // btnSave
             // 
-            this.btnSave.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnSave.Location = new System.Drawing.Point(219, 176);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
@@ -140,7 +141,6 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnCancel.Location = new System.Drawing.Point(138, 176);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -153,7 +153,9 @@
             // 
             this.comboDefaultTuner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDefaultTuner.FormattingEnabled = true;
-            this.comboDefaultTuner.Items.AddRange(new object[] { "1", "2" });
+            this.comboDefaultTuner.Items.AddRange(new object[] {
+            "1",
+            "2"});
             this.comboDefaultTuner.Location = new System.Drawing.Point(128, 143);
             this.comboDefaultTuner.Name = "comboDefaultTuner";
             this.comboDefaultTuner.Size = new System.Drawing.Size(121, 21);
@@ -168,12 +170,11 @@
             this.label6.TabIndex = 12;
             this.label6.Text = "Default Tuner:";
             // 
-            // EditStoredFrequencyForm
+            // editStoredFrequencyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(318, 217);
             this.ControlBox = false;
             this.Controls.Add(this.comboDefaultTuner);
@@ -190,12 +191,12 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label1);
-            this.ForeColor = System.Drawing.SystemColors.Control;
             this.Name = "EditStoredFrequencyForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Stored Frequency";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

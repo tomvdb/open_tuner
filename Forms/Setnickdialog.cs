@@ -1,4 +1,5 @@
-﻿using System;
+﻿using opentuner.Classes;
+using System;
 using System.Windows.Forms;
 
 namespace opentuner.Forms
@@ -8,6 +9,8 @@ namespace opentuner.Forms
         public Setnickdialog()
         {
             InitializeComponent();
+            OTColorChanger.OTChangeControlColors(this);
+
         }
 
         private void btnSetNick_Click(object sender, EventArgs e)

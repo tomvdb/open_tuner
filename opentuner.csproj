@@ -222,6 +222,7 @@
     <Compile Include="Classes\GlobalDefines.cs" />
     <Compile Include="Classes\Lookups.cs" />
     <Compile Include="Classes\MediaStatus.cs" />
+    <Compile Include="Classes\OTColorChanger.cs" />
     <Compile Include="Classes\OTSource.cs" />
     <Compile Include="Classes\StoredFrequency.cs" />
     <Compile Include="Forms\EditExternalToolForm.cs">
@@ -385,6 +386,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TunerControlForm.resx">
       <DependentUpon>TunerControlForm.cs</DependentUpon>

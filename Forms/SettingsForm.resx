@@ -414,6 +414,51 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="darkModeCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 167</value>
+  </data>
+  <data name="darkModeCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 24</value>
+  </data>
+  <data name="darkModeCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;darkModeCheckBox.Name" xml:space="preserve">
+    <value>darkModeCheckBox</value>
+  </data>
+  <data name="&gt;&gt;darkModeCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;darkModeCheckBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;darkModeCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="darkModeLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 172</value>
+  </data>
+  <data name="darkModeLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="darkModeLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="darkModeLabel.Text" xml:space="preserve">
+    <value>Dark Mode</value>
+  </data>
+  <data name="&gt;&gt;darkModeLabel.Name" xml:space="preserve">
+    <value>darkModeLabel</value>
+  </data>
+  <data name="&gt;&gt;darkModeLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;darkModeLabel.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;darkModeLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="numUdpPort2.Location" type="System.Drawing.Point, System.Drawing">
     <value>144, 138</value>
   </data>
@@ -433,7 +478,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;numUdpPort2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -463,7 +508,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="textUDPAddress2.Location" type="System.Drawing.Point, System.Drawing">
     <value>144, 112</value>
@@ -484,7 +529,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;textUDPAddress2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -514,7 +559,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="numUdpPort.Location" type="System.Drawing.Point, System.Drawing">
     <value>144, 85</value>
@@ -535,7 +580,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;numUdpPort.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -565,7 +610,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="textUDPAddress.Location" type="System.Drawing.Point, System.Drawing">
     <value>144, 59</value>
@@ -586,7 +631,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;textUDPAddress.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -616,7 +661,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="comboLanguage.Items" xml:space="preserve">
     <value>Default</value>
@@ -661,7 +706,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;comboLanguage.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -691,7 +736,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>368, 12</value>

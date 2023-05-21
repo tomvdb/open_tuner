@@ -1,4 +1,5 @@
-﻿using System;
+﻿using opentuner.Classes;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -11,6 +12,7 @@ namespace opentuner.Forms
         public SettingsForm()
         {
             InitializeComponent();
+            OTColorChanger.OTChangeControlColors(this);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -35,7 +37,6 @@ namespace opentuner.Forms
                 txtSnapshotPath.Text = fbd.SelectedPath + "\\";
             }
         }
-
 
     }
 }

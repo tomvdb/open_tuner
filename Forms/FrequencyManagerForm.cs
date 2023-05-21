@@ -11,6 +11,7 @@ namespace opentuner.Forms
         public FrequencyManagerForm(List<StoredFrequency> _stored_frequencies)
         {
             InitializeComponent();
+            OTColorChanger.OTChangeControlColors(this);
 
             stored_frequencies = _stored_frequencies;
             load_frequencies();

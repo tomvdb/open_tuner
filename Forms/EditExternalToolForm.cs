@@ -1,4 +1,5 @@
-﻿using System;
+﻿using opentuner.Classes;
+using System;
 using System.Windows.Forms;
 
 namespace opentuner.Forms
@@ -8,6 +9,7 @@ namespace opentuner.Forms
         public EditExternalToolForm()
         {
             InitializeComponent();
+            OTColorChanger.OTChangeControlColors(this);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

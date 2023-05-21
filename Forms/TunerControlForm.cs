@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Input;
+using opentuner.Classes;
 using opentuner.Hardware;
 
 namespace opentuner.Forms
@@ -26,6 +27,8 @@ namespace opentuner.Forms
             lblgHz.MouseWheel += LblgHz_MouseWheel;
             comboRFInput.SelectedIndex = 0;
             tuner_change = TunerChangeCallback;
+            OTColorChanger.OTChangeControlColors(this);
+
         }
 
         void scroll_frequency(int freq_modifier, int delta)

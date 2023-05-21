@@ -41,6 +41,8 @@
             this.txtDefaultLO = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.darkModeCheckBox = new System.Windows.Forms.CheckBox();
+            this.darkModeLabel = new System.Windows.Forms.Label();
             this.numUdpPort2 = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
             this.textUDPAddress2 = new System.Windows.Forms.TextBox();
@@ -159,6 +161,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.darkModeCheckBox);
+            this.groupBox2.Controls.Add(this.darkModeLabel);
             this.groupBox2.Controls.Add(this.numUdpPort2);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.textUDPAddress2);
@@ -172,6 +176,17 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // darkModeCheckBox
+            // 
+            resources.ApplyResources(this.darkModeCheckBox, "darkModeCheckBox");
+            this.darkModeCheckBox.Name = "darkModeCheckBox";
+            this.darkModeCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // darkModeLabel
+            // 
+            resources.ApplyResources(this.darkModeLabel, "darkModeLabel");
+            this.darkModeLabel.Name = "darkModeLabel";
             // 
             // numUdpPort2
             // 
@@ -404,7 +419,7 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // settingsForm
+            // SettingsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -481,5 +496,7 @@
         public System.Windows.Forms.ComboBox comboTuner1Start;
         private System.Windows.Forms.Label label17;
         public System.Windows.Forms.NumericUpDown numChatFontSize;
+        public System.Windows.Forms.CheckBox darkModeCheckBox;
+        private System.Windows.Forms.Label darkModeLabel;
     }
 }

@@ -13,6 +13,7 @@ namespace opentuner.Forms
         {
             InitializeComponent();
             externalToolList = externalTools;
+            OTColorChanger.OTChangeControlColors(this);
         }
 
         public void load_tools()

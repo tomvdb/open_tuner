@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using opentuner.Classes;
 using opentuner.Hardware;
 
 namespace opentuner.Forms
@@ -13,6 +14,7 @@ namespace opentuner.Forms
         public HardwareInfoForm(ftdi ftdi_hardware)
         {
             InitializeComponent();
+            OTColorChanger.OTChangeControlColors(this);
 
             ftdi_hw = ftdi_hardware;
             detect_display();
