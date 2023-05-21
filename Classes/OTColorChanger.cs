@@ -24,6 +24,11 @@ public static class OTColorChanger
                 control.BackColor = darkTheme;
                 control.ForeColor = lightTheme;
             }
+            if (control is Button)
+            {
+                control.BackColor = Color.FromName("Control");
+                control.ForeColor = Color.FromName("ControlText");
+            }
         }
     }
     public static List<Control> GetControls(Control form)
