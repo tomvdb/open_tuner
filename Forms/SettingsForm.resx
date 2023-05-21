@@ -436,7 +436,7 @@
     <value>0</value>
   </data>
   <data name="darkModeLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 172</value>
+    <value>26, 172</value>
   </data>
   <data name="darkModeLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
