@@ -1812,14 +1812,6 @@ namespace opentuner.Forms
 
             Console.WriteLine("Load Done");
             
-            // Placed here after loading is done as to get all the external tools and stored frequency menu items too
-            if (Properties.Settings.Default.DarkMode)
-            {
-                OTColorChanger.OTMenuItemsColoring(menuStrip1, contextSpectrumMenu);
-                menuStrip1.Renderer = new OTColorChanger.ToolStripRenderer();
-                contextSpectrumMenu.Renderer = new OTColorChanger.ToolStripRenderer();
-            }
-
             // this needs to go last
             if (setting_auto_connect)
             {
@@ -1841,6 +1833,8 @@ namespace opentuner.Forms
 
         private void rebuild_external_tools()
         {
+            externalToolsToolStripMenuItem1.DropDownItems.Clear();
+            
             if (external_tools.Count == 0)
             {
                 externalToolsToolStripMenuItem1.Visible = false;
@@ -1848,7 +1842,7 @@ namespace opentuner.Forms
             }
 
             externalToolsToolStripMenuItem1.Visible = true;
-
+            
             for (int c = 0; c < external_tools.Count; c++)
             {
                 ToolStripMenuItem et_menu = new ToolStripMenuItem(external_tools[c].ToolName);
@@ -1857,6 +1851,7 @@ namespace opentuner.Forms
 
                 externalToolsToolStripMenuItem1.DropDownItems.Add(et_menu);
             }
+            ChangeMenuItemColors();
         }
 
         private void Et_menu_Click(object sender, EventArgs e)
@@ -1925,9 +1920,19 @@ namespace opentuner.Forms
                 sf_menu.Click += Sf_menu_Click;
 
                 storedFrequenciesToolStripMenuItem.DropDownItems.Add(sf_menu);
-            }
+            } 
+            ChangeMenuItemColors();
         }
 
+        private void ChangeMenuItemColors()
+        {
+            if (Properties.Settings.Default.DarkMode)
+            {
+                OTColorChanger.OTMenuItemsColoring(menuStrip1, contextSpectrumMenu);
+                menuStrip1.Renderer = new OTColorChanger.ToolStripRenderer();
+                contextSpectrumMenu.Renderer = new OTColorChanger.ToolStripRenderer();
+            }
+        }
 
         private void Sf_menu_Click(object sender, EventArgs e)
         {
