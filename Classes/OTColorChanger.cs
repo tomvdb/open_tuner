@@ -53,6 +53,23 @@ public static class OTColorChanger
         public ToolStripRenderer() : base(new MyColors())
         {
         }
+        protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
+        {
+            if (e.Item as ToolStripSeparator == null)
+            {
+                base.OnRenderSeparator(e);
+                return;
+            }
+            int width = e.Item.Width;
+            int height = e.Item.Height;
+
+            Color foreColor = _lightTheme;
+            Color backColor = _darkTheme;
+
+            e.Graphics.FillRectangle(new SolidBrush(backColor), 0, 0, width, height);
+            e.Graphics.DrawLine(new Pen(foreColor), 4, height / 2, width - 4, height / 2);
+            
+        }
     }
 
     private class MyColors : ProfessionalColorTable

@@ -743,14 +743,7 @@ namespace opentuner.Forms
             InitializeComponent();
 
             OTColorChanger.OTChangeControlColors(this);
-
-            if (Properties.Settings.Default.DarkMode)
-            {
-                OTColorChanger.OTMenuItemsColoring(menuStrip1, contextSpectrumMenu);
-                menuStrip1.Renderer = new OTColorChanger.ToolStripRenderer();
-                contextSpectrumMenu.Renderer = new OTColorChanger.ToolStripRenderer();
-            }
-
+            
             // test
             SoftBlink(lblrecordIndication1, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
             SoftBlink(lblRecordIndication2, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
@@ -1604,7 +1597,7 @@ namespace opentuner.Forms
             setting_tuner2_startfreq = Properties.Settings.Default.tuner2_start_freq;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void OpenTunerForm_Load(object sender, EventArgs e)
         {
             debug("System Culture Setting: " + CultureInfo.CurrentCulture.Name);
             debug("Settings: Restore Last Volume: " + setting_default_volume.ToString() + "%");
@@ -1818,6 +1811,14 @@ namespace opentuner.Forms
             tuner2ControlForm.set_offset(mt.current_offset_A, mt.current_offset_B);
 
             Console.WriteLine("Load Done");
+            
+            // Placed here after loading is done as to get all the external tools and stored frequency menu items too
+            if (Properties.Settings.Default.DarkMode)
+            {
+                OTColorChanger.OTMenuItemsColoring(menuStrip1, contextSpectrumMenu);
+                menuStrip1.Renderer = new OTColorChanger.ToolStripRenderer();
+                contextSpectrumMenu.Renderer = new OTColorChanger.ToolStripRenderer();
+            }
 
             // this needs to go last
             if (setting_auto_connect)
