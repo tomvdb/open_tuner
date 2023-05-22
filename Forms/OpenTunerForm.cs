@@ -27,11 +27,6 @@ namespace opentuner.Forms
         OTMediaPlayer media_player_2;
 
         MinitiounerSource mt = new MinitiounerSource();
-
-        private Color _darkTheme = Color.FromArgb(63, 70, 76);
-        private Color _lightTheme = Color.LightGray;
-        private List<ToolStripMenuItem> toolSripItems = null;
-
         private delegate void updateNimStatusGuiDelegate(OpenTunerForm gui, TunerStatus new_status);
 
         private delegate void updateTSStatusGuiDelegate(int device, OpenTunerForm gui, TSStatus new_status);
@@ -751,11 +746,11 @@ namespace opentuner.Forms
 
             if (Properties.Settings.Default.DarkMode)
             {
-                OTMenuItemsColoring();
-                menuStrip1.Renderer = new ToolStripRenderer();
-                contextSpectrumMenu.Renderer = new ToolStripRenderer();
+                OTColorChanger.OTMenuItemsColoring(menuStrip1, contextSpectrumMenu);
+                menuStrip1.Renderer = new OTColorChanger.ToolStripRenderer();
+                contextSpectrumMenu.Renderer = new OTColorChanger.ToolStripRenderer();
             }
-            
+
             // test
             SoftBlink(lblrecordIndication1, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
             SoftBlink(lblRecordIndication2, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
@@ -2694,109 +2689,5 @@ namespace opentuner.Forms
             }
         }
                 */
-        private class ToolStripRenderer : ToolStripProfessionalRenderer
-        {
-            public ToolStripRenderer() : base(new MyColors())
-            {
-            }
-        }
-
-        private class MyColors : ProfessionalColorTable
-        {
-            private Color _darkTheme = Color.FromArgb(63, 70, 76);
-
-            public override Color MenuItemSelected
-            {
-                get { return _darkTheme; }
-            }
-
-            public override Color MenuItemSelectedGradientBegin
-            {
-                get { return _darkTheme; }
-            }
-
-            public override Color MenuItemSelectedGradientEnd
-            {
-                get { return _darkTheme; }
-            }
-
-            public override Color MenuItemPressedGradientEnd
-            {
-                get { return _darkTheme; }
-            }
-
-            public override Color MenuItemPressedGradientBegin
-            {
-                get { return _darkTheme; }
-            }
-
-            public override Color MenuStripGradientBegin
-            {
-                get { return _darkTheme; }
-            }
-
-            public override Color MenuStripGradientEnd
-            {
-                get { return _darkTheme; }
-            }
-        }
-
-        private void OTMenuItemsColoring()
-        {
-            var allMenuStripItems = GetAllMenuStripItems(menuStrip1);
-
-            foreach (var toolStripMenuItem in allMenuStripItems)
-            {
-                toolStripMenuItem.BackColor = _darkTheme;
-                toolStripMenuItem.ForeColor = _lightTheme;
-            }
-
-            var contextMenuStripItems = GetAllContextMenuStripItems(contextSpectrumMenu);
-            foreach (var toolStripMenuItem in contextMenuStripItems)
-            {
-                toolStripMenuItem.BackColor = _darkTheme;
-                toolStripMenuItem.ForeColor = _lightTheme;
-            }
-        }
-
-        //Extract all menu strip items
-        private List<ToolStripMenuItem> GetAllMenuStripItems(MenuStrip mnuStrip)
-        {
-            toolSripItems = new List<ToolStripMenuItem>();
-            foreach (ToolStripMenuItem toolSripItem in mnuStrip.Items)
-            {
-                GetAllSubMenuStripItems(toolSripItem);
-            }
-            return toolSripItems;
-        }
-        //Extract all context menu strip items
-        private List<ToolStripMenuItem> GetAllContextMenuStripItems(ContextMenuStrip mnuStrip)
-        {
-            toolSripItems = new List<ToolStripMenuItem>();
-            foreach (ToolStripMenuItem toolSripItem in mnuStrip.Items)
-            {
-                GetAllSubMenuStripItems(toolSripItem);
-            }
-            return toolSripItems;
-        }
-
-        //This method is called recursively inside to loop through all menu items
-        private void GetAllSubMenuStripItems(ToolStripMenuItem mnuItem)
-        {
-            toolSripItems.Add(mnuItem);
-
-            // if sub menu contain child dropdown items
-            if (mnuItem.HasDropDownItems)
-            {
-                foreach (ToolStripItem toolSripItem in mnuItem.DropDownItems)
-                {
-                    if (toolSripItem is ToolStripMenuItem)
-                    {
-                        //call the method recursively to extract further.
-                        GetAllSubMenuStripItems((ToolStripMenuItem)toolSripItem);
-                    }
-                }
-            }
-        }
     }
 }
