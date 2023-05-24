@@ -148,7 +148,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(409, 216);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
@@ -162,7 +161,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.ForeColor = System.Drawing.SystemColors.Control;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditExternalToolForm";

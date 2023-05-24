@@ -132,12 +132,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(689, 438);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listBox1);
-            this.ForeColor = System.Drawing.SystemColors.Control;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "HardwareInfoForm";
