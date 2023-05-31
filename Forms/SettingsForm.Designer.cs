@@ -74,6 +74,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.numAutoTuneTime = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).BeginInit();
@@ -81,6 +83,7 @@
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numChatFontSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numAutoTuneTime)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -336,6 +339,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label18);
+            this.groupBox4.Controls.Add(this.numAutoTuneTime);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.numChatFontSize);
             this.groupBox4.Controls.Add(this.label14);
@@ -419,6 +424,32 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
+            // numAutoTuneTime
+            // 
+            resources.ApplyResources(this.numAutoTuneTime, "numericUpDown1");
+            this.numAutoTuneTime.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.numAutoTuneTime.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numAutoTuneTime.Name = "numericUpDown1";
+            this.numAutoTuneTime.ReadOnly = true;
+            this.numAutoTuneTime.Value = new decimal(new int[] {
+            Properties.Settings.Default.auto_tune_time,
+            0,
+            0,
+            0});
+            // 
             // SettingsForm
             // 
             resources.ApplyResources(this, "$this");
@@ -446,6 +477,7 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numChatFontSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numAutoTuneTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -498,5 +530,7 @@
         public System.Windows.Forms.NumericUpDown numChatFontSize;
         public System.Windows.Forms.CheckBox darkModeCheckBox;
         private System.Windows.Forms.Label darkModeLabel;
+        private System.Windows.Forms.Label label18;
+        public System.Windows.Forms.NumericUpDown numAutoTuneTime;
     }
 }

@@ -11,7 +11,7 @@ public static class OTColorChanger
 
     public static void OTChangeControlColors(Form form)
     {
-        if (!Properties.Settings.Default.DarkMode)
+        if (!Properties.Settings.Default.dark_mode_enable)
             return;
         
         var controls = GetControls(form);

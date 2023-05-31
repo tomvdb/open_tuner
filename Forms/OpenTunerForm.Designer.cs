@@ -1010,24 +1010,18 @@
             // 
             // contextSpectrumMenu
             // 
-            this.contextSpectrumMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.autoTuneToolStripMenuItem});
+            this.contextSpectrumMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.autoTuneToolStripMenuItem });
             this.contextSpectrumMenu.Name = "contextSpectrumMenu";
             resources.ApplyResources(this.contextSpectrumMenu, "contextSpectrumMenu");
             // 
             // autoTuneToolStripMenuItem
             // 
-            this.autoTuneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manualToolStripMenuItem,
-            this.autoTimedToolStripMenuItem,
-            this.autoHoldToolStripMenuItem});
+            this.autoTuneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.manualToolStripMenuItem, this.autoTimedToolStripMenuItem, this.autoHoldToolStripMenuItem });
             this.autoTuneToolStripMenuItem.Name = "autoTuneToolStripMenuItem";
             resources.ApplyResources(this.autoTuneToolStripMenuItem, "autoTuneToolStripMenuItem");
             // 
             // manualToolStripMenuItem
             // 
-            this.manualToolStripMenuItem.Checked = true;
-            this.manualToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
             resources.ApplyResources(this.manualToolStripMenuItem, "manualToolStripMenuItem");
             this.manualToolStripMenuItem.Click += new System.EventHandler(this.manualToolStripMenuItem_Click);
@@ -1052,25 +1046,13 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openTunerToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.externalToolsToolStripMenuItem,
-            this.tunerControlToolStripMenuItem,
-            this.toolStripMenuItem4,
-            this.qO100WidebandChatToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.openTunerToolStripMenuItem, this.toolStripMenuItem2, this.externalToolsToolStripMenuItem, this.tunerControlToolStripMenuItem, this.toolStripMenuItem4, this.qO100WidebandChatToolStripMenuItem, this.helpToolStripMenuItem });
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
             // openTunerToolStripMenuItem
             // 
-            this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuConnect,
-            this.settingsToolStripMenuItem,
-            this.toolStripMenuItem7,
-            this.toolStripSeparator1,
-            this.quitToolStripMenuItem});
+            this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuConnect, this.settingsToolStripMenuItem, this.toolStripMenuItem7, this.toolStripSeparator1, this.quitToolStripMenuItem });
             this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
             resources.ApplyResources(this.openTunerToolStripMenuItem, "openTunerToolStripMenuItem");
             // 
@@ -1105,10 +1087,7 @@
             // 
             // toolStripMenuItem2
             // 
-            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manageStoredFrequenciesToolStripMenuItem,
-            this.toolStripMenuItem6,
-            this.storedFrequenciesToolStripMenuItem});
+            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.manageStoredFrequenciesToolStripMenuItem, this.toolStripMenuItem6, this.storedFrequenciesToolStripMenuItem });
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
             // 
@@ -1127,15 +1106,13 @@
             // 
             this.storedFrequenciesToolStripMenuItem.Name = "storedFrequenciesToolStripMenuItem";
             resources.ApplyResources(this.storedFrequenciesToolStripMenuItem, "storedFrequenciesToolStripMenuItem");
+            this.storedFrequenciesToolStripMenuItem.Click += new System.EventHandler(this.storedFrequenciesToolStripMenuItem_Click);
             // 
             // externalToolsToolStripMenuItem
             // 
-            this.externalToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manageExternalToolsToolStripMenuItem,
-            this.toolStripMenuItem8,
-            this.externalToolsToolStripMenuItem1});
-            resources.ApplyResources(this.externalToolsToolStripMenuItem, "externalToolsToolStripMenuItem");
+            this.externalToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.manageExternalToolsToolStripMenuItem, this.toolStripMenuItem8, this.externalToolsToolStripMenuItem1 });
             this.externalToolsToolStripMenuItem.Name = "externalToolsToolStripMenuItem";
+            resources.ApplyResources(this.externalToolsToolStripMenuItem, "externalToolsToolStripMenuItem");
             // 
             // manageExternalToolsToolStripMenuItem
             // 
@@ -1155,17 +1132,13 @@
             // 
             // tunerControlToolStripMenuItem
             // 
-            this.tunerControlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tuner1ToolStripMenuItem,
-            this.tuner2ToolStripMenuItem});
+            this.tunerControlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.tuner1ToolStripMenuItem, this.tuner2ToolStripMenuItem });
             this.tunerControlToolStripMenuItem.Name = "tunerControlToolStripMenuItem";
             resources.ApplyResources(this.tunerControlToolStripMenuItem, "tunerControlToolStripMenuItem");
             // 
             // tuner1ToolStripMenuItem
             // 
-            this.tuner1ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.recordAllToolStripMenuItem,
-            this.enableUDPOutputToolStripMenuItem});
+            this.tuner1ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.recordAllToolStripMenuItem, this.enableUDPOutputToolStripMenuItem });
             this.tuner1ToolStripMenuItem.Name = "tuner1ToolStripMenuItem";
             resources.ApplyResources(this.tuner1ToolStripMenuItem, "tuner1ToolStripMenuItem");
             // 
@@ -1183,8 +1156,7 @@
             // 
             // tuner2ToolStripMenuItem
             // 
-            this.tuner2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enableUDPOutputToolStripMenuItem1});
+            this.tuner2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.enableUDPOutputToolStripMenuItem1 });
             this.tuner2ToolStripMenuItem.Name = "tuner2ToolStripMenuItem";
             resources.ApplyResources(this.tuner2ToolStripMenuItem, "tuner2ToolStripMenuItem");
             // 
@@ -1196,25 +1168,19 @@
             // 
             // toolStripMenuItem4
             // 
-            this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lNBPowerSupplyToolStripMenuItem,
-            this.kHzToolStripMenuItem});
+            this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lNBPowerSupplyToolStripMenuItem, this.kHzToolStripMenuItem });
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
             // 
             // lNBPowerSupplyToolStripMenuItem
             // 
-            this.lNBPowerSupplyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lNBAToolStripMenuItem});
+            this.lNBPowerSupplyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lNBAToolStripMenuItem });
             this.lNBPowerSupplyToolStripMenuItem.Name = "lNBPowerSupplyToolStripMenuItem";
             resources.ApplyResources(this.lNBPowerSupplyToolStripMenuItem, "lNBPowerSupplyToolStripMenuItem");
             // 
             // lNBAToolStripMenuItem
             // 
-            this.lNBAToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.offToolStripMenuItem,
-            this.vertical13VToolStripMenuItem,
-            this.horizontal18VToolStripMenuItem});
+            this.lNBAToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.offToolStripMenuItem, this.vertical13VToolStripMenuItem, this.horizontal18VToolStripMenuItem });
             this.lNBAToolStripMenuItem.Name = "lNBAToolStripMenuItem";
             resources.ApplyResources(this.lNBAToolStripMenuItem, "lNBAToolStripMenuItem");
             // 
@@ -1252,11 +1218,7 @@
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openTunerWebsiteToolStripMenuItem,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem5,
-            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem});
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.openTunerWebsiteToolStripMenuItem, this.toolStripMenuItem3, this.toolStripMenuItem5, this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem });
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
@@ -1296,7 +1258,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "OpenTunerForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OpenTunerForm_FormClosing);
             this.Load += new System.EventHandler(this.OpenTunerForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1331,7 +1293,6 @@
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

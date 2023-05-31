@@ -15,7 +15,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2E89E032-7250-4223-93EC-FBA2482988DC}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>opentuner</RootNamespace>
     <AssemblyName>opentuner</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -437,6 +437,7 @@
     <Content Include="ResourceFiles\bandplan.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ResourceFiles\frequencies.json" />
     <Content Include="ResourceFiles\FTD2XX_NET.dll" />
     <Content Include="ResourceFiles\FTD2XX_NET.XML" />
   </ItemGroup>

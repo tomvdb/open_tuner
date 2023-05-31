@@ -1,0 +1,226 @@
+[
+  {
+    "Name": "BEACON - SymbolRate 1500 - U: 10491.5",
+    "Frequency": 104915000,
+    "Offset": 97500000,
+    "SymbolRate": 1500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block A - SymbolRate 1000 - U: 10493.25 D: 2403.75",
+    "Frequency": 104932500,
+    "Offset": 97500000,
+    "SymbolRate": 1000,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block A - SymbolRate 1000 - U: 10494.75 D: 2405.25",
+    "Frequency": 104947500,
+    "Offset": 97500000,
+    "SymbolRate": 1000,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block A - SymbolRate 1000 - U: 10496.25 D: 2406.75",
+    "Frequency": 104962500,
+    "Offset": 97500000,
+    "SymbolRate": 1000,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block B - SymbolRate 500 - U: 10492.75 D: 2403.25",
+    "Frequency": 104927500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block B - SymbolRate 500 - U: 10493.25 D: 2403.75",
+    "Frequency": 104932500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block B - SymbolRate 500 - U: 10493.75 D: 2404.25",
+    "Frequency": 104937500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block B - SymbolRate 500 - U: 10494.25 D: 2404.75",
+    "Frequency": 104942500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block B - SymbolRate 500 - U: 10494.75 D: 2405.25",
+    "Frequency": 104947500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block B - SymbolRate 500 - U: 10495.25 D: 2405.75",
+    "Frequency": 104952500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block B - SymbolRate 500 - U: 10495.75 D: 2406.25",
+    "Frequency": 104957500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block B - SymbolRate 500 - U: 10496.25 D: 2406.75",
+    "Frequency": 104962500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block B - SymbolRate 500 - U: 10496.75 D: 2407.25",
+    "Frequency": 104967500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 500 - U: 10497.25 D: 2407.75",
+    "Frequency": 104972500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 500 - U: 10497.75 D: 2408.25",
+    "Frequency": 104977500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 500 - U: 10498.25 D: 2408.25",
+    "Frequency": 104982500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 500 - U: 10498.75 D: 2408.75",
+    "Frequency": 104987500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 500 - U: 10499.25 D: 2409.25",
+    "Frequency": 104992500,
+    "Offset": 97500000,
+    "SymbolRate": 500,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 333 - U: 10497.25 D: 2407.75",
+    "Frequency": 104972500,
+    "Offset": 97500000,
+    "SymbolRate": 333,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 333 - U: 10497.75 D: 2408.25",
+    "Frequency": 104977500,
+    "Offset": 97500000,
+    "SymbolRate": 333,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 333 - U: 10498.25 D: 2408.25",
+    "Frequency": 104982500,
+    "Offset": 97500000,
+    "SymbolRate": 333,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 333 - U: 10498.75 D: 2408.75",
+    "Frequency": 104987500,
+    "Offset": 97500000,
+    "SymbolRate": 333,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 333 - U: 10499.25 D: 2409.25",
+    "Frequency": 104992500,
+    "Offset": 97500000,
+    "SymbolRate": 333,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 250 - U: 10497.25 D: 2407.75",
+    "Frequency": 104972500,
+    "Offset": 97500000,
+    "SymbolRate": 250,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 250 - U: 10497.75 D: 2408.25",
+    "Frequency": 104977500,
+    "Offset": 97500000,
+    "SymbolRate": 250,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 250 - U: 10498.25 D: 2408.25",
+    "Frequency": 104982500,
+    "Offset": 97500000,
+    "SymbolRate": 250,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 250 - U: 10498.75 D: 2408.75",
+    "Frequency": 104987500,
+    "Offset": 97500000,
+    "SymbolRate": 250,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  },
+  {
+    "Name": "Block C - SymbolRate 250 - U: 10499.25 D: 2409.25",
+    "Frequency": 104992500,
+    "Offset": 97500000,
+    "SymbolRate": 250,
+    "RFInput": 1,
+    "DefaultTuner": 0
+  }
+]

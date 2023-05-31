@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using LibVLCSharp.Shared;
-using LibVLCSharp.WinForms;
 using Newtonsoft.Json;
 using opentuner.Classes;
 using opentuner.Hardware;
@@ -27,6 +26,7 @@ namespace opentuner.Forms
         OTMediaPlayer media_player_2;
 
         MinitiounerSource mt = new MinitiounerSource();
+
         private delegate void updateNimStatusGuiDelegate(OpenTunerForm gui, TunerStatus new_status);
 
         private delegate void updateTSStatusGuiDelegate(int device, OpenTunerForm gui, TSStatus new_status);
@@ -377,6 +377,11 @@ namespace opentuner.Forms
         string setting_tuner2_startfreq = "Default";
 
         string setting_sigreport_template = "SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}";
+        private bool first_run = true;
+        // Used when autotune was selected on previous run,sets the spectrum selection to the beacon
+        // or if there is another signal present it tunes to that signal
+        private int firstDetectedSignalX = 150;
+        private int firstDetectedSignalY = 150;
 
         // custom forms
         private WideBandChatForm chatForm;
@@ -743,7 +748,7 @@ namespace opentuner.Forms
             InitializeComponent();
 
             OTColorChanger.OTChangeControlColors(this);
-            
+
             // test
             SoftBlink(lblrecordIndication1, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
             SoftBlink(lblRecordIndication2, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
@@ -751,7 +756,7 @@ namespace opentuner.Forms
             Console.WriteLine("Init done");
         }
 
-       
+
         private void ChangeVideo(int video_number, bool start)
         {
             switch (video_number)
@@ -891,7 +896,7 @@ namespace opentuner.Forms
             }
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void OpenTunerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // save chat location settings
             if (setting_enable_chatform && chatForm != null)
@@ -1284,7 +1289,7 @@ namespace opentuner.Forms
 
             try
             {
-                Invoke(new MethodInvoker(delegate ()
+                Invoke(new MethodInvoker(delegate()
                 {
                     spectrum.Image = bmp;
                     spectrum.Update();
@@ -1426,14 +1431,21 @@ namespace opentuner.Forms
             }
             else
             {
-                selectSignal(X, Y);
+                SelectSignal(X, Y);
             }
         }
 
 
         // quick tune functions - From https://github.com/m0dts/QO-100-WB-Live-Tune - Rob Swinbank
-        private void selectSignal(int X, int Y)
+        private void SelectSignal(int x, int y)
         {
+            if (first_run)
+            {
+                // sets coordinates of the first detected signal
+                firstDetectedSignalX = x;
+                firstDetectedSignalY = y;
+            }
+
             float spectrum_w = spectrum.Width;
             float spectrum_wScale = spectrum_w / 922;
             int spectrum_h = spectrum.Height - bandplan_height;
@@ -1442,7 +1454,7 @@ namespace opentuner.Forms
 
             if (mt.ts_devices == 2)
             {
-                if (Y > spectrum_h / 2)
+                if (y > spectrum_h / 2)
                     rx = 1;
             }
 
@@ -1451,46 +1463,50 @@ namespace opentuner.Forms
             {
                 foreach (signal.Sig s in sigs.signals)
                 {
-                    if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
-                    {
-                        sigs.set_tuned(s, rx);
-                        rx_blocks[rx, 0] = Convert.ToInt16(s.fft_centre);
-                        rx_blocks[rx, 1] = Convert.ToInt16((s.fft_stop) - (s.fft_start));
-                        UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
-                        UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));
-
-                        debug("Freq: " + freq.ToString());
-                        debug("SR: " + sr.ToString());
-
-                        UInt32 lo = 0;
-
-                        if (rx == 0) // tuner 1
-                        {
-                            if (mt.current_rf_input_1 == nim.NIM_INPUT_TOP)
-                                lo = Convert.ToUInt32(mt.current_offset_A);
-                            else
-                                lo = Convert.ToUInt32(mt.current_offset_B);
-                        }
-                        else
-                        {
-                            if (mt.current_rf_input_2 == nim.NIM_INPUT_TOP)
-                                lo = Convert.ToUInt32(mt.current_offset_A);
-                            else
-                                lo = Convert.ToUInt32(mt.current_offset_B);
-                        }
-
-                        if (mt.ts_devices == 2)
-                            change_frequency_with_lo((byte)(rx + 1), freq, lo, sr);
-                        else
-                            change_frequency_with_lo(1, freq, lo, sr);
-                    }
+                    if ((x / spectrum_wScale) > s.fft_start & (x / spectrum_wScale) < s.fft_stop)
+                        SetTuneFrequency(s, rx);
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
+                debug(ex.Message);
             }
         }
 
+        private void SetTuneFrequency(signal.Sig signal, int rx)
+        {
+            sigs.set_tuned(signal, rx);
+            rx_blocks[rx, 0] = Convert.ToInt16(signal.fft_centre);
+            rx_blocks[rx, 1] = Convert.ToInt16((signal.fft_stop) - (signal.fft_start));
+            UInt32 freq = Convert.ToUInt32((signal.frequency) * 1000);
+            UInt32 sr = Convert.ToUInt32((signal.sr * 1000.0));
+
+            debug("Freq: " + freq.ToString());
+            debug("SR: " + sr.ToString());
+
+            UInt32 lo;
+
+            if (rx == 0) // tuner 1
+            {
+                if (mt.current_rf_input_1 == nim.NIM_INPUT_TOP)
+                    lo = Convert.ToUInt32(mt.current_offset_A);
+                else
+                    lo = Convert.ToUInt32(mt.current_offset_B);
+            }
+            else
+            {
+                if (mt.current_rf_input_2 == nim.NIM_INPUT_TOP)
+                    lo = Convert.ToUInt32(mt.current_offset_A);
+                else
+                    lo = Convert.ToUInt32(mt.current_offset_B);
+            }
+            
+            if (mt.ts_devices == 2)
+                change_frequency_with_lo((byte)(rx + 1), freq, lo, sr);
+            else
+                change_frequency_with_lo(1, freq, lo, sr);
+        }
+        
         int spectrumTunerHighlight = 0;
 
         public void spectrum_MouseMove(object sender, MouseEventArgs e)
@@ -1570,7 +1586,7 @@ namespace opentuner.Forms
             setting_chat_width = Properties.Settings.Default.wbchat_width;
             setting_chat_height = Properties.Settings.Default.wbchat_height;
             setting_enable_chatform = Properties.Settings.Default.wbchat_enable;
-            setting_enable_darkmode = Properties.Settings.Default.DarkMode;
+            setting_enable_darkmode = Properties.Settings.Default.dark_mode_enable;
 
 
             setting_window_width = Properties.Settings.Default.window_width;
@@ -1796,6 +1812,13 @@ namespace opentuner.Forms
 
             load_external_tools();
             rebuild_external_tools();
+            
+            // Set last auto tuning settings
+            SetAutoTuneSettings(
+                Properties.Settings.Default.spectrum_tune_timer_enable,
+                Properties.Settings.Default.manual_tune_enable,
+                Properties.Settings.Default.auto_hold_tune_enable,
+                Properties.Settings.Default.auto_timed_tune_enable);
 
             // tuner control windows
             TunerChangeCallback tuner1Callback = new TunerChangeCallback(tuner1_change_callback);
@@ -1811,7 +1834,7 @@ namespace opentuner.Forms
             tuner2ControlForm.set_offset(mt.current_offset_A, mt.current_offset_B);
 
             Console.WriteLine("Load Done");
-            
+
             // this needs to go last
             if (setting_auto_connect)
             {
@@ -1834,7 +1857,7 @@ namespace opentuner.Forms
         private void rebuild_external_tools()
         {
             externalToolsToolStripMenuItem1.DropDownItems.Clear();
-            
+
             if (external_tools.Count == 0)
             {
                 externalToolsToolStripMenuItem1.Visible = false;
@@ -1842,7 +1865,7 @@ namespace opentuner.Forms
             }
 
             externalToolsToolStripMenuItem1.Visible = true;
-            
+
             for (int c = 0; c < external_tools.Count; c++)
             {
                 ToolStripMenuItem et_menu = new ToolStripMenuItem(external_tools[c].ToolName);
@@ -1851,6 +1874,7 @@ namespace opentuner.Forms
 
                 externalToolsToolStripMenuItem1.DropDownItems.Add(et_menu);
             }
+
             ChangeMenuItemColors();
         }
 
@@ -1920,13 +1944,14 @@ namespace opentuner.Forms
                 sf_menu.Click += Sf_menu_Click;
 
                 storedFrequenciesToolStripMenuItem.DropDownItems.Add(sf_menu);
-            } 
+            }
+
             ChangeMenuItemColors();
         }
 
         private void ChangeMenuItemColors()
         {
-            if (Properties.Settings.Default.DarkMode)
+            if (Properties.Settings.Default.dark_mode_enable)
             {
                 OTColorChanger.OTMenuItemsColoring(menuStrip1, contextSpectrumMenu);
                 menuStrip1.Renderer = new OTColorChanger.ToolStripRenderer();
@@ -1936,12 +1961,32 @@ namespace opentuner.Forms
 
         private void Sf_menu_Click(object sender, EventArgs e)
         {
-            int tag = Convert.ToInt32(((ToolStripMenuItem)(sender)).Tag);
+            int tag = Convert.ToInt32(((ToolStripMenuItem)sender).Tag);
             Console.WriteLine(tag.ToString());
 
             if (tag < stored_frequencies.Count)
             {
-                tune_stored_frequency(stored_frequencies[tag]);
+                // Tunes to stored frequency without spectrum
+                if (!Properties.Settings.Default.enable_qo100_spectrum)
+                {
+                    tune_stored_frequency(stored_frequencies[tag]);
+                    return;
+                }
+                // Tunes to stored frequency with spectrum
+                // Creates a copy of the signals when the click event happened, since they change often
+                var signalsAtClick = new List<signal.Sig>(sigs.signals);
+                foreach (var signal in signalsAtClick)
+                {
+                    const int absoluteDifference = 1000;
+                    var signalFrequency = signal.frequency * 10000;
+                    if (Math.Abs(stored_frequencies[tag].Frequency - signalFrequency) <= absoluteDifference)
+                    {
+                        // Set the tuning to manual
+                        manualToolStripMenuItem_Click(sender, e);
+                        SetTuneFrequency(signal, stored_frequencies[tag].DefaultTuner);
+                        break;
+                    }
+                }
             }
         }
 
@@ -2183,7 +2228,9 @@ namespace opentuner.Forms
             {
                 //Properties.Settings.Default.wbchat_font = settings_form.currentChatFont;
                 Properties.Settings.Default.wbchat_font_size = Convert.ToInt32(settings_form.numChatFontSize.Value);
-                Properties.Settings.Default.DarkMode = settings_form.darkModeCheckBox.Checked;
+                Properties.Settings.Default.auto_tune_time = Convert.ToInt32(settings_form.numAutoTuneTime.Value);
+                Properties.Settings.Default.dark_mode_enable = settings_form.darkModeCheckBox.Checked;
+
 
                 Properties.Settings.Default.default_lnb_supply =
                     Convert.ToByte(settings_form.comboDefaultLNB.SelectedIndex);
@@ -2263,6 +2310,18 @@ namespace opentuner.Forms
 
         private void SpectrumTuneTimer_Tick(object sender, EventArgs e)
         {
+            if (!Properties.Settings.Default.enable_qo100_spectrum)
+            {
+                // Set to manual tuning mode 
+                SetAutoTuneSettings(false, true, false, false);
+                return;
+            }
+            if (first_run && !lblConnected.Enabled)
+            {
+                SelectSignal(firstDetectedSignalX, firstDetectedSignalY);
+                first_run = false;
+            }
+
             int mode = 0;
             float spectrum_w = spectrum.Width;
             float spectrum_wScale = spectrum_w / 922;
@@ -2277,13 +2336,13 @@ namespace opentuner.Forms
             }
 
             //float time = Convert.ToSingle(0.5, CultureInfo.InvariantCulture);
-            ushort autotuneWait = 30;
+            ushort autotuneWait = (ushort)Properties.Settings.Default.auto_tune_time;
 
             Tuple<signal.Sig, int> ret = sigs.tune(mode, Convert.ToInt16(autotuneWait), 0);
             if (ret.Item1.frequency > 0) //above 0 is a change in signal
             {
                 Thread.Sleep(100);
-                selectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale), 0);
+                SelectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale), 0);
                 sigs.set_tuned(ret.Item1, 0);
                 rx_blocks[0, 0] = Convert.ToInt16(ret.Item1.fft_centre);
                 rx_blocks[0, 1] = Convert.ToInt16(ret.Item1.fft_stop - ret.Item1.fft_start);
@@ -2352,26 +2411,30 @@ namespace opentuner.Forms
 
         private void manualToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SpectrumTuneTimer.Enabled = false;
-            manualToolStripMenuItem.Checked = true;
-            autoHoldToolStripMenuItem.Checked = false;
-            autoTimedToolStripMenuItem.Checked = false;
+            SetAutoTuneSettings(false, true, false, false);
         }
 
         private void autoTimedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SpectrumTuneTimer.Enabled = true;
-            manualToolStripMenuItem.Checked = false;
-            autoHoldToolStripMenuItem.Checked = false;
-            autoTimedToolStripMenuItem.Checked = true;
+            SetAutoTuneSettings(true, false, false, true);
         }
 
         private void autoHoldToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SpectrumTuneTimer.Enabled = true;
-            manualToolStripMenuItem.Checked = false;
-            autoHoldToolStripMenuItem.Checked = true;
-            autoTimedToolStripMenuItem.Checked = false;
+            SetAutoTuneSettings(true, false, true, false);
+        }
+
+        private void SetAutoTuneSettings(bool spectrumTimer, bool manual, bool autoHold, bool autoTimed)
+        {
+            Properties.Settings.Default.spectrum_tune_timer_enable = spectrumTimer;
+            Properties.Settings.Default.manual_tune_enable = manual;
+            Properties.Settings.Default.auto_hold_tune_enable = autoHold;
+            Properties.Settings.Default.auto_timed_tune_enable = autoTimed;
+            
+            SpectrumTuneTimer.Enabled = spectrumTimer;
+            manualToolStripMenuItem.Checked = manual;
+            autoHoldToolStripMenuItem.Checked = autoHold;
+            autoTimedToolStripMenuItem.Checked = autoTimed;
         }
 
         private void btnVid1Mute_Click(object sender, EventArgs e)
