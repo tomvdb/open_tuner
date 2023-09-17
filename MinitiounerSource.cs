@@ -111,13 +111,10 @@ namespace opentuner
                 current_frequency_1 = newConfig.frequency;
                 current_sr_1 = sr;
                 current_rf_input_1 = rf_input;
-                //tuner1ControlForm.set_freq(newConfig);
 
-                // we about to change something that will affect the ts stream, lets stop vlc playing
                 if (VideoChangeCB != null)
                 {
                     VideoChangeCB(1, false);
-                    //stop_video1();
                 }
             }
             else
@@ -125,13 +122,10 @@ namespace opentuner
                 current_frequency_2 = newConfig.frequency;
                 current_sr_2 = sr;
                 current_rf_input_2 = rf_input;
-                //tuner2ControlForm.set_freq(newConfig);
 
-                // we about to change something that will affect the ts stream, lets stop vlc playing
                 if (VideoChangeCB != null)
                 {
                     VideoChangeCB(2, false);
-                    //stop_video2();
                 }
 
             }

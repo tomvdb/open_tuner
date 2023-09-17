@@ -317,6 +317,7 @@
     <Compile Include="wbchat.Designer.cs">
       <DependentUpon>wbchat.cs</DependentUpon>
     </Compile>
+    <Compile Include="WebsocketServer.cs" />
     <EmbeddedResource Include="EditExternalToolForm.resx">
       <DependentUpon>EditExternalToolForm.cs</DependentUpon>
     </EmbeddedResource>

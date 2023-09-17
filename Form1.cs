@@ -36,6 +36,8 @@ namespace opentuner
 
         MinitiounerSource mt = new MinitiounerSource();
 
+        OTWebsocketServer websocket_server;
+
         private delegate void updateNimStatusGuiDelegate(Form1 gui, TunerStatus new_status);
         private delegate void updateTSStatusGuiDelegate(int device, Form1 gui, TSStatus new_status);
         private delegate void updateMediaStatusGuiDelegate(int tuner, Form1 gui, MediaStatus new_status);
@@ -510,6 +512,8 @@ namespace opentuner
                     gui.prop_modcod2 = "Err - " + new_status.T2P1_modcode.ToString();
                     gui.prop_db_margin2 = "";
                 }
+
+                send_ws_packet(new_status);
 
                 /*
                 // vlc marquee on fullscreen
@@ -1603,12 +1607,56 @@ namespace opentuner
 
             Console.WriteLine("Load Done");
 
+            try
+            {
+                int ws_port = 9090;
+                websocket_server = new OTWebsocketServer(ws_port);
+                Console.WriteLine("Websocket Server Started on :" + ws_port.ToString());
+            }
+            catch(Exception Ex)
+            {
+                Console.WriteLine("Error Starting Websocket Server: " +  Ex.Message);
+            }
+
             // this needs to go last
             if (setting_auto_connect)
             {
                 btnConnectTuner_Click(this, e);
             }
 
+        }
+
+        void send_ws_packet(TunerStatus tuner_status)
+        {
+            if (websocket_server != null) 
+            {
+                monitorMessage ws_packet = new monitorMessage();
+                ws_packet.packet = new monitorMessage_packet();
+                ws_packet.packet.rx = new monitorMessage_packet_rx();
+                ws_packet.packet.ts = new monitorMessage_packet_ts();
+
+                ws_packet.packet.rx.mer = tuner_status.T1P2_mer;
+
+                switch(tuner_status.T1P2_demod_status)
+                {
+                    case 0: ws_packet.packet.rx.demod_state = 1; break;
+                    case 1: ws_packet.packet.rx.demod_state = 2; break;
+                    case 2: ws_packet.packet.rx.demod_state = 4; break;
+                    case 3: ws_packet.packet.rx.demod_state = 3; break;
+
+                    default: ws_packet.packet.rx.demod_state = 0; break;
+                }
+
+                ws_packet.packet.rx.frequency = Convert.ToInt32(mt.current_frequency_1);
+                ws_packet.packet.rx.modcod = Convert.ToInt32(tuner_status.T1P2_modcode);
+                ws_packet.packet.rx.symbolrate = Convert.ToInt32(tuner_status.T1P2_symbol_rate);
+
+                string json = JsonConvert.SerializeObject(ws_packet);
+
+                //Console.WriteLine(json);
+
+                websocket_server.Broadcast(json);
+            }
         }
 
         void tuner1_change_callback(uint freq, uint rf_input, uint symbol_rate)
