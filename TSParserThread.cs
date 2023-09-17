@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace opentuner
 {
+    public delegate void TSDataCallback(TSStatus ts_status);
+
     public class TSParserThread
     {
         public const uint MAX_PID = 8192;

@@ -1025,10 +1025,10 @@ namespace opentuner
             switch (led)
             {
                 case 0: 
-                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LED1, setting);
+                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LED1, !setting);
                     break;
                 case 1:
-                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LED2, setting);
+                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LED2, !setting);
                     break;
             }
 

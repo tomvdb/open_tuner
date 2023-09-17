@@ -31,22 +31,95 @@ namespace opentuner
         Thread ts_thread_t = null;
         Thread ts_thread_2_t = null;
 
-        public int current_offset_A = 10;
-        public int current_offset_B = 10;
 
         // tuner specific
-        public uint current_frequency_1 = 0;
-        public uint current_sr_1 = 0;
-        public uint current_rf_input_1 = nim.NIM_INPUT_TOP; 
 
-        public uint current_frequency_2 = 0;
-        public uint current_sr_2 = 0;
-        public uint current_rf_input_2 = nim.NIM_INPUT_TOP; 
+        // OTSource Properties
+        uint _current_rf_input_1 = nim.NIM_INPUT_TOP;
+        public override uint current_rf_input_1 
+        {
+            get { return _current_rf_input_1; }
+            set {  _current_rf_input_1 = value;}
+        }
+
+        uint _current_rf_input_2 = nim.NIM_INPUT_TOP;
+        public override uint current_rf_input_2
+        {
+            get { return _current_rf_input_2; }
+            set { _current_rf_input_2 = value; }
+        }
+
+        uint _current_frequency_1 = 0;
+        public override uint current_frequency_1
+        {
+            get { return _current_frequency_1; }
+            set { _current_frequency_1 = value; }
+        }
+
+        uint _current_frequency_2 = 0;
+        public override uint current_frequency_2
+        {
+            get { return _current_frequency_2; }
+            set { _current_frequency_2 = value; }
+        }
+
+        uint _current_sr_1 = 0;
+        public override uint current_sr_1
+        {
+            get { return _current_sr_1; }
+            set { _current_sr_1 = value; }
+        }
+
+        uint _current_sr_2 = 0;
+        public override uint current_sr_2
+        {
+            get { return _current_sr_2; }
+            set { _current_sr_2 = value; }
+        }
+
+        int _current_offset_A = 10;
+        public override int current_offset_A
+        {
+            get { return _current_offset_A; }
+            set { _current_offset_A = value; }
+        }
+
+        int _current_offset_B = 10;
+        public override int current_offset_B
+        {
+            get { return _current_offset_B; }
+            set { _current_offset_B = value; }
+        }
+
+        public override bool HardwareConnected
+        {
+            get { return hardware_connected; }
+        }
+
 
         // other
-        public bool current_enable_lnb_supply = false;
-        public bool current_enable_horiz_supply = false;
-        public bool current_tone_22kHz_P1 = false; // true is on, false is off
+
+        bool _current_enable_lnb_supply = false;
+        public override bool current_enable_lnb_supply
+        {
+            get { return _current_enable_lnb_supply; }
+            set { _current_enable_lnb_supply = value; }
+        }
+
+        bool _current_enable_horiz_supply = false;
+        public override bool current_enable_horiz_supply
+        {
+            get { return _current_enable_horiz_supply; }
+            set { _current_enable_horiz_supply = value; }
+        }
+
+        bool _current_tone_22kHz_P1 = false;
+        public override bool current_tone_22kHz_P1
+        {
+            get { return _current_tone_22kHz_P1; }
+            set { _current_tone_22kHz_P1 = value; }
+        }
+
 
 
         private VideoChangeCallback VideoChangeCB;
@@ -56,7 +129,78 @@ namespace opentuner
 
         public MinitiounerSource() { }
 
-        public void Close()
+        public override int GetVideoSourceCount()
+        {
+            return ts_devices;
+        }
+
+        public override string GetHardwareDescription()
+        {
+            return HardwareDevice;
+        }
+
+        public override TSThread GetTSThread(int device)
+        {
+            switch (device)
+            {
+                case 0: return ts_thread; 
+                case 1: return ts_thread2; 
+            }
+
+            return ts_thread;
+        }
+
+        public override void StartStreaming(int device)
+        {
+            switch(device)
+            {
+                case 0:
+                    if (ts_thread != null)
+                        ts_thread.start_ts();
+                    break;
+                case 1:
+                    if (ts_thread2 != null)
+                        ts_thread2.start_ts();
+                    break;
+            }
+        }
+
+        public override void StopStreaming(int device)
+        {
+            switch (device)
+            {
+                case 0:
+                    if (ts_thread != null)
+                        ts_thread.stop_ts();
+                    break;
+                case 1:
+                    if (ts_thread2 != null)
+                        ts_thread2.stop_ts();
+                    break;
+            }
+        }
+
+
+        public override long GetCurrentFrequency(int device, bool offset_included)
+        {
+            long frequency = 0;
+
+            switch (device)
+            {
+                case 0:  
+                    int offset0 = offset_included ? current_offset_A : 0;
+                    frequency = current_frequency_1 + offset0; 
+                    break;
+                case 1:  
+                    int offset1 = offset_included ? current_offset_B : 0;
+                    frequency = current_frequency_2 + offset1; 
+                    break;
+            }
+
+            return frequency;
+        }
+
+        public override void Close()
         {
             if (ts_thread_t != null)
                 ts_thread_t.Abort();
@@ -75,7 +219,12 @@ namespace opentuner
 
         }
 
-        public void change_frequency(byte tuner, UInt32 freq, UInt32 sr, bool lnb_supply, bool polarization_supply_horizontal, uint rf_input, bool tone_22kHz_P1)
+        public override byte set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
+        {
+            return ftdi_hw.ftdi_set_polarization_supply(lnb_num, supply_enable, supply_horizontal);
+        }
+
+        public override void change_frequency(byte tuner, UInt32 freq, UInt32 sr, bool lnb_supply, bool polarization_supply_horizontal, uint rf_input, bool tone_22kHz_P1)
         {
             if (!hardware_connected)
                 return;
@@ -137,13 +286,13 @@ namespace opentuner
             config_queue.Enqueue(newConfig);
         }
 
-        public bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB)
+        public override bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB)
         {
             return Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "");
         }
 
 
-        public bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial)
+        public override bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial)
         {
             bool result = true;
 
@@ -160,11 +309,17 @@ namespace opentuner
 
             Console.WriteLine("Main: Starting Nim Thread");
 
+            Console.WriteLine("Switch LED's");
+            
+            
             // switch off ts leds
-            //ftdi_hw.ftdi_ts_led(0, false);
-            //ftdi_hw.ftdi_ts_led(1, false);
+            ftdi_hw.ftdi_ts_led(0, false);
+            ftdi_hw.ftdi_ts_led(1, false);
 
             // set default lnb supply
+            Console.WriteLine(current_enable_lnb_supply.ToString());
+            Console.WriteLine(current_enable_horiz_supply.ToString());
+
             ftdi_hw.ftdi_set_polarization_supply(0, current_enable_lnb_supply, current_enable_horiz_supply);
 
             // NIM thread
@@ -212,19 +367,52 @@ namespace opentuner
             nim_thread_t.Start();
 
             // TS thread - T1P2
-            ts_thread = new TSThread(ftdi_hw, ts_data_queue, nim_thread, ftdi.TS2);
+            ts_thread = new TSThread(ts_data_queue, nim_thread, FlushTS2, ReadTS2, "MT TS2");
             ts_thread_t = new Thread(ts_thread.worker_thread);
             ts_thread_t.Start();
 
             if (ts_devices == 2)
             {
-                ts_thread2 = new TSThread(ftdi_hw, ts_data_queue2, nim_thread, ftdi.TS1);
+                ts_thread2 = new TSThread(ts_data_queue2, nim_thread, FlushTS1, ReadTS1, "MT TS1");
                 ts_thread_2_t = new Thread(ts_thread2.worker_thread);
                 ts_thread_2_t.Start();
             }
 
             return result;
         }
+
+        public override CircularBuffer GetVideoDataQueue(int device)
+        {
+            switch (device)
+            {
+                case 0: return ts_data_queue;
+                case 1: return ts_data_queue2;
+            }
+
+            return ts_data_queue;
+        }
+
+        void FlushTS2()
+        {
+            ftdi_hw.ftdi_ts_flush(ftdi.TS2);
+        }
+
+        byte ReadTS2(ref byte[] data, ref uint dataRead)
+        {
+            return ftdi_hw.ftdi_ts_read(ftdi.TS2, ref data, ref dataRead);
+        }
+
+        byte ReadTS1(ref byte[] data, ref uint dataRead)
+        {
+            return ftdi_hw.ftdi_ts_read(ftdi.TS1, ref data, ref dataRead);
+        }
+
+
+        void FlushTS1()
+        {
+            ftdi_hw.ftdi_ts_flush(ftdi.TS1);
+        }
+
 
         private void hardware_init(bool manual, string i2c_serial, string ts_serial, string ts2_serial)
         {

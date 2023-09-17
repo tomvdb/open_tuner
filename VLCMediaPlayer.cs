@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace opentuner
         TSStreamMediaInput mediaInput;
         LibVLCSharp.WinForms.VideoView videoView;
 
+        MediaPlayer _mediaplayer;
+
         int player_volume;
 
         public override event EventHandler<MediaStatus> onVideoOut;
@@ -26,11 +29,32 @@ namespace opentuner
         CircularBuffer ts_data_queue;
         public VLCMediaPlayer(LibVLCSharp.WinForms.VideoView VideoView)
         {
-            Console.WriteLine("VLC Media Player OT Called");
-
             videoView = VideoView;
-
         }
+
+        // update mediaplayer reference invoking if required
+        private delegate void updateMediaPlayerDelegate(MediaPlayer newPlayer, bool play);
+        private void updateVideoPlayer(MediaPlayer newPlayer, bool play)
+        {
+            if (videoView.InvokeRequired)
+            {
+                updateMediaPlayerDelegate ump = new updateMediaPlayerDelegate(updateVideoPlayer);
+
+                videoView.Invoke(ump, new object[] { newPlayer, play });
+            }
+            else
+            {
+                videoView.MediaPlayer = newPlayer;
+
+                if (play)
+                {
+                    videoView.MediaPlayer.Play(media);
+                }
+            }
+        }
+
+
+
 
         private void MediaPlayer_EncounteredError(object sender, EventArgs e)
         {
@@ -51,6 +75,28 @@ namespace opentuner
         public override void Initialize(CircularBuffer TSDataQueue)
         {
             ts_data_queue = TSDataQueue;
+
+            _mediaplayer = new MediaPlayer(libVLC);
+            _mediaplayer.Stopped += MediaPlayer_Stopped;
+            _mediaplayer.Playing += MediaPlayer_Playing;
+            _mediaplayer.EncounteredError += MediaPlayer_EncounteredError;
+            _mediaplayer.Vout += MediaPlayer_Vout;
+
+            _mediaplayer.EnableMouseInput = false;
+            _mediaplayer.EnableKeyInput = false;
+
+            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.Size, 20);
+            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.X, 10);
+            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.Y, 10);
+
+            mediaInput = new TSStreamMediaInput(ts_data_queue);
+            media = new Media(libVLC, mediaInput);
+
+            MediaConfiguration mediaConfig1 = new MediaConfiguration();
+            mediaConfig1.EnableHardwareDecoding = false;
+            media.AddOption(mediaConfig1);
+
+            /*
             videoView.MediaPlayer = new MediaPlayer(libVLC);
             videoView.MediaPlayer.Stopped += MediaPlayer_Stopped;
             videoView.MediaPlayer.Playing += MediaPlayer_Playing;
@@ -72,6 +118,47 @@ namespace opentuner
             MediaConfiguration mediaConfig1 = new MediaConfiguration();
             mediaConfig1.EnableHardwareDecoding = false;
             media.AddOption(mediaConfig1);
+            */
+        }
+
+
+        private void altPlay()
+        {
+            altStop();
+
+            _mediaplayer = new MediaPlayer(libVLC);
+            _mediaplayer.Stopped += MediaPlayer_Stopped;
+            _mediaplayer.Playing += MediaPlayer_Playing;
+            _mediaplayer.EncounteredError += MediaPlayer_EncounteredError;
+            _mediaplayer.Vout += MediaPlayer_Vout;
+
+            _mediaplayer.EnableMouseInput = false;
+            _mediaplayer.EnableKeyInput = false;
+
+            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.Size, 20);
+            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.X, 10);
+            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.Y, 10);
+
+            mediaInput = new TSStreamMediaInput(ts_data_queue);
+            media = new Media(libVLC, mediaInput);
+
+            MediaConfiguration mediaConfig1 = new MediaConfiguration();
+            mediaConfig1.EnableHardwareDecoding = false;
+            media.AddOption(mediaConfig1);
+
+            updateVideoPlayer(_mediaplayer, true);
+
+        }
+
+        private void altStop()
+        {
+            Console.WriteLine("Alt Stop");
+
+            var toDispose = _mediaplayer;
+            updateVideoPlayer(null, false);
+            _mediaplayer = null;
+
+            Task.Run(() => { toDispose?.Dispose(); });
         }
 
         private void MediaPlayer_Vout(object sender, MediaPlayerVoutEventArgs e)
@@ -121,32 +208,20 @@ namespace opentuner
 
         public override void Stop()
         {
-            if (videoView.MediaPlayer != null)
-            {
                 mediaInput.end = true;
-                videoView.MediaPlayer.Stop();
-            }
-
+                altStop();
         }
 
         public override void Play()
         {
-            if (videoView.MediaPlayer != null)
-            {
-                videoView.MediaPlayer.Stop();
-            }
-
             ts_data_queue.Clear();
 
             mediaInput.ts_sync = false;
             mediaInput.end = false;
 
-            if (videoView.MediaPlayer != null)
-            {
-                videoView.MediaPlayer.Play(media);
-            }
-
+            altPlay();
         }
+
         public override void SetVolume(int Volume)
         {
             player_volume = Volume;

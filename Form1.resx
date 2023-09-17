@@ -3910,7 +3910,7 @@
     <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner (test) (ZR6TG) - 2023/05/15</value>
+    <value>Open Tuner 0.8 (ZR6TG) - 2023/09/18</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>
