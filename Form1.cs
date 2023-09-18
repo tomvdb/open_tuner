@@ -34,8 +34,6 @@ namespace opentuner
         OTMediaPlayer media_player_1;
         OTMediaPlayer media_player_2;
 
-        //MinitiounerSource mt = new MinitiounerSource();
-
         OTSource videoSource = new MinitiounerSource();
 
         OTWebsocketServer websocket_server;
@@ -165,8 +163,6 @@ namespace opentuner
 
         int num_rxs_to_scan = 1;
 
-        bool T1P2_prevLocked = false;
-        bool T2P1_prevLocked = false;
 
         byte rxVolume = 100; 
         byte rxVolume2 = 100;
@@ -250,24 +246,23 @@ namespace opentuner
 
         public static void updateRecordingStatus(Form1 gui, bool recording_status, string id)
         {
-            if (gui == null)
-                return;
+                if (gui == null)
+                    return;
 
-            if (gui.InvokeRequired)
-            {
-                updateRecordingStatusDelegate ulb = new updateRecordingStatusDelegate(updateRecordingStatus);
+                if (gui.InvokeRequired)
+                {
+                    updateRecordingStatusDelegate ulb = new updateRecordingStatusDelegate(updateRecordingStatus);
 
-                if (gui != null)
-                    gui.Invoke(ulb, new object[] { gui, recording_status, id });
-            }
-            else
-            {
-                if (id=="t1")
-                    gui.prop_isRecording1 = recording_status;
+                    if (gui != null)
+                        gui.Invoke(ulb, new object[] { gui, recording_status, id });
+                }
                 else
-                    gui.prop_isRecording2 = recording_status;
-            }
-
+                {
+                    if (id == "t1")
+                        gui.prop_isRecording1 = recording_status;
+                    else
+                        gui.prop_isRecording2 = recording_status;
+                }
         }
 
 
@@ -583,18 +578,36 @@ namespace opentuner
 
         private void ChangeVideo(int video_number, bool start)
         {
-            switch(video_number)
+            switch (video_number)
             {
-                case 1: if (start) start_video1(); else stop_video1(); break;
-                case 2: if (start) start_video2(); else stop_video2(); break;
+                case 1: if (start) 
+                    {
+                        videoSource.StartStreaming(0);
+                        start_video1(); 
+                    } 
+                    else 
+                    {
+                        videoSource.StopStreaming(0);
+                        stop_video1(); 
+                    } 
+                    break;
+                case 2: if (start) 
+                    {
+                        videoSource.StartStreaming(1);
+                        start_video2(); 
+                    }
+                    else
+                    {
+                        videoSource.StopStreaming(1);
+                        stop_video2();
+                    }
+            break;
             }
         }
 
         public void start_video1()
         {
             Console.WriteLine("Main: Starting Media Player 1");
-
-            videoSource.StartStreaming(0);
 
             if (media_player_1 != null)
                 media_player_1.Play();
@@ -606,7 +619,6 @@ namespace opentuner
             {
                 Console.WriteLine("Main: Starting Media Player 2");
 
-                videoSource.StartStreaming(1);
 
                 if (media_player_2 != null)
                     media_player_2.Play();
@@ -621,7 +633,6 @@ namespace opentuner
             if (media_player_1 != null)
                 media_player_1.Stop();
 
-            videoSource.StopStreaming(0);
 
             if (ts_recorder1 != null)
                 ts_recorder1.record = false;
@@ -637,8 +648,6 @@ namespace opentuner
         public void stop_video2()
         {
             Console.WriteLine("Main: Stopping Media Player 2");
-
-            videoSource.StopStreaming(1);
 
             if (media_player_2 != null)
                 media_player_2.Stop();
@@ -664,50 +673,7 @@ namespace opentuner
 
         public void nim_status_feedback(TunerStatus nim_status)
         {
-            bool T1P2locked = false;
-            bool T2P1Locked = false;
-            
-            if (nim_status.T1P2_demod_status >= 2) T1P2locked = true;
-            if (nim_status.T2P1_demod_status >= 2) T2P1Locked = true;
-
             updateNimStatusGui(this, nim_status);
-
-            if (T1P2_prevLocked != T1P2locked)
-            {
-                Console.WriteLine("T1P2 - Lock State Change: " + T1P2_prevLocked.ToString() + "->" + T1P2locked.ToString());
-
-                if (nim_status.T1P2_demod_status >= 2)
-                {
-                    start_video1();
-                }
-                else
-                {
-                    stop_video1();
-                    //ftdi_hw.ftdi_ts_led(0, false);
-                }
-
-                T1P2_prevLocked = T1P2locked;
-            }
-
-            if (videoSource.GetVideoSourceCount() == 2)
-            {
-                if (T2P1_prevLocked != T2P1Locked)
-                {
-                    Console.WriteLine("T2P1 - Lock State Change: " + T2P1_prevLocked.ToString() + "->" + T2P1Locked.ToString());
-
-                    if (nim_status.T2P1_demod_status >= 2)
-                    {
-                        start_video2();
-                    }
-                    else
-                    {
-                        stop_video2();
-                        //ftdi_hw.ftdi_ts_led(0, false);
-                    }
-
-                    T2P1_prevLocked = T2P1Locked;
-                }
-            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -735,23 +701,10 @@ namespace opentuner
             try
             {
 
-                stop_video1();
+                ChangeVideo(1, false);
                 if (videoSource.GetVideoSourceCount() == 2)
-                    stop_video2();
+                    ChangeVideo(2, false);
 
-                // close forms
-                if (chatForm != null)
-                    chatForm.Close();
-                if (tuner1ControlForm != null)
-                    tuner1ControlForm.Close();
-                if (tuner2ControlForm != null)
-                    tuner2ControlForm.Close();
-
-                // close media players
-                if (media_player_1 != null)
-                    media_player_1.Close();
-                if (media_player_2 != null)
-                    media_player_2.Close();
 
                 // close threads
                 if (ts_recorder_1_t != null)
@@ -771,10 +724,25 @@ namespace opentuner
                 if (ts_parser_2_t != null)
                     ts_parser_2_t.Abort();
 
+                if (tuner1ControlForm != null)
+                    tuner1ControlForm.Close();
+                if (tuner2ControlForm != null)
+                    tuner2ControlForm.Close();
+
                 if (videoSource != null)
                 {
                     videoSource.Close();
                 }
+
+                // close forms
+                if (chatForm != null)
+                    chatForm.Close();
+
+                // close media players
+                if (media_player_1 != null)
+                    media_player_1.Close();
+                if (media_player_2 != null)
+                    media_player_2.Close();
 
             }
             catch ( Exception Ex)
@@ -810,37 +778,43 @@ namespace opentuner
             // start source
             start_source();
 
-            TSParserThread ts_parser_thread = new TSParserThread(parse_ts_data_callback,videoSource.GetTSThread(0));
+            TSParserThread ts_parser_thread = new TSParserThread(parse_ts_data_callback);
+            videoSource.RegisterTSConsumer(0, ts_parser_thread.parser_ts_data_queue);
             ts_parser_t = new Thread(ts_parser_thread.worker_thread);
             ts_parser_t.Start();
 
             if (videoSource.GetVideoSourceCount() == 2)
             {
-                TSParserThread ts_parser_thread2 = new TSParserThread(parse_ts2_data_callback, videoSource.GetTSThread(1));
+                TSParserThread ts_parser_thread2 = new TSParserThread(parse_ts2_data_callback);
+                videoSource.RegisterTSConsumer(1, ts_parser_thread2.parser_ts_data_queue);
                 ts_parser_2_t = new Thread(ts_parser_thread2.worker_thread);
                 ts_parser_2_t.Start();
             }
 
             // TS recorder Thread
-            ts_recorder1 = new TSRecorderThread(videoSource.GetTSThread(0), setting_snapshot_path, "t1");
+            ts_recorder1 = new TSRecorderThread(setting_snapshot_path, "t1");
+            videoSource.RegisterTSConsumer(0, ts_recorder1.ts_data_queue);
             ts_recorder1.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
             ts_recorder_1_t = new Thread(ts_recorder1.worker_thread);
             ts_recorder_1_t.Start();
 
             // TS udp thread - tuner 1
-            ts_udp1 = new TSUDPThread(videoSource.GetTSThread(0), setting_udp_address1, setting_udp_port1);
+            ts_udp1 = new TSUDPThread(setting_udp_address1, setting_udp_port1);
+            videoSource.RegisterTSConsumer(0, ts_udp1.ts_data_queue);
             ts_udp_t1 = new Thread(ts_udp1.worker_thread);
             ts_udp_t1.Start();
 
             if (videoSource.GetVideoSourceCount() == 2)
             {
                 // TS udp thread - tuner 2
-                ts_udp2 = new TSUDPThread(videoSource.GetTSThread(1), setting_udp_address2, setting_udp_port2);
+                ts_udp2 = new TSUDPThread( setting_udp_address2, setting_udp_port2);
+                videoSource.RegisterTSConsumer(1, ts_udp2.ts_data_queue);
                 ts_udp_t2 = new Thread(ts_udp2.worker_thread);
                 ts_udp_t2.Start();
 
                 // TS recorder Thread
-                ts_recorder2 = new TSRecorderThread(videoSource.GetTSThread(1), setting_snapshot_path, "t2");
+                ts_recorder2 = new TSRecorderThread(setting_snapshot_path, "t2");
+                videoSource.RegisterTSConsumer(1, ts_recorder2.ts_data_queue);
                 ts_recorder2.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
                 ts_recorder_2_t = new Thread(ts_recorder2.worker_thread);
                 ts_recorder_2_t.Start();

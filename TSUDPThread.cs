@@ -13,7 +13,7 @@ namespace opentuner
 {
     public class TSUDPThread
     {
-        CircularBuffer _ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
+        public CircularBuffer ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
 
         object locker = new object();
 
@@ -37,9 +37,8 @@ namespace opentuner
         string udp_address = "";
         int udp_port = 0;
 
-        public TSUDPThread(TSThread _ts_thread, string udp_address, int udp_port)
+        public TSUDPThread(string udp_address, int udp_port)
         {
-            _ts_thread.RegisterTSConsumer(_ts_data_queue);
             this.udp_address = udp_address;
             this.udp_port = udp_port;
         }
@@ -78,16 +77,16 @@ namespace opentuner
                     // if we are streaming, throw away data until synced
                     if (streaming == true && ts_sync == false) 
                     {
-                        if (_ts_data_queue.Count > 0)
+                        if (ts_data_queue.Count > 0)
                         {
-                            if (_ts_data_queue.TryPeek() == 0x47)
+                            if (ts_data_queue.TryPeek() == 0x47)
                             {
                                 Console.WriteLine("TS Synced");
                                 ts_sync = true;
                             }
                             else
                             {
-                                data = _ts_data_queue.Dequeue();
+                                data = ts_data_queue.Dequeue();
                             }
                         }
                     }
@@ -95,10 +94,10 @@ namespace opentuner
                     // we are streaming and in sync
                     if (streaming && ts_sync)
                     {
-                        if (_ts_data_queue.Count >= 188)
+                        if (ts_data_queue.Count >= 188)
                         {
 
-                            if (_ts_data_queue.TryPeek() != 0x47)
+                            if (ts_data_queue.TryPeek() != 0x47)
                             {
                                 Console.WriteLine("TS Sync Lost");
                                 ts_sync = false;
@@ -110,9 +109,9 @@ namespace opentuner
 
                             while (count < 188)
                             {
-                                if (_ts_data_queue.Count > 0)
+                                if (ts_data_queue.Count > 0)
                                 {
-                                    data = _ts_data_queue.Dequeue();
+                                    data = ts_data_queue.Dequeue();
                                     dt[count++] = data;
                                 }
                                 else
@@ -131,8 +130,8 @@ namespace opentuner
                     else
                     {
                         // throw away data
-                        if (_ts_data_queue.Count > 0)
-                            _ts_data_queue.Clear();
+                        if (ts_data_queue.Count > 0)
+                            ts_data_queue.Clear();
                         Thread.Sleep(100);
                     }
                 }

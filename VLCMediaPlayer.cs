@@ -46,8 +46,10 @@ namespace opentuner
             {
                 videoView.MediaPlayer = newPlayer;
 
+
                 if (play)
                 {
+                    Thread.Sleep(10);
                     videoView.MediaPlayer.Play(media);
                 }
             }

@@ -13,14 +13,13 @@ namespace opentuner
 
         public OTSource() { }
 
-        //public abstract void Initialize();
         public abstract long GetCurrentFrequency(int device, bool offset_included);
         public abstract void StartStreaming(int device);
         public abstract void StopStreaming(int device);
         public abstract int GetVideoSourceCount();
         public abstract string GetHardwareDescription();
         public abstract CircularBuffer GetVideoDataQueue(int device);
-        public abstract TSThread GetTSThread(int device);
+        public abstract void RegisterTSConsumer(int device, CircularBuffer ts_buffer_queue);
 
         public abstract void Close();
         public abstract bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB);

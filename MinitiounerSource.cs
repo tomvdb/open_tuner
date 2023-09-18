@@ -31,6 +31,9 @@ namespace opentuner
         Thread ts_thread_t = null;
         Thread ts_thread_2_t = null;
 
+        bool T1P2_prevLocked = false;
+        bool T2P1_prevLocked = false;
+
 
         // tuner specific
 
@@ -129,6 +132,7 @@ namespace opentuner
 
         public MinitiounerSource() { }
 
+
         public override int GetVideoSourceCount()
         {
             return ts_devices;
@@ -139,16 +143,15 @@ namespace opentuner
             return HardwareDevice;
         }
 
-        public override TSThread GetTSThread(int device)
+        public override void RegisterTSConsumer(int device, CircularBuffer ts_buffer_queue)
         {
             switch (device)
             {
-                case 0: return ts_thread; 
-                case 1: return ts_thread2; 
+                case 0: ts_thread.RegisterTSConsumer(ts_buffer_queue); break;
+                case 1: ts_thread2.RegisterTSConsumer(ts_buffer_queue); break;
             }
-
-            return ts_thread;
         }
+
 
         public override void StartStreaming(int device)
         {
@@ -210,14 +213,6 @@ namespace opentuner
                 nim_thread_t.Abort();
         }
 
-        public void nim_status_feedback(TunerStatus nim_status)
-        {
-            if (SourceStatusCB != null)
-            {
-                SourceStatusCB(nim_status);
-            }
-
-        }
 
         public override byte set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
         {
@@ -292,6 +287,74 @@ namespace opentuner
         }
 
 
+        public void nim_status_feedback(TunerStatus nim_status)
+        {
+            bool T1P2locked = false;
+            bool T2P1Locked = false;
+
+            if (nim_status.T1P2_demod_status >= 2) T1P2locked = true;
+            if (nim_status.T2P1_demod_status >= 2) T2P1Locked = true;
+
+
+            if (T1P2_prevLocked != T1P2locked)
+            {
+                Console.WriteLine("T1P2 - Lock State Change: " + T1P2_prevLocked.ToString() + "->" + T1P2locked.ToString());
+
+                if (nim_status.T1P2_demod_status >= 2)
+                {
+                    if (VideoChangeCB != null)
+                    {
+                        VideoChangeCB(1, true);
+                    }
+                }
+                else
+                {
+                    if (VideoChangeCB != null)
+                    {
+                        VideoChangeCB(1, false);
+                    }
+
+                    //stop_video1();
+                    //ftdi_hw.ftdi_ts_led(0, false);
+                }
+
+                T1P2_prevLocked = T1P2locked;
+            }
+
+            if (GetVideoSourceCount() == 2)
+            {
+                if (T2P1_prevLocked != T2P1Locked)
+                {
+                    Console.WriteLine("T2P1 - Lock State Change: " + T2P1_prevLocked.ToString() + "->" + T2P1Locked.ToString());
+
+                    if (nim_status.T2P1_demod_status >= 2)
+                    {
+                        if (VideoChangeCB != null)
+                        {
+                            VideoChangeCB(2, true);
+                        }
+                    }
+                    else
+                    {
+                        if (VideoChangeCB != null)
+                        {
+                            VideoChangeCB(2, false);
+                        }
+                        //stop_video2();
+                        //ftdi_hw.ftdi_ts_led(0, false);
+                    }
+
+                    T2P1_prevLocked = T2P1Locked;
+                }
+            }
+
+            if (SourceStatusCB != null)
+            {
+                SourceStatusCB(nim_status);
+            }
+
+        }
+
         public override bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial)
         {
             bool result = true;
@@ -325,7 +388,7 @@ namespace opentuner
             // NIM thread
             //SourceStatusCallback status_callback = new SourceStatusCallback(nim_status_feedback);
 
-            NimThread nim_thread = new NimThread(config_queue, ftdi_hw, this.SourceStatusCB, false);
+            NimThread nim_thread = new NimThread(config_queue, ftdi_hw, nim_status_feedback, false);
 
             nim_thread_t = new Thread(nim_thread.worker_thread);
 

@@ -30,14 +30,13 @@ namespace opentuner
         //ConcurrentQueue<byte> parser_ts_data_queue = null;
         //CircularBuffer parser_ts_data_queue = null;
 
-        CircularBuffer parser_ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
+        public CircularBuffer parser_ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
 
 
         //public TSParserThread(TSDataCallback _ts_data_callback, CircularBuffer _parser_ts_data_queue)
-        public TSParserThread(TSDataCallback _ts_data_callback, TSThread TransportThread)
+        public TSParserThread(TSDataCallback _ts_data_callback)
         {
             ts_data_callback = _ts_data_callback;
-            TransportThread.RegisterTSConsumer(parser_ts_data_queue);
         }
 
         public void worker_thread()
