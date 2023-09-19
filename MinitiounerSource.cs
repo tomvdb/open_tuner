@@ -205,6 +205,10 @@ namespace opentuner
 
         public override void Close()
         {
+            // switch off TS led's
+            ftdi_hw.ftdi_ts_led(0, false);
+            ftdi_hw.ftdi_ts_led(1, false);
+
             if (ts_thread_t != null)
                 ts_thread_t.Abort();
             if (ts_thread_2_t != null)
@@ -306,6 +310,7 @@ namespace opentuner
                     {
                         VideoChangeCB(1, true);
                     }
+                    ftdi_hw.ftdi_ts_led(0, true);
                 }
                 else
                 {
@@ -314,8 +319,7 @@ namespace opentuner
                         VideoChangeCB(1, false);
                     }
 
-                    //stop_video1();
-                    //ftdi_hw.ftdi_ts_led(0, false);
+                    ftdi_hw.ftdi_ts_led(0, false);
                 }
 
                 T1P2_prevLocked = T1P2locked;
@@ -333,6 +337,8 @@ namespace opentuner
                         {
                             VideoChangeCB(2, true);
                         }
+
+                        ftdi_hw.ftdi_ts_led(1, true);
                     }
                     else
                     {
@@ -340,8 +346,8 @@ namespace opentuner
                         {
                             VideoChangeCB(2, false);
                         }
-                        //stop_video2();
-                        //ftdi_hw.ftdi_ts_led(0, false);
+
+                        ftdi_hw.ftdi_ts_led(1, false);
                     }
 
                     T2P1_prevLocked = T2P1Locked;

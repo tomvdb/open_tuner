@@ -46,10 +46,10 @@ namespace opentuner
             {
                 videoView.MediaPlayer = newPlayer;
 
-
                 if (play)
                 {
                     Thread.Sleep(10);
+                    Console.WriteLine("HWND: " + videoView.MediaPlayer.Hwnd.ToString());
                     videoView.MediaPlayer.Play(media);
                 }
             }

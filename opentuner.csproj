@@ -69,8 +69,8 @@
     <Reference Include="FFmpeg.AutoGen, Version=6.0.0.0, Culture=neutral, PublicKeyToken=9b7632533a381715, processorArchitecture=MSIL">
       <HintPath>packages\FFmpeg.AutoGen.6.0.0\lib\netstandard2.0\FFmpeg.AutoGen.dll</HintPath>
     </Reference>
-    <Reference Include="FlyleafLib, Version=3.7.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\FlyleafLib.3.7.14\lib\net472\FlyleafLib.dll</HintPath>
+    <Reference Include="FlyleafLib, Version=3.7.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\FlyleafLib.3.7.24\lib\net472\FlyleafLib.dll</HintPath>
     </Reference>
     <Reference Include="FTD2XX_NET">
       <HintPath>.\FTD2XX_NET.dll</HintPath>
