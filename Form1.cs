@@ -26,6 +26,8 @@ using System.Net;
 using MQTTnet;
 using MQTTnet.Client;
 using Vortice.Direct2D1;
+using opentuner.MediaPlayers.MPV;
+using opentuner.Utilities;
 
 namespace opentuner
 {
@@ -34,9 +36,12 @@ namespace opentuner
         OTMediaPlayer media_player_1;
         OTMediaPlayer media_player_2;
 
-        OTSource videoSource = new MinitiounerSource();
+        // udp listener
+        UdpListener ExternalQuickTuneListener_1 = new UdpListener(6789);
+        UdpListener ExternalQuickTuneListener_2 = new UdpListener(6790);
 
-        OTWebsocketServer websocket_server;
+
+        OTSource videoSource = new MinitiounerSource(0);
 
         private delegate void updateNimStatusGuiDelegate(Form1 gui, TunerStatus new_status);
         private delegate void updateTSStatusGuiDelegate(int device, Form1 gui, TSStatus new_status);
@@ -510,7 +515,7 @@ namespace opentuner
                     gui.prop_db_margin2 = "";
                 }
 
-                send_ws_packet(new_status);
+                //send_ws_packet(new_status);
 
                 /*
                 // vlc marquee on fullscreen
@@ -574,6 +579,65 @@ namespace opentuner
             SoftBlink(lblRecordIndication2, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
 
             Console.WriteLine("Init done");
+
+            // udp listeners
+            ExternalQuickTuneListener_1.DataReceived += ExternalQuickTuneListener_1_DataReceived;
+            ExternalQuickTuneListener_2.DataReceived += ExternalQuickTuneListener_2_DataReceived;
+
+            ExternalQuickTuneListener_1.StartListening();
+            ExternalQuickTuneListener_2.StartListening();
+        }
+
+        private void ExternalQuickTuneListener_2_DataReceived(object sender, Utilities.DataReceivedEventArgs e)
+        {
+            try
+            {
+                Console.WriteLine("UDP Received (2): " + e.Message);
+
+                string[] properties = e.Message.Split(',');
+
+                uint freq = 0;
+                uint offset = 0;
+                uint sr = 0;
+
+                uint.TryParse(properties[1].Substring(5), out freq);
+                uint.TryParse(properties[2].Substring(7), out offset);
+                uint.TryParse(properties[4].Substring(6), out sr);
+
+                Console.WriteLine("New Freq Request (1) = " + (freq - offset).ToString() + "," + sr.ToString() + " ks");
+
+                change_frequency_with_lo(1, freq, offset, sr);
+            }
+            catch (Exception Ex)
+            {
+
+            }
+        }
+
+        private void ExternalQuickTuneListener_1_DataReceived(object sender, Utilities.DataReceivedEventArgs e)
+        {
+            try
+            {
+                Console.WriteLine("UDP Received (1): " + e.Message);
+
+                string[] properties = e.Message.Split(',');
+
+                uint freq = 0;
+                uint offset = 0;
+                uint sr = 0;
+
+                uint.TryParse(properties[1].Substring(5), out freq);
+                uint.TryParse(properties[2].Substring(7), out offset);
+                uint.TryParse(properties[4].Substring(6), out sr);
+
+                Console.WriteLine("New Freq Request (2) = " + (freq - offset).ToString() + "," + sr.ToString() + " ks");
+                change_frequency_with_lo(2, freq, offset, sr);
+            }
+            catch( Exception Ex )
+            {
+
+            }
+
         }
 
         private void ChangeVideo(int video_number, bool start)
@@ -821,6 +885,9 @@ namespace opentuner
 
             }
 
+            // configure which media player to use - TODO: simplify
+            //setting_mediaplayer_1 = 2;
+
             if (setting_mediaplayer_1 == 0)
             {
                 if (setting_windowed_mediaPlayer1 == true)
@@ -830,16 +897,18 @@ namespace opentuner
                     mediaPlayer1Window.Show();
                     ffmpegVideoView1.Visible = false;
                     videoView1.Visible = false;
+                    mpvVideoView1.Visible = false;
                 }
                 else
                 {
                     media_player_1 = new VLCMediaPlayer(videoView1);
                     ffmpegVideoView1.Visible = false;
+                    mpvVideoView1.Visible= false;
                 }
 
                 groupTuner1.Text = "Tuner 1 - VLC";
             }
-            else
+            else if (setting_mediaplayer_1 == 1)
             {
                 if (setting_windowed_mediaPlayer1 == true)
                 {
@@ -848,6 +917,7 @@ namespace opentuner
                     mediaPlayer1Window.Show();
                     ffmpegVideoView1.Visible = false;
                     videoView1.Visible = false;
+                    mpvVideoView1.Visible = false;
                 }
                 else
                 {
@@ -855,7 +925,17 @@ namespace opentuner
                     media_player_1 = new FFMPEGMediaPlayer(ffmpegVideoView1);
                     videoView1.Visible = false;
                     groupTuner1.Text = "Tuner 1 - FFMPEG";
+                    mpvVideoView1.Visible = false;
                 }
+            }
+            // mpv
+            else if (setting_mediaplayer_1 == 2)
+            {
+                media_player_1 = new MPVMediaPlayer(mpvVideoView1.Handle.ToInt64());
+                groupTuner1.Text = "Tuner 1 - MPV";
+                videoView1.Visible = false;
+                ffmpegVideoView1.Visible = false;
+                mpvVideoView1.Visible = true;
             }
 
             media_player_1.onVideoOut += MediaPlayer_Vout;
@@ -878,10 +958,11 @@ namespace opentuner
                     {
                         media_player_2 = new VLCMediaPlayer(videoView2);
                         ffmpegVideoView2.Visible = false;
+                        mpvVideoView2.Visible = false;
                     }
                     groupTuner2.Text = "Tuner 2 - VLC";
                 }
-                else
+                else if (setting_mediaplayer_2 == 1)
                 {
                     if (setting_windowed_mediaPlayer2 == true)
                     {
@@ -896,10 +977,33 @@ namespace opentuner
 
                         media_player_2 = new FFMPEGMediaPlayer(ffmpegVideoView2);
                         videoView2.Visible = false;
+                        mpvVideoView2.Visible = false;
                     }
 
                     groupTuner2.Text = "Tuner 2 - FFMPEG";
                 }
+                else if (setting_mediaplayer_2 == 2)
+                {
+                    if (setting_windowed_mediaPlayer2 == true)
+                    {
+                        mediaPlayer2Window = new VideoViewForm(setting_mediaplayer_2, 2);
+                        media_player_2 = new MPVMediaPlayer(mpvVideoView2.Handle.ToInt64()); ;
+                        mediaPlayer1Window.Show();
+                        ffmpegVideoView2.Visible = false;
+                        videoView2.Visible = false;
+                    }
+                    else
+                    {
+
+                        media_player_2 = new MPVMediaPlayer(mpvVideoView2.Handle.ToInt64()); ;
+                        videoView2.Visible = false;
+                        ffmpegVideoView2.Visible = false;
+                        mpvVideoView2.Visible = true;
+                    }
+
+                    groupTuner2.Text = "Tuner 2 - MPV";
+                }
+
 
                 media_player_2.onVideoOut += MediaPlayer_Vout2;
                 media_player_2.Initialize(videoSource.GetVideoDataQueue(1));
@@ -1579,17 +1683,6 @@ namespace opentuner
 
             Console.WriteLine("Load Done");
 
-            try
-            {
-                int ws_port = 9090;
-                websocket_server = new OTWebsocketServer(ws_port);
-                Console.WriteLine("Websocket Server Started on :" + ws_port.ToString());
-            }
-            catch(Exception Ex)
-            {
-                Console.WriteLine("Error Starting Websocket Server: " +  Ex.Message);
-            }
-
             // this needs to go last
             if (setting_auto_connect)
             {
@@ -1598,6 +1691,7 @@ namespace opentuner
 
         }
 
+        /*
         void send_ws_packet(TunerStatus tuner_status)
         {
             if (websocket_server != null) 
@@ -1630,6 +1724,7 @@ namespace opentuner
                 websocket_server.Broadcast(json);
             }
         }
+        */
 
         void tuner1_change_callback(uint freq, uint rf_input, uint symbol_rate)
         {

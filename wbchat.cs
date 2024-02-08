@@ -89,10 +89,17 @@ namespace opentuner
 
         public static void AddItem(System.Windows.Forms.ListBox LB, Object obj)
         {
+            if (LB == null)
+            {
+                return;
+            }
+
             if (LB.InvokeRequired)
             {
                 UpdateLBDelegate ulb = new UpdateLBDelegate(AddItem);
-                LB.Invoke(ulb, new object[] { LB, obj });
+                
+                if (LB != null && !LB.Disposing && LB.IsDisposed) 
+                    LB.Invoke(ulb, new object[] { LB, obj });
             }
             else
             {
@@ -114,7 +121,9 @@ namespace opentuner
             if (frm.InvokeRequired)
             {
                 UpdateFormTitle ulb = new UpdateFormTitle(updateTitle);
-                frm.Invoke(ulb, new object[] { frm, new_title });
+
+                if (frm != null && !frm.Disposing && frm.IsDisposed)
+                    frm.Invoke(ulb, new object[] { frm, new_title });
             }
             else
             {
@@ -129,7 +138,9 @@ namespace opentuner
             if (rtb.InvokeRequired)
             {
                 UpdateRTBDelegate ulb = new UpdateRTBDelegate(AddChat);
-                rtb.Invoke(ulb, new object[] { rtb, tstr, nick, msg });
+                
+                if (rtb != null && !rtb.Disposing && rtb.IsDisposed)
+                    rtb.Invoke(ulb, new object[] { rtb, tstr, nick, msg });
             }
             else
             {
@@ -164,7 +175,8 @@ namespace opentuner
             if (rtb.InvokeRequired)
             {
                 ClearRTBDelegate crd = new ClearRTBDelegate(ClearChat);
-                rtb.Invoke(crd, new Object[] { rtb });
+                if (rtb != null && !rtb.Disposing && rtb.IsDisposed)
+                    rtb.Invoke(crd, new Object[] { rtb });
             }
             else
             {
@@ -177,7 +189,8 @@ namespace opentuner
             if (LB.InvokeRequired)
             {
                 UpdateLBDelegate ulb = new UpdateLBDelegate(ClearAll);
-                LB.Invoke(ulb, new object[] { LB, obj });
+                if (LB != null && !LB.Disposing && LB.IsDisposed)
+                    LB.Invoke(ulb, new object[] { LB, obj });
             }
             else
             {

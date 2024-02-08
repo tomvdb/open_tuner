@@ -1,4 +1,5 @@
-﻿using System;
+﻿using opentuner.MediaSources.Minitiouner.HardwareInterfaces;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace opentuner
 {
     public class MinitiounerSource : OTSource
     {
-        public ftdi ftdi_hw = new ftdi();
+        public MTHardwareInterface hardware_interface;
         public bool hardware_connected = false;
 
         public int ts_devices = 1;
@@ -130,7 +131,22 @@ namespace opentuner
 
         public string HardwareDevice { get; set; }
 
-        public MinitiounerSource() { }
+        private int _hardwareInterface = 0;
+
+        // 0 = ftdi
+        // 1 = picotuner
+        // 2 = picotuner ethernet
+
+        public MinitiounerSource(int HardwareInterface) 
+        { 
+            _hardwareInterface = HardwareInterface;
+
+            switch(_hardwareInterface)
+            {
+                case 0: hardware_interface = new FTDIInterface(); break;
+                case 1: hardware_interface =  new PicoTunerInterface(); break;
+            }
+        }
 
 
         public override int GetVideoSourceCount()
@@ -206,8 +222,8 @@ namespace opentuner
         public override void Close()
         {
             // switch off TS led's
-            ftdi_hw.ftdi_ts_led(0, false);
-            ftdi_hw.ftdi_ts_led(1, false);
+            hardware_interface.hw_ts_led(0, false);
+            hardware_interface.hw_ts_led(1, false);
 
             if (ts_thread_t != null)
                 ts_thread_t.Abort();
@@ -220,7 +236,7 @@ namespace opentuner
 
         public override byte set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
         {
-            return ftdi_hw.ftdi_set_polarization_supply(lnb_num, supply_enable, supply_horizontal);
+            return hardware_interface.hw_set_polarization_supply(lnb_num, supply_enable, supply_horizontal);
         }
 
         public override void change_frequency(byte tuner, UInt32 freq, UInt32 sr, bool lnb_supply, bool polarization_supply_horizontal, uint rf_input, bool tone_22kHz_P1)
@@ -310,7 +326,7 @@ namespace opentuner
                     {
                         VideoChangeCB(1, true);
                     }
-                    ftdi_hw.ftdi_ts_led(0, true);
+                    hardware_interface.hw_ts_led(0, true);
                 }
                 else
                 {
@@ -319,7 +335,7 @@ namespace opentuner
                         VideoChangeCB(1, false);
                     }
 
-                    ftdi_hw.ftdi_ts_led(0, false);
+                    hardware_interface.hw_ts_led(0, false);
                 }
 
                 T1P2_prevLocked = T1P2locked;
@@ -338,7 +354,7 @@ namespace opentuner
                             VideoChangeCB(2, true);
                         }
 
-                        ftdi_hw.ftdi_ts_led(1, true);
+                        hardware_interface.hw_ts_led(1, true);
                     }
                     else
                     {
@@ -347,7 +363,7 @@ namespace opentuner
                             VideoChangeCB(2, false);
                         }
 
-                        ftdi_hw.ftdi_ts_led(1, false);
+                        hardware_interface.hw_ts_led(1, false);
                     }
 
                     T2P1_prevLocked = T2P1Locked;
@@ -382,19 +398,19 @@ namespace opentuner
             
             
             // switch off ts leds
-            ftdi_hw.ftdi_ts_led(0, false);
-            ftdi_hw.ftdi_ts_led(1, false);
+            hardware_interface.hw_ts_led(0, false);
+            hardware_interface.hw_ts_led(1, false);
 
             // set default lnb supply
             Console.WriteLine(current_enable_lnb_supply.ToString());
             Console.WriteLine(current_enable_horiz_supply.ToString());
 
-            ftdi_hw.ftdi_set_polarization_supply(0, current_enable_lnb_supply, current_enable_horiz_supply);
+            hardware_interface.hw_set_polarization_supply(0, current_enable_lnb_supply, current_enable_horiz_supply);
 
             // NIM thread
             //SourceStatusCallback status_callback = new SourceStatusCallback(nim_status_feedback);
 
-            NimThread nim_thread = new NimThread(config_queue, ftdi_hw, nim_status_feedback, false);
+            NimThread nim_thread = new NimThread(config_queue, hardware_interface, nim_status_feedback, false);
 
             nim_thread_t = new Thread(nim_thread.worker_thread);
 
@@ -407,28 +423,6 @@ namespace opentuner
 
             StoredFrequency tuner_freq1 = default_freq;
             StoredFrequency tuner_freq2 = default_freq;
-
-            /*
-             * tofix
-            Console.WriteLine("Startup Freq 1: " + setting_tuner1_startfreq);
-            Console.WriteLine("Startup Freq 2: " + setting_tuner2_startfreq);
-
-            for (int c = 0; c < stored_frequencies.Count; c++)
-            {
-                Console.WriteLine(stored_frequencies[c].Name + " - " + stored_frequencies[c].DefaultTuner);
-
-                if (stored_frequencies[c].Name == setting_tuner1_startfreq && stored_frequencies[c].DefaultTuner == 0)
-                {
-                    Console.WriteLine("Setting startup freq tuner 1 to " + stored_frequencies[c].Name);
-                    tuner_freq1 = stored_frequencies[c];
-                }
-                if (stored_frequencies[c].Name == setting_tuner2_startfreq && stored_frequencies[c].DefaultTuner == 1)
-                {
-                    Console.WriteLine("Setting startup freq tuner 2 to " + stored_frequencies[c].Name);
-                    tuner_freq2 = stored_frequencies[c];
-                }
-            }
-            */
 
             change_frequency(1, tuner_freq1.Frequency - tuner_freq1.Offset, tuner_freq1.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq1.RFInput, current_tone_22kHz_P1);
             change_frequency(2, tuner_freq2.Frequency - tuner_freq2.Offset, tuner_freq2.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq2.RFInput, current_tone_22kHz_P1);
@@ -463,23 +457,23 @@ namespace opentuner
 
         void FlushTS2()
         {
-            ftdi_hw.ftdi_ts_flush(ftdi.TS2);
+            hardware_interface.transport_flush(PicoTunerInterface.TS2);
         }
 
         byte ReadTS2(ref byte[] data, ref uint dataRead)
         {
-            return ftdi_hw.ftdi_ts_read(ftdi.TS2, ref data, ref dataRead);
+            return hardware_interface.transport_read(PicoTunerInterface.TS2, ref data, ref dataRead);
         }
 
         byte ReadTS1(ref byte[] data, ref uint dataRead)
         {
-            return ftdi_hw.ftdi_ts_read(ftdi.TS1, ref data, ref dataRead);
+            return hardware_interface.transport_read(PicoTunerInterface.TS1, ref data, ref dataRead);
         }
 
 
         void FlushTS1()
         {
-            ftdi_hw.ftdi_ts_flush(ftdi.TS1);
+            hardware_interface.transport_flush(PicoTunerInterface.TS1);
         }
 
 
@@ -497,14 +491,13 @@ namespace opentuner
 
             if (manual) 
             { 
-                err = ftdi_hw.ftdi_detect(ref i2c_port, ref ts_port, ref ts_port2, ref deviceName, i2c_serial, ts_serial, ts2_serial);
+                err = hardware_interface.hw_detect(ref i2c_port, ref ts_port, ref ts_port2, ref deviceName, i2c_serial, ts_serial, ts2_serial);
             }
             else
             {
-                err = ftdi_hw.ftdi_detect(ref i2c_port, ref ts_port, ref ts_port2, ref deviceName);
+                err = hardware_interface.hw_detect(ref i2c_port, ref ts_port, ref ts_port2, ref deviceName);
             }
 
-            //err = ftdi_hw.ftdi_detect(ref i2c_port, ref ts_port, ref ts_port2, ref deviceName);
 
             if (ts_port2 == 99)
                 ts_devices = 1;
@@ -517,7 +510,7 @@ namespace opentuner
             {
                 ts_devices = 1;
                 Console.WriteLine("Hardware not detected properly, reverting to 0,1");
-                err = ftdi_hw.ftdi_init(0, 1, 99);
+                err = hardware_interface.hw_init(0, 1, 99);
             }
             else
             {
@@ -525,7 +518,7 @@ namespace opentuner
                 Console.WriteLine("i2c port: " + i2c_port.ToString());
                 Console.WriteLine("ts port: " + ts_port.ToString());
                 Console.WriteLine("ts2 port: " + ts_port2.ToString());
-                err = ftdi_hw.ftdi_init(i2c_port, ts_port, ts_port2);
+                err = hardware_interface.hw_init(i2c_port, ts_port, ts_port2);
             }
 
             if (err != 0)

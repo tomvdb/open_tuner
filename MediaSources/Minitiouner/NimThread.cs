@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using opentuner.MediaSources.Minitiouner.HardwareInterfaces;
 
 namespace opentuner
 {
@@ -12,7 +13,7 @@ namespace opentuner
 
     public class NimThread
     {
-        ftdi hardware;
+        MTHardwareInterface hardware;
 
         nim _nim;
         stv0910 _stv0910;
@@ -32,7 +33,7 @@ namespace opentuner
 
         public event EventHandler<StatusEvent> onNewStatus;
 
-        public NimThread(ConcurrentQueue<TunerConfig> _config_queue, ftdi _hardware, SourceStatusCallback _status_callback, bool _no_lna)
+        public NimThread(ConcurrentQueue<TunerConfig> _config_queue, MTHardwareInterface _hardware, SourceStatusCallback _status_callback, bool _no_lna)
         {
             hardware = _hardware;
             config_queue = _config_queue;
@@ -319,7 +320,9 @@ namespace opentuner
 
             TunerConfig nim_config = null;
 
-                byte err = _stv0910.stv0910_init();
+                
+
+                byte err = _stv0910.stv0910_init(hardware.RequireSerialTS);
 
                 if (err != 0)
                 {

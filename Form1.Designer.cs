@@ -186,6 +186,8 @@
             this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
             this.genTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.mpvVideoView1 = new System.Windows.Forms.PictureBox();
+            this.mpvVideoView2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -211,6 +213,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
             this.contextSpectrumMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView2)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -940,12 +944,14 @@
             // videoPlayersSplitter.Panel1
             // 
             this.videoPlayersSplitter.Panel1.BackColor = System.Drawing.Color.Black;
+            this.videoPlayersSplitter.Panel1.Controls.Add(this.mpvVideoView1);
             this.videoPlayersSplitter.Panel1.Controls.Add(this.ffmpegVideoView1);
             this.videoPlayersSplitter.Panel1.Controls.Add(this.videoView1);
             // 
             // videoPlayersSplitter.Panel2
             // 
             this.videoPlayersSplitter.Panel2.BackColor = System.Drawing.Color.Black;
+            this.videoPlayersSplitter.Panel2.Controls.Add(this.mpvVideoView2);
             this.videoPlayersSplitter.Panel2.Controls.Add(this.ffmpegVideoView2);
             this.videoPlayersSplitter.Panel2.Controls.Add(this.videoView2);
             // 
@@ -1291,6 +1297,18 @@
             this.SpectrumTuneTimer.Interval = 1500;
             this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
             // 
+            // mpvVideoView1
+            // 
+            resources.ApplyResources(this.mpvVideoView1, "mpvVideoView1");
+            this.mpvVideoView1.Name = "mpvVideoView1";
+            this.mpvVideoView1.TabStop = false;
+            // 
+            // mpvVideoView2
+            // 
+            resources.ApplyResources(this.mpvVideoView2, "mpvVideoView2");
+            this.mpvVideoView2.Name = "mpvVideoView2";
+            this.mpvVideoView2.TabStop = false;
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -1332,6 +1350,8 @@
             this.contextSpectrumMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1495,6 +1515,8 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lblStreamFormat1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox mpvVideoView1;
+        private System.Windows.Forms.PictureBox mpvVideoView2;
     }
 }
 

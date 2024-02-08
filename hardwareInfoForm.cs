@@ -12,10 +12,10 @@ namespace opentuner
 {
     public partial class hardwareInfoForm : Form
     {
-        private ftdi ftdi_hw = null;
+        private PicoTunerInterface ftdi_hw = null;
         List<FTDIDevice> ftdi_devices = null;
 
-        public hardwareInfoForm(ftdi ftdi_hardware)
+        public hardwareInfoForm(PicoTunerInterface ftdi_hardware)
         {
             InitializeComponent();
 

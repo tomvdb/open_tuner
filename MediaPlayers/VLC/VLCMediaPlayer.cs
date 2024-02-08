@@ -13,8 +13,6 @@ namespace opentuner
 {
     public class VLCMediaPlayer : OTMediaPlayer
     {
-
-
         LibVLC libVLC = new LibVLC("--aout=directsound");
         Media media;
         TSStreamMediaInput mediaInput;
@@ -72,7 +70,7 @@ namespace opentuner
         {
             Console.WriteLine("VLC: Stopped");
         }
-
+        
 
         public override void Initialize(CircularBuffer TSDataQueue)
         {
@@ -126,6 +124,7 @@ namespace opentuner
 
         private void altPlay()
         {
+            Console.WriteLine("Alt Play Start");
             altStop();
 
             _mediaplayer = new MediaPlayer(libVLC);
@@ -149,6 +148,7 @@ namespace opentuner
             media.AddOption(mediaConfig1);
 
             updateVideoPlayer(_mediaplayer, true);
+            Console.WriteLine("Alt Play Stop");
 
         }
 
@@ -156,16 +156,26 @@ namespace opentuner
         {
             Console.WriteLine("Alt Stop");
 
-            var toDispose = _mediaplayer;
-            updateVideoPlayer(null, false);
+            if (_mediaplayer != null)
+                _mediaplayer.Dispose();
             _mediaplayer = null;
+            GC.Collect();
+            GC.Collect();
 
-            Task.Run(() => { toDispose?.Dispose(); });
+            updateVideoPlayer(null, false);
+
+            Console.WriteLine("Alt Stop Done");
+
         }
 
         private void MediaPlayer_Vout(object sender, MediaPlayerVoutEventArgs e)
         {
             // volume changes only take affect when media is playing
+            if (videoView.MediaPlayer == null)
+            {
+                return;
+            }
+
             videoView.MediaPlayer.Volume = player_volume;
 
             MediaStatus media_status = new MediaStatus();

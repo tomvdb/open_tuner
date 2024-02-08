@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "opentuner", "opentuner.cspr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{252F1368-533A-4D22-9111-4A42F83B1470}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibUsbDotNet", "..\..\picotuner\LibUsbDotNet\src\LibUsbDotNet\LibUsbDotNet.csproj", "{165D23F3-FDC1-444A-B350-93CC5B5DD2FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{2E89E032-7250-4223-93EC-FBA2482988DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E89E032-7250-4223-93EC-FBA2482988DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E89E032-7250-4223-93EC-FBA2482988DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{165D23F3-FDC1-444A-B350-93CC5B5DD2FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{165D23F3-FDC1-444A-B350-93CC5B5DD2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{165D23F3-FDC1-444A-B350-93CC5B5DD2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{165D23F3-FDC1-444A-B350-93CC5B5DD2FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

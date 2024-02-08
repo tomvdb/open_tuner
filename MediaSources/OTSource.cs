@@ -10,9 +10,7 @@ namespace opentuner
     {
         public delegate void VideoChangeCallback(int video_number, bool start);
 
-
         public OTSource() { }
-
         public abstract long GetCurrentFrequency(int device, bool offset_included);
         public abstract void StartStreaming(int device);
         public abstract void StopStreaming(int device);

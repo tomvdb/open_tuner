@@ -780,6 +780,9 @@
   <data name="comboMediaPlayer2.Items1" xml:space="preserve">
     <value>FFMPEG</value>
   </data>
+  <data name="comboMediaPlayer2.Items2" xml:space="preserve">
+    <value>MPV</value>
+  </data>
   <data name="comboMediaPlayer2.Location" type="System.Drawing.Point, System.Drawing">
     <value>128, 104</value>
   </data>
@@ -806,6 +809,9 @@
   </data>
   <data name="comboMediaPlayer1.Items1" xml:space="preserve">
     <value>FFMPEG</value>
+  </data>
+  <data name="comboMediaPlayer1.Items2" xml:space="preserve">
+    <value>MPV</value>
   </data>
   <data name="comboMediaPlayer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>128, 53</value>

@@ -3372,6 +3372,30 @@
   <data name="videoPlayersSplitter.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
+  <data name="mpvVideoView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="mpvVideoView1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="mpvVideoView1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1283, 455</value>
+  </data>
+  <data name="mpvVideoView1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;mpvVideoView1.Name" xml:space="preserve">
+    <value>mpvVideoView1</value>
+  </data>
+  <data name="&gt;&gt;mpvVideoView1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mpvVideoView1.Parent" xml:space="preserve">
+    <value>videoPlayersSplitter.Panel1</value>
+  </data>
+  <data name="&gt;&gt;mpvVideoView1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="ffmpegVideoView1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3397,13 +3421,13 @@
     <value>ffmpegVideoView1</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.14.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.24.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel1</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="videoView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -3430,7 +3454,7 @@
     <value>videoPlayersSplitter.Panel1</value>
   </data>
   <data name="&gt;&gt;videoView1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;videoPlayersSplitter.Panel1.Name" xml:space="preserve">
     <value>videoPlayersSplitter.Panel1</value>
@@ -3442,6 +3466,30 @@
     <value>videoPlayersSplitter</value>
   </data>
   <data name="&gt;&gt;videoPlayersSplitter.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mpvVideoView2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="mpvVideoView2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="mpvVideoView2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1283, 451</value>
+  </data>
+  <data name="mpvVideoView2.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;mpvVideoView2.Name" xml:space="preserve">
+    <value>mpvVideoView2</value>
+  </data>
+  <data name="&gt;&gt;mpvVideoView2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mpvVideoView2.Parent" xml:space="preserve">
+    <value>videoPlayersSplitter.Panel2</value>
+  </data>
+  <data name="&gt;&gt;mpvVideoView2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="ffmpegVideoView2.AutoSize" type="System.Boolean, mscorlib">
@@ -3469,13 +3517,13 @@
     <value>ffmpegVideoView2</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Type" xml:space="preserve">
-    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.14.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>FlyleafLib.Controls.WinForms.FlyleafHost, FlyleafLib, Version=3.7.24.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.Parent" xml:space="preserve">
     <value>videoPlayersSplitter.Panel2</value>
   </data>
   <data name="&gt;&gt;ffmpegVideoView2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="videoView2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -3502,7 +3550,7 @@
     <value>videoPlayersSplitter.Panel2</value>
   </data>
   <data name="&gt;&gt;videoView2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;videoPlayersSplitter.Panel2.Name" xml:space="preserve">
     <value>videoPlayersSplitter.Panel2</value>
@@ -3910,7 +3958,7 @@
     <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner 0.8 (ZR6TG) - 2023/09/18</value>
+    <value>Open Tuner Test (ZR6TG) - 2024/02/06</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>

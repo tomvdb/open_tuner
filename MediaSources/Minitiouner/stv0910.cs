@@ -37,9 +37,12 @@ namespace opentuner
 
         byte[] stv0910_shadow_regs = new byte[stv0910_regs.STV0910_END_ADDR - stv0910_regs.STV0910_START_ADDR + 1];
 
+        private bool _enableSerialTS = false;
 
-        private byte stv0910_init_regs()
+        private byte stv0910_init_regs(bool EnableSerialTS)
         {
+            _enableSerialTS = EnableSerialTS;
+
             byte val1 = 0;
             byte val2 = 0;
             byte err = 0;
@@ -63,6 +66,14 @@ namespace opentuner
             {
                 if (err == 0) err = stv0910_write_reg(stv0910_regs_init.STV0910DefVal[i].reg, stv0910_regs_init.STV0910DefVal[i].val);
             } while (stv0910_regs_init.STV0910DefVal[i++].reg != stv0910_regs.RSTV0910_TSTTSRS);
+
+            // serial ts for pico tuner
+            if (_enableSerialTS)
+            {
+                if (err == 0) stv0910_write_reg(stv0910_regs.RSTV0910_P1_TSCFGH, 0x40);
+                if (err == 0) stv0910_write_reg(stv0910_regs.RSTV0910_P2_TSCFGH, 0x40);
+            }
+
 
             // reset lpdc decoder
             if (err == 0) err = stv0910_write_reg(stv0910_regs.RSTV0910_TSTRES0, 0x80);
@@ -217,7 +228,7 @@ namespace opentuner
         }
 
 
-        public byte stv0910_init()
+        public byte stv0910_init(bool EnableSerialTS)
         {
             byte err = 0;
 
@@ -228,7 +239,7 @@ namespace opentuner
             if (err == 0) err = stv0910_write_reg(stv0910_regs.RSTV0910_P2_DMDISTATE, 0x1c);
 
             // non demodulator specific
-            if (err == 0) err = stv0910_init_regs();
+            if (err == 0) err = stv0910_init_regs(EnableSerialTS);
             if (err == 0) err = stv0910_setup_clocks();
 
             return err;

@@ -277,7 +277,8 @@
             this.comboMediaPlayer2.FormattingEnabled = true;
             this.comboMediaPlayer2.Items.AddRange(new object[] {
             resources.GetString("comboMediaPlayer2.Items"),
-            resources.GetString("comboMediaPlayer2.Items1")});
+            resources.GetString("comboMediaPlayer2.Items1"),
+            resources.GetString("comboMediaPlayer2.Items2")});
             resources.ApplyResources(this.comboMediaPlayer2, "comboMediaPlayer2");
             this.comboMediaPlayer2.Name = "comboMediaPlayer2";
             // 
@@ -287,7 +288,8 @@
             this.comboMediaPlayer1.FormattingEnabled = true;
             this.comboMediaPlayer1.Items.AddRange(new object[] {
             resources.GetString("comboMediaPlayer1.Items"),
-            resources.GetString("comboMediaPlayer1.Items1")});
+            resources.GetString("comboMediaPlayer1.Items1"),
+            resources.GetString("comboMediaPlayer1.Items2")});
             resources.ApplyResources(this.comboMediaPlayer1, "comboMediaPlayer1");
             this.comboMediaPlayer1.Name = "comboMediaPlayer1";
             // 

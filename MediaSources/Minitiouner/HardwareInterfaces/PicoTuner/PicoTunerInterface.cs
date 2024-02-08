@@ -3,58 +3,43 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FTD2XX_NET;
 using System.Threading;
-using FlyleafLib.MediaFramework.MediaDevice;
+using LibUsbDotNet.Info;
+using LibUsbDotNet.LibUsb;
+using LibUsbDotNet.Main;
+using System.Collections.ObjectModel;
+using opentuner.MediaSources.Minitiouner.HardwareInterfaces;
 
 namespace opentuner
 {
-    public class ftdi
+    public class PicoTunerInterface : MTHardwareInterface
     {
+        const int USB_TIMEOUT = 5000;
+
+        static UsbDevice i2c_pt_device;
+        static UsbDevice ts_pt_device;
+
+        static UsbEndpointWriter i2cEndPointWriter = null;
+        static UsbEndpointReader i2cEndPointReader = null;
+        static UsbEndpointReader tsEndPointReader = null;
+
         public const byte TS1 = 0;
         public const byte TS2 = 1;
-
-        // ###### I2C Library defines ######
-        const byte I2C_Dir_SDAin_SCLin = 0x00;
-        const byte I2C_Dir_SDAin_SCLout = 0x01;
-        const byte I2C_Dir_SDAout_SCLout = 0x03;
-        const byte I2C_Dir_SDAout_SCLin = 0x02;
-        const byte I2C_Data_SDAhi_SCLhi = 0x03;
-        const byte I2C_Data_SDAlo_SCLhi = 0x01;
-        const byte I2C_Data_SDAlo_SCLlo = 0x00;
-        const byte I2C_Data_SDAhi_SCLlo = 0x02;
-
-        // MPSSE clocking commands
-        const byte MSB_FALLING_EDGE_CLOCK_BYTE_IN = 0x24;
-        const byte MSB_RISING_EDGE_CLOCK_BYTE_IN = 0x20;
-        const byte MSB_FALLING_EDGE_CLOCK_BYTE_OUT = 0x11;
-        const byte MSB_DOWN_EDGE_CLOCK_BIT_IN = 0x26;
-        const byte MSB_UP_EDGE_CLOCK_BYTE_IN = 0x20;
-        const byte MSB_UP_EDGE_CLOCK_BYTE_OUT = 0x10;
-        const byte MSB_RISING_EDGE_CLOCK_BIT_IN = 0x22;
-        const byte MSB_FALLING_EDGE_CLOCK_BIT_OUT = 0x13;
 
         // Clock
         const uint ClockDivisor = 0x0095;
 
         // Sending and receiving
         static uint NumBytesToSend = 0;
-        uint NumBytesSent = 0;
-        static uint NumBytesRead = 0;
+        int NumBytesSent = 0;
+        static int NumBytesRead = 0;
         static byte[] MPSSEbuffer = new byte[500];
         static byte[] InputBuffer = new byte[500];
         static byte[] InputBuffer2 = new byte[500];
         static uint BytesAvailable = 0;
         static byte I2C_Status = 0;
         public bool Running = true;
-
-        FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
-        FTDI ftdiDevice_i2c = new FTDI();
-        FTDI ftdiDevice_ts = new FTDI();
-        FTDI ftdiDevice_ts2 = new FTDI();
 
         // high byte
         /* Default GPIO value 0x6f = 0b01101111 = LNB Bias Off, LNB Voltage 12V, NIM not reset */
@@ -78,126 +63,129 @@ namespace opentuner
         const byte FTDI_GPIO_PINID_LNB2_BIAS_ENABLE = 4;
         const byte FTDI_GPIO_PINID_LNB2_BIAS_VSEL = 5;
 
+        public override bool RequireSerialTS => true;
+
         private byte Receive_Data_i2c(uint BytesToRead)
         {
-            uint NumBytesInQueue = 0;
             uint QueueTimeOut = 0;
             uint Buffer1Index = 0;
             uint Buffer2Index = 0;
-            uint TotalBytesRead = 0;
+            int TotalBytesRead = 0;
             bool QueueTimeoutFlag = false;
-            uint NumBytesRxd = 0;
+            int NumBytesRxd = 0;
+
+            if (i2cEndPointReader == null)
+            {
+                Console.WriteLine("error: i2cEndPointReader is null");
+                return 1;
+            }
 
             // Keep looping until all requested bytes are received or we've tried 5000 times (value can be chosen as required)
             while ((TotalBytesRead < BytesToRead) && (QueueTimeoutFlag == false))
             {
-                ftStatus = ftdiDevice_i2c.GetRxBytesAvailable(ref NumBytesInQueue);       // Check bytes available
+                //ftStatus = ftdiDevice_i2c.GetRxBytesAvailable(ref NumBytesInQueue);       // Check bytes available
 
-                if ((NumBytesInQueue > 0) && (ftStatus == FTDI.FT_STATUS.FT_OK))
+
+                var error = i2cEndPointReader.Read(InputBuffer, USB_TIMEOUT, out NumBytesRxd);
+
+                //ftStatus = ftdiDevice_i2c.Read(InputBuffer, NumBytesInQueue, ref NumBytesRxd);  // if any available read them
+
+                if (NumBytesRxd < 3)
                 {
-                    ftStatus = ftdiDevice_i2c.Read(InputBuffer, NumBytesInQueue, ref NumBytesRxd);  // if any available read them
-
-                    if ((NumBytesInQueue == NumBytesRxd) && (ftStatus == FTDI.FT_STATUS.FT_OK))
-                    {
-                        Buffer1Index = 0;
-
-                        while (Buffer1Index < NumBytesRxd)
-                        {
-                            InputBuffer2[Buffer2Index] = InputBuffer[Buffer1Index];     // copy into main overall application buffer
-                            Buffer1Index++;
-                            Buffer2Index++;
-                        }
-                        TotalBytesRead = TotalBytesRead + NumBytesRxd;                  // Keep track of total
-                    }
-                    else
-                        return 1;
-
-                    QueueTimeOut++;
-                    if (QueueTimeOut == 5000)
-                        QueueTimeoutFlag = true;
-                    else
-                        Thread.Sleep(0);                                                // Avoids running Queue status checks back to back
+                    Console.WriteLine("Empty Response");
                 }
+
+                if (error == LibUsbDotNet.Error.Success)
+                {
+                    // first two bytes are ftdi bytes
+                    Buffer1Index = 2;
+
+                    while (Buffer1Index < NumBytesRxd)
+                    {
+                        InputBuffer2[Buffer2Index] = InputBuffer[Buffer1Index];     // copy into main overall application buffer
+                        Buffer1Index++;
+                        Buffer2Index++;
+                    }
+                    TotalBytesRead = TotalBytesRead + NumBytesRxd;                  // Keep track of total
+                }
+                else
+                {
+                    Console.WriteLine("EndPointError: " + error.ToString());
+                    return 1;
+                }
+
+                QueueTimeOut++;
+                if (QueueTimeOut == 5000)
+                    QueueTimeoutFlag = true;
+                else
+                    Thread.Sleep(0);                                                // Avoids running Queue status checks back to back
             }
             // returning globals NumBytesRead and the buffer InputBuffer2
             NumBytesRead = TotalBytesRead;
 
             if (QueueTimeoutFlag == true)
+            {
+                Console.WriteLine("Queue Timout Error");
                 return 1;
+            }
             else
+            {
+                //Console.WriteLine("Read: " + (NumBytesRead - 2).ToString());
                 return 0;
+            }
         }
-
-
-        //###################################################################################################################################
-        // Write a buffer of data and check that it got sent without error
 
         private byte Send_Data_i2c(uint BytesToSend)
         {
+            if (i2cEndPointWriter == null)
+            {
+                Console.WriteLine("Error: Endpointwriter is null");
+                return 1;
+            }
+
             NumBytesToSend = BytesToSend;
 
-            // Send data. This will return once all sent or if times out
-            ftStatus = ftdiDevice_i2c.Write(MPSSEbuffer, NumBytesToSend, ref NumBytesSent);
+            var error = i2cEndPointWriter.Write(MPSSEbuffer, 0, (int)BytesToSend, USB_TIMEOUT, out NumBytesSent);
 
             // Ensure that call completed OK and that all bytes sent as requested
-            if ((NumBytesSent != NumBytesToSend) || (ftStatus != FTDI.FT_STATUS.FT_OK))
+            if ((NumBytesSent != NumBytesToSend) || error != LibUsbDotNet.Error.Success)
+            {
+                Console.WriteLine("Error: " + error.ToString());
+                Console.WriteLine("Send: " + NumBytesToSend.ToString());
+                Console.WriteLine("Sent: " + NumBytesSent.ToString());
                 return 1;   // error   calling function can check NumBytesSent to see how many got sent
+            }
             else
                 return 0;   // success
         }
 
-
-        private byte FlushBuffer(FTDI ftdi)
+        private byte FlushBuffer(FTD2XX_NET.FTDI ftdi)
         {
-            ftStatus = ftdi.GetRxBytesAvailable(ref BytesAvailable);	 // Get the number of bytes in the receive buffer
-            if (ftStatus != FTDI.FT_STATUS.FT_OK)
-                return 1;
+            byte err = 0;
 
-            if (BytesAvailable > 0)
-            {
-                ftStatus = ftdi.Read(InputBuffer, BytesAvailable, ref NumBytesRead);  	//Read out the data from receive buffer
-                if (ftStatus != FTDI.FT_STATUS.FT_OK)
-                    return 1;       // error
-                else
-                    return 0;       // all bytes successfully read
-            }
-            else
-            {
-                return 0;           // there were no bytes to read
-            }
+            Console.WriteLine("Flush Buffer Requested");
+            i2cEndPointReader.ReadFlush();
+
+            return err;
         }
 
 
         // ***********************************************
-        private byte ftdi_set_mpsse_mode(FTDI ftdi)
+        private byte ftdi_set_mpsse_mode(FTD2XX_NET.FTDI ftdi)
         {
-
             Console.WriteLine("Flow: FTDI set mpsse mode");
-
-            NumBytesToSend = 0;
-
-            /***** Initial device configuration *****/
-
-            ftStatus = FTDI.FT_STATUS.FT_OK;
-            ftStatus |= ftdi.SetTimeouts(5000, 5000);
-            ftStatus |= ftdi.SetLatency(16);
-            //ftStatus |= ftdi.SetFlowControl(FTDI.FT_FLOW_CONTROL.FT_FLOW_RTS_CTS, 0x00, 0x00);
-            ftStatus |= ftdi.SetBitMode(0x00, 0x00);
-            ftStatus |= ftdi.SetBitMode(0x00, 0x02);         // MPSSE mode        
-
-            Thread.Sleep(10);
-
-            if (ftStatus != FTDI.FT_STATUS.FT_OK)
-                return 1; // error();
-
 
             return 0;
         }
 
-        private byte ftdi_set_ftdi_io(FTDI ftdi)
+        private byte ftdi_set_ftdi_io(FTD2XX_NET.FTDI ftdi)
         {
             /***** Flush the buffer *****/
             I2C_Status = FlushBuffer(ftdi);
+
+            Console.WriteLine(i2c_pt_device.IsOpen.ToString());
+            Console.WriteLine(i2cEndPointReader.ToString());
+            Console.WriteLine(i2cEndPointWriter.ToString());
 
             /***** Synchronize the MPSSE interface by sending bad command 0xAA *****/
             NumBytesToSend = 0;
@@ -209,29 +197,13 @@ namespace opentuner
 
             if ((InputBuffer2[0] == 0xFA) && (InputBuffer2[1] == 0xAA))
             {
-                //MessageBox.Show("MPSSE Synced");
+                Console.WriteLine("mppse synced");
             }
             else
             {
                 return 1;            //error();
             }
 
-            /***** Synchronize the MPSSE interface by sending bad command 0xAB *****/
-            NumBytesToSend = 0;
-            MPSSEbuffer[NumBytesToSend++] = 0xAB;
-            I2C_Status = Send_Data_i2c(NumBytesToSend);
-            if (I2C_Status != 0) return 1; // error();
-            I2C_Status = Receive_Data_i2c(2);
-            if (I2C_Status != 0) return 1; //error();
-
-            if ((InputBuffer2[0] == 0xFA) && (InputBuffer2[1] == 0xAB))
-            {
-                //MessageBox.Show("MPSSE Synced");
-            }
-            else
-            {
-                return 1;            //error();
-            }
 
             NumBytesToSend = 0;
 
@@ -351,7 +323,7 @@ namespace opentuner
         }
 
 
-        public byte ftdi_i2c_send_byte_check_ack(byte b)
+        private byte ftdi_i2c_send_byte_check_ack(byte b)
         {
             byte err;
 
@@ -378,7 +350,7 @@ namespace opentuner
             if (err == 0)
                 err = Receive_Data_i2c(1);
 
-            uint i = NumBytesRead;
+            int i = NumBytesRead;
 
             if (err == 0 && (InputBuffer2[0] & 0x01) != 0)
             {
@@ -388,7 +360,7 @@ namespace opentuner
             return err;
         }
 
-        public byte ftdi_i2c_read_byte_send_nak(ref byte b)
+        private byte ftdi_i2c_read_byte_send_nak(ref byte b)
         {
             byte err;
 
@@ -419,7 +391,7 @@ namespace opentuner
         }
 
 
-        byte ftdi_i2c_output()
+        private byte ftdi_i2c_output()
         {
             byte err;
 
@@ -429,7 +401,7 @@ namespace opentuner
             return err;
         }
 
-        public byte ftdi_i2c_read_reg8(byte addr, byte reg, ref byte val)
+        public override byte nim_read_reg8(byte addr, byte reg, ref byte val)
         {
             byte err = 0;
             int i = 0;
@@ -466,7 +438,7 @@ namespace opentuner
             return err;
         }
 
-        public byte ftdi_i2c_write_reg8(byte addr, byte reg, byte val)
+        public override byte nim_write_reg8(byte addr, byte reg, byte val)
         {
             byte err = 0;
             int i;
@@ -491,7 +463,7 @@ namespace opentuner
             return err;
         }
 
-        public byte ftdi_i2c_write_reg16(byte addr, ushort reg, byte val)
+        public override byte nim_write_reg16(byte addr, ushort reg, byte val)
         {
 
             byte err = 0;
@@ -525,7 +497,7 @@ namespace opentuner
             return err;
         }
 
-        public byte ftdi_i2c_read_reg16(byte addr, ushort reg, ref byte val)
+        public override byte nim_read_reg16(byte addr, ushort reg, ref byte val)
         {
 
             byte err = 0;
@@ -575,6 +547,7 @@ namespace opentuner
         {
             uint device_count = 0;
             List<FTDIDevice> ftdi_devices = new List<FTDIDevice>();
+            /*
 
             try
             {
@@ -618,282 +591,96 @@ namespace opentuner
             {
                 Console.WriteLine("FTDI Detect Error: " + Ex.Message);               
             }
+            */
 
             return ftdi_devices;
         }
 
-        public byte ftdi_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName, string i2c_serial, string ts_serial, string ts2_serial)
+        public override byte hw_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName, string i2c_serial, string ts_serial, string ts2_serial)
         {
             byte err = 0;
 
-            uint devcount = 0;
-
-            ts_port = 99;
-            i2c_port = 99;
+            i2c_port = 0;
+            ts_port = 0;
             ts_port2 = 99;
-
-            detectedDeviceName = "Manual";
-
-            try
-            {
-                ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
-                Console.WriteLine("Number of FTDI Devices: " + devcount.ToString());
-
-                // we need atleast two ports
-                if (devcount < 2)
-                {
-                    Console.WriteLine("Not enough FTDI devices detected");
-                    return 1;
-                }
-
-                for (uint c = 0; c < devcount; c++)
-                {
-                    FTDI ftdi_device = new FTDI();
-                    ftdi_device.OpenByIndex(c);
-
-                    FTDI.FT_DEVICE device = new FTDI.FT_DEVICE();
-                    ftdi_device.GetDeviceType(ref device);
-
-                    ftdi_device.GetSerialNumber(out string SerialNumber);
-
-                    Console.WriteLine("Serial Number: " + SerialNumber.ToString());
-
-                    if (SerialNumber == i2c_serial) 
-                    { 
-                        i2c_port=c;
-                        ftdi_device.Close();
-                        continue;
-                    }
-
-                    if (SerialNumber ==  ts_serial)
-                    {
-                        ts_port = c;
-                        ftdi_device.Close();
-                        continue;
-                    }
-
-                    if (SerialNumber == ts2_serial)
-                    {
-                        ts_port2 = c;
-                        ftdi_device.Close();
-                        continue;
-                    }
-
-                    ftdi_device.Close();
-                }
-            }
-            catch (Exception Ex)
-            {
-                Console.WriteLine("FTDI Error: " + Ex.Message);
-                return 1;
-            }
-
+            detectedDeviceName = "PicoTuner";
 
             return err;
         }
 
-        public byte ftdi_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName)
+        public override byte hw_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName)
         {
-            Console.WriteLine("**** FTDI Port(s) Detection ****");
+            Console.WriteLine("ftdi_detect");
 
             byte err = 0;
-            uint devcount = 0;
 
-            ts_port = 99;
-            i2c_port = 99;
+            i2c_port = 0;
+            ts_port = 0;
             ts_port2 = 99;
-
-            try
-            {
-                ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
-                Console.WriteLine("Number of FTDI Devices: " + devcount.ToString());
-
-                // we need atleast two ports
-                if (devcount < 2)
-                {
-                    Console.WriteLine("Not enough FTDI devices detected");
-                    return 1;
-                }
-
-                for ( uint c = 0; c < devcount; c++)
-                {
-                    FTDI ftdi_device = new FTDI();
-                    ftdi_device.OpenByIndex(c);
-
-                    FTDI.FT_DEVICE device = new FTDI.FT_DEVICE();
-                    ftdi_device.GetDeviceType(ref device);
-
-                    ftdi_device.GetSerialNumber(out string SerialNumber);
-
-                    Console.WriteLine("Serial Number: " + SerialNumber.ToString());
-
-                    // is this a ft2232 device?
-                    if (device.ToString() != "FT_DEVICE_2232H")
-                    {
-                        Console.WriteLine(c.ToString() + ": not a FT2232H device (" + device.ToString() + ") skipping");
-                        ftdi_device.Close();
-                        continue;
-                    }
-                    else
-                    {
-                        Console.WriteLine(c.ToString() + ": is a FT2232H device");
-                    }
-
-                    // lets get description
-                    string deviceName = "";
-                    ftdi_device.GetDescription(out deviceName);
-
-                    Console.WriteLine("Description:" + deviceName);
-
-                    FTDI.FT2232H_EEPROM_STRUCTURE eeprom = new FTDI.FT2232H_EEPROM_STRUCTURE();
-                    ftdi_device.ReadFT2232HEEPROM(eeprom);
-
-                    Console.WriteLine("A Fifo: " + eeprom.IFAIsFifo.ToString());
-                    Console.WriteLine("B Fifo: " + eeprom.IFBIsFifo.ToString());
-
-                    if (deviceName.Contains("NIM tuner A"))
-                    {
-                        Console.WriteLine("Should be the i2c port for a BATC V2 Minitiouner");
-                        i2c_port = c;
-                        detectedDeviceName = "BATC V2 Minitiouner";
-                    }
-
-                    if (deviceName.Contains("NIM tuner B"))
-                    {
-                        Console.WriteLine("Should be the ts port for a BATC V2 Minitiouner");
-                        ts_port = c;
-                    }
-
-                    if (deviceName.Contains("NIM DB tuner B"))
-                    {
-                        Console.WriteLine("Should be the 2nd ts port for a BATC V2 Minitiouner");
-                        ts_port2 = c;
-                    }
-
-                    if (deviceName.Contains("MiniTiouner_Pro_TS2 A"))
-                    {
-                        Console.WriteLine("Should be the i2c port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
-                        i2c_port = c;
-                        detectedDeviceName = "Minitiouner Pro 2";
-                    }
-
-                    if (deviceName.Contains("MiniTiouner_Pro_TS2 B"))
-                    {
-                        Console.WriteLine("Should be the ts port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
-                        ts_port = c;
-                    }
-
-                    if (deviceName.Contains("MiniTiouner_Pro_TS1 B"))
-                    {
-                        Console.WriteLine("Should be the 2nd ts port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
-                        ts_port2 = c;
-                    }
-
-                    if (deviceName.Contains("MiniTiouner A"))
-                    {
-                        Console.WriteLine("Should be the i2c port for a Minitiouner-S");
-                        i2c_port = c;
-                        detectedDeviceName = "Minitiouner-S";
-                    }
-
-                    if (deviceName.Contains("MiniTiouner B"))
-                    {
-                        Console.WriteLine("Should be the ts port for a Minitiouner-S");
-                        ts_port = c;
-                    }
-
-                    if (deviceName.Contains("Minitiouner S A"))
-                    {
-                        
-                        Console.WriteLine("Should be the i2c port for a Minitiouner-S");
-                        i2c_port = c;
-                        detectedDeviceName = "Minitiouner-S";
-                    }
-
-                    if (deviceName.Contains("Minitiouner S B"))
-                    {
-                        Console.WriteLine("Should be the ts port for a Minitiouner-S");
-                        ts_port = c;
-                    }
-
-
-                    if (deviceName.Contains("MiniTiouner-Express A"))
-                    {
-                        Console.WriteLine("Should be the i2c port for a Minitiouner Express");
-                        i2c_port = c;
-                        detectedDeviceName = "Minitiouner Express";
-                    }
-
-                    if (deviceName.Contains("MiniTiouner-Express B"))
-                    {
-                        Console.WriteLine("Should be the ts port for a Minitiouner Express");
-                        ts_port = c;
-                    }
-
-                    ftdi_device.Close();
-                    Console.WriteLine(" ---- ");
-                }
-
-                Console.WriteLine(" **** ");
-
-
-            }
-            catch (Exception Ex)
-            {
-                Console.WriteLine("FTDI Error: " + Ex.Message);
-                return 1;
-            }
-
+            detectedDeviceName = "PicoTuner";
 
             return err;
         }
 
-        public byte ftdi_init(uint i2c_device, uint ts_device, uint ts_device2)
+        public override byte hw_init(uint i2c_device, uint ts_device, uint ts_device2)
         {
             byte err = 0;
             uint devcount = 0;
 
-            // get devices
-            try
+
+            UsbContext usbContext = new UsbContext();
+            var usbDeviceCollection = usbContext.List();
+
+            i2c_pt_device = null;
+
+            for (int c = 0; c < usbDeviceCollection.Count;c++)
             {
-                ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
-                Console.WriteLine("Number of FTDI Devices: " + devcount.ToString());
-            }
-            catch (Exception Ex)
-            {
-                Console.WriteLine("FTDI Error: " + Ex.Message);
-                return 1;
-            }
-
-            ftStatus = ftdiDevice_i2c.OpenByIndex(i2c_device);
-
-            if (ftStatus != FTDI.FT_STATUS.FT_OK)
-            {
-                return 1;
-            }
-
-            ftStatus = ftdiDevice_ts.OpenByIndex(ts_device);
-
-            if (ftStatus != FTDI.FT_STATUS.FT_OK)
-            {
-                return 1;
-            }
-
-            if (ts_device2 != 99)
-            {
-                ftStatus = ftdiDevice_ts2.OpenByIndex(ts_device2);
-
-                if (ftStatus != FTDI.FT_STATUS.FT_OK)
+                if (usbDeviceCollection[c].Info.VendorId == 0x2E8A)
                 {
-                    return 1;
+                    i2c_pt_device = (UsbDevice)usbDeviceCollection[c].Clone();
+                    ts_pt_device = (UsbDevice)usbDeviceCollection[c].Clone();
+                    break;
                 }
             }
 
+            if (i2c_pt_device == null)
+            {
+                Console.WriteLine("pt device is null");
+                return 1;
+            }
 
-            err = ftdi_set_mpsse_mode(ftdiDevice_i2c);
-            if (err == 0) err = ftdi_set_ftdi_io(ftdiDevice_i2c);
+            if (i2c_pt_device.TryOpen() )
+            {
+                Console.WriteLine("Device Open");
+            }
+            else
+            {
+                Console.WriteLine("Error o2c Device Open");
+                return 1;
+            }
+                       
+            // got all the info, lets see if we can do something with it
+            bool claim0 = i2c_pt_device.ClaimInterface(i2c_pt_device.Configs[0].Interfaces[0].Number);
+            bool claim1 = i2c_pt_device.ClaimInterface(i2c_pt_device.Configs[0].Interfaces[1].Number);
+
+            Console.WriteLine("Claim 0: " + claim0);
+            Console.WriteLine("Claim 1: " + claim1);
+
+            i2cEndPointWriter = i2c_pt_device.OpenEndpointWriter(WriteEndpointID.Ep02);
+            i2cEndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep01);
+
+            Console.WriteLine("I2C Endpoint Reader Address : " + i2cEndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
+            Console.WriteLine("I2C Endpoint Writer Address : " + i2cEndPointWriter.EndpointInfo.EndpointAddress.ToString("X"));
+
+            tsEndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep03);
+
+            Console.WriteLine("TS Endpoint Reader Address : " + tsEndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
+
+            Console.WriteLine(i2c_pt_device.IsOpen.ToString());
+
+            err = ftdi_set_mpsse_mode(null);
+            if (err == 0) err = ftdi_set_ftdi_io(null);
             if (err == 0) err = ftdi_nim_reset();
-
 
             return err;            
         }
@@ -956,69 +743,56 @@ namespace opentuner
             return I2C_Status;
         }
 
-        public byte ftdi_ts_read(int device, ref byte[] data, ref uint bytesRead)
+        public override byte transport_read(int device, ref byte[] data, ref uint bytesRead)
         {
-            byte err = 0;
+            byte[] readdata = new byte[4096];
 
-            FTDI.FT_STATUS ts_ftdi_status = FTDI.FT_STATUS.FT_OK;
+            int iBytesRead = 0;
 
-            if (device == TS2)
+            var error = tsEndPointReader.Read(readdata, USB_TIMEOUT, out iBytesRead);
+
+            if (error != LibUsbDotNet.Error.Success)
             {
-                ts_ftdi_status = ftdiDevice_ts.Read(data, Convert.ToUInt32(data.Length), ref bytesRead);
+                Console.WriteLine("TS Read Error" + error.ToString());
+                return 1;
             }
-            else
+
+            // empty response
+            if (iBytesRead == 2)
             {
-                ts_ftdi_status = ftdiDevice_ts2.Read(data, Convert.ToUInt32(data.Length), ref bytesRead);
+                bytesRead = 0;
+                return 0;
             }
 
-            //Console.WriteLine(ts_ftdi_status.ToString());
+            // we receive the data in chunks of 512, first two bytes of each chunk needs to be removed
+            if (iBytesRead % 512 != 0)
+            {
+                Console.WriteLine("Ignoring: " + iBytesRead + "," + (iBytesRead % 512).ToString());
+                bytesRead = 0;
+                return 0;
+            }
 
-            if (ts_ftdi_status != FTDI.FT_STATUS.FT_OK)
-                err = 1;
+            int chunks = iBytesRead / 512;
 
-            return err;
+            for ( int c = 0; c < chunks; c++ )
+                Array.Copy(readdata, (c * 512) + 2, data, c * 510, 510);
+
+            bytesRead = (uint)(chunks * 510);
+
+            return 0;
         }
 
-        public byte ftdi_ts_available(int device, ref uint bytes_available)
-        {
+        public override byte transport_flush(int device)
+        {           
             byte err = 0;
 
-            FTDI.FT_STATUS ts_ftdi_status = FTDI.FT_STATUS.FT_OK;
-
-            if (device == TS2)
-                ts_ftdi_status = ftdiDevice_ts.GetRxBytesAvailable(ref bytes_available);
-            else
-                ts_ftdi_status = ftdiDevice_ts2.GetRxBytesAvailable(ref bytes_available);
-
-            if (ts_ftdi_status != FTDI.FT_STATUS.FT_OK)
-                err = 1;
-
-            return err;
-        }
-
-        public byte ftdi_ts_flush(int device)
-        {
-            byte err = 0;
-
-            FTDI.FT_STATUS ts_ftdi_status = FTDI.FT_STATUS.FT_OK;
-
-            if (device == TS2)
-            {
-                ts_ftdi_status = ftdiDevice_ts.Purge(FTDI.FT_PURGE.FT_PURGE_RX);
-            }
-            else
-            {
-                ts_ftdi_status = ftdiDevice_ts2.Purge(FTDI.FT_PURGE.FT_PURGE_RX);
-            }
-
-            if (ts_ftdi_status != FTDI.FT_STATUS.FT_OK)
-                err = 1;
+            tsEndPointReader.ReadFlush();
 
             return err;
         }
 
 
-        public byte ftdi_ts_led(int led, bool setting)
+        public override byte hw_ts_led(int led, bool setting)
         {
             byte err = 0;
 
@@ -1038,10 +812,11 @@ namespace opentuner
 
         // on minitiouner pro 2 there are 2 outputs for the 2 different lnb switching - longmynd originally only catered for 1 output, the pro 2 needs two outputs. 
         // need to confirm express and S versions.
-        public byte ftdi_set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
+        public override byte hw_set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
         {
             byte err = 0;
 
+            /*
             if (supply_enable)
             {
                 // set voltage
@@ -1084,7 +859,7 @@ namespace opentuner
                 }
             }
 
-
+            */
             return err;
 
         }

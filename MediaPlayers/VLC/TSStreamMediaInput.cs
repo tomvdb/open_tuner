@@ -41,12 +41,10 @@ namespace opentuner
 
         public override int Read(IntPtr buf, uint len)
         {
-            //Console.WriteLine("Read from VLC: " + len.ToString()) ;
-
             int timeout = 0;
 
             // wait for next data
-            while (ts_data_queue.Count < 200)
+            while (ts_data_queue.Count < 1010)
             {
                 if (end == true)
                 {

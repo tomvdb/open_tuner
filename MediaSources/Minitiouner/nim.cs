@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using opentuner.MediaSources.Minitiouner.HardwareInterfaces;
 
 namespace opentuner
 {
@@ -13,10 +14,9 @@ namespace opentuner
 
     class nim
     {
-
         bool repeater_on = false;
 
-        private ftdi ftdi_device;
+        private MTHardwareInterface ftdi_device;
 
         public const byte NIM_DEMOD_ADDR = 0xd2; 
 
@@ -31,7 +31,7 @@ namespace opentuner
         public const byte NIM_INPUT_TOP = 1;
         public const byte NIM_INPUT_BOTTOM = 2;
 
-        public nim(ftdi ftdidevice)
+        public nim(MTHardwareInterface ftdidevice)
         {
             ftdi_device = ftdidevice;
         }
@@ -45,7 +45,7 @@ namespace opentuner
                 err = nim_write_demod(0xf12a, 0xb8);
                 repeater_on = true;
             }
-            if (err == 0) err = ftdi_device.ftdi_i2c_read_reg8(lna_addr, reg, ref val);
+            if (err == 0) err = ftdi_device.nim_read_reg8(lna_addr, reg, ref val);
 
             //Console.WriteLine("nim lna read: {0}, {1}", reg.ToString("X"), val.ToString("X"));
 
@@ -62,7 +62,7 @@ namespace opentuner
                 err = nim_write_demod(0xf12a, 0xb8);
                 repeater_on = true;
             }
-            if (err == 0) err = ftdi_device.ftdi_i2c_write_reg8(lna_addr, reg, val);
+            if (err == 0) err = ftdi_device.nim_write_reg8(lna_addr, reg, val);
 
             //Console.WriteLine("nim lna write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
 
@@ -79,7 +79,7 @@ namespace opentuner
                 repeater_on = true;
             }
 
-            if (err == 0) err = ftdi_device.ftdi_i2c_write_reg8(NIM_TUNER_ADDR, reg, val);
+            if (err == 0) err = ftdi_device.nim_write_reg8(NIM_TUNER_ADDR, reg, val);
 
             //Console.WriteLine("nim tuner write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
 
@@ -96,7 +96,7 @@ namespace opentuner
                 repeater_on = true;
             }
 
-            if (err == 0) err = ftdi_device.ftdi_i2c_read_reg8(NIM_TUNER_ADDR, reg, ref val);
+            if (err == 0) err = ftdi_device.nim_read_reg8(NIM_TUNER_ADDR, reg, ref val);
 
             //Console.WriteLine("nim tuner read: {0}, {1}", reg.ToString("X"), val.ToString("X"));
 
@@ -116,7 +116,7 @@ namespace opentuner
                 error = nim_write_demod(0xf12a, 0x38);
             }
 
-            if (error == 0) error = ftdi_device.ftdi_i2c_write_reg16(NIM_DEMOD_ADDR, reg, val);
+            if (error == 0) error = ftdi_device.nim_write_reg16(NIM_DEMOD_ADDR, reg, val);
 
             if (error != 0)
             {
@@ -140,7 +140,7 @@ namespace opentuner
                 err = nim_write_demod(0xf12a, 0x38);
             }
 
-            if (err == 0) err = ftdi_device.ftdi_i2c_read_reg16(NIM_DEMOD_ADDR, reg, ref val);
+            if (err == 0) err = ftdi_device.nim_read_reg16(NIM_DEMOD_ADDR, reg, ref val);
 
             if (err != 0)
             {

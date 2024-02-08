@@ -24,6 +24,7 @@ namespace opentuner
         const UInt32 STV6120_P_THRESHOLD_3 = 1191000;
 
         const byte STV6120_CAL_TIMEOUT = 200;
+        
 
         byte rdiv;
         byte ctrl7;
@@ -614,7 +615,7 @@ namespace opentuner
 
                 if ((err == 0) && (timeout == STV6120_CAL_TIMEOUT))
                 {
-                    Console.WriteLine("ERROR: tuner wait on lock timed out\n");
+                    Console.WriteLine("ERROR: tuner wait on lock timed out: " + err.ToString() + "\n");
                     err = errors.ERROR_TUNER_LOCK_TIMEOUT;
                 }
             }
