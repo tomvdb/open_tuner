@@ -1,6 +1,6 @@
 ﻿namespace opentuner
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.statusPage = new System.Windows.Forms.TabPage();
@@ -139,8 +139,10 @@
             this.dbgListBox = new System.Windows.Forms.ListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.videoPlayersSplitter = new System.Windows.Forms.SplitContainer();
+            this.mpvVideoView1 = new System.Windows.Forms.PictureBox();
             this.ffmpegVideoView1 = new FlyleafLib.Controls.WinForms.FlyleafHost();
             this.videoView1 = new LibVLCSharp.WinForms.VideoView();
+            this.mpvVideoView2 = new System.Windows.Forms.PictureBox();
             this.ffmpegVideoView2 = new FlyleafLib.Controls.WinForms.FlyleafHost();
             this.videoView2 = new LibVLCSharp.WinForms.VideoView();
             this.spectrum = new System.Windows.Forms.PictureBox();
@@ -186,8 +188,6 @@
             this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
             this.genTooltip = new System.Windows.Forms.ToolTip(this.components);
-            this.mpvVideoView1 = new System.Windows.Forms.PictureBox();
-            this.mpvVideoView2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -208,13 +208,13 @@
             this.videoPlayersSplitter.Panel1.SuspendLayout();
             this.videoPlayersSplitter.Panel2.SuspendLayout();
             this.videoPlayersSplitter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
             this.contextSpectrumMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView2)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -955,6 +955,12 @@
             this.videoPlayersSplitter.Panel2.Controls.Add(this.ffmpegVideoView2);
             this.videoPlayersSplitter.Panel2.Controls.Add(this.videoView2);
             // 
+            // mpvVideoView1
+            // 
+            resources.ApplyResources(this.mpvVideoView1, "mpvVideoView1");
+            this.mpvVideoView1.Name = "mpvVideoView1";
+            this.mpvVideoView1.TabStop = false;
+            // 
             // ffmpegVideoView1
             // 
             this.ffmpegVideoView1.AllowDrop = true;
@@ -979,6 +985,12 @@
             resources.ApplyResources(this.videoView1, "videoView1");
             this.videoView1.MediaPlayer = null;
             this.videoView1.Name = "videoView1";
+            // 
+            // mpvVideoView2
+            // 
+            resources.ApplyResources(this.mpvVideoView2, "mpvVideoView2");
+            this.mpvVideoView2.Name = "mpvVideoView2";
+            this.mpvVideoView2.TabStop = false;
             // 
             // ffmpegVideoView2
             // 
@@ -1297,18 +1309,6 @@
             this.SpectrumTuneTimer.Interval = 1500;
             this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
             // 
-            // mpvVideoView1
-            // 
-            resources.ApplyResources(this.mpvVideoView1, "mpvVideoView1");
-            this.mpvVideoView1.Name = "mpvVideoView1";
-            this.mpvVideoView1.TabStop = false;
-            // 
-            // mpvVideoView2
-            // 
-            resources.ApplyResources(this.mpvVideoView2, "mpvVideoView2");
-            this.mpvVideoView2.Name = "mpvVideoView2";
-            this.mpvVideoView2.TabStop = false;
-            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -1344,14 +1344,14 @@
             this.videoPlayersSplitter.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoPlayersSplitter)).EndInit();
             this.videoPlayersSplitter.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).EndInit();
             this.contextSpectrumMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mpvVideoView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -31,7 +31,7 @@ using opentuner.Utilities;
 
 namespace opentuner
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         OTMediaPlayer media_player_1;
         OTMediaPlayer media_player_2;
@@ -43,11 +43,11 @@ namespace opentuner
 
         OTSource videoSource = new MinitiounerSource(0);
 
-        private delegate void updateNimStatusGuiDelegate(Form1 gui, TunerStatus new_status);
-        private delegate void updateTSStatusGuiDelegate(int device, Form1 gui, TSStatus new_status);
-        private delegate void updateMediaStatusGuiDelegate(int tuner, Form1 gui, MediaStatus new_status);
+        private delegate void updateNimStatusGuiDelegate(MainForm gui, TunerStatus new_status);
+        private delegate void updateTSStatusGuiDelegate(int device, MainForm gui, TSStatus new_status);
+        private delegate void updateMediaStatusGuiDelegate(int tuner, MainForm gui, MediaStatus new_status);
         private delegate void UpdateLBDelegate(ListBox LB, Object obj);
-        private delegate void updateRecordingStatusDelegate(Form1 gui, bool recording_status, string id);
+        private delegate void updateRecordingStatusDelegate(MainForm gui, bool recording_status, string id);
 
         Thread ts_parser_t = null;
         Thread ts_parser_2_t = null;
@@ -82,7 +82,6 @@ namespace opentuner
         public string prop_freq_carrier_offset { set { this.lblFreqCar.Text = value; } }
         public string prop_db_margin { set { this.lbldbMargin.Text = value; } get { return this.lbldbMargin.Text; } }
         public string prop_req_freq { set { this.lblReqFreq.Text = value; } }
-
         public int prop_rf_input { set { this.lblRfInput.Text = (value == 1 ? "A" : "B"); } }
 
         // tuner 2 properties
@@ -249,7 +248,7 @@ namespace opentuner
             }
         }
 
-        public static void updateRecordingStatus(Form1 gui, bool recording_status, string id)
+        public static void updateRecordingStatus(MainForm gui, bool recording_status, string id)
         {
                 if (gui == null)
                     return;
@@ -300,7 +299,7 @@ namespace opentuner
             UpdateLB(dbgListBox, msg);
         }
 
-        public static void updateMediaStatusGui(int tuner, Form1 gui, MediaStatus new_status)
+        public static void updateMediaStatusGui(int tuner, MainForm gui, MediaStatus new_status)
         {
             if (gui == null)
                 return;
@@ -332,7 +331,7 @@ namespace opentuner
         }
 
 
-        public static void updateTSStatusGui(int device, Form1 gui, TSStatus new_status)
+        public static void updateTSStatusGui(int device, MainForm gui, TSStatus new_status)
         {
             if (gui == null)
                 return;
@@ -364,7 +363,7 @@ namespace opentuner
 
         }
 
-        public  void updateNimStatusGui(Form1 gui, TunerStatus new_status)
+        public  void updateNimStatusGui(MainForm gui, TunerStatus new_status)
         {
             if (gui == null)
                 return;
@@ -530,7 +529,7 @@ namespace opentuner
             }
         }
 
-        public Form1()
+        public MainForm()
         {
 
             ThreadPool.GetMinThreads(out int workers, out int ports);

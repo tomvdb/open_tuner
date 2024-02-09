@@ -230,7 +230,7 @@
     <Compile Include="editStoredFrequencyForm.Designer.cs">
       <DependentUpon>editStoredFrequencyForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="errors.cs" />
+    <Compile Include="Errors.cs" />
     <Compile Include="ExternalTool.cs" />
     <Compile Include="externalToolsManager.cs">
       <SubType>Form</SubType>
@@ -239,11 +239,11 @@
       <DependentUpon>externalToolsManager.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaPlayers\FFMPEG\FFMPEGMediaPlayer.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="frequencyManagerForm.cs">
       <SubType>Form</SubType>
@@ -264,7 +264,7 @@
     </Compile>
     <Compile Include="lookups.cs" />
     <Compile Include="MediaSources\Minitiouner\HardwareInterfaces\MTHardwareInterface.cs" />
-    <Compile Include="MediaStatus.cs" />
+    <Compile Include="Utilities\MediaStatus.cs" />
     <Compile Include="MediaSources\Minitiouner\MinitiounerSource.cs" />
     <Compile Include="MediaSources\Minitiouner\nim.cs" />
     <Compile Include="MediaSources\Minitiouner\NimConfig.cs" />
@@ -274,10 +274,10 @@
     <Compile Include="MediaSources\OTSource.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="setnickdialog.cs">
+    <Compile Include="ExtraFeatures\BATCWebchat\setnickdialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="setnickdialog.Designer.cs">
+    <Compile Include="ExtraFeatures\BATCWebchat\setnickdialog.Designer.cs">
       <DependentUpon>setnickdialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
@@ -287,8 +287,8 @@
     <Compile Include="settingsForm.Designer.cs">
       <DependentUpon>settingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="signal.cs" />
-    <Compile Include="socket.cs" />
+    <Compile Include="ExtraFeatures\BATCSpectrum\signal.cs" />
+    <Compile Include="ExtraFeatures\BATCSpectrum\socket.cs" />
     <Compile Include="StoredFrequency.cs" />
     <Compile Include="MediaSources\Minitiouner\stv0910.cs" />
     <Compile Include="MediaSources\Minitiouner\stv0910_regs.cs" />
@@ -310,17 +310,17 @@
       <DependentUpon>tunerControlForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\UdpListener.cs" />
-    <Compile Include="VideoViewForm.cs">
+    <Compile Include="MediaPlayers\VideoViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VideoViewForm.Designer.cs">
+    <Compile Include="MediaPlayers\VideoViewForm.Designer.cs">
       <DependentUpon>VideoViewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaPlayers\VLC\VLCMediaPlayer.cs" />
-    <Compile Include="wbchat.cs">
+    <Compile Include="ExtraFeatures\BATCWebchat\wbchat.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="wbchat.Designer.cs">
+    <Compile Include="ExtraFeatures\BATCWebchat\wbchat.Designer.cs">
       <DependentUpon>wbchat.cs</DependentUpon>
     </Compile>
     <Compile Include="WebsocketServer.cs" />
@@ -333,35 +333,35 @@
     <EmbeddedResource Include="externalToolsManager.resx">
       <DependentUpon>externalToolsManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.af-ZA.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.af-ZA.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.af.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.af.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.de.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.de.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.en.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.en.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.es.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.es.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.it.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.it.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.ja.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.ja.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.nl.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.nl.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.pl.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.pl.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frequencyManagerForm.resx">
       <DependentUpon>frequencyManagerForm.cs</DependentUpon>
@@ -378,7 +378,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="setnickdialog.resx">
+    <EmbeddedResource Include="ExtraFeatures\BATCWebchat\setnickdialog.resx">
       <DependentUpon>setnickdialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="settingsForm.de.resx">
@@ -402,10 +402,10 @@
     <EmbeddedResource Include="tunerControlForm.resx">
       <DependentUpon>tunerControlForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VideoViewForm.resx">
+    <EmbeddedResource Include="MediaPlayers\VideoViewForm.resx">
       <DependentUpon>VideoViewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="wbchat.resx">
+    <EmbeddedResource Include="ExtraFeatures\BATCWebchat\wbchat.resx">
       <DependentUpon>wbchat.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

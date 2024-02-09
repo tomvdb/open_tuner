@@ -89,16 +89,10 @@ namespace opentuner
 
         public static void AddItem(System.Windows.Forms.ListBox LB, Object obj)
         {
-            if (LB == null)
-            {
-                return;
-            }
-
             if (LB.InvokeRequired)
             {
                 UpdateLBDelegate ulb = new UpdateLBDelegate(AddItem);
                 
-                if (LB != null && !LB.Disposing && LB.IsDisposed) 
                     LB.Invoke(ulb, new object[] { LB, obj });
             }
             else
@@ -122,7 +116,6 @@ namespace opentuner
             {
                 UpdateFormTitle ulb = new UpdateFormTitle(updateTitle);
 
-                if (frm != null && !frm.Disposing && frm.IsDisposed)
                     frm.Invoke(ulb, new object[] { frm, new_title });
             }
             else
@@ -139,8 +132,7 @@ namespace opentuner
             {
                 UpdateRTBDelegate ulb = new UpdateRTBDelegate(AddChat);
                 
-                if (rtb != null && !rtb.Disposing && rtb.IsDisposed)
-                    rtb.Invoke(ulb, new object[] { rtb, tstr, nick, msg });
+                rtb.Invoke(ulb, new object[] { rtb, tstr, nick, msg });
             }
             else
             {
@@ -175,7 +167,6 @@ namespace opentuner
             if (rtb.InvokeRequired)
             {
                 ClearRTBDelegate crd = new ClearRTBDelegate(ClearChat);
-                if (rtb != null && !rtb.Disposing && rtb.IsDisposed)
                     rtb.Invoke(crd, new Object[] { rtb });
             }
             else
@@ -189,8 +180,7 @@ namespace opentuner
             if (LB.InvokeRequired)
             {
                 UpdateLBDelegate ulb = new UpdateLBDelegate(ClearAll);
-                if (LB != null && !LB.Disposing && LB.IsDisposed)
-                    LB.Invoke(ulb, new object[] { LB, obj });
+                LB.Invoke(ulb, new object[] { LB, obj });
             }
             else
             {
@@ -269,6 +259,7 @@ namespace opentuner
 
         private void Client_OnConnected(object sender, EventArgs e)
         {
+            Console.WriteLine("Connected socketio");
             lblConnected.Text = "Connected: True";
         }
 
