@@ -18,11 +18,11 @@ namespace opentuner
         const int USB_TIMEOUT = 5000;
 
         static UsbDevice i2c_pt_device;
-        static UsbDevice ts_pt_device;
 
         static UsbEndpointWriter i2cEndPointWriter = null;
         static UsbEndpointReader i2cEndPointReader = null;
-        static UsbEndpointReader tsEndPointReader = null;
+        static UsbEndpointReader ts2EndPointReader = null;
+        static UsbEndpointReader ts1EndPointReader = null;
 
         public const byte TS1 = 0;
         public const byte TS2 = 1;
@@ -602,7 +602,7 @@ namespace opentuner
 
             i2c_port = 0;
             ts_port = 0;
-            ts_port2 = 99;
+            ts_port2 = 0;
             detectedDeviceName = "PicoTuner";
 
             return err;
@@ -610,13 +610,12 @@ namespace opentuner
 
         public override byte hw_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName)
         {
-            Console.WriteLine("ftdi_detect");
 
             byte err = 0;
 
             i2c_port = 0;
             ts_port = 0;
-            ts_port2 = 99;
+            ts_port2 = 0;
             detectedDeviceName = "PicoTuner";
 
             return err;
@@ -638,7 +637,7 @@ namespace opentuner
                 if (usbDeviceCollection[c].Info.VendorId == 0x2E8A)
                 {
                     i2c_pt_device = (UsbDevice)usbDeviceCollection[c].Clone();
-                    ts_pt_device = (UsbDevice)usbDeviceCollection[c].Clone();
+                    //ts_pt_device = (UsbDevice)usbDeviceCollection[c].Clone();
                     break;
                 }
             }
@@ -672,9 +671,11 @@ namespace opentuner
             Console.WriteLine("I2C Endpoint Reader Address : " + i2cEndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
             Console.WriteLine("I2C Endpoint Writer Address : " + i2cEndPointWriter.EndpointInfo.EndpointAddress.ToString("X"));
 
-            tsEndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep03);
+            ts2EndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep03);
+            ts1EndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep04);
 
-            Console.WriteLine("TS Endpoint Reader Address : " + tsEndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
+            Console.WriteLine("TS2 Endpoint Reader Address : " + ts2EndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
+            Console.WriteLine("TS1 Endpoint Reader Address : " + ts1EndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
 
             Console.WriteLine(i2c_pt_device.IsOpen.ToString());
 
@@ -749,7 +750,16 @@ namespace opentuner
 
             int iBytesRead = 0;
 
-            var error = tsEndPointReader.Read(readdata, USB_TIMEOUT, out iBytesRead);
+            LibUsbDotNet.Error error;
+
+            if (device == TS2)
+            {
+                error = ts2EndPointReader.Read(readdata, USB_TIMEOUT, out iBytesRead);
+            }
+            else
+            {
+                error = ts1EndPointReader.Read(readdata, USB_TIMEOUT, out iBytesRead);
+            }
 
             if (error != LibUsbDotNet.Error.Success)
             {
@@ -786,7 +796,10 @@ namespace opentuner
         {           
             byte err = 0;
 
-            tsEndPointReader.ReadFlush();
+            if (device == TS2)
+                ts2EndPointReader.ReadFlush();
+            else
+                ts1EndPointReader.ReadFlush();
 
             return err;
         }

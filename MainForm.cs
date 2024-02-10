@@ -41,7 +41,7 @@ namespace opentuner
         UdpListener ExternalQuickTuneListener_2 = new UdpListener(6790);
 
 
-        OTSource videoSource = new MinitiounerSource(0);
+        OTSource videoSource = new MinitiounerSource(1);
 
         private delegate void updateNimStatusGuiDelegate(MainForm gui, TunerStatus new_status);
         private delegate void updateTSStatusGuiDelegate(int device, MainForm gui, TSStatus new_status);
