@@ -188,6 +188,10 @@
             this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
             this.genTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.plutoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.commandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.systemFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configureCallsignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -1080,7 +1084,8 @@
             this.tunerControlToolStripMenuItem,
             this.toolStripMenuItem4,
             this.qO100WidebandChatToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.plutoToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
@@ -1309,6 +1314,33 @@
             this.SpectrumTuneTimer.Interval = 1500;
             this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
             // 
+            // plutoToolStripMenuItem
+            // 
+            this.plutoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.commandsToolStripMenuItem});
+            this.plutoToolStripMenuItem.Name = "plutoToolStripMenuItem";
+            resources.ApplyResources(this.plutoToolStripMenuItem, "plutoToolStripMenuItem");
+            // 
+            // commandsToolStripMenuItem
+            // 
+            this.commandsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.systemFunctionsToolStripMenuItem});
+            this.commandsToolStripMenuItem.Name = "commandsToolStripMenuItem";
+            resources.ApplyResources(this.commandsToolStripMenuItem, "commandsToolStripMenuItem");
+            // 
+            // systemFunctionsToolStripMenuItem
+            // 
+            this.systemFunctionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configureCallsignToolStripMenuItem});
+            this.systemFunctionsToolStripMenuItem.Name = "systemFunctionsToolStripMenuItem";
+            resources.ApplyResources(this.systemFunctionsToolStripMenuItem, "systemFunctionsToolStripMenuItem");
+            // 
+            // configureCallsignToolStripMenuItem
+            // 
+            this.configureCallsignToolStripMenuItem.Name = "configureCallsignToolStripMenuItem";
+            resources.ApplyResources(this.configureCallsignToolStripMenuItem, "configureCallsignToolStripMenuItem");
+            this.configureCallsignToolStripMenuItem.Click += new System.EventHandler(this.configureCallsignToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -1517,6 +1549,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox mpvVideoView1;
         private System.Windows.Forms.PictureBox mpvVideoView2;
+        private System.Windows.Forms.ToolStripMenuItem plutoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem commandsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem systemFunctionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configureCallsignToolStripMenuItem;
     }
 }
 

@@ -30,7 +30,9 @@
         {
             this.vlcPlayer = new LibVLCSharp.WinForms.VideoView();
             this.ffmpegPlayer = new FlyleafLib.Controls.WinForms.FlyleafHost();
+            this.mpvPlayer = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.vlcPlayer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpvPlayer)).BeginInit();
             this.SuspendLayout();
             // 
             // vlcPlayer
@@ -69,17 +71,30 @@
             this.ffmpegPlayer.ToggleFullScreenOnDoubleClick = true;
             this.ffmpegPlayer.Visible = false;
             // 
+            // mpvPlayer
+            // 
+            this.mpvPlayer.BackColor = System.Drawing.Color.Black;
+            this.mpvPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mpvPlayer.Location = new System.Drawing.Point(0, 0);
+            this.mpvPlayer.Name = "mpvPlayer";
+            this.mpvPlayer.Size = new System.Drawing.Size(800, 450);
+            this.mpvPlayer.TabIndex = 2;
+            this.mpvPlayer.TabStop = false;
+            this.mpvPlayer.Visible = false;
+            // 
             // VideoViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.mpvPlayer);
             this.Controls.Add(this.ffmpegPlayer);
             this.Controls.Add(this.vlcPlayer);
             this.Name = "VideoViewForm";
             this.Text = "VideoViewForm";
             ((System.ComponentModel.ISupportInitialize)(this.vlcPlayer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mpvPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -89,5 +104,6 @@
 
         public LibVLCSharp.WinForms.VideoView vlcPlayer;
         public FlyleafLib.Controls.WinForms.FlyleafHost ffmpegPlayer;
+        public System.Windows.Forms.PictureBox mpvPlayer;
     }
 }

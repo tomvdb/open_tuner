@@ -72,6 +72,20 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.comboDefaultHardware = new System.Windows.Forms.ComboBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.Label21 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.txtBrokerHost = new System.Windows.Forms.TextBox();
+            this.numBrokerPort = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtParentTopic = new System.Windows.Forms.TextBox();
+            this.checkEnableMqtt = new System.Windows.Forms.CheckBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.checkPlutoControl = new System.Windows.Forms.CheckBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).BeginInit();
@@ -79,6 +93,10 @@
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numChatFontSize)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBrokerPort)).BeginInit();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -406,11 +424,116 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.label18);
+            this.groupBox5.Controls.Add(this.comboDefaultHardware);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.TabStop = false;
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
+            // comboDefaultHardware
+            // 
+            this.comboDefaultHardware.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboDefaultHardware.FormattingEnabled = true;
+            this.comboDefaultHardware.Items.AddRange(new object[] {
+            resources.GetString("comboDefaultHardware.Items"),
+            resources.GetString("comboDefaultHardware.Items1"),
+            resources.GetString("comboDefaultHardware.Items2")});
+            resources.ApplyResources(this.comboDefaultHardware, "comboDefaultHardware");
+            this.comboDefaultHardware.Name = "comboDefaultHardware";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.checkEnableMqtt);
+            this.groupBox6.Controls.Add(this.txtParentTopic);
+            this.groupBox6.Controls.Add(this.label20);
+            this.groupBox6.Controls.Add(this.numBrokerPort);
+            this.groupBox6.Controls.Add(this.txtBrokerHost);
+            this.groupBox6.Controls.Add(this.label19);
+            this.groupBox6.Controls.Add(this.Label21);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // Label21
+            // 
+            resources.ApplyResources(this.Label21, "Label21");
+            this.Label21.Name = "Label21";
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            // 
+            // txtBrokerHost
+            // 
+            resources.ApplyResources(this.txtBrokerHost, "txtBrokerHost");
+            this.txtBrokerHost.Name = "txtBrokerHost";
+            // 
+            // numBrokerPort
+            // 
+            resources.ApplyResources(this.numBrokerPort, "numBrokerPort");
+            this.numBrokerPort.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.numBrokerPort.Name = "numBrokerPort";
+            this.numBrokerPort.Value = new decimal(new int[] {
+            1883,
+            0,
+            0,
+            0});
+            // 
+            // label20
+            // 
+            resources.ApplyResources(this.label20, "label20");
+            this.label20.Name = "label20";
+            // 
+            // txtParentTopic
+            // 
+            resources.ApplyResources(this.txtParentTopic, "txtParentTopic");
+            this.txtParentTopic.Name = "txtParentTopic";
+            // 
+            // checkEnableMqtt
+            // 
+            resources.ApplyResources(this.checkEnableMqtt, "checkEnableMqtt");
+            this.checkEnableMqtt.Name = "checkEnableMqtt";
+            this.checkEnableMqtt.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label22);
+            this.groupBox7.Controls.Add(this.checkPlutoControl);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.TabStop = false;
+            // 
+            // checkPlutoControl
+            // 
+            resources.ApplyResources(this.checkPlutoControl, "checkPlutoControl");
+            this.checkPlutoControl.Name = "checkPlutoControl";
+            this.checkPlutoControl.UseVisualStyleBackColor = true;
+            // 
+            // label22
+            // 
+            resources.ApplyResources(this.label22, "label22");
+            this.label22.Name = "label22";
+            // 
             // settingsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ControlBox = false;
+            this.Controls.Add(this.groupBox7);
+            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -433,6 +556,13 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numChatFontSize)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBrokerPort)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -483,5 +613,19 @@
         public System.Windows.Forms.ComboBox comboTuner1Start;
         private System.Windows.Forms.Label label17;
         public System.Windows.Forms.NumericUpDown numChatFontSize;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label18;
+        public System.Windows.Forms.ComboBox comboDefaultHardware;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label20;
+        public System.Windows.Forms.NumericUpDown numBrokerPort;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label Label21;
+        public System.Windows.Forms.CheckBox checkEnableMqtt;
+        public System.Windows.Forms.TextBox txtParentTopic;
+        public System.Windows.Forms.TextBox txtBrokerHost;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label22;
+        public System.Windows.Forms.CheckBox checkPlutoControl;
     }
 }

@@ -36,17 +36,20 @@
             this.lblViewers = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lbUsers = new System.Windows.Forms.ListBox();
+            this.richChat = new System.Windows.Forms.RichTextBox();
             this.lbChat = new System.Windows.Forms.ListBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.chatContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copySelectedTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtMessage = new System.Windows.Forms.TextBox();
-            this.richChat = new System.Windows.Forms.RichTextBox();
+            this.textInputContextStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
+            this.chatContextMenuStrip.SuspendLayout();
+            this.textInputContextStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -123,9 +126,22 @@
             this.lbUsers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseDoubleClick);
             this.lbUsers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseDown);
             // 
+            // richChat
+            // 
+            this.richChat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.richChat.ContextMenuStrip = this.chatContextMenuStrip;
+            this.richChat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richChat.Location = new System.Drawing.Point(0, 0);
+            this.richChat.Name = "richChat";
+            this.richChat.ReadOnly = true;
+            this.richChat.Size = new System.Drawing.Size(616, 408);
+            this.richChat.TabIndex = 3;
+            this.richChat.Text = "";
+            this.richChat.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richChat_LinkClicked);
+            // 
             // lbChat
             // 
-            this.lbChat.ContextMenuStrip = this.contextMenuStrip1;
+            this.lbChat.ContextMenuStrip = this.chatContextMenuStrip;
             this.lbChat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbChat.FormattingEnabled = true;
             this.lbChat.HorizontalScrollbar = true;
@@ -138,12 +154,12 @@
             this.lbChat.TabIndex = 1;
             this.lbChat.Resize += new System.EventHandler(this.lbChat_Resize);
             // 
-            // contextMenuStrip1
+            // chatContextMenuStrip
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.chatContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copySelectedTextToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(216, 26);
+            this.chatContextMenuStrip.Name = "contextMenuStrip1";
+            this.chatContextMenuStrip.Size = new System.Drawing.Size(216, 26);
             // 
             // copySelectedTextToolStripMenuItem
             // 
@@ -156,6 +172,7 @@
             // txtMessage
             // 
             this.txtMessage.AcceptsReturn = true;
+            this.txtMessage.ContextMenuStrip = this.textInputContextStrip;
             this.txtMessage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.txtMessage.Enabled = false;
             this.txtMessage.Location = new System.Drawing.Point(0, 408);
@@ -164,17 +181,20 @@
             this.txtMessage.TabIndex = 2;
             this.txtMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMessage_KeyPress);
             // 
-            // richChat
+            // textInputContextStrip
             // 
-            this.richChat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
-            this.richChat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richChat.Location = new System.Drawing.Point(0, 0);
-            this.richChat.Name = "richChat";
-            this.richChat.ReadOnly = true;
-            this.richChat.Size = new System.Drawing.Size(616, 408);
-            this.richChat.TabIndex = 3;
-            this.richChat.Text = "";
-            this.richChat.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richChat_LinkClicked);
+            this.textInputContextStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectAllToolStripMenuItem});
+            this.textInputContextStrip.Name = "textInputContextStrip";
+            this.textInputContextStrip.Size = new System.Drawing.Size(181, 48);
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selectAllToolStripMenuItem.Text = "&Paste";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
             // wbchat
             // 
@@ -195,7 +215,8 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.chatContextMenuStrip.ResumeLayout(false);
+            this.textInputContextStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -209,11 +230,13 @@
         private System.Windows.Forms.ToolStripStatusLabel lblViewers;
         public System.Windows.Forms.ListBox lbUsers;
         public System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip chatContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem copySelectedTextToolStripMenuItem;
         public System.Windows.Forms.ToolStripStatusLabel txtNick;
         public System.Windows.Forms.ListBox lbChat;
         public System.Windows.Forms.TextBox txtMessage;
         private System.Windows.Forms.RichTextBox richChat;
+        private System.Windows.Forms.ContextMenuStrip textInputContextStrip;
+        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
     }
 }

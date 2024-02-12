@@ -347,14 +347,7 @@ namespace opentuner
 
         private void copySelectedTextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string copy = "";
-
-            for (int c = 0; c < lbChat.SelectedItems.Count; c++)
-            {
-                copy += lbChat.SelectedItems[c].ToString() + "\n";
-            }
-
-            Clipboard.SetText(copy);
+            Clipboard.SetText(richChat.SelectedText, TextDataFormat.UnicodeText);
         }
 
         private void txtNick_Click(object sender, EventArgs e)
@@ -445,6 +438,11 @@ namespace opentuner
         private void lbUsers_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right) { lbUsers.SelectedIndex = -1; }
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txtMessage.Text = Clipboard.GetText();
         }
     }
 }

@@ -372,6 +372,9 @@ namespace opentuner
 
             if (SourceStatusCB != null)
             {
+                nim_status.T2P1_requested_frequency = current_frequency_1;
+                nim_status.T1P2_requested_frequency = current_frequency_2;
+
                 SourceStatusCB(nim_status);
             }
 
@@ -531,6 +534,19 @@ namespace opentuner
             hardware_connected = true;
 
             HardwareDevice = deviceName;
+        }
+
+        public override byte SelectHardwareInterface(int HardwareInterface)
+        {
+            _hardwareInterface = HardwareInterface;
+
+            switch (_hardwareInterface)
+            {
+                case 0: hardware_interface = new FTDIInterface(); break;
+                case 1: hardware_interface = new PicoTunerInterface(); break;
+            }
+
+            return 0;
         }
     }
 }

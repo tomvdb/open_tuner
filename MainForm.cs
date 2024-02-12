@@ -23,11 +23,13 @@ using System.Diagnostics;
 using FFmpeg.AutoGen;
 using System.Net.Sockets;
 using System.Net;
-using MQTTnet;
-using MQTTnet.Client;
 using Vortice.Direct2D1;
 using opentuner.MediaPlayers.MPV;
 using opentuner.Utilities;
+using opentuner.MediaSources.Minitiouner;
+using MQTTnet.Client;
+using opentuner.ExtraFeatures.MqttClient;
+using opentuner.Transmit;
 
 namespace opentuner
 {
@@ -36,12 +38,14 @@ namespace opentuner
         OTMediaPlayer media_player_1;
         OTMediaPlayer media_player_2;
 
+        OTMqttClient mqtt_client;
+        F5OEOEPlutoControl pluto_client;
+
         // udp listener
         UdpListener ExternalQuickTuneListener_1 = new UdpListener(6789);
         UdpListener ExternalQuickTuneListener_2 = new UdpListener(6790);
 
-
-        OTSource videoSource = new MinitiounerSource(1);
+        OTSource videoSource = new MinitiounerSource(0);
 
         private delegate void updateNimStatusGuiDelegate(MainForm gui, TunerStatus new_status);
         private delegate void updateTSStatusGuiDelegate(int device, MainForm gui, TSStatus new_status);
@@ -213,6 +217,17 @@ namespace opentuner
 
         string setting_sigreport_template = "SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}";
 
+        int setting_default_hardware = 0;
+
+        // mqtt settings
+        bool setting_enable_mqtt = false;
+        string setting_mqtt_broker_host = "127.0.0.1";
+        int setting_mqtt_broker_port = 1883;
+        string setting_mqtt_parent_topic = "";
+
+        // f5oeoe firmware pluto
+        bool setting_enable_pluto = false;
+
         // custom forms
         private wbchat chatForm;
         private tunerControlForm tuner1ControlForm;
@@ -223,14 +238,10 @@ namespace opentuner
         List<StoredFrequency> stored_frequencies = new List<StoredFrequency>();
         List<ExternalTool> external_tools = new List<ExternalTool>();
 
-        // datv easy - commands
-        UdpClient tx_client = new UdpClient();
-        System.Net.IPEndPoint tx_end_point;
-
         bool setting_autodetect = true;
         string[] manual_serial_devices;
 
-
+        
         private async void SoftBlink(Control ctrl, Color c1, Color c2, short CycleTime_ms, bool BkClr)
         {
             var sw = new Stopwatch(); sw.Start();
@@ -250,6 +261,7 @@ namespace opentuner
 
         public static void updateRecordingStatus(MainForm gui, bool recording_status, string id)
         {
+
                 if (gui == null)
                     return;
 
@@ -258,7 +270,7 @@ namespace opentuner
                     updateRecordingStatusDelegate ulb = new updateRecordingStatusDelegate(updateRecordingStatus);
 
                     if (gui != null)
-                        gui.Invoke(ulb, new object[] { gui, recording_status, id });
+                        gui?.Invoke(ulb, new object[] { gui, recording_status, id });
                 }
                 else
                 {
@@ -272,6 +284,7 @@ namespace opentuner
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
+
             if (LB == null)
                 return;
 
@@ -279,7 +292,10 @@ namespace opentuner
             {
                 UpdateLBDelegate ulb = new UpdateLBDelegate(UpdateLB);
                 if (LB != null)
-                    LB.Invoke(ulb, new object[] { LB, obj });
+                {
+                    Console.WriteLine("Invoking");
+                    LB?.Invoke(ulb, new object[] { LB, obj });
+                }
             }
             else
             {
@@ -301,13 +317,14 @@ namespace opentuner
 
         public static void updateMediaStatusGui(int tuner, MainForm gui, MediaStatus new_status)
         {
+
             if (gui == null)
                 return;
 
             if (gui.InvokeRequired)
             {
                 updateMediaStatusGuiDelegate del = new updateMediaStatusGuiDelegate(updateMediaStatusGui);
-                gui.Invoke(del, new object[] { tuner, gui, new_status });
+                gui?.Invoke(del, new object[] { tuner, gui, new_status });
             }
             else
             {
@@ -333,13 +350,14 @@ namespace opentuner
 
         public static void updateTSStatusGui(int device, MainForm gui, TSStatus new_status)
         {
+
             if (gui == null)
                 return;
 
             if (gui.InvokeRequired)
             {
                 updateTSStatusGuiDelegate del = new updateTSStatusGuiDelegate(updateTSStatusGui);
-                gui.Invoke(del, new object[] { device, gui, new_status });
+                gui?.Invoke(del, new object[] { device, gui, new_status });
             }
             else
             {
@@ -371,7 +389,7 @@ namespace opentuner
             if ( gui.InvokeRequired )
             {
                 updateNimStatusGuiDelegate del = new updateNimStatusGuiDelegate(updateNimStatusGui);
-                gui.Invoke(del, new object[] { gui, new_status });
+                gui?.Invoke(del, new object[] { gui, new_status });
             }
             else
             {
@@ -514,18 +532,6 @@ namespace opentuner
                     gui.prop_db_margin2 = "";
                 }
 
-                //send_ws_packet(new_status);
-
-                /*
-                // vlc marquee on fullscreen
-                if (gui.isFullScreen)
-                {
-                    string marquee = lookups.demod_state_lookup[new_status.T1P2_demod_status] + " - " + gui.prop_db_margin + "(" + gui.prop_mer + ") - " + gui.prop_modcod + " - " + gui.prop_service_name;
-
-                    MediaPlayer mediaPlayer = gui.prop_media_player;
-                    mediaPlayer.SetMarqueeString(VideoMarqueeOption.Text, marquee);
-                }
-                */
             }
         }
 
@@ -722,25 +728,51 @@ namespace opentuner
                 ts_udp2.stream = false;
         }
 
-
-
-
         public void parse_ts_data_callback(TSStatus ts_status)
         {
             updateTSStatusGui(1, this, ts_status);
+
+            if (mqtt_client != null)
+            {
+                Task.Run(async () =>
+                {
+                    await mqtt_client.UpdateTSStatus(1, ts_status);
+                });
+            }
+
         }
         public void parse_ts2_data_callback(TSStatus ts_status)
         {
             updateTSStatusGui(2, this, ts_status);
+
+            if (mqtt_client != null)
+            {
+                Task.Run(async () =>
+                {
+                    await mqtt_client.UpdateTSStatus(2, ts_status);
+                });
+            }
+
         }
 
         public void nim_status_feedback(TunerStatus nim_status)
         {
             updateNimStatusGui(this, nim_status);
+
+            if (mqtt_client != null)
+            {
+                Task.Run(async () =>
+                {
+                    await mqtt_client.UpdateTunerStatus(nim_status);
+                });
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Console.WriteLine("Exiting...");
+            Console.WriteLine("* Saving Settings");
+
             // save chat location settings
             if (setting_enable_chatform && chatForm != null)
             {
@@ -763,11 +795,30 @@ namespace opentuner
 
             try
             {
+                if (mqtt_client !=  null)
+                {
+                    mqtt_client.Disconnect();
+                }
 
-                ChangeVideo(1, false);
-                if (videoSource.GetVideoSourceCount() == 2)
-                    ChangeVideo(2, false);
+                websocketTimer.Stop();
+                websocketTimer.Enabled = false;
 
+                SpectrumTuneTimer.Stop();
+                SpectrumTuneTimer.Enabled = false;
+
+                // stop socket
+                sock?.stop();
+
+                Console.WriteLine("* Stopping Playing Video");
+
+                if (videoSource != null)
+                {
+                    ChangeVideo(1, false);
+                    if (videoSource.GetVideoSourceCount() == 2)
+                        ChangeVideo(2, false);
+                }
+
+                Console.WriteLine("* Closing Extra TS Threads");
 
                 // close threads
                 if (ts_recorder_1_t != null)
@@ -787,10 +838,6 @@ namespace opentuner
                 if (ts_parser_2_t != null)
                     ts_parser_2_t.Abort();
 
-                if (tuner1ControlForm != null)
-                    tuner1ControlForm.Close();
-                if (tuner2ControlForm != null)
-                    tuner2ControlForm.Close();
 
                 if (videoSource != null)
                 {
@@ -801,19 +848,29 @@ namespace opentuner
                 if (chatForm != null)
                     chatForm.Close();
 
+                if (tuner1ControlForm != null)
+                    tuner1ControlForm.Close();
+                if (tuner2ControlForm != null)
+                    tuner2ControlForm.Close();
+
                 // close media players
                 if (media_player_1 != null)
                     media_player_1.Close();
                 if (media_player_2 != null)
                     media_player_2.Close();
 
+                // close udp
+                ExternalQuickTuneListener_1.StopListening();
+                ExternalQuickTuneListener_2.StopListening();
             }
             catch ( Exception Ex)
             {
                 // we are closing, we don't really care about exceptions at this point
+                Console.WriteLine("Closing Exception: " + Ex.Message);
             }
 
-            Application.Exit();
+            Console.WriteLine("Done");
+
         }
 
         bool start_source()
@@ -838,6 +895,23 @@ namespace opentuner
 
         private void btnConnectTuner_Click(object sender, EventArgs e)
         {
+            int hardware_source = setting_default_hardware - 1;
+
+            // no default, ask user
+            if (hardware_source == -1)
+            {
+                var hardwareInterfaceSelection = new ChooseHardwareInterfaceForm();
+
+                if (hardwareInterfaceSelection.ShowDialog() == DialogResult.OK)
+                {
+                    hardware_source = hardwareInterfaceSelection.comboHardwareSelect.SelectedIndex;
+                }
+            }
+
+
+
+            videoSource.SelectHardwareInterface(hardware_source);
+
             // start source
             start_source();
 
@@ -902,7 +976,7 @@ namespace opentuner
                 {
                     media_player_1 = new VLCMediaPlayer(videoView1);
                     ffmpegVideoView1.Visible = false;
-                    mpvVideoView1.Visible= false;
+                    mpvVideoView1.Visible = false;
                 }
 
                 groupTuner1.Text = "Tuner 1 - VLC";
@@ -911,7 +985,7 @@ namespace opentuner
             {
                 if (setting_windowed_mediaPlayer1 == true)
                 {
-                    mediaPlayer1Window = new VideoViewForm(setting_mediaplayer_1,1 );
+                    mediaPlayer1Window = new VideoViewForm(setting_mediaplayer_1, 1);
                     media_player_1 = new FFMPEGMediaPlayer(mediaPlayer1Window.ffmpegPlayer);
                     mediaPlayer1Window.Show();
                     ffmpegVideoView1.Visible = false;
@@ -925,16 +999,29 @@ namespace opentuner
                     videoView1.Visible = false;
                     groupTuner1.Text = "Tuner 1 - FFMPEG";
                     mpvVideoView1.Visible = false;
+                    ffmpegVideoView1.Visible = true;
                 }
             }
             // mpv
             else if (setting_mediaplayer_1 == 2)
             {
-                media_player_1 = new MPVMediaPlayer(mpvVideoView1.Handle.ToInt64());
-                groupTuner1.Text = "Tuner 1 - MPV";
-                videoView1.Visible = false;
-                ffmpegVideoView1.Visible = false;
-                mpvVideoView1.Visible = true;
+                if (setting_windowed_mediaPlayer1 == true)
+                {
+                    mediaPlayer1Window = new VideoViewForm(setting_mediaplayer_1, 1);
+                    media_player_1 = new MPVMediaPlayer(mediaPlayer1Window.mpvPlayer.Handle.ToInt64());
+                    mediaPlayer1Window.Show();
+                    ffmpegVideoView1.Visible = false;
+                    videoView1.Visible = false;
+                    mpvVideoView1.Visible = false;
+                }
+                else
+                {
+                    media_player_1 = new MPVMediaPlayer(mpvVideoView1.Handle.ToInt64());
+                    groupTuner1.Text = "Tuner 1 - MPV";
+                    videoView1.Visible = false;
+                    ffmpegVideoView1.Visible = false;
+                    mpvVideoView1.Visible = true;
+                }
             }
 
             media_player_1.onVideoOut += MediaPlayer_Vout;
@@ -951,7 +1038,7 @@ namespace opentuner
                         mediaPlayer2Window.Show();
                         ffmpegVideoView2.Visible = false;
                         videoView2.Visible = false;
-
+                        mpvVideoView2.Visible = false;
                     }
                     else
                     {
@@ -970,6 +1057,7 @@ namespace opentuner
                         mediaPlayer1Window.Show();
                         ffmpegVideoView2.Visible = false;
                         videoView2.Visible = false;
+                        mpvVideoView2.Visible = false;
                     }
                     else
                     {
@@ -977,6 +1065,7 @@ namespace opentuner
                         media_player_2 = new FFMPEGMediaPlayer(ffmpegVideoView2);
                         videoView2.Visible = false;
                         mpvVideoView2.Visible = false;
+                        ffmpegVideoView1.Visible = true;
                     }
 
                     groupTuner2.Text = "Tuner 2 - FFMPEG";
@@ -986,10 +1075,11 @@ namespace opentuner
                     if (setting_windowed_mediaPlayer2 == true)
                     {
                         mediaPlayer2Window = new VideoViewForm(setting_mediaplayer_2, 2);
-                        media_player_2 = new MPVMediaPlayer(mpvVideoView2.Handle.ToInt64()); ;
-                        mediaPlayer1Window.Show();
+                        media_player_2 = new MPVMediaPlayer(mediaPlayer2Window.mpvPlayer.Handle.ToInt64());
+                        mediaPlayer2Window.Show();
                         ffmpegVideoView2.Visible = false;
                         videoView2.Visible = false;
+                        mpvVideoView2.Visible=false;
                     }
                     else
                     {
@@ -1179,7 +1269,7 @@ namespace opentuner
             }
             try
             {
-                this.Invoke(new MethodInvoker(delegate () { spectrum.Image = bmp; spectrum.Update(); }));
+                this?.Invoke(new MethodInvoker(delegate () { spectrum.Image = bmp; spectrum.Update(); }));
             }
             catch (Exception Ex)
             {
@@ -1429,8 +1519,6 @@ namespace opentuner
         {
             // warning: don't use the debug function in this function as it gets called before components are initialized
 
-            Console.WriteLine("System Culture Setting: " + CultureInfo.CurrentCulture.Name);
-
             Properties.Settings.Default.Reload();
 
             setting_default_lnb_supply = Properties.Settings.Default.default_lnb_supply;
@@ -1470,12 +1558,21 @@ namespace opentuner
 
             setting_tuner1_startfreq = Properties.Settings.Default.tuner1_start_freq;
             setting_tuner2_startfreq = Properties.Settings.Default.tuner2_start_freq;
+
+            setting_default_hardware = Properties.Settings.Default.default_source_hardware;
+
+            // mqtt settings
+            setting_enable_mqtt = Properties.Settings.Default.enable_mqtt;
+            setting_mqtt_broker_host = Properties.Settings.Default.mqtt_broker_host;
+            setting_mqtt_broker_port = Properties.Settings.Default.mqtt_broker_port;
+            setting_mqtt_parent_topic = Properties.Settings.Default.mqtt_topic_parent;
+
+            // pluto settings
+            setting_enable_pluto = Properties.Settings.Default.enable_pluto;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-            debug("System Culture Setting: " + CultureInfo.CurrentCulture.Name);
             debug("Settings: Restore Last Volume: " + setting_default_volume.ToString() + "%");
             trackVolume.Value = setting_default_volume;
             debug("Settings: Restore Last Volume2: " + setting_default_volume2.ToString() + "%");
@@ -1682,48 +1779,33 @@ namespace opentuner
 
             Console.WriteLine("Load Done");
 
+            // mqtt client
+            if (setting_enable_mqtt)
+            {
+                mqtt_client = new OTMqttClient(setting_mqtt_broker_host, setting_mqtt_broker_port, setting_mqtt_parent_topic);
+                mqtt_client.OnMqttMessageReceived += Mqtt_client_OnMqttMessageReceived;
+
+                // pluto - requires mqtt
+                if (setting_enable_pluto)
+                {
+                    pluto_client = new F5OEOEPlutoControl(mqtt_client);
+                    plutoToolStripMenuItem.Visible = true;
+                }
+            }
+
+            
+
             // this needs to go last
             if (setting_auto_connect)
             {
                 btnConnectTuner_Click(this, e);
             }
-
         }
 
-        /*
-        void send_ws_packet(TunerStatus tuner_status)
+        private void Mqtt_client_OnMqttMessageReceived(MqttMessage Message)
         {
-            if (websocket_server != null) 
-            {
-                monitorMessage ws_packet = new monitorMessage();
-                ws_packet.packet = new monitorMessage_packet();
-                ws_packet.packet.rx = new monitorMessage_packet_rx();
-                ws_packet.packet.ts = new monitorMessage_packet_ts();
-
-                ws_packet.packet.rx.mer = tuner_status.T1P2_mer;
-
-                switch(tuner_status.T1P2_demod_status)
-                {
-                    case 0: ws_packet.packet.rx.demod_state = 1; break;
-                    case 1: ws_packet.packet.rx.demod_state = 2; break;
-                    case 2: ws_packet.packet.rx.demod_state = 4; break;
-                    case 3: ws_packet.packet.rx.demod_state = 3; break;
-
-                    default: ws_packet.packet.rx.demod_state = 0; break;
-                }
-
-                ws_packet.packet.rx.frequency = Convert.ToInt32(videoSource.current_frequency_1);
-                ws_packet.packet.rx.modcod = Convert.ToInt32(tuner_status.T1P2_modcode);
-                ws_packet.packet.rx.symbolrate = Convert.ToInt32(tuner_status.T1P2_symbol_rate);
-
-                string json = JsonConvert.SerializeObject(ws_packet);
-
-                //Console.WriteLine(json);
-
-                websocket_server.Broadcast(json);
-            }
+            //Console.WriteLine("Main: " + Message.ToString());
         }
-        */
 
         void tuner1_change_callback(uint freq, uint rf_input, uint symbol_rate)
         {
@@ -2046,6 +2128,17 @@ namespace opentuner
             settings_form.comboTuner1Start.SelectedIndex = 0;
             settings_form.comboTuner2Start.SelectedIndex = 0;
 
+            settings_form.comboDefaultHardware.SelectedIndex = setting_default_hardware;
+
+            // mqtt
+            settings_form.checkEnableMqtt.Checked = setting_enable_mqtt;
+            settings_form.txtBrokerHost.Text = setting_mqtt_broker_host;
+            settings_form.numBrokerPort.Value = setting_mqtt_broker_port;
+            settings_form.txtParentTopic.Text = setting_mqtt_parent_topic;
+
+            // pluto
+            settings_form.checkPlutoControl.Checked = setting_enable_pluto;
+
             for ( int c = 0; c < stored_frequencies.Count; c++)
             {
                 if (stored_frequencies[c].DefaultTuner == 0)
@@ -2096,6 +2189,16 @@ namespace opentuner
                 Properties.Settings.Default.tuner2_start_freq = settings_form.comboTuner2Start.Text;
 
                 setting_sigreport_template = settings_form.txtSigReportTemplate.Text;
+
+                Properties.Settings.Default.default_source_hardware = settings_form.comboDefaultHardware.SelectedIndex;
+
+                Properties.Settings.Default.enable_mqtt = settings_form.checkEnableMqtt.Checked;
+                Properties.Settings.Default.mqtt_broker_host = settings_form.txtBrokerHost.Text;
+                Properties.Settings.Default.mqtt_broker_port = Convert.ToInt32(settings_form.numBrokerPort.Value);
+                Properties.Settings.Default.mqtt_topic_parent = settings_form.txtParentTopic.Text;
+
+                // pluto control
+                Properties.Settings.Default.enable_pluto = settings_form.checkPlutoControl.Checked;
 
                 Properties.Settings.Default.Save();
                 
@@ -2174,34 +2277,6 @@ namespace opentuner
                 rx_blocks[0, 1] = Convert.ToInt16(ret.Item1.fft_stop - ret.Item1.fft_start);
             }
 
-        }
-
-        /*
-        private void videoView1_DoubleClick(object sender, EventArgs e)
-        {
-            try
-            {
-                toggleFullScreen();
-            }
-            catch (Exception Ex)
-            {
-
-            }
-        }
-        */
-
-        private void toggleFullscreenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            /*
-            try
-            {
-                toggleFullScreen();
-            }
-            catch (Exception Ex)
-            {
-
-            }
-            */
         }
 
 
@@ -2564,6 +2639,10 @@ namespace opentuner
             rebuild_external_tools();
         }
 
+        private void configureCallsignToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pluto_client.ConfigureCallsignAndReboot("ZR6TG");
+        }
     }
 
 

@@ -138,7 +138,6 @@ namespace opentuner
             err = _stv0910.stv0910_read_scan_state(stv0910.STV0910_DEMOD_BOTTOM, ref demod2_state);
             nim_status.T2P1_demod_status = demod2_state;
 
-            /* not using this right now
             // power
             byte power_i = 0;
             byte power_q = 0;
@@ -161,7 +160,6 @@ namespace opentuner
             }
 
             nim_status.T1P2_constellation = constellation_data;
-            */
 
             /* LDPC Error Count */
             UInt32 errors_ldpc_count = 0;
@@ -267,11 +265,19 @@ namespace opentuner
             UInt32 modcod = 0;
             bool short_frame = false;
             bool pilots = false;
-            if (err == 0) err = _stv0910.stv0910_read_modcod_and_type(stv0910.STV0910_DEMOD_TOP, ref modcod, ref short_frame, ref pilots);
+            byte rolloff = 0;
+            
+            if (err == 0) err = _stv0910.stv0910_read_modcod_and_type(stv0910.STV0910_DEMOD_TOP, ref modcod, ref short_frame, ref pilots, ref rolloff);
             nim_status.T1P2_modcode = modcod;
+            nim_status.T1P2_rolloff = rolloff;
+            nim_status.T1P2_short_frame = short_frame;
+            nim_status.T1P2_pilots = pilots;
 
-            if (err == 0) err = _stv0910.stv0910_read_modcod_and_type(stv0910.STV0910_DEMOD_BOTTOM, ref modcod, ref short_frame, ref pilots);
+            if (err == 0) err = _stv0910.stv0910_read_modcod_and_type(stv0910.STV0910_DEMOD_BOTTOM, ref modcod, ref short_frame, ref pilots, ref rolloff);
             nim_status.T2P1_modcode = modcod;
+            nim_status.T2P1_rolloff = rolloff;
+            nim_status.T2P1_short_frame = short_frame;
+            nim_status.T2P1_pilots = pilots;
 
             /*
             // tsstatus registers

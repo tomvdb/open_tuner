@@ -40,6 +40,9 @@ namespace opentuner
         public bool T1P2_reset { get; set; }
         public byte[,] T1P2_constellation { get; set; }
         public byte T1P2_rf_input { get; set; }
+        public uint T1P2_requested_frequency { get; set; }
+
+        public byte T1P2_rolloff { get; set; }
 
         // tuner 2 - demod 1 (TS1)(P1)
         public byte T2P1_demod_status { get; set; }
@@ -66,5 +69,8 @@ namespace opentuner
         public bool T2P1_reset { get; set; }
         public byte[,] T2P1_constellation { get; set; }
         public byte T2P1_rf_input { get; set; }
+        public uint T2P1_requested_frequency { get; set; }
+        public byte T2P1_rolloff { get; set; }
+
     }
 }

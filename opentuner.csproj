@@ -91,8 +91,8 @@
     <Reference Include="Microsoft.Win32.Registry, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Win32.Registry.4.7.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
-    <Reference Include="MQTTnet, Version=4.2.0.706, Culture=neutral, PublicKeyToken=fdb7629f2e364a63, processorArchitecture=MSIL">
-      <HintPath>packages\MQTTnet.4.2.0.706\lib\net461\MQTTnet.dll</HintPath>
+    <Reference Include="MQTTnet, Version=4.3.3.952, Culture=neutral, PublicKeyToken=fdb7629f2e364a63, processorArchitecture=MSIL">
+      <HintPath>packages\MQTTnet.4.3.3.952\lib\net461\MQTTnet.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=2.1.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
       <HintPath>packages\NAudio.2.1.0\lib\net472\NAudio.dll</HintPath>
@@ -217,6 +217,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BBFrameUDP.cs" />
+    <Compile Include="ExtraFeatures\MqttClient\MqttMessage.cs" />
+    <Compile Include="ExtraFeatures\MqttClient\OTMqttClient.cs" />
+    <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.Designer.cs">
+      <DependentUpon>ChooseHardwareInterfaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transmit\F5OEOEPlutoControl.cs" />
+    <Compile Include="Transmit\PlutoControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transmit\PlutoControl.Designer.cs">
+      <DependentUpon>PlutoControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\CircularBuffer.cs" />
     <Compile Include="EditExternalToolForm.cs">
       <SubType>Form</SubType>
@@ -369,6 +384,9 @@
     <EmbeddedResource Include="hardwareInfoForm.resx">
       <DependentUpon>hardwareInfoForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.resx">
+      <DependentUpon>ChooseHardwareInterfaceForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -398,6 +416,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="settingsForm.resx">
       <DependentUpon>settingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transmit\PlutoControl.resx">
+      <DependentUpon>PlutoControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="tunerControlForm.resx">
       <DependentUpon>tunerControlForm.cs</DependentUpon>

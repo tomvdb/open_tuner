@@ -107,6 +107,8 @@ namespace opentuner
             finally
             {
             }
+
+            Console.WriteLine("TS Thread Closed");
         }
     }
 }

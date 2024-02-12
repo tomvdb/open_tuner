@@ -24,6 +24,8 @@ namespace opentuner
 
         public abstract bool HardwareConnected { get; }
 
+        public abstract byte SelectHardwareInterface(int hardware_interface);
+
         // kinda temporay - needs a rework
         public abstract void change_frequency(byte tuner, UInt32 freq, UInt32 sr, bool lnb_supply, bool polarization_supply_horizontal, uint rf_input, bool tone_22kHz_P1);
 
@@ -48,6 +50,7 @@ namespace opentuner
         public abstract bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial);
 
         public abstract byte set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal);
+
 
     }
 }

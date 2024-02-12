@@ -122,12 +122,14 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Console.WriteLine("TS Recorded Thread: Closing ");
+                Console.WriteLine("TS Recorder Thread: Closing ");
             }
             finally
             {
                 Console.WriteLine("Closing TS Recorder");
             }
+
+            Console.WriteLine("TS Recorder Thread Closed");
         }
     }
 }

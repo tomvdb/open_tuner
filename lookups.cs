@@ -16,6 +16,14 @@ namespace opentuner
             "Transport"
         };
 
+        public static List<string> rolloff_lookups = new List<string>()
+        {
+            "0.35",
+            "0.25",
+            "0.10",
+            "0.15",
+        };
+
         // https://wiki.batc.org.uk/MiniTiouner_Power_Level_Indication
         public static List<int> agc1_lookup = new List<int>()
         {

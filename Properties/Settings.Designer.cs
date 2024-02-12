@@ -370,5 +370,89 @@ namespace opentuner.Properties {
                 this["wbchat_font_size"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int default_source_hardware {
+            get {
+                return ((int)(this["default_source_hardware"]));
+            }
+            set {
+                this["default_source_hardware"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool enable_mqtt {
+            get {
+                return ((bool)(this["enable_mqtt"]));
+            }
+            set {
+                this["enable_mqtt"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string mqtt_broker_host {
+            get {
+                return ((string)(this["mqtt_broker_host"]));
+            }
+            set {
+                this["mqtt_broker_host"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1883")]
+        public int mqtt_broker_port {
+            get {
+                return ((int)(this["mqtt_broker_port"]));
+            }
+            set {
+                this["mqtt_broker_port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dt/opentuner/")]
+        public string mqtt_topic_parent {
+            get {
+                return ((string)(this["mqtt_topic_parent"]));
+            }
+            set {
+                this["mqtt_topic_parent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool enable_pluto {
+            get {
+                return ((bool)(this["enable_pluto"]));
+            }
+            set {
+                this["enable_pluto"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Setting {
+            get {
+                return ((bool)(this["Setting"]));
+            }
+            set {
+                this["Setting"] = value;
+            }
+        }
     }
 }

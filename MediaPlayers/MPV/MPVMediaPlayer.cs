@@ -156,6 +156,9 @@ namespace opentuner.MediaPlayers.MPV
 
         Int64 MyStreamReadFn(IntPtr cookie, IntPtr buf, Int64 numbytes)
         {
+            if (stopFlag == true)
+                return 0;
+
             try
             {
                 int timeout = 0;

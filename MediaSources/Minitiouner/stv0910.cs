@@ -418,7 +418,7 @@ namespace opentuner
             return err;
         }
 
-        public byte  stv0910_read_modcod_and_type(byte demod, ref UInt32 modcod, ref bool short_frame, ref bool pilots)
+        public byte  stv0910_read_modcod_and_type(byte demod, ref UInt32 modcod, ref bool short_frame, ref bool pilots, ref byte rolloff)
         {
             /* -------------------------------------------------------------------------------------------------- */
             /*   Note that MODCODs are different in DVBS and DVBS2. Also short_frame and pilots only valid for S2 */
@@ -443,6 +443,10 @@ namespace opentuner
                 pilots = false;
 
             if (err != 0) Console.WriteLine("ERROR: STV0910 read MODCOD\n");
+
+            err = stv0910_read_reg_field(demod == STV0910_DEMOD_TOP ? stv0910_regs.FSTV0910_P2_ROLLOFF_STATUS : stv0910_regs.FSTV0910_P1_ROLLOFF_STATUS, ref regval);
+
+            rolloff = regval;
 
             return err;
         }
