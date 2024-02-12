@@ -39,7 +39,7 @@ namespace opentuner
         OTMediaPlayer media_player_2;
 
         OTMqttClient mqtt_client;
-        F5OEOEPlutoControl pluto_client;
+        F5OEOPlutoControl pluto_client;
 
         // udp listener
         UdpListener ExternalQuickTuneListener_1 = new UdpListener(6789);
@@ -1788,7 +1788,7 @@ namespace opentuner
                 // pluto - requires mqtt
                 if (setting_enable_pluto)
                 {
-                    pluto_client = new F5OEOEPlutoControl(mqtt_client);
+                    pluto_client = new F5OEOPlutoControl(mqtt_client);
                     plutoToolStripMenuItem.Visible = true;
                 }
             }

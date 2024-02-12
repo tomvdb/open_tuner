@@ -1564,7 +1564,7 @@
     <value>1</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
-    <value>Note: This requires F5OEOE Pluto Firmware and Mqtt Client enabled and pointing to Mqtt broker on Pluto</value>
+    <value>Note: This requires F5OEO Pluto Firmware and Mqtt Client enabled and pointing to Mqtt broker on Pluto</value>
   </data>
   <data name="&gt;&gt;label22.Name" xml:space="preserve">
     <value>label22</value>

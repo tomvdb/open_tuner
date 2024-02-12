@@ -225,7 +225,7 @@
     <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.Designer.cs">
       <DependentUpon>ChooseHardwareInterfaceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transmit\F5OEOEPlutoControl.cs" />
+    <Compile Include="Transmit\F5OEOPlutoControl.cs" />
     <Compile Include="Transmit\PlutoControl.cs">
       <SubType>Form</SubType>
     </Compile>

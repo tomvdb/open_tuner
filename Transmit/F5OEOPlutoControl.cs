@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace opentuner.Transmit
 {
-    public class F5OEOEPlutoControl
+    public class F5OEOPlutoControl
     {
         private OTMqttClient _mqtt_client;
 
@@ -16,7 +16,7 @@ namespace opentuner.Transmit
 
         public bool _callsign_configured = false;
 
-        public F5OEOEPlutoControl(OTMqttClient MqttClient)
+        public F5OEOPlutoControl(OTMqttClient MqttClient)
         {
             _mqtt_client = MqttClient;
             _mqtt_client.OnMqttMessageReceived += _mqtt_client_OnMqttMessageReceived;
