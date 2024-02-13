@@ -279,6 +279,11 @@
     </Compile>
     <Compile Include="lookups.cs" />
     <Compile Include="MediaSources\Minitiouner\HardwareInterfaces\MTHardwareInterface.cs" />
+    <Compile Include="Utilities\CollapsibleGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utilities\DynamicPropertyGroups.cs" />
+    <Compile Include="Utilities\DynamicPropertyItem.cs" />
     <Compile Include="Utilities\MediaStatus.cs" />
     <Compile Include="MediaSources\Minitiouner\MinitiounerSource.cs" />
     <Compile Include="MediaSources\Minitiouner\nim.cs" />
