@@ -17,5 +17,7 @@ namespace opentuner
         public abstract void SnapShot(string FileName);
         public abstract void SetVolume(int Volume);
         public abstract int GetVolume();
+
+        public abstract string GetName();
     }
 }

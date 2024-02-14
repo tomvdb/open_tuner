@@ -9,10 +9,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace opentuner
+namespace opentuner.MediaSources.Minitiouner
 {
-    public class MinitiounerSource : OTSource
+    public partial class MinitiounerSource : OTSource
     {
+
         public MTHardwareInterface hardware_interface;
         public bool hardware_connected = false;
 
@@ -26,6 +27,10 @@ namespace opentuner
         public TSThread ts_thread;
         public TSThread ts_thread2;
 
+        Thread ts_parser_t = null;
+        Thread ts_parser_2_t = null;
+
+
         // threads
         Thread nim_thread_t = null;
 
@@ -35,6 +40,8 @@ namespace opentuner
         bool T1P2_prevLocked = false;
         bool T2P1_prevLocked = false;
 
+        // video player references
+        private List<OTMediaPlayer> _media_players = new List<OTMediaPlayer> ();
 
         // tuner specific
 
@@ -127,6 +134,8 @@ namespace opentuner
 
 
         private VideoChangeCallback VideoChangeCB;
+
+        // todo: this is the callback we want to remove and keep internal
         private SourceStatusCallback SourceStatusCB;
 
         public string HardwareDevice { get; set; }
@@ -225,6 +234,10 @@ namespace opentuner
             hardware_interface.hw_ts_led(0, false);
             hardware_interface.hw_ts_led(1, false);
 
+            if (ts_parser_t != null)
+                ts_parser_t.Abort();
+            if (ts_parser_2_t != null)
+                ts_parser_2_t.Abort();
             if (ts_thread_t != null)
                 ts_thread_t.Abort();
             if (ts_thread_2_t != null)
@@ -301,9 +314,9 @@ namespace opentuner
             config_queue.Enqueue(newConfig);
         }
 
-        public override bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB)
+        public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
         {
-            return Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "");
+            return Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "", Parent);
         }
 
 
@@ -370,19 +383,18 @@ namespace opentuner
                 }
             }
 
-            if (SourceStatusCB != null)
-            {
-                nim_status.T2P1_requested_frequency = current_frequency_1;
-                nim_status.T1P2_requested_frequency = current_frequency_2;
+            nim_status.T2P1_requested_frequency = current_frequency_1;
+            nim_status.T1P2_requested_frequency = current_frequency_2;
 
-                SourceStatusCB(nim_status);
-            }
-
+            // update properties
+            UpdateTunerProperties(nim_status);
         }
 
-        public override bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial)
+
+        private int Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial, Control Parent)
         {
-            bool result = true;
+
+            int result = -1;
 
             this.VideoChangeCB = VideoChangeCB;
             this.SourceStatusCB = SourceStatusCB;
@@ -392,8 +404,12 @@ namespace opentuner
             if (!hardware_connected)
             {
                 MessageBox.Show("Error: No Working Hardware Detected");
-                return false;
+                return -1;
             }
+
+            // build properties
+            _parent = Parent;
+            BuildSourceProperties();
 
             Console.WriteLine("Main: Starting Nim Thread");
 
@@ -444,8 +460,56 @@ namespace opentuner
                 ts_thread_2_t.Start();
             }
 
-            return result;
+            // start TS Parser 
+            TSParserThread ts_parser_thread = new TSParserThread(parse_ts_data_callback);
+            RegisterTSConsumer(0, ts_parser_thread.parser_ts_data_queue);
+            ts_parser_t = new Thread(ts_parser_thread.worker_thread);
+            ts_parser_t.Start();
+
+            if (ts_devices == 2)
+            {
+                TSParserThread ts_parser_thread2 = new TSParserThread(parse_ts2_data_callback);
+                RegisterTSConsumer(1, ts_parser_thread2.parser_ts_data_queue);
+                ts_parser_2_t = new Thread(ts_parser_thread2.worker_thread);
+                ts_parser_2_t.Start();
+            }
+
+
+            return ts_devices;
         }
+
+        public void parse_ts_data_callback(TSStatus ts_status)
+        {
+            UpdateTSProperties(1, ts_status);
+            /*
+            updateTSStatusGui(1, this, ts_status);
+
+            if (mqtt_client != null)
+            {
+                Task.Run(async () =>
+                {
+                    await mqtt_client.UpdateTSStatus(1, ts_status);
+                });
+            }
+            */
+
+        }
+        public void parse_ts2_data_callback(TSStatus ts_status)
+        {
+            UpdateTSProperties(2, ts_status);
+            /*
+            updateTSStatusGui(2, this, ts_status);
+
+            if (mqtt_client != null)
+            {
+                Task.Run(async () =>
+                {
+                    await mqtt_client.UpdateTSStatus(2, ts_status);
+                });
+            }
+            */
+        }
+
 
         public override CircularBuffer GetVideoDataQueue(int device)
         {
@@ -547,6 +611,32 @@ namespace opentuner
             }
 
             return 0;
+        }
+
+        public override void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers)
+        {
+            if (MediaPlayers.Count != ts_devices)
+            {
+                Console.WriteLine("Error: MinitiounerSource Expected " +  ts_devices.ToString() + " video players, but only received " + MediaPlayers.Count);
+            }
+
+            for (int c = 0; c < MediaPlayers.Count; c++)
+            {
+                _media_players.Add(MediaPlayers[c]);
+                _media_players[c].onVideoOut += MinitiounerSource_onVideoOut;
+            }
+        }
+
+        private void MinitiounerSource_onVideoOut(object sender, MediaStatus e)
+        {
+            for (int c = 0; c < _media_players.Count; c++)
+            {
+                if ((OTMediaPlayer)sender == _media_players[c])
+                {
+                    UpdateMediaProperties(c, e);
+                    break;
+                }
+            }
         }
     }
 }

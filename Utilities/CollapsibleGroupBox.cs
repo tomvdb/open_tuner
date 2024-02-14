@@ -18,7 +18,7 @@ namespace opentuner.Utilities
 
         public CollapsibleGroupBox() 
         {
-            this.MouseDown += CustomGroupBox_MouseDown;
+            //this.MouseDown += CustomGroupBox_MouseDown;
         }
 
         private void CustomGroupBox_MouseDown(object sender, MouseEventArgs e)
@@ -51,8 +51,8 @@ namespace opentuner.Utilities
                 squareSize,
                 squareSize);
 
-            e.Graphics.FillRectangle(new SolidBrush(Color.White), _collapse_button);
-            e.Graphics.DrawRectangle(new Pen(Color.Black), _collapse_button);
+            //e.Graphics.FillRectangle(new SolidBrush(Color.White), _collapse_button);
+            //e.Graphics.DrawRectangle(new Pen(Color.Black), _collapse_button);
         }
     }
 }

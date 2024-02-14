@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace opentuner
 {
@@ -11,6 +12,7 @@ namespace opentuner
         public delegate void VideoChangeCallback(int video_number, bool start);
 
         public OTSource() { }
+
         public abstract long GetCurrentFrequency(int device, bool offset_included);
         public abstract void StartStreaming(int device);
         public abstract void StopStreaming(int device);
@@ -20,7 +22,11 @@ namespace opentuner
         public abstract void RegisterTSConsumer(int device, CircularBuffer ts_buffer_queue);
 
         public abstract void Close();
-        public abstract bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB);
+
+        // initialize returns how many video players it need
+        public abstract int Initialize(VideoChangeCallback VideoChangeCB, Control Parent);
+
+        public abstract void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers);
 
         public abstract bool HardwareConnected { get; }
 
@@ -47,7 +53,7 @@ namespace opentuner
         public abstract int current_offset_A { get; set; }
         public abstract int current_offset_B { get; set; }
 
-        public abstract bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial);
+        //public abstract bool Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial, Control Parent);
 
         public abstract byte set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal);
 

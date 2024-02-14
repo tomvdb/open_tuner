@@ -151,6 +151,10 @@ namespace opentuner
             return player_volume;
         }
 
+        public override string GetName()
+        {
+            return "FFMPEG";
+        }
     }
 
     public class MediaStream : Stream

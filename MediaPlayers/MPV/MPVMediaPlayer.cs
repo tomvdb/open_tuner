@@ -42,6 +42,11 @@ namespace opentuner.MediaPlayers.MPV
         private Int64 _videoViewHandle;
         private long _volume = 100;
 
+        public override string GetName()
+        {
+            return "MPV";
+        }
+
         private void debug(string msg)
         {
             Console.WriteLine(msg);
@@ -248,8 +253,8 @@ namespace opentuner.MediaPlayers.MPV
         int StreamCBOpenFN(String userdata, String uri, ref MPV_STREAM_CB_INFO info)
         {
             debug("StreamCBOpenFN Called");
-            debug(userdata);
-            debug(uri);
+            //debug(userdata);
+            //debug(uri);
 
             readfn = MyStreamReadFn;
             closefn = MyStreamCloseFn;

@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace opentuner.Utilities
 {
-    public class DynamicPropertyItem
+    public class DynamicPropertyItem : DynamicPropertyInterface
     {
-
         private delegate void UpdateLabelDelegate(Label Lbl, Object obj);
 
-        private GroupBox _parent;
-        private string _key;
-        private string _title;
-        private Label _titleLabel;
+        protected GroupBox _parent;
+        protected string _key;
+        protected string _title;
+        protected Label _titleLabel;
         private Label _valueLabel;
 
         public ContextMenuStrip ContextMenu
@@ -25,9 +25,10 @@ namespace opentuner.Utilities
             set { _valueLabel.ContextMenuStrip = value; }
         }
 
-        public string Key
+        public override string Key
         {
             get { return _key; }
+            set { _key = value; }
         }
 
         // height of the property row
@@ -54,17 +55,22 @@ namespace opentuner.Utilities
 
         }
 
-        public void UpdateValue(string Value)
+        public override void UpdateValue(string Value)
         {
             UpdateLabel(_valueLabel, Value);
         }
 
         public DynamicPropertyItem(GroupBox Group, string Key, string Title)
         {
-            InitComponents(Group, Key, Title, Color.White);
+            InitComponents(Group, Key, Title, Color.Transparent);
         }
 
-        private void InitComponents(GroupBox Group, string Key, string Title, System.Drawing.Color Color)
+        public DynamicPropertyItem(GroupBox Group, string Key, string Title, System.Drawing.Color color)
+        {
+            InitComponents(Group, Key, Title, color);
+        }
+
+        protected virtual void  InitComponents(GroupBox Group, string Key, string Title, System.Drawing.Color Color)
         {
             _parent = Group;
             _key = Key;
@@ -85,11 +91,11 @@ namespace opentuner.Utilities
             if (_parent.Controls.Count == 0)
                 _titleLabel.Top = _titleLabel.Height + 5;
             else
-                _titleLabel.Top = _parent.Controls[_parent.Controls.Count - 1].Top + _titleLabel.Height + 5;
+                _titleLabel.Top = _parent.Controls[_parent.Controls.Count - 1].Top + _parent.Controls[_parent.Controls.Count - 1].Height + 5;
 
             _valueLabel = new Label();
             _valueLabel.Text = "Value";
-            _valueLabel.BorderStyle = BorderStyle.FixedSingle;
+            //_valueLabel.BorderStyle = BorderStyle.FixedSingle;
             _valueLabel.Top = _titleLabel.Top;
             _valueLabel.Left = _titleLabel.Left + _titleLabel.Width + 5;
             _valueLabel.Width = _parent.Width - _valueLabel.Left - 5;
@@ -102,12 +108,8 @@ namespace opentuner.Utilities
             _parent.Controls.Add(_valueLabel);
         }
 
-        public DynamicPropertyItem(GroupBox Group, string Key, string Title, System.Drawing.Color color)
-        {
-            InitComponents(Group, Key, Title, color);
-        }
 
-        private void _parent_Resize(object sender, EventArgs e)
+        protected virtual void _parent_Resize(object sender, EventArgs e)
         {
             _titleLabel.Width = _parent.Width / 2 - 5;
             _valueLabel.Left = _titleLabel.Left + _titleLabel.Width + 5;

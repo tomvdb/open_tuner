@@ -30,6 +30,11 @@ namespace opentuner
             videoView = VideoView;
         }
 
+        public override string GetName()
+        {
+            return "VLC";
+        }
+
         // update mediaplayer reference invoking if required
         private delegate void updateMediaPlayerDelegate(MediaPlayer newPlayer, bool play);
         private void updateVideoPlayer(MediaPlayer newPlayer, bool play)

@@ -217,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BBFrameUDP.cs" />
+    <Compile Include="ExtraFeatures\BATCSpectrum\BATCSpectrum.cs" />
     <Compile Include="ExtraFeatures\MqttClient\MqttMessage.cs" />
     <Compile Include="ExtraFeatures\MqttClient\OTMqttClient.cs" />
     <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.cs">
@@ -225,6 +226,7 @@
     <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.Designer.cs">
       <DependentUpon>ChooseHardwareInterfaceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MediaSources\Minitiouner\MinitiounerProperties.cs" />
     <Compile Include="Transmit\F5OEOPlutoControl.cs" />
     <Compile Include="Transmit\PlutoControl.cs">
       <SubType>Form</SubType>
@@ -283,7 +285,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utilities\DynamicPropertyGroups.cs" />
+    <Compile Include="Utilities\DynamicPropertyInterface.cs" />
     <Compile Include="Utilities\DynamicPropertyItem.cs" />
+    <Compile Include="Utilities\DynamicPropertySlider.cs" />
     <Compile Include="Utilities\MediaStatus.cs" />
     <Compile Include="MediaSources\Minitiouner\MinitiounerSource.cs" />
     <Compile Include="MediaSources\Minitiouner\nim.cs" />

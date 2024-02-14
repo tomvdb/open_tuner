@@ -30,16 +30,18 @@ using opentuner.MediaSources.Minitiouner;
 using MQTTnet.Client;
 using opentuner.ExtraFeatures.MqttClient;
 using opentuner.Transmit;
+using opentuner.ExtraFeatures.BATCSpectrum;
 
 namespace opentuner
 {
     public partial class MainForm : Form
     {
-        OTMediaPlayer media_player_1;
-        OTMediaPlayer media_player_2;
 
         OTMqttClient mqtt_client;
         F5OEOPlutoControl pluto_client;
+        BATCSpectrum batc_spectrum;
+
+        private static List<OTMediaPlayer> _mediaPlayers;
 
         // udp listener
         UdpListener ExternalQuickTuneListener_1 = new UdpListener(6789);
@@ -53,8 +55,6 @@ namespace opentuner
         private delegate void UpdateLBDelegate(ListBox LB, Object obj);
         private delegate void updateRecordingStatusDelegate(MainForm gui, bool recording_status, string id);
 
-        Thread ts_parser_t = null;
-        Thread ts_parser_2_t = null;
         Thread ts_recorder_1_t = null;
         Thread ts_recorder_2_t = null;
         Thread ts_udp_t1 = null;
@@ -65,111 +65,8 @@ namespace opentuner
         TSUDPThread ts_udp1;
         TSUDPThread ts_udp2;
 
-        // test
-        //BBFrameUDP bbframe_udp1;
-        //Thread bbframe_udp_t1 = null;
-
-        // form properties
-        //public MediaPlayer prop_media_player { get { return this.videoView1.MediaPlayer; } }
-
-        // nim status properties
-
-        // tuner 1 properties
-        public string prop_demodstate { set { this.lblDemoState.Text = value; } }
-        public string prop_mer { set { this.lblMer.Text = value; } get { return this.lblMer.Text; } }
-        public string prop_lnagain { set { this.lblLnaGain.Text = value; } }
-        public string prop_rf_input_level { set { this.lblRFInputLevel.Text = value; } }
-        public string prop_symbol_rate { set { this.lblSR.Text = value; } }
-        public string prop_modcod { set { this.lblModcod.Text = value; } get { return this.lblModcod.Text; } }
-        public string prop_lpdc_errors { set { this.lblLPDCError.Text = value; } }
-        public string prop_ber { set { this.lblBer.Text = value; } }
-        public string prop_freq_carrier_offset { set { this.lblFreqCar.Text = value; } }
-        public string prop_db_margin { set { this.lbldbMargin.Text = value; } get { return this.lbldbMargin.Text; } }
-        public string prop_req_freq { set { this.lblReqFreq.Text = value; } }
-        public int prop_rf_input { set { this.lblRfInput.Text = (value == 1 ? "A" : "B"); } }
-
-        // tuner 2 properties
-        public string prop_demodstate2 { set { this.lblDemoState2.Text = value; } }
-        public string prop_mer2 { set { this.lblMer2.Text = value; } get { return this.lblMer2.Text; } }
-        public string prop_lnagain2 { set { this.lblLnaGain2.Text = value; } }
-        public string prop_rf_input_level2 { set { this.lblRFInputLevel2.Text = value; } }
-        public string prop_symbol_rate2 { set { this.lblSR2.Text = value; } }
-        public string prop_modcod2 { set { this.lblModcod2.Text = value; } get { return this.lblModcod2.Text; } }
-        public string prop_ber2 { set { this.lblBer2.Text = value; } }
-        public string prop_freq_carrier_offset2 { set { this.lblFreqCar2.Text = value; } }
-        public string prop_db_margin2 { set { this.lbldbMargin2.Text = value; } get { return this.lbldbMargin2.Text; } }
-        public string prop_req_freq2 { set { this.lblReqFreq2.Text = value; } }
-        public int prop_rf_input2 { set { this.lblRfInput2.Text = (value == 1 ? "A" : "B"); } }
 
 
-        // tuner 1 - ts status properties
-
-        public string prop_stream_format1 { set { this.lblStreamFormat1.Text = value; } }
-
-        public string prop_service_name { set { this.lblServiceName.Text = value; } get { return this.lblServiceName.Text;  } }
-        public string prop_service_provider_name { set { this.lblServiceProvider.Text = value; } get { return this.lblServiceProvider.Text;  } }
-        public string prop_null_packets { set { this.lblNullPackets.Text = value; }  }
-        public int prop_null_packets_bar { set { this.nullPacketsBar.Value = value; } }
-
-        // tuner 2 - ts status properties
-        public string prop_stream_format2 { set { this.lblStreamFormat2.Text = value;  } }
-        public string prop_service_name2 { set { this.lblServiceName2.Text = value; } get { return this.lblServiceName2.Text; } }
-        public string prop_service_provider_name2 { set { this.lblServiceProvider2.Text = value; } get { return this.lblServiceProvider2.Text; } }
-        public string prop_null_packets2 { set { this.lblNullPackets2.Text = value; } }
-        public int prop_null_packets_bar2 { set { this.nullPacketsBar2.Value = value; } }
-
-
-        // media status properties
-        public string prop_media_video_codec { set { this.lblVideoCodec.Text = value; } }
-        public string prop_media_video_resolution { set { this.lblVideoResolution.Text = value; } }
-        public string prop_media_audio_codec { set { this.lblAudioCodec.Text = value; } }
-        public string prop_media_audio_rate { set { this.lblAudioRate.Text = value; } }
-
-        // media status properties
-        public string prop_media_video_codec2 { set { this.lblVideoCodec2.Text = value; } }
-        public string prop_media_video_resolution2 { set { this.lblVideoResolution2.Text = value; } }
-        public string prop_media_audio_codec2 { set { this.lblAudioCodec2.Text = value; } }
-        public string prop_media_audio_rate2 { set { this.lblAudioRate2.Text = value; } }
-
-        public bool prop_isRecording1 { set { lblrecordIndication1.Visible = value;  } }
-        public bool prop_isRecording2 { set { lblRecordIndication2.Visible = value; } }
-
-        // quick tune variables *********************************************************************
-        private static readonly Object list_lock = new Object();
-
-        static int height = 255;    //makes things easier
-        static int bandplan_height = 30;
-
-        Bitmap bmp;
-        static Bitmap bmp2;
-        Pen greyPen = new Pen(Color.FromArgb(200, 123, 123, 123));
-        Pen greyPen2 = new Pen(Color.FromArgb(200, 123, 123, 123));
-        SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
-        SolidBrush bandplanBrush = new SolidBrush(Color.FromArgb(180, 250, 250, 255));
-        SolidBrush overpowerBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
-
-        SolidBrush tuner1Brush = new SolidBrush(Color.FromArgb(50, Color.Blue));
-        SolidBrush tuner2Brush = new SolidBrush(Color.FromArgb(50, Color.Green));
-
-        Graphics tmp;
-        Graphics tmp2;
-
-        int[,] rx_blocks = new int[2,3];
-
-        double start_freq = 10490.5f;
-
-        XElement bandplan;
-        Rectangle[] channels;
-        IList<XElement> indexedbandplan;
-        string InfoText;
-        string TX_Text;  //dh3cs
-
-        List<string> blocks = new List<string>();
-
-        socket sock;
-        signal sigs;
-
-        int num_rxs_to_scan = 1;
 
 
         byte rxVolume = 100; 
@@ -259,6 +156,7 @@ namespace opentuner
             }
         }
 
+        /*
         public static void updateRecordingStatus(MainForm gui, bool recording_status, string id)
         {
 
@@ -280,6 +178,7 @@ namespace opentuner
                         gui.prop_isRecording2 = recording_status;
                 }
         }
+        */
 
 
         public static void UpdateLB(ListBox LB, Object obj)
@@ -315,225 +214,7 @@ namespace opentuner
             UpdateLB(dbgListBox, msg);
         }
 
-        public static void updateMediaStatusGui(int tuner, MainForm gui, MediaStatus new_status)
-        {
 
-            if (gui == null)
-                return;
-
-            if (gui.InvokeRequired)
-            {
-                updateMediaStatusGuiDelegate del = new updateMediaStatusGuiDelegate(updateMediaStatusGui);
-                gui?.Invoke(del, new object[] { tuner, gui, new_status });
-            }
-            else
-            {
-                if (tuner == 1)
-                {
-                    gui.prop_media_video_codec = new_status.VideoCodec;
-                    gui.prop_media_video_resolution = new_status.VideoWidth.ToString() + " x " + new_status.VideoHeight.ToString();
-
-                    gui.prop_media_audio_codec = new_status.AudioCodec;
-                    gui.prop_media_audio_rate = new_status.AudioRate.ToString() + " Hz, " + new_status.AudioChannels.ToString() + " channels";
-                }
-                else
-                {
-                    gui.prop_media_video_codec2 = new_status.VideoCodec;
-                    gui.prop_media_video_resolution2 = new_status.VideoWidth.ToString() + " x " + new_status.VideoHeight.ToString();
-
-                    gui.prop_media_audio_codec2 = new_status.AudioCodec;
-                    gui.prop_media_audio_rate2 = new_status.AudioRate.ToString() + " Hz, " + new_status.AudioChannels.ToString() + " channels";
-                }
-            }
-        }
-
-
-        public static void updateTSStatusGui(int device, MainForm gui, TSStatus new_status)
-        {
-
-            if (gui == null)
-                return;
-
-            if (gui.InvokeRequired)
-            {
-                updateTSStatusGuiDelegate del = new updateTSStatusGuiDelegate(updateTSStatusGui);
-                gui?.Invoke(del, new object[] { device, gui, new_status });
-            }
-            else
-            {
-                if (device == 1)
-                {
-                    gui.prop_service_name = new_status.ServiceName;
-                    gui.prop_service_provider_name = new_status.ServiceProvider;
-                    gui.prop_null_packets = new_status.NullPacketsPerc.ToString() + "%";
-                    gui.prop_null_packets_bar = Convert.ToInt32(new_status.NullPacketsPerc);
-                }
-                else
-                {
-                    gui.prop_service_name2 = new_status.ServiceName;
-                    gui.prop_service_provider_name2 = new_status.ServiceProvider;
-                    gui.prop_null_packets2 = new_status.NullPacketsPerc.ToString() + "%";
-                    gui.prop_null_packets_bar2 = Convert.ToInt32(new_status.NullPacketsPerc);
-                }
-
-
-            }
-
-        }
-
-        public  void updateNimStatusGui(MainForm gui, TunerStatus new_status)
-        {
-            if (gui == null)
-                return;
-
-            if ( gui.InvokeRequired )
-            {
-                updateNimStatusGuiDelegate del = new updateNimStatusGuiDelegate(updateNimStatusGui);
-                gui?.Invoke(del, new object[] { gui, new_status });
-            }
-            else
-            {
-                if (mediaPlayer1Window != null)
-                    mediaPlayer1Window.updateStatus(new_status);
-
-                if (mediaPlayer2Window != null)
-                    mediaPlayer2Window.updateStatus(new_status);
-
-                // nim specific
-                gui.prop_lpdc_errors = new_status.errors_ldpc_count.ToString();
-
-                // tuner 1
-                gui.prop_demodstate = lookups.demod_state_lookup[new_status.T1P2_demod_status];
-                double mer = Convert.ToDouble(new_status.T1P2_mer) / 10;
-                gui.prop_mer = mer.ToString() + " dB";
-                gui.prop_lnagain = new_status.T1P2_lna_gain.ToString();
-                gui.prop_rf_input_level = new_status.T1P2_input_power_level.ToString() + " dB";
-                gui.prop_symbol_rate = (new_status.T1P2_symbol_rate/1000).ToString();
-                gui.prop_modcod = new_status.T1P2_modcode.ToString();
-                gui.prop_ber = new_status.T1P2_ber.ToString();
-                gui.prop_freq_carrier_offset = new_status.T1P2_frequency_carrier_offset.ToString();
-                gui.prop_req_freq = videoSource.GetCurrentFrequency(0, true).ToString("N0");  //(videoSource.current_frequency_1 + videoSource.current_offset_A).ToString("N0") + ")";
-                gui.prop_rf_input = new_status.T1P2_rf_input;
-
-                gui.prop_demodstate2 = lookups.demod_state_lookup[new_status.T2P1_demod_status];
-                double mer2 = Convert.ToDouble(new_status.T2P1_mer) / 10;
-                gui.prop_mer2 = mer2.ToString() + " dB";
-                gui.prop_lnagain2 = new_status.T2P1_lna_gain.ToString();
-                gui.prop_rf_input_level2 = new_status.T2P1_input_power_level.ToString() + " dB";
-                gui.prop_symbol_rate2 = (new_status.T2P1_symbol_rate / 1000).ToString();
-                gui.prop_modcod2 = new_status.T2P1_modcode.ToString();
-                gui.prop_ber2 = new_status.T2P1_ber.ToString();
-                gui.prop_freq_carrier_offset2 = new_status.T2P1_frequency_carrier_offset.ToString();
-                gui.prop_req_freq2 = videoSource.GetCurrentFrequency(1, true).ToString("N0"); //(videoSource.current_frequency_2 + videoSource.current_offset_B).ToString("N0") + ")";
-                gui.prop_rf_input2 = new_status.T2P1_rf_input;
-
-                try
-                {
-                    gui.prop_stream_format1 = lookups.stream_format_lookups[Convert.ToInt32(new_status.T1P2_stream_format)].ToString();
-
-                    if (new_status.T1P2_stream_format == 1)
-                    {
-                        //bbframe_udp1.stream = true;
-                    }
-                }
-                catch (Exception Ex)
-                {
-                    gui.prop_stream_format1 = "Unknown : " + new_status.T1P2_stream_format.ToString();
-                }
-
-                try
-                {
-                    gui.prop_stream_format2 = lookups.stream_format_lookups[Convert.ToInt32(new_status.T2P1_stream_format)].ToString();
-                }
-                catch (Exception Ex)
-                {
-                    gui.prop_stream_format2 = "Unknown : " + new_status.T2P1_stream_format.ToString();
-                }
-
-                // reset transport and media fields if no lock
-                if ( new_status.T1P2_demod_status < 2 )
-                {
-                    gui.prop_service_provider_name = "";
-                    gui.prop_service_name = "";
-                    gui.prop_null_packets = "";
-                    gui.prop_null_packets_bar = 0;
-
-                    gui.prop_media_audio_rate = "";
-                    gui.prop_media_video_codec = "";
-                    gui.prop_media_video_resolution = "";
-                    gui.prop_media_audio_codec = "";
-                }
-
-                if (new_status.T2P1_demod_status < 2)
-                {
-                    gui.prop_service_provider_name2 = "";
-                    gui.prop_service_name2 = "";
-                    gui.prop_null_packets2 = "";
-                    gui.prop_null_packets_bar2 = 0;
-
-                    gui.prop_media_audio_rate2 = "";
-                    gui.prop_media_video_codec2 = "";
-                    gui.prop_media_video_resolution2 = "";
-                    gui.prop_media_audio_codec2 = "";
-                }
-
-
-                double dbmargin = 0;
-
-                try
-                {
-                    switch (new_status.T1P2_demod_status)
-                    {
-                        case 2:
-                            gui.prop_modcod = lookups.modcod_lookup_dvbs2[new_status.T1P2_modcode];
-                            dbmargin = (mer - lookups.modcod_lookup_dvbs2_threshold[new_status.T1P2_modcode]);
-                            gui.prop_db_margin = "D" + dbmargin.ToString("N1");
-                            break;
-                        case 3:
-                            gui.prop_modcod = lookups.modcod_lookup_dvbs[new_status.T1P2_modcode];
-                            dbmargin = (mer - lookups.modcod_lookup_dvbs_threshold[new_status.T1P2_modcode]);
-                            gui.prop_db_margin = "D" + dbmargin.ToString("N1");
-                            break;
-                        default:
-                            gui.prop_modcod = "Unknown";
-                            gui.prop_db_margin = "";
-                            break;
-                    }
-                }
-                catch (Exception Ex)
-                {
-                    gui.prop_modcod = "Err - " + new_status.T1P2_modcode.ToString();
-                    gui.prop_db_margin = "";
-                }
-
-                try
-                {
-                    switch (new_status.T2P1_demod_status)
-                    {
-                        case 2:
-                            gui.prop_modcod2 = lookups.modcod_lookup_dvbs2[new_status.T2P1_modcode];
-                            dbmargin = (mer2 - lookups.modcod_lookup_dvbs2_threshold[new_status.T2P1_modcode]);
-                            gui.prop_db_margin2 = "D" + dbmargin.ToString("N1");
-                            break;
-                        case 3:
-                            gui.prop_modcod2 = lookups.modcod_lookup_dvbs[new_status.T2P1_modcode];
-                            dbmargin = (mer2 - lookups.modcod_lookup_dvbs_threshold[new_status.T2P1_modcode]);
-                            gui.prop_db_margin2 = "D" + dbmargin.ToString("N1");
-                            break;
-                        default:
-                            gui.prop_modcod2 = "Unknown";
-                            gui.prop_db_margin2 = "";
-                            break;
-                    }
-                }
-                catch (Exception Ex)
-                {
-                    gui.prop_modcod2 = "Err - " + new_status.T2P1_modcode.ToString();
-                    gui.prop_db_margin2 = "";
-                }
-
-            }
-        }
 
         public MainForm()
         {
@@ -574,14 +255,12 @@ namespace opentuner
                 }
                 
             }
-            greyPen.DashCap = System.Drawing.Drawing2D.DashCap.Round;
-            greyPen.DashPattern = new float[] { 4.0F, 4.0F };
 
             InitializeComponent();
 
             // test
-            SoftBlink(lblrecordIndication1, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
-            SoftBlink(lblRecordIndication2, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
+            //SoftBlink(lblrecordIndication1, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
+            //SoftBlink(lblRecordIndication2, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
 
             Console.WriteLine("Init done");
 
@@ -645,35 +324,41 @@ namespace opentuner
 
         }
 
-        private void ChangeVideo(int video_number, bool start)
+        public void start_video(int video_number)
         {
-            switch (video_number)
+            if (_mediaPlayers == null)
+                return;
+
+            if (video_number < _mediaPlayers.Count)
             {
-                case 1: if (start) 
-                    {
-                        videoSource.StartStreaming(0);
-                        start_video1(); 
-                    } 
-                    else 
-                    {
-                        videoSource.StopStreaming(0);
-                        stop_video1(); 
-                    } 
-                    break;
-                case 2: if (start) 
-                    {
-                        videoSource.StartStreaming(1);
-                        start_video2(); 
-                    }
-                    else
-                    {
-                        videoSource.StopStreaming(1);
-                        stop_video2();
-                    }
-            break;
+                videoSource.StartStreaming(video_number);
+                _mediaPlayers[video_number].Play();
             }
         }
 
+        public void stop_video(int video_number)
+        {
+            if (_mediaPlayers == null)
+                return;
+
+            if (video_number < _mediaPlayers.Count)
+            {
+                videoSource.StopStreaming(video_number);
+                _mediaPlayers[video_number].Stop();
+            }
+        }
+
+        private void ChangeVideo(int video_number, bool start)
+        {
+            Console.WriteLine("Change Video " + video_number.ToString());
+
+            if (start)
+                start_video(video_number-1);
+            else 
+                stop_video(video_number-1);
+        }
+
+        /*
         public void start_video1()
         {
             Console.WriteLine("Main: Starting Media Player 1");
@@ -684,14 +369,8 @@ namespace opentuner
 
         public void start_video2()
         {
-            if (checkDisableVideo2.Checked == false)
-            {
-                Console.WriteLine("Main: Starting Media Player 2");
-
-
-                if (media_player_2 != null)
+           if (media_player_2 != null)
                     media_player_2.Play();
-            }
         }
 
 
@@ -728,45 +407,7 @@ namespace opentuner
                 ts_udp2.stream = false;
         }
 
-        public void parse_ts_data_callback(TSStatus ts_status)
-        {
-            updateTSStatusGui(1, this, ts_status);
-
-            if (mqtt_client != null)
-            {
-                Task.Run(async () =>
-                {
-                    await mqtt_client.UpdateTSStatus(1, ts_status);
-                });
-            }
-
-        }
-        public void parse_ts2_data_callback(TSStatus ts_status)
-        {
-            updateTSStatusGui(2, this, ts_status);
-
-            if (mqtt_client != null)
-            {
-                Task.Run(async () =>
-                {
-                    await mqtt_client.UpdateTSStatus(2, ts_status);
-                });
-            }
-
-        }
-
-        public void nim_status_feedback(TunerStatus nim_status)
-        {
-            updateNimStatusGui(this, nim_status);
-
-            if (mqtt_client != null)
-            {
-                Task.Run(async () =>
-                {
-                    await mqtt_client.UpdateTunerStatus(nim_status);
-                });
-            }
-        }
+        */
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -781,8 +422,8 @@ namespace opentuner
             }
 
             // save current volume as default volume
-            Properties.Settings.Default.default_volume = trackVolume.Value;
-            Properties.Settings.Default.default_volume2 = trackVolume2.Value;
+            //Properties.Settings.Default.default_volume = trackVolume.Value;
+            //Properties.Settings.Default.default_volume2 = trackVolume2.Value;
 
             // save current windows properties
             Properties.Settings.Default.window_width = this.Width;
@@ -806,8 +447,7 @@ namespace opentuner
                 SpectrumTuneTimer.Stop();
                 SpectrumTuneTimer.Enabled = false;
 
-                // stop socket
-                sock?.stop();
+                batc_spectrum.Close();
 
                 Console.WriteLine("* Stopping Playing Video");
 
@@ -833,10 +473,6 @@ namespace opentuner
                 //if (bbframe_udp_t1 != null)
                 //    bbframe_udp_t1.Abort();
 
-                if (ts_parser_t != null)
-                    ts_parser_t.Abort();
-                if (ts_parser_2_t != null)
-                    ts_parser_2_t.Abort();
 
 
                 if (videoSource != null)
@@ -854,10 +490,12 @@ namespace opentuner
                     tuner2ControlForm.Close();
 
                 // close media players
+                /*
                 if (media_player_1 != null)
                     media_player_1.Close();
                 if (media_player_2 != null)
                     media_player_2.Close();
+                */
 
                 // close udp
                 ExternalQuickTuneListener_1.StopListening();
@@ -873,24 +511,30 @@ namespace opentuner
 
         }
 
-        bool start_source()
-        {
-            bool error = false;
-
-            Console.WriteLine("Main: Starting Source");
-
-            if (setting_autodetect == true)
+            public  void DrawRectangles(PictureBox pictureBox, int numberOfRectangles)
             {
-                error = videoSource.Initialize(ChangeVideo, nim_status_feedback);
-            }
-            else
+            pictureBox.Image?.Dispose(); // Dispose previous image if exists
+
+            // Create a new bitmap to draw on
+            Bitmap bitmap = new Bitmap(pictureBox.Width, pictureBox.Height);
+            using (Graphics g = Graphics.FromImage(bitmap))
             {
-                error = videoSource.Initialize(ChangeVideo, nim_status_feedback, true, (manual_serial_devices.Count() > 0) ? manual_serial_devices[0] : "", (manual_serial_devices.Count() > 1) ? manual_serial_devices[1] : "", (manual_serial_devices.Count() > 2) ? manual_serial_devices[2] : "");
+                g.Clear(Color.White);
+
+                // Calculate rectangle height and spacing
+                int rectangleHeight = pictureBox.Height / numberOfRectangles;
+
+                // Draw rectangles
+                for (int i = 0; i < numberOfRectangles; i++)
+                {
+                    Rectangle rect = new Rectangle(0, i * rectangleHeight, pictureBox.Width, rectangleHeight);
+                    //g.FillRectangle(Brushes.Black, rect);
+                    g.DrawRectangle(Pens.Black, rect );
+                }
             }
 
-            this.Text = this.Text += " - " + videoSource.GetHardwareDescription();
-
-            return error;
+            // Set the bitmap as the PictureBox's image
+            pictureBox.Image = bitmap;
         }
 
         private void btnConnectTuner_Click(object sender, EventArgs e)
@@ -908,25 +552,19 @@ namespace opentuner
                 }
             }
 
-
-
             videoSource.SelectHardwareInterface(hardware_source);
+            
+            Console.WriteLine("Main: Starting Source");
 
-            // start source
-            start_source();
+            int video_players_required = videoSource.Initialize(ChangeVideo, PropertiesPage);
 
-            TSParserThread ts_parser_thread = new TSParserThread(parse_ts_data_callback);
-            videoSource.RegisterTSConsumer(0, ts_parser_thread.parser_ts_data_queue);
-            ts_parser_t = new Thread(ts_parser_thread.worker_thread);
-            ts_parser_t.Start();
-
-            if (videoSource.GetVideoSourceCount() == 2)
+            if (video_players_required < 0)
             {
-                TSParserThread ts_parser_thread2 = new TSParserThread(parse_ts2_data_callback);
-                videoSource.RegisterTSConsumer(1, ts_parser_thread2.parser_ts_data_queue);
-                ts_parser_2_t = new Thread(ts_parser_thread2.worker_thread);
-                ts_parser_2_t.Start();
+                Console.WriteLine("Main: Error initializing Source");
+                return;
             }
+
+            this.Text = this.Text += " - " + videoSource.GetHardwareDescription();
 
             // TS recorder Thread
             ts_recorder1 = new TSRecorderThread(setting_snapshot_path, "t1");
@@ -958,187 +596,19 @@ namespace opentuner
 
             }
 
-            // configure which media player to use - TODO: simplify
-            //setting_mediaplayer_1 = 2;
+            // preferred player to use for each video view
+            // 0 = vlc, 1 = ffmpeg, 2 = mpv
+            int[] playerPreferences = new int[] { 0, 1, 1, 1 };
 
-            if (setting_mediaplayer_1 == 0)
-            {
-                if (setting_windowed_mediaPlayer1 == true)
-                {
-                    mediaPlayer1Window = new VideoViewForm(setting_mediaplayer_1, 1);
-                    media_player_1 = new VLCMediaPlayer(mediaPlayer1Window.vlcPlayer);
-                    mediaPlayer1Window.Show();
-                    ffmpegVideoView1.Visible = false;
-                    videoView1.Visible = false;
-                    mpvVideoView1.Visible = false;
-                }
-                else
-                {
-                    media_player_1 = new VLCMediaPlayer(videoView1);
-                    ffmpegVideoView1.Visible = false;
-                    mpvVideoView1.Visible = false;
-                }
-
-                groupTuner1.Text = "Tuner 1 - VLC";
-            }
-            else if (setting_mediaplayer_1 == 1)
-            {
-                if (setting_windowed_mediaPlayer1 == true)
-                {
-                    mediaPlayer1Window = new VideoViewForm(setting_mediaplayer_1, 1);
-                    media_player_1 = new FFMPEGMediaPlayer(mediaPlayer1Window.ffmpegPlayer);
-                    mediaPlayer1Window.Show();
-                    ffmpegVideoView1.Visible = false;
-                    videoView1.Visible = false;
-                    mpvVideoView1.Visible = false;
-                }
-                else
-                {
-
-                    media_player_1 = new FFMPEGMediaPlayer(ffmpegVideoView1);
-                    videoView1.Visible = false;
-                    groupTuner1.Text = "Tuner 1 - FFMPEG";
-                    mpvVideoView1.Visible = false;
-                    ffmpegVideoView1.Visible = true;
-                }
-            }
-            // mpv
-            else if (setting_mediaplayer_1 == 2)
-            {
-                if (setting_windowed_mediaPlayer1 == true)
-                {
-                    mediaPlayer1Window = new VideoViewForm(setting_mediaplayer_1, 1);
-                    media_player_1 = new MPVMediaPlayer(mediaPlayer1Window.mpvPlayer.Handle.ToInt64());
-                    mediaPlayer1Window.Show();
-                    ffmpegVideoView1.Visible = false;
-                    videoView1.Visible = false;
-                    mpvVideoView1.Visible = false;
-                }
-                else
-                {
-                    media_player_1 = new MPVMediaPlayer(mpvVideoView1.Handle.ToInt64());
-                    groupTuner1.Text = "Tuner 1 - MPV";
-                    videoView1.Visible = false;
-                    ffmpegVideoView1.Visible = false;
-                    mpvVideoView1.Visible = true;
-                }
-            }
-
-            media_player_1.onVideoOut += MediaPlayer_Vout;
-            media_player_1.Initialize(videoSource.GetVideoDataQueue(0));
-
-            if (videoSource.GetVideoSourceCount() == 2)
-            {
-                if (setting_mediaplayer_2 == 0)
-                {
-                    if (setting_windowed_mediaPlayer2 == true)
-                    {
-                        mediaPlayer2Window = new VideoViewForm(setting_mediaplayer_2, 2);
-                        media_player_2 = new VLCMediaPlayer(mediaPlayer2Window.vlcPlayer);
-                        mediaPlayer2Window.Show();
-                        ffmpegVideoView2.Visible = false;
-                        videoView2.Visible = false;
-                        mpvVideoView2.Visible = false;
-                    }
-                    else
-                    {
-                        media_player_2 = new VLCMediaPlayer(videoView2);
-                        ffmpegVideoView2.Visible = false;
-                        mpvVideoView2.Visible = false;
-                    }
-                    groupTuner2.Text = "Tuner 2 - VLC";
-                }
-                else if (setting_mediaplayer_2 == 1)
-                {
-                    if (setting_windowed_mediaPlayer2 == true)
-                    {
-                        mediaPlayer2Window = new VideoViewForm(setting_mediaplayer_2,2 );
-                        media_player_2 = new FFMPEGMediaPlayer(mediaPlayer2Window.ffmpegPlayer);
-                        mediaPlayer1Window.Show();
-                        ffmpegVideoView2.Visible = false;
-                        videoView2.Visible = false;
-                        mpvVideoView2.Visible = false;
-                    }
-                    else
-                    {
-
-                        media_player_2 = new FFMPEGMediaPlayer(ffmpegVideoView2);
-                        videoView2.Visible = false;
-                        mpvVideoView2.Visible = false;
-                        ffmpegVideoView1.Visible = true;
-                    }
-
-                    groupTuner2.Text = "Tuner 2 - FFMPEG";
-                }
-                else if (setting_mediaplayer_2 == 2)
-                {
-                    if (setting_windowed_mediaPlayer2 == true)
-                    {
-                        mediaPlayer2Window = new VideoViewForm(setting_mediaplayer_2, 2);
-                        media_player_2 = new MPVMediaPlayer(mediaPlayer2Window.mpvPlayer.Handle.ToInt64());
-                        mediaPlayer2Window.Show();
-                        ffmpegVideoView2.Visible = false;
-                        videoView2.Visible = false;
-                        mpvVideoView2.Visible=false;
-                    }
-                    else
-                    {
-
-                        media_player_2 = new MPVMediaPlayer(mpvVideoView2.Handle.ToInt64()); ;
-                        videoView2.Visible = false;
-                        ffmpegVideoView2.Visible = false;
-                        mpvVideoView2.Visible = true;
-                    }
-
-                    groupTuner2.Text = "Tuner 2 - MPV";
-                }
-
-
-                media_player_2.onVideoOut += MediaPlayer_Vout2;
-                media_player_2.Initialize(videoSource.GetVideoDataQueue(1));
-
-            }
-            else
-            {
-                videoPlayersSplitter.Panel2Collapsed = true;
-                videoPlayersSplitter.Panel2.Hide();
-                groupTuner2.Visible = false;
-                tuner2ToolStripMenuItem.Visible = false;
-            }
-
-            // if we have either 1 of the 2 video players windowed then increase the size on the remaining one
-            if (setting_windowed_mediaPlayer1 == true && setting_windowed_mediaPlayer2 == false )
-            {
-                videoPlayersSplitter.Panel1Collapsed = true;
-                videoPlayersSplitter.Panel1.Hide();
-            }
-
-            if (setting_windowed_mediaPlayer1 == false && setting_windowed_mediaPlayer2 == true)
-            {
-                videoPlayersSplitter.Panel2Collapsed = true;
-                videoPlayersSplitter.Panel2.Hide();
-            }
-
-            if (videoSource.GetVideoSourceCount() == 1)
-            {
-                tuner2ToolStripMenuItem.Visible = false;
-            }
-
-            // temporary to prevent multiple connection attempts
-            // todo: deal with this properly
-            lblConnected.Text = "Connected";
-            lblConnected.ForeColor = Color.Green;
+            _mediaPlayers = ConfigureMediaPlayers(videoSource.GetVideoSourceCount(), playerPreferences);
+            videoSource.ConfigureVideoPlayers(_mediaPlayers);
 
             menuConnect.Enabled = false;
-            lblConnected.Enabled = false;
         }
 
+        /*
         private void MediaPlayer_Vout2(object sender, MediaStatus media_status)
         {
-            //ftdi_hw.ftdi_ts_led(1, true);
-
-            updateMediaStatusGui(2, this, media_status);
-
             if (media_player_2 != null)
                 media_player_2.SetVolume(rxVolume2);
 
@@ -1151,24 +621,17 @@ namespace opentuner
             }
 
         }
+        */
 
         private void Ts_recorder_onRecordStatusChange(object sender, bool e)
         {
             TSRecorderThread whichRecorder = (TSRecorderThread)sender;
-            updateRecordingStatus(this, e, whichRecorder.id);
+            //updateRecordingStatus(this, e, whichRecorder.id);
         }
 
-        private void LibVLC_Log(object sender, LogEventArgs e)
-        {
-            debug("VLC Log: " + e.FormattedLog + "," + e.Level);
-        }
-
+        /*
         private void MediaPlayer_Vout(object sender, MediaStatus media_status)
         {
-            //ftdi_hw.ftdi_ts_led(0, true);
-
-            updateMediaStatusGui(1, this, media_status);
-
             if (media_player_1 != null)
                 media_player_1.SetVolume(rxVolume);
 
@@ -1188,332 +651,10 @@ namespace opentuner
 
 
         }
+        */
 
 
-        // quicktune functions
-        private void drawspectrum_bandplan()
-        {
-            int span = 9;
-            int count = 0;
 
-            float spectrum_w = spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
-
-            List<string> blocks = new List<string>();
-
-            //count blocks ('layers' of bandplan)
-            foreach (var channel in bandplan.Elements("channel"))
-            {
-                count++;
-                if (!blocks.Contains(channel.Element("block").Value))
-                {
-                    blocks.Add(channel.Element("block").Value);
-                }
-            }
-
-            channels = new Rectangle[count];
-
-            int n = 0;
-
-            //create rectangle blocks to display bandplan
-            foreach (var channel in bandplan.Elements("channel"))
-            {
-                int w = 0;
-                int offset = 0;
-                float rolloff = 1.35f;
-                string xval = channel.Element("x-freq").Value;
-
-                float freq;
-                int sr;
-
-                freq = Convert.ToSingle(xval, CultureInfo.InvariantCulture);
-                sr = Convert.ToInt32(channel.Element("sr").Value, CultureInfo.InvariantCulture);
-
-                int pos = Convert.ToInt16((922.0 / span) * (freq - start_freq));
-                w = Convert.ToInt32(sr / (span * 1000.0) * 922 * rolloff);
-                w = Convert.ToInt32(w * spectrum_wScale);
-
-                int split = bandplan_height / blocks.Count();
-                int b = blocks.Count();
-                foreach (string blk in blocks)
-                {
-                    if (channel.Element("block").Value == blk)
-                    {
-                        offset = b * split;
-                    }
-                    b--;
-                }
-                channels[n] = new Rectangle(Convert.ToInt32(pos * spectrum_wScale) - (w / 2), offset - (split / 2) - 3, w, split - 2);
-                n++;
-            }
-
-            //draw blocks
-            for (int i = 0; i < count; i++)
-            {
-                tmp2.FillRectangles(bandplanBrush, new RectangleF[] { channels[i] });      //x,y,w,h
-            }
-        }
-
-        private void drawspectrum_signals(List<signal.Sig> signals)
-        {
-            float spectrum_w = spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
-
-            lock (list_lock)        //hopefully lock signals list while drawing
-            {
-                //draw the text for each signal found
-                foreach (signal.Sig s in signals)
-                {
-                    tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (25)), (255 - Convert.ToSingle(s.fft_strength + 50))));
-                }
-            }
-            try
-            {
-                this?.Invoke(new MethodInvoker(delegate () { spectrum.Image = bmp; spectrum.Update(); }));
-            }
-            catch (Exception Ex)
-            {
-
-            }
-        }
-
-        private void drawspectrum(UInt16[] fft_data)
-        {
-            tmp.Clear(Color.Black);     //clear canvas
-
-
-            int spectrum_h = spectrum.Height - bandplan_height;
-            float spectrum_w = spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
-
-            int i = 1;
-            int y = 0;
-
-            for (i = 1; i <= 4; i++)
-            {
-                y = spectrum_h - ((i * (spectrum_h / 4)) - (spectrum_h / 6));
-                tmp.DrawLine(greyPen, 10, y, spectrum_w - 10, y);
-            }
-
-            PointF[] points = new PointF[fft_data.Length - 2];
-
-            for (i = 1; i < fft_data.Length - 3; i++)     //ignore padding?
-            {
-                PointF point = new PointF(i * spectrum_wScale, 255 - fft_data[i] / 255);
-                points[i] = point;
-            }
-
-            points[0] = new PointF(0, 255);
-            points[points.Length - 1] = new PointF(spectrum_w, 255);
-
-            if (spectrumTunerHighlight > 0)
-                tmp.FillRectangle( (spectrumTunerHighlight == 1 ? tuner1Brush : tuner2Brush), new RectangleF(0, (spectrumTunerHighlight == 1 ? 0 : spectrum_h/2), spectrum_w, videoSource.GetVideoSourceCount() == 1 ? spectrum_h : spectrum_h / 2));
-
-            //tmp.DrawPolygon(greenpen, points);
-            SolidBrush spectrumBrush = new SolidBrush(Color.Blue);
-
-            System.Drawing.Drawing2D.LinearGradientBrush linGrBrush = new LinearGradientBrush(
-               new Point(0, 0),
-               new Point(0, 255),
-               Color.FromArgb(255, 255, 99, 132),   // Opaque red
-               Color.FromArgb(255, 54, 162, 235));  // Opaque blue
-
-            tmp.FillPolygon(linGrBrush, points);
-
-            tmp.DrawImage(bmp2, 0, 255 - bandplan_height); //bandplan
-
-            y = 0;
-            int y_offset = 0; ;
-
-            for (int tuner = 0; tuner < videoSource.GetVideoSourceCount(); tuner++)
-            {
-                y = spectrum_h - ((spectrum_h / 2) * tuner + 3);
-                y_offset = (spectrum_h / 2) / 2 + 10;
-
-                //draw block showing signal selected
-                if (rx_blocks[tuner, 0] > 0)
-                {
-                    //tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[0] * spectrum_wScale) - ((rx_blocks[1] * spectrum_wScale) / 2)), 1, Convert.ToInt32(rx_blocks[1] * spectrum_wScale), (255) - 4) });
-                    tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[tuner, 0] - (rx_blocks[tuner, 1] / 2)) * spectrum_wScale), spectrum_h - y + 1, Convert.ToInt32((rx_blocks[tuner, 1] * spectrum_wScale)), (videoSource.GetVideoSourceCount() == 1 ? spectrum_h : spectrum_h / 2) - 4) });
-                }
-            }
-
-
-            tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
-            tmp.DrawString(TX_Text, new Font("Tahoma", 15), Brushes.Red, new PointF(70, spectrum.Height - 50));  //dh3cs
-
-
-            //drawspectrum_signals(sigs.detect_signals(fft_data));
-            sigs.detect_signals(fft_data);
-
-            // draw over power
-            foreach (var sig in sigs.signalsData)
-            {
-                if (sig.overpower)
-                {
-                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale)  / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), (255) - 4) });
-                }
-            }
-
-            if (spectrumTunerHighlight > 0)
-                tmp.DrawString("RX" + spectrumTunerHighlight.ToString(), new Font("Tahoma", 15), Brushes.White, new PointF(10, (spectrum_h / 2) + (spectrumTunerHighlight == 1 ? -30 : 10)));
-
-            drawspectrum_signals(sigs.signalsData);
-        }
-
-        private void spectrum_Click(object sender, EventArgs e)
-        {
-
-            float spectrum_w = spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
-
-            System.Windows.Forms.MouseEventArgs me = (System.Windows.Forms.MouseEventArgs)e;
-            var pos = me.Location;
-
-
-            int X = pos.X;
-            int Y = pos.Y;
-
-            if (me.Button == MouseButtons.Right)
-            {
-                int freq = Convert.ToInt32((10490.5 + ((X / spectrum_wScale) / 922.0) * 9.0) * 1000.0);
-                //UpdateTextBox(txtFreq, freq.ToString());
-
-                string tx_freq = get_bandplan_TX_freq(X, Y);
-                debug("TX-Freq: " + tx_freq + " MHz");
-                // dh3cs
-                if (!string.IsNullOrEmpty(tx_freq))
-                {
-                    //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
-                    Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
-                    TX_Text = " TX: " + tx_freq;
-                }
-
-            }
-            else
-            {
-                selectSignal(X, Y);
-            }
-
-        }
-
-
-        // quick tune functions - From https://github.com/m0dts/QO-100-WB-Live-Tune - Rob Swinbank
-        private void selectSignal(int X, int Y)
-        {
-
-            float spectrum_w = spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
-            int spectrum_h = spectrum.Height - bandplan_height;
-
-            int rx = 0;
-
-            if (videoSource.GetVideoSourceCount() == 2)
-            {
-                if (Y > spectrum_h / 2)
-                    rx = 1;
-            }
-
-            debug("Select Signal");
-            try
-            {
-                foreach (signal.Sig s in sigs.signals)
-                {
-                    if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
-                    {
-
-                        sigs.set_tuned(s, rx);
-                        rx_blocks[rx, 0] = Convert.ToInt16(s.fft_centre);
-                        rx_blocks[rx, 1] = Convert.ToInt16((s.fft_stop) - (s.fft_start));
-                        UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
-                        UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));
-
-                        debug("Freq: " + freq.ToString());
-                        debug("SR: " + sr.ToString());
-
-                        UInt32 lo = 0;
-                        
-                        if (rx == 0) // tuner 1
-                        {
-                            if (videoSource.current_rf_input_1 == nim.NIM_INPUT_TOP)
-                                lo = Convert.ToUInt32(videoSource.current_offset_A);
-                            else
-                                lo = Convert.ToUInt32(videoSource.current_offset_B);
-                        }
-                        else
-                        {
-                            if (videoSource.current_rf_input_2 == nim.NIM_INPUT_TOP)
-                                lo = Convert.ToUInt32(videoSource.current_offset_A);
-                            else
-                                lo = Convert.ToUInt32(videoSource.current_offset_B);
-                        }
-
-                        if (videoSource.GetVideoSourceCount() == 2)
-                            change_frequency_with_lo((byte)(rx + 1),freq, lo, sr);
-                        else
-                            change_frequency_with_lo(1, freq, lo, sr);
-
-                    }
-                }
-            }
-            catch (Exception Ex)
-            {
-
-            }
-        }
-
-        int spectrumTunerHighlight = 0;
-
-        public void spectrum_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            get_bandplan_TX_freq(e.X, e.Y);  // dh3cs
-
-            if (videoSource.GetVideoSourceCount() == 2)
-            {
-                if (e.Y <= spectrum.Height / 2)
-                    spectrumTunerHighlight = 1;
-                else
-                    spectrumTunerHighlight = 2;
-            }
-            else
-            {
-                spectrumTunerHighlight = 1;
-            }
-        }
-
-        // moved to separate function, to use by right click in spectrum,  dh3cs 
-        private string get_bandplan_TX_freq(int x, int y)  // returns TX-Freq in MHz from the rectangle in Bandplan
-        {
-            int n = 0;
-            string tx_freq_MHz = "";
-            if (x > (spectrum.Height - bandplan_height))
-            {
-                if (channels != null)
-                {
-                    foreach (Rectangle ch in channels)
-                    {
-                        if (x >= ch.Location.X & x <= ch.Location.X + ch.Width)
-                        {
-                            if (y - (spectrum.Height - bandplan_height) >= ch.Location.Y - (ch.Height / 2) + 3 & y - (spectrum.Height - bandplan_height) <= ch.Location.Y + (ch.Height / 2) + 3)
-                            {
-                                tx_freq_MHz = indexedbandplan[n].Element("s-freq").Value;
-                                InfoText = " Dn: " + indexedbandplan[n].Element("x-freq").Value + "  SR: " + indexedbandplan[n].Element("name").Value + Environment.NewLine
-                                    + " Up: " + tx_freq_MHz;
-                            }
-                        }
-                        n++;
-                    }
-                }
-            }
-            else
-            {
-                if (InfoText != "")
-                {
-                    InfoText = "";
-                }
-            }
-            return tx_freq_MHz;
-        }
         
         private void load_settings()
         {
@@ -1573,10 +714,10 @@ namespace opentuner
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            debug("Settings: Restore Last Volume: " + setting_default_volume.ToString() + "%");
-            trackVolume.Value = setting_default_volume;
-            debug("Settings: Restore Last Volume2: " + setting_default_volume2.ToString() + "%");
-            trackVolume2.Value = setting_default_volume2;
+            //debug("Settings: Restore Last Volume: " + setting_default_volume.ToString() + "%");
+            //trackVolume.Value = setting_default_volume;
+            //debug("Settings: Restore Last Volume2: " + setting_default_volume2.ToString() + "%");
+            //trackVolume2.Value = setting_default_volume2;
             debug("Settings: Default Offset A: " + setting_default_lo_value_1.ToString());
             videoSource.current_offset_A = setting_default_lo_value_1;
             debug("Settings: Default Offset B: " + setting_default_lo_value_2.ToString());
@@ -1586,9 +727,6 @@ namespace opentuner
                 setting_snapshot_path = AppDomain.CurrentDomain.BaseDirectory;
 
             debug("Settings: Snapshot Path: " + setting_snapshot_path);
-
-            debug("Settings MediaPlayer 1 : " + (setting_mediaplayer_1 == 0 ? "VLC" : "FFMPEG"));
-            debug("Settings MediaPlayer 2 : " + (setting_mediaplayer_2 == 0 ? "VLC" : "FFMPEG"));
 
             offToolStripMenuItem.Checked = false;
             vertical13VToolStripMenuItem.Checked = false;
@@ -1682,8 +820,6 @@ namespace opentuner
                 qO100WidebandChatToolStripMenuItem.Visible = true;
                 chatForm = new wbchat(setting_chat_font_size);
 
-                lblChatSigReport.Visible = true;
-
                 if (setting_chat_width > -1 && setting_chat_height > -1)
                 {
                     chatForm.Size = new Size(setting_chat_height, setting_chat_width);
@@ -1699,43 +835,8 @@ namespace opentuner
             {
                 debug("Settings: QO-100 Spectrum Enabled");
 
-                bmp2 = new Bitmap(spectrum.Width, bandplan_height);     //bandplan
-                bmp = new Bitmap(spectrum.Width, height + 20);
-                tmp = Graphics.FromImage(bmp);
-                tmp2 = Graphics.FromImage(bmp2);
-
-                try
-                {
-                    bandplan = XElement.Load(Path.GetDirectoryName(Application.ExecutablePath) + @"\bandplan.xml");
-                    drawspectrum_bandplan();
-                    indexedbandplan = bandplan.Elements().ToList();
-                    foreach (var channel in bandplan.Elements("channel"))
-                    {
-                        if (!blocks.Contains(channel.Element("block").Value))
-                        {
-                            blocks.Add(channel.Element("block").Value);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-                sock = new socket();
-                sigs = new signal(list_lock);
-                sock.callback += drawspectrum;
-                sigs.debug += debug;
-                string title = this.Text;
-                sock.start();
-                this.Text = title;
-
                 this.DoubleBuffered = true;
-
-                sigs.set_num_rx_scan(num_rxs_to_scan);
-                sigs.set_num_rx(1);
-                //sigs.set_avoidbeacon(avoidBeacon);
-                sigs.set_avoidbeacon(true);
+                batc_spectrum = new BATCSpectrum(spectrum, videoSource.GetVideoSourceCount());
             }
             else
             {
@@ -2000,57 +1101,11 @@ namespace opentuner
             }
         }
 
-        private void websocketTimer_Tick(object sender, EventArgs e)
-        {
-            if (sock != null)
-            {
-                TimeSpan t = DateTime.Now - sock.lastdata;
 
-                if (t.Seconds > 2)
-                {
-                    debug("FFT Websocket Timeout, Disconnected");
-                    sock.stop();
-                }
 
-                if (!sock.connected)
-                {
-                    sock.start();
-                }
-            }
-        }
 
-        private void spectrum_SizeChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                bmp2 = new Bitmap(spectrum.Width, bandplan_height);     //bandplan
-                bmp = new Bitmap(spectrum.Width, height + 20);
-                tmp = Graphics.FromImage(bmp);
-                tmp2 = Graphics.FromImage(bmp2);
 
-                if (bandplan != null)
-                {
-                    drawspectrum_bandplan();
-                }
-            }
-            catch (Exception Ex)
-            {
-
-            }
-        }
-
-        private void btnMute_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void trackVolume_ValueChanged(object sender, EventArgs e)
-        {
-            rxVolume = Convert.ToByte(trackVolume.Value);
-            if (media_player_1 != null) 
-                media_player_1.SetVolume(rxVolume);
-            lblVolume.Text = rxVolume.ToString() + " %";
-        }
-
+        /*
         private void TakeSnapshot(int tuner)
         {
             // get path
@@ -2079,6 +1134,7 @@ namespace opentuner
                     media_player_2.SnapShot(path + filename);
             }
         }
+        */
 
         private void openTunerWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2222,6 +1278,7 @@ namespace opentuner
             chatForm.Focus();
         }
 
+        /*
         private void lblServiceName_TextChanged(object sender, EventArgs e)
         {
             if (setting_enable_spectrum)
@@ -2248,36 +1305,9 @@ namespace opentuner
                 }
             }
         }
+        */
 
-        private void SpectrumTuneTimer_Tick(object sender, EventArgs e)
-        {
-            int mode = 0;
-            float spectrum_w = spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
 
-            if (autoTimedToolStripMenuItem.Checked)
-            {
-                mode = 2;
-            }
-            else
-            {
-                mode = 1;
-            }
-
-            //float time = Convert.ToSingle(0.5, CultureInfo.InvariantCulture);
-            ushort autotuneWait = 30;
-
-            Tuple<signal.Sig, int> ret = sigs.tune(mode, Convert.ToInt16(autotuneWait), 0);
-            if (ret.Item1.frequency > 0)      //above 0 is a change in signal
-            {
-                System.Threading.Thread.Sleep(100);
-                selectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale), 0);
-                sigs.set_tuned(ret.Item1, 0);
-                rx_blocks[0, 0] = Convert.ToInt16(ret.Item1.fft_centre);
-                rx_blocks[0, 1] = Convert.ToInt16(ret.Item1.fft_stop - ret.Item1.fft_start);
-            }
-
-        }
 
 
         private void manageStoredFrequenciesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2289,6 +1319,7 @@ namespace opentuner
             rebuild_stored_frequencies();
         }
 
+        /*
         private void lblChatSigReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             float freq = videoSource.current_frequency_1 + videoSource.current_offset_A;
@@ -2310,6 +1341,7 @@ namespace opentuner
 
             Clipboard.SetText(signalReport);
         }
+        */
 
         private void manualToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2335,71 +1367,8 @@ namespace opentuner
             autoTimedToolStripMenuItem.Checked = false;
         }
 
-        private void btnVid1Mute_Click(object sender, EventArgs e)
-        {
-            if (rxVolume == 0)
-            {
-                rxVolume = beforeMute;
-            }
-            else
-            {
-                beforeMute = rxVolume;
-                rxVolume = 0;
-            }
 
-            trackVolume.Value = rxVolume;
-        }
-
-        private void btnVid1Snapshot_Click(object sender, EventArgs e)
-        {
-            TakeSnapshot(1);
-        }
-
-        private void btnVid2Snapshot_Click(object sender, EventArgs e)
-        {
-            TakeSnapshot(2);
-        }
-
-        private void btnVid2Mute_Click(object sender, EventArgs e)
-        {
-            if (rxVolume2 == 0)
-            {
-                rxVolume2 = beforeMute2;
-            }
-            else
-            {
-                beforeMute2 = rxVolume2;
-                rxVolume2 = 0;
-            }
-
-            trackVolume2.Value = rxVolume2;
-
-        }
-
-        private void trackVolume2_ValueChanged(object sender, EventArgs e)
-        {
-            rxVolume2 = Convert.ToByte(trackVolume2.Value);
-
-            if ( media_player_2 != null )
-            {
-                media_player_2.SetVolume(rxVolume2);
-            }
-
-            lblVolume2.Text = rxVolume2.ToString() + " %";
-        }
-
-        private void lblAdjust1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            uint carrier_offset = 0;
-
-            if (UInt32.TryParse(lblFreqCar.Text, out carrier_offset))
-            {
-                carrier_offset = carrier_offset / 1000;
-                videoSource.change_frequency(1, (videoSource.current_frequency_1 + carrier_offset), videoSource.current_sr_1, videoSource.current_enable_lnb_supply, videoSource.current_enable_horiz_supply, videoSource.current_rf_input_1, videoSource.current_tone_22kHz_P1);
-            }
-
-        }
-
+        /*
         private void lblAdjust2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             uint carrier_offset = 0;
@@ -2411,6 +1380,7 @@ namespace opentuner
             }
 
         }
+        */
 
         private void btnVid1Record_Click(object sender, EventArgs e)
         {
@@ -2458,6 +1428,7 @@ namespace opentuner
             tuner2ControlForm.Focus();
         }
 
+        /*
         private void lblServiceName2_TextChanged(object sender, EventArgs e)
         {
             if (setting_enable_spectrum)
@@ -2486,6 +1457,7 @@ namespace opentuner
             }
 
         }
+        */
 
         private void offToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2566,62 +1538,6 @@ namespace opentuner
 
         }
 
-        private void spectrum_MouseLeave(object sender, EventArgs e)
-        {
-            spectrumTunerHighlight = 0;
-        }
-
-        private void checkDisableVideo2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkDisableVideo2.Checked)
-            {
-                stop_video2();
-
-                lblVideoCodecTitle.Enabled = false;
-                lblVideoResTitle.Enabled = false;
-                lblAudioCodecTitle.Enabled = false;
-                lblAudioRateTitle.Enabled = false;
-                lblServiceNameTitle2.Enabled = false;
-                lblServiceProviderTitle2.Enabled = false;
-                lblNullPacketsTitle2.Enabled = false;
-                lblNullPackets2.Enabled = false;
-                nullPacketsBar2.Enabled = false;
-
-                lblVideoCodec2.Text = "";
-                lblVideoResolution2.Text = "";
-                lblAudioRate2.Text = "";
-                lblAudioCodec2.Text = "";
-
-                lblServiceName2.Text = "";
-                lblServiceProvider2.Text = "";
-                lblNullPackets2.Text = "";
-                nullPacketsBar.Value = 0;
-
-                if (setting_windowed_mediaPlayer2 == false)
-                {
-                    videoPlayersSplitter.Panel2.Hide();
-                    videoPlayersSplitter.Panel2Collapsed = true;
-                }
-            }
-            else
-            {
-                lblVideoCodecTitle.Enabled = true;
-                lblVideoResTitle.Enabled = true;
-                lblAudioCodecTitle.Enabled = true;
-                lblAudioRateTitle.Enabled = true;
-                lblServiceNameTitle2.Enabled = true;
-                lblServiceProviderTitle2.Enabled = true;
-                lblNullPacketsTitle2.Enabled = true;
-                lblNullPackets2.Enabled = true;
-                nullPacketsBar2.Enabled = true;
-
-                if (setting_windowed_mediaPlayer2 == false)
-                {
-                    videoPlayersSplitter.Panel2.Show();
-                    videoPlayersSplitter.Panel2Collapsed = false;
-                }
-            }
-        }
 
         private void toolStripMenuItem7_Click(object sender, EventArgs e)
         {
@@ -2642,6 +1558,89 @@ namespace opentuner
         private void configureCallsignToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pluto_client.ConfigureCallsignAndReboot("ZR6TG");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ConfigureVideoLayout(2);
+        }
+
+        SplitterPanel[] videoPanels = new SplitterPanel[4];
+
+        private OTMediaPlayer ConfigureVideoPlayer(int nr, int preference)
+        {
+            OTMediaPlayer player;
+            switch (preference)
+            {
+                case 0: // vlc
+                    var vlc_video_player = new LibVLCSharp.WinForms.VideoView();
+                    vlc_video_player.Dock = DockStyle.Fill;
+                    videoPanels[nr].Controls.Add(vlc_video_player);
+                    player = new VLCMediaPlayer(vlc_video_player);
+                    player.Initialize(videoSource.GetVideoDataQueue(nr));
+                    return player;
+                    
+                case 1: // ffmpeg
+                    var ffmpeg_video_player = new FlyleafLib.Controls.WinForms.FlyleafHost();
+                    ffmpeg_video_player.Dock = DockStyle.Fill;
+                    videoPanels[nr].Controls.Add(ffmpeg_video_player);
+                    player = new FFMPEGMediaPlayer(ffmpeg_video_player);
+                    player.Initialize(videoSource.GetVideoDataQueue(nr));
+                    return player;
+                case 2: // mpv
+                    var mpv_video_player = new PictureBox();
+                    mpv_video_player.Dock = DockStyle.Fill;
+                    videoPanels[nr].Controls.Add(mpv_video_player);
+                    player = new MPVMediaPlayer(mpv_video_player.Handle.ToInt64());
+                    player.Initialize(videoSource.GetVideoDataQueue(nr));
+                    return player;
+            }
+
+            return null;
+        }
+
+        private List<OTMediaPlayer> ConfigureMediaPlayers(int amount, int[] playerPreference)
+        {
+            List<OTMediaPlayer> mediaPlayers = new List<OTMediaPlayer>();
+
+            videoPanels[0] = splitContainer4.Panel1;
+            videoPanels[1] = splitContainer5.Panel1;
+            videoPanels[2] = splitContainer4.Panel2;
+            videoPanels[3] = splitContainer5.Panel2;
+
+            for (int c = 0; c < amount; c++)
+            {
+                var media_player = ConfigureVideoPlayer(c, 2);
+                mediaPlayers.Add(media_player);
+            }
+
+            ConfigureVideoLayout(amount);
+
+            return mediaPlayers;
+        }
+
+
+        // configure video layout - only for 1, 2 or 4 video players 
+        // todo: reset for changing sources
+        private void ConfigureVideoLayout(int amount)
+        {
+
+            switch (amount)
+            {
+                case 1:
+                    splitContainer4.Panel2Collapsed = true;
+                    splitContainer4.Panel2.Hide();
+                    splitContainer3.Panel2Collapsed = true;
+                    splitContainer3.Panel2.Hide();
+                    break;
+                case 2:
+                    splitContainer4.Panel2Collapsed = true;
+                    splitContainer4.Panel2.Hide();
+                    splitContainer5.Panel2Collapsed = true;
+                    splitContainer5.Panel2.Hide();
+                    break;
+
+            }
         }
     }
 
