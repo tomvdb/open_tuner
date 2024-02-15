@@ -125,24 +125,17 @@
   <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 24</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="PropertiesPage.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;SourcePage.Name" xml:space="preserve">
+    <value>SourcePage</value>
   </data>
-  <data name="PropertiesPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+  <data name="&gt;&gt;SourcePage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="PropertiesPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="&gt;&gt;SourcePage.Parent" xml:space="preserve">
+    <value>tabControl1</value>
   </data>
-  <data name="PropertiesPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>428, 1146</value>
-  </data>
-  <data name="PropertiesPage.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="PropertiesPage.Text" xml:space="preserve">
-    <value>Properties</value>
+  <data name="&gt;&gt;SourcePage.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;PropertiesPage.Name" xml:space="preserve">
     <value>PropertiesPage</value>
@@ -154,46 +147,7 @@
     <value>tabControl1</value>
   </data>
   <data name="&gt;&gt;PropertiesPage.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="dbgListBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="dbgListBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="dbgListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>422, 1140</value>
-  </data>
-  <data name="dbgListBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;dbgListBox.Name" xml:space="preserve">
-    <value>dbgListBox</value>
-  </data>
-  <data name="&gt;&gt;dbgListBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dbgListBox.Parent" xml:space="preserve">
-    <value>debugPage</value>
-  </data>
-  <data name="&gt;&gt;dbgListBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="debugPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="debugPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="debugPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>428, 1146</value>
-  </data>
-  <data name="debugPage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="debugPage.Text" xml:space="preserve">
-    <value>Debug</value>
   </data>
   <data name="&gt;&gt;debugPage.Name" xml:space="preserve">
     <value>debugPage</value>
@@ -205,7 +159,7 @@
     <value>tabControl1</value>
   </data>
   <data name="&gt;&gt;debugPage.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -216,6 +170,7 @@
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
     <value>436, 1172</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
   </data>
@@ -426,30 +381,6 @@
   <metadata name="contextSpectrumMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>437, 14</value>
   </metadata>
-  <data name="manualToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="manualToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Manual</value>
-  </data>
-  <data name="autoTimedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="autoTimedToolStripMenuItem.Text" xml:space="preserve">
-    <value>Auto (Timed)</value>
-  </data>
-  <data name="autoHoldToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="autoHoldToolStripMenuItem.Text" xml:space="preserve">
-    <value>Auto (Hold)</value>
-  </data>
-  <data name="autoTuneToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 22</value>
-  </data>
-  <data name="autoTuneToolStripMenuItem.Text" xml:space="preserve">
-    <value>AutoTune</value>
-  </data>
   <data name="contextSpectrumMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 26</value>
   </data>
@@ -552,237 +483,369 @@
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="websocketTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>SourcePage</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SourcePage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="SourcePage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="SourcePage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>428, 1146</value>
+  </data>
+  <data name="SourcePage.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="SourcePage.Text" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="&gt;&gt;SourcePage.Name" xml:space="preserve">
+    <value>SourcePage</value>
+  </data>
+  <data name="&gt;&gt;SourcePage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SourcePage.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;SourcePage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;sourceInfo.Name" xml:space="preserve">
+    <value>sourceInfo</value>
+  </data>
+  <data name="&gt;&gt;sourceInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;sourceInfo.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;sourceInfo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnSourceSettings.Name" xml:space="preserve">
+    <value>btnSourceSettings</value>
+  </data>
+  <data name="&gt;&gt;btnSourceSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSourceSettings.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnSourceSettings.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btnSourceConnect.Name" xml:space="preserve">
+    <value>btnSourceConnect</value>
+  </data>
+  <data name="&gt;&gt;btnSourceConnect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSourceConnect.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnSourceConnect.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;comboAvailableSources.Name" xml:space="preserve">
+    <value>comboAvailableSources</value>
+  </data>
+  <data name="&gt;&gt;comboAvailableSources.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboAvailableSources.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;comboAvailableSources.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>422, 231</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Source Selection</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>SourcePage</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="sourceInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 89</value>
+  </data>
+  <data name="sourceInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>388, 122</value>
+  </data>
+  <data name="sourceInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;sourceInfo.Name" xml:space="preserve">
+    <value>sourceInfo</value>
+  </data>
+  <data name="&gt;&gt;sourceInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;sourceInfo.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;sourceInfo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnSourceSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>214, 50</value>
+  </data>
+  <data name="btnSourceSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 23</value>
+  </data>
+  <data name="btnSourceSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnSourceSettings.Text" xml:space="preserve">
+    <value>Source Settings</value>
+  </data>
+  <data name="&gt;&gt;btnSourceSettings.Name" xml:space="preserve">
+    <value>btnSourceSettings</value>
+  </data>
+  <data name="&gt;&gt;btnSourceSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSourceSettings.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnSourceSettings.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnSourceConnect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>331, 50</value>
+  </data>
+  <data name="btnSourceConnect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="btnSourceConnect.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnSourceConnect.Text" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="&gt;&gt;btnSourceConnect.Name" xml:space="preserve">
+    <value>btnSourceConnect</value>
+  </data>
+  <data name="&gt;&gt;btnSourceConnect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSourceConnect.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnSourceConnect.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="comboAvailableSources.Location" type="System.Drawing.Point, System.Drawing">
+    <value>119, 23</value>
+  </data>
+  <data name="comboAvailableSources.Size" type="System.Drawing.Size, System.Drawing">
+    <value>287, 21</value>
+  </data>
+  <data name="comboAvailableSources.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;comboAvailableSources.Name" xml:space="preserve">
+    <value>comboAvailableSources</value>
+  </data>
+  <data name="&gt;&gt;comboAvailableSources.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboAvailableSources.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;comboAvailableSources.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 26</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Available Sources: </value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="PropertiesPage.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PropertiesPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="PropertiesPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="PropertiesPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>428, 1146</value>
+  </data>
+  <data name="PropertiesPage.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="PropertiesPage.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="&gt;&gt;PropertiesPage.Name" xml:space="preserve">
+    <value>PropertiesPage</value>
+  </data>
+  <data name="&gt;&gt;PropertiesPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PropertiesPage.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;PropertiesPage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;dbgListBox.Name" xml:space="preserve">
+    <value>dbgListBox</value>
+  </data>
+  <data name="&gt;&gt;dbgListBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dbgListBox.Parent" xml:space="preserve">
+    <value>debugPage</value>
+  </data>
+  <data name="&gt;&gt;dbgListBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="debugPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="debugPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="debugPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>428, 1146</value>
+  </data>
+  <data name="debugPage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="debugPage.Text" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="&gt;&gt;debugPage.Name" xml:space="preserve">
+    <value>debugPage</value>
+  </data>
+  <data name="&gt;&gt;debugPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;debugPage.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;debugPage.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="dbgListBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="dbgListBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="dbgListBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>422, 1140</value>
+  </data>
+  <data name="dbgListBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;dbgListBox.Name" xml:space="preserve">
+    <value>dbgListBox</value>
+  </data>
+  <data name="&gt;&gt;dbgListBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dbgListBox.Parent" xml:space="preserve">
+    <value>debugPage</value>
+  </data>
+  <data name="&gt;&gt;dbgListBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="autoTuneToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="autoTuneToolStripMenuItem.Text" xml:space="preserve">
+    <value>AutoTune</value>
+  </data>
+  <data name="manualToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 22</value>
+  </data>
+  <data name="manualToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Manual</value>
+  </data>
+  <data name="autoTimedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 22</value>
+  </data>
+  <data name="autoTimedToolStripMenuItem.Text" xml:space="preserve">
+    <value>Auto (Timed)</value>
+  </data>
+  <data name="autoHoldToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 22</value>
+  </data>
+  <data name="autoHoldToolStripMenuItem.Text" xml:space="preserve">
+    <value>Auto (Hold)</value>
+  </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>157, 17</value>
   </metadata>
-  <data name="menuConnect.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Alt+C</value>
-  </data>
-  <data name="menuConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
-  </data>
-  <data name="menuConnect.Text" xml:space="preserve">
-    <value>&amp;Connect</value>
-  </data>
-  <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
-  </data>
-  <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>S&amp;ettings ...</value>
-  </data>
-  <data name="toolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
-  </data>
-  <data name="toolStripMenuItem7.Text" xml:space="preserve">
-    <value>Hardware Info ...</value>
-  </data>
-  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 6</value>
-  </data>
-  <data name="quitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
-  </data>
-  <data name="quitToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Quit</value>
-  </data>
-  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Actions</value>
-  </data>
-  <data name="manageStoredFrequenciesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="manageStoredFrequenciesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Manage Stored Frequencies ...</value>
-  </data>
-  <data name="toolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="storedFrequenciesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="storedFrequenciesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Stored Frequencies</value>
-  </data>
-  <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 20</value>
-  </data>
-  <data name="toolStripMenuItem2.Text" xml:space="preserve">
-    <value>&amp;Frequency Manager</value>
-  </data>
-  <data name="manageExternalToolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 22</value>
-  </data>
-  <data name="manageExternalToolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Manage External Tools ...</value>
-  </data>
-  <data name="toolStripMenuItem8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 6</value>
-  </data>
-  <data name="externalToolsToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 22</value>
-  </data>
-  <data name="externalToolsToolStripMenuItem1.Text" xml:space="preserve">
-    <value>External Tools</value>
-  </data>
-  <data name="externalToolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 20</value>
-  </data>
-  <data name="externalToolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>External Tools</value>
-  </data>
-  <data name="recordAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 22</value>
-  </data>
-  <data name="recordAllToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Record All</value>
-  </data>
-  <data name="enableUDPOutputToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 22</value>
-  </data>
-  <data name="enableUDPOutputToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Enable UDP Output</value>
-  </data>
-  <data name="tuner1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 22</value>
-  </data>
-  <data name="tuner1ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tuner 1</value>
-  </data>
-  <data name="enableUDPOutputToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 22</value>
-  </data>
-  <data name="enableUDPOutputToolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;Enable UDP Output</value>
-  </data>
-  <data name="tuner2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 22</value>
-  </data>
-  <data name="tuner2ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tuner 2</value>
-  </data>
-  <data name="tunerControlToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
-  </data>
-  <data name="tunerControlToolStripMenuItem.Text" xml:space="preserve">
-    <value>Media</value>
-  </data>
-  <data name="offToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
-  </data>
-  <data name="offToolStripMenuItem.Text" xml:space="preserve">
-    <value>Off</value>
-  </data>
-  <data name="vertical13VToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
-  </data>
-  <data name="vertical13VToolStripMenuItem.Text" xml:space="preserve">
-    <value>Vertical (13V)</value>
-  </data>
-  <data name="horizontal18VToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
-  </data>
-  <data name="horizontal18VToolStripMenuItem.Text" xml:space="preserve">
-    <value>Horizontal (18V)</value>
-  </data>
-  <data name="lNBAToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 22</value>
-  </data>
-  <data name="lNBAToolStripMenuItem.Text" xml:space="preserve">
-    <value>LNB A</value>
-  </data>
-  <data name="lNBPowerSupplyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
-  </data>
-  <data name="lNBPowerSupplyToolStripMenuItem.Text" xml:space="preserve">
-    <value>LNB Power Supply</value>
-  </data>
-  <data name="kHzToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
-  </data>
-  <data name="kHzToolStripMenuItem.Text" xml:space="preserve">
-    <value>22 kHz</value>
-  </data>
-  <data name="toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 20</value>
-  </data>
-  <data name="toolStripMenuItem4.Text" xml:space="preserve">
-    <value>IO Control</value>
-  </data>
-  <data name="qO100WidebandChatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 20</value>
-  </data>
-  <data name="qO100WidebandChatToolStripMenuItem.Text" xml:space="preserve">
-    <value>QO-100 Wideband Chat</value>
-  </data>
-  <data name="openTunerWebsiteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>322, 22</value>
-  </data>
-  <data name="openTunerWebsiteToolStripMenuItem.Text" xml:space="preserve">
-    <value>Open Tuner Updates</value>
-  </data>
-  <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>322, 22</value>
-  </data>
-  <data name="toolStripMenuItem3.Text" xml:space="preserve">
-    <value>British Amateur Television Club</value>
-  </data>
-  <data name="toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>319, 6</value>
-  </data>
-  <data name="addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>322, 22</value>
-  </data>
-  <data name="addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Adding a 2nd Transport to BATC Minitiouner V2</value>
-  </data>
-  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
-  </data>
-  <data name="toolStripMenuItem1.Text" xml:space="preserve">
-    <value>Control Window</value>
-  </data>
-  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 6</value>
-  </data>
-  <data name="configureCallsignToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="configureCallsignToolStripMenuItem.Text" xml:space="preserve">
-    <value>Configure Callsign</value>
-  </data>
-  <data name="systemFunctionsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
-  </data>
-  <data name="systemFunctionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>System Functions</value>
-  </data>
-  <data name="commandsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 22</value>
-  </data>
-  <data name="commandsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Commands</value>
-  </data>
-  <data name="plutoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 20</value>
-  </data>
-  <data name="plutoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Pluto</value>
-  </data>
-  <data name="plutoToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -807,9 +870,216 @@
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="SpectrumTuneTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>272, 17</value>
-  </metadata>
+  <data name="openTunerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Actions</value>
+  </data>
+  <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>128, 22</value>
+  </data>
+  <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>S&amp;ettings ...</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 6</value>
+  </data>
+  <data name="quitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>128, 22</value>
+  </data>
+  <data name="quitToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Quit</value>
+  </data>
+  <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 20</value>
+  </data>
+  <data name="toolStripMenuItem2.Text" xml:space="preserve">
+    <value>&amp;Frequency Manager</value>
+  </data>
+  <data name="manageStoredFrequenciesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 22</value>
+  </data>
+  <data name="manageStoredFrequenciesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Manage Stored Frequencies ...</value>
+  </data>
+  <data name="toolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>229, 6</value>
+  </data>
+  <data name="storedFrequenciesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 22</value>
+  </data>
+  <data name="storedFrequenciesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stored Frequencies</value>
+  </data>
+  <data name="externalToolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 20</value>
+  </data>
+  <data name="externalToolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>External Tools</value>
+  </data>
+  <data name="manageExternalToolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="manageExternalToolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Manage External Tools ...</value>
+  </data>
+  <data name="toolStripMenuItem8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 6</value>
+  </data>
+  <data name="externalToolsToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="externalToolsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>External Tools</value>
+  </data>
+  <data name="tunerControlToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 20</value>
+  </data>
+  <data name="tunerControlToolStripMenuItem.Text" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="tuner1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 22</value>
+  </data>
+  <data name="tuner1ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tuner 1</value>
+  </data>
+  <data name="recordAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 22</value>
+  </data>
+  <data name="recordAllToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Record All</value>
+  </data>
+  <data name="enableUDPOutputToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 22</value>
+  </data>
+  <data name="enableUDPOutputToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Enable UDP Output</value>
+  </data>
+  <data name="tuner2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 22</value>
+  </data>
+  <data name="tuner2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tuner 2</value>
+  </data>
+  <data name="enableUDPOutputToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 22</value>
+  </data>
+  <data name="enableUDPOutputToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Enable UDP Output</value>
+  </data>
+  <data name="toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 20</value>
+  </data>
+  <data name="toolStripMenuItem4.Text" xml:space="preserve">
+    <value>IO Control</value>
+  </data>
+  <data name="lNBPowerSupplyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 22</value>
+  </data>
+  <data name="lNBPowerSupplyToolStripMenuItem.Text" xml:space="preserve">
+    <value>LNB Power Supply</value>
+  </data>
+  <data name="lNBAToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 22</value>
+  </data>
+  <data name="lNBAToolStripMenuItem.Text" xml:space="preserve">
+    <value>LNB A</value>
+  </data>
+  <data name="offToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 22</value>
+  </data>
+  <data name="offToolStripMenuItem.Text" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="vertical13VToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 22</value>
+  </data>
+  <data name="vertical13VToolStripMenuItem.Text" xml:space="preserve">
+    <value>Vertical (13V)</value>
+  </data>
+  <data name="horizontal18VToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 22</value>
+  </data>
+  <data name="horizontal18VToolStripMenuItem.Text" xml:space="preserve">
+    <value>Horizontal (18V)</value>
+  </data>
+  <data name="kHzToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 22</value>
+  </data>
+  <data name="kHzToolStripMenuItem.Text" xml:space="preserve">
+    <value>22 kHz</value>
+  </data>
+  <data name="qO100WidebandChatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 20</value>
+  </data>
+  <data name="qO100WidebandChatToolStripMenuItem.Text" xml:space="preserve">
+    <value>QO-100 Wideband Chat</value>
+  </data>
+  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="openTunerWebsiteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>322, 22</value>
+  </data>
+  <data name="openTunerWebsiteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Open Tuner Updates</value>
+  </data>
+  <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>322, 22</value>
+  </data>
+  <data name="toolStripMenuItem3.Text" xml:space="preserve">
+    <value>British Amateur Television Club</value>
+  </data>
+  <data name="toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 6</value>
+  </data>
+  <data name="addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>322, 22</value>
+  </data>
+  <data name="addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Adding a 2nd Transport to BATC Minitiouner V2</value>
+  </data>
+  <data name="plutoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 20</value>
+  </data>
+  <data name="plutoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Pluto</value>
+  </data>
+  <data name="plutoToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 22</value>
+  </data>
+  <data name="toolStripMenuItem1.Text" xml:space="preserve">
+    <value>Control Window</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 6</value>
+  </data>
+  <data name="commandsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 22</value>
+  </data>
+  <data name="commandsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Commands</value>
+  </data>
+  <data name="systemFunctionsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 22</value>
+  </data>
+  <data name="systemFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>System Functions</value>
+  </data>
+  <data name="configureCallsignToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="configureCallsignToolStripMenuItem.Text" xml:space="preserve">
+    <value>Configure Callsign</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -823,7 +1093,7 @@
     <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner  (ZR6TG) - 0.9test - 2024/02/12</value>
+    <value>Open Tuner  (ZR6TG) - 0.A Test - 2024/02/15</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>
@@ -849,34 +1119,16 @@
   <data name="&gt;&gt;autoHoldToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;websocketTimer.Name" xml:space="preserve">
-    <value>websocketTimer</value>
-  </data>
-  <data name="&gt;&gt;websocketTimer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;openTunerToolStripMenuItem.Name" xml:space="preserve">
     <value>openTunerToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;openTunerToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;menuConnect.Name" xml:space="preserve">
-    <value>menuConnect</value>
-  </data>
-  <data name="&gt;&gt;menuConnect.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;settingsToolStripMenuItem.Name" xml:space="preserve">
     <value>settingsToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;settingsToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem7.Name" xml:space="preserve">
-    <value>toolStripMenuItem7</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem7.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
@@ -1088,12 +1340,6 @@
   </data>
   <data name="&gt;&gt;configureCallsignToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SpectrumTuneTimer.Name" xml:space="preserve">
-    <value>SpectrumTuneTimer</value>
-  </data>
-  <data name="&gt;&gt;SpectrumTuneTimer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>

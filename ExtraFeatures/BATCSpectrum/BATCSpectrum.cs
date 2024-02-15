@@ -17,8 +17,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 {
     public class BATCSpectrum
     {
+        public delegate void SignalSelected(int Receiver, uint Freq, uint SymbolRate);
 
-        // quick tune variables *********************************************************************
+        public event SignalSelected OnSignalSelected;
+
         private static readonly Object list_lock = new Object();
 
         static int height = 255;    //makes things easier
@@ -57,6 +59,12 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private PictureBox _spectrum;
         private int _tuners;
+
+        Timer SpectrumTuneTimer;
+        Timer websocketTimer;
+
+        private int _autoTuneMode = 0;
+
 
         public BATCSpectrum(PictureBox Spectrum, int Tuners) 
         {
@@ -108,6 +116,16 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             //sigs.set_avoidbeacon(avoidBeacon);
             sigs.set_avoidbeacon(true);
 
+            SpectrumTuneTimer = new Timer();
+            SpectrumTuneTimer.Enabled = false;
+            SpectrumTuneTimer.Interval = 1500;
+            SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
+
+            websocketTimer = new Timer();
+            websocketTimer.Enabled = true;
+            websocketTimer.Interval = 2000;
+            websocketTimer.Tick += new System.EventHandler(this.websocketTimer_Tick);
+
         }
 
         public void Close()
@@ -135,23 +153,27 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
         }
 
-
-        private void SpectrumTuneTimer_Tick(object sender, EventArgs e)
+        public void changeTuneMode(int mode)
         {
-            int mode = 0;
-            float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
+            _autoTuneMode = mode;
 
-            if (autoTimedToolStripMenuItem.Checked)
+            if (mode == 0)
             {
-                mode = 2;
+                SpectrumTuneTimer?.Stop();
             }
             else
             {
-                mode = 1;
+                SpectrumTuneTimer?.Start();
             }
 
-            //float time = Convert.ToSingle(0.5, CultureInfo.InvariantCulture);
+        }
+
+        private void SpectrumTuneTimer_Tick(object sender, EventArgs e)
+        {
+            int mode = _autoTuneMode;
+            float spectrum_w = _spectrum.Width;
+            float spectrum_wScale = spectrum_w / 922;
+
             ushort autotuneWait = 30;
 
             Tuple<signal.Sig, int> ret = sigs.tune(mode, Convert.ToInt16(autotuneWait), 0);
@@ -277,7 +299,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             try
             {
-                this?.Invoke(new MethodInvoker(delegate () { _spectrum.Image = bmp; _spectrum.Update(); }));
+                _spectrum.Parent?.Invoke(new MethodInvoker(delegate () { _spectrum.Image = bmp; _spectrum.Update(); }));
             }
             catch (Exception Ex)
             {
@@ -441,26 +463,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                         UInt32 lo = 0;
 
-                        // FIXME
-                        if (rx == 0) // tuner 1
-                        {
-                            if (videoSource.current_rf_input_1 == nim.NIM_INPUT_TOP)
-                                lo = Convert.ToUInt32(videoSource.current_offset_A);
-                            else
-                                lo = Convert.ToUInt32(videoSource.current_offset_B);
-                        }
-                        else
-                        {
-                            if (videoSource.current_rf_input_2 == nim.NIM_INPUT_TOP)
-                                lo = Convert.ToUInt32(videoSource.current_offset_A);
-                            else
-                                lo = Convert.ToUInt32(videoSource.current_offset_B);
-                        }
-
-                        if (_tuners == 2)
-                            change_frequency_with_lo((byte)(rx + 1), freq, lo, sr);
-                        else
-                            change_frequency_with_lo(1, freq, lo, sr);
+                        OnSignalSelected?.Invoke(rx, freq, sr);
 
                     }
                 }
@@ -477,7 +480,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             get_bandplan_TX_freq(e.X, e.Y);  // dh3cs
 
-            if (videoSource.GetVideoSourceCount() == 2)
+            if (_tuners == 2)
             {
                 if (e.Y <= _spectrum.Height / 2)
                     spectrumTunerHighlight = 1;

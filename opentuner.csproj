@@ -220,6 +220,9 @@
     <Compile Include="ExtraFeatures\BATCSpectrum\BATCSpectrum.cs" />
     <Compile Include="ExtraFeatures\MqttClient\MqttMessage.cs" />
     <Compile Include="ExtraFeatures\MqttClient\OTMqttClient.cs" />
+    <Compile Include="MediaSources\Longmynd\LongmyndProperties.cs" />
+    <Compile Include="MediaSources\Longmynd\LongmyndSettings.cs" />
+    <Compile Include="MediaSources\Longmynd\LongmyndSource.cs" />
     <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,6 +230,13 @@
       <DependentUpon>ChooseHardwareInterfaceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaSources\Minitiouner\MinitiounerProperties.cs" />
+    <Compile Include="MediaSources\Minitiouner\MinitiounerSettings.cs" />
+    <Compile Include="MediaSources\Minitiouner\MinitiounerSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediaSources\Minitiouner\MinitiounerSettingsForm.Designer.cs">
+      <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transmit\F5OEOPlutoControl.cs" />
     <Compile Include="Transmit\PlutoControl.cs">
       <SubType>Form</SubType>
@@ -333,6 +343,8 @@
     <Compile Include="tunerControlForm.Designer.cs">
       <DependentUpon>tunerControlForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\SettingsManager.cs" />
+    <Compile Include="Utilities\UDPClient.cs" />
     <Compile Include="Utilities\UdpListener.cs" />
     <Compile Include="MediaPlayers\VideoViewForm.cs">
       <SubType>Form</SubType>
@@ -395,6 +407,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.resx">
       <DependentUpon>ChooseHardwareInterfaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaSources\Minitiouner\MinitiounerSettingsForm.resx">
+      <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

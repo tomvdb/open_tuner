@@ -13,7 +13,7 @@ using System.Threading;
 using System.Windows.Forms;
 using FlyleafLib;
 
-namespace opentuner
+namespace opentuner.MediaPlayers.FFMPEG
 {
    
     public class FFMPEGMediaPlayer : OTMediaPlayer

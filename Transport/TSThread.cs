@@ -19,7 +19,7 @@ namespace opentuner
         private ReadTS read_ts_callback = null;
         private string identifier = "";
 
-        public TSThread(CircularBuffer _raw_ts_data_queue, NimThread _nim_thread, FlushTS _flush_ts_callback, ReadTS _read_ts_callback, string _identifier)
+        public TSThread(CircularBuffer _raw_ts_data_queue, FlushTS _flush_ts_callback, ReadTS _read_ts_callback, string _identifier)
         {
             Console.WriteLine(" >> Starting TS Thread <<");
             Console.WriteLine(" >> Registering Raw TS Queue << ");

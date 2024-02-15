@@ -1,4 +1,5 @@
 ﻿using opentuner.MediaSources.Minitiouner.HardwareInterfaces;
+using opentuner.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,11 +10,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using opentuner.MediaPlayers;
+
 namespace opentuner.MediaSources.Minitiouner
 {
     public partial class MinitiounerSource : OTSource
     {
-
         public MTHardwareInterface hardware_interface;
         public bool hardware_connected = false;
 
@@ -30,7 +32,6 @@ namespace opentuner.MediaSources.Minitiouner
         Thread ts_parser_t = null;
         Thread ts_parser_2_t = null;
 
-
         // threads
         Thread nim_thread_t = null;
 
@@ -43,93 +44,24 @@ namespace opentuner.MediaSources.Minitiouner
         // video player references
         private List<OTMediaPlayer> _media_players = new List<OTMediaPlayer> ();
 
-        // tuner specific
-
-        // OTSource Properties
-        uint _current_rf_input_1 = nim.NIM_INPUT_TOP;
-        public override uint current_rf_input_1 
-        {
-            get { return _current_rf_input_1; }
-            set {  _current_rf_input_1 = value;}
-        }
-
-        uint _current_rf_input_2 = nim.NIM_INPUT_TOP;
-        public override uint current_rf_input_2
-        {
-            get { return _current_rf_input_2; }
-            set { _current_rf_input_2 = value; }
-        }
-
-        uint _current_frequency_1 = 0;
-        public override uint current_frequency_1
-        {
-            get { return _current_frequency_1; }
-            set { _current_frequency_1 = value; }
-        }
-
-        uint _current_frequency_2 = 0;
-        public override uint current_frequency_2
-        {
-            get { return _current_frequency_2; }
-            set { _current_frequency_2 = value; }
-        }
-
-        uint _current_sr_1 = 0;
-        public override uint current_sr_1
-        {
-            get { return _current_sr_1; }
-            set { _current_sr_1 = value; }
-        }
-
-        uint _current_sr_2 = 0;
-        public override uint current_sr_2
-        {
-            get { return _current_sr_2; }
-            set { _current_sr_2 = value; }
-        }
-
-        int _current_offset_A = 10;
-        public override int current_offset_A
-        {
-            get { return _current_offset_A; }
-            set { _current_offset_A = value; }
-        }
-
-        int _current_offset_B = 10;
-        public override int current_offset_B
-        {
-            get { return _current_offset_B; }
-            set { _current_offset_B = value; }
-        }
-
-        public override bool HardwareConnected
+        public override bool DeviceConnected
         {
             get { return hardware_connected; }
         }
 
 
-        // other
+        // tuner specific
 
-        bool _current_enable_lnb_supply = false;
-        public override bool current_enable_lnb_supply
-        {
-            get { return _current_enable_lnb_supply; }
-            set { _current_enable_lnb_supply = value; }
-        }
-
-        bool _current_enable_horiz_supply = false;
-        public override bool current_enable_horiz_supply
-        {
-            get { return _current_enable_horiz_supply; }
-            set { _current_enable_horiz_supply = value; }
-        }
-
-        bool _current_tone_22kHz_P1 = false;
-        public override bool current_tone_22kHz_P1
-        {
-            get { return _current_tone_22kHz_P1; }
-            set { _current_tone_22kHz_P1 = value; }
-        }
+        // OTSource Properties
+        private uint current_rf_input_1 = nim.NIM_INPUT_TOP;
+        private uint current_rf_input_2 = nim.NIM_INPUT_TOP;
+        private uint current_frequency_1 = 0;
+        private uint current_frequency_2 = 0;
+        private uint current_sr_1 = 0;
+        private uint current_sr_2 = 0;
+        private bool current_enable_lnb_supply = false;
+        private bool current_enable_horiz_supply = false;
+        private bool current_tone_22kHz_P1 = false;
 
 
 
@@ -146,24 +78,24 @@ namespace opentuner.MediaSources.Minitiouner
         // 1 = picotuner
         // 2 = picotuner ethernet
 
-        public MinitiounerSource(int HardwareInterface) 
-        { 
-            _hardwareInterface = HardwareInterface;
+        private SettingsManager<MinitiounerSettings> _settingsManager;
+        private MinitiounerSettings _settings;
 
-            switch(_hardwareInterface)
-            {
-                case 0: hardware_interface = new FTDIInterface(); break;
-                case 1: hardware_interface =  new PicoTunerInterface(); break;
-            }
+        public MinitiounerSource() 
+        {
+            // settings
+            _settings = new MinitiounerSettings();
+            _settingsManager = new SettingsManager<MinitiounerSettings>("minitiouner_settings");
+            _settings = (_settingsManager.LoadSettings(_settings));
+
         }
-
 
         public override int GetVideoSourceCount()
         {
             return ts_devices;
         }
 
-        public override string GetHardwareDescription()
+        public override string GetDeviceName()
         {
             return HardwareDevice;
         }
@@ -209,18 +141,18 @@ namespace opentuner.MediaSources.Minitiouner
         }
 
 
-        public override long GetCurrentFrequency(int device, bool offset_included)
+        public override long GetFrequency(int device, bool offset_included)
         {
             long frequency = 0;
 
             switch (device)
             {
                 case 0:  
-                    int offset0 = offset_included ? current_offset_A : 0;
+                    int offset0 = offset_included ? (int)_settings.Offset1 : 0;
                     frequency = current_frequency_1 + offset0; 
                     break;
                 case 1:  
-                    int offset1 = offset_included ? current_offset_B : 0;
+                    int offset1 = offset_included ? (int)_settings.Offset2 : 0;
                     frequency = current_frequency_2 + offset1; 
                     break;
             }
@@ -228,36 +160,26 @@ namespace opentuner.MediaSources.Minitiouner
             return frequency;
         }
 
-        public override void Close()
+        // device : 0 = Tuner 1, 1 = Tuner 2
+        public override void SetFrequency(int device, uint frequency, uint symbol_rate, bool offset_included)
         {
-            // switch off TS led's
-            hardware_interface.hw_ts_led(0, false);
-            hardware_interface.hw_ts_led(1, false);
+            uint freq = 0;
+            
+            if (device == 0 )
+                freq = frequency - (offset_included ? _settings.Offset1 : 0);
+            else
+                freq = frequency - (offset_included ? _settings.Offset2 : 0);
 
-            if (ts_parser_t != null)
-                ts_parser_t.Abort();
-            if (ts_parser_2_t != null)
-                ts_parser_2_t.Abort();
-            if (ts_thread_t != null)
-                ts_thread_t.Abort();
-            if (ts_thread_2_t != null)
-                ts_thread_2_t.Abort();
-            if (nim_thread_t != null)
-                nim_thread_t.Abort();
+            change_frequency((byte)(device), freq, symbol_rate, current_enable_lnb_supply, current_enable_horiz_supply, (device == 0 ? current_rf_input_1 : current_rf_input_2 ), current_tone_22kHz_P1);
         }
 
 
-        public override byte set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
-        {
-            return hardware_interface.hw_set_polarization_supply(lnb_num, supply_enable, supply_horizontal);
-        }
-
-        public override void change_frequency(byte tuner, UInt32 freq, UInt32 sr, bool lnb_supply, bool polarization_supply_horizontal, uint rf_input, bool tone_22kHz_P1)
+        public void change_frequency(byte device, UInt32 freq, UInt32 sr, bool lnb_supply, bool polarization_supply_horizontal, uint rf_input, bool tone_22kHz_P1)
         {
             if (!hardware_connected)
                 return;
 
-            Console.WriteLine("Change Frequency: " + tuner.ToString());
+            Console.WriteLine("Change Frequency: " + device.ToString());
             switch (rf_input)
             {
                 case nim.NIM_INPUT_TOP: Console.WriteLine("RF Input: Nim Input Top Specified"); break;
@@ -267,7 +189,7 @@ namespace opentuner.MediaSources.Minitiouner
 
             TunerConfig newConfig = new TunerConfig();
 
-            newConfig.tuner = tuner;
+            newConfig.tuner = (byte)(device+1);
             newConfig.frequency = freq;
             newConfig.symbol_rate = sr;
             newConfig.polarization_supply = lnb_supply;
@@ -283,7 +205,7 @@ namespace opentuner.MediaSources.Minitiouner
 
             Console.WriteLine("Main: New Config: " + newConfig.ToString());
 
-            if (tuner == 1)
+            if (device == 0)
             {
                 current_frequency_1 = newConfig.frequency;
                 current_sr_1 = sr;
@@ -314,11 +236,37 @@ namespace opentuner.MediaSources.Minitiouner
             config_queue.Enqueue(newConfig);
         }
 
-        public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
+        public byte set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
         {
-            return Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "", Parent);
+            return hardware_interface.hw_set_polarization_supply(lnb_num, supply_enable, supply_horizontal);
         }
 
+        public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
+        {            
+            switch (_settings.DefaultInterface)
+            {
+                case 0:
+                    var hw_ask = new ChooseHardwareInterfaceForm();
+
+                    if (hw_ask.ShowDialog() == DialogResult.OK)
+                    {
+                        switch(hw_ask.comboHardwareSelect.SelectedIndex)
+                        {
+                            case 0: hardware_interface = new FTDIInterface(); break;
+                            case 1: hardware_interface = new PicoTunerInterface(); break;
+                        }
+
+                    }
+                    else return -1;
+
+                    break;
+                case 1: hardware_interface = new FTDIInterface(); break;
+                case 2: hardware_interface = new PicoTunerInterface(); break;
+            }
+
+
+            return Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "", Parent);
+        }
 
         public void nim_status_feedback(TunerStatus nim_status)
         {
@@ -411,6 +359,8 @@ namespace opentuner.MediaSources.Minitiouner
             _parent = Parent;
             BuildSourceProperties();
 
+
+
             Console.WriteLine("Main: Starting Nim Thread");
 
             Console.WriteLine("Switch LED's");
@@ -443,19 +393,19 @@ namespace opentuner.MediaSources.Minitiouner
             StoredFrequency tuner_freq1 = default_freq;
             StoredFrequency tuner_freq2 = default_freq;
 
-            change_frequency(1, tuner_freq1.Frequency - tuner_freq1.Offset, tuner_freq1.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq1.RFInput, current_tone_22kHz_P1);
-            change_frequency(2, tuner_freq2.Frequency - tuner_freq2.Offset, tuner_freq2.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq2.RFInput, current_tone_22kHz_P1);
+            change_frequency(0, tuner_freq1.Frequency - tuner_freq1.Offset, tuner_freq1.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq1.RFInput, current_tone_22kHz_P1);
+            change_frequency(1, tuner_freq2.Frequency - tuner_freq2.Offset, tuner_freq2.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq2.RFInput, current_tone_22kHz_P1);
 
             nim_thread_t.Start();
 
             // TS thread - T1P2
-            ts_thread = new TSThread(ts_data_queue, nim_thread, FlushTS2, ReadTS2, "MT TS2");
+            ts_thread = new TSThread(ts_data_queue, FlushTS2, ReadTS2, "MT TS2");
             ts_thread_t = new Thread(ts_thread.worker_thread);
             ts_thread_t.Start();
 
             if (ts_devices == 2)
             {
-                ts_thread2 = new TSThread(ts_data_queue2, nim_thread, FlushTS1, ReadTS1, "MT TS1");
+                ts_thread2 = new TSThread(ts_data_queue2, FlushTS1, ReadTS1, "MT TS1");
                 ts_thread_2_t = new Thread(ts_thread2.worker_thread);
                 ts_thread_2_t.Start();
             }
@@ -600,18 +550,7 @@ namespace opentuner.MediaSources.Minitiouner
             HardwareDevice = deviceName;
         }
 
-        public override byte SelectHardwareInterface(int HardwareInterface)
-        {
-            _hardwareInterface = HardwareInterface;
 
-            switch (_hardwareInterface)
-            {
-                case 0: hardware_interface = new FTDIInterface(); break;
-                case 1: hardware_interface = new PicoTunerInterface(); break;
-            }
-
-            return 0;
-        }
 
         public override void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers)
         {
@@ -633,10 +572,66 @@ namespace opentuner.MediaSources.Minitiouner
             {
                 if ((OTMediaPlayer)sender == _media_players[c])
                 {
+                    switch(c)
+                    {
+                        case 0:
+                            _media_players[c].SetVolume(_settings.DefaultVolume1);
+                            break;
+                        case 1:
+                            _media_players[c].SetVolume(_settings.DefaultVolume2);
+                            break;
+                    }
+
                     UpdateMediaProperties(c, e);
                     break;
                 }
             }
+        }
+
+        public override string GetName()
+        {
+            return "Minitiouner";
+        }
+
+        public override string GetDescription()
+        {
+            string desc = "Generic Minitiouner Source";
+            desc += "\n\nCurrent Selected Hardware Interface: ";
+
+            switch (_settings.DefaultInterface)
+            {
+                case 0: desc += "Always Ask"; break;
+                case 1: desc += "FTDI Module"; break;
+                case 2: desc += "PicoTuner"; break;
+            }
+
+            return desc;
+        }
+
+        public override void Close()
+        {
+            _settingsManager.SaveSettings(_settings);
+
+            // switch off TS led's
+            hardware_interface.hw_ts_led(0, false);
+            hardware_interface.hw_ts_led(1, false);
+
+            if (ts_parser_t != null)
+                ts_parser_t.Abort();
+            if (ts_parser_2_t != null)
+                ts_parser_2_t.Abort();
+            if (ts_thread_t != null)
+                ts_thread_t.Abort();
+            if (ts_thread_2_t != null)
+                ts_thread_2_t.Abort();
+            if (nim_thread_t != null)
+                nim_thread_t.Abort();
+        }
+
+        public override void ShowSettings()
+        {
+            MinitiounerSettingsForm settings_form = new MinitiounerSettingsForm(ref _settings);
+            settings_form.ShowDialog();
         }
     }
 }

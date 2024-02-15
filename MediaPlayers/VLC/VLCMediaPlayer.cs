@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LibVLCSharp.Shared;
 
-namespace opentuner
+namespace opentuner.MediaPlayers.VLC
 {
     public class VLCMediaPlayer : OTMediaPlayer
     {

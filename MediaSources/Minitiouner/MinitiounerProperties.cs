@@ -1,4 +1,5 @@
 ﻿using LibVLCSharp.Shared;
+using NAudio.Gui;
 using Newtonsoft.Json.Linq;
 using opentuner.Utilities;
 using System;
@@ -30,9 +31,11 @@ namespace opentuner.MediaSources.Minitiouner
             if (ts_devices == 2)
             {
                 _tuner2_properties = ConfigureTunerProperties(2);
+                _tuner2_properties.UpdateValue("volume_slider_2", _settings.DefaultVolume2.ToString());
             }
 
             _tuner1_properties = ConfigureTunerProperties(1);
+            _tuner1_properties.UpdateValue("volume_slider_1", _settings.DefaultVolume1.ToString());
 
             // source properties
             _source_properties = new DynamicPropertyGroup("Minitiouner Properties", _parent);
@@ -77,13 +80,15 @@ namespace opentuner.MediaSources.Minitiouner
                 case "volume_slider_1":
                     if (_media_players.Count > 0)
                     {
-                        _media_players[0].SetVolume(value); 
+                        _media_players[0].SetVolume(value);
+                        _settings.DefaultVolume1 = (byte)value;
                     }
                     break;
                 case "volume_slider_2":
                     if (_media_players.Count > 0)
                     {
                         _media_players[1].SetVolume(value);
+                        _settings.DefaultVolume2 = (byte)value;
                     }
                     break;
             }
@@ -134,7 +139,7 @@ namespace opentuner.MediaSources.Minitiouner
             _tuner1_properties.UpdateValue("symbol_rate", (new_status.T1P2_symbol_rate / 1000).ToString());
             _tuner1_properties.UpdateValue("ber", new_status.T1P2_ber.ToString());
             _tuner1_properties.UpdateValue("freq_carrier_offset", new_status.T1P2_frequency_carrier_offset.ToString());
-            _tuner1_properties.UpdateValue("requested_freq", GetCurrentFrequency(0, true).ToString("N0"));
+            _tuner1_properties.UpdateValue("requested_freq", "(" + GetFrequency(0, true).ToString("N0") + ") (" + GetFrequency(0, false).ToString("N0") + ")");
             _tuner1_properties.UpdateValue("rf_input", (new_status.T1P2_rf_input == 1 ? "A" : "B"));
             _tuner1_properties.UpdateValue("stream_format", lookups.stream_format_lookups[Convert.ToInt32(new_status.T1P2_stream_format)].ToString());
 
@@ -184,7 +189,8 @@ namespace opentuner.MediaSources.Minitiouner
                 _tuner2_properties.UpdateValue("symbol_rate", (new_status.T2P1_symbol_rate / 1000).ToString());
                 _tuner2_properties.UpdateValue("ber", new_status.T2P1_ber.ToString());
                 _tuner2_properties.UpdateValue("freq_carrier_offset", new_status.T2P1_frequency_carrier_offset.ToString());
-                _tuner2_properties.UpdateValue("requested_freq", GetCurrentFrequency(0, true).ToString("N0"));
+                _tuner2_properties.UpdateValue("requested_freq", "(" + GetFrequency(1, true).ToString("N0") + ") (" + GetFrequency(1, false).ToString("N0") + ")");
+
                 _tuner2_properties.UpdateValue("rf_input", (new_status.T2P1_rf_input == 1 ? "A" : "B"));
                 _tuner2_properties.UpdateValue("stream_format", lookups.stream_format_lookups[Convert.ToInt32(new_status.T2P1_stream_format)].ToString());
 

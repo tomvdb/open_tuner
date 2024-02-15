@@ -98,7 +98,13 @@ namespace opentuner.Utilities
 
         public override void UpdateValue(string Value)
         {
-            throw new NotImplementedException();
+            int new_value = 0;
+
+            if (Int32.TryParse(Value, out new_value))
+            {
+                Console.WriteLine("Update slider to " + new_value.ToString());
+                _trackBar.Value = new_value;
+            }
         }
     }
 }

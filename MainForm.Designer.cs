@@ -32,9 +32,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.SourcePage = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.sourceInfo = new System.Windows.Forms.Label();
+            this.btnSourceSettings = new System.Windows.Forms.Button();
+            this.btnSourceConnect = new System.Windows.Forms.Button();
+            this.comboAvailableSources = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.PropertiesPage = new System.Windows.Forms.TabPage();
             this.debugPage = new System.Windows.Forms.TabPage();
             this.dbgListBox = new System.Windows.Forms.ListBox();
-            this.PropertiesPage = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
@@ -45,12 +52,9 @@
             this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoTimedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoHoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.websocketTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,12 +90,13 @@
             this.commandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureCallsignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SpectrumTuneTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.SourcePage.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.debugPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -127,11 +132,68 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.SourcePage);
             this.tabControl1.Controls.Add(this.PropertiesPage);
             this.tabControl1.Controls.Add(this.debugPage);
             resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
+            // 
+            // SourcePage
+            // 
+            this.SourcePage.BackColor = System.Drawing.Color.Transparent;
+            this.SourcePage.Controls.Add(this.groupBox1);
+            resources.ApplyResources(this.SourcePage, "SourcePage");
+            this.SourcePage.Name = "SourcePage";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.sourceInfo);
+            this.groupBox1.Controls.Add(this.btnSourceSettings);
+            this.groupBox1.Controls.Add(this.btnSourceConnect);
+            this.groupBox1.Controls.Add(this.comboAvailableSources);
+            this.groupBox1.Controls.Add(this.label1);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // sourceInfo
+            // 
+            resources.ApplyResources(this.sourceInfo, "sourceInfo");
+            this.sourceInfo.Name = "sourceInfo";
+            // 
+            // btnSourceSettings
+            // 
+            resources.ApplyResources(this.btnSourceSettings, "btnSourceSettings");
+            this.btnSourceSettings.Name = "btnSourceSettings";
+            this.btnSourceSettings.UseVisualStyleBackColor = true;
+            this.btnSourceSettings.Click += new System.EventHandler(this.btnSourceSettings_Click);
+            // 
+            // btnSourceConnect
+            // 
+            resources.ApplyResources(this.btnSourceConnect, "btnSourceConnect");
+            this.btnSourceConnect.Name = "btnSourceConnect";
+            this.btnSourceConnect.UseVisualStyleBackColor = true;
+            this.btnSourceConnect.Click += new System.EventHandler(this.btnSourceConnect_Click);
+            // 
+            // comboAvailableSources
+            // 
+            this.comboAvailableSources.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboAvailableSources.FormattingEnabled = true;
+            resources.ApplyResources(this.comboAvailableSources, "comboAvailableSources");
+            this.comboAvailableSources.Name = "comboAvailableSources";
+            this.comboAvailableSources.SelectedIndexChanged += new System.EventHandler(this.comboAvailableSources_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // PropertiesPage
+            // 
+            resources.ApplyResources(this.PropertiesPage, "PropertiesPage");
+            this.PropertiesPage.BackColor = System.Drawing.Color.Transparent;
+            this.PropertiesPage.Name = "PropertiesPage";
             // 
             // debugPage
             // 
@@ -145,12 +207,6 @@
             resources.ApplyResources(this.dbgListBox, "dbgListBox");
             this.dbgListBox.FormattingEnabled = true;
             this.dbgListBox.Name = "dbgListBox";
-            // 
-            // PropertiesPage
-            // 
-            resources.ApplyResources(this.PropertiesPage, "PropertiesPage");
-            this.PropertiesPage.BackColor = System.Drawing.Color.Transparent;
-            this.PropertiesPage.Name = "PropertiesPage";
             // 
             // splitContainer2
             // 
@@ -253,12 +309,6 @@
             resources.ApplyResources(this.autoHoldToolStripMenuItem, "autoHoldToolStripMenuItem");
             this.autoHoldToolStripMenuItem.Click += new System.EventHandler(this.autoHoldToolStripMenuItem_Click);
             // 
-            // websocketTimer
-            // 
-            this.websocketTimer.Enabled = true;
-            this.websocketTimer.Interval = 2000;
-            this.websocketTimer.Tick += new System.EventHandler(this.websocketTimer_Tick);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -276,31 +326,17 @@
             // openTunerToolStripMenuItem
             // 
             this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuConnect,
             this.settingsToolStripMenuItem,
-            this.toolStripMenuItem7,
             this.toolStripSeparator1,
             this.quitToolStripMenuItem});
             this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
             resources.ApplyResources(this.openTunerToolStripMenuItem, "openTunerToolStripMenuItem");
-            // 
-            // menuConnect
-            // 
-            this.menuConnect.Name = "menuConnect";
-            resources.ApplyResources(this.menuConnect, "menuConnect");
-            this.menuConnect.Click += new System.EventHandler(this.btnConnectTuner_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            resources.ApplyResources(this.toolStripMenuItem7, "toolStripMenuItem7");
-            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
             // 
             // toolStripSeparator1
             // 
@@ -434,25 +470,21 @@
             this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
             resources.ApplyResources(this.offToolStripMenuItem, "offToolStripMenuItem");
-            this.offToolStripMenuItem.Click += new System.EventHandler(this.offToolStripMenuItem_Click);
             // 
             // vertical13VToolStripMenuItem
             // 
             this.vertical13VToolStripMenuItem.Name = "vertical13VToolStripMenuItem";
             resources.ApplyResources(this.vertical13VToolStripMenuItem, "vertical13VToolStripMenuItem");
-            this.vertical13VToolStripMenuItem.Click += new System.EventHandler(this.vertical13VToolStripMenuItem_Click);
             // 
             // horizontal18VToolStripMenuItem
             // 
             this.horizontal18VToolStripMenuItem.Name = "horizontal18VToolStripMenuItem";
             resources.ApplyResources(this.horizontal18VToolStripMenuItem, "horizontal18VToolStripMenuItem");
-            this.horizontal18VToolStripMenuItem.Click += new System.EventHandler(this.horizontal18VToolStripMenuItem_Click);
             // 
             // kHzToolStripMenuItem
             // 
             this.kHzToolStripMenuItem.Name = "kHzToolStripMenuItem";
             resources.ApplyResources(this.kHzToolStripMenuItem, "kHzToolStripMenuItem");
-            this.kHzToolStripMenuItem.Click += new System.EventHandler(this.kHzToolStripMenuItem_Click);
             // 
             // qO100WidebandChatToolStripMenuItem
             // 
@@ -532,11 +564,6 @@
             resources.ApplyResources(this.configureCallsignToolStripMenuItem, "configureCallsignToolStripMenuItem");
             this.configureCallsignToolStripMenuItem.Click += new System.EventHandler(this.configureCallsignToolStripMenuItem_Click);
             // 
-            // SpectrumTuneTimer
-            // 
-            this.SpectrumTuneTimer.Interval = 1500;
-            this.SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
-            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -552,6 +579,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.SourcePage.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.debugPage.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -577,7 +607,6 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Timer websocketTimer;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem openTunerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
@@ -588,10 +617,8 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage debugPage;
         private System.Windows.Forms.ListBox dbgListBox;
-        private System.Windows.Forms.ToolStripMenuItem menuConnect;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem qO100WidebandChatToolStripMenuItem;
-        private System.Windows.Forms.Timer SpectrumTuneTimer;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem manageStoredFrequenciesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
@@ -616,7 +643,6 @@
         private System.Windows.Forms.ToolStripMenuItem enableUDPOutputToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem externalToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageExternalToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
@@ -633,6 +659,13 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.TabPage SourcePage;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label sourceInfo;
+        private System.Windows.Forms.Button btnSourceSettings;
+        private System.Windows.Forms.Button btnSourceConnect;
+        private System.Windows.Forms.ComboBox comboAvailableSources;
+        private System.Windows.Forms.Label label1;
     }
 }
 
