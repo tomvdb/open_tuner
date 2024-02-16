@@ -12,6 +12,8 @@ namespace opentuner.MediaSources.Minitiouner.HardwareInterfaces
 
         public abstract bool RequireSerialTS { get;  }
 
+        public abstract string GetName { get; }
+
         // TODO: change to more generic detect
         public abstract byte hw_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName, string i2c_serial, string ts_serial, string ts2_serial);
         public abstract byte hw_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName);

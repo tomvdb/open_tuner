@@ -12,7 +12,7 @@ namespace opentuner.ExtraFeatures.MqttClient
 {
     public delegate void NewMqttMessage(MqttMessage Message);
     
-    public class OTMqttClient
+    public class MqttManager
     {
         private string _broker;
         private int _broker_port;
@@ -24,7 +24,7 @@ namespace opentuner.ExtraFeatures.MqttClient
 
         public event NewMqttMessage OnMqttMessageReceived;
 
-        public OTMqttClient(string BrokerHost, int BrokerPort, string ParentTopic) 
+        public MqttManager(string BrokerHost, int BrokerPort, string ParentTopic) 
         { 
             _broker = BrokerHost;
             _broker_port = BrokerPort;

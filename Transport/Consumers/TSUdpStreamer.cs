@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.CodeDom;
+using opentuner.MediaSources;
 
 namespace opentuner
 {
-    public class TSUDPThread
+    public class TSUdpStreamer
     {
         public CircularBuffer ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
 
@@ -37,16 +38,40 @@ namespace opentuner
         string udp_address = "";
         int udp_port = 0;
 
-        public TSUDPThread(string udp_address, int udp_port)
+        private bool _running = false;
+        private Thread _StreamThread = null;
+
+        public event EventHandler<bool> onStreamStatusChange;
+
+        public int ID { get { return _id; } }
+        private int _id = 0;
+
+        public TSUdpStreamer(string udp_address, int udp_port, int Id, OTSource TSSource)
         {
             this.udp_address = udp_address;
             this.udp_port = udp_port;
+            this._id = Id;
+
+            // register for TS Stream
+            TSSource.RegisterTSConsumer(Id, ts_data_queue);
+
+            streaming = false;
+
+            _StreamThread = new Thread(worker_thread);
+            _StreamThread.Start();
         }
+
+        public void Close()
+        {
+            _running = false;
+            _StreamThread?.Abort();
+        }
+
 
         public void worker_thread()
         {
             byte data;
-
+            _running = true;
             // Create a UDP client to send data to VLC
             UdpClient udpClient = new UdpClient();
 
@@ -58,19 +83,22 @@ namespace opentuner
 
             try
             {
-                while (true)
+                while (_running)
                 {
 
                     if (streaming == false && stream == true)
                     {
                         streaming = true;
                         ts_sync = false;
+
+                        onStreamStatusChange?.Invoke(this, true);
                     }
                     else
                     {
                         if (streaming == true && stream == false)
                         {
                             streaming = false;
+                            onStreamStatusChange?.Invoke(this, false);
                         }
                     }
 

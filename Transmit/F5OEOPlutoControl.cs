@@ -21,7 +21,7 @@ namespace opentuner.Transmit
             SETFREQUENCY,
         }
 
-        private OTMqttClient _mqtt_client;
+        private MqttManager _mqtt_client;
 
         private string _detected_callsign = "";
         private string _pluto_cmd_path = "";
@@ -42,7 +42,7 @@ namespace opentuner.Transmit
         // context menu strip
         ContextMenuStrip _genericContextStrip;
 
-        public F5OEOPlutoControl(OTMqttClient MqttClient)
+        public F5OEOPlutoControl(MqttManager MqttClient)
         {
             _mqtt_client = MqttClient;
             _mqtt_client.OnMqttMessageReceived += _mqtt_client_OnMqttMessageReceived;

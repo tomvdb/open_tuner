@@ -90,6 +90,15 @@
             this.commandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureCallsignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -113,6 +122,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
             this.contextSpectrumMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -142,6 +152,7 @@
             // SourcePage
             // 
             this.SourcePage.BackColor = System.Drawing.Color.Transparent;
+            this.SourcePage.Controls.Add(this.groupBox2);
             this.SourcePage.Controls.Add(this.groupBox1);
             resources.ApplyResources(this.SourcePage, "SourcePage");
             this.SourcePage.Name = "SourcePage";
@@ -419,13 +430,11 @@
             // 
             this.recordAllToolStripMenuItem.Name = "recordAllToolStripMenuItem";
             resources.ApplyResources(this.recordAllToolStripMenuItem, "recordAllToolStripMenuItem");
-            this.recordAllToolStripMenuItem.Click += new System.EventHandler(this.recordAllToolStripMenuItem_Click);
             // 
             // enableUDPOutputToolStripMenuItem
             // 
             this.enableUDPOutputToolStripMenuItem.Name = "enableUDPOutputToolStripMenuItem";
             resources.ApplyResources(this.enableUDPOutputToolStripMenuItem, "enableUDPOutputToolStripMenuItem");
-            this.enableUDPOutputToolStripMenuItem.Click += new System.EventHandler(this.enableUDPOutputToolStripMenuItem_Click);
             // 
             // tuner2ToolStripMenuItem
             // 
@@ -438,7 +447,6 @@
             // 
             this.enableUDPOutputToolStripMenuItem1.Name = "enableUDPOutputToolStripMenuItem1";
             resources.ApplyResources(this.enableUDPOutputToolStripMenuItem1, "enableUDPOutputToolStripMenuItem1");
-            this.enableUDPOutputToolStripMenuItem1.Click += new System.EventHandler(this.enableUDPOutputToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem4
             // 
@@ -564,6 +572,68 @@
             resources.ApplyResources(this.configureCallsignToolStripMenuItem, "configureCallsignToolStripMenuItem");
             this.configureCallsignToolStripMenuItem.Click += new System.EventHandler(this.configureCallsignToolStripMenuItem_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.checkBox4);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.checkBox3);
+            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Controls.Add(this.checkBox1);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
+            // checkBox1
+            // 
+            resources.ApplyResources(this.checkBox1, "checkBox1");
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            resources.ApplyResources(this.checkBox2, "checkBox2");
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            resources.ApplyResources(this.checkBox3, "checkBox3");
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label4.Name = "label4";
+            // 
+            // checkBox4
+            // 
+            resources.ApplyResources(this.checkBox4, "checkBox4");
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label5.Name = "label5";
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -599,6 +669,8 @@
             this.contextSpectrumMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -666,6 +738,15 @@
         private System.Windows.Forms.Button btnSourceConnect;
         private System.Windows.Forms.ComboBox comboAvailableSources;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }
 

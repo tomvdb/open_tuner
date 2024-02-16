@@ -41,8 +41,10 @@ namespace opentuner.MediaSources.Minitiouner
         bool T1P2_prevLocked = false;
         bool T2P1_prevLocked = false;
 
-        // video player references
+        
         private List<OTMediaPlayer> _media_players = new List<OTMediaPlayer> ();
+        private List<TSRecorder> _ts_recorders;
+        private List<TSUdpStreamer> _ts_streamers;
 
         public override bool DeviceConnected
         {
@@ -359,6 +361,9 @@ namespace opentuner.MediaSources.Minitiouner
             _parent = Parent;
             BuildSourceProperties();
 
+            _source_properties.UpdateValue("source_hw_interface", hardware_interface.GetName);
+
+
 
 
             Console.WriteLine("Main: Starting Nim Thread");
@@ -613,25 +618,50 @@ namespace opentuner.MediaSources.Minitiouner
             _settingsManager.SaveSettings(_settings);
 
             // switch off TS led's
-            hardware_interface.hw_ts_led(0, false);
-            hardware_interface.hw_ts_led(1, false);
+            hardware_interface?.hw_ts_led(0, false);
+            hardware_interface?.hw_ts_led(1, false);
 
-            if (ts_parser_t != null)
-                ts_parser_t.Abort();
-            if (ts_parser_2_t != null)
-                ts_parser_2_t.Abort();
-            if (ts_thread_t != null)
-                ts_thread_t.Abort();
-            if (ts_thread_2_t != null)
-                ts_thread_2_t.Abort();
-            if (nim_thread_t != null)
-                nim_thread_t.Abort();
+            ts_parser_t?.Abort();
+            ts_parser_2_t?.Abort();
+            ts_thread_t?.Abort();
+            ts_thread_2_t?.Abort();
+            nim_thread_t?.Abort();
         }
 
         public override void ShowSettings()
         {
             MinitiounerSettingsForm settings_form = new MinitiounerSettingsForm(ref _settings);
             settings_form.ShowDialog();
+        }
+
+        public override void ConfigureTSRecorders(List<TSRecorder> TSRecorders)
+        {
+            _ts_recorders = TSRecorders;
+            
+            for (int c = 0; c < _ts_recorders.Count; c++)
+            {
+                _ts_recorders[c].onRecordStatusChange += MinitiounerSource_onRecordStatusChange;
+            }
+        }
+
+        private void MinitiounerSource_onRecordStatusChange(object sender, bool e)
+        {
+            Console.WriteLine(((TSRecorder)(sender)).ID.ToString() + " recording status : " + e.ToString());
+        }
+
+        public override void ConfigureTSStreamers(List<TSUdpStreamer> TSStreamers)
+        {
+            _ts_streamers = TSStreamers;
+            
+            for (int c = 0; c < _ts_streamers.Count; c++)
+            {
+                _ts_streamers[c].onStreamStatusChange += MinitiounerSource_onStreamStatusChange;
+            }
+        }
+
+        private void MinitiounerSource_onStreamStatusChange(object sender, bool e)
+        {
+            Console.WriteLine(((TSUdpStreamer)(sender)).ID.ToString() + " streaming status : " + e.ToString());
         }
     }
 }

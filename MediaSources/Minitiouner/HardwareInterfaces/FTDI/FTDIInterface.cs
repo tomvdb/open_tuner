@@ -81,6 +81,8 @@ namespace opentuner
 
         public override bool RequireSerialTS => false;
 
+        public override string GetName => "FTDI Module";
+
         private byte Receive_Data_i2c(uint BytesToRead)
         {
             uint NumBytesInQueue = 0;

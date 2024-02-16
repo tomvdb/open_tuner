@@ -12,6 +12,7 @@ namespace opentuner.Utilities
     public class DynamicPropertyItem : DynamicPropertyInterface
     {
         private delegate void UpdateLabelDelegate(Label Lbl, Object obj);
+        private delegate void UpdateLabelColorDelegate(Label Lbl, Color Col);
 
         protected GroupBox _parent;
         protected string _key;
@@ -19,10 +20,21 @@ namespace opentuner.Utilities
         protected Label _titleLabel;
         private Label _valueLabel;
 
+        ToolTip _toolTip = new ToolTip();
+
         public ContextMenuStrip ContextMenu
         {
             get { return _valueLabel.ContextMenuStrip;  }
-            set { _valueLabel.ContextMenuStrip = value; }
+            set 
+            { 
+                
+                _valueLabel.ContextMenuStrip = value; 
+                if (value != null )
+                {
+                    _toolTip.ShowAlways = true;
+                    _toolTip.SetToolTip(_valueLabel, "Right Click for Options");
+                }
+            }
         }
 
         public override string Key
@@ -54,6 +66,28 @@ namespace opentuner.Utilities
             }
 
         }
+
+        private void UpdateColor(Label Lbl, Color Col)
+        {
+
+            if (Lbl == null)
+                return;
+
+            if (Lbl.InvokeRequired)
+            {
+                UpdateLabelColorDelegate ulb = new UpdateLabelColorDelegate(UpdateColor);
+                if (Lbl != null)
+                {
+                    Lbl?.Invoke(ulb, new object[] { Lbl, Col });
+                }
+            }
+            else
+            {
+                Lbl.BackColor = Col;
+            }
+
+        }
+
 
         public override void UpdateValue(string Value)
         {
@@ -88,8 +122,8 @@ namespace opentuner.Utilities
             _titleLabel.Left = 5;
             _titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
-            if (_parent.Controls.Count == 0)
-                _titleLabel.Top = _titleLabel.Height + 5;
+            if (_parent.Controls.Count < 2)
+                _titleLabel.Top = _titleLabel.Height + 10;
             else
                 _titleLabel.Top = _parent.Controls[_parent.Controls.Count - 1].Top + _parent.Controls[_parent.Controls.Count - 1].Height + 5;
 
@@ -114,6 +148,11 @@ namespace opentuner.Utilities
             _titleLabel.Width = _parent.Width / 2 - 5;
             _valueLabel.Left = _titleLabel.Left + _titleLabel.Width + 5;
             _valueLabel.Width = _parent.Width - _valueLabel.Left - 5;
+        }
+
+        public override void UpdateColor(Color Col)
+        {
+            UpdateColor(_valueLabel, Col);
         }
     }
 }

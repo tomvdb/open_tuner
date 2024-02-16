@@ -40,6 +40,10 @@ namespace opentuner.MediaSources
 
         public abstract void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers);
 
+        public abstract void ConfigureTSRecorders(List<TSRecorder> TSRecorders);
+
+        public abstract void ConfigureTSStreamers(List<TSUdpStreamer> TSStreamers);
+
         public abstract bool DeviceConnected { get; }
 
         //public abstract byte SelectHardwareInterface(int hardware_interface);

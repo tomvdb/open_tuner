@@ -29,33 +29,26 @@ namespace opentuner
     delegate void updateTSStatusGuiDelegate(int device, MainForm gui, TSStatus new_status);
     delegate void updateMediaStatusGuiDelegate(int tuner, MainForm gui, MediaStatus new_status);
     delegate void UpdateLBDelegate(ListBox LB, Object obj);
+    delegate void UpdateLabelDelegate(Label LB, Object obj);
     delegate void updateRecordingStatusDelegate(MainForm gui, bool recording_status, string id);
 
     public partial class MainForm : Form
     {
         // extras
-        OTMqttClient mqtt_client;
+        MqttManager mqtt_client;
         F5OEOPlutoControl pluto_client;
         BATCSpectrum batc_spectrum;
 
         private static List<OTMediaPlayer> _mediaPlayers;
         private static List<OTSource> _availableSources = new List<OTSource>();
+        private static List<TSRecorder> _ts_recorders = new List<TSRecorder>();
+        private static List<TSUdpStreamer> _ts_streamers = new List<TSUdpStreamer>();
+
         private static OTSource videoSource;
 
         // udp listener
         UdpListener ExternalQuickTuneListener_1 = new UdpListener(6789);
         UdpListener ExternalQuickTuneListener_2 = new UdpListener(6790);
-
-
-        Thread ts_recorder_1_t = null;
-        Thread ts_recorder_2_t = null;
-        Thread ts_udp_t1 = null;
-        Thread ts_udp_t2 = null;
-
-        TSRecorderThread ts_recorder1;
-        TSRecorderThread ts_recorder2;
-        TSUDPThread ts_udp1;
-        TSUDPThread ts_udp2;
 
         // settings values
         string setting_snapshot_path = "";
@@ -172,10 +165,6 @@ namespace opentuner
 
             }
 
-            // test
-            //SoftBlink(lblrecordIndication1, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
-            //SoftBlink(lblRecordIndication2, Color.FromArgb(255, 255, 255), Color.Red, 2000, false);
-
             // udp listeners
             ExternalQuickTuneListener_1.DataReceived += ExternalQuickTuneListener_1_DataReceived;
             ExternalQuickTuneListener_2.DataReceived += ExternalQuickTuneListener_2_DataReceived;
@@ -202,13 +191,7 @@ namespace opentuner
 
             this.Text = this.Text += " - " + videoSource.GetDeviceName();
 
-            // TS recorder Thread
-            ts_recorder1 = new TSRecorderThread(setting_snapshot_path, "t1");
-            videoSource.RegisterTSConsumer(0, ts_recorder1.ts_data_queue);
-            ts_recorder1.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
-            ts_recorder_1_t = new Thread(ts_recorder1.worker_thread);
-            ts_recorder_1_t.Start();
-
+            /*
             // TS udp thread - tuner 1
             ts_udp1 = new TSUDPThread(setting_udp_address1, setting_udp_port1);
             videoSource.RegisterTSConsumer(0, ts_udp1.ts_data_queue);
@@ -226,11 +209,11 @@ namespace opentuner
                 // TS recorder Thread
                 ts_recorder2 = new TSRecorderThread(setting_snapshot_path, "t2");
                 videoSource.RegisterTSConsumer(1, ts_recorder2.ts_data_queue);
-                ts_recorder2.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
                 ts_recorder_2_t = new Thread(ts_recorder2.worker_thread);
                 ts_recorder_2_t.Start();
 
             }
+            */
 
             // preferred player to use for each video view
             // 0 = vlc, 1 = ffmpeg, 2 = mpv
@@ -239,54 +222,22 @@ namespace opentuner
             _mediaPlayers = ConfigureMediaPlayers(videoSource.GetVideoSourceCount(), playerPreferences);
             videoSource.ConfigureVideoPlayers(_mediaPlayers);
 
+            // set recorders
+            _ts_recorders = ConfigureTSRecorders(videoSource, setting_snapshot_path);
+            videoSource.ConfigureTSRecorders(_ts_recorders);
+
+            // set udp streamers
+            string[] udpHosts = new string[] { "127.0.0.1", "127.0.0.1", "127.0.0.1", "127.0.0.1" };
+            int[] udpPorts = new int[] { 5000, 5001, 5002, 5003 };
+            _ts_streamers = ConfigureTSStreamers(videoSource, udpHosts, udpPorts);
+            videoSource.ConfigureTSStreamers(_ts_streamers);
+
             // update gui
             SourcePage.Hide();
             tabControl1.TabPages.Remove(SourcePage);
 
             return true;
         }
-
-        private async void SoftBlink(Control ctrl, Color c1, Color c2, short CycleTime_ms, bool BkClr)
-        {
-            var sw = new Stopwatch(); sw.Start();
-            short halfCycle = (short)Math.Round(CycleTime_ms * 0.5);
-            while (true)
-            {
-                await Task.Delay(1);
-                var n = sw.ElapsedMilliseconds % CycleTime_ms;
-                var per = (double)Math.Abs(n - halfCycle) / halfCycle;
-                var red = (short)Math.Round((c2.R - c1.R) * per) + c1.R;
-                var grn = (short)Math.Round((c2.G - c1.G) * per) + c1.G;
-                var blw = (short)Math.Round((c2.B - c1.B) * per) + c1.B;
-                var clr = Color.FromArgb(red, grn, blw);
-                if (BkClr) ctrl.BackColor = clr; else ctrl.ForeColor = clr;
-            }
-        }
-
-        /*
-        public static void updateRecordingStatus(MainForm gui, bool recording_status, string id)
-        {
-
-                if (gui == null)
-                    return;
-
-                if (gui.InvokeRequired)
-                {
-                    updateRecordingStatusDelegate ulb = new updateRecordingStatusDelegate(updateRecordingStatus);
-
-                    if (gui != null)
-                        gui?.Invoke(ulb, new object[] { gui, recording_status, id });
-                }
-                else
-                {
-                    if (id == "t1")
-                        gui.prop_isRecording1 = recording_status;
-                    else
-                        gui.prop_isRecording2 = recording_status;
-                }
-        }
-        */
-
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
@@ -320,10 +271,6 @@ namespace opentuner
         {
             UpdateLB(dbgListBox, msg);
         }
-
-
-
-
 
         private void ExternalQuickTuneListener_2_DataReceived(object sender, Utilities.DataReceivedEventArgs e)
         {
@@ -412,57 +359,6 @@ namespace opentuner
                 stop_video(video_number-1);
         }
 
-        /*
-        public void start_video1()
-        {
-            Console.WriteLine("Main: Starting Media Player 1");
-
-            if (media_player_1 != null)
-                media_player_1.Play();
-        }
-
-        public void start_video2()
-        {
-           if (media_player_2 != null)
-                    media_player_2.Play();
-        }
-
-
-        public void stop_video1()
-        {
-            Console.WriteLine("Main: Stopping Media Player 1");
-
-            if (media_player_1 != null)
-                media_player_1.Stop();
-
-
-            if (ts_recorder1 != null)
-                ts_recorder1.record = false;
-
-            if (ts_udp1 != null)
-                ts_udp1.stream = false;
-
-            //if (bbframe_udp1 != null)
-            //    bbframe_udp1.stream = false;
-
-        }
-
-        public void stop_video2()
-        {
-            Console.WriteLine("Main: Stopping Media Player 2");
-
-            if (media_player_2 != null)
-                media_player_2.Stop();
-
-            if (ts_recorder2 != null)
-                ts_recorder2.record = false;
-
-            if (ts_udp2 != null)
-                ts_udp2.stream = false;
-        }
-
-        */
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Console.WriteLine("Exiting...");
@@ -475,10 +371,6 @@ namespace opentuner
                 Properties.Settings.Default.wbchat_width = chatForm.Size.Height;
             }
 
-            // save current volume as default volume
-            //Properties.Settings.Default.default_volume = trackVolume.Value;
-            //Properties.Settings.Default.default_volume2 = trackVolume2.Value;
-
             // save current windows properties
             Properties.Settings.Default.window_width = this.Width;
             Properties.Settings.Default.window_height = this.Height;
@@ -490,10 +382,12 @@ namespace opentuner
 
             try
             {
+                /*
                 if (mqtt_client !=  null)
                 {
                     mqtt_client.Disconnect();
                 }
+                */
 
                 if (batc_spectrum != null)
                     batc_spectrum.Close();
@@ -509,15 +403,18 @@ namespace opentuner
 
                 Console.WriteLine("* Closing Extra TS Threads");
 
-                // close threads
-                if (ts_recorder_1_t != null)
-                    ts_recorder_1_t.Abort();
-                if (ts_recorder_2_t != null)
-                    ts_recorder_2_t.Abort();
-                if (ts_udp_t1 != null)
-                    ts_udp_t1.Abort();
-                if (ts_udp_t2 != null)
-                    ts_udp_t2.Abort();
+                // close ts streamers
+                for (int c = 0; c < _ts_streamers.Count; c++)
+                {
+                    _ts_streamers[c].Close();
+                }
+
+
+                // close ts recorders
+                for (int c = 0; c < _ts_recorders.Count; c++) 
+                {
+                    _ts_recorders[c].Close();
+                }
 
                 // close available media sources
                 for (int c = 0; c < _availableSources.Count; c++)
@@ -548,127 +445,7 @@ namespace opentuner
 
         }
 
-        private void btnConnectTuner_Click(object sender, EventArgs e)
-        {
-            /*
-            int hardware_source = setting_default_hardware - 1;
-
-            // no default, ask user
-            if (hardware_source == -1)
-            {
-                var hardwareInterfaceSelection = new ChooseHardwareInterfaceForm();
-
-                if (hardwareInterfaceSelection.ShowDialog() == DialogResult.OK)
-                {
-                    hardware_source = hardwareInterfaceSelection.comboHardwareSelect.SelectedIndex;
-                }
-            }
-
-            videoSource.SelectHardwareInterface(hardware_source);
-            
-            Console.WriteLine("Main: Starting Source");
-            */
-
-            int video_players_required = videoSource.Initialize(ChangeVideo, PropertiesPage);
-
-            if (video_players_required < 0)
-            {
-                Console.WriteLine("Main: Error initializing Source");
-                return;
-            }
-
-            this.Text = this.Text += " - " + videoSource.GetDeviceName();
-
-            // TS recorder Thread
-            ts_recorder1 = new TSRecorderThread(setting_snapshot_path, "t1");
-            videoSource.RegisterTSConsumer(0, ts_recorder1.ts_data_queue);
-            ts_recorder1.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
-            ts_recorder_1_t = new Thread(ts_recorder1.worker_thread);
-            ts_recorder_1_t.Start();
-
-            // TS udp thread - tuner 1
-            ts_udp1 = new TSUDPThread(setting_udp_address1, setting_udp_port1);
-            videoSource.RegisterTSConsumer(0, ts_udp1.ts_data_queue);
-            ts_udp_t1 = new Thread(ts_udp1.worker_thread);
-            ts_udp_t1.Start();
-
-            if (videoSource.GetVideoSourceCount() == 2)
-            {
-                // TS udp thread - tuner 2
-                ts_udp2 = new TSUDPThread( setting_udp_address2, setting_udp_port2);
-                videoSource.RegisterTSConsumer(1, ts_udp2.ts_data_queue);
-                ts_udp_t2 = new Thread(ts_udp2.worker_thread);
-                ts_udp_t2.Start();
-
-                // TS recorder Thread
-                ts_recorder2 = new TSRecorderThread(setting_snapshot_path, "t2");
-                videoSource.RegisterTSConsumer(1, ts_recorder2.ts_data_queue);
-                ts_recorder2.onRecordStatusChange += Ts_recorder_onRecordStatusChange;
-                ts_recorder_2_t = new Thread(ts_recorder2.worker_thread);
-                ts_recorder_2_t.Start();
-
-            }
-
-            // preferred player to use for each video view
-            // 0 = vlc, 1 = ffmpeg, 2 = mpv
-            int[] playerPreferences = new int[] { 0, 1, 1, 1 };
-
-            _mediaPlayers = ConfigureMediaPlayers(videoSource.GetVideoSourceCount(), playerPreferences);
-            videoSource.ConfigureVideoPlayers(_mediaPlayers);
-
-            //menuConnect.Enabled = false;
-        }
-
-        /*
-        private void MediaPlayer_Vout2(object sender, MediaStatus media_status)
-        {
-            if (media_player_2 != null)
-                media_player_2.SetVolume(rxVolume2);
-
-            if (enableUDPOutputToolStripMenuItem1.Checked)
-            {
-                if (ts_udp2 != null)
-                {
-                    ts_udp2.stream = true;
-                }
-            }
-
-        }
-        */
-
-        private void Ts_recorder_onRecordStatusChange(object sender, bool e)
-        {
-            TSRecorderThread whichRecorder = (TSRecorderThread)sender;
-            //updateRecordingStatus(this, e, whichRecorder.id);
-        }
-
-        /*
-        private void MediaPlayer_Vout(object sender, MediaStatus media_status)
-        {
-            if (media_player_1 != null)
-                media_player_1.SetVolume(rxVolume);
-
-            if (recordAllToolStripMenuItem.Checked)
-            {
-                if (ts_recorder1 != null)
-                    ts_recorder1.record = true;  // recording will automatically stop when lock is lost
-            }
-
-            if (enableUDPOutputToolStripMenuItem.Checked)
-            {
-                if (ts_udp1 != null)
-                {
-                    ts_udp1.stream = true;
-                }
-            }
-
-
-        }
-        */
-
-
-
-        
+       
         private void load_settings()
         {
             // warning: don't use the debug function in this function as it gets called before components are initialized
@@ -731,50 +508,7 @@ namespace opentuner
                 setting_snapshot_path = AppDomain.CurrentDomain.BaseDirectory;
 
 
-            //debug("Settings: Restore Last Volume: " + setting_default_volume.ToString() + "%");
-            //trackVolume.Value = setting_default_volume;
-            //debug("Settings: Restore Last Volume2: " + setting_default_volume2.ToString() + "%");
-            //trackVolume2.Value = setting_default_volume2;
-            //debug("Settings: Default Offset A: " + setting_default_lo_value_1.ToString());
-            //videoSource.current_offset_A = setting_default_lo_value_1;
-            //debug("Settings: Default Offset B: " + setting_default_lo_value_2.ToString());
-            //videoSource.current_offset_B = setting_default_lo_value_2;
 
-
-            debug("Settings: Snapshot Path: " + setting_snapshot_path);
-
-            offToolStripMenuItem.Checked = false;
-            vertical13VToolStripMenuItem.Checked = false;
-            horizontal18VToolStripMenuItem.Checked = false;
-
-            /*
-            switch (setting_default_lnb_supply)
-            {
-                case 0:
-                    videoSource.current_enable_lnb_supply = false;
-                    videoSource.current_enable_horiz_supply = false;
-                    offToolStripMenuItem.Checked = true;
-                    break;
-                case 1:
-                    videoSource.current_enable_lnb_supply = true;
-                    videoSource.current_enable_horiz_supply = false;
-                    vertical13VToolStripMenuItem.Checked = true;
-                    break;
-                case 2:
-                    videoSource.current_enable_lnb_supply = true;
-                    videoSource.current_enable_horiz_supply = true;
-                    horizontal18VToolStripMenuItem.Checked = true;
-                    break;
-            }
-
-            debug("Settings: Enable LNB Supply: " + videoSource.current_enable_lnb_supply.ToString());
-
-            if (videoSource.current_enable_lnb_supply)
-            {
-                debug("Settings: Enable Vert Supply: " + (!videoSource.current_enable_horiz_supply).ToString());
-                debug("Settings: Enable Horiz Supply: " + videoSource.current_enable_horiz_supply.ToString());
-            }
-            */
 
             string[] args = Environment.GetCommandLineArgs();
 
@@ -808,29 +542,6 @@ namespace opentuner
                     Console.WriteLine("Auto Connect Enabled due to command line");
                     setting_auto_connect = true;
                 }
-
-                /*
-                if (arg.StartsWith("MANUAL="))
-                {
-                    string param = arg.Substring(7);
-                    Console.WriteLine("Manual Device Specifed! : " + param);
-
-                    manual_serial_devices = param.Split(',');
-
-                    for (int c = 0; c < manual_serial_devices.Length; c++)
-                    {
-                        switch(c)
-                        {
-                            case 0: Console.WriteLine("I2C: " + manual_serial_devices[c].ToString()); break;
-                            case 1: Console.WriteLine("Tuner 1 TS: " + manual_serial_devices[c].ToString()); break;
-                            case 2: Console.WriteLine("Tuner 2 TS: " + manual_serial_devices[c].ToString()); break;
-                        }
-                    }
-
-                    setting_autodetect = false;
-                }
-                */
-
 
             }
 
@@ -887,9 +598,10 @@ namespace opentuner
             Console.WriteLine("Load Done");
 
             // mqtt client
+            setting_enable_mqtt = false;
             if (setting_enable_mqtt)
             {
-                mqtt_client = new OTMqttClient(setting_mqtt_broker_host, setting_mqtt_broker_port, setting_mqtt_parent_topic);
+                mqtt_client = new MqttManager(setting_mqtt_broker_host, setting_mqtt_broker_port, setting_mqtt_parent_topic);
                 mqtt_client.OnMqttMessageReceived += Mqtt_client_OnMqttMessageReceived;
 
                 // pluto - requires mqtt
@@ -898,14 +610,6 @@ namespace opentuner
                     pluto_client = new F5OEOPlutoControl(mqtt_client);
                     plutoToolStripMenuItem.Visible = true;
                 }
-            }
-
-            
-
-            // this needs to go last
-            if (setting_auto_connect)
-            {
-                //btnConnectTuner_Click(this, e);
             }
         }
 
@@ -935,12 +639,13 @@ namespace opentuner
             {
                 ToolStripMenuItem et_menu = new ToolStripMenuItem(external_tools[c].ToolName);
                 et_menu.Tag = c;
-                et_menu.Click += Et_menu_Click;
+                //et_menu.Click += Et_menu_Click;
 
                 externalToolsToolStripMenuItem1.DropDownItems.Add(et_menu);
             }
         }
 
+        /*
         private void Et_menu_Click(object sender, EventArgs e)
         {
             int tag = Convert.ToInt32(((ToolStripMenuItem)(sender)).Tag);
@@ -984,6 +689,7 @@ namespace opentuner
                 }
             }
         }
+        */
 
         private void rebuild_stored_frequencies()
         {
@@ -1360,39 +1066,6 @@ namespace opentuner
         }
         */
 
-        private void btnVid1Record_Click(object sender, EventArgs e)
-        {
-            if (ts_recorder1 != null)
-            {
-                if (ts_recorder1.record)
-                    ts_recorder1.record = false;
-                else
-                    ts_recorder1.record = true;
-            }
-        }
-
-        private void recordAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            recordAllToolStripMenuItem.Checked = !recordAllToolStripMenuItem.Checked;
-        }
-
-        private void enableUDPOutputToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            enableUDPOutputToolStripMenuItem.Checked = !enableUDPOutputToolStripMenuItem.Checked;
-
-            if (ts_udp1 != null)
-            {
-                if (enableUDPOutputToolStripMenuItem.Checked)
-                {
-                    ts_udp1.stream = true;
-                }
-                else
-                {
-                    ts_udp1.stream = false;
-                }
-            }
-
-        }
 
         private void btnTuner_Click(object sender, EventArgs e)
         {
@@ -1483,39 +1156,11 @@ namespace opentuner
         }
 
         */
-        private void enableUDPOutputToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            enableUDPOutputToolStripMenuItem1.Checked = !enableUDPOutputToolStripMenuItem1.Checked;
 
-            if (ts_udp2 != null)
-            {
-                if (enableUDPOutputToolStripMenuItem1.Checked)
-                {
-                    ts_udp2.stream = true;
-                }
-                else
-                {
-                    ts_udp2.stream = false;
-                }
-            }
-
-        }
 
         private void addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/adding-2nd-transport-to-batc-minitiouner-v2/");
-        }
-
-        private void btnVidRecord2_Click(object sender, EventArgs e)
-        {
-            if (ts_recorder2 != null)
-            {
-                if (ts_recorder2.record)
-                    ts_recorder2.record = false;
-                else
-                    ts_recorder2.record = true;
-            }
-
         }
 
 
@@ -1579,6 +1224,36 @@ namespace opentuner
             return null;
         }
 
+        // configure TS recorders
+        private List<TSRecorder> ConfigureTSRecorders(OTSource video_source, string video_path)
+        {
+            List<TSRecorder> tSRecorders = new List<TSRecorder>();
+
+            for (int c = 0; c < video_source.GetVideoSourceCount(); c++)
+            {
+                var ts_recorder = new TSRecorder(video_path, c, video_source);
+                tSRecorders.Add(ts_recorder);
+            }
+
+            return tSRecorders;
+        }
+
+        // configure TS streamers
+        private List<TSUdpStreamer> ConfigureTSStreamers(OTSource video_source, string[] udpHosts, int[] udpPorts )
+        {
+            List<TSUdpStreamer> tsStreamers = new List<TSUdpStreamer>();
+
+            for (int c= 0; c < videoSource.GetVideoSourceCount(); c++)
+            {
+                var ts_streamer = new TSUdpStreamer(udpHosts[c], udpPorts[c], c, video_source);
+                tsStreamers.Add(ts_streamer);   
+            }
+
+            return tsStreamers;
+        }
+
+
+        // configure media players
         private List<OTMediaPlayer> ConfigureMediaPlayers(int amount, int[] playerPreference)
         {
             List<OTMediaPlayer> mediaPlayers = new List<OTMediaPlayer>();
@@ -1604,6 +1279,9 @@ namespace opentuner
         // todo: reset for changing sources
         private void ConfigureVideoLayout(int amount)
         {
+            splitContainer3.Visible = true;
+            splitContainer4.Visible = true;
+            splitContainer5.Visible = true;
 
             switch (amount)
             {

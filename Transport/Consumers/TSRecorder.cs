@@ -1,4 +1,5 @@
-﻿using System;
+﻿using opentuner.MediaSources;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -6,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WebSocketSharp;
 
 namespace opentuner
 {
-    public class TSRecorderThread
+    public class TSRecorder
     {
 
         public CircularBuffer ts_data_queue = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
@@ -33,41 +35,64 @@ namespace opentuner
             }
         }
 
+        public int ID { get { return _id; } }
+        private int _id = 0;
+
         bool recording = false;
         string media_path = "";
-        public string id = "";
 
-        public TSRecorderThread(string _media_path, string _id)
+        private bool _running = false;
+        private Thread _recorderThread = null;
+
+        public TSRecorder(string _media_path, int id, OTSource TSSource)
         {
             media_path = _media_path;
-            id = _id;
+            this._id = id;
+
+            // register for TS Stream
+            TSSource.RegisterTSConsumer(0, ts_data_queue);
+
+            recording = false;
+
+            _recorderThread = new Thread(worker_thread);
+            _recorderThread.Start();
+        }
+
+        public void Close()
+        {
+            // TODO: close file properly if recording when closing
+            _running = false;
+            _recorderThread?.Abort();
         }
 
         public void worker_thread()
         {
+            _running = true;
             BinaryWriter binWriter = null;
             byte data;
             bool ts_sync = true;
             try
             {
-                while (true)
+                while (_running)
                 {
                     if (recording == false && record == true)
                     {
                         // open a new file
                         Console.WriteLine("recording");
 
-                        string filename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + id + ".ts";
+                        string filename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + _id + ".ts";
 
                         // if path doesn't exist then save in same folder
                         if (Directory.Exists(media_path))
                         {
-                            filename = this.media_path + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + id + ".ts";
+                            filename = this.media_path + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + _id + ".ts";
                         }
                         
                         binWriter = new BinaryWriter(File.Open(filename, FileMode.Create));
                         recording = true;
                         ts_sync = true;
+
+                        ts_data_queue.Clear();
 
                         onRecordStatusChange?.Invoke(this, true);
                     }

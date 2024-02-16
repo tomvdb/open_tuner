@@ -62,6 +62,7 @@ namespace opentuner
     {
         public int rfport;
         public int demod_state;
+        public int ber;
         public int frequency;
         public int symbolrate;
         public int mer;

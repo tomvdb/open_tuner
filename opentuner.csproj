@@ -219,10 +219,12 @@
     <Compile Include="BBFrameUDP.cs" />
     <Compile Include="ExtraFeatures\BATCSpectrum\BATCSpectrum.cs" />
     <Compile Include="ExtraFeatures\MqttClient\MqttMessage.cs" />
-    <Compile Include="ExtraFeatures\MqttClient\OTMqttClient.cs" />
+    <Compile Include="ExtraFeatures\MqttClient\MqttManager.cs" />
+    <Compile Include="MediaSources\Longmynd\LongmyndMqtt.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndProperties.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndSettings.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndSource.cs" />
+    <Compile Include="MediaSources\Longmynd\LongmyndWS.cs" />
     <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -297,6 +299,7 @@
     <Compile Include="Utilities\DynamicPropertyGroups.cs" />
     <Compile Include="Utilities\DynamicPropertyInterface.cs" />
     <Compile Include="Utilities\DynamicPropertyItem.cs" />
+    <Compile Include="Utilities\DynamicPropertyMediaControl.cs" />
     <Compile Include="Utilities\DynamicPropertySlider.cs" />
     <Compile Include="Utilities\MediaStatus.cs" />
     <Compile Include="MediaSources\Minitiouner\MinitiounerSource.cs" />
@@ -332,11 +335,11 @@
     <Compile Include="MediaSources\Minitiouner\stvvglna.cs" />
     <Compile Include="MediaSources\Minitiouner\stvvglna_regs.cs" />
     <Compile Include="Transport\Consumers\TSParserThread.cs" />
-    <Compile Include="Transport\Consumers\TSRecorderThread.cs" />
+    <Compile Include="Transport\Consumers\TSRecorder.cs" />
     <Compile Include="Transport\TSStatus.cs" />
     <Compile Include="MediaPlayers\VLC\TSStreamMediaInput.cs" />
     <Compile Include="Transport\TSThread.cs" />
-    <Compile Include="Transport\Consumers\TSUDPThread.cs" />
+    <Compile Include="Transport\Consumers\TSUdpStreamer.cs" />
     <Compile Include="tunerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>

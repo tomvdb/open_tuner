@@ -65,6 +65,8 @@ namespace opentuner
 
         public override bool RequireSerialTS => true;
 
+        public override string GetName => "PicoTuner";
+
         private byte Receive_Data_i2c(uint BytesToRead)
         {
             uint QueueTimeOut = 0;

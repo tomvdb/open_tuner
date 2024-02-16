@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -102,9 +103,14 @@ namespace opentuner.Utilities
 
             if (Int32.TryParse(Value, out new_value))
             {
-                Console.WriteLine("Update slider to " + new_value.ToString());
+                //Console.WriteLine("Update slider to " + new_value.ToString());
                 _trackBar.Value = new_value;
             }
+        }
+
+        public override void UpdateColor(Color Col)
+        {
+            throw new NotImplementedException();
         }
     }
 }

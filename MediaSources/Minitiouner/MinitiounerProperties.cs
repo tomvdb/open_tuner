@@ -8,9 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static opentuner.Transmit.F5OEOPlutoControl;
+using System.Drawing;
+using System.Runtime.CompilerServices;
+using FlyleafLib.MediaFramework.MediaFrame;
+using Vortice.MediaFoundation;
 
 namespace opentuner.MediaSources.Minitiouner
 {
+    public enum MinitiounerPropertyCommands
+    {
+        SETFREQUENCY,
+    }
+
     public partial class MinitiounerSource
     {
         // properties management
@@ -20,6 +30,10 @@ namespace opentuner.MediaSources.Minitiouner
         private static DynamicPropertyGroup _tuner2_properties = null;
         private static DynamicPropertyGroup _source_properties = null;
 
+        // context menu strip
+        ContextMenuStrip _genericContextStrip;
+
+
         private bool BuildSourceProperties()
         {
             if (_parent == null)
@@ -27,6 +41,10 @@ namespace opentuner.MediaSources.Minitiouner
                 Console.WriteLine("Fatal Error: No Properties Panel");
                 return false;
             }
+
+            _genericContextStrip = new ContextMenuStrip();
+            _genericContextStrip.Opening += _genericContextStrip_Opening;
+
 
             if (ts_devices == 2)
             {
@@ -49,13 +67,14 @@ namespace opentuner.MediaSources.Minitiouner
         {
             DynamicPropertyGroup dynamicPropertyGroup = new DynamicPropertyGroup("Tuner " +  tuner.ToString(), _parent);
             dynamicPropertyGroup.OnSlidersChanged += DynamicPropertyGroup_OnSliderChanged;
+            dynamicPropertyGroup.OnMediaButtonPressed += DynamicPropertyGroup_OnMediaButtonPressed;
 
-            dynamicPropertyGroup.AddItem("demodstate", "Demod State");
-            dynamicPropertyGroup.AddItem("mer", "Mer");
-            dynamicPropertyGroup.AddItem("db_margin", "db Margin");
+            dynamicPropertyGroup.AddItem("demodstate", "Demod State", Color.PaleVioletRed);
+            dynamicPropertyGroup.AddItem("mer", "Mer", _genericContextStrip);
+            //dynamicPropertyGroup.AddItem("db_margin", "db Margin");
             dynamicPropertyGroup.AddItem("rf_input_level", "RF Input Level");
-            dynamicPropertyGroup.AddItem("rf_input", "RF Input");
-            dynamicPropertyGroup.AddItem("requested_freq", "Requested Freq");
+            dynamicPropertyGroup.AddItem("rf_input", "RF Input", _genericContextStrip);
+            dynamicPropertyGroup.AddItem("requested_freq", "Requested Freq", _genericContextStrip);
             dynamicPropertyGroup.AddItem("symbol_rate", "Symbol Rate");
             dynamicPropertyGroup.AddItem("modcod", "Modcod");
             dynamicPropertyGroup.AddItem("lna_gain", "LNA Gain");
@@ -70,7 +89,116 @@ namespace opentuner.MediaSources.Minitiouner
             dynamicPropertyGroup.AddItem("audio_codec", "Audio Codec");
             dynamicPropertyGroup.AddItem("audio_rate", "Audio Rate");
             dynamicPropertyGroup.AddSlider("volume_slider_" + tuner.ToString(), "Volume", 0, 200);
+            dynamicPropertyGroup.AddMediaControls("media_controls_" + tuner.ToString(), "Media Controls");
             return dynamicPropertyGroup;
+        }
+
+        private int preMute1 = 0;
+        private int preMute2 = 0;
+        private bool muted1 = false;
+        private bool muted2 = false;
+        private int indicatorStatus1 = 0;
+        private int indicatorStatus2 = 0;
+
+        public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
+        {
+            indicatorInput |= (byte)(1 << (int)indicator);
+        }
+
+        public void ClearIndicator(ref int indicatorInput, PropertyIndicators indicator)
+        {
+            indicatorInput &= (byte)~(1 << (int)indicator);
+        }
+
+        private void DynamicPropertyGroup_OnMediaButtonPressed(string key, int function)
+        {
+            int tuner = 0;
+
+            if (key == "media_controls_2")
+                tuner = 1;
+
+            switch (function)
+            {
+                case 0: // mute
+                    if (tuner == 0)
+                    {
+                        if (!muted1)
+                        {
+                            preMute1 = _media_players[0].GetVolume();
+                            _media_players[0].SetVolume(0);
+                            _tuner1_properties.UpdateValue("volume_slider_1", "0");
+                            muted1 = true;
+                        }
+                        else
+                        {
+                            _media_players[0].SetVolume(preMute1);
+                            _tuner1_properties.UpdateValue("volume_slider_1", preMute1.ToString());
+                            muted1 = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!muted2)
+                        {
+                            preMute2 = _media_players[1].GetVolume();
+                            _media_players[1].SetVolume(0);
+                            _tuner2_properties.UpdateValue("volume_slider_2", "0");
+                            muted2 = true;
+                        }
+                        else
+                        {
+                            _media_players[1].SetVolume(preMute2);
+                            _tuner2_properties.UpdateValue("volume_slider_2", preMute2.ToString());
+                            muted2 = false;
+                        }
+
+                    }
+
+                    break;
+                case 1: // mute
+                    Console.WriteLine("Snapshot: " + tuner.ToString());
+                    break;
+                case 2: // mute
+                    Console.WriteLine("Record: " + tuner.ToString());
+
+                    if (_ts_recorders[tuner].record)
+                    {
+                        ClearIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.RecordingIndicator);
+                        _ts_recorders[tuner].record = false;    // stop recording
+                    }
+                    else
+                    {
+                        SetIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.RecordingIndicator);
+                        _ts_recorders[tuner].record = true;     // start recording
+                    }
+
+                    if (tuner == 0)
+                        _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+                    else
+                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+
+                    break;
+                case 3: // udp stream
+                    Console.WriteLine("UDP Stream: " + tuner.ToString());
+
+                    if (_ts_streamers[tuner].stream)
+                    {
+                        ClearIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.StreamingIndicator);
+                        _ts_streamers[tuner].stream = false;
+                    }
+                    else
+                    {
+                        SetIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.StreamingIndicator);
+                        _ts_streamers[tuner].stream = true;
+                    }
+
+                    if (tuner == 0)
+                        _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+                    else
+                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+
+                    break;
+            }
         }
 
         private void DynamicPropertyGroup_OnSliderChanged(string key, int value)
@@ -80,6 +208,8 @@ namespace opentuner.MediaSources.Minitiouner
                 case "volume_slider_1":
                     if (_media_players.Count > 0)
                     {
+                        // cancel mute
+                        muted1 = false;
                         _media_players[0].SetVolume(value);
                         _settings.DefaultVolume1 = (byte)value;
                     }
@@ -87,6 +217,8 @@ namespace opentuner.MediaSources.Minitiouner
                 case "volume_slider_2":
                     if (_media_players.Count > 0)
                     {
+                        // cancel mute
+                        muted2 = false;
                         _media_players[1].SetVolume(value);
                         _settings.DefaultVolume2 = (byte)value;
                     }
@@ -133,6 +265,16 @@ namespace opentuner.MediaSources.Minitiouner
 
             // tuner 1 properties  *************
             _tuner1_properties.UpdateValue("demodstate", lookups.demod_state_lookup[new_status.T1P2_demod_status]);
+
+            if (new_status.T1P2_demod_status > 1)
+            {
+                _tuner1_properties.UpdateColor("demodstate", Color.PaleGreen);
+            }
+            else
+            {
+                _tuner1_properties.UpdateColor("demodstate", Color.PaleVioletRed);
+            }
+
             _tuner1_properties.UpdateValue("mer", mer.ToString() + " dB");
             _tuner1_properties.UpdateValue("lna_gain", new_status.T1P2_lna_gain.ToString());
             _tuner1_properties.UpdateValue("rf_input_level", new_status.T1P2_input_power_level.ToString() + " dB");
@@ -146,10 +288,32 @@ namespace opentuner.MediaSources.Minitiouner
             // clear ts data if not locked onto signal
             if (new_status.T1P2_demod_status < 2)
             {
-                _tuner1_properties.UpdateValue("service_provider_name", "");
+                _tuner1_properties.UpdateValue("service_name_provider", "");
                 _tuner1_properties.UpdateValue("service_name", "");
-                _tuner1_properties.UpdateValue("service_provider_name", "");
                 _tuner1_properties.UpdateValue("stream_format", "");
+
+                _tuner1_properties.UpdateValue("video_codec", "");
+                _tuner1_properties.UpdateValue("video_resolution", "");                    
+                _tuner1_properties.UpdateValue("audio_codec", "");
+                _tuner1_properties.UpdateValue("audio_rate", "");
+
+                // stop recording if recording
+                if (_ts_recorders[0].record)
+                {
+                    ClearIndicator(ref indicatorStatus1, PropertyIndicators.RecordingIndicator);
+                    _ts_recorders[0].record = false;    // stop recording
+                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+                }
+
+                // stop streaming
+                if (_ts_streamers[0].stream)
+                {
+                    ClearIndicator(ref indicatorStatus1, PropertyIndicators.StreamingIndicator);
+                    _ts_streamers[0].stream = false;    // stop streaming
+                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+                }
+
+
             }
 
             // db margin / modcod
@@ -175,14 +339,25 @@ namespace opentuner.MediaSources.Minitiouner
             {
             }
 
-            _tuner1_properties.UpdateValue("db_margin", db_margin_text);
+            _tuner1_properties.UpdateBigLabel(db_margin_text);
+            //_tuner1_properties.UpdateValue("db_margin", db_margin_text);
             _tuner1_properties.UpdateValue("modcod", modcod_text);
 
 
             if (ts_devices == 2 && _tuner2_properties != null)
             {
-                // tuner 1 properties  *************
+                // tuner 2 properties  *************
                 _tuner2_properties.UpdateValue("demodstate", lookups.demod_state_lookup[new_status.T2P1_demod_status]);
+
+                if (new_status.T2P1_demod_status > 1)
+                {
+                    _tuner2_properties.UpdateColor("demodstate", Color.PaleGreen);
+                }
+                else
+                {
+                    _tuner2_properties.UpdateColor("demodstate", Color.PaleVioletRed);
+                }
+
                 _tuner2_properties.UpdateValue("mer", mer.ToString() + " dB");
                 _tuner2_properties.UpdateValue("lna_gain", new_status.T2P1_lna_gain.ToString());
                 _tuner2_properties.UpdateValue("rf_input_level", new_status.T2P1_input_power_level.ToString() + " dB");
@@ -201,6 +376,30 @@ namespace opentuner.MediaSources.Minitiouner
                     _tuner2_properties.UpdateValue("service_name", "");
                     _tuner2_properties.UpdateValue("service_provider_name", "");
                     _tuner2_properties.UpdateValue("stream_format", "");
+
+                    _tuner2_properties.UpdateValue("video_codec", "");
+                    _tuner2_properties.UpdateValue("video_resolution", "");
+                    _tuner2_properties.UpdateValue("audio_codec", "");
+                    _tuner2_properties.UpdateValue("audio_rate", "");
+
+
+                    // stop recording if recording
+                    if (_ts_recorders[1].record)
+                    {
+                        ClearIndicator(ref indicatorStatus2, PropertyIndicators.RecordingIndicator);
+                        _ts_recorders[1].record = false;    // stop recording
+                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+                    }
+
+                    // stop streaming
+                    if (_ts_streamers[1].stream)
+                    {
+                        ClearIndicator(ref indicatorStatus2, PropertyIndicators.StreamingIndicator);
+                        _ts_streamers[1].stream = false;    // stop streaming
+                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+                    }
+
+
                 }
 
                 // db margin / modcod
@@ -226,10 +425,56 @@ namespace opentuner.MediaSources.Minitiouner
                 {
                 }
 
-                _tuner2_properties.UpdateValue("db_margin", db_margin_text);
+                _tuner2_properties.UpdateBigLabel(db_margin_text);
+                //_tuner2_properties.UpdateValue("db_margin", db_margin_text);
                 _tuner2_properties.UpdateValue("modcod", modcod_text);
             }
         }
+
+        private void _genericContextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ContextMenuStrip contextMenuStrip = (ContextMenuStrip)sender;
+            Console.WriteLine("Opening Context Menu :" + contextMenuStrip.SourceControl.Name);
+
+            contextMenuStrip.Items.Clear();
+
+            switch (contextMenuStrip.SourceControl.Name)
+            {
+                // change frequency
+                case "requested_freq":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Change Frequency", MinitiounerPropertyCommands.SETFREQUENCY, 0));
+                    break;
+            }
+
+        }
+
+        private ToolStripMenuItem ConfigureMenuItem(string Text, MinitiounerPropertyCommands command, int option)
+        {
+            ToolStripMenuItem item = new ToolStripMenuItem(Text);
+            item.Click += (sender, e) =>
+            {
+                properties_OnPropertyMenuSelect(command, option);
+            };
+
+            return item;
+        }
+
+        private void properties_OnPropertyMenuSelect(MinitiounerPropertyCommands command, int option)
+        {
+            Console.WriteLine("Config Change: " + command.ToString() + " - " + option.ToString());
+
+            switch (command)
+            {
+                case MinitiounerPropertyCommands.SETFREQUENCY:
+                    MessageBox.Show("Change Frequency");
+                    break;
+
+                default:
+                    Console.WriteLine("Unconfigured Command Change - " + command.ToString());
+                    break;
+            }
+        }
+
 
     }
 }
