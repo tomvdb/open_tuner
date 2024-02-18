@@ -18,7 +18,7 @@ using System.Threading;
 
 namespace opentuner
 {
-    public partial class wbchat : Form
+    public partial class WebChatForm : Form
     {
 
         static Font consoleFont; 
@@ -26,7 +26,7 @@ namespace opentuner
 
         public string prop_title { set { this.Text = value; } }
 
-        public wbchat(int fontSize)
+        public WebChatForm(int fontSize)
         {
             InitializeComponent();
             consoleFont = new Font("Consolas", fontSize);
@@ -107,9 +107,9 @@ namespace opentuner
             }
         }
 
-        private delegate void UpdateFormTitle(wbchat frm, string new_title);
+        private delegate void UpdateFormTitle(WebChatForm frm, string new_title);
 
-        public void updateTitle(wbchat frm, string new_title)
+        public void updateTitle(WebChatForm frm, string new_title)
         {
 
             if (frm.InvokeRequired)

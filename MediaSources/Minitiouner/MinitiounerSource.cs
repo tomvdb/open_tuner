@@ -45,6 +45,7 @@ namespace opentuner.MediaSources.Minitiouner
         private List<OTMediaPlayer> _media_players = new List<OTMediaPlayer> ();
         private List<TSRecorder> _ts_recorders;
         private List<TSUdpStreamer> _ts_streamers;
+        private List<TunerControlForm> _tuner_forms;
 
         public override bool DeviceConnected
         {
@@ -257,7 +258,6 @@ namespace opentuner.MediaSources.Minitiouner
                             case 0: hardware_interface = new FTDIInterface(); break;
                             case 1: hardware_interface = new PicoTunerInterface(); break;
                         }
-
                     }
                     else return -1;
 
@@ -339,7 +339,6 @@ namespace opentuner.MediaSources.Minitiouner
             // update properties
             UpdateTunerProperties(nim_status);
         }
-
 
         private int Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial, Control Parent)
         {
@@ -569,6 +568,7 @@ namespace opentuner.MediaSources.Minitiouner
                 _media_players.Add(MediaPlayers[c]);
                 _media_players[c].onVideoOut += MinitiounerSource_onVideoOut;
             }
+
         }
 
         private void MinitiounerSource_onVideoOut(object sender, MediaStatus e)
@@ -632,6 +632,7 @@ namespace opentuner.MediaSources.Minitiouner
         {
             MinitiounerSettingsForm settings_form = new MinitiounerSettingsForm(ref _settings);
             settings_form.ShowDialog();
+            _settingsManager.SaveSettings(_settings);
         }
 
         public override void ConfigureTSRecorders(List<TSRecorder> TSRecorders)

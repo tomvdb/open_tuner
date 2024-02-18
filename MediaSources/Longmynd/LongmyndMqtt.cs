@@ -7,6 +7,7 @@ using MQTTnet;
 using MQTTnet.Client;
 using Vortice.XAudio2;
 using System.Drawing;
+using System.Windows.Media.Animation;
 
 namespace opentuner.MediaSources.Longmynd
 {
@@ -15,8 +16,30 @@ namespace opentuner.MediaSources.Longmynd
     {
         private IMqttClient _mqtt_client;
 
+       
+
+        public void SendMqttStatus(string topic, string value)
+        {
+            var message = new MqttApplicationMessageBuilder()
+            .WithTopic(topic)
+            .WithPayload(value)
+            .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+            .Build();
+
+            Task.Run(async () =>
+            {
+                await _mqtt_client.PublishAsync(message);
+            });
+
+        }
+
         public void MqttSetFrequency(uint frequency, uint symbol_rate) 
         {
+            Console.WriteLine(frequency.ToString() + " - " + symbol_rate.ToString());
+            Console.WriteLine("freq set: " + _settings.CmdTopic + "frequency");
+            Console.WriteLine("sr set: " + _settings.CmdTopic + "frequency");
+            SendMqttStatus(_settings.CmdTopic + "frequency", (frequency - _settings.Offset1).ToString());
+            SendMqttStatus(_settings.CmdTopic + "sr", (symbol_rate).ToString());
         }
 
         public void ConnectMqtt()
@@ -55,10 +78,18 @@ namespace opentuner.MediaSources.Longmynd
 
 
         double mqtt_mer = 0.0;
+        string mod = "";
+        string fec = "";
 
         private void HandleMqttMessage(string Topic, string Message)
         {
             int new_demodstate = demodState;
+
+            if (Message == null)
+            {
+                //Console.WriteLine("null message value:" + Topic);
+                return;
+            }
 
             //Console.WriteLine(Topic);
             switch(Topic)
@@ -95,10 +126,46 @@ namespace opentuner.MediaSources.Longmynd
                     _tuner1_properties.UpdateValue("mer", Message);
                     double.TryParse(Message, out mqtt_mer);
                     break;
+                case "dt/longmynd/service_name":
+                    _tuner1_properties.UpdateValue("service_name", Message);
+                    break;
+                case "dt/longmynd/provider_name":
+                    _tuner1_properties.UpdateValue("service_name_provider", Message);
+                    break;
+                case "dt/longmynd/ts_null":
+                    _tuner1_properties.UpdateValue("null_packets", Message);
+                    break;
+                case "dt/longmynd/set/swport":
+                    _tuner1_properties.UpdateValue("rf_input", ( Message == "0" ? "A" : "B"));
+                    break;
+                case "dt/longmynd/set/tsip":
+                    _tuner1_properties.UpdateValue("source_ts_ip", Message);
+                    break;
+                case "dt/longmynd/matype1":
+                    _tuner1_properties.UpdateValue("stream_format", Message);
+                    break;
+                case "dt/longmynd/modulation":
+                    mod = Message;
+                    _tuner1_properties.UpdateValue("modcod", mod + " " + fec);
+                    break;
+                case "dt/longmynd/fec":
+                    fec = Message;
+                    _tuner1_properties.UpdateValue("modcod", mod + " " + fec);
+                    break;
+                case "dt/longmynd/carrier_frequency":
+                    if ( uint.TryParse(Message, out current_frequency_1))
+                    {
+                        _tuner1_properties.UpdateValue("requested_freq", "(" + GetFrequency(0, true).ToString("N0") + ") (" + GetFrequency(0, false).ToString("N0") + ")");
+                    }
+                    break;
+
+
             }
 
             if (new_demodstate != demodState)
             {
+                
+
                 if (new_demodstate < 3)
                 {
                     Console.WriteLine("Stopping");
@@ -122,6 +189,8 @@ namespace opentuner.MediaSources.Longmynd
 
 
             }
+
+
 
 
         }

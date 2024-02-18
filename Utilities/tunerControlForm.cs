@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibVLCSharp.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,26 +12,33 @@ using System.Windows.Input;
 
 namespace opentuner
 {
-    public delegate void TunerChangeCallback(UInt32 freq, uint rf_input, uint symbol_rate);
+    public delegate void TunerChangeCallback(int id, UInt32 freq, uint symbol_rate);
 
-    public partial class tunerControlForm : Form
+    public partial class TunerControlForm : Form
     {
-        private int frequency = 0;
-        private int offset = 0;
+        private int _frequency = 0;
+        private int _symbol_rate = 0;
+        private int _offset = 0;
 
-        private int offset_a = 0;
-        private int offset_b = 0;
+        private int _id;
 
-        private TunerChangeCallback tuner_change;
+        public event TunerChangeCallback OnTunerChange;
 
-        public tunerControlForm(TunerChangeCallback TunerChangeCallback)
+        public TunerControlForm(int Id, int initialFrequency, int initialSr, int Offset)
         {
             InitializeComponent();
+
+            _id = Id;
+            _frequency = initialFrequency;
+            _symbol_rate = initialSr;
+            _offset = Offset;
+
+
             lblkHz.MouseWheel += LblkHz_MouseWheel;
             lblmHz.MouseWheel += LblmHz_MouseWheel;
             lblgHz.MouseWheel += LblgHz_MouseWheel;
-            comboRFInput.SelectedIndex = 0;
-            tuner_change = TunerChangeCallback;
+
+            this.Text += "Tuner " + Id.ToString();
         }
 
         void scroll_frequency(int freq_modifier, int delta)
@@ -38,17 +46,17 @@ namespace opentuner
             if (delta == 0)
                 return;
 
-            if (delta < 0 && frequency - freq_modifier >= 0)
+            if (delta < 0 && _frequency - freq_modifier >= 0)
             {
-                frequency -= freq_modifier;
+                _frequency -= freq_modifier;
             }
 
-            if (delta > 0 && ((frequency + freq_modifier) < 9999999))
+            if (delta > 0 && ((_frequency + freq_modifier) < 9999999))
             {
-                frequency += freq_modifier;
+                _frequency += freq_modifier;
             }
 
-            update_freq(frequency);
+            update_freq(_frequency);
         }
         private void LblgHz_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
@@ -84,7 +92,7 @@ namespace opentuner
 
         private void update_freq(int new_freq)
         {
-            int freq = Convert.ToInt32(new_freq) + offset;
+            int freq = Convert.ToInt32(new_freq) + _offset;
 
             int kHz = 0;
             int mHz = 0;
@@ -114,35 +122,21 @@ namespace opentuner
 
         public void set_freq(TunerConfig newConfig)
         {
-            frequency = Convert.ToInt32(newConfig.frequency);
-            comboRFInput.SelectedIndex = (int)(newConfig.rf_input - 1);
+            _frequency = Convert.ToInt32(newConfig.frequency);
             comboSR.Text = newConfig.symbol_rate.ToString();
 
             update_offset();
-            update_freq(frequency);
-        }
-
-        public void set_offset(int A, int B)
-        {
-            offset_a = A;
-            offset_b = B;
-
-            update_offset();
+            update_freq(_frequency);
         }
 
         private void update_offset()
         {
-            if (comboRFInput.SelectedIndex == 0)
-                offset = offset_a;
-            else
-                offset = offset_b;
-
-            lblOffset.Text = offset.ToString();
+            lblOffset.Text = _offset.ToString();
         }
 
         private void tunerControlForm_Load(object sender, EventArgs e)
         {
-            update_freq(frequency);
+            update_freq(_frequency);
         }
 
         private void checkTunerOnTop_CheckedChanged(object sender, EventArgs e)
@@ -152,24 +146,16 @@ namespace opentuner
 
         private void btnUpdateFreq_Click(object sender, EventArgs e)
         {
-            if (tuner_change != null)
-            {
-                tuner_change(Convert.ToUInt32(frequency), Convert.ToUInt32(comboRFInput.SelectedIndex + 1), Convert.ToUInt32(comboSR.Text));
-            }
+            OnTunerChange?.Invoke(_id, Convert.ToUInt32(_frequency), Convert.ToUInt32(comboSR.Text));
         }
 
-        private void comboRFInput_SelectedIndexChanged(object sender, EventArgs e)
+        public void ShowTuner(int freq, int symbolrate)
         {
-            update_offset();
-        }
+            _frequency = freq;
+            _symbol_rate = symbolrate;
 
-        private void tunerControlForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                e.Cancel = true;
-                Hide();
-            }
+            Show();
+            Focus();
         }
     }
 }

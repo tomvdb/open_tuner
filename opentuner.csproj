@@ -70,17 +70,17 @@
     <Reference Include="FFmpeg.AutoGen, Version=6.0.0.0, Culture=neutral, PublicKeyToken=9b7632533a381715, processorArchitecture=MSIL">
       <HintPath>packages\FFmpeg.AutoGen.6.0.0\lib\netstandard2.0\FFmpeg.AutoGen.dll</HintPath>
     </Reference>
-    <Reference Include="FlyleafLib, Version=3.7.24.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\FlyleafLib.3.7.24\lib\net472\FlyleafLib.dll</HintPath>
+    <Reference Include="FlyleafLib, Version=3.7.44.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\FlyleafLib.3.7.44\lib\net472\FlyleafLib.dll</HintPath>
     </Reference>
     <Reference Include="FTD2XX_NET">
       <HintPath>.\FTD2XX_NET.dll</HintPath>
     </Reference>
-    <Reference Include="LibVLCSharp, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\LibVLCSharp.3.7.0\lib\net471\LibVLCSharp.dll</HintPath>
+    <Reference Include="LibVLCSharp, Version=3.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\LibVLCSharp.3.8.2\lib\net471\LibVLCSharp.dll</HintPath>
     </Reference>
-    <Reference Include="LibVLCSharp.WinForms, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\LibVLCSharp.WinForms.3.7.0\lib\net40\LibVLCSharp.WinForms.dll</HintPath>
+    <Reference Include="LibVLCSharp.WinForms, Version=3.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\LibVLCSharp.WinForms.3.8.2\lib\net40\LibVLCSharp.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -218,11 +218,34 @@
   <ItemGroup>
     <Compile Include="BBFrameUDP.cs" />
     <Compile Include="ExtraFeatures\BATCSpectrum\BATCSpectrum.cs" />
+    <Compile Include="ExtraFeatures\BATCWebchat\BatcChat.cs" />
+    <Compile Include="ExtraFeatures\BATCWebchat\WebChatSettings.cs" />
+    <Compile Include="ExtraFeatures\BATCWebchat\WebChatSettngsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtraFeatures\BATCWebchat\WebChatSettngsForm.Designer.cs">
+      <DependentUpon>WebChatSettngsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExtraFeatures\MqttClient\MqttMessage.cs" />
     <Compile Include="ExtraFeatures\MqttClient\MqttManager.cs" />
+    <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneControl.cs" />
+    <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneControlSettings.cs" />
+    <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneControlSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneControlSettingsForm.Designer.cs">
+      <DependentUpon>QuickTuneControlSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainSettings.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndMqtt.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndProperties.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndSettings.cs" />
+    <Compile Include="MediaSources\Longmynd\LongmyndSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediaSources\Longmynd\LongmyndSettingsForm.Designer.cs">
+      <DependentUpon>LongmyndSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MediaSources\Longmynd\LongmyndSource.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndWS.cs" />
     <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.cs">
@@ -239,6 +262,14 @@
     <Compile Include="MediaSources\Minitiouner\MinitiounerSettingsForm.Designer.cs">
       <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MediaSources\Winterhill\WinterhillSettings.cs" />
+    <Compile Include="MediaSources\Winterhill\WinterhillSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediaSources\Winterhill\WinterhillSettingsForm.Designer.cs">
+      <DependentUpon>WinterhillSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MediaSources\Winterhill\WinterhillSource.cs" />
     <Compile Include="Transmit\F5OEOPlutoControl.cs" />
     <Compile Include="Transmit\PlutoControl.cs">
       <SubType>Form</SubType>
@@ -340,10 +371,10 @@
     <Compile Include="MediaPlayers\VLC\TSStreamMediaInput.cs" />
     <Compile Include="Transport\TSThread.cs" />
     <Compile Include="Transport\Consumers\TSUdpStreamer.cs" />
-    <Compile Include="tunerControlForm.cs">
+    <Compile Include="Utilities\tunerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="tunerControlForm.Designer.cs">
+    <Compile Include="Utilities\tunerControlForm.Designer.cs">
       <DependentUpon>tunerControlForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\SettingsManager.cs" />
@@ -371,6 +402,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="externalToolsManager.resx">
       <DependentUpon>externalToolsManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExtraFeatures\BATCWebchat\WebChatSettngsForm.resx">
+      <DependentUpon>WebChatSettngsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.af-ZA.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -407,6 +441,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="hardwareInfoForm.resx">
       <DependentUpon>hardwareInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaSources\Longmynd\LongmyndSettingsForm.resx">
+      <DependentUpon>LongmyndSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.resx">
       <DependentUpon>ChooseHardwareInterfaceForm.cs</DependentUpon>
@@ -447,7 +484,7 @@
     <EmbeddedResource Include="Transmit\PlutoControl.resx">
       <DependentUpon>PlutoControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="tunerControlForm.resx">
+    <EmbeddedResource Include="Utilities\tunerControlForm.resx">
       <DependentUpon>tunerControlForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MediaPlayers\VideoViewForm.resx">
@@ -492,12 +529,10 @@
     <Folder Include="MediaSources\Minitiouner\HardwareInterfaces\PicoTunerEthernet\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets'))" />
     <Error Condition="!Exists('packages\PolySharp.1.10.0\build\PolySharp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\PolySharp.1.10.0\build\PolySharp.targets'))" />
     <Error Condition="!Exists('packages\SharpGen.Runtime.2.0.0-beta.13\build\SharpGen.Runtime.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SharpGen.Runtime.2.0.0-beta.13\build\SharpGen.Runtime.props'))" />
     <Error Condition="!Exists('packages\SharpGen.Runtime.COM.2.0.0-beta.13\build\SharpGen.Runtime.COM.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SharpGen.Runtime.COM.2.0.0-beta.13\build\SharpGen.Runtime.COM.props'))" />
@@ -509,6 +544,8 @@
     <Error Condition="!Exists('packages\Vortice.DirectComposition.2.4.2\build\Vortice.DirectComposition.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Vortice.DirectComposition.2.4.2\build\Vortice.DirectComposition.props'))" />
     <Error Condition="!Exists('packages\Vortice.MediaFoundation.2.4.2\build\Vortice.MediaFoundation.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Vortice.MediaFoundation.2.4.2\build\Vortice.MediaFoundation.props'))" />
     <Error Condition="!Exists('packages\Vortice.XAudio2.2.4.2\build\Vortice.XAudio2.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Vortice.XAudio2.2.4.2\build\Vortice.XAudio2.props'))" />
+    <Error Condition="!Exists('packages\VideoLAN.LibVLC.Windows.3.0.20\build\VideoLAN.LibVLC.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\VideoLAN.LibVLC.Windows.3.0.20\build\VideoLAN.LibVLC.Windows.targets'))" />
   </Target>
   <Import Project="packages\PolySharp.1.10.0\build\PolySharp.targets" Condition="Exists('packages\PolySharp.1.10.0\build\PolySharp.targets')" />
+  <Import Project="packages\VideoLAN.LibVLC.Windows.3.0.20\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('packages\VideoLAN.LibVLC.Windows.3.0.20\build\VideoLAN.LibVLC.Windows.targets')" />
 </Project>

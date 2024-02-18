@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using opentuner.MediaPlayers;
+using opentuner.MediaSources.Minitiouner;
 using opentuner.Utilities;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,8 @@ namespace opentuner.MediaSources.Longmynd
 
         private System.Timers.Timer sessionTimer;
 
-        private LongmyndSettings _settings = new LongmyndSettings();
+        private LongmyndSettings _settings;
+        private SettingsManager<LongmyndSettings> _settingsManager;
 
         private int demodState = -1;
 
@@ -51,9 +53,17 @@ namespace opentuner.MediaSources.Longmynd
         // properties
         private uint current_frequency_1 = 0;
 
+        public LongmyndSource()
+        {
+            // settings
+            _settings = new LongmyndSettings();
+            _settingsManager = new SettingsManager<LongmyndSettings>("longmynd_settings");
+            _settings = (_settingsManager.LoadSettings(_settings));
+        }
+
         public override void Close()
         {
-            
+            _settingsManager.SaveSettings(_settings);
         }
 
         public override void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers)
@@ -147,6 +157,18 @@ namespace opentuner.MediaSources.Longmynd
 
             BuildSourceProperties();
 
+            switch(_interface)
+            {
+                case 0:
+                    _source_properties.UpdateValue("source_ip", _settings.LongmyndWSHost);
+                    break;
+                case 1:
+                    _source_properties.UpdateValue("source_ip", _settings.LongmyndMqttHost);
+                    break;
+
+            }
+            
+
             this.VideoChangeCB = VideoChangeCB;
 
             return 1;
@@ -201,7 +223,9 @@ namespace opentuner.MediaSources.Longmynd
 
         public override void ShowSettings()
         {
-            
+            LongmyndSettingsForm settingsForm = new LongmyndSettingsForm(ref _settings);
+            settingsForm.ShowDialog();
+            _settingsManager.SaveSettings(_settings);
         }
 
         public override void StartStreaming(int device)

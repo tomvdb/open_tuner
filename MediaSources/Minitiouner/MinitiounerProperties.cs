@@ -60,6 +60,12 @@ namespace opentuner.MediaSources.Minitiouner
             _source_properties.AddItem("source_hw_interface", "Hardware Interface");
             _source_properties.AddItem("source_hw_ldpc_errors", "LPDC Errors");
 
+            // tuner for each device
+            for (int c = 0; c < ts_devices; c++)
+            {
+                _tuner_forms[c] = new TunerControlForm(c, 0, 0, (int)(c == 0 ? _settings.Offset1 : _settings.Offset2));
+            }
+
             return true;
         }
 
@@ -74,7 +80,7 @@ namespace opentuner.MediaSources.Minitiouner
             //dynamicPropertyGroup.AddItem("db_margin", "db Margin");
             dynamicPropertyGroup.AddItem("rf_input_level", "RF Input Level");
             dynamicPropertyGroup.AddItem("rf_input", "RF Input", _genericContextStrip);
-            dynamicPropertyGroup.AddItem("requested_freq", "Requested Freq", _genericContextStrip);
+            dynamicPropertyGroup.AddItem("requested_freq_" + tuner.ToString(), "Requested Freq", _genericContextStrip);
             dynamicPropertyGroup.AddItem("symbol_rate", "Symbol Rate");
             dynamicPropertyGroup.AddItem("modcod", "Modcod");
             dynamicPropertyGroup.AddItem("lna_gain", "LNA Gain");
@@ -281,7 +287,7 @@ namespace opentuner.MediaSources.Minitiouner
             _tuner1_properties.UpdateValue("symbol_rate", (new_status.T1P2_symbol_rate / 1000).ToString());
             _tuner1_properties.UpdateValue("ber", new_status.T1P2_ber.ToString());
             _tuner1_properties.UpdateValue("freq_carrier_offset", new_status.T1P2_frequency_carrier_offset.ToString());
-            _tuner1_properties.UpdateValue("requested_freq", "(" + GetFrequency(0, true).ToString("N0") + ") (" + GetFrequency(0, false).ToString("N0") + ")");
+            _tuner1_properties.UpdateValue("requested_freq_1", "(" + GetFrequency(0, true).ToString("N0") + ") (" + GetFrequency(0, false).ToString("N0") + ")");
             _tuner1_properties.UpdateValue("rf_input", (new_status.T1P2_rf_input == 1 ? "A" : "B"));
             _tuner1_properties.UpdateValue("stream_format", lookups.stream_format_lookups[Convert.ToInt32(new_status.T1P2_stream_format)].ToString());
 
@@ -364,7 +370,7 @@ namespace opentuner.MediaSources.Minitiouner
                 _tuner2_properties.UpdateValue("symbol_rate", (new_status.T2P1_symbol_rate / 1000).ToString());
                 _tuner2_properties.UpdateValue("ber", new_status.T2P1_ber.ToString());
                 _tuner2_properties.UpdateValue("freq_carrier_offset", new_status.T2P1_frequency_carrier_offset.ToString());
-                _tuner2_properties.UpdateValue("requested_freq", "(" + GetFrequency(1, true).ToString("N0") + ") (" + GetFrequency(1, false).ToString("N0") + ")");
+                _tuner2_properties.UpdateValue("requested_freq_2", "(" + GetFrequency(1, true).ToString("N0") + ") (" + GetFrequency(1, false).ToString("N0") + ")");
 
                 _tuner2_properties.UpdateValue("rf_input", (new_status.T2P1_rf_input == 1 ? "A" : "B"));
                 _tuner2_properties.UpdateValue("stream_format", lookups.stream_format_lookups[Convert.ToInt32(new_status.T2P1_stream_format)].ToString());
@@ -441,8 +447,11 @@ namespace opentuner.MediaSources.Minitiouner
             switch (contextMenuStrip.SourceControl.Name)
             {
                 // change frequency
-                case "requested_freq":
-                    contextMenuStrip.Items.Add(ConfigureMenuItem("Change Frequency", MinitiounerPropertyCommands.SETFREQUENCY, 0));
+                case "requested_freq_1":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Tuner Control", MinitiounerPropertyCommands.SETFREQUENCY, 0));
+                    break;
+                case "requested_freq_2":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Tuner Control", MinitiounerPropertyCommands.SETFREQUENCY, 1));
                     break;
             }
 
@@ -459,6 +468,8 @@ namespace opentuner.MediaSources.Minitiouner
             return item;
         }
 
+
+
         private void properties_OnPropertyMenuSelect(MinitiounerPropertyCommands command, int option)
         {
             Console.WriteLine("Config Change: " + command.ToString() + " - " + option.ToString());
@@ -466,7 +477,7 @@ namespace opentuner.MediaSources.Minitiouner
             switch (command)
             {
                 case MinitiounerPropertyCommands.SETFREQUENCY:
-                    MessageBox.Show("Change Frequency");
+                    int tuner = option;
                     break;
 
                 default:
@@ -475,6 +486,10 @@ namespace opentuner.MediaSources.Minitiouner
             }
         }
 
-
+        private void TunerControl_OnTunerChange(int id, uint freq, uint symbol_rate)
+        {
+            Console.WriteLine("set frequency : " + freq.ToString() + " , " + symbol_rate.ToString());
+            //SetFrequency(id, freq, symbol_rate, true);
+        }
     }
 }

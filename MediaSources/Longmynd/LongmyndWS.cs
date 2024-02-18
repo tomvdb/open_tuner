@@ -24,7 +24,7 @@ namespace opentuner.MediaSources.Longmynd
         private void connectWebsockets()
         {
 
-            string url = "ws://" + _settings.LongmyndWSHost + ":" + _settings.LongmyndWS.ToString() + "/ ";
+            string url = "ws://" + _settings.LongmyndWSHost + ":" + _settings.LongmyndWSPort.ToString() + "/ ";
 
             monitorWS = new WebSocket(url, "monitor");
             monitorWS.OnOpen += Monitorws_OnOpen;
@@ -156,7 +156,7 @@ namespace opentuner.MediaSources.Longmynd
             _tuner1_properties.UpdateValue("null_packets", monitor_message.packet.ts.null_ratio + "%");
 
             _source_properties.UpdateValue("source_ts_ip", monitor_message.packet.rx.ts_ip_addr + ":" + monitor_message.packet.rx.ts_ip_port.ToString());
-            _source_properties.UpdateValue("source_ip", _settings.LongmyndWSHost);
+            //_source_properties.UpdateValue("source_ip", _settings.LongmyndWSHost);
 
             // lost lock
             if (monitor_message.packet.rx.demod_state < 3)

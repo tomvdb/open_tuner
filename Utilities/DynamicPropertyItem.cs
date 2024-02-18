@@ -128,7 +128,7 @@ namespace opentuner.Utilities
                 _titleLabel.Top = _parent.Controls[_parent.Controls.Count - 1].Top + _parent.Controls[_parent.Controls.Count - 1].Height + 5;
 
             _valueLabel = new Label();
-            _valueLabel.Text = "Value";
+            _valueLabel.Text = "";
             //_valueLabel.BorderStyle = BorderStyle.FixedSingle;
             _valueLabel.Top = _titleLabel.Top;
             _valueLabel.Left = _titleLabel.Left + _titleLabel.Width + 5;

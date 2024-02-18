@@ -1,6 +1,6 @@
 ﻿namespace opentuner
 {
-    partial class wbchat
+    partial class WebChatForm
     {
         /// <summary>
         /// Required designer variable.

@@ -33,6 +33,21 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SourcePage = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.linkDocumentation = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.linkQuickTuneSettings = new System.Windows.Forms.Label();
+            this.linkBatcWebchatSettings = new System.Windows.Forms.Label();
+            this.linkBatcSpectrumSettings = new System.Windows.Forms.Label();
+            this.linkMqttSettings = new System.Windows.Forms.Label();
+            this.linkQuickTuneDocumentation = new System.Windows.Forms.Label();
+            this.checkQuicktune = new System.Windows.Forms.CheckBox();
+            this.linkBatcWebchatDocumentation = new System.Windows.Forms.Label();
+            this.linkSpectrumDocumentation = new System.Windows.Forms.Label();
+            this.LinkMqttDocumentation = new System.Windows.Forms.Label();
+            this.checkMqttClient = new System.Windows.Forms.CheckBox();
+            this.checkBatcChat = new System.Windows.Forms.CheckBox();
+            this.checkBatcSpectrum = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.sourceInfo = new System.Windows.Forms.Label();
             this.btnSourceSettings = new System.Windows.Forms.Button();
@@ -90,21 +105,15 @@
             this.commandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureCallsignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.linkOpenTunerUpdates = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.SourcePage.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.debugPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -122,7 +131,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
             this.contextSpectrumMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -152,10 +160,135 @@
             // SourcePage
             // 
             this.SourcePage.BackColor = System.Drawing.Color.Transparent;
+            this.SourcePage.Controls.Add(this.groupBox3);
             this.SourcePage.Controls.Add(this.groupBox2);
             this.SourcePage.Controls.Add(this.groupBox1);
             resources.ApplyResources(this.SourcePage, "SourcePage");
             this.SourcePage.Name = "SourcePage";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.linkOpenTunerUpdates);
+            this.groupBox3.Controls.Add(this.linkDocumentation);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // linkDocumentation
+            // 
+            resources.ApplyResources(this.linkDocumentation, "linkDocumentation");
+            this.linkDocumentation.ForeColor = System.Drawing.Color.Blue;
+            this.linkDocumentation.Name = "linkDocumentation";
+            this.linkDocumentation.Click += new System.EventHandler(this.linkDocumentation_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.linkQuickTuneSettings);
+            this.groupBox2.Controls.Add(this.linkBatcWebchatSettings);
+            this.groupBox2.Controls.Add(this.linkBatcSpectrumSettings);
+            this.groupBox2.Controls.Add(this.linkMqttSettings);
+            this.groupBox2.Controls.Add(this.linkQuickTuneDocumentation);
+            this.groupBox2.Controls.Add(this.checkQuicktune);
+            this.groupBox2.Controls.Add(this.linkBatcWebchatDocumentation);
+            this.groupBox2.Controls.Add(this.linkSpectrumDocumentation);
+            this.groupBox2.Controls.Add(this.LinkMqttDocumentation);
+            this.groupBox2.Controls.Add(this.checkMqttClient);
+            this.groupBox2.Controls.Add(this.checkBatcChat);
+            this.groupBox2.Controls.Add(this.checkBatcSpectrum);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
+            // linkQuickTuneSettings
+            // 
+            resources.ApplyResources(this.linkQuickTuneSettings, "linkQuickTuneSettings");
+            this.linkQuickTuneSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkQuickTuneSettings.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkQuickTuneSettings.Name = "linkQuickTuneSettings";
+            this.linkQuickTuneSettings.Click += new System.EventHandler(this.linkQuickTuneSettings_Click);
+            // 
+            // linkBatcWebchatSettings
+            // 
+            resources.ApplyResources(this.linkBatcWebchatSettings, "linkBatcWebchatSettings");
+            this.linkBatcWebchatSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkBatcWebchatSettings.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkBatcWebchatSettings.Name = "linkBatcWebchatSettings";
+            this.linkBatcWebchatSettings.Click += new System.EventHandler(this.linkBatcWebchatSettings_Click);
+            // 
+            // linkBatcSpectrumSettings
+            // 
+            resources.ApplyResources(this.linkBatcSpectrumSettings, "linkBatcSpectrumSettings");
+            this.linkBatcSpectrumSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkBatcSpectrumSettings.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkBatcSpectrumSettings.Name = "linkBatcSpectrumSettings";
+            // 
+            // linkMqttSettings
+            // 
+            resources.ApplyResources(this.linkMqttSettings, "linkMqttSettings");
+            this.linkMqttSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkMqttSettings.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkMqttSettings.Name = "linkMqttSettings";
+            this.linkMqttSettings.Click += new System.EventHandler(this.linkMqttSettings_Click);
+            // 
+            // linkQuickTuneDocumentation
+            // 
+            resources.ApplyResources(this.linkQuickTuneDocumentation, "linkQuickTuneDocumentation");
+            this.linkQuickTuneDocumentation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkQuickTuneDocumentation.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkQuickTuneDocumentation.Name = "linkQuickTuneDocumentation";
+            this.linkQuickTuneDocumentation.Click += new System.EventHandler(this.linkQuickTuneDocumentation_Click);
+            // 
+            // checkQuicktune
+            // 
+            resources.ApplyResources(this.checkQuicktune, "checkQuicktune");
+            this.checkQuicktune.Name = "checkQuicktune";
+            this.checkQuicktune.UseVisualStyleBackColor = true;
+            this.checkQuicktune.CheckedChanged += new System.EventHandler(this.checkQuicktune_CheckedChanged);
+            // 
+            // linkBatcWebchatDocumentation
+            // 
+            resources.ApplyResources(this.linkBatcWebchatDocumentation, "linkBatcWebchatDocumentation");
+            this.linkBatcWebchatDocumentation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkBatcWebchatDocumentation.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkBatcWebchatDocumentation.Name = "linkBatcWebchatDocumentation";
+            this.linkBatcWebchatDocumentation.Click += new System.EventHandler(this.linkBatcWebchatDocumentation_Click);
+            // 
+            // linkSpectrumDocumentation
+            // 
+            resources.ApplyResources(this.linkSpectrumDocumentation, "linkSpectrumDocumentation");
+            this.linkSpectrumDocumentation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkSpectrumDocumentation.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkSpectrumDocumentation.Name = "linkSpectrumDocumentation";
+            this.linkSpectrumDocumentation.Click += new System.EventHandler(this.linkSpectrumDocumentation_Click);
+            // 
+            // LinkMqttDocumentation
+            // 
+            resources.ApplyResources(this.LinkMqttDocumentation, "LinkMqttDocumentation");
+            this.LinkMqttDocumentation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.LinkMqttDocumentation.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.LinkMqttDocumentation.Name = "LinkMqttDocumentation";
+            this.LinkMqttDocumentation.Click += new System.EventHandler(this.LinkMqttDocumentation_Click);
+            // 
+            // checkMqttClient
+            // 
+            resources.ApplyResources(this.checkMqttClient, "checkMqttClient");
+            this.checkMqttClient.Name = "checkMqttClient";
+            this.checkMqttClient.UseVisualStyleBackColor = true;
+            this.checkMqttClient.CheckedChanged += new System.EventHandler(this.checkMqttClient_CheckedChanged);
+            // 
+            // checkBatcChat
+            // 
+            resources.ApplyResources(this.checkBatcChat, "checkBatcChat");
+            this.checkBatcChat.Name = "checkBatcChat";
+            this.checkBatcChat.UseVisualStyleBackColor = true;
+            this.checkBatcChat.CheckedChanged += new System.EventHandler(this.checkBatcChat_CheckedChanged);
+            // 
+            // checkBatcSpectrum
+            // 
+            resources.ApplyResources(this.checkBatcSpectrum, "checkBatcSpectrum");
+            this.checkBatcSpectrum.Name = "checkBatcSpectrum";
+            this.checkBatcSpectrum.UseVisualStyleBackColor = true;
+            this.checkBatcSpectrum.CheckedChanged += new System.EventHandler(this.checkBatcSpectrum_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -572,67 +705,12 @@
             resources.ApplyResources(this.configureCallsignToolStripMenuItem, "configureCallsignToolStripMenuItem");
             this.configureCallsignToolStripMenuItem.Click += new System.EventHandler(this.configureCallsignToolStripMenuItem_Click);
             // 
-            // groupBox2
+            // linkOpenTunerUpdates
             // 
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.checkBox4);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.checkBox3);
-            this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Controls.Add(this.checkBox1);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
-            // checkBox1
-            // 
-            resources.ApplyResources(this.checkBox1, "checkBox1");
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            resources.ApplyResources(this.checkBox2, "checkBox2");
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            resources.ApplyResources(this.checkBox3, "checkBox3");
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label2.Name = "label2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label3.Name = "label3";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label4.Name = "label4";
-            // 
-            // checkBox4
-            // 
-            resources.ApplyResources(this.checkBox4, "checkBox4");
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label5.Name = "label5";
+            resources.ApplyResources(this.linkOpenTunerUpdates, "linkOpenTunerUpdates");
+            this.linkOpenTunerUpdates.ForeColor = System.Drawing.Color.Blue;
+            this.linkOpenTunerUpdates.Name = "linkOpenTunerUpdates";
+            this.linkOpenTunerUpdates.Click += new System.EventHandler(this.linkOpenTunerUpdates_Click);
             // 
             // MainForm
             // 
@@ -650,6 +728,10 @@
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.SourcePage.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.debugPage.ResumeLayout(false);
@@ -669,8 +751,6 @@
             this.contextSpectrumMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -739,14 +819,21 @@
         private System.Windows.Forms.ComboBox comboAvailableSources;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkMqttClient;
+        private System.Windows.Forms.CheckBox checkBatcChat;
+        private System.Windows.Forms.CheckBox checkBatcSpectrum;
+        private System.Windows.Forms.Label linkQuickTuneDocumentation;
+        private System.Windows.Forms.CheckBox checkQuicktune;
+        private System.Windows.Forms.Label linkBatcWebchatDocumentation;
+        private System.Windows.Forms.Label linkSpectrumDocumentation;
+        private System.Windows.Forms.Label LinkMqttDocumentation;
+        private System.Windows.Forms.Label linkQuickTuneSettings;
+        private System.Windows.Forms.Label linkBatcWebchatSettings;
+        private System.Windows.Forms.Label linkBatcSpectrumSettings;
+        private System.Windows.Forms.Label linkMqttSettings;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label linkDocumentation;
+        private System.Windows.Forms.Label linkOpenTunerUpdates;
     }
 }
 

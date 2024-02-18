@@ -29,28 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(settingsForm));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.comboTuner2Start = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.comboTuner1Start = new System.Windows.Forms.ComboBox();
-            this.txtDefaultLO2 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.comboDefaultLNB = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtDefaultLO = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.numUdpPort2 = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textUDPAddress2 = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.numUdpPort = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textUDPAddress = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboLanguage = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkWindowed2 = new System.Windows.Forms.CheckBox();
             this.checkWindowed1 = new System.Windows.Forms.CheckBox();
@@ -61,209 +39,47 @@
             this.button1 = new System.Windows.Forms.Button();
             this.txtSnapshotPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.numChatFontSize = new System.Windows.Forms.NumericUpDown();
-            this.label14 = new System.Windows.Forms.Label();
-            this.txtSigReportTemplate = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.checkEnableChat = new System.Windows.Forms.CheckBox();
-            this.checkEnableSpectrum = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.comboDefaultHardware = new System.Windows.Forms.ComboBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.Label21 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.txtBrokerHost = new System.Windows.Forms.TextBox();
-            this.numBrokerPort = new System.Windows.Forms.NumericUpDown();
-            this.label20 = new System.Windows.Forms.Label();
-            this.txtParentTopic = new System.Windows.Forms.TextBox();
-            this.checkEnableMqtt = new System.Windows.Forms.CheckBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.checkPlutoControl = new System.Windows.Forms.CheckBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort)).BeginInit();
+            this.comboDefaultSource = new System.Windows.Forms.ComboBox();
+            this.checkWindowed4 = new System.Windows.Forms.CheckBox();
+            this.checkWindowed3 = new System.Windows.Forms.CheckBox();
+            this.comboMediaPlayer4 = new System.Windows.Forms.ComboBox();
+            this.comboMediaPlayer3 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtStreaming1IP = new System.Windows.Forms.TextBox();
+            this.txtStreaming1Port = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtStreaming2Port = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtStreaming2IP = new System.Windows.Forms.TextBox();
+            this.txt = new System.Windows.Forms.Label();
+            this.txtStreaming3Port = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtStreaming3IP = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtStreaming4Port = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtStreaming4IP = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numChatFontSize)).BeginInit();
             this.groupBox5.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numBrokerPort)).BeginInit();
-            this.groupBox7.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.comboTuner2Start);
-            this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.comboTuner1Start);
-            this.groupBox1.Controls.Add(this.txtDefaultLO2);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.comboDefaultLNB);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.txtDefaultLO);
-            this.groupBox1.Controls.Add(this.label1);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
-            // comboTuner2Start
-            // 
-            this.comboTuner2Start.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboTuner2Start.FormattingEnabled = true;
-            resources.ApplyResources(this.comboTuner2Start, "comboTuner2Start");
-            this.comboTuner2Start.Name = "comboTuner2Start";
-            // 
-            // label15
-            // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
-            // 
-            // comboTuner1Start
-            // 
-            this.comboTuner1Start.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboTuner1Start.FormattingEnabled = true;
-            resources.ApplyResources(this.comboTuner1Start, "comboTuner1Start");
-            this.comboTuner1Start.Name = "comboTuner1Start";
-            // 
-            // txtDefaultLO2
-            // 
-            resources.ApplyResources(this.txtDefaultLO2, "txtDefaultLO2");
-            this.txtDefaultLO2.Name = "txtDefaultLO2";
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
-            // comboDefaultLNB
-            // 
-            this.comboDefaultLNB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboDefaultLNB.FormattingEnabled = true;
-            this.comboDefaultLNB.Items.AddRange(new object[] {
-            resources.GetString("comboDefaultLNB.Items"),
-            resources.GetString("comboDefaultLNB.Items1"),
-            resources.GetString("comboDefaultLNB.Items2")});
-            resources.ApplyResources(this.comboDefaultLNB, "comboDefaultLNB");
-            this.comboDefaultLNB.Name = "comboDefaultLNB";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // txtDefaultLO
-            // 
-            resources.ApplyResources(this.txtDefaultLO, "txtDefaultLO");
-            this.txtDefaultLO.Name = "txtDefaultLO";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.numUdpPort2);
-            this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.textUDPAddress2);
-            this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.numUdpPort);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.textUDPAddress);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.comboLanguage);
-            this.groupBox2.Controls.Add(this.label3);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
-            // numUdpPort2
-            // 
-            resources.ApplyResources(this.numUdpPort2, "numUdpPort2");
-            this.numUdpPort2.Maximum = new decimal(new int[] {
-            20000,
-            0,
-            0,
-            0});
-            this.numUdpPort2.Name = "numUdpPort2";
-            // 
-            // label11
-            // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
-            // 
-            // textUDPAddress2
-            // 
-            resources.ApplyResources(this.textUDPAddress2, "textUDPAddress2");
-            this.textUDPAddress2.Name = "textUDPAddress2";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
-            // 
-            // numUdpPort
-            // 
-            resources.ApplyResources(this.numUdpPort, "numUdpPort");
-            this.numUdpPort.Maximum = new decimal(new int[] {
-            20000,
-            0,
-            0,
-            0});
-            this.numUdpPort.Name = "numUdpPort";
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // textUDPAddress
-            // 
-            resources.ApplyResources(this.textUDPAddress, "textUDPAddress");
-            this.textUDPAddress.Name = "textUDPAddress";
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
-            // 
-            // comboLanguage
-            // 
-            this.comboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboLanguage.FormattingEnabled = true;
-            this.comboLanguage.Items.AddRange(new object[] {
-            resources.GetString("comboLanguage.Items"),
-            resources.GetString("comboLanguage.Items1"),
-            resources.GetString("comboLanguage.Items2"),
-            resources.GetString("comboLanguage.Items3"),
-            resources.GetString("comboLanguage.Items4"),
-            resources.GetString("comboLanguage.Items5"),
-            resources.GetString("comboLanguage.Items6"),
-            resources.GetString("comboLanguage.Items7")});
-            resources.ApplyResources(this.comboLanguage, "comboLanguage");
-            this.comboLanguage.Name = "comboLanguage";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.checkWindowed4);
+            this.groupBox3.Controls.Add(this.checkWindowed3);
+            this.groupBox3.Controls.Add(this.comboMediaPlayer4);
+            this.groupBox3.Controls.Add(this.comboMediaPlayer3);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.checkWindowed2);
             this.groupBox3.Controls.Add(this.checkWindowed1);
             this.groupBox3.Controls.Add(this.comboMediaPlayer2);
@@ -339,72 +155,6 @@
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label17);
-            this.groupBox4.Controls.Add(this.numChatFontSize);
-            this.groupBox4.Controls.Add(this.label14);
-            this.groupBox4.Controls.Add(this.txtSigReportTemplate);
-            this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Controls.Add(this.checkEnableChat);
-            this.groupBox4.Controls.Add(this.checkEnableSpectrum);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.TabStop = false;
-            // 
-            // label17
-            // 
-            resources.ApplyResources(this.label17, "label17");
-            this.label17.Name = "label17";
-            // 
-            // numChatFontSize
-            // 
-            resources.ApplyResources(this.numChatFontSize, "numChatFontSize");
-            this.numChatFontSize.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.numChatFontSize.Minimum = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
-            this.numChatFontSize.Name = "numChatFontSize";
-            this.numChatFontSize.ReadOnly = true;
-            this.numChatFontSize.Value = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
-            // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
-            // txtSigReportTemplate
-            // 
-            resources.ApplyResources(this.txtSigReportTemplate, "txtSigReportTemplate");
-            this.txtSigReportTemplate.Name = "txtSigReportTemplate";
-            // 
-            // label13
-            // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
-            // 
-            // checkEnableChat
-            // 
-            resources.ApplyResources(this.checkEnableChat, "checkEnableChat");
-            this.checkEnableChat.Name = "checkEnableChat";
-            this.checkEnableChat.UseVisualStyleBackColor = true;
-            // 
-            // checkEnableSpectrum
-            // 
-            resources.ApplyResources(this.checkEnableSpectrum, "checkEnableSpectrum");
-            this.checkEnableSpectrum.Name = "checkEnableSpectrum";
-            this.checkEnableSpectrum.UseVisualStyleBackColor = true;
-            // 
             // button2
             // 
             resources.ApplyResources(this.button2, "button2");
@@ -419,15 +169,10 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.label18);
-            this.groupBox5.Controls.Add(this.comboDefaultHardware);
+            this.groupBox5.Controls.Add(this.comboDefaultSource);
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
@@ -437,195 +182,224 @@
             resources.ApplyResources(this.label18, "label18");
             this.label18.Name = "label18";
             // 
-            // comboDefaultHardware
+            // comboDefaultSource
             // 
-            this.comboDefaultHardware.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboDefaultHardware.FormattingEnabled = true;
-            this.comboDefaultHardware.Items.AddRange(new object[] {
-            resources.GetString("comboDefaultHardware.Items"),
-            resources.GetString("comboDefaultHardware.Items1"),
-            resources.GetString("comboDefaultHardware.Items2")});
-            resources.ApplyResources(this.comboDefaultHardware, "comboDefaultHardware");
-            this.comboDefaultHardware.Name = "comboDefaultHardware";
+            this.comboDefaultSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboDefaultSource.FormattingEnabled = true;
+            this.comboDefaultSource.Items.AddRange(new object[] {
+            resources.GetString("comboDefaultSource.Items"),
+            resources.GetString("comboDefaultSource.Items1")});
+            resources.ApplyResources(this.comboDefaultSource, "comboDefaultSource");
+            this.comboDefaultSource.Name = "comboDefaultSource";
             // 
-            // groupBox6
+            // checkWindowed4
             // 
-            this.groupBox6.Controls.Add(this.checkEnableMqtt);
-            this.groupBox6.Controls.Add(this.txtParentTopic);
-            this.groupBox6.Controls.Add(this.label20);
-            this.groupBox6.Controls.Add(this.numBrokerPort);
-            this.groupBox6.Controls.Add(this.txtBrokerHost);
-            this.groupBox6.Controls.Add(this.label19);
-            this.groupBox6.Controls.Add(this.Label21);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.TabStop = false;
+            resources.ApplyResources(this.checkWindowed4, "checkWindowed4");
+            this.checkWindowed4.Name = "checkWindowed4";
+            this.checkWindowed4.UseVisualStyleBackColor = true;
             // 
-            // Label21
+            // checkWindowed3
             // 
-            resources.ApplyResources(this.Label21, "Label21");
-            this.Label21.Name = "Label21";
+            resources.ApplyResources(this.checkWindowed3, "checkWindowed3");
+            this.checkWindowed3.Name = "checkWindowed3";
+            this.checkWindowed3.UseVisualStyleBackColor = true;
             // 
-            // label19
+            // comboMediaPlayer4
             // 
-            resources.ApplyResources(this.label19, "label19");
-            this.label19.Name = "label19";
+            this.comboMediaPlayer4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboMediaPlayer4.FormattingEnabled = true;
+            this.comboMediaPlayer4.Items.AddRange(new object[] {
+            resources.GetString("comboMediaPlayer4.Items"),
+            resources.GetString("comboMediaPlayer4.Items1"),
+            resources.GetString("comboMediaPlayer4.Items2")});
+            resources.ApplyResources(this.comboMediaPlayer4, "comboMediaPlayer4");
+            this.comboMediaPlayer4.Name = "comboMediaPlayer4";
             // 
-            // txtBrokerHost
+            // comboMediaPlayer3
             // 
-            resources.ApplyResources(this.txtBrokerHost, "txtBrokerHost");
-            this.txtBrokerHost.Name = "txtBrokerHost";
+            this.comboMediaPlayer3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboMediaPlayer3.FormattingEnabled = true;
+            this.comboMediaPlayer3.Items.AddRange(new object[] {
+            resources.GetString("comboMediaPlayer3.Items"),
+            resources.GetString("comboMediaPlayer3.Items1"),
+            resources.GetString("comboMediaPlayer3.Items2")});
+            resources.ApplyResources(this.comboMediaPlayer3, "comboMediaPlayer3");
+            this.comboMediaPlayer3.Name = "comboMediaPlayer3";
             // 
-            // numBrokerPort
+            // label1
             // 
-            resources.ApplyResources(this.numBrokerPort, "numBrokerPort");
-            this.numBrokerPort.Maximum = new decimal(new int[] {
-            20000,
-            0,
-            0,
-            0});
-            this.numBrokerPort.Name = "numBrokerPort";
-            this.numBrokerPort.Value = new decimal(new int[] {
-            1883,
-            0,
-            0,
-            0});
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
-            // label20
+            // label2
             // 
-            resources.ApplyResources(this.label20, "label20");
-            this.label20.Name = "label20";
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
             // 
-            // txtParentTopic
+            // groupBox1
             // 
-            resources.ApplyResources(this.txtParentTopic, "txtParentTopic");
-            this.txtParentTopic.Name = "txtParentTopic";
+            this.groupBox1.Controls.Add(this.txtStreaming4Port);
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.txtStreaming4IP);
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.txtStreaming3Port);
+            this.groupBox1.Controls.Add(this.txtStreaming2Port);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.txtStreaming3IP);
+            this.groupBox1.Controls.Add(this.txtStreaming2IP);
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.txt);
+            this.groupBox1.Controls.Add(this.txtStreaming1Port);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.txtStreaming1IP);
+            this.groupBox1.Controls.Add(this.label3);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
             // 
-            // checkEnableMqtt
+            // label3
             // 
-            resources.ApplyResources(this.checkEnableMqtt, "checkEnableMqtt");
-            this.checkEnableMqtt.Name = "checkEnableMqtt";
-            this.checkEnableMqtt.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
             // 
-            // groupBox7
+            // txtStreaming1IP
             // 
-            this.groupBox7.Controls.Add(this.label22);
-            this.groupBox7.Controls.Add(this.checkPlutoControl);
-            resources.ApplyResources(this.groupBox7, "groupBox7");
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.TabStop = false;
+            resources.ApplyResources(this.txtStreaming1IP, "txtStreaming1IP");
+            this.txtStreaming1IP.Name = "txtStreaming1IP";
             // 
-            // checkPlutoControl
+            // txtStreaming1Port
             // 
-            resources.ApplyResources(this.checkPlutoControl, "checkPlutoControl");
-            this.checkPlutoControl.Name = "checkPlutoControl";
-            this.checkPlutoControl.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.txtStreaming1Port, "txtStreaming1Port");
+            this.txtStreaming1Port.Name = "txtStreaming1Port";
             // 
-            // label22
+            // label5
             // 
-            resources.ApplyResources(this.label22, "label22");
-            this.label22.Name = "label22";
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // txtStreaming2Port
+            // 
+            resources.ApplyResources(this.txtStreaming2Port, "txtStreaming2Port");
+            this.txtStreaming2Port.Name = "txtStreaming2Port";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // txtStreaming2IP
+            // 
+            resources.ApplyResources(this.txtStreaming2IP, "txtStreaming2IP");
+            this.txtStreaming2IP.Name = "txtStreaming2IP";
+            // 
+            // txt
+            // 
+            resources.ApplyResources(this.txt, "txt");
+            this.txt.Name = "txt";
+            // 
+            // txtStreaming3Port
+            // 
+            resources.ApplyResources(this.txtStreaming3Port, "txtStreaming3Port");
+            this.txtStreaming3Port.Name = "txtStreaming3Port";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // txtStreaming3IP
+            // 
+            resources.ApplyResources(this.txtStreaming3IP, "txtStreaming3IP");
+            this.txtStreaming3IP.Name = "txtStreaming3IP";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // txtStreaming4Port
+            // 
+            resources.ApplyResources(this.txtStreaming4Port, "txtStreaming4Port");
+            this.txtStreaming4Port.Name = "txtStreaming4Port";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // txtStreaming4IP
+            // 
+            resources.ApplyResources(this.txtStreaming4IP, "txtStreaming4IP");
+            this.txtStreaming4IP.Name = "txtStreaming4IP";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
             // 
             // settingsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ControlBox = false;
-            this.Controls.Add(this.groupBox7);
-            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "settingsForm";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numUdpPort)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numChatFontSize)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numBrokerPort)).EndInit();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        public System.Windows.Forms.CheckBox checkEnableSpectrum;
-        public System.Windows.Forms.ComboBox comboDefaultLNB;
-        public System.Windows.Forms.TextBox txtDefaultLO;
         public System.Windows.Forms.TextBox txtSnapshotPath;
-        private System.Windows.Forms.Label label5;
-        public System.Windows.Forms.ComboBox comboLanguage;
-        public System.Windows.Forms.TextBox txtDefaultLO2;
-        private System.Windows.Forms.Label label6;
-        public System.Windows.Forms.CheckBox checkEnableChat;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         public System.Windows.Forms.ComboBox comboMediaPlayer2;
         public System.Windows.Forms.ComboBox comboMediaPlayer1;
-        private System.Windows.Forms.Label label10;
-        public System.Windows.Forms.TextBox textUDPAddress;
-        private System.Windows.Forms.Label label9;
-        public System.Windows.Forms.NumericUpDown numUdpPort;
-        public System.Windows.Forms.NumericUpDown numUdpPort2;
-        private System.Windows.Forms.Label label11;
-        public System.Windows.Forms.TextBox textUDPAddress2;
-        private System.Windows.Forms.Label label12;
         public System.Windows.Forms.CheckBox checkWindowed2;
         public System.Windows.Forms.CheckBox checkWindowed1;
-        private System.Windows.Forms.Label label13;
-        public System.Windows.Forms.TextBox txtSigReportTemplate;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label15;
-        public System.Windows.Forms.ComboBox comboTuner2Start;
-        public System.Windows.Forms.ComboBox comboTuner1Start;
-        private System.Windows.Forms.Label label17;
-        public System.Windows.Forms.NumericUpDown numChatFontSize;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label18;
-        public System.Windows.Forms.ComboBox comboDefaultHardware;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.Label label20;
-        public System.Windows.Forms.NumericUpDown numBrokerPort;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label Label21;
-        public System.Windows.Forms.CheckBox checkEnableMqtt;
-        public System.Windows.Forms.TextBox txtParentTopic;
-        public System.Windows.Forms.TextBox txtBrokerHost;
-        private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.Label label22;
-        public System.Windows.Forms.CheckBox checkPlutoControl;
+        public System.Windows.Forms.ComboBox comboDefaultSource;
+        public System.Windows.Forms.CheckBox checkWindowed4;
+        public System.Windows.Forms.CheckBox checkWindowed3;
+        public System.Windows.Forms.ComboBox comboMediaPlayer4;
+        public System.Windows.Forms.ComboBox comboMediaPlayer3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox txtStreaming4Port;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtStreaming4IP;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtStreaming3Port;
+        private System.Windows.Forms.TextBox txtStreaming2Port;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtStreaming3IP;
+        private System.Windows.Forms.TextBox txtStreaming2IP;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label txt;
+        private System.Windows.Forms.TextBox txtStreaming1Port;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtStreaming1IP;
+        private System.Windows.Forms.Label label3;
     }
 }

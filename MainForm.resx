@@ -126,245 +126,476 @@
     <value>0, 24</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+  <data name="linkOpenTunerUpdates.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
+  <data name="linkOpenTunerUpdates.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Underline</value>
   </data>
-  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="linkOpenTunerUpdates.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 53</value>
+  <data name="linkOpenTunerUpdates.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 35</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="linkOpenTunerUpdates.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 16</value>
   </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>More Info ...</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="checkBox4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 52</value>
-  </data>
-  <data name="checkBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 17</value>
-  </data>
-  <data name="checkBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="checkBox4.Text" xml:space="preserve">
-    <value>Quick Tune Control</value>
-  </data>
-  <data name="&gt;&gt;checkBox4.Name" xml:space="preserve">
-    <value>checkBox4</value>
-  </data>
-  <data name="&gt;&gt;checkBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox4.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;checkBox4.ZOrder" xml:space="preserve">
+  <data name="linkOpenTunerUpdates.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="linkOpenTunerUpdates.Text" xml:space="preserve">
+    <value>OpenTuner Updates</value>
   </data>
-  <data name="label4.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
+  <data name="&gt;&gt;linkOpenTunerUpdates.Name" xml:space="preserve">
+    <value>linkOpenTunerUpdates</value>
   </data>
-  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 154</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
-  </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>More Info ...</value>
-  </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+  <data name="&gt;&gt;linkOpenTunerUpdates.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+  <data name="&gt;&gt;linkOpenTunerUpdates.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;linkOpenTunerUpdates.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="linkDocumentation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkDocumentation.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Underline</value>
+  </data>
+  <data name="linkDocumentation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 60</value>
+  </data>
+  <data name="linkDocumentation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>168, 16</value>
+  </data>
+  <data name="linkDocumentation.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="linkDocumentation.Text" xml:space="preserve">
+    <value>OpenTuner Documentation</value>
+  </data>
+  <data name="&gt;&gt;linkDocumentation.Name" xml:space="preserve">
+    <value>linkDocumentation</value>
+  </data>
+  <data name="&gt;&gt;linkDocumentation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkDocumentation.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;linkDocumentation.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 439</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>422, 230</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Documentation and Resources</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>SourcePage</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="linkQuickTuneSettings.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="linkQuickTuneSettings.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
   </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="linkQuickTuneSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 131</value>
+  <data name="linkQuickTuneSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 53</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="linkQuickTuneSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
   </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="linkQuickTuneSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>More Info ...</value>
+  <data name="linkQuickTuneSettings.Text" xml:space="preserve">
+    <value>Settings ...</value>
   </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
+  <data name="linkQuickTuneSettings.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+  <data name="&gt;&gt;linkQuickTuneSettings.Name" xml:space="preserve">
+    <value>linkQuickTuneSettings</value>
+  </data>
+  <data name="&gt;&gt;linkQuickTuneSettings.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;linkQuickTuneSettings.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;linkQuickTuneSettings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="linkBatcWebchatSettings.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkBatcWebchatSettings.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
+  </data>
+  <data name="linkBatcWebchatSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkBatcWebchatSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 154</value>
+  </data>
+  <data name="linkBatcWebchatSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="linkBatcWebchatSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="linkBatcWebchatSettings.Text" xml:space="preserve">
+    <value>Settings ...</value>
+  </data>
+  <data name="&gt;&gt;linkBatcWebchatSettings.Name" xml:space="preserve">
+    <value>linkBatcWebchatSettings</value>
+  </data>
+  <data name="&gt;&gt;linkBatcWebchatSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkBatcWebchatSettings.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;linkBatcWebchatSettings.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="linkBatcSpectrumSettings.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkBatcSpectrumSettings.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
+  </data>
+  <data name="linkBatcSpectrumSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkBatcSpectrumSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 131</value>
+  </data>
+  <data name="linkBatcSpectrumSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="linkBatcSpectrumSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="linkBatcSpectrumSettings.Text" xml:space="preserve">
+    <value>Settings ...</value>
+  </data>
+  <data name="linkBatcSpectrumSettings.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;linkBatcSpectrumSettings.Name" xml:space="preserve">
+    <value>linkBatcSpectrumSettings</value>
+  </data>
+  <data name="&gt;&gt;linkBatcSpectrumSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkBatcSpectrumSettings.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;linkBatcSpectrumSettings.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="linkMqttSettings.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkMqttSettings.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
+  </data>
+  <data name="linkMqttSettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkMqttSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 30</value>
+  </data>
+  <data name="linkMqttSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="linkMqttSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="linkMqttSettings.Text" xml:space="preserve">
+    <value>Settings ...</value>
+  </data>
+  <data name="&gt;&gt;linkMqttSettings.Name" xml:space="preserve">
+    <value>linkMqttSettings</value>
+  </data>
+  <data name="&gt;&gt;linkMqttSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkMqttSettings.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;linkMqttSettings.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+  <data name="linkQuickTuneDocumentation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="linkQuickTuneDocumentation.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 30</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>More Info ...</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="checkBox3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 29</value>
-  </data>
-  <data name="checkBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 17</value>
-  </data>
-  <data name="checkBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="checkBox3.Text" xml:space="preserve">
-    <value>MQTT Client</value>
-  </data>
-  <data name="&gt;&gt;checkBox3.Name" xml:space="preserve">
-    <value>checkBox3</value>
-  </data>
-  <data name="&gt;&gt;checkBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox3.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;checkBox3.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="checkBox2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBox2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="linkQuickTuneDocumentation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 153</value>
+  <data name="linkQuickTuneDocumentation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 53</value>
   </data>
-  <data name="checkBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 17</value>
+  <data name="linkQuickTuneDocumentation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
   </data>
-  <data name="checkBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="linkQuickTuneDocumentation.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
-  <data name="checkBox2.Text" xml:space="preserve">
-    <value>BATC Wideband Webchat  (QO-100)</value>
+  <data name="linkQuickTuneDocumentation.Text" xml:space="preserve">
+    <value>More Info ...</value>
   </data>
-  <data name="&gt;&gt;checkBox2.Name" xml:space="preserve">
-    <value>checkBox2</value>
+  <data name="&gt;&gt;linkQuickTuneDocumentation.Name" xml:space="preserve">
+    <value>linkQuickTuneDocumentation</value>
   </data>
-  <data name="&gt;&gt;checkBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;linkQuickTuneDocumentation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;checkBox2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;linkQuickTuneDocumentation.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="&gt;&gt;checkBox2.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="&gt;&gt;linkQuickTuneDocumentation.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
-  <data name="checkBox1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="checkQuicktune.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="checkBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 130</value>
+  <data name="checkQuicktune.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 52</value>
   </data>
-  <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 17</value>
+  <data name="checkQuicktune.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 20</value>
   </data>
-  <data name="checkBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="checkQuicktune.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
-  <data name="checkBox1.Text" xml:space="preserve">
-    <value>BATC Wideband Spectrum (QO-100) </value>
+  <data name="checkQuicktune.Text" xml:space="preserve">
+    <value>Quick Tune Control</value>
   </data>
-  <data name="&gt;&gt;checkBox1.Name" xml:space="preserve">
-    <value>checkBox1</value>
+  <data name="&gt;&gt;checkQuicktune.Name" xml:space="preserve">
+    <value>checkQuicktune</value>
   </data>
-  <data name="&gt;&gt;checkBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;checkQuicktune.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;checkBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;checkQuicktune.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="&gt;&gt;checkBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;checkQuicktune.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="linkBatcWebchatDocumentation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkBatcWebchatDocumentation.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
+  </data>
+  <data name="linkBatcWebchatDocumentation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkBatcWebchatDocumentation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 154</value>
+  </data>
+  <data name="linkBatcWebchatDocumentation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
+  </data>
+  <data name="linkBatcWebchatDocumentation.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
+  </data>
+  <data name="linkBatcWebchatDocumentation.Text" xml:space="preserve">
+    <value>More Info ...</value>
+  </data>
+  <data name="&gt;&gt;linkBatcWebchatDocumentation.Name" xml:space="preserve">
+    <value>linkBatcWebchatDocumentation</value>
+  </data>
+  <data name="&gt;&gt;linkBatcWebchatDocumentation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkBatcWebchatDocumentation.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;linkBatcWebchatDocumentation.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="linkSpectrumDocumentation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkSpectrumDocumentation.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
+  </data>
+  <data name="linkSpectrumDocumentation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkSpectrumDocumentation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 131</value>
+  </data>
+  <data name="linkSpectrumDocumentation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
+  </data>
+  <data name="linkSpectrumDocumentation.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="linkSpectrumDocumentation.Text" xml:space="preserve">
+    <value>More Info ...</value>
+  </data>
+  <data name="&gt;&gt;linkSpectrumDocumentation.Name" xml:space="preserve">
+    <value>linkSpectrumDocumentation</value>
+  </data>
+  <data name="&gt;&gt;linkSpectrumDocumentation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkSpectrumDocumentation.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;linkSpectrumDocumentation.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="LinkMqttDocumentation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LinkMqttDocumentation.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
+  </data>
+  <data name="LinkMqttDocumentation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 30</value>
+  </data>
+  <data name="LinkMqttDocumentation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
+  </data>
+  <data name="LinkMqttDocumentation.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="LinkMqttDocumentation.Text" xml:space="preserve">
+    <value>More Info ...</value>
+  </data>
+  <data name="&gt;&gt;LinkMqttDocumentation.Name" xml:space="preserve">
+    <value>LinkMqttDocumentation</value>
+  </data>
+  <data name="&gt;&gt;LinkMqttDocumentation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LinkMqttDocumentation.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;LinkMqttDocumentation.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="checkMqttClient.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkMqttClient.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 29</value>
+  </data>
+  <data name="checkMqttClient.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 20</value>
+  </data>
+  <data name="checkMqttClient.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="checkMqttClient.Text" xml:space="preserve">
+    <value>MQTT Client</value>
+  </data>
+  <data name="&gt;&gt;checkMqttClient.Name" xml:space="preserve">
+    <value>checkMqttClient</value>
+  </data>
+  <data name="&gt;&gt;checkMqttClient.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkMqttClient.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;checkMqttClient.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="checkBatcChat.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBatcChat.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkBatcChat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 153</value>
+  </data>
+  <data name="checkBatcChat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>249, 20</value>
+  </data>
+  <data name="checkBatcChat.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="checkBatcChat.Text" xml:space="preserve">
+    <value>BATC Wideband Web Chat  (QO-100)</value>
+  </data>
+  <data name="&gt;&gt;checkBatcChat.Name" xml:space="preserve">
+    <value>checkBatcChat</value>
+  </data>
+  <data name="&gt;&gt;checkBatcChat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBatcChat.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;checkBatcChat.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="checkBatcSpectrum.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBatcSpectrum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 130</value>
+  </data>
+  <data name="checkBatcSpectrum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 20</value>
+  </data>
+  <data name="checkBatcSpectrum.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="checkBatcSpectrum.Text" xml:space="preserve">
+    <value>BATC Wideband Spectrum (QO-100) </value>
+  </data>
+  <data name="&gt;&gt;checkBatcSpectrum.Name" xml:space="preserve">
+    <value>checkBatcSpectrum</value>
+  </data>
+  <data name="&gt;&gt;checkBatcSpectrum.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBatcSpectrum.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;checkBatcSpectrum.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="groupBox2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 240</value>
@@ -388,7 +619,7 @@
     <value>SourcePage</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="sourceInfo.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 89</value>
@@ -415,7 +646,7 @@
     <value>214, 50</value>
   </data>
   <data name="btnSourceSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 23</value>
+    <value>111, 36</value>
   </data>
   <data name="btnSourceSettings.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -439,7 +670,7 @@
     <value>331, 50</value>
   </data>
   <data name="btnSourceConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 36</value>
   </data>
   <data name="btnSourceConnect.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -460,10 +691,10 @@
     <value>2</value>
   </data>
   <data name="comboAvailableSources.Location" type="System.Drawing.Point, System.Drawing">
-    <value>119, 23</value>
+    <value>144, 23</value>
   </data>
   <data name="comboAvailableSources.Size" type="System.Drawing.Size, System.Drawing">
-    <value>287, 21</value>
+    <value>262, 24</value>
   </data>
   <data name="comboAvailableSources.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -487,7 +718,7 @@
     <value>15, 26</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 13</value>
+    <value>123, 16</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -509,6 +740,9 @@
   </data>
   <data name="groupBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
+  </data>
+  <data name="groupBox1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
@@ -532,7 +766,7 @@
     <value>SourcePage</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="SourcePage.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -1041,6 +1275,9 @@
   <data name="toolStripMenuItem2.Text" xml:space="preserve">
     <value>&amp;Frequency Manager</value>
   </data>
+  <data name="toolStripMenuItem2.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="manageExternalToolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>204, 22</value>
   </data>
@@ -1061,6 +1298,9 @@
   </data>
   <data name="externalToolsToolStripMenuItem.Text" xml:space="preserve">
     <value>External Tools</value>
+  </data>
+  <data name="externalToolsToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="recordAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 22</value>
@@ -1097,6 +1337,9 @@
   </data>
   <data name="tunerControlToolStripMenuItem.Text" xml:space="preserve">
     <value>Media</value>
+  </data>
+  <data name="tunerControlToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="offToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 22</value>
@@ -1140,11 +1383,17 @@
   <data name="toolStripMenuItem4.Text" xml:space="preserve">
     <value>IO Control</value>
   </data>
+  <data name="toolStripMenuItem4.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="qO100WidebandChatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 20</value>
   </data>
   <data name="qO100WidebandChatToolStripMenuItem.Text" xml:space="preserve">
     <value>QO-100 Wideband Chat</value>
+  </data>
+  <data name="qO100WidebandChatToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="openTunerWebsiteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>322, 22</value>

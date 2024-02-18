@@ -14,13 +14,17 @@ namespace opentuner.Utilities
         private UdpClient udpClient;
         private int port;
         private Thread listenerThread;
+        private int _id = 0;
 
         // Event to be raised when data is received
         public event EventHandler<DataReceivedEventArgs> DataReceived;
 
-        public UdpListener(int port)
+        public int ID { get { return _id; } }
+
+        public UdpListener(int port, int id)
         {
             this.port = port;
+            _id = id;   
         }
 
         public void StartListening()

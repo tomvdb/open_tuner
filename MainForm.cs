@@ -22,6 +22,8 @@ using opentuner.Transmit;
 using opentuner.ExtraFeatures.BATCSpectrum;
 using opentuner.ExtraFeatures.MqttClient;
 using opentuner.MediaSources.Longmynd;
+using opentuner.ExtraFeatures.BATCWebchat;
+using opentuner.ExtraFeatures.QuickTuneControl;
 
 namespace opentuner
 {
@@ -38,6 +40,8 @@ namespace opentuner
         MqttManager mqtt_client;
         F5OEOPlutoControl pluto_client;
         BATCSpectrum batc_spectrum;
+        BATCChat batc_chat;
+        QuickTuneControl quickTune_control;
 
         private static List<OTMediaPlayer> _mediaPlayers;
         private static List<OTSource> _availableSources = new List<OTSource>();
@@ -46,54 +50,7 @@ namespace opentuner
 
         private static OTSource videoSource;
 
-        // udp listener
-        UdpListener ExternalQuickTuneListener_1 = new UdpListener(6789);
-        UdpListener ExternalQuickTuneListener_2 = new UdpListener(6790);
-
-        // settings values
-        string setting_snapshot_path = "";
-        bool setting_enable_spectrum = true;
-        byte setting_default_lnb_supply = 0;    // 0 - off, 1 - vert, 2 - horiz
-        int setting_default_lo_value_1 = 0;
-        int setting_default_lo_value_2 = 0;
-        int setting_default_volume = 100;
-        int setting_default_volume2 = 100;
-        int setting_language = 0;
-        bool setting_enable_chatform = false;
-        bool setting_auto_connect = false;
-
-        int setting_mediaplayer_1 = 0;
-        int setting_mediaplayer_2 = 1;
-
-        int setting_window_width = -1;
-        int setting_window_height = -1;
-        int setting_window_x = -1;
-        int setting_window_y = -1;
-        int setting_main_splitter_position = 436;
-
-        //Font setting_chat_font;
-        int setting_chat_font_size = 12;
-        int setting_chat_width = 0;
-        int setting_chat_height = 0;
-        bool setting_disable_lna = false;
-
-        string setting_udp_address1 = "127.0.0.1";
-        int setting_udp_port1 = 9080;
-        string setting_udp_address2 = "127.0.0.1";
-        int setting_udp_port2 = 9081;
-
-        bool setting_windowed_mediaPlayer1 = false;
-        bool setting_windowed_mediaPlayer2 = false;
-
-        string setting_tuner1_startfreq = "Default";
-        string setting_tuner2_startfreq = "Default";
-
-        string setting_sigreport_template = "SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}";
-
-        int setting_default_hardware = 0;
-
         // mqtt settings
-        bool setting_enable_mqtt = false;
         string setting_mqtt_broker_host = "127.0.0.1";
         int setting_mqtt_broker_port = 1883;
         string setting_mqtt_parent_topic = "";
@@ -101,15 +58,18 @@ namespace opentuner
         // f5oeoe firmware pluto
         bool setting_enable_pluto = false;
 
-        // custom forms
-        private wbchat chatForm;
-        private tunerControlForm tuner1ControlForm;
-        private tunerControlForm tuner2ControlForm;
+        private TunerControlForm tuner1ControlForm;
+        private TunerControlForm tuner2ControlForm;
+
         private VideoViewForm mediaPlayer1Window;
         private VideoViewForm mediaPlayer2Window;
 
+        private MainSettings _settings;
+        private SettingsManager<MainSettings> _settingsManager;
+
         List<StoredFrequency> stored_frequencies = new List<StoredFrequency>();
         List<ExternalTool> external_tools = new List<ExternalTool>();
+
 
         public MainForm()
         {
@@ -118,7 +78,20 @@ namespace opentuner
 
             InitializeComponent();
 
-            // available sources
+            _settings = new MainSettings();
+            _settingsManager = new SettingsManager<MainSettings>("open_tuner_settings");
+            _settings = (_settingsManager.LoadSettings(_settings));
+
+            //setup
+            splitContainer2.Panel2Collapsed = true;
+            splitContainer2.Panel2.Enabled = false;
+
+            checkBatcSpectrum.Checked = _settings.enable_spectrum_checkbox;
+            checkBatcChat.Checked = _settings.enable_chatform_checkbox;
+            checkMqttClient.Checked = _settings.enable_mqtt_checkbox;
+            checkQuicktune.Checked = _settings.enable_quicktune_checkbox;
+
+            // load available sources
             _availableSources.Add(new MinitiounerSource());
             _availableSources.Add(new LongmyndSource());
 
@@ -129,48 +102,9 @@ namespace opentuner
                 comboAvailableSources.Items.Add(_availableSources[c].GetName());
             }
 
-            comboAvailableSources.SelectedIndex = 0;
-            sourceInfo.Text = _availableSources[0].GetDescription();
+            comboAvailableSources.SelectedIndex = _settings.default_source;
+            sourceInfo.Text = _availableSources[_settings.default_source].GetDescription();
 
-            load_settings();
-
-            if (setting_language > 0)
-            {
-                switch (setting_language)
-                {
-                    case 1:
-                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
-                        break;
-                    case 2:
-                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("ja-JP");
-                        break;
-                    case 3:
-                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("it-IT");
-                        break;
-                    case 4:
-                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("nl-NL");
-                        break;
-                    case 5:
-                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("pl-PL");
-                        break;
-                    case 6:
-                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
-                        break;
-                    case 7:
-                        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-EN");
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-
-            // udp listeners
-            ExternalQuickTuneListener_1.DataReceived += ExternalQuickTuneListener_1_DataReceived;
-            ExternalQuickTuneListener_2.DataReceived += ExternalQuickTuneListener_2_DataReceived;
-
-            ExternalQuickTuneListener_1.StartListening();
-            ExternalQuickTuneListener_2.StartListening();
         }
 
         /// <summary>
@@ -191,45 +125,17 @@ namespace opentuner
 
             this.Text = this.Text += " - " + videoSource.GetDeviceName();
 
-            /*
-            // TS udp thread - tuner 1
-            ts_udp1 = new TSUDPThread(setting_udp_address1, setting_udp_port1);
-            videoSource.RegisterTSConsumer(0, ts_udp1.ts_data_queue);
-            ts_udp_t1 = new Thread(ts_udp1.worker_thread);
-            ts_udp_t1.Start();
-
-            if (videoSource.GetVideoSourceCount() == 2)
-            {
-                // TS udp thread - tuner 2
-                ts_udp2 = new TSUDPThread(setting_udp_address2, setting_udp_port2);
-                videoSource.RegisterTSConsumer(1, ts_udp2.ts_data_queue);
-                ts_udp_t2 = new Thread(ts_udp2.worker_thread);
-                ts_udp_t2.Start();
-
-                // TS recorder Thread
-                ts_recorder2 = new TSRecorderThread(setting_snapshot_path, "t2");
-                videoSource.RegisterTSConsumer(1, ts_recorder2.ts_data_queue);
-                ts_recorder_2_t = new Thread(ts_recorder2.worker_thread);
-                ts_recorder_2_t.Start();
-
-            }
-            */
-
             // preferred player to use for each video view
             // 0 = vlc, 1 = ffmpeg, 2 = mpv
-            int[] playerPreferences = new int[] { 0, 1, 1, 1 };
-
-            _mediaPlayers = ConfigureMediaPlayers(videoSource.GetVideoSourceCount(), playerPreferences);
+            _mediaPlayers = ConfigureMediaPlayers(videoSource.GetVideoSourceCount(), _settings.mediaplayer_preferences );
             videoSource.ConfigureVideoPlayers(_mediaPlayers);
 
             // set recorders
-            _ts_recorders = ConfigureTSRecorders(videoSource, setting_snapshot_path);
+            _ts_recorders = ConfigureTSRecorders(videoSource, _settings.media_path);
             videoSource.ConfigureTSRecorders(_ts_recorders);
 
             // set udp streamers
-            string[] udpHosts = new string[] { "127.0.0.1", "127.0.0.1", "127.0.0.1", "127.0.0.1" };
-            int[] udpPorts = new int[] { 5000, 5001, 5002, 5003 };
-            _ts_streamers = ConfigureTSStreamers(videoSource, udpHosts, udpPorts);
+            _ts_streamers = ConfigureTSStreamers(videoSource, _settings.streamer_udp_hosts, _settings.streamer_udp_ports);
             videoSource.ConfigureTSStreamers(_ts_streamers);
 
             // update gui
@@ -272,59 +178,6 @@ namespace opentuner
             UpdateLB(dbgListBox, msg);
         }
 
-        private void ExternalQuickTuneListener_2_DataReceived(object sender, Utilities.DataReceivedEventArgs e)
-        {
-            try
-            {
-                Console.WriteLine("UDP Received (2): " + e.Message);
-
-                string[] properties = e.Message.Split(',');
-
-                uint freq = 0;
-                uint offset = 0;
-                uint sr = 0;
-
-                uint.TryParse(properties[1].Substring(5), out freq);
-                uint.TryParse(properties[2].Substring(7), out offset);
-                uint.TryParse(properties[4].Substring(6), out sr);
-
-                Console.WriteLine("New Freq Request (1) = " + (freq - offset).ToString() + "," + sr.ToString() + " ks");
-
-                //change_frequency_with_lo(1, freq, offset, sr);
-            }
-            catch (Exception Ex)
-            {
-
-            }
-        }
-
-        private void ExternalQuickTuneListener_1_DataReceived(object sender, Utilities.DataReceivedEventArgs e)
-        {
-            try
-            {
-                Console.WriteLine("UDP Received (1): " + e.Message);
-
-                string[] properties = e.Message.Split(',');
-
-                uint freq = 0;
-                uint offset = 0;
-                uint sr = 0;
-
-                uint.TryParse(properties[1].Substring(5), out freq);
-                uint.TryParse(properties[2].Substring(7), out offset);
-                uint.TryParse(properties[4].Substring(6), out sr);
-
-                Console.WriteLine("New Freq Request (2) = " + (freq - offset).ToString() + "," + sr.ToString() + " ks");
-
-                //change_frequency_with_lo(2, freq, offset, sr);
-            }
-            catch( Exception Ex )
-            {
-
-            }
-
-        }
-
         public void start_video(int video_number)
         {
             if (_mediaPlayers == null)
@@ -364,21 +217,14 @@ namespace opentuner
             Console.WriteLine("Exiting...");
             Console.WriteLine("* Saving Settings");
 
-            // save chat location settings
-            if (setting_enable_chatform && chatForm != null)
-            {
-                Properties.Settings.Default.wbchat_height = chatForm.Size.Width;
-                Properties.Settings.Default.wbchat_width = chatForm.Size.Height;
-            }
-
             // save current windows properties
-            Properties.Settings.Default.window_width = this.Width;
-            Properties.Settings.Default.window_height = this.Height;
-            Properties.Settings.Default.window_x = this.Left;
-            Properties.Settings.Default.window_y = this.Top;
-            Properties.Settings.Default.main_splitter_pos = splitContainer1.SplitterDistance;
+            _settings.gui_window_width = this.Width;
+            _settings.gui_window_height = this.Height;
+            _settings.gui_window_x = this.Left;
+            _settings.gui_window_y = this.Top;
+            _settings.gui_main_splitter_position = splitContainer1.SplitterDistance;
 
-            Properties.Settings.Default.Save();
+            _settingsManager.SaveSettings(_settings);
 
             try
             {
@@ -391,6 +237,12 @@ namespace opentuner
 
                 if (batc_spectrum != null)
                     batc_spectrum.Close();
+
+                if (batc_chat != null)
+                    batc_chat.Close();
+
+                if (quickTune_control != null)
+                    quickTune_control.Close();
 
                 Console.WriteLine("* Stopping Playing Video");
 
@@ -422,18 +274,12 @@ namespace opentuner
                     _availableSources[c].Close();
                 }
 
-                // close forms
-                if (chatForm != null)
-                    chatForm.Close();
 
                 if (tuner1ControlForm != null)
                     tuner1ControlForm.Close();
                 if (tuner2ControlForm != null)
                     tuner2ControlForm.Close();
 
-                // close udp
-                ExternalQuickTuneListener_1.StopListening();
-                ExternalQuickTuneListener_2.StopListening();
             }
             catch ( Exception Ex)
             {
@@ -441,144 +287,42 @@ namespace opentuner
                 Console.WriteLine("Closing Exception: " + Ex.Message);
             }
 
-            Console.WriteLine("Done");
+            Console.WriteLine("Bye!");
 
-        }
-
-       
-        private void load_settings()
-        {
-            // warning: don't use the debug function in this function as it gets called before components are initialized
-
-            Properties.Settings.Default.Reload();
-
-            setting_default_lnb_supply = Properties.Settings.Default.default_lnb_supply;
-            setting_default_lo_value_1 = Properties.Settings.Default.default_lo_B;
-            setting_default_lo_value_2 = Properties.Settings.Default.default_lo_A;
-            setting_enable_spectrum = Properties.Settings.Default.enable_qo100_spectrum;
-            setting_snapshot_path = Properties.Settings.Default.media_snapshot_path;
-            setting_language = Properties.Settings.Default.language;
-            setting_default_volume = Properties.Settings.Default.default_volume;
-            setting_default_volume2 = Properties.Settings.Default.default_volume2;
-            setting_chat_font_size = Properties.Settings.Default.wbchat_font_size;
-
-            //setting_chat_font = Properties.Settings.Default.wbchat_font;
-            setting_chat_width = Properties.Settings.Default.wbchat_width;
-            setting_chat_height = Properties.Settings.Default.wbchat_height;
-            setting_enable_chatform = Properties.Settings.Default.wbchat_enable;
-
-            setting_window_width = Properties.Settings.Default.window_width;
-            setting_window_height = Properties.Settings.Default.window_height;
-            setting_window_x = Properties.Settings.Default.window_x;
-            setting_window_y = Properties.Settings.Default.window_y;
-            setting_main_splitter_position = Properties.Settings.Default.main_splitter_pos;
-
-            setting_mediaplayer_1 = Properties.Settings.Default.mediaplayer_tuner1; // 0 = vlc, 1 = ffmpeg
-            setting_mediaplayer_2 = Properties.Settings.Default.mediaplayer_tuner2; // 0 = vlc, 1 = ffmpeg
-
-            setting_udp_address1 = Properties.Settings.Default.udp_address1;
-            setting_udp_port1 = Properties.Settings.Default.udp_port1;
-
-            setting_udp_address2 = Properties.Settings.Default.udp_address2;
-            setting_udp_port2 = Properties.Settings.Default.udp_port2;
-
-            setting_windowed_mediaPlayer1 = Properties.Settings.Default.windowed_player1;
-            setting_windowed_mediaPlayer2 = Properties.Settings.Default.windowed_player2;
-
-            setting_sigreport_template = Properties.Settings.Default.signreport_template;
-
-            setting_tuner1_startfreq = Properties.Settings.Default.tuner1_start_freq;
-            setting_tuner2_startfreq = Properties.Settings.Default.tuner2_start_freq;
-
-            setting_default_hardware = Properties.Settings.Default.default_source_hardware;
-
-            // mqtt settings
-            setting_enable_mqtt = Properties.Settings.Default.enable_mqtt;
-            setting_mqtt_broker_host = Properties.Settings.Default.mqtt_broker_host;
-            setting_mqtt_broker_port = Properties.Settings.Default.mqtt_broker_port;
-            setting_mqtt_parent_topic = Properties.Settings.Default.mqtt_topic_parent;
-
-            // pluto settings
-            setting_enable_pluto = Properties.Settings.Default.enable_pluto;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (setting_snapshot_path.Length == 0)
-                setting_snapshot_path = AppDomain.CurrentDomain.BaseDirectory;
+            if (_settings.media_path.Length == 0)
+                _settings.media_path = AppDomain.CurrentDomain.BaseDirectory;
 
-
-
-
-            string[] args = Environment.GetCommandLineArgs();
-
-            bool first = true;
-            
-            foreach (string arg in args)
+            if (_settings.gui_window_width != -1)
             {
-                if (first)
-                {
-                    first = false;
-                    continue;
-                }
+                Console.WriteLine("Restoring Window Positions:");
+                Console.WriteLine(" Size: (" + _settings.gui_window_height.ToString() + "," + _settings.gui_window_width.ToString() + ")");
+                Console.WriteLine(" Position: (" + _settings.gui_window_x.ToString() + "," + _settings.gui_window_y.ToString() + ")");
 
-                Console.WriteLine(arg);
+                this.Height = _settings.gui_window_height;
+                this.Width = _settings.gui_window_width;
 
-                if (arg == "DISABLELNA")
-                {
-                    Console.WriteLine("Disabling LNA Configure due to command line");
-                    setting_disable_lna = true;
-                }
+                this.Left = _settings.gui_window_x;
+                this.Top = _settings.gui_window_y;
 
-                if (arg == "DISABLEQO100")
-                {
-                    Console.WriteLine("Disabling QO-100 Features due to command line");
-                    setting_enable_chatform = false;
-                    setting_enable_spectrum = false;
-                }
-
-                if (arg == "AUTOCONNECT")
-                {
-                    Console.WriteLine("Auto Connect Enabled due to command line");
-                    setting_auto_connect = true;
-                }
-
-            }
-
-            if (setting_enable_chatform)
-            {
-                qO100WidebandChatToolStripMenuItem.Visible = true;
-                chatForm = new wbchat(setting_chat_font_size);
-
-                if (setting_chat_width > -1 && setting_chat_height > -1)
-                {
-                    chatForm.Size = new Size(setting_chat_height, setting_chat_width);
-                }
-            }
-            else
-            {
-                qO100WidebandChatToolStripMenuItem.Visible = false;
+                splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
             }
 
 
 
-            Console.WriteLine("Restoring Window Positions:");
-            Console.WriteLine(" Size: (" + setting_window_height.ToString() + "," + setting_window_width.ToString() + ")");
-            Console.WriteLine(" Position: (" + setting_window_x.ToString() + "," + setting_window_y.ToString() + ")");
 
-            this.Height = setting_window_height;
-            this.Width = setting_window_width;
 
-            this.Left = setting_window_x;
-            this.Top = setting_window_y;
 
-            splitContainer1.SplitterDistance = setting_main_splitter_position;
-
+            /*
             load_stored_frequencies();
             rebuild_stored_frequencies();
 
             load_external_tools();
             rebuild_external_tools();
+            */
 
             // tuner control windows
             /*
@@ -595,8 +339,7 @@ namespace opentuner
             tuner2ControlForm.set_offset(videoSource.current_offset_A, videoSource.current_offset_B);
             */
 
-            Console.WriteLine("Load Done");
-
+            /*
             // mqtt client
             setting_enable_mqtt = false;
             if (setting_enable_mqtt)
@@ -611,16 +354,12 @@ namespace opentuner
                     plutoToolStripMenuItem.Visible = true;
                 }
             }
+            */
         }
 
         private void Batc_spectrum_OnSignalSelected(int Receiver, uint Freq, uint SymbolRate)
         {
             videoSource.SetFrequency(Receiver, Freq, SymbolRate, true);
-        }
-
-        private void Mqtt_client_OnMqttMessageReceived(MqttMessage Message)
-        {
-            //Console.WriteLine("Main: " + Message.ToString());
         }
 
         private void rebuild_external_tools()
@@ -847,152 +586,19 @@ namespace opentuner
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            settingsForm settings_form = new settingsForm();
+            settingsForm settings_form = new settingsForm(ref _settings);
 
-            settings_form.txtDefaultLO.Text = setting_default_lo_value_1.ToString();
-            settings_form.txtDefaultLO2.Text = setting_default_lo_value_2.ToString();
-            settings_form.comboDefaultLNB.SelectedIndex = setting_default_lnb_supply;
-            settings_form.txtSnapshotPath.Text = setting_snapshot_path;
-            settings_form.checkEnableSpectrum.Checked = setting_enable_spectrum;
-            settings_form.checkEnableChat.Checked = setting_enable_chatform;
-            settings_form.comboLanguage.SelectedIndex = setting_language;
-            settings_form.comboMediaPlayer1.SelectedIndex = setting_mediaplayer_1;
-            settings_form.comboMediaPlayer2.SelectedIndex = setting_mediaplayer_2;
-
-            settings_form.textUDPAddress.Text = setting_udp_address1;
-            settings_form.numUdpPort.Value = setting_udp_port1;
-
-            settings_form.textUDPAddress2.Text = setting_udp_address2;
-            settings_form.numUdpPort2.Value = setting_udp_port2;
-
-            settings_form.checkWindowed1.Checked = setting_windowed_mediaPlayer1;
-            settings_form.checkWindowed2.Checked = setting_windowed_mediaPlayer2;
-
-            settings_form.txtSigReportTemplate.Text = setting_sigreport_template;
-
-            settings_form.numChatFontSize.Value = setting_chat_font_size;
-
-            settings_form.comboTuner1Start.Items.Add("Default");
-            settings_form.comboTuner2Start.Items.Add("Default");
-
-            settings_form.comboTuner1Start.SelectedIndex = 0;
-            settings_form.comboTuner2Start.SelectedIndex = 0;
-
-            settings_form.comboDefaultHardware.SelectedIndex = setting_default_hardware;
-
-            // mqtt
-            settings_form.checkEnableMqtt.Checked = setting_enable_mqtt;
-            settings_form.txtBrokerHost.Text = setting_mqtt_broker_host;
-            settings_form.numBrokerPort.Value = setting_mqtt_broker_port;
-            settings_form.txtParentTopic.Text = setting_mqtt_parent_topic;
-
-            // pluto
-            settings_form.checkPlutoControl.Checked = setting_enable_pluto;
-
-            for ( int c = 0; c < stored_frequencies.Count; c++)
+            if (settings_form.ShowDialog() == DialogResult.OK)
             {
-                if (stored_frequencies[c].DefaultTuner == 0)
-                {
-                    int index = settings_form.comboTuner1Start.Items.Add(stored_frequencies[c].Name);
 
-                    if (stored_frequencies[c].Name == setting_tuner1_startfreq)
-                        settings_form.comboTuner1Start.SelectedIndex = index;
-                }
-                else
-                {
-                    int index = settings_form.comboTuner2Start.Items.Add(stored_frequencies[c].Name);
-
-                    if (stored_frequencies[c].Name == setting_tuner2_startfreq)
-                        settings_form.comboTuner2Start.SelectedIndex = index;
-                }
-            }
-
-
-            if ( settings_form.ShowDialog() == DialogResult.OK )
-            {
-                //Properties.Settings.Default.wbchat_font = settings_form.currentChatFont;
-                Properties.Settings.Default.wbchat_font_size = Convert.ToInt32(settings_form.numChatFontSize.Value);
-
-                Properties.Settings.Default.default_lnb_supply = Convert.ToByte(settings_form.comboDefaultLNB.SelectedIndex);
-                Properties.Settings.Default.default_lo_B = Convert.ToInt32(settings_form.txtDefaultLO.Text);
-                Properties.Settings.Default.default_lo_A = Convert.ToInt32(settings_form.txtDefaultLO2.Text);
-                Properties.Settings.Default.enable_qo100_spectrum = settings_form.checkEnableSpectrum.Checked;
-                Properties.Settings.Default.wbchat_enable = settings_form.checkEnableChat.Checked;
-                Properties.Settings.Default.media_snapshot_path = settings_form.txtSnapshotPath.Text;
-                Properties.Settings.Default.mediaplayer_tuner1 = settings_form.comboMediaPlayer1.SelectedIndex;
-                Properties.Settings.Default.mediaplayer_tuner2 = settings_form.comboMediaPlayer2.SelectedIndex;
-                Properties.Settings.Default.udp_address1 = settings_form.textUDPAddress.Text;
-                Properties.Settings.Default.udp_port1 = Convert.ToInt32(settings_form.numUdpPort.Value);
-
-                Properties.Settings.Default.udp_address2 = settings_form.textUDPAddress2.Text;
-                Properties.Settings.Default.udp_port2 = Convert.ToInt32(settings_form.numUdpPort2.Value);
-
-                setting_language = settings_form.comboLanguage.SelectedIndex;
-
-                Properties.Settings.Default.language = setting_language;
-
-                Properties.Settings.Default.windowed_player1 = settings_form.checkWindowed1.Checked;
-                Properties.Settings.Default.windowed_player2 = settings_form.checkWindowed2.Checked;
-                Properties.Settings.Default.signreport_template = settings_form.txtSigReportTemplate.Text;
-
-                Properties.Settings.Default.tuner1_start_freq = settings_form.comboTuner1Start.Text;
-                Properties.Settings.Default.tuner2_start_freq = settings_form.comboTuner2Start.Text;
-
-                setting_sigreport_template = settings_form.txtSigReportTemplate.Text;
-
-                Properties.Settings.Default.default_source_hardware = settings_form.comboDefaultHardware.SelectedIndex;
-
-                Properties.Settings.Default.enable_mqtt = settings_form.checkEnableMqtt.Checked;
-                Properties.Settings.Default.mqtt_broker_host = settings_form.txtBrokerHost.Text;
-                Properties.Settings.Default.mqtt_broker_port = Convert.ToInt32(settings_form.numBrokerPort.Value);
-                Properties.Settings.Default.mqtt_topic_parent = settings_form.txtParentTopic.Text;
-
-                // pluto control
-                Properties.Settings.Default.enable_pluto = settings_form.checkPlutoControl.Checked;
-
-                Properties.Settings.Default.Save();
-                
-                load_settings();
             }
         }
 
         private void qO100WidebandChatToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            chatForm.Show();
-            chatForm.Focus();
+            if (batc_chat != null)
+                batc_chat.Show();
         }
-
-        /*
-        private void lblServiceName_TextChanged(object sender, EventArgs e)
-        {
-            if (setting_enable_spectrum)
-            {
-                // we have decoded a callsign
-                string callsign = lblServiceName.Text;
-                int offset = 0;
-
-                //Int32.TryParse(current, out offset);
-                if (videoSource.current_rf_input_1 == nim.NIM_INPUT_TOP)
-                    offset = videoSource.current_offset_A;
-                else
-                    offset = videoSource.current_offset_B;
-
-                if (callsign.Length > 0)
-                {
-                    double freq = videoSource.current_frequency_1 + offset;
-                    freq = freq / 1000;
-                    float sr = videoSource.current_sr_1;
-
-                    debug("New Callsign: " + callsign + "," + freq.ToString() + "," + sr.ToString());
-                    sigs.updateCurrentSignal(callsign, freq, sr);
-
-                }
-            }
-        }
-        */
-
-
-
 
         private void manageStoredFrequenciesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1051,22 +657,6 @@ namespace opentuner
             autoTimedToolStripMenuItem.Checked = false;
         }
 
-
-        /*
-        private void lblAdjust2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            uint carrier_offset = 0;
-
-            if (UInt32.TryParse(lblFreqCar2.Text, out carrier_offset))
-            {
-                carrier_offset = carrier_offset / 1000;
-                videoSource.change_frequency(2, (videoSource.current_frequency_2 + carrier_offset), videoSource.current_sr_2, videoSource.current_enable_lnb_supply, videoSource.current_enable_horiz_supply, videoSource.current_rf_input_2, videoSource.current_tone_22kHz_P1);
-            }
-
-        }
-        */
-
-
         private void btnTuner_Click(object sender, EventArgs e)
         {
             tuner1ControlForm.Show();
@@ -1110,65 +700,9 @@ namespace opentuner
         }
         */
 
-        /*
-        private void offToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-            if (!videoSource.HardwareConnected)
-                return;
-
-            videoSource.set_polarization_supply(0, false, false);
-
-            offToolStripMenuItem.Checked = true;
-            vertical13VToolStripMenuItem.Checked = false;
-            horizontal18VToolStripMenuItem.Checked = false;
-            
-        }
-
-        private void vertical13VToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!videoSource.HardwareConnected)
-                return;
-
-            videoSource.set_polarization_supply(0, true, false);
-
-            offToolStripMenuItem.Checked = false;
-            vertical13VToolStripMenuItem.Checked = true;
-            horizontal18VToolStripMenuItem.Checked = false;
-        }
-
-        private void horizontal18VToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!videoSource.HardwareConnected)
-                return;
-
-            videoSource.set_polarization_supply(0, true, true);
-
-            offToolStripMenuItem.Checked = false;
-            vertical13VToolStripMenuItem.Checked = false;
-            horizontal18VToolStripMenuItem.Checked = true;
-        }
-
-        private void kHzToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            kHzToolStripMenuItem.Checked = !kHzToolStripMenuItem.Checked;
-            videoSource.change_frequency(1, videoSource.current_frequency_1, videoSource.current_sr_1, videoSource.current_enable_lnb_supply, videoSource.current_enable_horiz_supply, videoSource.current_rf_input_1, kHzToolStripMenuItem.Checked);
-        }
-
-        */
-
-
         private void addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/adding-2nd-transport-to-batc-minitiouner-v2/");
-        }
-
-
-        private void toolStripMenuItem7_Click(object sender, EventArgs e)
-        {
-            // detect ftdi devices
-            //hardwareInfoForm hwForm = new hardwareInfoForm(videoSource.ftdi_hw);
-            //hwForm.ShowDialog();
         }
 
         private void manageExternalToolsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1265,7 +799,7 @@ namespace opentuner
 
             for (int c = 0; c < amount; c++)
             {
-                var media_player = ConfigureVideoPlayer(c, 2);
+                var media_player = ConfigureVideoPlayer(c, playerPreference[c]);
                 mediaPlayers.Add(media_player);
             }
 
@@ -1306,20 +840,26 @@ namespace opentuner
             if (!SourceConnect(_availableSources[comboAvailableSources.SelectedIndex]))
                 return;
 
-            if (setting_enable_spectrum)
+            if (checkBatcChat.Checked)
             {
-                debug("Settings: QO-100 Spectrum Enabled");
+                // show spectrum
+                splitContainer2.Panel2Collapsed = false;
+                splitContainer2.Panel2.Enabled = true;
 
                 this.DoubleBuffered = true;
                 batc_spectrum = new BATCSpectrum(spectrum, videoSource.GetVideoSourceCount());
                 batc_spectrum.OnSignalSelected += Batc_spectrum_OnSignalSelected;
             }
-            else
-            {
-                debug("Settings: QO-100 Spectrum Disabled");
 
-                splitContainer2.Panel2Collapsed = true;
-                splitContainer2.Panel2.Enabled = false;
+            if (checkBatcChat.Checked)
+            {
+                qO100WidebandChatToolStripMenuItem.Visible = true;
+                batc_chat = new BATCChat();
+            }
+
+            if (checkQuicktune.Checked)
+            {
+                quickTune_control = new QuickTuneControl(videoSource);
             }
 
         }
@@ -1333,6 +873,82 @@ namespace opentuner
         private void comboAvailableSources_SelectedIndexChanged(object sender, EventArgs e)
         {
             sourceInfo.Text = _availableSources[comboAvailableSources.SelectedIndex].GetDescription();
+        }
+
+        private void checkMqttClient_CheckedChanged(object sender, EventArgs e)
+        {
+            _settings.enable_mqtt_checkbox = checkMqttClient.Checked;
+        }
+
+        private void checkQuicktune_CheckedChanged(object sender, EventArgs e)
+        {
+            _settings.enable_quicktune_checkbox = checkQuicktune.Checked;
+        }
+
+        private void checkBatcSpectrum_CheckedChanged(object sender, EventArgs e)
+        {
+            _settings.enable_spectrum_checkbox = checkBatcSpectrum.Checked;
+        }
+
+        private void checkBatcChat_CheckedChanged(object sender, EventArgs e)
+        {
+            _settings.enable_chatform_checkbox = checkBatcChat.Checked;
+        }
+
+        private void linkBatcWebchatSettings_Click(object sender, EventArgs e)
+        {
+            // webchat settings
+            WebChatSettings wc_settings = new WebChatSettings();
+            SettingsManager<WebChatSettings> wc_settingsManager = new SettingsManager<WebChatSettings>("qo100_webchat_settings");
+            wc_settings = (wc_settingsManager.LoadSettings(wc_settings));
+
+            WebChatSettngsForm wc_settings_form = new WebChatSettngsForm(ref wc_settings);
+
+            if (wc_settings_form.ShowDialog() == DialogResult.OK)
+            {
+                wc_settingsManager.SaveSettings(wc_settings);
+            }
+
+        }
+
+        private void linkDocumentation_Click(object sender, EventArgs e)
+        {
+            // https://www.zr6tg.co.za/opentuner-documentation/
+        }
+
+        private void linkMqttSettings_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void linkQuickTuneSettings_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkSpectrumDocumentation_Click(object sender, EventArgs e)
+        {
+            //https://www.zr6tg.co.za/opentuner-spectrum/
+        }
+
+        private void LinkMqttDocumentation_Click(object sender, EventArgs e)
+        {
+            // https://www.zr6tg.co.za/opentuner-mqtt-client/
+
+        }
+
+        private void linkQuickTuneDocumentation_Click(object sender, EventArgs e)
+        {
+            // https://www.zr6tg.co.za/opentuner-quicktune-control/
+        }
+
+        private void linkBatcWebchatDocumentation_Click(object sender, EventArgs e)
+        {
+            // https://www.zr6tg.co.za/opentuner-webchat/
+        }
+
+        private void linkOpenTunerUpdates_Click(object sender, EventArgs e)
+        {
+            // https://www.zr6tg.co.za/open-tuner/
         }
     }
 

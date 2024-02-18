@@ -1,6 +1,6 @@
 ﻿namespace opentuner
 {
-    partial class tunerControlForm
+    partial class TunerControlForm
     {
         /// <summary>
         /// Required designer variable.
@@ -35,8 +35,6 @@
             this.btnUpdateFreq = new System.Windows.Forms.Button();
             this.lblOffset = new System.Windows.Forms.Label();
             this.checkTunerOnTop = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboRFInput = new System.Windows.Forms.ComboBox();
             this.lblNimFreq = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.comboSR = new System.Windows.Forms.ComboBox();
@@ -126,29 +124,6 @@
             this.checkTunerOnTop.UseVisualStyleBackColor = true;
             this.checkTunerOnTop.CheckedChanged += new System.EventHandler(this.checkTunerOnTop_CheckedChanged);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(476, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 17);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "RF Input :";
-            // 
-            // comboRFInput
-            // 
-            this.comboRFInput.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboRFInput.FormattingEnabled = true;
-            this.comboRFInput.Items.AddRange(new object[] {
-            "A",
-            "B"});
-            this.comboRFInput.Location = new System.Drawing.Point(551, 8);
-            this.comboRFInput.Name = "comboRFInput";
-            this.comboRFInput.Size = new System.Drawing.Size(56, 21);
-            this.comboRFInput.TabIndex = 8;
-            this.comboRFInput.SelectedIndexChanged += new System.EventHandler(this.comboRFInput_SelectedIndexChanged);
-            // 
             // lblNimFreq
             // 
             this.lblNimFreq.AutoSize = true;
@@ -205,8 +180,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblNimFreq);
-            this.Controls.Add(this.comboRFInput);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.checkTunerOnTop);
             this.Controls.Add(this.lblOffset);
             this.Controls.Add(this.btnUpdateFreq);
@@ -218,7 +191,6 @@
             this.MinimizeBox = false;
             this.Name = "tunerControlForm";
             this.Text = "Tuner Control";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.tunerControlForm_FormClosing);
             this.Load += new System.EventHandler(this.tunerControlForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -234,8 +206,6 @@
         private System.Windows.Forms.Button btnUpdateFreq;
         private System.Windows.Forms.Label lblOffset;
         private System.Windows.Forms.CheckBox checkTunerOnTop;
-        private System.Windows.Forms.Label label3;
-        public System.Windows.Forms.ComboBox comboRFInput;
         private System.Windows.Forms.Label lblNimFreq;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.ComboBox comboSR;

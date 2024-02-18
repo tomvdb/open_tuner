@@ -72,7 +72,7 @@ namespace opentuner.MediaSources.Longmynd
             //dynamicPropertyGroup.AddItem("lna_gain", "LNA Gain");
             dynamicPropertyGroup.AddItem("ber", "Ber");
             //dynamicPropertyGroup.AddItem("freq_carrier_offset", "Freq Carrier Offset");
-            //dynamicPropertyGroup.AddItem("stream_format", "Stream Format");
+            dynamicPropertyGroup.AddItem("stream_format", "Stream Format");
             dynamicPropertyGroup.AddItem("service_name", "Service Name");
             dynamicPropertyGroup.AddItem("service_name_provider", "Service Name Provider");
             dynamicPropertyGroup.AddItem("null_packets", "Null Packets");
