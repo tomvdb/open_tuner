@@ -129,6 +129,8 @@ namespace opentuner
             // 0 = vlc, 1 = ffmpeg, 2 = mpv
             _mediaPlayers = ConfigureMediaPlayers(videoSource.GetVideoSourceCount(), _settings.mediaplayer_preferences );
             videoSource.ConfigureVideoPlayers(_mediaPlayers);
+            videoSource.ConfigureMediaPath(_settings.media_path);
+
 
             // set recorders
             _ts_recorders = ConfigureTSRecorders(videoSource, _settings.media_path);
@@ -590,7 +592,7 @@ namespace opentuner
 
             if (settings_form.ShowDialog() == DialogResult.OK)
             {
-
+                _settingsManager.SaveSettings(_settings);
             }
         }
 

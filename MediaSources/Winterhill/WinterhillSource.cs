@@ -12,9 +12,16 @@ namespace opentuner.MediaSources.Winterhill
     {
         WinterhillSettings _settings;
 
+        public override event SourceDataChange OnSourceData;
+
         public override bool DeviceConnected => throw new NotImplementedException();
 
         public override void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ConfigureMediaPath(string MediaPath)
         {
             throw new NotImplementedException();
         }

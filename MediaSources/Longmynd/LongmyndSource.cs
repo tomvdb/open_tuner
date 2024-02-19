@@ -53,6 +53,8 @@ namespace opentuner.MediaSources.Longmynd
         // properties
         private uint current_frequency_1 = 0;
 
+        string _mediaPath = "";
+
         public LongmyndSource()
         {
             // settings
@@ -249,6 +251,12 @@ namespace opentuner.MediaSources.Longmynd
         {
             _streamer = TSStreamers[0];
         }
+
+        public override void ConfigureMediaPath(string MediaPath)
+        {
+            _mediaPath = MediaPath;
+        }
+
 
         #region lookuptables
         // lookup tables - TODO: consolidate this with main lookups

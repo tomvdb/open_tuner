@@ -327,6 +327,7 @@
     <Compile Include="Utilities\CollapsibleGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Utilities\CommonFunctions.cs" />
     <Compile Include="Utilities\DynamicPropertyGroups.cs" />
     <Compile Include="Utilities\DynamicPropertyInterface.cs" />
     <Compile Include="Utilities\DynamicPropertyItem.cs" />
@@ -371,6 +372,7 @@
     <Compile Include="MediaPlayers\VLC\TSStreamMediaInput.cs" />
     <Compile Include="Transport\TSThread.cs" />
     <Compile Include="Transport\Consumers\TSUdpStreamer.cs" />
+    <Compile Include="Utilities\OTProperty.cs" />
     <Compile Include="Utilities\tunerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>

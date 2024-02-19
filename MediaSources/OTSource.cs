@@ -5,12 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using opentuner.MediaPlayers;
+using opentuner.Utilities;
 
 namespace opentuner.MediaSources
 {
     public abstract class OTSource
     {
         public delegate void VideoChangeCallback(int video_number, bool start);
+        public delegate void SourceDataChange(List<OTProperty> Properties);
+
+        public abstract event SourceDataChange OnSourceData;
 
         // Request the Source Name (eg. Minitiouner)
         public abstract string GetName();
@@ -44,6 +48,7 @@ namespace opentuner.MediaSources
 
         public abstract void ConfigureTSStreamers(List<TSUdpStreamer> TSStreamers);
 
+        public abstract void ConfigureMediaPath(string MediaPath);
         public abstract bool DeviceConnected { get; }
 
         //public abstract byte SelectHardwareInterface(int hardware_interface);

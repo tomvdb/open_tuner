@@ -33,6 +33,7 @@ namespace opentuner.MediaSources.Minitiouner
         // context menu strip
         ContextMenuStrip _genericContextStrip;
 
+        public override event SourceDataChange OnSourceData;
 
         private bool BuildSourceProperties()
         {
@@ -60,14 +61,19 @@ namespace opentuner.MediaSources.Minitiouner
             _source_properties.AddItem("source_hw_interface", "Hardware Interface");
             _source_properties.AddItem("source_hw_ldpc_errors", "LPDC Errors");
 
+
+            _tuner_forms = new List<TunerControlForm>();
             // tuner for each device
             for (int c = 0; c < ts_devices; c++)
             {
-                _tuner_forms[c] = new TunerControlForm(c, 0, 0, (int)(c == 0 ? _settings.Offset1 : _settings.Offset2));
+                var tunerControl = new TunerControlForm(c, 0, 0, (int)(c == 0 ? _settings.Offset1 : _settings.Offset2));
+                tunerControl.OnTunerChange += TunerControl_OnTunerChange;
+                _tuner_forms.Add(tunerControl);
             }
 
             return true;
         }
+
 
         private DynamicPropertyGroup ConfigureTunerProperties(int tuner)
         {
@@ -105,6 +111,8 @@ namespace opentuner.MediaSources.Minitiouner
         private bool muted2 = false;
         private int indicatorStatus1 = 0;
         private int indicatorStatus2 = 0;
+
+        
 
         public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
         {
@@ -161,8 +169,10 @@ namespace opentuner.MediaSources.Minitiouner
                     }
 
                     break;
-                case 1: // mute
+                case 1: // snaphost
                     Console.WriteLine("Snapshot: " + tuner.ToString());
+                    _media_players[tuner].SnapShot(_mediapath + CommonFunctions.GenerateTimestampFilename() + ".png");
+
                     break;
                 case 2: // mute
                     Console.WriteLine("Record: " + tuner.ToString());
@@ -478,6 +488,8 @@ namespace opentuner.MediaSources.Minitiouner
             {
                 case MinitiounerPropertyCommands.SETFREQUENCY:
                     int tuner = option;
+
+                    _tuner_forms[tuner].ShowTuner((int)(tuner == 0 ? current_frequency_1 : current_frequency_2), (int)(tuner == 0 ? current_sr_1 : current_sr_2));
                     break;
 
                 default:
@@ -488,8 +500,9 @@ namespace opentuner.MediaSources.Minitiouner
 
         private void TunerControl_OnTunerChange(int id, uint freq, uint symbol_rate)
         {
-            Console.WriteLine("set frequency : " + freq.ToString() + " , " + symbol_rate.ToString());
-            //SetFrequency(id, freq, symbol_rate, true);
+            Console.WriteLine("set frequency : " + id.ToString() + "," + freq.ToString() + " , " + symbol_rate.ToString());
+            SetFrequency(id, freq, symbol_rate, false);
         }
+
     }
 }

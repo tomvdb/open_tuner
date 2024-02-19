@@ -39,6 +39,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboSR = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.khzIndicator = new System.Windows.Forms.Label();
+            this.mhzIndicator = new System.Windows.Forms.Label();
+            this.ghzIndicator = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblgHz
@@ -53,6 +58,8 @@
             this.lblgHz.TabIndex = 0;
             this.lblgHz.Text = "000";
             this.lblgHz.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblgHz.MouseEnter += new System.EventHandler(this.lblgHz_MouseEnter);
+            this.lblgHz.MouseLeave += new System.EventHandler(this.lblgHz_MouseLeave);
             // 
             // lblmHz
             // 
@@ -67,6 +74,8 @@
             this.lblmHz.TabIndex = 1;
             this.lblmHz.Text = "000";
             this.lblmHz.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblmHz.MouseEnter += new System.EventHandler(this.lblmHz_MouseEnter);
+            this.lblmHz.MouseLeave += new System.EventHandler(this.lblmHz_MouseLeave);
             // 
             // lblkHz
             // 
@@ -80,6 +89,8 @@
             this.lblkHz.TabIndex = 2;
             this.lblkHz.Text = "000";
             this.lblkHz.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblkHz.MouseEnter += new System.EventHandler(this.lblkHz_MouseEnter);
+            this.lblkHz.MouseLeave += new System.EventHandler(this.lblkHz_MouseLeave);
             // 
             // label1
             // 
@@ -155,7 +166,7 @@
             "1000",
             "1500",
             "2000"});
-            this.comboSR.Location = new System.Drawing.Point(381, 8);
+            this.comboSR.Location = new System.Drawing.Point(510, 8);
             this.comboSR.Name = "comboSR";
             this.comboSR.Size = new System.Drawing.Size(83, 21);
             this.comboSR.TabIndex = 12;
@@ -164,18 +175,73 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(279, 9);
+            this.label4.Location = new System.Drawing.Point(408, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(96, 17);
             this.label4.TabIndex = 11;
             this.label4.Text = "Symbol Rate :";
             // 
-            // tunerControlForm
+            // khzIndicator
+            // 
+            this.khzIndicator.AutoSize = true;
+            this.khzIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.khzIndicator.ForeColor = System.Drawing.Color.DarkGreen;
+            this.khzIndicator.Location = new System.Drawing.Point(408, 60);
+            this.khzIndicator.Name = "khzIndicator";
+            this.khzIndicator.Size = new System.Drawing.Size(0, 16);
+            this.khzIndicator.TabIndex = 13;
+            // 
+            // mhzIndicator
+            // 
+            this.mhzIndicator.AutoSize = true;
+            this.mhzIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mhzIndicator.ForeColor = System.Drawing.Color.DarkGreen;
+            this.mhzIndicator.Location = new System.Drawing.Point(226, 60);
+            this.mhzIndicator.Name = "mhzIndicator";
+            this.mhzIndicator.Size = new System.Drawing.Size(0, 16);
+            this.mhzIndicator.TabIndex = 14;
+            // 
+            // ghzIndicator
+            // 
+            this.ghzIndicator.AutoSize = true;
+            this.ghzIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ghzIndicator.ForeColor = System.Drawing.Color.DarkGreen;
+            this.ghzIndicator.Location = new System.Drawing.Point(40, 60);
+            this.ghzIndicator.Name = "ghzIndicator";
+            this.ghzIndicator.Size = new System.Drawing.Size(0, 16);
+            this.ghzIndicator.TabIndex = 15;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(9, 196);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(69, 16);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "SHIFT x10";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(9, 212);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(72, 16);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "CTRL x100";
+            // 
+            // TunerControlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(619, 270);
+            this.ClientSize = new System.Drawing.Size(618, 270);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.ghzIndicator);
+            this.Controls.Add(this.mhzIndicator);
+            this.Controls.Add(this.khzIndicator);
             this.Controls.Add(this.comboSR);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
@@ -187,9 +253,11 @@
             this.Controls.Add(this.lblkHz);
             this.Controls.Add(this.lblmHz);
             this.Controls.Add(this.lblgHz);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "tunerControlForm";
+            this.Name = "TunerControlForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Tuner Control";
             this.Load += new System.EventHandler(this.tunerControlForm_Load);
             this.ResumeLayout(false);
@@ -210,5 +278,10 @@
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.ComboBox comboSR;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label khzIndicator;
+        private System.Windows.Forms.Label mhzIndicator;
+        private System.Windows.Forms.Label ghzIndicator;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
     }
 }

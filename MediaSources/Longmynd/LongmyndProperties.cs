@@ -22,6 +22,9 @@ namespace opentuner.MediaSources.Longmynd
 
     public partial class LongmyndSource
     {
+
+        public override event SourceDataChange OnSourceData;
+
         // properties management
         Control _parent = null;
 
@@ -122,6 +125,8 @@ namespace opentuner.MediaSources.Longmynd
                     break;
                 case 1: // snapshot
                     Console.WriteLine("Snapshot");
+                    _media_player.SnapShot(_mediaPath + CommonFunctions.GenerateTimestampFilename() + ".png");
+
                     break;
                 case 2: // record
                     Console.WriteLine("Record");

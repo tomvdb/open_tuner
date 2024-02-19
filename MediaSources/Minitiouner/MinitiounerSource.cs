@@ -47,6 +47,8 @@ namespace opentuner.MediaSources.Minitiouner
         private List<TSUdpStreamer> _ts_streamers;
         private List<TunerControlForm> _tuner_forms;
 
+        string _mediapath = "";
+
         public override bool DeviceConnected
         {
             get { return hardware_connected; }
@@ -664,5 +666,11 @@ namespace opentuner.MediaSources.Minitiouner
         {
             Console.WriteLine(((TSUdpStreamer)(sender)).ID.ToString() + " streaming status : " + e.ToString());
         }
+
+        public override void ConfigureMediaPath(string MediaPath)
+        {
+            _mediapath = MediaPath;
+        }
+
     }
 }

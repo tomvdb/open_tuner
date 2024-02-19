@@ -33,6 +33,10 @@ namespace opentuner
             _symbol_rate = initialSr;
             _offset = Offset;
 
+            update_offset();
+            update_freq(_frequency);
+            update_sr(_symbol_rate);
+
 
             lblkHz.MouseWheel += LblkHz_MouseWheel;
             lblmHz.MouseWheel += LblmHz_MouseWheel;
@@ -120,14 +124,6 @@ namespace opentuner
             }
         }
 
-        public void set_freq(TunerConfig newConfig)
-        {
-            _frequency = Convert.ToInt32(newConfig.frequency);
-            comboSR.Text = newConfig.symbol_rate.ToString();
-
-            update_offset();
-            update_freq(_frequency);
-        }
 
         private void update_offset()
         {
@@ -149,13 +145,52 @@ namespace opentuner
             OnTunerChange?.Invoke(_id, Convert.ToUInt32(_frequency), Convert.ToUInt32(comboSR.Text));
         }
 
+        private void update_sr(int symbolrate)
+        {
+            comboSR.Text = symbolrate.ToString();
+        }
+
         public void ShowTuner(int freq, int symbolrate)
         {
             _frequency = freq;
             _symbol_rate = symbolrate;
 
+            update_freq(_frequency);
+            update_sr(_symbol_rate);
+
             Show();
             Focus();
+        }
+
+
+        private void lblkHz_MouseEnter(object sender, EventArgs e)
+        {
+            lblkHz.ForeColor = Color.DarkGreen;
+        }
+
+        private void lblkHz_MouseLeave(object sender, EventArgs e)
+        {
+            lblkHz.ForeColor = Color.Black;
+        }
+
+        private void lblmHz_MouseEnter(object sender, EventArgs e)
+        {
+            lblmHz.ForeColor = Color.DarkGreen;
+        }
+
+        private void lblmHz_MouseLeave(object sender, EventArgs e)
+        {
+            lblmHz.ForeColor = Color.Black;
+        }
+
+        private void lblgHz_MouseEnter(object sender, EventArgs e)
+        {
+            lblgHz.ForeColor = Color.DarkGreen;
+        }
+
+        private void lblgHz_MouseLeave(object sender, EventArgs e)
+        {
+            lblgHz.ForeColor = Color.Black;
         }
     }
 }
