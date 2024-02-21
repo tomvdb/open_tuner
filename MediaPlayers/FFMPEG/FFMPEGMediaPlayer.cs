@@ -32,6 +32,7 @@ namespace opentuner.MediaPlayers.FFMPEG
         int counter = 0;
         CircularBuffer ts_data_queue;
 
+        int _id = 0;
 
         public FFMPEGMediaPlayer( FlyleafHost MediaPlayer )
         {
@@ -154,6 +155,17 @@ namespace opentuner.MediaPlayers.FFMPEG
         public override string GetName()
         {
             return "FFMPEG";
+        }
+
+        public override int getID()
+        {
+            return _id;
+        }
+
+        public override void Initialize(CircularBuffer TSDataQueue, int ID)
+        {
+            _id = ID;
+            Initialize(ts_data_queue);
         }
     }
 

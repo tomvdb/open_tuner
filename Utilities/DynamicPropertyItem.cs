@@ -17,6 +17,7 @@ namespace opentuner.Utilities
         protected GroupBox _parent;
         protected string _key;
         protected string _title;
+        protected string _value;
         protected Label _titleLabel;
         private Label _valueLabel;
 
@@ -43,6 +44,8 @@ namespace opentuner.Utilities
             set { _key = value; }
         }
 
+        public override string LastValue { get => _value; }
+
         // height of the property row
         private const int ItemHeight = 20;
 
@@ -63,6 +66,7 @@ namespace opentuner.Utilities
             else
             {
                 Lbl.Text = obj.ToString();
+                _value = obj.ToString();
             }
 
         }

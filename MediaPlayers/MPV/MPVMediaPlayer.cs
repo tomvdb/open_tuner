@@ -42,6 +42,8 @@ namespace opentuner.MediaPlayers.MPV
         private Int64 _videoViewHandle;
         private long _volume = 100;
 
+        private int _id = 0;
+
         public override string GetName()
         {
             return "MPV";
@@ -357,6 +359,17 @@ namespace opentuner.MediaPlayers.MPV
         public override void Stop()
         {
             stopFlag = true;
+        }
+
+        public override int getID()
+        {
+            return _id;
+        }
+
+        public override void Initialize(CircularBuffer TSDataQueue, int ID)
+        {
+            _id = ID;
+            Initialize(TSDataQueue);
         }
     }
 }

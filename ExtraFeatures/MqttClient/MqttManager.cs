@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MQTTnet;
 using MQTTnet.Client;
+using opentuner.Utilities;
 
 namespace opentuner.ExtraFeatures.MqttClient
 {
@@ -24,11 +25,16 @@ namespace opentuner.ExtraFeatures.MqttClient
 
         public event NewMqttMessage OnMqttMessageReceived;
 
-        public MqttManager(string BrokerHost, int BrokerPort, string ParentTopic) 
-        { 
-            _broker = BrokerHost;
-            _broker_port = BrokerPort;
-            _maintopic = ParentTopic;
+        private MqttManagerSettings _settings;
+        private SettingsManager<MqttManagerSettings> _settingsManager;
+
+        public MqttManager() 
+        {
+            _settings = new MqttManagerSettings();
+            _settingsManager = new SettingsManager<MqttManagerSettings>("mqttclient_settings");
+
+            _broker = _settings.MqttBroker;
+            _broker_port = _settings.MqttPort;
 
             _clientid = "OT" + Guid.NewGuid().ToString();
 
@@ -61,129 +67,15 @@ namespace opentuner.ExtraFeatures.MqttClient
             catch (Exception ex) { }
         }
 
-        public async Task UpdateTunerStatus(TunerStatus tunerStatus)
+        public void SendProperties(Dictionary<string, string> Properties, string ChildTopic)
         {
-            await SendMqttStatus("ldpc_errors", tunerStatus.errors_ldpc_count.ToString());
-
-            await SendMqttStatus("tuner1/rx_state", lookups.demod_state_lookup[tunerStatus.T1P2_demod_status]);
-            await SendMqttStatus("tuner2/rx_state", lookups.demod_state_lookup[tunerStatus.T2P1_demod_status]);
-            await SendMqttStatus("tuner1/lna_gain", tunerStatus.T1P2_lna_gain.ToString());
-            await SendMqttStatus("tuner2/lna_gain", tunerStatus.T2P1_lna_gain.ToString());
-            await SendMqttStatus("tuner1/agc1", tunerStatus.T1P2_agc1_gain.ToString());
-            await SendMqttStatus("tuner1/agc2", tunerStatus.T1P2_agc2_gain.ToString());
-            await SendMqttStatus("tuner2/agc1", tunerStatus.T1P2_agc1_gain.ToString());
-            await SendMqttStatus("tuner2/agc2", tunerStatus.T1P2_agc2_gain.ToString());
-            await SendMqttStatus("tuner1/poweri", tunerStatus.T1P2_power_i.ToString());
-            await SendMqttStatus("tuner1/powerq", tunerStatus.T1P2_power_q.ToString());
-            await SendMqttStatus("tuner2/poweri", tunerStatus.T2P1_power_i.ToString());
-            await SendMqttStatus("tuner2/powerq", tunerStatus.T2P1_power_q.ToString());
-            await SendMqttStatus("tuner1/puncrate", tunerStatus.T1P2_puncture_rate.ToString());
-            await SendMqttStatus("tuner2/puncrate", tunerStatus.T2P1_puncture_rate.ToString());
-
-            await SendMqttStatus("tuner1/symbol_rate", tunerStatus.T1P2_symbol_rate.ToString());
-            await SendMqttStatus("tuner2/symbol_rate", tunerStatus.T2P1_symbol_rate.ToString());
-            await SendMqttStatus("tuner1/carrier_frequency", (tunerStatus.T1P2_requested_frequency + tunerStatus.T1P2_frequency_carrier_offset).ToString());
-            await SendMqttStatus("tuner2/carrier_frequency", (tunerStatus.T2P1_requested_frequency + tunerStatus.T2P1_frequency_carrier_offset).ToString());
-
-            await SendMqttStatus("tuner1/viterbi_error", tunerStatus.T1P2_viterbi_error_rate.ToString());
-            await SendMqttStatus("tuner2/viterbi_error", tunerStatus.T2P1_viterbi_error_rate.ToString());
-            await SendMqttStatus("tuner1/ber", tunerStatus.T1P2_ber.ToString());
-            await SendMqttStatus("tuner2/ber", tunerStatus.T2P1_ber.ToString());
-            await SendMqttStatus("tuner1/mer", ((double)(tunerStatus.T1P2_mer) / 10).ToString());
-            await SendMqttStatus("tuner2/mer", ((double)(tunerStatus.T2P1_mer) / 10).ToString());
-            await SendMqttStatus("tuner1/bch_uncorrected", (tunerStatus.T1P2_errors_bch_uncorrected ? 1 : 0).ToString());
-            await SendMqttStatus("tuner2/bch_uncorrected", tunerStatus.T2P1_errors_bch_uncorrected.ToString());
-            await SendMqttStatus("tuner1/bch_errors", tunerStatus.T1P2_errors_bch_count.ToString());
-            await SendMqttStatus("tuner2/bch_errors", tunerStatus.T2P1_errors_bch_count.ToString());
-
-            await SendMqttStatus("tuner1/matype1", lookups.stream_format_lookups[(int)tunerStatus.T1P2_stream_format].ToString());
-            await SendMqttStatus("tuner2/matype2", lookups.stream_format_lookups[(int)tunerStatus.T2P1_stream_format].ToString());
-
-            double dbmargin1 = 0;
-            string modcod1 = "";
-
-            double dbmargin2 = 0;
-            string modcod2 = "";
-
-            try
+            foreach (var key in Properties.Keys)
             {
-                switch (tunerStatus.T1P2_demod_status)
-                {
-                    case 2:
-                        modcod1 = lookups.modcod_lookup_dvbs2[tunerStatus.T1P2_modcode];
-                        dbmargin1 = (((double)(tunerStatus.T1P2_mer) / 10) - lookups.modcod_lookup_dvbs2_threshold[tunerStatus.T1P2_modcode]);
-                        break;
-                    case 3:
-                        modcod1 = lookups.modcod_lookup_dvbs[tunerStatus.T1P2_modcode];
-                        dbmargin1 = (((double)(tunerStatus.T1P2_mer) / 10) - lookups.modcod_lookup_dvbs_threshold[tunerStatus.T1P2_modcode]);
-                        break;
-                    default:
-                        dbmargin1 = 0;
-                        modcod1 = "unknown unknown";
-                        break;
-                }
+                SendMqttStatus(ChildTopic + "/" + key, Properties[key]);
             }
-            catch (Exception Ex)
-            {
-                dbmargin1 = 0;
-                modcod1 = "unknown unknown";
-            }
-
-            try
-            {
-                switch (tunerStatus.T2P1_demod_status)
-                {
-                    case 2:
-                        modcod2 = lookups.modcod_lookup_dvbs2[tunerStatus.T2P1_modcode];
-                        dbmargin2 = (((double)(tunerStatus.T2P1_mer) / 10) - lookups.modcod_lookup_dvbs2_threshold[tunerStatus.T2P1_modcode]);
-                        break;
-                    case 3:
-                        modcod2 = lookups.modcod_lookup_dvbs[tunerStatus.T2P1_modcode];
-                        dbmargin2 = (((double)(tunerStatus.T2P1_mer) / 10) - lookups.modcod_lookup_dvbs_threshold[tunerStatus.T2P1_modcode]);
-                        break;
-                    default:
-                        dbmargin2 = 0;
-                        modcod2 = "unknown unknown";
-                        break;
-                }
-            }
-            catch (Exception Ex)
-            {
-                dbmargin2 = 0;
-                modcod2 = "unknown unknown";
-            }
-
-            await SendMqttStatus("tuner1/margin_db", dbmargin1.ToString());
-            await SendMqttStatus("tuner2/margin_db", dbmargin2.ToString());
-            await SendMqttStatus("tuner1/modulation", modcod1.Split(' ')[0].ToString());
-            await SendMqttStatus("tuner2/modulation", modcod2.Split(' ')[0].ToString());
-            await SendMqttStatus("tuner1/fec", modcod1.Split(' ')[1].ToString());
-            await SendMqttStatus("tuner2/fec", modcod2.Split(' ')[1].ToString());
-
-            await SendMqttStatus("tuner1/rolloff", lookups.rolloff_lookups[tunerStatus.T1P2_rolloff].ToString());
-            await SendMqttStatus("tuner2/rolloff", lookups.rolloff_lookups[tunerStatus.T2P1_rolloff].ToString());
-
-            await SendMqttStatus("tuner1/pilots", (tunerStatus.T1P2_pilots ? 1 : 0).ToString());
-            await SendMqttStatus("tuner2/pilots", (tunerStatus.T2P1_pilots ? 1 : 0).ToString());
-
-            await SendMqttStatus("tuner1/short_frame", (tunerStatus.T1P2_short_frame ? 1 : 0).ToString());
-            await SendMqttStatus("tuner2/short_frame", (tunerStatus.T2P1_short_frame ? 1 : 0).ToString());
-
-            return;
         }
 
-        public async Task UpdateTSStatus(int device, TSStatus tsStatus)
-        {
-            string tuner = "tuner" + device.ToString() + "/";
-
-            await SendMqttStatus(tuner + "service_name", tsStatus.ServiceName);
-            await SendMqttStatus(tuner + "provider_name", tsStatus.ServiceProvider);
-            await SendMqttStatus(tuner + "ts_null", tsStatus.NullPacketsPerc.ToString());
-
-            return;
-        }
-
-        public async Task SendMqttStatus(string topic, string value)
+        public void SendMqttStatus(string topic, string value)
         {
                 var message = new MqttApplicationMessageBuilder()
                 .WithTopic(_maintopic + topic)
@@ -191,9 +83,10 @@ namespace opentuner.ExtraFeatures.MqttClient
                 .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
                 .Build();
 
-                await _mqtt_client.PublishAsync(message);
-
-            return;
+                Task.Run(async () =>
+                {
+                    await _mqtt_client.PublishAsync(message);
+                });
         }
 
         // this requires a full topic - currently only used for pluto commands
@@ -232,7 +125,7 @@ namespace opentuner.ExtraFeatures.MqttClient
             await _mqtt_client.SubscribeAsync(_cmdtopic + "tuner2/#");
 
             // subscribe to f5oeoe firmware topics (if available)
-            await _mqtt_client.SubscribeAsync("dt/pluto/#");
+            // await _mqtt_client.SubscribeAsync("dt/pluto/#");
 
             return;
         }

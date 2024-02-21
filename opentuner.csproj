@@ -228,6 +228,7 @@
     </Compile>
     <Compile Include="ExtraFeatures\MqttClient\MqttMessage.cs" />
     <Compile Include="ExtraFeatures\MqttClient\MqttManager.cs" />
+    <Compile Include="ExtraFeatures\MqttClient\MqttSettings.cs" />
     <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneControl.cs" />
     <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneControlSettings.cs" />
     <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneControlSettingsForm.cs">
@@ -262,6 +263,7 @@
     <Compile Include="MediaSources\Minitiouner\MinitiounerSettingsForm.Designer.cs">
       <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MediaSources\Winterhill\WinterhillProperties.cs" />
     <Compile Include="MediaSources\Winterhill\WinterhillSettings.cs" />
     <Compile Include="MediaSources\Winterhill\WinterhillSettingsForm.cs">
       <SubType>Form</SubType>
@@ -270,6 +272,7 @@
       <DependentUpon>WinterhillSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaSources\Winterhill\WinterhillSource.cs" />
+    <Compile Include="MediaSources\Winterhill\WinterhillWS.cs" />
     <Compile Include="Transmit\F5OEOPlutoControl.cs" />
     <Compile Include="Transmit\PlutoControl.cs">
       <SubType>Form</SubType>

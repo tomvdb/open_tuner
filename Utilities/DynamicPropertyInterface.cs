@@ -10,8 +10,8 @@ namespace opentuner.Utilities
     public abstract class DynamicPropertyInterface
     {
         public abstract string Key { get; set; }
+        public abstract string LastValue { get;}
         public abstract void UpdateValue(string Value);
-
         public abstract void UpdateColor(Color Col);
     }
 }

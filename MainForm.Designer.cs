@@ -34,6 +34,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SourcePage = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.linkOpenTunerUpdates = new System.Windows.Forms.Label();
             this.linkDocumentation = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.linkQuickTuneSettings = new System.Windows.Forms.Label();
@@ -105,7 +106,6 @@
             this.commandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureCallsignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.linkOpenTunerUpdates = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -173,6 +173,13 @@
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // linkOpenTunerUpdates
+            // 
+            resources.ApplyResources(this.linkOpenTunerUpdates, "linkOpenTunerUpdates");
+            this.linkOpenTunerUpdates.ForeColor = System.Drawing.Color.Blue;
+            this.linkOpenTunerUpdates.Name = "linkOpenTunerUpdates";
+            this.linkOpenTunerUpdates.Click += new System.EventHandler(this.linkOpenTunerUpdates_Click);
             // 
             // linkDocumentation
             // 
@@ -704,13 +711,6 @@
             this.configureCallsignToolStripMenuItem.Name = "configureCallsignToolStripMenuItem";
             resources.ApplyResources(this.configureCallsignToolStripMenuItem, "configureCallsignToolStripMenuItem");
             this.configureCallsignToolStripMenuItem.Click += new System.EventHandler(this.configureCallsignToolStripMenuItem_Click);
-            // 
-            // linkOpenTunerUpdates
-            // 
-            resources.ApplyResources(this.linkOpenTunerUpdates, "linkOpenTunerUpdates");
-            this.linkOpenTunerUpdates.ForeColor = System.Drawing.Color.Blue;
-            this.linkOpenTunerUpdates.Name = "linkOpenTunerUpdates";
-            this.linkOpenTunerUpdates.Click += new System.EventHandler(this.linkOpenTunerUpdates_Click);
             // 
             // MainForm
             // 

@@ -25,6 +25,7 @@ namespace opentuner.Utilities
         protected GroupBox _parent;
         protected string _key;
         protected string _title;
+        protected string _value;
 
         ToolTip _toolTip = new ToolTip();
 
@@ -46,6 +47,8 @@ namespace opentuner.Utilities
             get { return _key; }
             set { _key = value; }
         }
+
+        public override string LastValue => _value;
 
         ButtonPressedCallback _buttonPressedCallback;
 
@@ -69,6 +72,7 @@ namespace opentuner.Utilities
             else
             {
                 Lbl.Text = obj.ToString();
+                
             }
 
         }
@@ -102,7 +106,7 @@ namespace opentuner.Utilities
 
         public override void UpdateValue(string Value)
         {
-            Console.WriteLine("Update Indicator Value: " + Value);
+            _value = Value;
 
             int indicatorInput = 0;
 

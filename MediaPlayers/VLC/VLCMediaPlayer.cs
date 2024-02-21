@@ -24,6 +24,8 @@ namespace opentuner.MediaPlayers.VLC
 
         public override event EventHandler<MediaStatus> onVideoOut;
 
+        int _id = 0;
+
         CircularBuffer ts_data_queue;
         public VLCMediaPlayer(LibVLCSharp.WinForms.VideoView VideoView)
         {
@@ -255,5 +257,15 @@ namespace opentuner.MediaPlayers.VLC
             return player_volume;
         }
 
+        public override int getID()
+        {
+            return _id;
+        }
+
+        public override void Initialize(CircularBuffer TSDataQueue, int ID)
+        {
+            _id = ID;
+            Initialize(TSDataQueue);
+        }
     }
 }

@@ -144,7 +144,10 @@ namespace opentuner.MediaSources.Longmynd
                             _recorder.record = true;     // start recording
                             SetIndicator(ref indicatorStatus, PropertyIndicators.RecordingIndicator);
                         }
-                        Console.WriteLine("Can't record, not locked to a signal");
+                        else
+                        {
+                            Console.WriteLine("Can't record, not locked to a signal");
+                        }
                     }
 
                     _tuner1_properties.UpdateValue("media_controls", indicatorStatus.ToString());

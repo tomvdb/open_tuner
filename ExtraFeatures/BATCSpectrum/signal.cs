@@ -378,7 +378,7 @@ namespace opentuner
                 {
                     if (diff_signals(signalsData[x], freq, sr) == false)
                     {
-                        debug("found - updating callsign");
+                        //debug("found - updating callsign");
                         signalsData[x] = new Sig(signalsData[x], callsign);
                         break;
                     }

@@ -15,9 +15,13 @@ namespace opentuner.Utilities
         private int port;
         private bool isListening;
         private Thread listenThread;
+        
+        private int _id;
 
         public event EventHandler<byte[]> DataReceived;
         public event EventHandler<string> ConnectionStatusChanged;
+
+        public int getID() { return _id; }  
 
         public UDPClient(int port)
         {
@@ -26,6 +30,16 @@ namespace opentuner.Utilities
             isListening = false;
             listenThread = new Thread(ListenForData);
         }
+
+        public UDPClient(int port, int ID)
+        {
+            _id = ID;
+            this.port = port;
+            udpClient = new UdpClient(port);
+            isListening = false;
+            listenThread = new Thread(ListenForData);
+        }
+
 
         public void Connect()
         {

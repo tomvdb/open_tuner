@@ -24,14 +24,16 @@ namespace opentuner.Utilities
         protected GroupBox _parent;
         protected string _key;
         protected string _title;
+        protected string _value;
         protected Label _titleLabel;
-
+        
         public override string Key
         {
             get { return _key; }
             set { _key = value; }
         }
 
+        public override string LastValue => _value;
 
         public DynamicPropertySlider(GroupBox Group, string Key, string Title, int Min, int Max)
         { 
@@ -100,6 +102,8 @@ namespace opentuner.Utilities
         public override void UpdateValue(string Value)
         {
             int new_value = 0;
+
+            _value = Value;
 
             if (Int32.TryParse(Value, out new_value))
             {

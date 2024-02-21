@@ -40,7 +40,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Graphics tmp;
         Graphics tmp2;
 
-        int[,] rx_blocks = new int[2, 3];
+        int[,] rx_blocks = new int[4, 3];
 
         double start_freq = 10490.5f;
 
@@ -65,10 +65,15 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private int _autoTuneMode = 0;
 
+        public void updateSignalCallsign(string callsign, double freq, float sr)
+        {
+            sigs.updateCurrentSignal(callsign, freq, sr);
+        }
 
         public BATCSpectrum(PictureBox Spectrum, int Tuners) 
         {
             _spectrum = Spectrum;
+
             _tuners = Tuners;
 
             _spectrum.Click += new System.EventHandler(this.spectrum_Click);
@@ -195,7 +200,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private void spectrum_MouseLeave(object sender, EventArgs e)
         {
-            spectrumTunerHighlight = 0;
+            spectrumTunerHighlight = -1;
         }
 
 
@@ -319,11 +324,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             int i = 1;
             int y = 0;
 
-            for (i = 1; i <= 4; i++)
-            {
-                y = spectrum_h - ((i * (spectrum_h / 4)) - (spectrum_h / 6));
-                tmp.DrawLine(greyPen, 10, y, spectrum_w - 10, y);
-            }
 
             PointF[] points = new PointF[fft_data.Length - 2];
 
@@ -336,13 +336,18 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             points[0] = new PointF(0, 255);
             points[points.Length - 1] = new PointF(spectrum_w, 255);
 
-            if (spectrumTunerHighlight > 0)
-                tmp.FillRectangle((spectrumTunerHighlight == 1 ? tuner1Brush : tuner2Brush), new RectangleF(0, (spectrumTunerHighlight == 1 ? 0 : spectrum_h / 2), spectrum_w, _tuners == 1 ? spectrum_h : spectrum_h / 2));
+            if (spectrumTunerHighlight > -1)
+            {
+                y = spectrumTunerHighlight * (spectrum_h / _tuners);
+                tmp.FillRectangle(tuner1Brush, new RectangleF(0, y, spectrum_w, (spectrum_h/_tuners)));
+            }
+
+            //tmp.FillRectangle((spectrumTunerHighlight == 1 ? tuner1Brush : tuner2Brush), new RectangleF(0, (spectrumTunerHighlight == 1 ? 0 : spectrum_h / 2), spectrum_w, _tuners == 1 ? spectrum_h : spectrum_h / 2));
 
             //tmp.DrawPolygon(greenpen, points);
             SolidBrush spectrumBrush = new SolidBrush(Color.Blue);
 
-            System.Drawing.Drawing2D.LinearGradientBrush linGrBrush = new LinearGradientBrush(
+            LinearGradientBrush linGrBrush = new LinearGradientBrush(
                new Point(0, 0),
                new Point(0, 255),
                Color.FromArgb(255, 255, 99, 132),   // Opaque red
@@ -355,10 +360,16 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             y = 0;
             int y_offset = 0; ;
 
+
+            /*            
             for (int tuner = 0; tuner < _tuners; tuner++)
             {
+
+                y = i * (_spectrum.Height / (_tuners-1));
+                /*
                 y = spectrum_h - ((spectrum_h / 2) * tuner + 3);
-                y_offset = (spectrum_h / 2) / 2 + 10;
+                
+
 
                 //draw block showing signal selected
                 if (rx_blocks[tuner, 0] > 0)
@@ -366,7 +377,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     //tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[0] * spectrum_wScale) - ((rx_blocks[1] * spectrum_wScale) / 2)), 1, Convert.ToInt32(rx_blocks[1] * spectrum_wScale), (255) - 4) });
                     tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[tuner, 0] - (rx_blocks[tuner, 1] / 2)) * spectrum_wScale), spectrum_h - y + 1, Convert.ToInt32((rx_blocks[tuner, 1] * spectrum_wScale)), (_tuners == 1 ? spectrum_h : spectrum_h / 2) - 4) });
                 }
-            }
+                */
+            //}
 
 
             tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
@@ -385,10 +397,17 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 }
             }
 
-            if (spectrumTunerHighlight > 0)
-                tmp.DrawString("RX" + spectrumTunerHighlight.ToString(), new Font("Tahoma", 15), Brushes.White, new PointF(10, (spectrum_h / 2) + (spectrumTunerHighlight == 1 ? -30 : 10)));
+            for (i = 0; i < _tuners; i++)
+            {
+                y = i * (spectrum_h / _tuners);
+                tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
+                tmp.DrawString("RX " + i.ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
+            }
+
 
             drawspectrum_signals(sigs.signalsData);
+
+
         }
 
         private void spectrum_Click(object sender, EventArgs e)
@@ -429,6 +448,16 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
 
         // quick tune functions - From https://github.com/m0dts/QO-100-WB-Live-Tune - Rob Swinbank
+
+        private int determine_rx(int pos)
+        {
+            int rx = 0;
+            int div = (_spectrum.Height - bandplan_height) / _tuners;
+            rx = pos / div;
+
+            return rx;
+        }
+
         private void selectSignal(int X, int Y)
         {
 
@@ -436,15 +465,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             float spectrum_wScale = spectrum_w / 922;
             int spectrum_h = _spectrum.Height - bandplan_height;
 
-            int rx = 0;
+            int rx = determine_rx(Y);
 
-            if (_tuners == 2)
-            {
-                if (Y > spectrum_h / 2)
-                    rx = 1;
-            }
+            debug("Select Signal - RX: " + rx.ToString());
 
-            debug("Select Signal");
             try
             {
                 foreach (signal.Sig s in sigs.signals)
@@ -474,23 +498,14 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
         }
 
-        int spectrumTunerHighlight = 0;
+        int spectrumTunerHighlight = -1;
 
         public void spectrum_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             get_bandplan_TX_freq(e.X, e.Y);  // dh3cs
 
-            if (_tuners == 2)
-            {
-                if (e.Y <= _spectrum.Height / 2)
-                    spectrumTunerHighlight = 1;
-                else
-                    spectrumTunerHighlight = 2;
-            }
-            else
-            {
-                spectrumTunerHighlight = 1;
-            }
+            spectrumTunerHighlight = determine_rx(e.Y);
+
         }
 
         // moved to separate function, to use by right click in spectrum,  dh3cs 

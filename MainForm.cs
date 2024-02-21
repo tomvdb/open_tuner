@@ -24,6 +24,10 @@ using opentuner.ExtraFeatures.MqttClient;
 using opentuner.MediaSources.Longmynd;
 using opentuner.ExtraFeatures.BATCWebchat;
 using opentuner.ExtraFeatures.QuickTuneControl;
+using opentuner.MediaSources.Winterhill;
+using static opentuner.signal;
+using System.Runtime.CompilerServices;
+using Vortice.MediaFoundation;
 
 namespace opentuner
 {
@@ -94,6 +98,7 @@ namespace opentuner
             // load available sources
             _availableSources.Add(new MinitiounerSource());
             _availableSources.Add(new LongmyndSource());
+            _availableSources.Add(new WinterhillSource());
 
             comboAvailableSources.Items.Clear();
 
@@ -144,7 +149,39 @@ namespace opentuner
             SourcePage.Hide();
             tabControl1.TabPages.Remove(SourcePage);
 
+            videoSource.OnSourceData += VideoSource_OnSourceData;
+
             return true;
+        }
+
+        private void VideoSource_OnSourceData(Dictionary<string, string> Properties, string topic)
+        {
+            if (batc_spectrum != null)
+            {
+                if (Properties.ContainsKey("frequency") && Properties.ContainsKey("service_name") && Properties.ContainsKey("symbol_rate"))
+                {
+                    double freq = 0;
+                    float sr = 0;
+                    string callsign = Properties["service_name"];
+
+                    if (double.TryParse(Properties["frequency"], out freq))
+                    {
+                        if (float.TryParse(Properties["symbol_rate"], out sr))
+                        {
+                            freq = freq / 1000;
+
+                            batc_spectrum.updateSignalCallsign(callsign, freq, sr);
+                        }
+                    }
+                }
+            }
+
+            if (mqtt_client != null)
+            {
+                // send mqtt data
+                mqtt_client.SendProperties(Properties, videoSource.GetName() + "/" + topic);
+            }
+
         }
 
         public static void UpdateLB(ListBox LB, Object obj)
@@ -183,19 +220,33 @@ namespace opentuner
         public void start_video(int video_number)
         {
             if (_mediaPlayers == null)
+            {
+                Console.WriteLine("Media player is still null");
                 return;
+            }
 
             if (video_number < _mediaPlayers.Count)
             {
+                if (video_number == 0)
+                {
+                    Console.WriteLine("Ping");
+                }
+
                 videoSource.StartStreaming(video_number);
                 _mediaPlayers[video_number].Play();
+            }
+            else
+            {
+                Console.WriteLine("Ping");
             }
         }
 
         public void stop_video(int video_number)
         {
             if (_mediaPlayers == null)
+            {
                 return;
+            }
 
             if (video_number < _mediaPlayers.Count)
             {
@@ -207,6 +258,11 @@ namespace opentuner
         private void ChangeVideo(int video_number, bool start)
         {
             Console.WriteLine("Change Video " + video_number.ToString());
+
+            if (video_number == 1 && start == true)
+            {
+                Console.WriteLine("Ping");
+            }
 
             if (start)
                 start_video(video_number-1);
@@ -536,41 +592,6 @@ namespace opentuner
             }
         }
 
-
-
-
-
-        /*
-        private void TakeSnapshot(int tuner)
-        {
-            // get path
-            string path = setting_snapshot_path;
-            string filename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".png";
-
-
-            if (tuner == 1)
-            {
-                if (lblServiceName.Text.Length > 0 && tuner == 1)
-                    filename = lblServiceName.Text.ToString() + "_" + filename;
-
-                filename = filename.Replace(" ", "");
-
-                if (media_player_1 != null)
-                    media_player_1.SnapShot(path + filename);
-            }
-            else
-            {
-                if (lblServiceName2.Text.Length > 0 && tuner == 2)
-                    filename = lblServiceName2.Text.ToString() + "_" + filename;
-
-                filename = filename.Replace(" ", "");
-
-                if (media_player_2 != null)
-                    media_player_2.SnapShot(path + filename);
-            }
-        }
-        */
-
         private void openTunerWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/open-tuner/");
@@ -738,7 +759,7 @@ namespace opentuner
                     vlc_video_player.Dock = DockStyle.Fill;
                     videoPanels[nr].Controls.Add(vlc_video_player);
                     player = new VLCMediaPlayer(vlc_video_player);
-                    player.Initialize(videoSource.GetVideoDataQueue(nr));
+                    player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
                     return player;
                     
                 case 1: // ffmpeg
@@ -746,14 +767,14 @@ namespace opentuner
                     ffmpeg_video_player.Dock = DockStyle.Fill;
                     videoPanels[nr].Controls.Add(ffmpeg_video_player);
                     player = new FFMPEGMediaPlayer(ffmpeg_video_player);
-                    player.Initialize(videoSource.GetVideoDataQueue(nr));
+                    player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
                     return player;
                 case 2: // mpv
                     var mpv_video_player = new PictureBox();
                     mpv_video_player.Dock = DockStyle.Fill;
                     videoPanels[nr].Controls.Add(mpv_video_player);
                     player = new MPVMediaPlayer(mpv_video_player.Handle.ToInt64());
-                    player.Initialize(videoSource.GetVideoDataQueue(nr));
+                    player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
                     return player;
             }
 
@@ -842,7 +863,7 @@ namespace opentuner
             if (!SourceConnect(_availableSources[comboAvailableSources.SelectedIndex]))
                 return;
 
-            if (checkBatcChat.Checked)
+            if (checkBatcSpectrum.Checked)
             {
                 // show spectrum
                 splitContainer2.Panel2Collapsed = false;
@@ -862,6 +883,11 @@ namespace opentuner
             if (checkQuicktune.Checked)
             {
                 quickTune_control = new QuickTuneControl(videoSource);
+            }
+
+            if (checkMqttClient.Checked)
+            {
+                mqtt_client = new MqttManager();
             }
 
         }

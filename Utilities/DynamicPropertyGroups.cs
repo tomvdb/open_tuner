@@ -33,6 +33,18 @@ namespace opentuner.Utilities
         public event SliderChanged OnSlidersChanged;
         public event ButtonPressedCallback OnMediaButtonPressed;
 
+        private int _id = 0;
+
+        public void setID(int id)
+        {
+            _id = id;
+        }
+
+        public int getID()
+        {
+            return _id;
+        }
+
         public DynamicPropertyGroup(string GroupTitle, Control Parent)
         {
             _parent = Parent;
@@ -187,5 +199,14 @@ namespace opentuner.Utilities
             }
         }
 
+        public Dictionary<string, string> GetAll()
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            foreach (var item in _items)
+                data.Add(item.Key, item.LastValue);
+
+            return data;
+        }
     }
 }

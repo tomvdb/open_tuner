@@ -359,6 +359,11 @@ namespace opentuner.MediaSources.Minitiouner
             //_tuner1_properties.UpdateValue("db_margin", db_margin_text);
             _tuner1_properties.UpdateValue("modcod", modcod_text);
 
+            var data1 = _tuner1_properties.GetAll();
+            data1.Add("frequency", GetFrequency(0, true).ToString());
+            OnSourceData?.Invoke(data1, "Tuner 1");
+
+
 
             if (ts_devices == 2 && _tuner2_properties != null)
             {
@@ -444,6 +449,11 @@ namespace opentuner.MediaSources.Minitiouner
                 _tuner2_properties.UpdateBigLabel(db_margin_text);
                 //_tuner2_properties.UpdateValue("db_margin", db_margin_text);
                 _tuner2_properties.UpdateValue("modcod", modcod_text);
+
+                var data2 = _tuner2_properties.GetAll();
+                data2.Add("frequency", GetFrequency(1, true).ToString());
+                OnSourceData?.Invoke(data2, "Tuner 2");
+
             }
         }
 
@@ -503,6 +513,8 @@ namespace opentuner.MediaSources.Minitiouner
             Console.WriteLine("set frequency : " + id.ToString() + "," + freq.ToString() + " , " + symbol_rate.ToString());
             SetFrequency(id, freq, symbol_rate, false);
         }
+
+
 
     }
 }
