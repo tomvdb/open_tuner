@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
+using opentuner.MediaSources.Longmynd;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -14,6 +16,9 @@ namespace opentuner.MediaSources.Winterhill
         private Control _parent;
 
         private DynamicPropertyGroup[] _tuner_properties = new DynamicPropertyGroup[4];
+
+        ContextMenuStrip _genericContextStrip;
+
 
         Dictionary<int, string> scanstate_lookup = new Dictionary<int, string>()
         {
@@ -35,23 +40,27 @@ namespace opentuner.MediaSources.Winterhill
                 return false;
             }
 
+            _genericContextStrip = new ContextMenuStrip();
+            _genericContextStrip.Opening += _genericContextStrip_Opening;
+
+
             for (int c = 3; c >= 0; c--)
             {
                 _tuner_properties[c] = new DynamicPropertyGroup("Tuner " +  (c+1).ToString(), _parent);
-                _tuner_properties[c].setID(c);
+                _tuner_properties[c].setID(c);  // set this before creating any items
                 _tuner_properties[c].OnSlidersChanged += WinterhillSource_OnSlidersChanged;
                 _tuner_properties[c].OnMediaButtonPressed += WinterhillSource_OnMediaButtonPressed;
-                _tuner_properties[c].AddItem("demodstate", "Demod State");
+                _tuner_properties[c].AddItem("demodstate", "Demod State", Color.PaleVioletRed);
                 _tuner_properties[c].AddItem("mer", "Mer");
-                _tuner_properties[c].AddItem("frequency", "Frequency");
+                _tuner_properties[c].AddItem("frequency", "Frequency" ,_genericContextStrip);
                 _tuner_properties[c].AddItem("nim_frequency", "Nim Frequency");
                 _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate");
                 _tuner_properties[c].AddItem("modcod", "Modcod");
                 _tuner_properties[c].AddItem("service_name", "Service Name");
                 _tuner_properties[c].AddItem("service_name_provider", "Service Name Provider");
                 _tuner_properties[c].AddItem("null_packets", "Null Packets");
-                _tuner_properties[c].AddItem("ts_addr", "TS Address");
-                _tuner_properties[c].AddItem("ts_ip", "TS IP");
+                _tuner_properties[c].AddItem("ts_addr", "TS Address", _genericContextStrip);
+                _tuner_properties[c].AddItem("ts_port", "TS Port");
                 _tuner_properties[c].AddItem("video_codec", "Video Codec");
                 _tuner_properties[c].AddItem("video_resolution", "Video Resolution");
                 _tuner_properties[c].AddItem("audio_codec", "Audio Codec");
@@ -60,6 +69,54 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].AddMediaControls("media_controls_" + c.ToString(), "Media Controls");
             }
             return true;
+        }
+
+        private void _genericContextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ContextMenuStrip contextMenuStrip = (ContextMenuStrip)sender;
+            Console.WriteLine("Opening Context Menu :" + contextMenuStrip.SourceControl.Name + ", Tag: " + contextMenuStrip.SourceControl.Tag);
+
+            contextMenuStrip.Items.Clear();
+
+            switch (contextMenuStrip.SourceControl.Name)
+            {
+                // change frequency
+                case "frequency":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Change Frequency", LongmyndPropertyCommands.SETFREQUENCY, (int)contextMenuStrip.SourceControl.Tag));
+                    break;
+                case "ts_addr":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Update TS to Local Ip", LongmyndPropertyCommands.SETTSLOCAL, (int)contextMenuStrip.SourceControl.Tag));
+                    break;
+            }
+        }
+
+        private ToolStripMenuItem ConfigureMenuItem(string Text, LongmyndPropertyCommands command, int option)
+        {
+            ToolStripMenuItem item = new ToolStripMenuItem(Text);
+            item.Click += (sender, e) =>
+            {
+                properties_OnPropertyMenuSelect(command, option);
+            };
+
+            return item;
+        }
+
+        private void properties_OnPropertyMenuSelect(LongmyndPropertyCommands command, int option)
+        {
+            Console.WriteLine("Config Change: " + command.ToString() + " - " + option.ToString());
+
+            switch (command)
+            {
+                case LongmyndPropertyCommands.SETFREQUENCY:
+                    break;
+
+                case LongmyndPropertyCommands.SETTSLOCAL:
+                    break;
+
+                default:
+                    Console.WriteLine("Unconfigured Command Change - " + command.ToString());
+                    break;
+            }
         }
 
         public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
@@ -217,9 +274,11 @@ namespace opentuner.MediaSources.Winterhill
                 {
                     if (rx.scanstate == 2 || rx.scanstate == 3)
                     {
+                        
                         Console.WriteLine("Playing" + c.ToString());
                         VideoChangeCB?.Invoke(c+1, true);
                         playing[c] = true;
+                        _tuner_properties[c].UpdateColor("demodstate", Color.PaleGreen);
                     }
                     else
                     {
@@ -227,6 +286,7 @@ namespace opentuner.MediaSources.Winterhill
                         
                         VideoChangeCB?.Invoke(c+1, false);
                         playing[c] = false;
+                        _tuner_properties[c].UpdateColor("demodstate", Color.PaleVioletRed);
                     }
 
                     demodstate[c] = rx.scanstate;
@@ -248,7 +308,7 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].UpdateValue("service_name_provider", rx.service_provider_name.ToString());
                 _tuner_properties[c].UpdateValue("null_packets", rx.null_percentage.ToString());
                 _tuner_properties[c].UpdateValue("ts_addr", rx.ts_addr.ToString());
-                _tuner_properties[c].UpdateValue("ts_ip", rx.ts_port.ToString());
+                _tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
                 _tuner_properties[c].UpdateBigLabel(rx.dbmargin.ToString());
 
                 var data = _tuner_properties[c].GetAll();

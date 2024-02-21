@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace opentuner.ExtraFeatures.QuickTuneControl
 {
-    internal class QuickTuneControlSettings
+    public class QuickTuneControlSettings
     {
         public int[] UDPListenPorts = { 6789, 6790, 6791, 6792 };
     }

@@ -59,7 +59,10 @@ namespace opentuner.Utilities
             try
             {
                 string json_output = JsonConvert.SerializeObject(_settings_reference, Formatting.Indented);
+                Debug("Saving...");
+                Debug(json_output);
                 File.WriteAllText(_filename_base, json_output);
+                
             }
             catch ( Exception Ex )
             {

@@ -18,6 +18,7 @@ namespace opentuner.MediaSources.Longmynd
     public enum LongmyndPropertyCommands
     {
         SETFREQUENCY,
+        SETTSLOCAL
     }
 
     public partial class LongmyndSource

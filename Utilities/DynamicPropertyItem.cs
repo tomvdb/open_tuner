@@ -126,6 +126,7 @@ namespace opentuner.Utilities
             _titleLabel.Left = 5;
             _titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
+
             if (_parent.Controls.Count < 2)
                 _titleLabel.Top = _titleLabel.Height + 10;
             else
@@ -141,6 +142,7 @@ namespace opentuner.Utilities
             _valueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             _valueLabel.BackColor = Color;
             _valueLabel.Name = _key;
+            _valueLabel.Tag = _parent.Tag;
 
             _parent.Controls.Add(_titleLabel);
             _parent.Controls.Add(_valueLabel);

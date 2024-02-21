@@ -946,11 +946,32 @@ namespace opentuner
 
         private void linkMqttSettings_Click(object sender, EventArgs e)
         {
+            // mqtt settings
+            MqttManagerSettings mqtt_settings = new MqttManagerSettings();
+            SettingsManager<MqttManagerSettings> mqtt_settingsManager = new SettingsManager<MqttManagerSettings>("mqttclient_settings");
+            mqtt_settings = mqtt_settingsManager.LoadSettings(mqtt_settings);
+
+            MqttSettingsForm mqtt_settings_form = new MqttSettingsForm(ref mqtt_settings);
+
+            if (mqtt_settings_form.ShowDialog() == DialogResult.OK)
+            {
+                mqtt_settingsManager.SaveSettings(mqtt_settings);
+            }
         }
 
         private void linkQuickTuneSettings_Click(object sender, EventArgs e)
         {
+            // quick tune settings
+            QuickTuneControlSettings quicktune_settings = new QuickTuneControlSettings();
+            SettingsManager<QuickTuneControlSettings> quicktune_settingsManager = new SettingsManager<QuickTuneControlSettings>("quicktune_settings");
+            quicktune_settings = quicktune_settingsManager.LoadSettings(quicktune_settings);
 
+            QuickTuneControlSettingsForm quicktune_settings_form = new QuickTuneControlSettingsForm(ref quicktune_settings);
+
+            if (quicktune_settings_form.ShowDialog() == DialogResult.OK)
+            {
+                quicktune_settingsManager.SaveSettings(quicktune_settings);
+            }
         }
 
         private void linkSpectrumDocumentation_Click(object sender, EventArgs e)

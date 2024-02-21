@@ -38,6 +38,7 @@ namespace opentuner.Utilities
         public void setID(int id)
         {
             _id = id;
+            _groupBox.Tag = id;
         }
 
         public int getID()

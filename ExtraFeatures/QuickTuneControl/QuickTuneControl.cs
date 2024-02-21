@@ -23,6 +23,8 @@ namespace opentuner.ExtraFeatures.QuickTuneControl
             _settings = new QuickTuneControlSettings();
             _settingsManager = new SettingsManager<QuickTuneControlSettings>("quicktune_settings");
 
+            _settings = _settingsManager.LoadSettings(_settings);
+
             _udpListeners = new UdpListener[VideoSource.GetVideoSourceCount()];
 
             // udp listener

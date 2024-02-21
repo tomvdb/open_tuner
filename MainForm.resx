@@ -237,9 +237,6 @@
   <data name="linkQuickTuneSettings.Text" xml:space="preserve">
     <value>Settings ...</value>
   </data>
-  <data name="linkQuickTuneSettings.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;linkQuickTuneSettings.Name" xml:space="preserve">
     <value>linkQuickTuneSettings</value>
   </data>
