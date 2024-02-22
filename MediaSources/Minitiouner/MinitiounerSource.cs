@@ -597,22 +597,16 @@ namespace opentuner.MediaSources.Minitiouner
 
         public override string GetName()
         {
-            return "Minitiouner";
+            return "Minitiouner Variant";
         }
 
         public override string GetDescription()
         {
-            string desc = "Generic Minitiouner Source";
-            desc += "\n\nCurrent Selected Hardware Interface: ";
-
-            switch (_settings.DefaultInterface)
-            {
-                case 0: desc += "Always Ask"; break;
-                case 1: desc += "FTDI Module"; break;
-                case 2: desc += "PicoTuner"; break;
-            }
-
-            return desc;
+            return "Minitiouner Variant" +
+            Environment.NewLine + Environment.NewLine +
+            "Should work with most Minitiouner Variants" +
+            Environment.NewLine + Environment.NewLine +
+            "Select FTDI or PicoTuner interface in Settings";
         }
 
         public override void Close()
@@ -633,8 +627,11 @@ namespace opentuner.MediaSources.Minitiouner
         public override void ShowSettings()
         {
             MinitiounerSettingsForm settings_form = new MinitiounerSettingsForm(ref _settings);
-            settings_form.ShowDialog();
-            _settingsManager.SaveSettings(_settings);
+            if (settings_form.ShowDialog() == DialogResult.OK) 
+            {
+                _settingsManager.SaveSettings(_settings); 
+            }
+            
         }
 
         public override void ConfigureTSRecorders(List<TSRecorder> TSRecorders)
@@ -672,5 +669,9 @@ namespace opentuner.MediaSources.Minitiouner
             _mediapath = MediaPath;
         }
 
+        public override string GetMoreInfoLink()
+        {
+            return "https://www.zr6tg.co.za/opentuner-minitiouner-source/";
+        }
     }
 }

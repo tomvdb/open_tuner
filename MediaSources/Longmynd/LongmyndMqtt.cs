@@ -33,11 +33,20 @@ namespace opentuner.MediaSources.Longmynd
 
         }
 
+        public void MqttSetTS(string ip, int port)
+        {
+            Console.WriteLine(ip.ToString() + " - " + port.ToString());
+            Console.WriteLine("ip set: " + _settings.CmdTopic + "ip");
+            Console.WriteLine("port set: " + _settings.CmdTopic + "tsip");
+            Console.WriteLine("port is ignored, should be 1234 on mqtt version, unless you have a custom setup");
+            SendMqttStatus(_settings.CmdTopic + "tsip", ip);
+        }
+
         public void MqttSetFrequency(uint frequency, uint symbol_rate) 
         {
             Console.WriteLine(frequency.ToString() + " - " + symbol_rate.ToString());
             Console.WriteLine("freq set: " + _settings.CmdTopic + "frequency");
-            Console.WriteLine("sr set: " + _settings.CmdTopic + "frequency");
+            Console.WriteLine("sr set: " + _settings.CmdTopic + "sr");
             SendMqttStatus(_settings.CmdTopic + "frequency", (frequency - _settings.Offset1).ToString());
             SendMqttStatus(_settings.CmdTopic + "sr", (symbol_rate).ToString());
         }
@@ -139,7 +148,16 @@ namespace opentuner.MediaSources.Longmynd
                     _tuner1_properties.UpdateValue("rf_input", ( Message == "0" ? "A" : "B"));
                     break;
                 case "dt/longmynd/set/tsip":
-                    _tuner1_properties.UpdateValue("source_ts_ip", Message);
+                    _source_properties.UpdateValue("source_ts_ip", Message);
+
+                    if (_LocalIp != Message)
+                    {
+                        _source_properties.UpdateColor("source_ts_ip", Color.PaleVioletRed);
+                    }
+                    else
+                    {
+                        _source_properties.UpdateColor("source_ts_ip", Color.Bisque);
+                    }
                     break;
                 case "dt/longmynd/matype1":
                     _tuner1_properties.UpdateValue("stream_format", Message);
@@ -210,5 +228,6 @@ namespace opentuner.MediaSources.Longmynd
 
             return;
         }
+
     }
 }

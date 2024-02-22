@@ -68,7 +68,24 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].AddSlider("volume_slider_" + c.ToString(), "Volume", 0, 200);
                 _tuner_properties[c].AddMediaControls("media_controls_" + c.ToString(), "Media Controls");
             }
+
+            _tuner_forms = new List<TunerControlForm>();
+            // tuner for each device
+            for (int c = 0; c < ts_devices; c++)
+            {
+                var tunerControl = new TunerControlForm(c, 0, 0, (int)_settings.Offset[c]);
+                tunerControl.OnTunerChange += TunerControl_OnTunerChange;
+
+                _tuner_forms.Add(tunerControl);
+            }
+
             return true;
+        }
+
+        private void TunerControl_OnTunerChange(int id, uint freq, uint symbol_rate)
+        {
+            Console.WriteLine("set frequency : " + id.ToString() + "," + freq.ToString() + " , " + symbol_rate.ToString());
+            SetFrequency(id, freq, symbol_rate, false);
         }
 
         private void _genericContextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -85,7 +102,16 @@ namespace opentuner.MediaSources.Winterhill
                     contextMenuStrip.Items.Add(ConfigureMenuItem("Change Frequency", LongmyndPropertyCommands.SETFREQUENCY, (int)contextMenuStrip.SourceControl.Tag));
                     break;
                 case "ts_addr":
-                    contextMenuStrip.Items.Add(ConfigureMenuItem("Update TS to Local Ip", LongmyndPropertyCommands.SETTSLOCAL, (int)contextMenuStrip.SourceControl.Tag));
+
+                    // get local ip's
+                    if (_LocalIp.Length == 0)
+                    {
+                        Console.WriteLine("Warning: No Ip's detected");
+                    }
+                    else
+                    {
+                        contextMenuStrip.Items.Add(ConfigureMenuItem("Update TS to " + _LocalIp, LongmyndPropertyCommands.SETTSLOCAL, (int)contextMenuStrip.SourceControl.Tag));
+                    }
                     break;
             }
         }
@@ -108,9 +134,25 @@ namespace opentuner.MediaSources.Winterhill
             switch (command)
             {
                 case LongmyndPropertyCommands.SETFREQUENCY:
+                    int tuner = option;
+                    _tuner_forms[tuner].ShowTuner(_current_frequency[tuner], _current_sr[tuner]);
                     break;
 
                 case LongmyndPropertyCommands.SETTSLOCAL:
+
+                    if (_LocalIp.Length > 0)
+                    {
+                        Console.WriteLine("Updating TS Ip to " + _LocalIp);
+                        string wh_command = ("U" + (option + 1).ToString() + "," + _LocalIp.ToString());
+                        Console.WriteLine(wh_command);
+                        controlWS.Send(wh_command);
+                        // reset status
+
+                        VideoChangeCB?.Invoke(option + 1, false);
+                        playing[option] = false;
+                        _tuner_properties[option].UpdateColor("demodstate", Color.PaleVioletRed);
+                        demodstate[option] = -1;
+                    }
                     break;
 
                 default:
@@ -296,6 +338,15 @@ namespace opentuner.MediaSources.Winterhill
                     {
                         _current_frequency[c] = Convert.ToInt32((sent_freq * 1000) - _settings.Offset[c]);
                     }
+
+                    uint symbol_rate = 0;
+
+                    if (uint.TryParse(rx.symbol_rate, out symbol_rate))
+                    {
+                        _current_sr[c] = (int)symbol_rate;
+                    }
+
+
                 }
 
                 _tuner_properties[c].UpdateValue("demodstate", scanstate_lookup[rx.scanstate]);
@@ -308,6 +359,16 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].UpdateValue("service_name_provider", rx.service_provider_name.ToString());
                 _tuner_properties[c].UpdateValue("null_packets", rx.null_percentage.ToString());
                 _tuner_properties[c].UpdateValue("ts_addr", rx.ts_addr.ToString());
+
+                if (rx.ts_addr != _LocalIp)
+                {
+                    _tuner_properties[c].UpdateColor("ts_addr", Color.PaleVioletRed);
+                }
+                else
+                {
+                    _tuner_properties[c].UpdateColor("ts_addr", Color.Bisque);
+                }
+
                 _tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
                 _tuner_properties[c].UpdateBigLabel(rx.dbmargin.ToString());
 

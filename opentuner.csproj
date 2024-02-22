@@ -468,6 +468,9 @@
     <EmbeddedResource Include="MediaSources\Minitiouner\MinitiounerSettingsForm.resx">
       <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MediaSources\Winterhill\WinterhillSettingsForm.resx">
+      <DependentUpon>WinterhillSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

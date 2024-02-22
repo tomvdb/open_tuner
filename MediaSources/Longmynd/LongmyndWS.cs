@@ -16,6 +16,13 @@ namespace opentuner.MediaSources.Longmynd
         private WebSocket controlWS;        // longmynd control ws websocket
         private WebSocket monitorWS;        // longmynd monitor ws websocket
 
+
+        public void WSSetTS(string ip, int port)
+        {
+            Console.WriteLine(ip.ToString() + " - " + port.ToString());
+            controlWS.Send("U" + ip + ":" + port);
+        }
+
         private void WSSetFrequency(uint frequency, uint symbol_rate)
         {
             controlWS.Send("C" + (frequency - _settings.Offset1).ToString() + "," + symbol_rate.ToString());
@@ -156,6 +163,16 @@ namespace opentuner.MediaSources.Longmynd
             _tuner1_properties.UpdateValue("null_packets", monitor_message.packet.ts.null_ratio + "%");
 
             _source_properties.UpdateValue("source_ts_ip", monitor_message.packet.rx.ts_ip_addr + ":" + monitor_message.packet.rx.ts_ip_port.ToString());
+
+            if (_LocalIp + ":" + _settings.TS_Port != monitor_message.packet.rx.ts_ip_addr + ":" + monitor_message.packet.rx.ts_ip_port.ToString())
+            {
+                _source_properties.UpdateColor("source_ts_ip", Color.PaleVioletRed);
+            }
+            else
+            {
+                _source_properties.UpdateColor("source_ts_ip", Color.Bisque);
+            }
+
             //_source_properties.UpdateValue("source_ip", _settings.LongmyndWSHost);
 
             // lost lock

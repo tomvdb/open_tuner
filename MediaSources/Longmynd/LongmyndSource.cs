@@ -20,9 +20,6 @@ namespace opentuner.MediaSources.Longmynd
     {
         private bool _connected = false;
 
-        private int _interface = 1; // 0 = ws, 1 = mqtt
-
-
 
         private System.Timers.Timer sessionTimer;
 
@@ -55,6 +52,8 @@ namespace opentuner.MediaSources.Longmynd
 
         string _mediaPath = "";
 
+        private string _LocalIp;
+
         public LongmyndSource()
         {
             // settings
@@ -66,6 +65,12 @@ namespace opentuner.MediaSources.Longmynd
         public override void Close()
         {
             _settingsManager.SaveSettings(_settings);
+
+            if (_settings.DefaultInterface == 0)
+            {
+                monitorWS.Close();
+                controlWS.Close();
+            }
         }
 
         public override void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers)
@@ -82,12 +87,18 @@ namespace opentuner.MediaSources.Longmynd
 
         public override string GetDescription()
         {
-            return "Longmynd Client";
+            return "Longmynd Client, Compatible with:" + 
+                    Environment.NewLine + Environment.NewLine +
+                    "M0DNY Longmynd (websocket)" +
+                    Environment.NewLine +
+                    "F5OEO Longmynd (mqtt)" +
+                    Environment.NewLine + Environment.NewLine +
+                    "Select default interface in settings";
         }
 
         public override string GetDeviceName()
         {
-            return "Longmynd Client Device";
+            return "Longmynd Client - " + (_settings.DefaultInterface == 0 ? "Websocket" : "Mqtt");
         }
 
         public override long GetFrequency(int device, bool offset_included)
@@ -137,7 +148,7 @@ namespace opentuner.MediaSources.Longmynd
 
 
             // connect websockets
-            switch (_interface)
+            switch (_settings.DefaultInterface)
             {
                 case 0:  
                     connectWebsockets(); 
@@ -148,7 +159,7 @@ namespace opentuner.MediaSources.Longmynd
             }
 
             // open udp port
-            udp_client = new UDPClient(4003);
+            udp_client = new UDPClient(_settings.TS_Port);
             udp_client.ConnectionStatusChanged += Udp_client_ConnectionStatusChanged;
             udp_client.DataReceived += Udp_client_DataReceived;
             udp_client.Connect();
@@ -159,7 +170,7 @@ namespace opentuner.MediaSources.Longmynd
 
             BuildSourceProperties();
 
-            switch(_interface)
+            switch(_settings.DefaultInterface)
             {
                 case 0:
                     _source_properties.UpdateValue("source_ip", _settings.LongmyndWSHost);
@@ -169,7 +180,13 @@ namespace opentuner.MediaSources.Longmynd
                     break;
 
             }
-            
+
+
+            // get local ip
+            List<string> detected_ips = CommonFunctions.determineIP();
+
+            if (detected_ips.Count > 0)
+                _LocalIp = detected_ips[0];
 
             this.VideoChangeCB = VideoChangeCB;
 
@@ -211,7 +228,7 @@ namespace opentuner.MediaSources.Longmynd
 
         public override void SetFrequency(int device, uint frequency, uint symbol_rate, bool offset_included)
         {
-            switch (_interface)
+            switch (_settings.DefaultInterface)
             {
                 case 0: 
                     WSSetFrequency(frequency, symbol_rate); break;
@@ -226,8 +243,10 @@ namespace opentuner.MediaSources.Longmynd
         public override void ShowSettings()
         {
             LongmyndSettingsForm settingsForm = new LongmyndSettingsForm(ref _settings);
-            settingsForm.ShowDialog();
-            _settingsManager.SaveSettings(_settings);
+            if (settingsForm.ShowDialog() == DialogResult.OK)
+            {
+                _settingsManager.SaveSettings(_settings);
+            }
         }
 
         public override void StartStreaming(int device)
@@ -257,6 +276,10 @@ namespace opentuner.MediaSources.Longmynd
             _mediaPath = MediaPath;
         }
 
+        public override string GetMoreInfoLink()
+        {
+            return "https://www.zr6tg.co.za/opentuner-longmynd-source/";
+        }
 
         #region lookuptables
         // lookup tables - TODO: consolidate this with main lookups

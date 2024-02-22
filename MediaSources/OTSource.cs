@@ -25,6 +25,8 @@ namespace opentuner.MediaSources
         // Request Source Description (can also include some info regarding its current settings)
         public abstract string GetDescription();
 
+        public abstract string GetMoreInfoLink();
+
         // Shows a Source specific setting screen. Called when user clicks "Settings" in source selection screen.
         public abstract void ShowSettings();
 

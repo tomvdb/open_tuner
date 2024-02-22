@@ -17,7 +17,10 @@ namespace opentuner.MediaSources.Longmynd
         public int LongmyndMqttPort = 1883;
         public string CmdTopic = "cmd/longmynd/";
 
-        public byte DefaultInterface = 0;   // 0 = always ask, 1 = longmynd ws, 2 = longmynd mqtt
+        // general
+        public int TS_Port = 1234;
+
+        public byte DefaultInterface = 0;   // 0 = ws 1 = mqtt
 
         public uint Offset1 = 9750000;
         public int DefaultVolume1 = 0;

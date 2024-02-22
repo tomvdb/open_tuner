@@ -23,7 +23,7 @@ namespace opentuner.MediaSources.Winterhill
         */
 
         private void WSSetFrequency(int device, int freq, int sr)
-        {
+        {           
             controlWS.Send("F" + (device + 1).ToString() + "," + freq + "," + sr.ToString() + "," + _settings.Offset[device]);
         }
 

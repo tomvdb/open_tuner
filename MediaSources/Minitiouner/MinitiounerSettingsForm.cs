@@ -28,6 +28,7 @@ namespace opentuner.MediaSources.Minitiouner
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
@@ -55,6 +56,7 @@ namespace opentuner.MediaSources.Minitiouner
             _settings.Offset1 = offset1;
             _settings.Offset2 = offset2;
 
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

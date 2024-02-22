@@ -70,7 +70,6 @@ namespace opentuner.MediaSources.Minitiouner
                 tunerControl.OnTunerChange += TunerControl_OnTunerChange;
                 _tuner_forms.Add(tunerControl);
             }
-
             return true;
         }
 
@@ -82,10 +81,10 @@ namespace opentuner.MediaSources.Minitiouner
             dynamicPropertyGroup.OnMediaButtonPressed += DynamicPropertyGroup_OnMediaButtonPressed;
 
             dynamicPropertyGroup.AddItem("demodstate", "Demod State", Color.PaleVioletRed);
-            dynamicPropertyGroup.AddItem("mer", "Mer", _genericContextStrip);
+            dynamicPropertyGroup.AddItem("mer", "Mer");
             //dynamicPropertyGroup.AddItem("db_margin", "db Margin");
             dynamicPropertyGroup.AddItem("rf_input_level", "RF Input Level");
-            dynamicPropertyGroup.AddItem("rf_input", "RF Input", _genericContextStrip);
+            dynamicPropertyGroup.AddItem("rf_input", "RF Input");
             dynamicPropertyGroup.AddItem("requested_freq_" + tuner.ToString(), "Requested Freq", _genericContextStrip);
             dynamicPropertyGroup.AddItem("symbol_rate", "Symbol Rate");
             dynamicPropertyGroup.AddItem("modcod", "Modcod");

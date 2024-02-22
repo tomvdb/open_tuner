@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,12 +15,10 @@ namespace opentuner.Utilities
             return DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
         }
 
-        /*
-         * 
-        private void determineIP()
+        public static List<string> determineIP()
         {
-            // get ip addresses
-            debug("Get Local IP: ");
+            List<string> detected_ips = new List<string>();
+
 
             int ipCount = 0;
 
@@ -27,27 +27,13 @@ namespace opentuner.Utilities
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    debug(ip.ToString());
-                    localip = ip.ToString();
-                    ipCount += 1;
+                    detected_ips.Add(ip.ToString());
                 }
             }
 
-            if (ipCount == 0)
-            {
-                debug("Warning: No Local IP Address Detected");
-            }
-            else
-            {
-                if (ipCount > 1)
-                {
-                    debug("Warning: Multiple IP Addresses Detected for this pc");
-                }
-            }
-
+            return detected_ips;
         }
         
-         */
 
     }
 }

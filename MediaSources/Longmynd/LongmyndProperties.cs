@@ -55,6 +55,7 @@ namespace opentuner.MediaSources.Longmynd
             _source_properties = new DynamicPropertyGroup("Longmynd Properties", _parent);
             _source_properties.AddItem("source_ip", "IP Address");
             _source_properties.AddItem("source_ts_ip", "TS IP", _genericContextStrip);
+            _source_properties.UpdateColor("source_ts_ip", Color.PaleVioletRed);
 
             return true;
         }
@@ -66,11 +67,11 @@ namespace opentuner.MediaSources.Longmynd
             dynamicPropertyGroup.OnMediaButtonPressed += DynamicPropertyGroup_OnMediaButtonPressed;
 
             dynamicPropertyGroup.AddItem("demodstate", "Demod State", Color.PaleVioletRed);
-            dynamicPropertyGroup.AddItem("mer", "Mer",_genericContextStrip);
+            dynamicPropertyGroup.AddItem("mer", "Mer");
             //dynamicPropertyGroup.AddItem("db_margin", "db Margin");
             //dynamicPropertyGroup.AddItem("rf_input_level", "RF Input Level");
-            dynamicPropertyGroup.AddItem("rf_input", "RF Input", _genericContextStrip);
-            dynamicPropertyGroup.AddItem("requested_freq", "Requested Freq", _genericContextStrip);
+            dynamicPropertyGroup.AddItem("rf_input", "RF Input");
+            dynamicPropertyGroup.AddItem("requested_freq", "Requested Freq"); //, _genericContextStrip);
             dynamicPropertyGroup.AddItem("symbol_rate", "Symbol Rate");
             dynamicPropertyGroup.AddItem("modcod", "Modcod");
             //dynamicPropertyGroup.AddItem("lna_gain", "LNA Gain");
@@ -225,6 +226,17 @@ namespace opentuner.MediaSources.Longmynd
                 case "requested_freq":
                     contextMenuStrip.Items.Add(ConfigureMenuItem("Change Frequency", LongmyndPropertyCommands.SETFREQUENCY, 0));
                     break;
+                case "source_ts_ip":
+                    // get local ip's
+                    if (_LocalIp.Length == 0)
+                    {
+                        Console.WriteLine("Warning: No Ip's detected");
+                    }
+                    else
+                    {
+                        contextMenuStrip.Items.Add(ConfigureMenuItem("Update TS to " + _LocalIp, LongmyndPropertyCommands.SETTSLOCAL, 0));
+                    }
+                    break;
             }
 
         }
@@ -248,6 +260,36 @@ namespace opentuner.MediaSources.Longmynd
             {
                 case LongmyndPropertyCommands.SETFREQUENCY:
                     MessageBox.Show("Change Frequency");
+                    break;
+
+                case LongmyndPropertyCommands.SETTSLOCAL:
+
+                    if (_LocalIp.Length > 0)
+                    {
+                        Console.WriteLine("Updating TS Ip to " + _LocalIp);
+
+                        if (_settings.DefaultInterface == 0)
+                        {
+                            // websocket
+                            //string wh_command = ("U" + (option + 1).ToString() + "," + _LocalIp.ToString());
+                            //Console.WriteLine(wh_command);
+                            //controlWS.Send(wh_command);
+
+                            WSSetTS(_LocalIp, _settings.TS_Port);
+                        }
+                        else
+                        {
+                            // mqtt
+                            MqttSetTS(_LocalIp, _settings.TS_Port);
+                        }
+
+
+                        // reset status
+                        VideoChangeCB?.Invoke(option + 1, false);
+                        playing = false;
+                        _tuner1_properties.UpdateColor("demodstate", Color.PaleVioletRed);
+                        demodState = -1;
+                    }
                     break;
 
                 default:

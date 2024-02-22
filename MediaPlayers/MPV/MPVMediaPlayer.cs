@@ -348,7 +348,14 @@ namespace opentuner.MediaPlayers.MPV
         public override void SetVolume(int Volume)
         {
             _volume = Volume;
-            LibMpv.mpv_set_option(_mpvHandle, LibMpv.GetUtf8Bytes("volume"), mpv_format.MPV_FORMAT_INT64, ref _volume);
+            try
+            {
+                LibMpv.mpv_set_option(_mpvHandle, LibMpv.GetUtf8Bytes("volume"), mpv_format.MPV_FORMAT_INT64, ref _volume);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error setting volume for MediaPlayer MPV: " + ex.Message);
+            }
         }
 
         public override void SnapShot(string FileName)

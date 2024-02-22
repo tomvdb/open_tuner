@@ -50,7 +50,6 @@
             this.checkBatcChat = new System.Windows.Forms.CheckBox();
             this.checkBatcSpectrum = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.sourceInfo = new System.Windows.Forms.Label();
             this.btnSourceSettings = new System.Windows.Forms.Button();
             this.btnSourceConnect = new System.Windows.Forms.Button();
             this.comboAvailableSources = new System.Windows.Forms.ComboBox();
@@ -95,17 +94,23 @@
             this.horizontal18VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kHzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openTunerWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.plutoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.commandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureCallsignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sourceInfo = new System.Windows.Forms.TextBox();
+            this.linkSourceMoreInfo = new System.Windows.Forms.Label();
+            this.linkForum = new System.Windows.Forms.Label();
+            this.linkSupport = new System.Windows.Forms.Label();
+            this.linkGithubIssues = new System.Windows.Forms.Label();
+            this.linkBatc = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.link2ndTS = new System.Windows.Forms.Label();
+            this.linkPicoTuner = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -159,15 +164,22 @@
             // 
             // SourcePage
             // 
+            resources.ApplyResources(this.SourcePage, "SourcePage");
             this.SourcePage.BackColor = System.Drawing.Color.Transparent;
             this.SourcePage.Controls.Add(this.groupBox3);
             this.SourcePage.Controls.Add(this.groupBox2);
             this.SourcePage.Controls.Add(this.groupBox1);
-            resources.ApplyResources(this.SourcePage, "SourcePage");
             this.SourcePage.Name = "SourcePage";
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.linkPicoTuner);
+            this.groupBox3.Controls.Add(this.link2ndTS);
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.linkBatc);
+            this.groupBox3.Controls.Add(this.linkGithubIssues);
+            this.groupBox3.Controls.Add(this.linkSupport);
+            this.groupBox3.Controls.Add(this.linkForum);
             this.groupBox3.Controls.Add(this.linkOpenTunerUpdates);
             this.groupBox3.Controls.Add(this.linkDocumentation);
             resources.ApplyResources(this.groupBox3, "groupBox3");
@@ -177,6 +189,7 @@
             // linkOpenTunerUpdates
             // 
             resources.ApplyResources(this.linkOpenTunerUpdates, "linkOpenTunerUpdates");
+            this.linkOpenTunerUpdates.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkOpenTunerUpdates.ForeColor = System.Drawing.Color.Blue;
             this.linkOpenTunerUpdates.Name = "linkOpenTunerUpdates";
             this.linkOpenTunerUpdates.Click += new System.EventHandler(this.linkOpenTunerUpdates_Click);
@@ -184,12 +197,15 @@
             // linkDocumentation
             // 
             resources.ApplyResources(this.linkDocumentation, "linkDocumentation");
+            this.linkDocumentation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkDocumentation.ForeColor = System.Drawing.Color.Blue;
             this.linkDocumentation.Name = "linkDocumentation";
             this.linkDocumentation.Click += new System.EventHandler(this.linkDocumentation_Click);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.linkQuickTuneSettings);
             this.groupBox2.Controls.Add(this.linkBatcWebchatSettings);
             this.groupBox2.Controls.Add(this.linkBatcSpectrumSettings);
@@ -299,6 +315,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.linkSourceMoreInfo);
             this.groupBox1.Controls.Add(this.sourceInfo);
             this.groupBox1.Controls.Add(this.btnSourceSettings);
             this.groupBox1.Controls.Add(this.btnSourceConnect);
@@ -307,11 +324,6 @@
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
-            // 
-            // sourceInfo
-            // 
-            resources.ApplyResources(this.sourceInfo, "sourceInfo");
-            this.sourceInfo.Name = "sourceInfo";
             // 
             // btnSourceSettings
             // 
@@ -469,7 +481,6 @@
             this.tunerControlToolStripMenuItem,
             this.toolStripMenuItem4,
             this.qO100WidebandChatToolStripMenuItem,
-            this.helpToolStripMenuItem,
             this.plutoToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
@@ -640,39 +651,6 @@
             resources.ApplyResources(this.qO100WidebandChatToolStripMenuItem, "qO100WidebandChatToolStripMenuItem");
             this.qO100WidebandChatToolStripMenuItem.Click += new System.EventHandler(this.qO100WidebandChatToolStripMenuItem_Click);
             // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openTunerWebsiteToolStripMenuItem,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem5,
-            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
-            // 
-            // openTunerWebsiteToolStripMenuItem
-            // 
-            this.openTunerWebsiteToolStripMenuItem.Name = "openTunerWebsiteToolStripMenuItem";
-            resources.ApplyResources(this.openTunerWebsiteToolStripMenuItem, "openTunerWebsiteToolStripMenuItem");
-            this.openTunerWebsiteToolStripMenuItem.Click += new System.EventHandler(this.openTunerWebsiteToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
-            // 
-            // addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem
-            // 
-            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Name = "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem";
-            resources.ApplyResources(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem, "addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem");
-            this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem.Click += new System.EventHandler(this.addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click);
-            // 
             // plutoToolStripMenuItem
             // 
             this.plutoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -711,6 +689,85 @@
             this.configureCallsignToolStripMenuItem.Name = "configureCallsignToolStripMenuItem";
             resources.ApplyResources(this.configureCallsignToolStripMenuItem, "configureCallsignToolStripMenuItem");
             this.configureCallsignToolStripMenuItem.Click += new System.EventHandler(this.configureCallsignToolStripMenuItem_Click);
+            // 
+            // sourceInfo
+            // 
+            resources.ApplyResources(this.sourceInfo, "sourceInfo");
+            this.sourceInfo.Name = "sourceInfo";
+            this.sourceInfo.ReadOnly = true;
+            // 
+            // linkSourceMoreInfo
+            // 
+            resources.ApplyResources(this.linkSourceMoreInfo, "linkSourceMoreInfo");
+            this.linkSourceMoreInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkSourceMoreInfo.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkSourceMoreInfo.Name = "linkSourceMoreInfo";
+            this.linkSourceMoreInfo.Click += new System.EventHandler(this.linkSourceMoreInfo_Click);
+            // 
+            // linkForum
+            // 
+            resources.ApplyResources(this.linkForum, "linkForum");
+            this.linkForum.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkForum.ForeColor = System.Drawing.Color.Blue;
+            this.linkForum.Name = "linkForum";
+            this.linkForum.Click += new System.EventHandler(this.linkForum_Click);
+            // 
+            // linkSupport
+            // 
+            resources.ApplyResources(this.linkSupport, "linkSupport");
+            this.linkSupport.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkSupport.ForeColor = System.Drawing.Color.Blue;
+            this.linkSupport.Name = "linkSupport";
+            this.linkSupport.Click += new System.EventHandler(this.linkSupport_Click);
+            // 
+            // linkGithubIssues
+            // 
+            resources.ApplyResources(this.linkGithubIssues, "linkGithubIssues");
+            this.linkGithubIssues.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkGithubIssues.ForeColor = System.Drawing.Color.Blue;
+            this.linkGithubIssues.Name = "linkGithubIssues";
+            this.linkGithubIssues.Click += new System.EventHandler(this.linkGithubIssues_Click);
+            // 
+            // linkBatc
+            // 
+            resources.ApplyResources(this.linkBatc, "linkBatc");
+            this.linkBatc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkBatc.ForeColor = System.Drawing.Color.Blue;
+            this.linkBatc.Name = "linkBatc";
+            this.linkBatc.Click += new System.EventHandler(this.linkBatc_Click);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // link2ndTS
+            // 
+            resources.ApplyResources(this.link2ndTS, "link2ndTS");
+            this.link2ndTS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.link2ndTS.ForeColor = System.Drawing.Color.Blue;
+            this.link2ndTS.Name = "link2ndTS";
+            this.link2ndTS.Click += new System.EventHandler(this.link2ndTS_Click);
+            // 
+            // linkPicoTuner
+            // 
+            resources.ApplyResources(this.linkPicoTuner, "linkPicoTuner");
+            this.linkPicoTuner.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkPicoTuner.ForeColor = System.Drawing.Color.Blue;
+            this.linkPicoTuner.Name = "linkPicoTuner";
+            this.linkPicoTuner.Click += new System.EventHandler(this.linkPicoTuner_Click);
+            // 
+            // checkBox1
+            // 
+            resources.ApplyResources(this.checkBox1, "checkBox1");
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            resources.ApplyResources(this.checkBox2, "checkBox2");
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -763,9 +820,6 @@
         private System.Windows.Forms.ToolStripMenuItem openTunerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openTunerWebsiteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage debugPage;
         private System.Windows.Forms.ListBox dbgListBox;
@@ -793,8 +847,6 @@
         private System.Windows.Forms.ToolStripMenuItem kHzToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tuner2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableUDPOutputToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem externalToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageExternalToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
@@ -813,7 +865,6 @@
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.TabPage SourcePage;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label sourceInfo;
         private System.Windows.Forms.Button btnSourceSettings;
         private System.Windows.Forms.Button btnSourceConnect;
         private System.Windows.Forms.ComboBox comboAvailableSources;
@@ -834,6 +885,17 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label linkDocumentation;
         private System.Windows.Forms.Label linkOpenTunerUpdates;
+        private System.Windows.Forms.TextBox sourceInfo;
+        private System.Windows.Forms.Label linkSourceMoreInfo;
+        private System.Windows.Forms.Label linkBatc;
+        private System.Windows.Forms.Label linkGithubIssues;
+        private System.Windows.Forms.Label linkSupport;
+        private System.Windows.Forms.Label linkForum;
+        private System.Windows.Forms.Label linkPicoTuner;
+        private System.Windows.Forms.Label link2ndTS;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

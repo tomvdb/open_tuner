@@ -549,13 +549,55 @@ namespace opentuner
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_SFR2 : stv0910_regs.RSTV0910_P1_SFR2, ref val_mu); /* mid upper */
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_SFR1 : stv0910_regs.RSTV0910_P1_SFR1, ref val_ml); /* mid lower */
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_SFR0 : stv0910_regs.RSTV0910_P1_SFR0, ref val_l);  /* low byte */
+
             sr = ((UInt32)val_h << 24) +
                ((UInt32)val_mu << 16) +
                ((UInt32)val_ml << 8) +
                ((UInt32)val_l);
+
             /* sr (MHz) = ckadc (MHz) * SFR/2^32. So in Symbols per Second we need */
             sr = 135000000 * sr / 256.0 / 256.0 / 256.0 / 256.0;
             found_sr = (UInt32)sr;
+
+            // read the symbol rate detection offset
+
+            int temp = 0;
+            byte tempc = 0;
+            double tempf = 0;
+            if (err == 0)
+            {
+                err |= stv0910_read_reg
+                (
+                    demod == STV0910_DEMOD_TOP
+                    ? stv0910_regs.RSTV0910_P2_TMGREG2 : stv0910_regs.RSTV0910_P1_TMGREG2,            /* byte2 */
+                    ref tempc
+                );
+                temp |= tempc << 24;
+
+                err |= stv0910_read_reg
+                (
+                    demod == STV0910_DEMOD_TOP
+                    ? stv0910_regs.RSTV0910_P2_TMGREG1 : stv0910_regs.RSTV0910_P1_TMGREG1,            /* byte1 */
+                    ref tempc
+                );
+                temp |= tempc << 16;
+
+                err |= stv0910_read_reg
+                (
+                    demod == STV0910_DEMOD_TOP
+                    ? stv0910_regs.RSTV0910_P2_TMGREG0 : stv0910_regs.RSTV0910_P1_TMGREG0,            /* byte0 */
+                    ref tempc
+                );
+                temp |= tempc << 8;
+
+                temp = temp / 256;                                          // move to the bottom 24 bits 
+                                                                            // and extend the sign
+            }
+
+            tempf = temp;                                                   // convert to double
+            tempf = tempf * 1000 / (1 << 29);                               // calculate offset in symbols
+            tempf = tempf * sr / 1000;                                      // multiply by nominal symbol rate
+            found_sr = (uint)(sr + tempf);							// update the value
 
             if (err != 0) Console.WriteLine("ERROR: STV0910 read symbol rate\n");
 

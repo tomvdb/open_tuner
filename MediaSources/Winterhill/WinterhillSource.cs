@@ -33,14 +33,17 @@ namespace opentuner.MediaSources.Winterhill
         private OTMediaPlayer[] _media_player = new OTMediaPlayer[4];
         private TSRecorder[] _recorders = new TSRecorder[4];
         private TSUdpStreamer[] _streamer = new TSUdpStreamer[4];
+        private List<TunerControlForm> _tuner_forms;
 
         private int ts_devices = 4;
 
         UDPClient[] udp_clients;
 
         private string _MediaPath;
+        private string _LocalIp;
 
         private int[] _current_frequency = new int[4] {0, 0, 0, 0};
+        private int[] _current_sr = new int[4] { 0, 0, 0, 0 };
 
         private int[] demodstate = new int[4] {0, 0, 0, 0};
 
@@ -53,6 +56,7 @@ namespace opentuner.MediaSources.Winterhill
             // settings
             _settings = new WinterhillSettings();
             _settingsManager = new SettingsManager<WinterhillSettings>("winterhill_settings");
+            _settings = (_settingsManager.LoadSettings(_settings));
         }
 
         public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
@@ -111,6 +115,12 @@ namespace opentuner.MediaSources.Winterhill
             BuildSourceProperties();
 
             this.VideoChangeCB = VideoChangeCB;
+
+            // get local ip
+            List<string> detected_ips = CommonFunctions.determineIP();
+
+            if (detected_ips.Count > 0)
+                _LocalIp = detected_ips[0];
 
             return ts_devices;
         }
@@ -225,13 +235,13 @@ namespace opentuner.MediaSources.Winterhill
             }
 
             _videoPlayersReady = true;
+
+            
         }
 
         private void WinterhillSource_onVideoOut(object sender, MediaStatus e)
         {
             int video_id = ((OTMediaPlayer)sender).getID();
-            // need id's here
-            //Console.WriteLine("OnVideoOut: " +  video_id.ToString());
 
             _media_player[video_id].SetVolume((int)_settings.DefaultVolume[video_id]);
 
@@ -240,7 +250,9 @@ namespace opentuner.MediaSources.Winterhill
 
         public override string GetDescription()
         {
-            return "Winterhill";
+            return "Winterhill Client, Compatible with:" +
+            Environment.NewLine + Environment.NewLine +
+            "ZR6TG Variant (websocket)";
         }
 
         public override string GetDeviceName()
@@ -255,7 +267,7 @@ namespace opentuner.MediaSources.Winterhill
 
         public override string GetName()
         {
-            return "Winterhill";
+            return "Winterhill Variant";
         }
 
         public override CircularBuffer GetVideoDataQueue(int device)
@@ -275,12 +287,27 @@ namespace opentuner.MediaSources.Winterhill
 
         public override void SetFrequency(int device, uint frequency, uint symbol_rate, bool offset_included)
         {
-            WSSetFrequency(device, (int)frequency, (int)symbol_rate);
+            Console.WriteLine("SetFrequency: " + device.ToString() + "," + frequency.ToString() + "," + symbol_rate.ToString() + "," + offset_included.ToString());
+
+            if (offset_included)
+            {
+                WSSetFrequency(device, (int)frequency, (int)symbol_rate);
+            }
+            else
+            {
+                WSSetFrequency(device, (int)frequency + (int)_settings.Offset[device], (int)symbol_rate);
+            }
         }
 
         public override void ShowSettings()
         {
             WinterhillSettingsForm settingsForm = new WinterhillSettingsForm(_settings);
+
+            if (settingsForm.ShowDialog() == DialogResult.OK)
+            {
+                _settingsManager.SaveSettings(_settings);
+            }
+
         }
 
         public override void StartStreaming(int device)
@@ -303,6 +330,11 @@ namespace opentuner.MediaSources.Winterhill
                     ts_threads[device].stop_ts();
                 }
             }
+        }
+
+        public override string GetMoreInfoLink()
+        {
+            return "https://www.zr6tg.co.za/opentuner-winterhill-source/";
         }
     }
 }

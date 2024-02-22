@@ -941,7 +941,7 @@ namespace opentuner
 
         private void linkDocumentation_Click(object sender, EventArgs e)
         {
-            // https://www.zr6tg.co.za/opentuner-documentation/
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-documentation/");
         }
 
         private void linkMqttSettings_Click(object sender, EventArgs e)
@@ -975,29 +975,70 @@ namespace opentuner
         }
 
         private void linkSpectrumDocumentation_Click(object sender, EventArgs e)
-        {
-            //https://www.zr6tg.co.za/opentuner-spectrum/
+        {           
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-spectrum/");
         }
 
         private void LinkMqttDocumentation_Click(object sender, EventArgs e)
         {
-            // https://www.zr6tg.co.za/opentuner-mqtt-client/
-
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-mqtt-client/");
         }
 
         private void linkQuickTuneDocumentation_Click(object sender, EventArgs e)
         {
-            // https://www.zr6tg.co.za/opentuner-quicktune-control/
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-quicktune-control/");
         }
 
         private void linkBatcWebchatDocumentation_Click(object sender, EventArgs e)
         {
-            // https://www.zr6tg.co.za/opentuner-webchat/
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-webchat/");
         }
 
         private void linkOpenTunerUpdates_Click(object sender, EventArgs e)
         {
-            // https://www.zr6tg.co.za/open-tuner/
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/open-tuner/");
+        }
+
+        private void linkSourceMoreInfo_Click(object sender, EventArgs e)
+        {
+            if (_availableSources[comboAvailableSources.SelectedIndex].GetMoreInfoLink().Length > 0 ) 
+            {
+                System.Diagnostics.Process.Start(_availableSources[comboAvailableSources.SelectedIndex].GetMoreInfoLink());
+            }
+        }
+
+        private void linkGithubIssues_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/tomvdb/open_tuner/issues");
+
+        }
+
+        private void linkForum_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://forum.batc.org.uk/viewforum.php?f=142");
+
+        }
+
+        private void linkSupport_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.buymeacoffee.com/zr6tg/");
+        }
+
+        private void linkBatc_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://batc.org.uk/");
+
+        }
+
+        private void link2ndTS_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/adding-2nd-transport-to-batc-minitiouner-v2/");
+
+        }
+
+        private void linkPicoTuner_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/2024/02/11/picotuner-an-experimental-dual-ts-alternative/");
         }
     }
 
