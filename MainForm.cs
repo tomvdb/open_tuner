@@ -169,9 +169,9 @@ namespace opentuner
                     float sr = 0;
                     string callsign = Properties["service_name"];
 
-                    if (double.TryParse(Properties["frequency"], out freq))
+                    if (double.TryParse(Properties["frequency"], NumberStyles.Any, CultureInfo.InvariantCulture, out freq))
                     {
-                        if (float.TryParse(Properties["symbol_rate"], out sr))
+                        if (float.TryParse(Properties["symbol_rate"], NumberStyles.Any, CultureInfo.InvariantCulture, out sr))
                         {
                             freq = freq / 1000;
 
@@ -686,37 +686,6 @@ namespace opentuner
             tuner2ControlForm.Show();
             tuner2ControlForm.Focus();
         }
-
-        /*
-        private void lblServiceName2_TextChanged(object sender, EventArgs e)
-        {
-            if (setting_enable_spectrum)
-            {
-                // we have decoded a callsign
-                string callsign = lblServiceName2.Text;
-                int offset = 0;
-
-                //Int32.TryParse(current, out offset);
-
-                if (videoSource.current_rf_input_2 == nim.NIM_INPUT_TOP)
-                    offset = videoSource.current_offset_A;
-                else
-                    offset = videoSource.current_offset_B;
-
-                if (callsign.Length > 0)
-                {
-                    double freq = videoSource.current_frequency_2 + offset;
-                    freq = freq / 1000;
-                    float sr = videoSource.current_sr_2;
-
-                    debug("New Callsign: " + callsign + "," + freq.ToString() + "," + sr.ToString());
-                    sigs.updateCurrentSignal(callsign, freq, sr);
-
-                }
-            }
-
-        }
-        */
 
         private void addingA2ndTransportToBATCMinitiounerV2ToolStripMenuItem_Click(object sender, EventArgs e)
         {

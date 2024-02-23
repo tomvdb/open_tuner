@@ -20,6 +20,9 @@ namespace opentuner.MediaSources.Minitiouner
     public enum MinitiounerPropertyCommands
     {
         SETFREQUENCY,
+        SETRFINPUTA,
+        SETRFINPUTB,
+        SETSYMBOLRATE
     }
 
     public partial class MinitiounerSource
@@ -78,16 +81,16 @@ namespace opentuner.MediaSources.Minitiouner
         private DynamicPropertyGroup ConfigureTunerProperties(int tuner)
         {
             DynamicPropertyGroup dynamicPropertyGroup = new DynamicPropertyGroup("Tuner " +  tuner.ToString(), _parent);
+            dynamicPropertyGroup.setID(tuner);
             dynamicPropertyGroup.OnSlidersChanged += DynamicPropertyGroup_OnSliderChanged;
             dynamicPropertyGroup.OnMediaButtonPressed += DynamicPropertyGroup_OnMediaButtonPressed;
-
             dynamicPropertyGroup.AddItem("demodstate", "Demod State", Color.PaleVioletRed);
             dynamicPropertyGroup.AddItem("mer", "Mer");
             //dynamicPropertyGroup.AddItem("db_margin", "db Margin");
             dynamicPropertyGroup.AddItem("rf_input_level", "RF Input Level");
-            dynamicPropertyGroup.AddItem("rf_input", "RF Input");
+            dynamicPropertyGroup.AddItem("rf_input", "RF Input", _genericContextStrip);
             dynamicPropertyGroup.AddItem("requested_freq_" + tuner.ToString(), "Requested Freq", _genericContextStrip);
-            dynamicPropertyGroup.AddItem("symbol_rate", "Symbol Rate");
+            dynamicPropertyGroup.AddItem("symbol_rate", "Symbol Rate", _genericContextStrip);
             dynamicPropertyGroup.AddItem("modcod", "Modcod");
             dynamicPropertyGroup.AddItem("lna_gain", "LNA Gain");
             dynamicPropertyGroup.AddItem("ber", "Ber");
@@ -379,7 +382,7 @@ namespace opentuner.MediaSources.Minitiouner
                     _tuner2_properties.UpdateColor("demodstate", Color.PaleVioletRed);
                 }
 
-                _tuner2_properties.UpdateValue("mer", mer.ToString() + " dB");
+                _tuner2_properties.UpdateValue("mer", mer2.ToString() + " dB");
                 _tuner2_properties.UpdateValue("lna_gain", new_status.T2P1_lna_gain.ToString());
                 _tuner2_properties.UpdateValue("rf_input_level", new_status.T2P1_input_power_level.ToString() + " dB");
                 _tuner2_properties.UpdateValue("symbol_rate", (new_status.T2P1_symbol_rate / 1000).ToString());
@@ -460,7 +463,7 @@ namespace opentuner.MediaSources.Minitiouner
         private void _genericContextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ContextMenuStrip contextMenuStrip = (ContextMenuStrip)sender;
-            Log.Information("Opening Context Menu :" + contextMenuStrip.SourceControl.Name);
+            Log.Information("Opening Context Menu :" + contextMenuStrip.SourceControl.Name + " tag = " + contextMenuStrip.SourceControl.Tag.ToString());
 
             contextMenuStrip.Items.Clear();
 
@@ -468,16 +471,25 @@ namespace opentuner.MediaSources.Minitiouner
             {
                 // change frequency
                 case "requested_freq_1":
-                    contextMenuStrip.Items.Add(ConfigureMenuItem("Tuner Control", MinitiounerPropertyCommands.SETFREQUENCY, 0));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Tuner Control", MinitiounerPropertyCommands.SETFREQUENCY, new int[] {0}));
                     break;
                 case "requested_freq_2":
-                    contextMenuStrip.Items.Add(ConfigureMenuItem("Tuner Control", MinitiounerPropertyCommands.SETFREQUENCY, 1));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Tuner Control", MinitiounerPropertyCommands.SETFREQUENCY, new int[] { 1 }));
+                    break;                  
+                case "rf_input":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("A", MinitiounerPropertyCommands.SETRFINPUTA, new int[] { (int)contextMenuStrip.SourceControl.Tag - 1 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("B", MinitiounerPropertyCommands.SETRFINPUTB, new int[] { (int)contextMenuStrip.SourceControl.Tag - 1 }));
+                    break;
+                case "symbol_rate":
+                    uint[] symbol_rates = new uint[] { 2000, 1500, 1000, 500, 333, 250, 125, 66 };
+                    foreach (uint rate in symbol_rates)
+                        contextMenuStrip.Items.Add(ConfigureMenuItem(rate.ToString(), MinitiounerPropertyCommands.SETSYMBOLRATE, new int[] { (int)contextMenuStrip.SourceControl.Tag - 1, (int)rate}));
                     break;
             }
 
         }
 
-        private ToolStripMenuItem ConfigureMenuItem(string Text, MinitiounerPropertyCommands command, int option)
+        private ToolStripMenuItem ConfigureMenuItem(string Text, MinitiounerPropertyCommands command, int[] option)
         {
             ToolStripMenuItem item = new ToolStripMenuItem(Text);
             item.Click += (sender, e) =>
@@ -490,18 +502,28 @@ namespace opentuner.MediaSources.Minitiouner
 
 
 
-        private void properties_OnPropertyMenuSelect(MinitiounerPropertyCommands command, int option)
+        private void properties_OnPropertyMenuSelect(MinitiounerPropertyCommands command, int[] options)
         {
-            Log.Information("Config Change: " + command.ToString() + " - " + option.ToString());
+            Log.Information("Config Change: " + command.ToString() + " - " + options.Length.ToString());
 
             switch (command)
             {
                 case MinitiounerPropertyCommands.SETFREQUENCY:
-                    int tuner = option;
-
-                    _tuner_forms[tuner].ShowTuner((int)(tuner == 0 ? current_frequency_1 : current_frequency_2), (int)(tuner == 0 ? current_sr_1 : current_sr_2));
+                    int tuner = options[0];
+                    _tuner_forms[tuner].ShowTuner((int)(tuner == 0 ? current_frequency_0 : current_frequency_1), (int)(tuner == 0 ? current_sr_0 : current_sr_1));
                     break;
-
+                case MinitiounerPropertyCommands.SETRFINPUTA:
+                    ChangeRFInput((byte)options[0], nim.NIM_INPUT_TOP);
+                    ResetVideo(options[0]);
+                    break;
+                case MinitiounerPropertyCommands.SETRFINPUTB:
+                    ChangeRFInput((byte)options[0], nim.NIM_INPUT_BOTTOM);
+                    ResetVideo(options[0]);
+                    break;
+                case MinitiounerPropertyCommands.SETSYMBOLRATE:
+                    ChangeSymbolRate((byte)options[0],(uint)options[1]);
+                    ResetVideo(options[0]);
+                    break;
                 default:
                     Log.Information("Unconfigured Command Change - " + command.ToString());
                     break;
@@ -514,7 +536,14 @@ namespace opentuner.MediaSources.Minitiouner
             SetFrequency(id, freq, symbol_rate, false);
         }
 
+        private void ResetVideo(int tuner)
+        {
+            if (VideoChangeCB != null)
+            {
+                VideoChangeCB(tuner + 1, false);
+            }
 
+        }
 
     }
 }

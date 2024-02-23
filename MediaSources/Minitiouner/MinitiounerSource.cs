@@ -59,12 +59,12 @@ namespace opentuner.MediaSources.Minitiouner
         // tuner specific
 
         // OTSource Properties
+        private uint current_rf_input_0 = nim.NIM_INPUT_TOP;
         private uint current_rf_input_1 = nim.NIM_INPUT_TOP;
-        private uint current_rf_input_2 = nim.NIM_INPUT_TOP;
+        private uint current_frequency_0 = 0;
         private uint current_frequency_1 = 0;
-        private uint current_frequency_2 = 0;
+        private uint current_sr_0 = 0;
         private uint current_sr_1 = 0;
-        private uint current_sr_2 = 0;
         private bool current_enable_lnb_supply = false;
         private bool current_enable_horiz_supply = false;
         private bool current_tone_22kHz_P1 = false;
@@ -93,7 +93,6 @@ namespace opentuner.MediaSources.Minitiouner
             _settings = new MinitiounerSettings();
             _settingsManager = new SettingsManager<MinitiounerSettings>("minitiouner_settings");
             _settings = (_settingsManager.LoadSettings(_settings));
-
         }
 
         public override int GetVideoSourceCount()
@@ -155,11 +154,11 @@ namespace opentuner.MediaSources.Minitiouner
             {
                 case 0:  
                     int offset0 = offset_included ? (int)_settings.Offset1 : 0;
-                    frequency = current_frequency_1 + offset0; 
+                    frequency = current_frequency_0 + offset0; 
                     break;
                 case 1:  
                     int offset1 = offset_included ? (int)_settings.Offset2 : 0;
-                    frequency = current_frequency_2 + offset1; 
+                    frequency = current_frequency_1 + offset1; 
                     break;
             }
 
@@ -176,7 +175,7 @@ namespace opentuner.MediaSources.Minitiouner
             else
                 freq = frequency - (offset_included ? _settings.Offset2 : 0);
 
-            change_frequency((byte)(device), freq, symbol_rate, current_enable_lnb_supply, current_enable_horiz_supply, (device == 0 ? current_rf_input_1 : current_rf_input_2 ), current_tone_22kHz_P1);
+            change_frequency((byte)(device), freq, symbol_rate, current_enable_lnb_supply, current_enable_horiz_supply, (device == 0 ? current_rf_input_0 : current_rf_input_1 ), current_tone_22kHz_P1);
         }
 
 
@@ -213,20 +212,21 @@ namespace opentuner.MediaSources.Minitiouner
 
             if (device == 0)
             {
-                current_frequency_1 = newConfig.frequency;
-                current_sr_1 = sr;
-                current_rf_input_1 = rf_input;
+                current_frequency_0 = newConfig.frequency;
+                current_sr_0 = sr;
+                current_rf_input_0 = rf_input;
 
                 if (VideoChangeCB != null)
                 {
                     VideoChangeCB(1, false);
                 }
+               
             }
             else
             {
-                current_frequency_2 = newConfig.frequency;
-                current_sr_2 = sr;
-                current_rf_input_2 = rf_input;
+                current_frequency_1 = newConfig.frequency;
+                current_sr_1 = sr;
+                current_rf_input_1 = rf_input;
 
                 if (VideoChangeCB != null)
                 {
@@ -336,11 +336,38 @@ namespace opentuner.MediaSources.Minitiouner
                 }
             }
 
-            nim_status.T2P1_requested_frequency = current_frequency_1;
-            nim_status.T1P2_requested_frequency = current_frequency_2;
+            nim_status.T2P1_requested_frequency = current_frequency_0;
+            nim_status.T1P2_requested_frequency = current_frequency_1;
 
             // update properties
             UpdateTunerProperties(nim_status);
+        }
+
+        private void ChangeRFInput(byte Tuner, uint RFInput)
+        {
+            switch(Tuner)
+            {
+                case 0: 
+                    change_frequency(Tuner, current_frequency_0, current_sr_0, current_enable_lnb_supply, current_enable_horiz_supply, RFInput, current_tone_22kHz_P1);
+                    break;
+                case 1:
+                    change_frequency(Tuner, current_frequency_1, current_sr_1, current_enable_lnb_supply, current_enable_horiz_supply, RFInput, false);
+                    break;
+            }
+
+        }
+
+        private void ChangeSymbolRate(byte Tuner, uint SymbolRate)
+        {
+            switch (Tuner)
+            {
+                case 0:
+                    change_frequency(Tuner, current_frequency_0, SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, current_rf_input_0, current_tone_22kHz_P1);
+                    break;
+                case 1:
+                    change_frequency(Tuner, current_frequency_1, SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, current_rf_input_1, false);
+                    break;
+            }
         }
 
         private int Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial, Control Parent)
@@ -365,9 +392,6 @@ namespace opentuner.MediaSources.Minitiouner
 
             _source_properties.UpdateValue("source_hw_interface", hardware_interface.GetName);
 
-
-
-
             Log.Information("Main: Starting Nim Thread");
 
             Log.Information("Switch LED's");
@@ -377,31 +401,58 @@ namespace opentuner.MediaSources.Minitiouner
             hardware_interface.hw_ts_led(0, false);
             hardware_interface.hw_ts_led(1, false);
 
+            // configure nim thread
+            NimThread nim_thread = new NimThread(config_queue, hardware_interface, nim_status_feedback, false);
+            nim_thread_t = new Thread(nim_thread.worker_thread);
+
+            /*
+             
+            TODO: default lnb voltage supply settings
+
             // set default lnb supply
             Log.Information(current_enable_lnb_supply.ToString());
             Log.Information(current_enable_horiz_supply.ToString());
 
+            */
+
+            current_enable_lnb_supply = false;
+            current_enable_horiz_supply = false;
+            current_tone_22kHz_P1 = false;
+
             hardware_interface.hw_set_polarization_supply(0, current_enable_lnb_supply, current_enable_horiz_supply);
 
-            // NIM thread
-            //SourceStatusCallback status_callback = new SourceStatusCallback(nim_status_feedback);
+            // set startup rf inputs according to settings
+            current_rf_input_0 = nim.NIM_INPUT_TOP;
+            current_rf_input_1 = nim.NIM_INPUT_TOP;
 
-            NimThread nim_thread = new NimThread(config_queue, hardware_interface, nim_status_feedback, false);
+            switch (_settings.DefaultRFInput )
+            {
+                case 1:
+                    current_rf_input_0 = nim.NIM_INPUT_TOP;
+                    current_rf_input_1 = nim.NIM_INPUT_BOTTOM;
+                    break;
+                case 2:
+                    current_rf_input_0 = nim.NIM_INPUT_BOTTOM;
+                    current_rf_input_1 = nim.NIM_INPUT_TOP;
+                    break;
+                case 3:
+                    current_rf_input_0 = nim.NIM_INPUT_BOTTOM;
+                    current_rf_input_1 = nim.NIM_INPUT_BOTTOM;
+                    break;
+            }
 
-            nim_thread_t = new Thread(nim_thread.worker_thread);
+            current_frequency_0 = 741525;
+            current_frequency_1 = 741525;
 
-            // set startup frequencies
-            StoredFrequency default_freq = new StoredFrequency();
-            default_freq.Offset = 0;
-            default_freq.Frequency = 741525;
-            default_freq.SymbolRate = 1500;
-            default_freq.RFInput = 1;
+            current_sr_0 = 1500;
+            current_sr_1 = 1500;
 
-            StoredFrequency tuner_freq1 = default_freq;
-            StoredFrequency tuner_freq2 = default_freq;
+            // setup tuner 0
+            change_frequency(0, current_frequency_0, current_sr_0, current_enable_lnb_supply, current_enable_horiz_supply, current_rf_input_0, current_tone_22kHz_P1);
 
-            change_frequency(0, tuner_freq1.Frequency - tuner_freq1.Offset, tuner_freq1.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq1.RFInput, current_tone_22kHz_P1);
-            change_frequency(1, tuner_freq2.Frequency - tuner_freq2.Offset, tuner_freq2.SymbolRate, current_enable_lnb_supply, current_enable_horiz_supply, tuner_freq2.RFInput, current_tone_22kHz_P1);
+            // setup tuner 1
+            change_frequency(1, current_frequency_1, current_sr_1, current_enable_lnb_supply, current_enable_horiz_supply, current_rf_input_1, current_tone_22kHz_P1);
+
 
             nim_thread_t.Start();
 
@@ -431,40 +482,17 @@ namespace opentuner.MediaSources.Minitiouner
                 ts_parser_2_t.Start();
             }
 
-
             return ts_devices;
         }
 
         public void parse_ts_data_callback(TSStatus ts_status)
         {
             UpdateTSProperties(1, ts_status);
-            /*
-            updateTSStatusGui(1, this, ts_status);
-
-            if (mqtt_client != null)
-            {
-                Task.Run(async () =>
-                {
-                    await mqtt_client.UpdateTSStatus(1, ts_status);
-                });
-            }
-            */
-
         }
+
         public void parse_ts2_data_callback(TSStatus ts_status)
         {
             UpdateTSProperties(2, ts_status);
-            /*
-            updateTSStatusGui(2, this, ts_status);
-
-            if (mqtt_client != null)
-            {
-                Task.Run(async () =>
-                {
-                    await mqtt_client.UpdateTSStatus(2, ts_status);
-                });
-            }
-            */
         }
 
 

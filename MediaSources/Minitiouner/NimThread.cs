@@ -323,11 +323,9 @@ namespace opentuner
 
                 Log.Information("Nim Thread: Starting...");
 
-            bool initialConfig = false;
+                bool initialConfig = false;
 
-            TunerConfig nim_config = null;
-
-                
+                TunerConfig nim_config = null;
 
                 byte err = _stv0910.stv0910_init(hardware.RequireSerialTS);
 

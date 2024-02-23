@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using opentuner.MediaSources.Longmynd;
 using Serilog;
+using System.Globalization;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -346,14 +347,14 @@ namespace opentuner.MediaSources.Winterhill
 
                         try
                         {
-                            if (float.TryParse(rx.frequency, out sent_freq))
+                            if (float.TryParse(rx.frequency, NumberStyles.Any, CultureInfo.InvariantCulture, out sent_freq))
                             {
                                 _current_frequency[c] = Convert.ToInt32((sent_freq * 1000) - _settings.Offset[c]);
                             }
                         }
                         catch (Exception Ex)
                         {
-                            Log.Error(Ex, "Frequency Parse Error : " + rx.frequency);
+                            Log.Error(Ex, "Frequency Parse Error : " + rx.frequency + " - " + (10.5f).ToString(CultureInfo.InvariantCulture));
                         }
 
                         uint symbol_rate = 0;

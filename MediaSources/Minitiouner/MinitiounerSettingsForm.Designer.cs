@@ -117,7 +117,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(12, 123);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(328, 182);
+            this.groupBox1.Size = new System.Drawing.Size(328, 173);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tuner Properties";
@@ -136,8 +136,10 @@
             this.ComboDefaultRFInput.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboDefaultRFInput.FormattingEnabled = true;
             this.ComboDefaultRFInput.Items.AddRange(new object[] {
-            "Feed Tuner 1/2 Through A",
-            "Tuner 1 = A, Tuner 2 = B"});
+            "Tuner 1 = A, Tuner 2 = A",
+            "Tuner 1 = A, Tuner 2 = B",
+            "Tuner 1 = B, Tuner 2 = A",
+            "Tuner 1 = B, Tuner 2 = B"});
             this.ComboDefaultRFInput.Location = new System.Drawing.Point(134, 136);
             this.ComboDefaultRFInput.Name = "ComboDefaultRFInput";
             this.ComboDefaultRFInput.Size = new System.Drawing.Size(160, 21);
@@ -221,7 +223,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(265, 311);
+            this.btnSave.Location = new System.Drawing.Point(265, 302);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 2;
@@ -231,7 +233,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(184, 311);
+            this.btnCancel.Location = new System.Drawing.Point(184, 302);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -243,7 +245,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(355, 346);
+            this.ClientSize = new System.Drawing.Size(355, 335);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
