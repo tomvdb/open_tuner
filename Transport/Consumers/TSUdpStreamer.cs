@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.CodeDom;
 using opentuner.MediaSources;
+using Serilog;
 
 namespace opentuner
 {
@@ -109,7 +110,7 @@ namespace opentuner
                         {
                             if (ts_data_queue.TryPeek() == 0x47)
                             {
-                                Console.WriteLine("TS Synced");
+                                Log.Information("TS Synced");
                                 ts_sync = true;
                             }
                             else
@@ -127,7 +128,7 @@ namespace opentuner
 
                             if (ts_data_queue.TryPeek() != 0x47)
                             {
-                                Console.WriteLine("TS Sync Lost");
+                                Log.Information("TS Sync Lost");
                                 ts_sync = false;
                                 continue;
                             }
@@ -144,7 +145,7 @@ namespace opentuner
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Warning: Trying to dequeue, but no bytes : TSUdpThread");
+                                    Log.Information("Warning: Trying to dequeue, but no bytes : TSUdpThread");
                                 }
                             }
 
@@ -166,11 +167,11 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Console.WriteLine("TS UDP Thread: Closing ");
+                Log.Information("TS UDP Thread: Closing ");
             }
             finally
             {
-                Console.WriteLine("Closing TS UDP");
+                Log.Information("Closing TS UDP");
             }
         }
     }

@@ -68,9 +68,11 @@ namespace opentuner.MediaSources.Longmynd
 
             if (_settings.DefaultInterface == 0)
             {
-                monitorWS.Close();
-                controlWS.Close();
+                monitorWS?.Close();
+                controlWS?.Close();
             }
+
+            udp_client?.Close();
         }
 
         public override void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers)

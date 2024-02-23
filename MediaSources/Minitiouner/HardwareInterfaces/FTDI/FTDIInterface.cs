@@ -10,6 +10,7 @@ using FTD2XX_NET;
 using System.Threading;
 using FlyleafLib.MediaFramework.MediaDevice;
 using opentuner.MediaSources.Minitiouner.HardwareInterfaces;
+using Serilog;
 
 namespace opentuner
 {
@@ -177,7 +178,7 @@ namespace opentuner
         private byte ftdi_set_mpsse_mode(FTD2XX_NET.FTDI ftdi)
         {
 
-            Console.WriteLine("Flow: FTDI set mpsse mode");
+            Log.Information("Flow: FTDI set mpsse mode");
 
             NumBytesToSend = 0;
 
@@ -584,7 +585,7 @@ namespace opentuner
             try
             {
                 ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref device_count);
-                Console.WriteLine("Number of FTDI Devices: " + device_count.ToString());
+                Log.Information("Number of FTDI Devices: " + device_count.ToString());
 
                 for (uint c = 0; c < device_count; c++)
                 {
@@ -621,7 +622,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Console.WriteLine("FTDI Detect Error: " + Ex.Message);
+                Log.Information("FTDI Detect Error: " + Ex.Message);
             }
 
             return ftdi_devices;
@@ -642,12 +643,12 @@ namespace opentuner
             try
             {
                 ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
-                Console.WriteLine("Number of FTDI Devices: " + devcount.ToString());
+                Log.Information("Number of FTDI Devices: " + devcount.ToString());
 
                 // we need atleast two ports
                 if (devcount < 2)
                 {
-                    Console.WriteLine("Not enough FTDI devices detected");
+                    Log.Information("Not enough FTDI devices detected");
                     return 1;
                 }
 
@@ -661,7 +662,7 @@ namespace opentuner
 
                     ftdi_device.GetSerialNumber(out string SerialNumber);
 
-                    Console.WriteLine("Serial Number: " + SerialNumber.ToString());
+                    Log.Information("Serial Number: " + SerialNumber.ToString());
 
                     if (SerialNumber == i2c_serial)
                     {
@@ -689,7 +690,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Console.WriteLine("FTDI Error: " + Ex.Message);
+                Log.Information("FTDI Error: " + Ex.Message);
                 return 1;
             }
 
@@ -699,7 +700,7 @@ namespace opentuner
 
         public override byte hw_detect(ref uint i2c_port, ref uint ts_port, ref uint ts_port2, ref string detectedDeviceName)
         {
-            Console.WriteLine("**** FTDI Port(s) Detection ****");
+            Log.Information("**** FTDI Port(s) Detection ****");
 
             byte err = 0;
             uint devcount = 0;
@@ -711,12 +712,12 @@ namespace opentuner
             try
             {
                 ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
-                Console.WriteLine("Number of FTDI Devices: " + devcount.ToString());
+                Log.Information("Number of FTDI Devices: " + devcount.ToString());
 
                 // we need atleast two ports
                 if (devcount < 2)
                 {
-                    Console.WriteLine("Not enough FTDI devices detected");
+                    Log.Information("Not enough FTDI devices detected");
                     return 1;
                 }
 
@@ -730,122 +731,122 @@ namespace opentuner
 
                     ftdi_device.GetSerialNumber(out string SerialNumber);
 
-                    Console.WriteLine("Serial Number: " + SerialNumber.ToString());
+                    Log.Information("Serial Number: " + SerialNumber.ToString());
 
                     // is this a ft2232 device?
                     if (device.ToString() != "FT_DEVICE_2232H")
                     {
-                        Console.WriteLine(c.ToString() + ": not a FT2232H device (" + device.ToString() + ") skipping");
+                        Log.Information(c.ToString() + ": not a FT2232H device (" + device.ToString() + ") skipping");
                         ftdi_device.Close();
                         continue;
                     }
                     else
                     {
-                        Console.WriteLine(c.ToString() + ": is a FT2232H device");
+                        Log.Information(c.ToString() + ": is a FT2232H device");
                     }
 
                     // lets get description
                     string deviceName = "";
                     ftdi_device.GetDescription(out deviceName);
 
-                    Console.WriteLine("Description:" + deviceName);
+                    Log.Information("Description:" + deviceName);
 
                     FTD2XX_NET.FTDI.FT2232H_EEPROM_STRUCTURE eeprom = new FTD2XX_NET.FTDI.FT2232H_EEPROM_STRUCTURE();
                     ftdi_device.ReadFT2232HEEPROM(eeprom);
 
-                    Console.WriteLine("A Fifo: " + eeprom.IFAIsFifo.ToString());
-                    Console.WriteLine("B Fifo: " + eeprom.IFBIsFifo.ToString());
+                    Log.Information("A Fifo: " + eeprom.IFAIsFifo.ToString());
+                    Log.Information("B Fifo: " + eeprom.IFBIsFifo.ToString());
 
                     if (deviceName.Contains("NIM tuner A"))
                     {
-                        Console.WriteLine("Should be the i2c port for a BATC V2 Minitiouner");
+                        Log.Information("Should be the i2c port for a BATC V2 Minitiouner");
                         i2c_port = c;
                         detectedDeviceName = "BATC V2 Minitiouner";
                     }
 
                     if (deviceName.Contains("NIM tuner B"))
                     {
-                        Console.WriteLine("Should be the ts port for a BATC V2 Minitiouner");
+                        Log.Information("Should be the ts port for a BATC V2 Minitiouner");
                         ts_port = c;
                     }
 
                     if (deviceName.Contains("NIM DB tuner B"))
                     {
-                        Console.WriteLine("Should be the 2nd ts port for a BATC V2 Minitiouner");
+                        Log.Information("Should be the 2nd ts port for a BATC V2 Minitiouner");
                         ts_port2 = c;
                     }
 
                     if (deviceName.Contains("MiniTiouner_Pro_TS2 A"))
                     {
-                        Console.WriteLine("Should be the i2c port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
+                        Log.Information("Should be the i2c port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
                         i2c_port = c;
                         detectedDeviceName = "Minitiouner Pro 2";
                     }
 
                     if (deviceName.Contains("MiniTiouner_Pro_TS2 B"))
                     {
-                        Console.WriteLine("Should be the ts port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
+                        Log.Information("Should be the ts port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
                         ts_port = c;
                     }
 
                     if (deviceName.Contains("MiniTiouner_Pro_TS1 B"))
                     {
-                        Console.WriteLine("Should be the 2nd ts port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
+                        Log.Information("Should be the 2nd ts port for a Minitiouner Pro 2 (" + deviceName.ToString() + ")");
                         ts_port2 = c;
                     }
 
                     if (deviceName.Contains("MiniTiouner A"))
                     {
-                        Console.WriteLine("Should be the i2c port for a Minitiouner-S");
+                        Log.Information("Should be the i2c port for a Minitiouner-S");
                         i2c_port = c;
                         detectedDeviceName = "Minitiouner-S";
                     }
 
                     if (deviceName.Contains("MiniTiouner B"))
                     {
-                        Console.WriteLine("Should be the ts port for a Minitiouner-S");
+                        Log.Information("Should be the ts port for a Minitiouner-S");
                         ts_port = c;
                     }
 
                     if (deviceName.Contains("Minitiouner S A"))
                     {
 
-                        Console.WriteLine("Should be the i2c port for a Minitiouner-S");
+                        Log.Information("Should be the i2c port for a Minitiouner-S");
                         i2c_port = c;
                         detectedDeviceName = "Minitiouner-S";
                     }
 
                     if (deviceName.Contains("Minitiouner S B"))
                     {
-                        Console.WriteLine("Should be the ts port for a Minitiouner-S");
+                        Log.Information("Should be the ts port for a Minitiouner-S");
                         ts_port = c;
                     }
 
 
                     if (deviceName.Contains("MiniTiouner-Express A"))
                     {
-                        Console.WriteLine("Should be the i2c port for a Minitiouner Express");
+                        Log.Information("Should be the i2c port for a Minitiouner Express");
                         i2c_port = c;
                         detectedDeviceName = "Minitiouner Express";
                     }
 
                     if (deviceName.Contains("MiniTiouner-Express B"))
                     {
-                        Console.WriteLine("Should be the ts port for a Minitiouner Express");
+                        Log.Information("Should be the ts port for a Minitiouner Express");
                         ts_port = c;
                     }
 
                     ftdi_device.Close();
-                    Console.WriteLine(" ---- ");
+                    Log.Information(" ---- ");
                 }
 
-                Console.WriteLine(" **** ");
+                Log.Information(" **** ");
 
 
             }
             catch (Exception Ex)
             {
-                Console.WriteLine("FTDI Error: " + Ex.Message);
+                Log.Information("FTDI Error: " + Ex.Message);
                 return 1;
             }
 
@@ -862,11 +863,11 @@ namespace opentuner
             try
             {
                 ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
-                Console.WriteLine("Number of FTDI Devices: " + devcount.ToString());
+                Log.Information("Number of FTDI Devices: " + devcount.ToString());
             }
             catch (Exception Ex)
             {
-                Console.WriteLine("FTDI Error: " + Ex.Message);
+                Log.Information("FTDI Error: " + Ex.Message);
                 return 1;
             }
 
@@ -905,9 +906,9 @@ namespace opentuner
 
         byte ftdi_gpio_write_lowbyte(byte pin_id, bool pin_value)
         {
-            Console.WriteLine("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
+            Log.Information("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
 
-            Console.WriteLine("ftdi_gpio_value: before: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
+            Log.Information("ftdi_gpio_value: before: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
 
             if (pin_value)
             {
@@ -918,7 +919,7 @@ namespace opentuner
                 ftdi_gpio_lowbyte_value &= (byte)(~(1 << pin_id));
             }
 
-            Console.WriteLine("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
+            Log.Information("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
 
             NumBytesToSend = 0;
             MPSSEbuffer[NumBytesToSend++] = 0x80; // configure low bytes of mpsse port
@@ -934,9 +935,9 @@ namespace opentuner
 
         byte ftdi_gpio_write_highbyte(byte pin_id, bool pin_value)
         {
-            //Console.WriteLine("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
+            //Log.Information("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
 
-            //Console.WriteLine("ftdi_gpio_highbyte_value: before: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
+            //Log.Information("ftdi_gpio_highbyte_value: before: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
 
             if (pin_value)
             {
@@ -947,7 +948,7 @@ namespace opentuner
                 ftdi_gpio_highbyte_value &= (byte)(~(1 << pin_id));
             }
 
-            //Console.WriteLine("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
+            //Log.Information("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
 
             NumBytesToSend = 0;
             MPSSEbuffer[NumBytesToSend++] = 0x82; // aka. MPSSE_CMD_SET_DATA_BITS_HIGHBYTE 
@@ -976,7 +977,7 @@ namespace opentuner
                 ts_ftdi_status = ftdiDevice_ts2.Read(data, Convert.ToUInt32(data.Length), ref bytesRead);
             }
 
-            //Console.WriteLine(ts_ftdi_status.ToString());
+            //Log.Information(ts_ftdi_status.ToString());
 
             if (ts_ftdi_status != FTD2XX_NET.FTDI.FT_STATUS.FT_OK)
                 err = 1;
@@ -1054,14 +1055,14 @@ namespace opentuner
                 {
                     if (lnb_num == 0)
                     {
-                        Console.WriteLine("Enable LNB2 VSEL");
+                        Log.Information("Enable LNB2 VSEL");
                         ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, true);
                         //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, true);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Disable LNB2 VSEL");
+                    Log.Information("Disable LNB2 VSEL");
                     if (lnb_num == 0)
                     {
                         ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
@@ -1071,7 +1072,7 @@ namespace opentuner
 
                 if (lnb_num == 0)
                 {
-                    Console.WriteLine("Enable LNB2 Power");
+                    Log.Information("Enable LNB2 Power");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, true);
                     //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, true);
                 }
@@ -1081,9 +1082,9 @@ namespace opentuner
                 // disable
                 if (lnb_num == 0)
                 {
-                    Console.WriteLine("Disable LNB2 Power");
+                    Log.Information("Disable LNB2 Power");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, false);
-                    Console.WriteLine("Disable LNB2 VSEL");
+                    Log.Information("Disable LNB2 VSEL");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
                     //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, false);
                 }

@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using FlyleafLib;
+using Serilog;
 
 namespace opentuner.MediaPlayers.FFMPEG
 {
@@ -72,22 +73,22 @@ namespace opentuner.MediaPlayers.FFMPEG
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            //Console.WriteLine("FFMPEG : Player Property Changed: " + e.PropertyName);
+            //Log.Information("FFMPEG : Player Property Changed: " + e.PropertyName);
         }
 
         private void Player_BufferingStarted(object sender, EventArgs e)
         {
-            //Console.WriteLine("FFMPEG : Buffering Started");
+            //Log.Information("FFMPEG : Buffering Started");
         }
 
         private void Player_PlaybackStopped(object sender, PlaybackStoppedArgs e)
         {
-            Console.WriteLine("FFMPEG : Playback Stopped");
+            Log.Information("FFMPEG : Playback Stopped");
         }
 
         private void Player_OpenCompleted(object sender, OpenCompletedArgs e)
         {
-            Console.WriteLine("FFMPEG : Open Completed");
+            Log.Information("FFMPEG : Open Completed");
 
             player.Audio.Volume = player_volume;
 
@@ -110,7 +111,7 @@ namespace opentuner.MediaPlayers.FFMPEG
         {
             ts_data_queue = TSDataQueue;
             media_stream = new MediaStream(TSDataQueue);
-            Console.WriteLine("MediaStream: Open");
+            Log.Information("MediaStream: Open");
         }
 
         public override void Close()
@@ -119,19 +120,19 @@ namespace opentuner.MediaPlayers.FFMPEG
 
         public override void Play()
         {
-            Console.WriteLine("FFMPEG: Playing");
+            Log.Information("FFMPEG: Playing");
 
             ts_data_queue.Clear();
 
             media_stream.ts_sync = false;
             media_stream.end = false;
-            Console.WriteLine("FFMPEG Play");
+            Log.Information("FFMPEG Play");
             player.OpenAsync(media_stream);
             player.Play();
         }
         public override void Stop()
         {
-            Console.WriteLine("FFMPEG Stop");
+            Log.Information("FFMPEG Stop");
             media_stream.end = true;
             if (player.IsPlaying) { player.Stop(); }
         }
@@ -195,12 +196,12 @@ namespace opentuner.MediaPlayers.FFMPEG
 
         public override void Flush()
         {
-            Console.WriteLine("MediaStream: Flush");
+            Log.Information("MediaStream: Flush");
         }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            //Console.WriteLine("Buffer: Len: " + buffer.Length.ToString() + "," + offset.ToString() + "," + count.ToString());
+            //Log.Information("Buffer: Len: " + buffer.Length.ToString() + "," + offset.ToString() + "," + count.ToString());
 
             while (ts_data_queue.Count< 10000)
             {
@@ -245,33 +246,33 @@ namespace opentuner.MediaPlayers.FFMPEG
                     }
                     else
                     {
-                        Console.WriteLine("Warning: Trying to dequeue, but nothing available : ffmpeg: read : " + queue_count.ToString());
+                        Log.Information("Warning: Trying to dequeue, but nothing available : ffmpeg: read : " + queue_count.ToString());
                     }
                 }
 
                 return buildLen;
             }
 
-            Console.WriteLine("TS StreamInput: Shouldn't be here");
+            Log.Information("TS StreamInput: Shouldn't be here");
             return 0;
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
             
-            Console.WriteLine("MediaStream: Seeking " + offset.ToString() + "," + origin.ToString());
+            Log.Information("MediaStream: Seeking " + offset.ToString() + "," + origin.ToString());
 
             return 0;
         }
 
         public override void SetLength(long value)
         {
-            Console.WriteLine("MediaStream: SetLength");
+            Log.Information("MediaStream: SetLength");
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            Console.WriteLine("MediaStream: Write");
+            Log.Information("MediaStream: Write");
         }
     }
 }

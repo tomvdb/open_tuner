@@ -1,5 +1,6 @@
 ﻿// ported from longmynd - https://github.com/myorangedragon/longmynd - Heather Lomond
 
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,13 +49,13 @@ namespace opentuner
             byte err = 0;
             ushort i = 0;
 
-            Console.WriteLine("Flow: STV0910 init regs");
+            Log.Information("Flow: STV0910 init regs");
             
             err = nim_device.nim_read_demod(0xf100, ref val1);
 
             if (err == 0) err = nim_device.nim_read_demod(0xf101, ref val2);
 
-            Console.WriteLine("      Status: STV0910 MID = {0}, DID = {1}", val1.ToString("X2"), val2.ToString("X2"));
+            Log.Information("      Status: STV0910 MID = {0}, DID = {1}", val1.ToString("X2"), val2.ToString("X2"));
 
             if ( (val1 != 0x51) || (val2 != 0x20 ))
             {
@@ -84,7 +85,7 @@ namespace opentuner
 
         private byte stv0910_setup_equalisers( byte demod )
         {
-            Console.WriteLine("Flow: Setup equializers: {0}", demod);
+            Log.Information("Flow: Setup equializers: {0}", demod);
             return 0;
         }
 
@@ -94,7 +95,7 @@ namespace opentuner
             Int64 temp;
 
 
-            Console.WriteLine("Flow: Setup carrier loop: {0}" , demod);
+            Log.Information("Flow: Setup carrier loop: {0}" , demod);
 
             err = stv0910_write_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_CFRINIT0 : stv0910_regs.RSTV0910_P1_CFRINIT0, 0);
 
@@ -138,7 +139,7 @@ namespace opentuner
 
             info = (UInt32)(temp0 | (temp1 << 8));
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read multistream0\r\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read multistream0\r\n");
 
             return (err);
         }
@@ -148,7 +149,7 @@ namespace opentuner
             byte err = 0;
             ushort sr_reg = 0;
 
-            Console.WriteLine("Flow: Setup timing loop {0}", demod);
+            Log.Information("Flow: Setup timing loop {0}", demod);
 
 
             sr_reg = (ushort)((((UInt32)sr) << 16) / 135 / 1000);
@@ -180,7 +181,7 @@ namespace opentuner
             byte _lock = 0;
             ushort timeout = 16;
 
-            Console.WriteLine("Flow: STV0910 set MCLK");
+            Log.Information("Flow: STV0910 set MCLK");
 
             odf = 4;
             idf = 1;
@@ -232,7 +233,7 @@ namespace opentuner
         {
             byte err = 0;
 
-            Console.WriteLine("Flow: STV0910 init");
+            Log.Information("Flow: STV0910 init");
 
             // stop demodulators
             if (err == 0) err = stv0910_write_reg(stv0910_regs.RSTV0910_P1_DMDISTATE, 0x1c);
@@ -272,7 +273,7 @@ namespace opentuner
 
             if (err != 0)
             {
-                Console.WriteLine("Error switching 22khz - P1");
+                Log.Information("Error switching 22khz - P1");
             }
 
             if (err == 0)
@@ -288,7 +289,7 @@ namespace opentuner
 
                 if (err != 0)
                 {
-                    Console.WriteLine("Error switching 22khz - P2");
+                    Log.Information("Error switching 22khz - P2");
                 }
 
             }
@@ -320,7 +321,7 @@ namespace opentuner
 
             if (err == 0) err = nim_device.nim_read_demod((ushort)(field >> 16), ref val);
 
-            //Console.WriteLine("Read REG Field {0} {1}", field.ToString(), val.ToString());
+            //Log.Information("Read REG Field {0} {1}", field.ToString(), val.ToString());
 
             UInt32 t1 = ((val) & (field & 0xff));
             Int32 t2 = (((Int32)field >> 12) & 0x0f);
@@ -329,7 +330,7 @@ namespace opentuner
 
             field_val = (byte)t3;
 
-            //Console.WriteLine("-- Read REG Field {0} {1}", field.ToString(), field_val.ToString());
+            //Log.Information("-- Read REG Field {0} {1}", field.ToString(), field_val.ToString());
 
             return err;
         }
@@ -357,7 +358,7 @@ namespace opentuner
             err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_MATSTR0 : stv0910_regs.RSTV0910_P1_MATSTR0, ref regval);
             matype2 = regval;
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read MATYPE");
+            if (err != 0) Log.Information("ERROR: STV0910 read MATYPE");
 
             return err;
         }
@@ -389,7 +390,7 @@ namespace opentuner
                 if (err == 0) err = stv0910_write_reg_field(demod == STV0910_DEMOD_TOP ? stv0910_regs.FSTV0910_P2_NOSRAM_ACTIVATION : stv0910_regs.FSTV0910_P1_NOSRAM_ACTIVATION, 0x02);
             }
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read DVBS2 MER\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read DVBS2 MER\n");
 
             return err;
 
@@ -413,7 +414,7 @@ namespace opentuner
 
             errors_ldpc_count = (UInt32)high << 8 | (UInt32)low;
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read LDPC Errors Count\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read LDPC Errors Count\n");
 
             return err;
         }
@@ -442,7 +443,7 @@ namespace opentuner
             else
                 pilots = false;
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read MODCOD\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read MODCOD\n");
 
             err = stv0910_read_reg_field(demod == STV0910_DEMOD_TOP ? stv0910_regs.FSTV0910_P2_ROLLOFF_STATUS : stv0910_regs.FSTV0910_P1_ROLLOFF_STATUS, ref regval);
 
@@ -463,7 +464,7 @@ namespace opentuner
 
             errors_bch_count = (UInt32)result;
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read BCH Errors Count\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read BCH Errors Count\n");
             return err;
         }
 
@@ -486,7 +487,7 @@ namespace opentuner
                 errors_bch_uncorrected = false;
             }
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read BCH Errors Uncorrected\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read BCH Errors Uncorrected\n");
 
             return err;
         }
@@ -516,7 +517,7 @@ namespace opentuner
 
             ber = (UInt32)(10000.0 * errs / (cpt * 8.0));
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read BER\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read BER\n");
 
             return err;
         }
@@ -533,7 +534,7 @@ namespace opentuner
             /* also want to round up to the nearest integer just to be pedantic */
             vit_errs = ((((UInt32)val) * 100000 / 4096) + 5) / 10;
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read viterbi error rate\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read viterbi error rate\n");
 
             return err;
         }
@@ -599,7 +600,7 @@ namespace opentuner
             tempf = tempf * sr / 1000;                                      // multiply by nominal symbol rate
             found_sr = (uint)(sr + tempf);							// update the value
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read symbol rate\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read symbol rate\n");
 
             return err;
         }
@@ -632,7 +633,7 @@ namespace opentuner
 
             cf = (Int32)car_offset_freq;
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read carrier frequency\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read carrier frequency\n");
 
             return err;
         }
@@ -662,7 +663,7 @@ namespace opentuner
                 default: err = Errors.ERROR_VITERBI_PUNCTURE_RATE; break;
             }
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read puncture rate");
+            if (err != 0) Log.Information("ERROR: STV0910 read puncture rate");
 
             return err;
 
@@ -675,7 +676,7 @@ namespace opentuner
             err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_ISYMB : stv0910_regs.RSTV0910_P1_ISYMB, ref i);
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_QSYMB : stv0910_regs.RSTV0910_P1_QSYMB, ref q);
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read constellation");
+            if (err != 0) Log.Information("ERROR: STV0910 read constellation");
 
             return err;
         }
@@ -697,7 +698,7 @@ namespace opentuner
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_AGCIQIN1 : stv0910_regs.RSTV0910_P1_AGCIQIN1, ref agc_high);
             if (err == 0) agc = (ushort)((ushort)agc_high << 8 | (ushort)agc_low);
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read agc1 gain\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read agc1 gain\n");
 
             return err;
         }
@@ -718,7 +719,7 @@ namespace opentuner
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_AGC2I1 : stv0910_regs.RSTV0910_P1_AGC2I1, ref agc_high);
             if (err == 0) agc = (ushort)((ushort)agc_high << 8 | (ushort)agc_low);
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read agc2 gain\n");
+            if (err != 0) Log.Information("ERROR: STV0910 read agc2 gain\n");
 
             return err;
         }
@@ -730,7 +731,7 @@ namespace opentuner
             err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_POWERI : stv0910_regs.RSTV0910_P1_POWERI, ref power_i);
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_POWERQ : stv0910_regs.RSTV0910_P1_POWERQ, ref power_q);
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 read power");
+            if (err != 0) Log.Information("ERROR: STV0910 read power");
 
             return err;
         }
@@ -739,12 +740,12 @@ namespace opentuner
         {
             byte err = 0;
 
-            Console.WriteLine("Flow: STV0910 start scan");
+            Log.Information("Flow: STV0910 start scan");
 
             if (err == 0) err = stv0910_write_reg((demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_DMDISTATE : stv0910_regs.RSTV0910_P1_DMDISTATE),
                                                                                              STV0910_SCAN_BLIND_BEST_GUESS);
 
-            if (err != 0) Console.WriteLine("ERROR: STV0910 start scan");
+            if (err != 0) Log.Information("ERROR: STV0910 start scan");
 
             return err;
         }

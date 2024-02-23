@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace opentuner.Utilities
 {
@@ -52,7 +53,7 @@ namespace opentuner.Utilities
             catch (Exception ex)
             {
                 // Handle exceptions here
-                Console.WriteLine("Error: " + ex.Message);
+                Log.Information("Error: " + ex.Message);
             }
         }
 

@@ -10,6 +10,7 @@ using LibUsbDotNet.LibUsb;
 using LibUsbDotNet.Main;
 using System.Collections.ObjectModel;
 using opentuner.MediaSources.Minitiouner.HardwareInterfaces;
+using Serilog;
 
 namespace opentuner
 {
@@ -78,7 +79,7 @@ namespace opentuner
 
             if (i2cEndPointReader == null)
             {
-                Console.WriteLine("error: i2cEndPointReader is null");
+                Log.Information("error: i2cEndPointReader is null");
                 return 1;
             }
 
@@ -94,7 +95,7 @@ namespace opentuner
 
                 if (NumBytesRxd < 3)
                 {
-                    Console.WriteLine("Empty Response");
+                    Log.Information("Empty Response");
                 }
 
                 if (error == LibUsbDotNet.Error.Success)
@@ -112,7 +113,7 @@ namespace opentuner
                 }
                 else
                 {
-                    Console.WriteLine("EndPointError: " + error.ToString());
+                    Log.Information("EndPointError: " + error.ToString());
                     return 1;
                 }
 
@@ -127,12 +128,12 @@ namespace opentuner
 
             if (QueueTimeoutFlag == true)
             {
-                Console.WriteLine("Queue Timout Error");
+                Log.Information("Queue Timout Error");
                 return 1;
             }
             else
             {
-                //Console.WriteLine("Read: " + (NumBytesRead - 2).ToString());
+                //Log.Information("Read: " + (NumBytesRead - 2).ToString());
                 return 0;
             }
         }
@@ -141,7 +142,7 @@ namespace opentuner
         {
             if (i2cEndPointWriter == null)
             {
-                Console.WriteLine("Error: Endpointwriter is null");
+                Log.Information("Error: Endpointwriter is null");
                 return 1;
             }
 
@@ -152,9 +153,9 @@ namespace opentuner
             // Ensure that call completed OK and that all bytes sent as requested
             if ((NumBytesSent != NumBytesToSend) || error != LibUsbDotNet.Error.Success)
             {
-                Console.WriteLine("Error: " + error.ToString());
-                Console.WriteLine("Send: " + NumBytesToSend.ToString());
-                Console.WriteLine("Sent: " + NumBytesSent.ToString());
+                Log.Information("Error: " + error.ToString());
+                Log.Information("Send: " + NumBytesToSend.ToString());
+                Log.Information("Sent: " + NumBytesSent.ToString());
                 return 1;   // error   calling function can check NumBytesSent to see how many got sent
             }
             else
@@ -165,7 +166,7 @@ namespace opentuner
         {
             byte err = 0;
 
-            Console.WriteLine("Flush Buffer Requested");
+            Log.Information("Flush Buffer Requested");
             i2cEndPointReader.ReadFlush();
 
             return err;
@@ -175,7 +176,7 @@ namespace opentuner
         // ***********************************************
         private byte ftdi_set_mpsse_mode(FTD2XX_NET.FTDI ftdi)
         {
-            Console.WriteLine("Flow: FTDI set mpsse mode");
+            Log.Information("Flow: FTDI set mpsse mode");
 
             return 0;
         }
@@ -185,9 +186,9 @@ namespace opentuner
             /***** Flush the buffer *****/
             I2C_Status = FlushBuffer(ftdi);
 
-            Console.WriteLine(i2c_pt_device.IsOpen.ToString());
-            Console.WriteLine(i2cEndPointReader.ToString());
-            Console.WriteLine(i2cEndPointWriter.ToString());
+            Log.Information(i2c_pt_device.IsOpen.ToString());
+            Log.Information(i2cEndPointReader.ToString());
+            Log.Information(i2cEndPointWriter.ToString());
 
             /***** Synchronize the MPSSE interface by sending bad command 0xAA *****/
             NumBytesToSend = 0;
@@ -199,7 +200,7 @@ namespace opentuner
 
             if ((InputBuffer2[0] == 0xFA) && (InputBuffer2[1] == 0xAA))
             {
-                Console.WriteLine("mppse synced");
+                Log.Information("mppse synced");
             }
             else
             {
@@ -554,7 +555,7 @@ namespace opentuner
             try
             {
                 ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref device_count);
-                Console.WriteLine("Number of FTDI Devices: " + device_count.ToString());
+                Log.Information("Number of FTDI Devices: " + device_count.ToString());
 
                 for (uint c = 0; c < device_count; c++)
                 {
@@ -591,7 +592,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Console.WriteLine("FTDI Detect Error: " + Ex.Message);               
+                Log.Information("FTDI Detect Error: " + Ex.Message);               
             }
             */
 
@@ -646,17 +647,17 @@ namespace opentuner
 
             if (i2c_pt_device == null)
             {
-                Console.WriteLine("pt device is null");
+                Log.Information("pt device is null");
                 return 1;
             }
 
             if (i2c_pt_device.TryOpen() )
             {
-                Console.WriteLine("Device Open");
+                Log.Information("Device Open");
             }
             else
             {
-                Console.WriteLine("Error o2c Device Open");
+                Log.Information("Error o2c Device Open");
                 return 1;
             }
                        
@@ -664,22 +665,22 @@ namespace opentuner
             bool claim0 = i2c_pt_device.ClaimInterface(i2c_pt_device.Configs[0].Interfaces[0].Number);
             bool claim1 = i2c_pt_device.ClaimInterface(i2c_pt_device.Configs[0].Interfaces[1].Number);
 
-            Console.WriteLine("Claim 0: " + claim0);
-            Console.WriteLine("Claim 1: " + claim1);
+            Log.Information("Claim 0: " + claim0);
+            Log.Information("Claim 1: " + claim1);
 
             i2cEndPointWriter = i2c_pt_device.OpenEndpointWriter(WriteEndpointID.Ep02);
             i2cEndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep01);
 
-            Console.WriteLine("I2C Endpoint Reader Address : " + i2cEndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
-            Console.WriteLine("I2C Endpoint Writer Address : " + i2cEndPointWriter.EndpointInfo.EndpointAddress.ToString("X"));
+            Log.Information("I2C Endpoint Reader Address : " + i2cEndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
+            Log.Information("I2C Endpoint Writer Address : " + i2cEndPointWriter.EndpointInfo.EndpointAddress.ToString("X"));
 
             ts2EndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep03);
             ts1EndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep04);
 
-            Console.WriteLine("TS2 Endpoint Reader Address : " + ts2EndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
-            Console.WriteLine("TS1 Endpoint Reader Address : " + ts1EndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
+            Log.Information("TS2 Endpoint Reader Address : " + ts2EndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
+            Log.Information("TS1 Endpoint Reader Address : " + ts1EndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
 
-            Console.WriteLine(i2c_pt_device.IsOpen.ToString());
+            Log.Information(i2c_pt_device.IsOpen.ToString());
 
             err = ftdi_set_mpsse_mode(null);
             if (err == 0) err = ftdi_set_ftdi_io(null);
@@ -690,9 +691,9 @@ namespace opentuner
 
         byte ftdi_gpio_write_lowbyte(byte pin_id, bool pin_value)
         {
-            Console.WriteLine("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
+            Log.Information("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
 
-            Console.WriteLine("ftdi_gpio_value: before: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
+            Log.Information("ftdi_gpio_value: before: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
 
             if (pin_value)
             {
@@ -703,7 +704,7 @@ namespace opentuner
                 ftdi_gpio_lowbyte_value &= (byte)(~(1 << pin_id));
             }
 
-            Console.WriteLine("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
+            Log.Information("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
 
             NumBytesToSend = 0;
             MPSSEbuffer[NumBytesToSend++] = 0x80; // configure low bytes of mpsse port
@@ -719,9 +720,9 @@ namespace opentuner
 
         byte ftdi_gpio_write_highbyte(byte pin_id, bool pin_value)
         {
-            //Console.WriteLine("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
+            //Log.Information("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
 
-            //Console.WriteLine("ftdi_gpio_highbyte_value: before: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
+            //Log.Information("ftdi_gpio_highbyte_value: before: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
 
             if (pin_value)
             {
@@ -732,7 +733,7 @@ namespace opentuner
                 ftdi_gpio_highbyte_value &= (byte)(~(1 << pin_id));
             }
 
-            //Console.WriteLine("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
+            //Log.Information("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
 
             NumBytesToSend = 0;
             MPSSEbuffer[NumBytesToSend++] = 0x82; /* aka. MPSSE_CMD_SET_DATA_BITS_HIGHBYTE */
@@ -765,7 +766,7 @@ namespace opentuner
 
             if (error != LibUsbDotNet.Error.Success)
             {
-                Console.WriteLine("TS Read Error" + error.ToString());
+                Log.Information("TS Read Error" + error.ToString());
                 return 1;
             }
 
@@ -779,7 +780,7 @@ namespace opentuner
             // we receive the data in chunks of 512, first two bytes of each chunk needs to be removed
             if (iBytesRead % 512 != 0)
             {
-                Console.WriteLine("Ignoring: " + iBytesRead + "," + (iBytesRead % 512).ToString());
+                Log.Information("Ignoring: " + iBytesRead + "," + (iBytesRead % 512).ToString());
                 bytesRead = 0;
                 return 0;
             }
@@ -839,14 +840,14 @@ namespace opentuner
                 {
                     if (lnb_num == 0)
                     {
-                        Console.WriteLine("Enable LNB2 VSEL");
+                        Log.Information("Enable LNB2 VSEL");
                         ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, true);
                         //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, true);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Disable LNB2 VSEL");
+                    Log.Information("Disable LNB2 VSEL");
                     if (lnb_num == 0)
                     {
                         ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
@@ -856,7 +857,7 @@ namespace opentuner
 
                 if (lnb_num == 0)
                 {
-                    Console.WriteLine("Enable LNB2 Power");
+                    Log.Information("Enable LNB2 Power");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, true);
                     //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, true);
                 }
@@ -866,9 +867,9 @@ namespace opentuner
                 // disable
                 if (lnb_num == 0)
                 {
-                    Console.WriteLine("Disable LNB2 Power");
+                    Log.Information("Disable LNB2 Power");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, false);
-                    Console.WriteLine("Disable LNB2 VSEL");
+                    Log.Information("Disable LNB2 VSEL");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
                     //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, false);
                 }

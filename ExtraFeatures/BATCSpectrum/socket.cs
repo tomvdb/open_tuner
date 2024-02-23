@@ -1,5 +1,6 @@
 ﻿// From https://github.com/m0dts/QO-100-WB-Live-Tune - Rob Swinbank
 
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,14 +30,14 @@ namespace opentuner
         {
             if (!connected)
             {
-                Console.WriteLine(connected);
-                Console.WriteLine("Websocket: QO_Spectrum: Try connect..\n");
+                Log.Information(connected.ToString());
+                Log.Information("Websocket: QO_Spectrum: Try connect..\n");
                 // System.Threading.Thread.Sleep(500);     //can't catch exception from websocket!?, slow down retries if no network
 
                 ws = new WebSocket("wss://eshail.batc.org.uk/wb/fft", "fft_m0dtslivetune");
                 //ws = new                 WebSocket("ws://192.168.0.244:7681", "fft_m0dtslivetune");
                 ws.OnMessage += (ss, ee) => NewData(ee.RawData);
-                ws.OnOpen += (ss, ee) => { connected = true; Console.WriteLine("Websocket: QO_Spectrum: Connected.\n"); };
+                ws.OnOpen += (ss, ee) => { connected = true; Log.Information("Websocket: QO_Spectrum: Connected.\n"); };
                 ws.OnClose += (ss, ee) => { connected = false; };
                 ws.Connect();
                 lastdata = DateTime.Now;
@@ -57,8 +58,8 @@ namespace opentuner
 
         private void NewData(byte[] data)
         {
-            //Console.WriteLine("newdata\n");
-            //Console.WriteLine(data[0]);
+            //Log.Information("newdata\n");
+            //Log.Information(data[0]);
 
             lastdata = DateTime.Now;
 
@@ -77,7 +78,7 @@ namespace opentuner
                 n++;
             }
             callback(fft_data);
-            //Console.WriteLine(".");
+            //Log.Information(".");
 
 
         }

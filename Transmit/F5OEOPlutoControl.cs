@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 using opentuner.Utilities;
 using System.Runtime.InteropServices;
+using Serilog;
 
 namespace opentuner.Transmit
 {
@@ -96,7 +97,7 @@ namespace opentuner.Transmit
             {
                 if (e.KeyData == Keys.Enter)
                 {
-                    Console.WriteLine("Changed");
+                    Log.Information("Changed");
                     int option_value = 0;
 
                     if (Int32.TryParse(((ToolStripTextBox)sender).Text, out option_value))
@@ -114,7 +115,7 @@ namespace opentuner.Transmit
         private void _genericContextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ContextMenuStrip contextMenuStrip = (ContextMenuStrip)sender;
-            Console.WriteLine(contextMenuStrip.SourceControl.Name);
+            Log.Information(contextMenuStrip.SourceControl.Name);
 
             contextMenuStrip.Items.Clear();
 
@@ -204,7 +205,7 @@ namespace opentuner.Transmit
 
         private void _pluto_control_window_OnConfigChange(PlutoConfigCommand command, int option)
         {
-            Console.WriteLine("Config Change: " + command.ToString() + " - " + option.ToString());
+            Log.Information("Config Change: " + command.ToString() + " - " + option.ToString());
 
             switch(command)
             {
@@ -223,7 +224,7 @@ namespace opentuner.Transmit
                     break;
 
                 default:
-                    Console.WriteLine("Unconfigured Command Change - " + command.ToString());
+                    Log.Information("Unconfigured Command Change - " + command.ToString());
                     break;
             }
         }
@@ -250,7 +251,7 @@ namespace opentuner.Transmit
                 }
             }
 
-            //Console.WriteLine(Message.Topic.Substring(("dt/pluto/" + _detected_callsign).Length));
+            //Log.Information(Message.Topic.Substring(("dt/pluto/" + _detected_callsign).Length));
 
             switch (Message.Topic.Substring(("dt/pluto/" + _detected_callsign).Length))
             {

@@ -1,5 +1,6 @@
 ﻿// ported from longmynd - https://github.com/myorangedragon/longmynd - Heather Lomond
 
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,7 +85,7 @@ namespace opentuner
             byte temp9 = 0;
             byte temp10 = 0;
 
-            Console.WriteLine("Flow: Tuner " + nimtuner.ToString() + " init " + freq_tuner.ToString() + "  antenna " + antenna.ToString() + " \r\n");
+            Log.Information("Flow: Tuner " + nimtuner.ToString() + " init " + freq_tuner.ToString() + "  antenna " + antenna.ToString() + " \r\n");
 
             // Note: the tuners are set up separately as required, so the other one must not be disturbed
 
@@ -338,7 +339,7 @@ namespace opentuner
 
             if (err != 0)
             {
-                Console.WriteLine("ERROR: Failed to init Tuner%i, %i\r\n", nimtuner, freq_tuner);
+                Log.Information("ERROR: Failed to init Tuner%i, %i\r\n", nimtuner, freq_tuner);
             }
 
             return (err);
@@ -355,7 +356,7 @@ namespace opentuner
             byte val;
             ushort timeout;
 
-            Console.WriteLine("Flow: Tuner cal lowpass\n");
+            Log.Information("Flow: Tuner cal lowpass\n");
 
             /* turn on the clock for the low pass filter. This is in ctrl7/16 so we have a shadow for it */
 
@@ -391,7 +392,7 @@ namespace opentuner
                     if (timeout == STV6120_CAL_TIMEOUT)
                     {
                         err = Errors.ERROR_TUNER_CAL_LOWPASS_TIMEOUT;
-                        Console.WriteLine("ERROR: tuner wait on CAL_lowpass timed out\n");
+                        Log.Information("ERROR: tuner wait on CAL_lowpass timed out\n");
                     }
                 } while ((err == 0) && ((val & (1 << stv6120_regs.STV6120_STAT1_CALRCSTRT_SHIFT)) == (1 << stv6120_regs.STV6120_STAT1_CALRCSTRT_SHIFT)));
             }
@@ -405,7 +406,7 @@ namespace opentuner
 
             if (err != 0)
             {
-                Console.WriteLine("ERROR: Failed to cal lowpass filter\n");
+                Log.Information("ERROR: Failed to cal lowpass filter\n");
             }
 
             return (err);
@@ -435,7 +436,7 @@ namespace opentuner
             ushort timeout;
             byte cfhf;
 
-            Console.WriteLine("Flow: Tuner set freq\n");
+            Log.Information("Flow: Tuner set freq\n");
 
             /* the global rdiv has already been set up in the init routines */
 
@@ -590,7 +591,7 @@ namespace opentuner
 
                 if ((err == 0) && (timeout == STV6120_CAL_TIMEOUT))
                 {
-                    Console.WriteLine("ERROR: tuner wait on CAL timed out\n");
+                    Log.Information("ERROR: tuner wait on CAL timed out\n");
                     err = Errors.ERROR_TUNER_CAL_TIMEOUT;
                 }
             }
@@ -615,14 +616,14 @@ namespace opentuner
 
                 if ((err == 0) && (timeout == STV6120_CAL_TIMEOUT))
                 {
-                    Console.WriteLine("ERROR: tuner wait on lock timed out: " + err.ToString() + "\n");
+                    Log.Information("ERROR: tuner wait on lock timed out: " + err.ToString() + "\n");
                     err = Errors.ERROR_TUNER_LOCK_TIMEOUT;
                 }
             }
 
             if (err != 0)
             {
-                Console.WriteLine("ERROR: Tuner set freq %i\n", freq);
+                Log.Information("ERROR: Tuner set freq %i\n", freq);
             }
 
             return (err);

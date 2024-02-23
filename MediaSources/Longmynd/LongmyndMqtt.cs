@@ -8,6 +8,7 @@ using MQTTnet.Client;
 using Vortice.XAudio2;
 using System.Drawing;
 using System.Windows.Media.Animation;
+using Serilog;
 
 namespace opentuner.MediaSources.Longmynd
 {
@@ -35,18 +36,18 @@ namespace opentuner.MediaSources.Longmynd
 
         public void MqttSetTS(string ip, int port)
         {
-            Console.WriteLine(ip.ToString() + " - " + port.ToString());
-            Console.WriteLine("ip set: " + _settings.CmdTopic + "ip");
-            Console.WriteLine("port set: " + _settings.CmdTopic + "tsip");
-            Console.WriteLine("port is ignored, should be 1234 on mqtt version, unless you have a custom setup");
+            Log.Information(ip.ToString() + " - " + port.ToString());
+            Log.Information("ip set: " + _settings.CmdTopic + "ip");
+            Log.Information("port set: " + _settings.CmdTopic + "tsip");
+            Log.Information("port is ignored, should be 1234 on mqtt version, unless you have a custom setup");
             SendMqttStatus(_settings.CmdTopic + "tsip", ip);
         }
 
         public void MqttSetFrequency(uint frequency, uint symbol_rate) 
         {
-            Console.WriteLine(frequency.ToString() + " - " + symbol_rate.ToString());
-            Console.WriteLine("freq set: " + _settings.CmdTopic + "frequency");
-            Console.WriteLine("sr set: " + _settings.CmdTopic + "sr");
+            Log.Information(frequency.ToString() + " - " + symbol_rate.ToString());
+            Log.Information("freq set: " + _settings.CmdTopic + "frequency");
+            Log.Information("sr set: " + _settings.CmdTopic + "sr");
             SendMqttStatus(_settings.CmdTopic + "frequency", (frequency - _settings.Offset1).ToString());
             SendMqttStatus(_settings.CmdTopic + "sr", (symbol_rate).ToString());
         }
@@ -96,11 +97,11 @@ namespace opentuner.MediaSources.Longmynd
 
             if (Message == null)
             {
-                //Console.WriteLine("null message value:" + Topic);
+                //Log.Information("null message value:" + Topic);
                 return;
             }
 
-            //Console.WriteLine(Topic);
+            //Log.Information(Topic);
             switch(Topic)
             {
                 case "dt/longmynd/rx_state":
@@ -186,13 +187,13 @@ namespace opentuner.MediaSources.Longmynd
 
                 if (new_demodstate < 3)
                 {
-                    Console.WriteLine("Stopping");
+                    Log.Information("Stopping");
                     VideoChangeCB?.Invoke(1, false);
                     playing = false;
                 }
                 else
                 {
-                    Console.WriteLine("Playing");
+                    Log.Information("Playing");
                     VideoChangeCB?.Invoke(1, true);
                     playing = true;
                 }
@@ -215,14 +216,14 @@ namespace opentuner.MediaSources.Longmynd
 
         private Task _mqtt_client_DisconnectedAsync(MqttClientDisconnectedEventArgs arg)
         {
-            Console.WriteLine("Longmynd mqtt disconnected");
+            Log.Information("Longmynd mqtt disconnected");
 
             return Task.CompletedTask;
         }
 
         private async Task _mqtt_client_ConnectedAsync(MqttClientConnectedEventArgs arg)
         {
-            Console.WriteLine("Longmynd mqtt connected");
+            Log.Information("Longmynd mqtt connected");
 
             await _mqtt_client.SubscribeAsync("dt/longmynd/#");
 

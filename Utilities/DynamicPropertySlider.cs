@@ -107,7 +107,7 @@ namespace opentuner.Utilities
 
             if (Int32.TryParse(Value, out new_value))
             {
-                //Console.WriteLine("Update slider to " + new_value.ToString());
+                //Log.Information("Update slider to " + new_value.ToString());
                 _trackBar.Value = new_value;
             }
         }

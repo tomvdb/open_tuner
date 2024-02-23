@@ -28,6 +28,7 @@ using opentuner.MediaSources.Winterhill;
 using static opentuner.signal;
 using System.Runtime.CompilerServices;
 using Vortice.MediaFoundation;
+using Serilog;
 
 namespace opentuner
 {
@@ -118,12 +119,15 @@ namespace opentuner
         /// <param name="MediaSource"></param>
         private bool SourceConnect(OTSource MediaSource)
         {
+            Log.Information("Connecting to " + MediaSource.GetName());
+
             videoSource = MediaSource;
 
             int video_players_required = videoSource.Initialize(ChangeVideo, PropertiesPage);
 
             if (video_players_required < 0)
             {
+                Log.Error("Error Connecting MediaSource: " + videoSource.GetName());
                 MessageBox.Show("Error Connecting MediaSource: " + videoSource.GetName());
                 return false;
             }
@@ -132,6 +136,7 @@ namespace opentuner
 
             // preferred player to use for each video view
             // 0 = vlc, 1 = ffmpeg, 2 = mpv
+            Log.Information("Configuring Media Players");
             _mediaPlayers = ConfigureMediaPlayers(videoSource.GetVideoSourceCount(), _settings.mediaplayer_preferences );
             videoSource.ConfigureVideoPlayers(_mediaPlayers);
             videoSource.ConfigureMediaPath(_settings.media_path);
@@ -195,7 +200,6 @@ namespace opentuner
                 UpdateLBDelegate ulb = new UpdateLBDelegate(UpdateLB);
                 if (LB != null)
                 {
-                    Console.WriteLine("Invoking");
                     LB?.Invoke(ulb, new object[] { LB, obj });
                 }
             }
@@ -221,7 +225,7 @@ namespace opentuner
         {
             if (_mediaPlayers == null)
             {
-                Console.WriteLine("Media player is still null");
+                Log.Debug("Media player is still null");
                 return;
             }
 
@@ -229,15 +233,11 @@ namespace opentuner
             {
                 if (video_number == 0)
                 {
-                    Console.WriteLine("Ping");
+                    Log.Information("Ping");
                 }
 
                 videoSource.StartStreaming(video_number);
                 _mediaPlayers[video_number].Play();
-            }
-            else
-            {
-                Console.WriteLine("Ping");
             }
         }
 
@@ -257,12 +257,7 @@ namespace opentuner
 
         private void ChangeVideo(int video_number, bool start)
         {
-            Console.WriteLine("Change Video " + video_number.ToString());
-
-            if (video_number == 1 && start == true)
-            {
-                Console.WriteLine("Ping");
-            }
+            Log.Information("Change Video " + video_number.ToString());
 
             if (start)
                 start_video(video_number-1);
@@ -272,8 +267,8 @@ namespace opentuner
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Console.WriteLine("Exiting...");
-            Console.WriteLine("* Saving Settings");
+            Log.Information("Exiting...");
+            Log.Information("* Saving Settings");
 
             // save current windows properties
             _settings.gui_window_width = this.Width;
@@ -302,7 +297,7 @@ namespace opentuner
                 if (quickTune_control != null)
                     quickTune_control.Close();
 
-                Console.WriteLine("* Stopping Playing Video");
+                Log.Information("* Stopping Playing Video");
 
                 if (videoSource != null)
                 {
@@ -311,7 +306,7 @@ namespace opentuner
                         ChangeVideo(2, false);
                 }
 
-                Console.WriteLine("* Closing Extra TS Threads");
+                Log.Information("* Closing Extra TS Threads");
 
                 // close ts streamers
                 for (int c = 0; c < _ts_streamers.Count; c++)
@@ -342,10 +337,10 @@ namespace opentuner
             catch ( Exception Ex)
             {
                 // we are closing, we don't really care about exceptions at this point
-                Console.WriteLine("Closing Exception: " + Ex.Message);
+                Log.Error( Ex, "Closing Exception");
             }
 
-            Console.WriteLine("Bye!");
+            Log.Information("Bye!");
 
         }
 
@@ -356,9 +351,9 @@ namespace opentuner
 
             if (_settings.gui_window_width != -1)
             {
-                Console.WriteLine("Restoring Window Positions:");
-                Console.WriteLine(" Size: (" + _settings.gui_window_height.ToString() + "," + _settings.gui_window_width.ToString() + ")");
-                Console.WriteLine(" Position: (" + _settings.gui_window_x.ToString() + "," + _settings.gui_window_y.ToString() + ")");
+                Log.Information("Restoring Window Positions:");
+                Log.Information(" Size: (" + _settings.gui_window_height.ToString() + "," + _settings.gui_window_width.ToString() + ")");
+                Log.Information(" Position: (" + _settings.gui_window_x.ToString() + "," + _settings.gui_window_y.ToString() + ")");
 
                 this.Height = _settings.gui_window_height;
                 this.Width = _settings.gui_window_width;
@@ -446,7 +441,7 @@ namespace opentuner
         private void Et_menu_Click(object sender, EventArgs e)
         {
             int tag = Convert.ToInt32(((ToolStripMenuItem)(sender)).Tag);
-            Console.WriteLine(tag.ToString());
+            Log.Information(tag.ToString());
 
             if (tag < external_tools.Count)
             {
@@ -514,7 +509,7 @@ namespace opentuner
         private void Sf_menu_Click(object sender, EventArgs e)
         {
             int tag = Convert.ToInt32(((ToolStripMenuItem)(sender)).Tag);
-            Console.WriteLine(tag.ToString());
+            Log.Information(tag.ToString());
 
             if (tag < stored_frequencies.Count)
             {
@@ -540,7 +535,7 @@ namespace opentuner
             }
             catch(Exception Ex) 
             {
-                Console.WriteLine("Error reading tools.json - file missing, or wrong format :" + Ex.Message);
+                Log.Warning("Error reading tools.json - file missing, or wrong format :" + Ex.Message);
             }
         }
 
@@ -556,7 +551,7 @@ namespace opentuner
             }
             catch(Exception Ex)
             {
-                Console.WriteLine("Error reading frequencies.json - file missing, or wrong format :" + Ex.Message);
+                Log.Information("Error reading frequencies.json - file missing, or wrong format :" + Ex.Message);
             }
         }
 
@@ -572,7 +567,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Console.WriteLine("Error writing tools file: " + Ex.Message);
+                Log.Information("Error writing tools file: " + Ex.Message);
             }
         }
 
@@ -588,7 +583,7 @@ namespace opentuner
             }
             catch(Exception Ex)
             {
-                Console.WriteLine("Error writing frequencies file: " + Ex.Message);
+                Log.Information("Error writing frequencies file: " + Ex.Message);
             }
         }
 
@@ -755,6 +750,7 @@ namespace opentuner
             switch (preference)
             {
                 case 0: // vlc
+                    Log.Information(nr.ToString() + " - " + "VLC");
                     var vlc_video_player = new LibVLCSharp.WinForms.VideoView();
                     vlc_video_player.Dock = DockStyle.Fill;
                     videoPanels[nr].Controls.Add(vlc_video_player);
@@ -763,6 +759,7 @@ namespace opentuner
                     return player;
                     
                 case 1: // ffmpeg
+                    Log.Information(nr.ToString() + " - " + "FFMPEG");
                     var ffmpeg_video_player = new FlyleafLib.Controls.WinForms.FlyleafHost();
                     ffmpeg_video_player.Dock = DockStyle.Fill;
                     videoPanels[nr].Controls.Add(ffmpeg_video_player);
@@ -770,6 +767,7 @@ namespace opentuner
                     player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
                     return player;
                 case 2: // mpv
+                    Log.Information(nr.ToString() + " - " + "MPV");
                     var mpv_video_player = new PictureBox();
                     mpv_video_player.Dock = DockStyle.Fill;
                     videoPanels[nr].Controls.Add(mpv_video_player);
@@ -815,10 +813,20 @@ namespace opentuner
         {
             List<OTMediaPlayer> mediaPlayers = new List<OTMediaPlayer>();
 
-            videoPanels[0] = splitContainer4.Panel1;
-            videoPanels[1] = splitContainer5.Panel1;
-            videoPanels[2] = splitContainer4.Panel2;
-            videoPanels[3] = splitContainer5.Panel2;
+            if (amount == 4)
+            {
+                videoPanels[0] = splitContainer4.Panel1;
+                videoPanels[2] = splitContainer5.Panel1;
+                videoPanels[1] = splitContainer4.Panel2;
+                videoPanels[3] = splitContainer5.Panel2;
+            }
+            else
+            {
+                videoPanels[0] = splitContainer4.Panel1;
+                videoPanels[1] = splitContainer5.Panel1;
+                videoPanels[2] = splitContainer4.Panel2;
+                videoPanels[3] = splitContainer5.Panel2;
+            }
 
             for (int c = 0; c < amount; c++)
             {

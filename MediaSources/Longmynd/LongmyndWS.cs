@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebSocketSharp;
 using System.Drawing;
+using Serilog;
 
 namespace opentuner.MediaSources.Longmynd
 {
@@ -19,7 +20,7 @@ namespace opentuner.MediaSources.Longmynd
 
         public void WSSetTS(string ip, int port)
         {
-            Console.WriteLine(ip.ToString() + " - " + port.ToString());
+            Log.Information(ip.ToString() + " - " + port.ToString());
             controlWS.Send("U" + ip + ":" + port);
         }
 
@@ -56,7 +57,7 @@ namespace opentuner.MediaSources.Longmynd
 
         public void debug(string msg)
         {
-            Console.WriteLine(msg);
+            Log.Information(msg);
         }
 
         private void Controlws_OnOpen(object sender, EventArgs e)
@@ -91,13 +92,13 @@ namespace opentuner.MediaSources.Longmynd
             {
                 if (mm.packet.rx.demod_state < 3)
                 {
-                    Console.WriteLine("Stopping");
+                    Log.Information("Stopping");
                     VideoChangeCB?.Invoke(1, false);
                     playing = false;
                 }
                 else
                 {
-                    Console.WriteLine("Playing");
+                    Log.Information("Playing");
                     VideoChangeCB?.Invoke(1, true);
                     playing = true;
                 }

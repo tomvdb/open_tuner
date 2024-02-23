@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms.VisualStyles;
+using Serilog;
 
 namespace opentuner
 {
@@ -65,7 +66,7 @@ namespace opentuner
                     if (streaming == false && stream == true)
                     {
                         string fileName = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" +  ".bin";
-                        Console.WriteLine("New BBFrame File: " + fileName);
+                        Log.Information("New BBFrame File: " + fileName);
                         binWriter = new BinaryWriter(File.Open(fileName, FileMode.Create));
                         streaming = true;
                         header_sync = false;
@@ -90,7 +91,7 @@ namespace opentuner
                         {
                             if (_ts_data_queue.TryPeek() == 0x47)
                             {
-                                Console.WriteLine("TS Synced");
+                                Log.Information("TS Synced");
                                 ts_sync = true;
                             }
                             else
@@ -128,11 +129,11 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Console.WriteLine("BBFrame Thread: Closing ");
+                Log.Information("BBFrame Thread: Closing ");
             }
             finally
             {
-                Console.WriteLine("Closing BBFrame UDP");
+                Log.Information("Closing BBFrame UDP");
                 if (binWriter != null)
                 {
                     binWriter.Close();

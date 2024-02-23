@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using LibVLCSharp.Shared;
+using Serilog;
 
 namespace opentuner.MediaPlayers.VLC
 {
@@ -29,7 +30,13 @@ namespace opentuner.MediaPlayers.VLC
         CircularBuffer ts_data_queue;
         public VLCMediaPlayer(LibVLCSharp.WinForms.VideoView VideoView)
         {
+            libVLC.Log += LibVLC_Log;
             videoView = VideoView;
+        }
+
+        private void LibVLC_Log(object sender, LogEventArgs e)
+        {
+            Log.Information("VLCMediaPlayer: " + e.FormattedLog);
         }
 
         public override string GetName()
@@ -54,7 +61,7 @@ namespace opentuner.MediaPlayers.VLC
                 if (play)
                 {
                     Thread.Sleep(10);
-                    Console.WriteLine("HWND: " + videoView.MediaPlayer.Hwnd.ToString());
+                    Log.Information("HWND: " + videoView.MediaPlayer.Hwnd.ToString());
                     videoView.MediaPlayer.Play(media);
                 }
             }
@@ -65,17 +72,17 @@ namespace opentuner.MediaPlayers.VLC
 
         private void MediaPlayer_EncounteredError(object sender, EventArgs e)
         {
-            Console.WriteLine("VLC: Error: " + libVLC.LastLibVLCError);
+            Log.Information("VLC: Error: " + libVLC.LastLibVLCError);
         }
 
         private void MediaPlayer_Playing(object sender, EventArgs e)
         {
-            Console.WriteLine("VLC: Playing ");
+            Log.Information("VLC: Playing ");
         }
 
         private void MediaPlayer_Stopped(object sender, EventArgs e)
         {
-            Console.WriteLine("VLC: Stopped");
+            Log.Information("VLC: Stopped");
         }
         
 
@@ -131,7 +138,7 @@ namespace opentuner.MediaPlayers.VLC
 
         private void altPlay()
         {
-            Console.WriteLine("Alt Play Start");
+            Log.Information("Alt Play Start");
             altStop();
 
             _mediaplayer = new MediaPlayer(libVLC);
@@ -155,13 +162,13 @@ namespace opentuner.MediaPlayers.VLC
             media.AddOption(mediaConfig1);
 
             updateVideoPlayer(_mediaplayer, true);
-            Console.WriteLine("Alt Play Stop");
+            Log.Information("Alt Play Stop");
 
         }
 
         private void altStop()
         {
-            Console.WriteLine("Alt Stop");
+            Log.Information("Alt Stop");
 
             if (_mediaplayer != null)
                 _mediaplayer.Dispose();
@@ -171,7 +178,7 @@ namespace opentuner.MediaPlayers.VLC
 
             updateVideoPlayer(null, false);
 
-            Console.WriteLine("Alt Stop Done");
+            Log.Information("Alt Stop Done");
 
         }
 

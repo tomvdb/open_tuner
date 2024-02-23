@@ -1,5 +1,6 @@
 ﻿// From https://github.com/m0dts/QO-100-WB-Live-Tune - Rob Swinbank
 
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,7 +126,7 @@ namespace opentuner
             //0=manual
             //1=auto wait
             //2=auto timed
-            //Console.WriteLine(rx);
+            //Log.Information(rx);
             TimeSpan t = DateTime.Now - last_tuned_time[rx];
 
 
@@ -134,10 +135,10 @@ namespace opentuner
 
                 if (mode == 2)      //auto timed
                 {
-                    //Console.WriteLine(t.Seconds);
+                    //Log.Information(t.Seconds);
                     if ((t.Minutes * 60) + t.Seconds > time)
                     {
-                        //          Console.WriteLine("elapsed: "+rx.ToString());
+                        //          Log.Information("elapsed: "+rx.ToString());
                         next_sig[rx] = find_next(rx);
 
                         if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
@@ -172,7 +173,7 @@ namespace opentuner
                 }
 
 
-                // Console.WriteLine("Count3:" + signals.Count().ToString());
+                // Log.Information("Count3:" + signals.Count().ToString());
                 if (change)
                 {
                     last_sig[rx] = next_sig[rx];
@@ -215,7 +216,7 @@ namespace opentuner
 
         public bool diff_signals(Sig lastsig, Sig next)
         {
-            // Console.WriteLine(lastsig.frequency-next.frequency);
+            // Log.Information(lastsig.frequency-next.frequency);
             float span;
             bool diff = true;
             if (lastsig.sr < 0.070 | next.sr < 0.070)
@@ -236,7 +237,7 @@ namespace opentuner
         public bool diff_signals(Sig sig, double frequency, float sr)
         {
             //debug(sig.frequency.ToString() + "," + frequency.ToString());
-            // Console.WriteLine(lastsig.frequency-next.frequency);
+            // Log.Information(lastsig.frequency-next.frequency);
             float span;
             bool diff = true;
             if (sig.sr < 0.070 | sr < 0.070)
@@ -366,7 +367,7 @@ namespace opentuner
 
                 }
             }
-            //       Console.WriteLine("new=:" + newsig.frequency.ToString()+"\n");
+            //       Log.Information("new=:" + newsig.frequency.ToString()+"\n");
             return newsig;
         }
 
@@ -402,7 +403,7 @@ namespace opentuner
             }
             else
             {
-                Console.WriteLine("Beacon Strength = 0");
+                Log.Information("Beacon Strength = 0");
             }
 
 
@@ -451,8 +452,8 @@ namespace opentuner
 
                             acc = 0;
                             acc_i = 0;
-                            // Console.WriteLine(Convert.ToInt16(start_signal + (0.3 * (end_signal - start_signal))));
-                            //  Console.WriteLine( start_signal + (0.7 * (end_signal - start_signal)));
+                            // Log.Information(Convert.ToInt16(start_signal + (0.3 * (end_signal - start_signal))));
+                            //  Log.Information( start_signal + (0.7 * (end_signal - start_signal)));
 
                             for (j = Convert.ToInt16(start_signal + (0.3 * (end_signal - start_signal))) | 0; j < start_signal + (0.8 * (end_signal - start_signal)); j++)
                             {
@@ -475,9 +476,9 @@ namespace opentuner
                             {
                                 end_signal = j;
                             }
-                            //  Console.WriteLine("Start:" + start_signal.ToString());
-                            //  Console.WriteLine("End:" + end_signal.ToString());
-                            // Console.WriteLine("Strength:" + strength_signal.ToString());
+                            //  Log.Information("Start:" + start_signal.ToString());
+                            //  Log.Information("End:" + end_signal.ToString());
+                            // Log.Information("Strength:" + strength_signal.ToString());
                             mid_signal = Convert.ToSingle(start_signal + ((end_signal - start_signal) / 2.0));
 
                             signal_bw = align_symbolrate(Convert.ToSingle((end_signal - start_signal) * (9.0 / (fft_data.Length))));

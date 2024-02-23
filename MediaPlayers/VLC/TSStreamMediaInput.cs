@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using Serilog;
 
 namespace opentuner
 {
@@ -25,7 +26,7 @@ namespace opentuner
 
         public override bool Open(out ulong size)
         {
-            Console.WriteLine("Open Media Input");
+            Log.Information("Open Media Input");
 
             bool success = true;
             size = ulong.MaxValue;
@@ -35,7 +36,7 @@ namespace opentuner
 
         public override void Close()
         {
-            Console.WriteLine("Close Media Input");
+            Log.Information("Close Media Input");
         }
 
 
@@ -50,11 +51,11 @@ namespace opentuner
                 {
                     return 0;
                 }
-                //Console.WriteLine("Waiting: " + timeout.ToString());
+                //Log.Information("Waiting: " + timeout.ToString());
                 // if we haven't received anything within a few seconds then most likely won't get anything
                 if (timeout > 500000)
                 {
-                    Console.WriteLine("TSStreamMediaInput : Read Timeout");
+                    Log.Information("TSStreamMediaInput : Read Timeout");
                     return 0;
                 }
 
@@ -102,7 +103,7 @@ namespace opentuner
                     }
                     else
                     {
-                        Console.WriteLine("Warning: Failing to dequeue, nothing to dequeue: TSStream");
+                        Log.Information("Warning: Failing to dequeue, nothing to dequeue: TSStream");
                     }
                     //}
                 }
@@ -112,14 +113,14 @@ namespace opentuner
 
             }
 
-            Console.WriteLine("TS StreamInput: Shouldn't be here");
+            Log.Information("TS StreamInput: Shouldn't be here");
             return 0;
         }
 
         public override bool Seek(ulong offset)
         {
             // seeking is not allowed/possible
-            Console.WriteLine("VLC Trying to Seek" + offset.ToString());
+            Log.Information("VLC Trying to Seek" + offset.ToString());
             return false;
         }
 

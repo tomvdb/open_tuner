@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -51,7 +53,7 @@ namespace opentuner.MediaPlayers.MPV
 
         private void debug(string msg)
         {
-            Console.WriteLine(msg);
+            Log.Information("MPVMediaPlayer: " + msg);
         }
 
         public void startEventLoop()
@@ -175,13 +177,13 @@ namespace opentuner.MediaPlayers.MPV
 
                     if (stopFlag == true)
                     {
-                        //Console.WriteLine("Stop Requested");
+                        //Log.Information("Stop Requested");
                         return 0;
                     }
 
                     if (timeout > 5000)
                     {
-                        Console.WriteLine("MyStream : Read Timeout");
+                        Log.Information("MyStream : Read Timeout");
                         return 0;
                     }
 
@@ -227,7 +229,7 @@ namespace opentuner.MediaPlayers.MPV
                         }
                         else
                         {
-                            Console.WriteLine("Warning: Failing to dequeue, nothing to dequeue: TSStream");
+                            Log.Information("Warning: Failing to dequeue, nothing to dequeue: TSStream");
                         }
                     }
 
@@ -238,10 +240,10 @@ namespace opentuner.MediaPlayers.MPV
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Stream Read Callback Exception: " + ex.Message);
+                Log.Information("Stream Read Callback Exception: " + ex.Message);
             }
 
-            Console.WriteLine("TS StreamInput: Shouldn't be here");
+            Log.Information("TS StreamInput: Shouldn't be here");
 
             return 0;
         }
@@ -354,13 +356,18 @@ namespace opentuner.MediaPlayers.MPV
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error setting volume for MediaPlayer MPV: " + ex.Message);
+                Log.Information("Error setting volume for MediaPlayer MPV: " + ex.Message);
             }
         }
 
         public override void SnapShot(string FileName)
         {
-            
+            Log.Information("MPV Snapshot: " + Path.GetDirectoryName(FileName) + "\\");
+
+            LibMpv.mpv_set_option_string(_mpvHandle, LibMpv.GetUtf8Bytes("screenshot-directory"), LibMpv.GetUtf8Bytes(Path.GetDirectoryName(FileName) + "\\"));
+            LibMpv.mpv_set_option_string(_mpvHandle, LibMpv.GetUtf8Bytes("screenshot-template"), LibMpv.GetUtf8Bytes("ot_mpv_%n"));
+            LibMpv.mpv_set_option_string(_mpvHandle, LibMpv.GetUtf8Bytes("screenshot-format"), LibMpv.GetUtf8Bytes("png"));
+            DoMpvCommand("screenshot", "video");
         }
 
         public override void Stop()

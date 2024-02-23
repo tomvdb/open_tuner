@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MQTTnet;
 using MQTTnet.Client;
 using opentuner.Utilities;
+using Serilog;
 
 namespace opentuner.ExtraFeatures.MqttClient
 {
@@ -112,13 +113,13 @@ namespace opentuner.ExtraFeatures.MqttClient
 
         private Task _mqtt_client_DisconnectedAsync(MqttClientDisconnectedEventArgs arg)
         {
-            Console.WriteLine("Mqtt Disconnected");
+            Log.Information("Mqtt Disconnected");
             return Task.CompletedTask;
         }
 
         private async Task _mqtt_client_ConnectedAsync(MqttClientConnectedEventArgs arg)
         {
-            Console.WriteLine("Mqtt Connected");
+            Log.Information("Mqtt Connected");
 
             // subscribe to mqtt commands
             await _mqtt_client.SubscribeAsync(_cmdtopic + "tuner1/#");

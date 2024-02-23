@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WebSocketSharp;
 
 namespace opentuner.Utilities
 {
@@ -22,6 +23,11 @@ namespace opentuner.Utilities
         public event EventHandler<string> ConnectionStatusChanged;
 
         public int getID() { return _id; }  
+
+        public void Close()
+        {
+            udpClient?.Close();
+        }
 
         public UDPClient(int port)
         {

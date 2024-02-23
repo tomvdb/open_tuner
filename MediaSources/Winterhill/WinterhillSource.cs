@@ -1,5 +1,6 @@
 ﻿using opentuner.MediaPlayers;
 using opentuner.Utilities;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,7 +85,7 @@ namespace opentuner.MediaSources.Winterhill
             {
                 int port = _settings.WinterhillUdpBasePort + 41 + c;
 
-                Console.WriteLine("UDP Port: " + port.ToString());
+                Log.Information("UDP Port: " + port.ToString());
 
                 udp_buffer[c] = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
                 ts_data_queue[c] = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
@@ -198,12 +199,35 @@ namespace opentuner.MediaSources.Winterhill
 
         private void WinterhillSource_ConnectionStatusChanged(object sender, string e)
         {
-            Console.WriteLine("Connection Status " + ((UDPClient)sender).getID() + " : " + e);
+            Log.Information("Connection Status " + ((UDPClient)sender).getID() + " : " + e);
         }
 
         public override void Close()
         {
-            // todo: close various objects
+            Log.Information("Closing Winterhill Source");
+            
+            _settingsManager.SaveSettings(_settings);
+
+            monitorWS?.Close();
+            controlWS?.Close();
+
+            if (ts_thread_t != null) 
+            {
+                for (int c = 0; c < ts_thread_t.Length; c++)
+                {
+                    ts_thread_t[c]?.Abort();
+                }
+            }
+
+            if (udp_clients != null)
+            {
+                for (int c = 0; c < udp_clients.Length; c++)
+                {
+                    udp_clients[c]?.Close();
+                }
+
+            }
+            //UDPClient[] udp_clients;
         }
 
         public override void ConfigureMediaPath(string MediaPath)
@@ -235,8 +259,6 @@ namespace opentuner.MediaSources.Winterhill
             }
 
             _videoPlayersReady = true;
-
-            
         }
 
         private void WinterhillSource_onVideoOut(object sender, MediaStatus e)
@@ -287,7 +309,7 @@ namespace opentuner.MediaSources.Winterhill
 
         public override void SetFrequency(int device, uint frequency, uint symbol_rate, bool offset_included)
         {
-            Console.WriteLine("SetFrequency: " + device.ToString() + "," + frequency.ToString() + "," + symbol_rate.ToString() + "," + offset_included.ToString());
+            Log.Information("SetFrequency: " + device.ToString() + "," + frequency.ToString() + "," + symbol_rate.ToString() + "," + offset_included.ToString());
 
             if (offset_included)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,14 +83,14 @@ namespace opentuner
 
                                 }
 
-                                //Console.WriteLine("TS Packet Received");
+                                //Log.Information("TS Packet Received");
 
                                 // parse ts packet
                                 ts_packet_total_count += 1;
 
                                 UInt32 ts_pid = (UInt32)((ts_packet[1] & 0x1F) << 8) | (UInt32)ts_packet[2];
 
-                                //Console.WriteLine("TS Pid: " + ts_pid.ToString("X"));
+                                //Log.Information("TS Pid: " + ts_pid.ToString("X"));
 
                                 UInt32 ts_adaption_field_flag = (UInt32)(ts_packet[3] & 0x20) >> 5;
 
@@ -102,7 +103,7 @@ namespace opentuner
 
                                     if (ts_adaption_field_length == 0 || ts_adaption_field_length > 183)
                                     {
-                                        //Console.WriteLine("Length Invalid: Packet likely Invalid");
+                                        //Log.Information("Length Invalid: Packet likely Invalid");
                                         ts_invalid_packet_count += 1;
                                         continue;
                                     }
@@ -113,14 +114,14 @@ namespace opentuner
 
                                 if (ts_pid == TS_PID_NULL)
                                 {
-                                    //Console.WriteLine("Null Packet");
+                                    //Log.Information("Null Packet");
                                     ts_packet_null_count += 1;
                                     continue;
                                 }
 
                                 if (ts_pid == TS_PID_SDT)   // service description table
                                 {
-                                    //Console.WriteLine("Payload Data: " + ts_payload_content_offset.ToString());
+                                    //Log.Information("Payload Data: " + ts_payload_content_offset.ToString());
 
                                     int ts_payload_offset = ts_payload_content_offset + 1 + ts_packet[ts_payload_content_offset];
 
@@ -142,7 +143,7 @@ namespace opentuner
                                         }
                                     }
 
-                                    Console.WriteLine(hex_data);
+                                    Log.Information(hex_data);
                                     */
 
                                     if (ts_packet[ts_payload_offset] != TS_TABLE_SDT)
@@ -157,7 +158,7 @@ namespace opentuner
                                         continue;
                                     }
 
-                                    //Console.WriteLine("SDT Section Len: " + ts_payload_section_length);
+                                    //Log.Information("SDT Section Len: " + ts_payload_section_length);
 
                                     Int32 ts_service_provider_name_length = ts_packet[ts_payload_offset + 19];
 
@@ -169,7 +170,7 @@ namespace opentuner
                                     catch (Exception Ex)
                                     { }
 
-                                    //Console.WriteLine(service_provider);
+                                    //Log.Information(service_provider);
 
                                     Int32 ts_service_name_length = ts_packet[ts_payload_offset + 19 + ts_service_provider_name_length + 1];
 
@@ -184,8 +185,8 @@ namespace opentuner
 
                                     }
 
-                                    //Console.WriteLine(service_provider);
-                                    //Console.WriteLine(service_provider_name);
+                                    //Log.Information(service_provider);
+                                    //Log.Information(service_provider_name);
 
                                     // temp hack to reset null counters
                                     if (prevServiceName != service_provider_name || prevServiceProvider != service_provider)
@@ -236,11 +237,11 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Console.WriteLine("TS Thread: Closing ");
+                Log.Information("TS Thread: Closing ");
             }
             finally
             {
-                Console.WriteLine("Closing TS");
+                Log.Information("Closing TS");
             }
 
         }

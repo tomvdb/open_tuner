@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using opentuner.MediaSources.Longmynd;
+using Serilog;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -36,7 +37,7 @@ namespace opentuner.MediaSources.Winterhill
         {
             if (_parent == null)
             {
-                Console.WriteLine("Fatal Error: No Properties Panel");
+                Log.Information("Fatal Error: No Properties Panel");
                 return false;
             }
 
@@ -67,6 +68,8 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].AddItem("audio_rate", "Audio Rate");
                 _tuner_properties[c].AddSlider("volume_slider_" + c.ToString(), "Volume", 0, 200);
                 _tuner_properties[c].AddMediaControls("media_controls_" + c.ToString(), "Media Controls");
+
+                _tuner_properties[c].UpdateValue("volume_slider_" + c.ToString(), _settings.DefaultVolume[c].ToString());
             }
 
             _tuner_forms = new List<TunerControlForm>();
@@ -79,19 +82,20 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_forms.Add(tunerControl);
             }
 
+
             return true;
         }
 
         private void TunerControl_OnTunerChange(int id, uint freq, uint symbol_rate)
         {
-            Console.WriteLine("set frequency : " + id.ToString() + "," + freq.ToString() + " , " + symbol_rate.ToString());
+            Log.Information("set frequency : " + id.ToString() + "," + freq.ToString() + " , " + symbol_rate.ToString());
             SetFrequency(id, freq, symbol_rate, false);
         }
 
         private void _genericContextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ContextMenuStrip contextMenuStrip = (ContextMenuStrip)sender;
-            Console.WriteLine("Opening Context Menu :" + contextMenuStrip.SourceControl.Name + ", Tag: " + contextMenuStrip.SourceControl.Tag);
+            Log.Information("Opening Context Menu :" + contextMenuStrip.SourceControl.Name + ", Tag: " + contextMenuStrip.SourceControl.Tag);
 
             contextMenuStrip.Items.Clear();
 
@@ -106,7 +110,7 @@ namespace opentuner.MediaSources.Winterhill
                     // get local ip's
                     if (_LocalIp.Length == 0)
                     {
-                        Console.WriteLine("Warning: No Ip's detected");
+                        Log.Error("Warning: No Ip's detected");
                     }
                     else
                     {
@@ -129,7 +133,7 @@ namespace opentuner.MediaSources.Winterhill
 
         private void properties_OnPropertyMenuSelect(LongmyndPropertyCommands command, int option)
         {
-            Console.WriteLine("Config Change: " + command.ToString() + " - " + option.ToString());
+            Log.Information("Config Change: " + command.ToString() + " - " + option.ToString());
 
             switch (command)
             {
@@ -142,9 +146,9 @@ namespace opentuner.MediaSources.Winterhill
 
                     if (_LocalIp.Length > 0)
                     {
-                        Console.WriteLine("Updating TS Ip to " + _LocalIp);
+                        Log.Information("Updating TS Ip to " + _LocalIp);
                         string wh_command = ("U" + (option + 1).ToString() + "," + _LocalIp.ToString());
-                        Console.WriteLine(wh_command);
+                        Log.Debug(wh_command);
                         controlWS.Send(wh_command);
                         // reset status
 
@@ -156,7 +160,7 @@ namespace opentuner.MediaSources.Winterhill
                     break;
 
                 default:
-                    Console.WriteLine("Unconfigured Command Change - " + command.ToString());
+                    Log.Warning("Unconfigured Command Change - " + command.ToString());
                     break;
             }
         }
@@ -211,7 +215,7 @@ namespace opentuner.MediaSources.Winterhill
                         }
                         else
                         {
-                            Console.WriteLine("Can't record, not locked to a signal");
+                            Log.Error("Can't record, not locked to a signal");
                         }
                     }
 
@@ -225,11 +229,15 @@ namespace opentuner.MediaSources.Winterhill
                         ClearIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
                     }
                     else
-                    {
+                    {                        
                         if (demodstate[tuner] == 3 || demodstate[tuner] == 2)
                         {
                             _streamer[tuner].stream = true;
                             SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
+                        }
+                        else
+                        {
+                            Log.Error("Can't stream, not locked to a signal");
                         }
                     }
 
@@ -301,79 +309,93 @@ namespace opentuner.MediaSources.Winterhill
 
         private void UpdateInfo(monitorMessage mm)
         {
-
-            // still setting up
-            if (!_videoPlayersReady)
-                return;
-
-            if (_tuner_properties == null) return;
-
-            for (int c = 0; c < mm.rx.Length-1;c++)
+            try
             {
-                ReceiverMessage rx = mm.rx[c+1];
+                // still setting up
+                if (!_videoPlayersReady)
+                    return;
 
-                if (demodstate[c] != rx.scanstate) 
+                if (_tuner_properties == null) return;
+
+                for (int c = 0; c < mm.rx.Length - 1; c++)
                 {
-                    if (rx.scanstate == 2 || rx.scanstate == 3)
+                    ReceiverMessage rx = mm.rx[c + 1];
+
+                    if (demodstate[c] != rx.scanstate)
                     {
-                        
-                        Console.WriteLine("Playing" + c.ToString());
-                        VideoChangeCB?.Invoke(c+1, true);
-                        playing[c] = true;
-                        _tuner_properties[c].UpdateColor("demodstate", Color.PaleGreen);
+                        if (rx.scanstate == 2 || rx.scanstate == 3)
+                        {
+
+                            Log.Information("Playing" + c.ToString());
+                            VideoChangeCB?.Invoke(c + 1, true);
+                            playing[c] = true;
+                            _tuner_properties[c].UpdateColor("demodstate", Color.PaleGreen);
+                        }
+                        else
+                        {
+                            Log.Information("Stopping " + c.ToString() + " - " + rx.scanstate.ToString());
+
+                            VideoChangeCB?.Invoke(c + 1, false);
+                            playing[c] = false;
+                            _tuner_properties[c].UpdateColor("demodstate", Color.PaleVioletRed);
+                        }
+
+                        demodstate[c] = rx.scanstate;
+
+                        float sent_freq = 0;
+
+                        try
+                        {
+                            if (float.TryParse(rx.frequency, out sent_freq))
+                            {
+                                _current_frequency[c] = Convert.ToInt32((sent_freq * 1000) - _settings.Offset[c]);
+                            }
+                        }
+                        catch (Exception Ex)
+                        {
+                            Log.Error(Ex, "Frequency Parse Error : " + rx.frequency);
+                        }
+
+                        uint symbol_rate = 0;
+
+                        if (uint.TryParse(rx.symbol_rate, out symbol_rate))
+                        {
+                            _current_sr[c] = (int)symbol_rate;
+                        }
+
+
+                    }
+
+                    _tuner_properties[c].UpdateValue("demodstate", scanstate_lookup[rx.scanstate]);
+                    _tuner_properties[c].UpdateValue("mer", rx.mer.ToString());
+                    _tuner_properties[c].UpdateValue("frequency", GetFrequency(c, true).ToString());
+                    _tuner_properties[c].UpdateValue("nim_frequency", GetFrequency(c, false).ToString());
+                    _tuner_properties[c].UpdateValue("symbol_rate", rx.symbol_rate.ToString());
+                    _tuner_properties[c].UpdateValue("modcod", rx.modcod.ToString());
+                    _tuner_properties[c].UpdateValue("service_name", rx.service_name.ToString());
+                    _tuner_properties[c].UpdateValue("service_name_provider", rx.service_provider_name.ToString());
+                    _tuner_properties[c].UpdateValue("null_packets", rx.null_percentage.ToString());
+                    _tuner_properties[c].UpdateValue("ts_addr", rx.ts_addr.ToString());
+
+                    if (rx.ts_addr != _LocalIp)
+                    {
+                        _tuner_properties[c].UpdateColor("ts_addr", Color.PaleVioletRed);
                     }
                     else
                     {
-                        Console.WriteLine("Stopping " + c.ToString() + " - " + rx.scanstate.ToString());
-                        
-                        VideoChangeCB?.Invoke(c+1, false);
-                        playing[c] = false;
-                        _tuner_properties[c].UpdateColor("demodstate", Color.PaleVioletRed);
+                        _tuner_properties[c].UpdateColor("ts_addr", Color.Bisque);
                     }
 
-                    demodstate[c] = rx.scanstate;
+                    _tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
+                    _tuner_properties[c].UpdateBigLabel(rx.dbmargin.ToString());
 
-                    float sent_freq = 0;
-                    if (float.TryParse(rx.frequency, out sent_freq))
-                    {
-                        _current_frequency[c] = Convert.ToInt32((sent_freq * 1000) - _settings.Offset[c]);
-                    }
-
-                    uint symbol_rate = 0;
-
-                    if (uint.TryParse(rx.symbol_rate, out symbol_rate))
-                    {
-                        _current_sr[c] = (int)symbol_rate;
-                    }
-
-
+                    var data = _tuner_properties[c].GetAll();
+                    OnSourceData?.Invoke(data, "Tuner " + c.ToString());
                 }
-
-                _tuner_properties[c].UpdateValue("demodstate", scanstate_lookup[rx.scanstate]);
-                _tuner_properties[c].UpdateValue("mer", rx.mer.ToString());
-                _tuner_properties[c].UpdateValue("frequency", GetFrequency(c, true).ToString());
-                _tuner_properties[c].UpdateValue("nim_frequency", GetFrequency(c, false).ToString());
-                _tuner_properties[c].UpdateValue("symbol_rate", rx.symbol_rate.ToString());
-                _tuner_properties[c].UpdateValue("modcod", rx.modcod.ToString());
-                _tuner_properties[c].UpdateValue("service_name", rx.service_name.ToString());
-                _tuner_properties[c].UpdateValue("service_name_provider", rx.service_provider_name.ToString());
-                _tuner_properties[c].UpdateValue("null_packets", rx.null_percentage.ToString());
-                _tuner_properties[c].UpdateValue("ts_addr", rx.ts_addr.ToString());
-
-                if (rx.ts_addr != _LocalIp)
-                {
-                    _tuner_properties[c].UpdateColor("ts_addr", Color.PaleVioletRed);
-                }
-                else
-                {
-                    _tuner_properties[c].UpdateColor("ts_addr", Color.Bisque);
-                }
-
-                _tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
-                _tuner_properties[c].UpdateBigLabel(rx.dbmargin.ToString());
-
-                var data = _tuner_properties[c].GetAll();
-                OnSourceData?.Invoke(data, "Tuner " + c.ToString());
+            }
+            catch ( Exception Ex)
+            {
+                Log.Warning(Ex, "Error");
             }
         }
     }

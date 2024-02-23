@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using opentuner.MediaPlayers;
+using Serilog;
 
 namespace opentuner.MediaSources.Minitiouner
 {
@@ -184,12 +185,12 @@ namespace opentuner.MediaSources.Minitiouner
             if (!hardware_connected)
                 return;
 
-            Console.WriteLine("Change Frequency: " + device.ToString());
+            Log.Information("Change Frequency: " + device.ToString());
             switch (rf_input)
             {
-                case nim.NIM_INPUT_TOP: Console.WriteLine("RF Input: Nim Input Top Specified"); break;
-                case nim.NIM_INPUT_BOTTOM: Console.WriteLine("RF Input: Nim Input Bottom Specified"); break;
-                default: Console.WriteLine("Error: Invalid RF Input: " + rf_input.ToString()); break;
+                case nim.NIM_INPUT_TOP: Log.Information("RF Input: Nim Input Top Specified"); break;
+                case nim.NIM_INPUT_BOTTOM: Log.Information("RF Input: Nim Input Bottom Specified"); break;
+                default: Log.Information("Error: Invalid RF Input: " + rf_input.ToString()); break;
             }
 
             TunerConfig newConfig = new TunerConfig();
@@ -204,11 +205,11 @@ namespace opentuner.MediaSources.Minitiouner
 
             if (newConfig.frequency < 144000 || newConfig.frequency > 2450000)
             {
-                Console.WriteLine("Error: Invalid Frequency: " + newConfig.frequency);
+                Log.Information("Error: Invalid Frequency: " + newConfig.frequency);
                 return;
             }
 
-            Console.WriteLine("Main: New Config: " + newConfig.ToString());
+            Log.Information("Main: New Config: " + newConfig.ToString());
 
             if (device == 0)
             {
@@ -283,7 +284,7 @@ namespace opentuner.MediaSources.Minitiouner
 
             if (T1P2_prevLocked != T1P2locked)
             {
-                Console.WriteLine("T1P2 - Lock State Change: " + T1P2_prevLocked.ToString() + "->" + T1P2locked.ToString());
+                Log.Information("T1P2 - Lock State Change: " + T1P2_prevLocked.ToString() + "->" + T1P2locked.ToString());
 
                 if (nim_status.T1P2_demod_status >= 2)
                 {
@@ -310,7 +311,7 @@ namespace opentuner.MediaSources.Minitiouner
             {
                 if (T2P1_prevLocked != T2P1Locked)
                 {
-                    Console.WriteLine("T2P1 - Lock State Change: " + T2P1_prevLocked.ToString() + "->" + T2P1Locked.ToString());
+                    Log.Information("T2P1 - Lock State Change: " + T2P1_prevLocked.ToString() + "->" + T2P1Locked.ToString());
 
                     if (nim_status.T2P1_demod_status >= 2)
                     {
@@ -367,9 +368,9 @@ namespace opentuner.MediaSources.Minitiouner
 
 
 
-            Console.WriteLine("Main: Starting Nim Thread");
+            Log.Information("Main: Starting Nim Thread");
 
-            Console.WriteLine("Switch LED's");
+            Log.Information("Switch LED's");
             
             
             // switch off ts leds
@@ -377,8 +378,8 @@ namespace opentuner.MediaSources.Minitiouner
             hardware_interface.hw_ts_led(1, false);
 
             // set default lnb supply
-            Console.WriteLine(current_enable_lnb_supply.ToString());
-            Console.WriteLine(current_enable_horiz_supply.ToString());
+            Log.Information(current_enable_lnb_supply.ToString());
+            Log.Information(current_enable_horiz_supply.ToString());
 
             hardware_interface.hw_set_polarization_supply(0, current_enable_lnb_supply, current_enable_horiz_supply);
 
@@ -532,21 +533,21 @@ namespace opentuner.MediaSources.Minitiouner
             if (i2c_port == 99 || ts_port == 99)    // not detected properly, revert to 0 and 1 and hope for the best
             {
                 ts_devices = 1;
-                Console.WriteLine("Hardware not detected properly, reverting to 0,1");
+                Log.Information("Hardware not detected properly, reverting to 0,1");
                 err = hardware_interface.hw_init(0, 1, 99);
             }
             else
             {
-                Console.WriteLine("Trying detected ports:");
-                Console.WriteLine("i2c port: " + i2c_port.ToString());
-                Console.WriteLine("ts port: " + ts_port.ToString());
-                Console.WriteLine("ts2 port: " + ts_port2.ToString());
+                Log.Information("Trying detected ports:");
+                Log.Information("i2c port: " + i2c_port.ToString());
+                Log.Information("ts port: " + ts_port.ToString());
+                Log.Information("ts2 port: " + ts_port2.ToString());
                 err = hardware_interface.hw_init(i2c_port, ts_port, ts_port2);
             }
 
             if (err != 0)
             {
-                Console.WriteLine("Main: Error: FTDI Failed " + err.ToString());
+                Log.Information("Main: Error: FTDI Failed " + err.ToString());
                 hardware_connected = false;
                 return;
             }
@@ -562,7 +563,7 @@ namespace opentuner.MediaSources.Minitiouner
         {
             if (MediaPlayers.Count != ts_devices)
             {
-                Console.WriteLine("Error: MinitiounerSource Expected " +  ts_devices.ToString() + " video players, but only received " + MediaPlayers.Count);
+                Log.Information("Error: MinitiounerSource Expected " +  ts_devices.ToString() + " video players, but only received " + MediaPlayers.Count);
             }
 
             for (int c = 0; c < MediaPlayers.Count; c++)
@@ -646,7 +647,7 @@ namespace opentuner.MediaSources.Minitiouner
 
         private void MinitiounerSource_onRecordStatusChange(object sender, bool e)
         {
-            Console.WriteLine(((TSRecorder)(sender)).ID.ToString() + " recording status : " + e.ToString());
+            Log.Information(((TSRecorder)(sender)).ID.ToString() + " recording status : " + e.ToString());
         }
 
         public override void ConfigureTSStreamers(List<TSUdpStreamer> TSStreamers)
@@ -661,7 +662,7 @@ namespace opentuner.MediaSources.Minitiouner
 
         private void MinitiounerSource_onStreamStatusChange(object sender, bool e)
         {
-            Console.WriteLine(((TSUdpStreamer)(sender)).ID.ToString() + " streaming status : " + e.ToString());
+            Log.Information(((TSUdpStreamer)(sender)).ID.ToString() + " streaming status : " + e.ToString());
         }
 
         public override void ConfigureMediaPath(string MediaPath)

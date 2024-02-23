@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using FlyleafLib.MediaFramework.MediaFrame;
 using Vortice.MediaFoundation;
+using Serilog;
 
 namespace opentuner.MediaSources.Minitiouner
 {
@@ -39,7 +40,7 @@ namespace opentuner.MediaSources.Minitiouner
         {
             if (_parent == null)
             {
-                Console.WriteLine("Fatal Error: No Properties Panel");
+                Log.Information("Fatal Error: No Properties Panel");
                 return false;
             }
 
@@ -169,12 +170,12 @@ namespace opentuner.MediaSources.Minitiouner
 
                     break;
                 case 1: // snaphost
-                    Console.WriteLine("Snapshot: " + tuner.ToString());
+                    Log.Information("Snapshot: " + tuner.ToString());
                     _media_players[tuner].SnapShot(_mediapath + CommonFunctions.GenerateTimestampFilename() + ".png");
 
                     break;
                 case 2: // mute
-                    Console.WriteLine("Record: " + tuner.ToString());
+                    Log.Information("Record: " + tuner.ToString());
 
                     if (_ts_recorders[tuner].record)
                     {
@@ -194,7 +195,7 @@ namespace opentuner.MediaSources.Minitiouner
 
                     break;
                 case 3: // udp stream
-                    Console.WriteLine("UDP Stream: " + tuner.ToString());
+                    Log.Information("UDP Stream: " + tuner.ToString());
 
                     if (_ts_streamers[tuner].stream)
                     {
@@ -431,12 +432,12 @@ namespace opentuner.MediaSources.Minitiouner
                     {
                         case 2:
                             modcod_text = lookups.modcod_lookup_dvbs2[new_status.T2P1_modcode];
-                            dbmargin = (mer - lookups.modcod_lookup_dvbs2_threshold[new_status.T2P1_modcode]);
+                            dbmargin = (mer2 - lookups.modcod_lookup_dvbs2_threshold[new_status.T2P1_modcode]);
                             db_margin_text = "D" + dbmargin.ToString("N1");
                             break;
                         case 3:
                             modcod_text = lookups.modcod_lookup_dvbs[new_status.T2P1_modcode];
-                            dbmargin = (mer - lookups.modcod_lookup_dvbs_threshold[new_status.T2P1_modcode]);
+                            dbmargin = (mer2 - lookups.modcod_lookup_dvbs_threshold[new_status.T2P1_modcode]);
                             db_margin_text = "D" + dbmargin.ToString("N1");
                             break;
                     }
@@ -459,7 +460,7 @@ namespace opentuner.MediaSources.Minitiouner
         private void _genericContextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ContextMenuStrip contextMenuStrip = (ContextMenuStrip)sender;
-            Console.WriteLine("Opening Context Menu :" + contextMenuStrip.SourceControl.Name);
+            Log.Information("Opening Context Menu :" + contextMenuStrip.SourceControl.Name);
 
             contextMenuStrip.Items.Clear();
 
@@ -491,7 +492,7 @@ namespace opentuner.MediaSources.Minitiouner
 
         private void properties_OnPropertyMenuSelect(MinitiounerPropertyCommands command, int option)
         {
-            Console.WriteLine("Config Change: " + command.ToString() + " - " + option.ToString());
+            Log.Information("Config Change: " + command.ToString() + " - " + option.ToString());
 
             switch (command)
             {
@@ -502,14 +503,14 @@ namespace opentuner.MediaSources.Minitiouner
                     break;
 
                 default:
-                    Console.WriteLine("Unconfigured Command Change - " + command.ToString());
+                    Log.Information("Unconfigured Command Change - " + command.ToString());
                     break;
             }
         }
 
         private void TunerControl_OnTunerChange(int id, uint freq, uint symbol_rate)
         {
-            Console.WriteLine("set frequency : " + id.ToString() + "," + freq.ToString() + " , " + symbol_rate.ToString());
+            Log.Information("set frequency : " + id.ToString() + "," + freq.ToString() + " , " + symbol_rate.ToString());
             SetFrequency(id, freq, symbol_rate, false);
         }
 

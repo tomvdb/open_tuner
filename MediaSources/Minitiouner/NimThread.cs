@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using opentuner.MediaSources.Minitiouner.HardwareInterfaces;
+using Serilog;
 
 namespace opentuner
 {
@@ -320,7 +321,7 @@ namespace opentuner
             try
             {
 
-                Console.WriteLine("Nim Thread: Starting...");
+                Log.Information("Nim Thread: Starting...");
 
             bool initialConfig = false;
 
@@ -332,17 +333,17 @@ namespace opentuner
 
                 if (err != 0)
                 {
-                    Console.WriteLine("STV0910 Init Error: " + err.ToString());
+                    Log.Information("STV0910 Init Error: " + err.ToString());
                 }
 
-                Console.WriteLine("Init Nim");
+                Log.Information("Init Nim");
                 err = _nim.nim_init();
 
                 while (true)
                 {
                     if (initialConfig == false)
                     {
-                        Console.WriteLine("Nim Thread: Initial Config");
+                        Log.Information("Nim Thread: Initial Config");
                     }
 
                     if (config_queue.Count() > 0 || initialConfig == false)
@@ -355,7 +356,7 @@ namespace opentuner
                             // setup demod
                             if (err == 0)
                             {
-                                Console.WriteLine("Configure Demod Receive - " + nim_config.tuner);
+                                Log.Information("Configure Demod Receive - " + nim_config.tuner);
                                 if (nim_config.tuner == 1)
                                 {
                                     err = _stv0910.stv0910_setup_receive(stv0910.STV0910_DEMOD_TOP, nim_config.symbol_rate);
@@ -367,13 +368,13 @@ namespace opentuner
                             }
                             else
                             {
-                                Console.WriteLine("Error before Demod");
+                                Log.Information("Error before Demod");
                             }
 
                             // configure tuner
                             if (err == 0)
                             {
-                                Console.WriteLine("Configure Tuner - " + nim_config.tuner.ToString());
+                                Log.Information("Configure Tuner - " + nim_config.tuner.ToString());
 
                                 if (nim_config.tuner == 1)
                                 {
@@ -387,13 +388,13 @@ namespace opentuner
                             }
                             else
                             {
-                                Console.WriteLine("Error before Tuner");
+                                Log.Information("Error before Tuner");
                             }
 
                             // demod - start scan
                             if (err == 0)
                             {
-                                Console.WriteLine("Demod Start Scan - " + nim_config.tuner.ToString() );
+                                Log.Information("Demod Start Scan - " + nim_config.tuner.ToString() );
 
                                 if (nim_config.tuner == 1)
                                 {
@@ -406,7 +407,7 @@ namespace opentuner
                             }
                             else
                             {
-                                Console.WriteLine("Error before demod scan");
+                                Log.Information("Error before demod scan");
                             }
 
                            
@@ -420,17 +421,17 @@ namespace opentuner
                             // done, if we have errors, then exit thread
                             if (err != 0)
                             {
-                                Console.WriteLine("****** Nim Thread: Hardware Error: " + err.ToString() + " ******");
+                                Log.Information("****** Nim Thread: Hardware Error: " + err.ToString() + " ******");
                                 hw_errors += 1;
                                 if (hw_errors > 5)
                                 {
-                                    Console.WriteLine("Too many hardware errors");
+                                    Log.Information("Too many hardware errors");
                                     return;
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("Nim Thread: Nim Init Good");
+                                Log.Information("Nim Thread: Nim Init Good");
                             }
 
                             initialConfig = true;
@@ -446,7 +447,7 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Console.WriteLine("Nim Thread: Closing");
+                Log.Information("Nim Thread: Closing");
             }
 
         }

@@ -1,5 +1,6 @@
 ﻿using opentuner.MediaSources;
 using opentuner.Utilities;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace opentuner.ExtraFeatures.QuickTuneControl
 
             try
             {
-                Console.WriteLine("UDP Received (" + udpListener.ID.ToString() + "): " + e.Message);
+                Log.Information("UDP Received (" + udpListener.ID.ToString() + "): " + e.Message);
 
                 string[] properties = e.Message.Split(',');
 
@@ -55,7 +56,7 @@ namespace opentuner.ExtraFeatures.QuickTuneControl
                 uint.TryParse(properties[2].Substring(7), out offset);
                 uint.TryParse(properties[4].Substring(6), out sr);
 
-                Console.WriteLine("New Freq Request (" + udpListener.ID.ToString() + ") = " + (freq - offset).ToString() + "," + sr.ToString() + " ks");
+                Log.Information("New Freq Request (" + udpListener.ID.ToString() + ") = " + (freq - offset).ToString() + "," + sr.ToString() + " ks");
                 _videoSource.SetFrequency(udpListener.ID, freq-offset, sr, false);
                 
             }

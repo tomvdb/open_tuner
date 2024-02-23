@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Drawing.Drawing2D;
+using Serilog;
 
 namespace opentuner.ExtraFeatures.BATCSpectrum
 {
@@ -195,7 +196,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private void debug(string msg)
         {
-            Console.WriteLine(msg);
+            Log.Information(msg);
         }
 
         private void spectrum_MouseLeave(object sender, EventArgs e)
@@ -360,30 +361,19 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             y = 0;
             int y_offset = 0; ;
 
-
-            /*            
             for (int tuner = 0; tuner < _tuners; tuner++)
             {
-
-                y = i * (_spectrum.Height / (_tuners-1));
-                /*
-                y = spectrum_h - ((spectrum_h / 2) * tuner + 3);
-                
-
+                y = tuner * (spectrum_h / _tuners);
 
                 //draw block showing signal selected
                 if (rx_blocks[tuner, 0] > 0)
                 {
-                    //tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[0] * spectrum_wScale) - ((rx_blocks[1] * spectrum_wScale) / 2)), 1, Convert.ToInt32(rx_blocks[1] * spectrum_wScale), (255) - 4) });
-                    tmp.FillRectangles(shadowBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt32((rx_blocks[tuner, 0] - (rx_blocks[tuner, 1] / 2)) * spectrum_wScale), spectrum_h - y + 1, Convert.ToInt32((rx_blocks[tuner, 1] * spectrum_wScale)), (_tuners == 1 ? spectrum_h : spectrum_h / 2) - 4) });
+                    tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale)/2) , y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
                 }
-                */
-            //}
-
+            }
 
             tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
             tmp.DrawString(TX_Text, new Font("Tahoma", 15), Brushes.Red, new PointF(70, _spectrum.Height - 50));  //dh3cs
-
 
             //drawspectrum_signals(sigs.detect_signals(fft_data));
             sigs.detect_signals(fft_data);
@@ -401,13 +391,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
                 y = i * (spectrum_h / _tuners);
                 tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
-                tmp.DrawString("RX " + i.ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
+                tmp.DrawString("RX " + (i+1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
             }
 
-
             drawspectrum_signals(sigs.signalsData);
-
-
         }
 
         private void spectrum_Click(object sender, EventArgs e)

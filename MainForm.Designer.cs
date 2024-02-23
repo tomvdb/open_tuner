@@ -34,9 +34,18 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SourcePage = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.linkPicoTuner = new System.Windows.Forms.Label();
+            this.link2ndTS = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.linkBatc = new System.Windows.Forms.Label();
+            this.linkGithubIssues = new System.Windows.Forms.Label();
+            this.linkSupport = new System.Windows.Forms.Label();
+            this.linkForum = new System.Windows.Forms.Label();
             this.linkOpenTunerUpdates = new System.Windows.Forms.Label();
             this.linkDocumentation = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.linkQuickTuneSettings = new System.Windows.Forms.Label();
             this.linkBatcWebchatSettings = new System.Windows.Forms.Label();
             this.linkBatcSpectrumSettings = new System.Windows.Forms.Label();
@@ -50,6 +59,8 @@
             this.checkBatcChat = new System.Windows.Forms.CheckBox();
             this.checkBatcSpectrum = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.linkSourceMoreInfo = new System.Windows.Forms.Label();
+            this.sourceInfo = new System.Windows.Forms.TextBox();
             this.btnSourceSettings = new System.Windows.Forms.Button();
             this.btnSourceConnect = new System.Windows.Forms.Button();
             this.comboAvailableSources = new System.Windows.Forms.ComboBox();
@@ -100,17 +111,6 @@
             this.commandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureCallsignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sourceInfo = new System.Windows.Forms.TextBox();
-            this.linkSourceMoreInfo = new System.Windows.Forms.Label();
-            this.linkForum = new System.Windows.Forms.Label();
-            this.linkSupport = new System.Windows.Forms.Label();
-            this.linkGithubIssues = new System.Windows.Forms.Label();
-            this.linkBatc = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.link2ndTS = new System.Windows.Forms.Label();
-            this.linkPicoTuner = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -186,6 +186,59 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
+            // linkPicoTuner
+            // 
+            resources.ApplyResources(this.linkPicoTuner, "linkPicoTuner");
+            this.linkPicoTuner.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkPicoTuner.ForeColor = System.Drawing.Color.Blue;
+            this.linkPicoTuner.Name = "linkPicoTuner";
+            this.linkPicoTuner.Click += new System.EventHandler(this.linkPicoTuner_Click);
+            // 
+            // link2ndTS
+            // 
+            resources.ApplyResources(this.link2ndTS, "link2ndTS");
+            this.link2ndTS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.link2ndTS.ForeColor = System.Drawing.Color.Blue;
+            this.link2ndTS.Name = "link2ndTS";
+            this.link2ndTS.Click += new System.EventHandler(this.link2ndTS_Click);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // linkBatc
+            // 
+            resources.ApplyResources(this.linkBatc, "linkBatc");
+            this.linkBatc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkBatc.ForeColor = System.Drawing.Color.Blue;
+            this.linkBatc.Name = "linkBatc";
+            this.linkBatc.Click += new System.EventHandler(this.linkBatc_Click);
+            // 
+            // linkGithubIssues
+            // 
+            resources.ApplyResources(this.linkGithubIssues, "linkGithubIssues");
+            this.linkGithubIssues.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkGithubIssues.ForeColor = System.Drawing.Color.Blue;
+            this.linkGithubIssues.Name = "linkGithubIssues";
+            this.linkGithubIssues.Click += new System.EventHandler(this.linkGithubIssues_Click);
+            // 
+            // linkSupport
+            // 
+            resources.ApplyResources(this.linkSupport, "linkSupport");
+            this.linkSupport.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkSupport.ForeColor = System.Drawing.Color.Blue;
+            this.linkSupport.Name = "linkSupport";
+            this.linkSupport.Click += new System.EventHandler(this.linkSupport_Click);
+            // 
+            // linkForum
+            // 
+            resources.ApplyResources(this.linkForum, "linkForum");
+            this.linkForum.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkForum.ForeColor = System.Drawing.Color.Blue;
+            this.linkForum.Name = "linkForum";
+            this.linkForum.Click += new System.EventHandler(this.linkForum_Click);
+            // 
             // linkOpenTunerUpdates
             // 
             resources.ApplyResources(this.linkOpenTunerUpdates, "linkOpenTunerUpdates");
@@ -221,6 +274,18 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // checkBox2
+            // 
+            resources.ApplyResources(this.checkBox2, "checkBox2");
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            resources.ApplyResources(this.checkBox1, "checkBox1");
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // linkQuickTuneSettings
             // 
@@ -324,6 +389,20 @@
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // linkSourceMoreInfo
+            // 
+            resources.ApplyResources(this.linkSourceMoreInfo, "linkSourceMoreInfo");
+            this.linkSourceMoreInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkSourceMoreInfo.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkSourceMoreInfo.Name = "linkSourceMoreInfo";
+            this.linkSourceMoreInfo.Click += new System.EventHandler(this.linkSourceMoreInfo_Click);
+            // 
+            // sourceInfo
+            // 
+            resources.ApplyResources(this.sourceInfo, "sourceInfo");
+            this.sourceInfo.Name = "sourceInfo";
+            this.sourceInfo.ReadOnly = true;
             // 
             // btnSourceSettings
             // 
@@ -689,85 +768,6 @@
             this.configureCallsignToolStripMenuItem.Name = "configureCallsignToolStripMenuItem";
             resources.ApplyResources(this.configureCallsignToolStripMenuItem, "configureCallsignToolStripMenuItem");
             this.configureCallsignToolStripMenuItem.Click += new System.EventHandler(this.configureCallsignToolStripMenuItem_Click);
-            // 
-            // sourceInfo
-            // 
-            resources.ApplyResources(this.sourceInfo, "sourceInfo");
-            this.sourceInfo.Name = "sourceInfo";
-            this.sourceInfo.ReadOnly = true;
-            // 
-            // linkSourceMoreInfo
-            // 
-            resources.ApplyResources(this.linkSourceMoreInfo, "linkSourceMoreInfo");
-            this.linkSourceMoreInfo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkSourceMoreInfo.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.linkSourceMoreInfo.Name = "linkSourceMoreInfo";
-            this.linkSourceMoreInfo.Click += new System.EventHandler(this.linkSourceMoreInfo_Click);
-            // 
-            // linkForum
-            // 
-            resources.ApplyResources(this.linkForum, "linkForum");
-            this.linkForum.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkForum.ForeColor = System.Drawing.Color.Blue;
-            this.linkForum.Name = "linkForum";
-            this.linkForum.Click += new System.EventHandler(this.linkForum_Click);
-            // 
-            // linkSupport
-            // 
-            resources.ApplyResources(this.linkSupport, "linkSupport");
-            this.linkSupport.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkSupport.ForeColor = System.Drawing.Color.Blue;
-            this.linkSupport.Name = "linkSupport";
-            this.linkSupport.Click += new System.EventHandler(this.linkSupport_Click);
-            // 
-            // linkGithubIssues
-            // 
-            resources.ApplyResources(this.linkGithubIssues, "linkGithubIssues");
-            this.linkGithubIssues.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkGithubIssues.ForeColor = System.Drawing.Color.Blue;
-            this.linkGithubIssues.Name = "linkGithubIssues";
-            this.linkGithubIssues.Click += new System.EventHandler(this.linkGithubIssues_Click);
-            // 
-            // linkBatc
-            // 
-            resources.ApplyResources(this.linkBatc, "linkBatc");
-            this.linkBatc.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkBatc.ForeColor = System.Drawing.Color.Blue;
-            this.linkBatc.Name = "linkBatc";
-            this.linkBatc.Click += new System.EventHandler(this.linkBatc_Click);
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // link2ndTS
-            // 
-            resources.ApplyResources(this.link2ndTS, "link2ndTS");
-            this.link2ndTS.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.link2ndTS.ForeColor = System.Drawing.Color.Blue;
-            this.link2ndTS.Name = "link2ndTS";
-            this.link2ndTS.Click += new System.EventHandler(this.link2ndTS_Click);
-            // 
-            // linkPicoTuner
-            // 
-            resources.ApplyResources(this.linkPicoTuner, "linkPicoTuner");
-            this.linkPicoTuner.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkPicoTuner.ForeColor = System.Drawing.Color.Blue;
-            this.linkPicoTuner.Name = "linkPicoTuner";
-            this.linkPicoTuner.Click += new System.EventHandler(this.linkPicoTuner_Click);
-            // 
-            // checkBox1
-            // 
-            resources.ApplyResources(this.checkBox1, "checkBox1");
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            resources.ApplyResources(this.checkBox2, "checkBox2");
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 

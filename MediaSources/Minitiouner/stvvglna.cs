@@ -1,5 +1,6 @@
 ﻿// ported from longmynd - https://github.com/myorangedragon/longmynd - Heather Lomond
 
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace opentuner
                 if ((err == 0) && (timeout == STVVGLNA_AGC_TIMEOUT))
                 {
                     err = Errors.ERROR_LNA_AGC_TIMEOUT;
-                    Console.WriteLine("Error: read AGC timeout\n");
+                    Log.Information("Error: read AGC timeout\n");
                 }
             }
             while ((err == 0) && (((status >> stvvglna_regs.STVVGLNA_REG1_GETAGC_SHIFT) & 1) != stvvglna_regs.STVVGLNA_REG1_GETAGC_FORCED));
@@ -73,7 +74,7 @@ namespace opentuner
             if (err == 0) err = stvvglna_read_reg(lna_addr, stvvglna_regs.STVVGLNA_REG1, ref vgo); /* read out the Vagc value */
             vgo = (byte)((vgo & stvvglna_regs.STVVGLNA_REG1_VGO_MASK) >> stvvglna_regs.STVVGLNA_REG1_VGO_SHIFT);
 
-            if (err != 0) Console.WriteLine("ERROR: Failed LNA aquire AGC {0}\n", input);
+            if (err != 0) Log.Information("ERROR: Failed LNA aquire AGC {0}\n", input);
             return err;
 
         }
@@ -85,7 +86,7 @@ namespace opentuner
             byte val = 0;
             byte lna_addr;
 
-            Console.WriteLine("Flow: LNA init {0}", input);
+            Log.Information("Flow: LNA init {0}", input);
 
             /* first we decide which LNA to use */
             if (input == nim.NIM_INPUT_TOP) lna_addr = nim.NIM_LNA_0_ADDR;
@@ -96,7 +97,7 @@ namespace opentuner
             if (err != 0)
             {
                 //printf("      Status: found an older NIM with no LNA\n");
-                Console.WriteLine("      Status: found an older NIM with no LNA");
+                Log.Information("      Status: found an older NIM with no LNA");
 
                 lna_ok = false; /* tell caller that there is no LNA */
                 err = 0; /* we do not throw an error, just exit init */
@@ -104,13 +105,13 @@ namespace opentuner
             else
             {
                 /* otherwise, lna is there so we go on to us it */
-                Console.WriteLine("      Status: found new NIM with LNAs");
+                Log.Information("      Status: found new NIM with LNAs");
                 lna_ok = true;
 
                 /* now check it has a good ID */
                 if ((val & stvvglna_regs.STVVGLNA_REG0_IDENT_MASK) != stvvglna_regs.STVVGLNA_REG0_IDENT_DEFAULT)
                 {
-                    Console.WriteLine("ERROR: failed to recognise LNA ID {0} {1}", input, val);
+                    Log.Information("ERROR: failed to recognise LNA ID {0} {1}", input, val);
                     err = Errors.ERROR_LNA_ID;
                 }
 

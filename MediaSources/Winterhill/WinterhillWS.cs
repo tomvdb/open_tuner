@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace opentuner.MediaSources.Winterhill
 
         public void debug(string msg)
         {
-            Console.WriteLine(msg);
+            Log.Information(msg);
         }
 
         private void Controlws_OnOpen(object sender, EventArgs e)

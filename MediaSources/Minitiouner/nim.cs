@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using opentuner.MediaSources.Minitiouner.HardwareInterfaces;
+using Serilog;
 
 namespace opentuner
 {
@@ -47,7 +48,7 @@ namespace opentuner
             }
             if (err == 0) err = ftdi_device.nim_read_reg8(lna_addr, reg, ref val);
 
-            //Console.WriteLine("nim lna read: {0}, {1}", reg.ToString("X"), val.ToString("X"));
+            //Log.Information("nim lna read: {0}, {1}", reg.ToString("X"), val.ToString("X"));
 
             return err;
         }
@@ -64,7 +65,7 @@ namespace opentuner
             }
             if (err == 0) err = ftdi_device.nim_write_reg8(lna_addr, reg, val);
 
-            //Console.WriteLine("nim lna write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
+            //Log.Information("nim lna write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
 
 
             return err;
@@ -81,7 +82,7 @@ namespace opentuner
 
             if (err == 0) err = ftdi_device.nim_write_reg8(NIM_TUNER_ADDR, reg, val);
 
-            //Console.WriteLine("nim tuner write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
+            //Log.Information("nim tuner write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
 
             return err;
         }
@@ -98,7 +99,7 @@ namespace opentuner
 
             if (err == 0) err = ftdi_device.nim_read_reg8(NIM_TUNER_ADDR, reg, ref val);
 
-            //Console.WriteLine("nim tuner read: {0}, {1}", reg.ToString("X"), val.ToString("X"));
+            //Log.Information("nim tuner read: {0}, {1}", reg.ToString("X"), val.ToString("X"));
 
             return err;
         }
@@ -106,8 +107,8 @@ namespace opentuner
         public byte nim_write_demod(ushort reg, byte val)
         {
             //Thread.Sleep(1);
-            //Console.WriteLine("nim demod write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
-            //Console.WriteLine("Using Nim Address: " + NIM_DEMOD_ADDR.ToString());
+            //Log.Information("nim demod write: {0}, {1}", reg.ToString("X"), val.ToString("X"));
+            //Log.Information("Using Nim Address: " + NIM_DEMOD_ADDR.ToString());
             byte error = 0;
 
             if (repeater_on)
@@ -120,7 +121,7 @@ namespace opentuner
 
             if (error != 0)
             {
-                Console.WriteLine("Error: demod write");
+                Log.Information("Error: demod write");
             }
 
             return error;
@@ -132,7 +133,7 @@ namespace opentuner
 
             byte err = 0;
 
-            //Console.WriteLine("Using Nim Address: " + NIM_DEMOD_ADDR.ToString());
+            //Log.Information("Using Nim Address: " + NIM_DEMOD_ADDR.ToString());
 
             if (repeater_on)
             {
@@ -144,10 +145,10 @@ namespace opentuner
 
             if (err != 0)
             {
-                Console.WriteLine("Error: demod read");
+                Log.Information("Error: demod read");
             }
 
-            //Console.WriteLine("nim demod read: {0}, {1}", reg.ToString("X"), val.ToString("X"));
+            //Log.Information("nim demod read: {0}, {1}", reg.ToString("X"), val.ToString("X"));
 
             return err;
         }
@@ -157,7 +158,7 @@ namespace opentuner
             byte error = 0;
             byte val = 0;
 
-            Console.WriteLine("Flow: NIM init");
+            Log.Information("Flow: NIM init");
 
             repeater_on = false;
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebSocketSharp;
 using WebSocketSharp.Server;
+using Serilog;
 
 namespace opentuner
 {
@@ -19,13 +20,13 @@ namespace opentuner
         protected override void OnClose(CloseEventArgs e)
         {
             //base.OnClose(e);
-            Console.WriteLine("Ws closed: " + e.ToString());
+            Serilog.Log.Information("Ws closed: " + e.ToString());
         }
 
         protected override void OnOpen()
         {
             //base.OnOpen();
-            Console.WriteLine("Ws open: " + this.ID);
+            Serilog.Log.Information("Ws open: " + this.ID);
         }
 
     }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
+using Serilog;
 
 namespace opentuner.Utilities
 {
@@ -33,7 +34,7 @@ namespace opentuner.Utilities
 
         private void Debug(string message)
         {
-            Console.WriteLine(_settings_name + " : " + message);
+            Log.Information(_settings_name + " : " + message);
         }
 
         public T LoadSettings(object _settings_reference)

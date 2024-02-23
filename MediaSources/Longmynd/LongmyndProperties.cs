@@ -12,6 +12,7 @@ using opentuner.MediaSources.Minitiouner;
 using FlyleafLib.MediaFramework.MediaFrame;
 using LibVLCSharp.Shared;
 using Vortice.MediaFoundation;
+using Serilog;
 
 namespace opentuner.MediaSources.Longmynd
 {
@@ -40,7 +41,7 @@ namespace opentuner.MediaSources.Longmynd
         {
             if (_parent == null)
             {
-                Console.WriteLine("Fatal Error: No Properties Panel");
+                Log.Information("Fatal Error: No Properties Panel");
                 return false;
             }
 
@@ -126,12 +127,12 @@ namespace opentuner.MediaSources.Longmynd
                         }
                     break;
                 case 1: // snapshot
-                    Console.WriteLine("Snapshot");
+                    Log.Information("Snapshot");
                     _media_player.SnapShot(_mediaPath + CommonFunctions.GenerateTimestampFilename() + ".png");
 
                     break;
                 case 2: // record
-                    Console.WriteLine("Record");
+                    Log.Information("Record");
 
                     if (_recorder.record)
                     {
@@ -148,7 +149,7 @@ namespace opentuner.MediaSources.Longmynd
                         }
                         else
                         {
-                            Console.WriteLine("Can't record, not locked to a signal");
+                            Log.Information("Can't record, not locked to a signal");
                         }
                     }
 
@@ -157,7 +158,7 @@ namespace opentuner.MediaSources.Longmynd
                     break;
 
                 case 3: // stream
-                    Console.WriteLine("UDP Stream");
+                    Log.Information("UDP Stream");
 
                     
                     if ( _streamer.stream)
@@ -216,7 +217,7 @@ namespace opentuner.MediaSources.Longmynd
         private void _genericContextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ContextMenuStrip contextMenuStrip = (ContextMenuStrip)sender;
-            Console.WriteLine("Opening Context Menu :" + contextMenuStrip.SourceControl.Name);
+            Log.Information("Opening Context Menu :" + contextMenuStrip.SourceControl.Name);
 
             contextMenuStrip.Items.Clear();
 
@@ -230,7 +231,7 @@ namespace opentuner.MediaSources.Longmynd
                     // get local ip's
                     if (_LocalIp.Length == 0)
                     {
-                        Console.WriteLine("Warning: No Ip's detected");
+                        Log.Information("Warning: No Ip's detected");
                     }
                     else
                     {
@@ -254,7 +255,7 @@ namespace opentuner.MediaSources.Longmynd
 
         private void properties_OnPropertyMenuSelect(LongmyndPropertyCommands command, int option)
         {
-            Console.WriteLine("Config Change: " + command.ToString() + " - " + option.ToString());
+            Log.Information("Config Change: " + command.ToString() + " - " + option.ToString());
 
             switch (command)
             {
@@ -266,13 +267,13 @@ namespace opentuner.MediaSources.Longmynd
 
                     if (_LocalIp.Length > 0)
                     {
-                        Console.WriteLine("Updating TS Ip to " + _LocalIp);
+                        Log.Information("Updating TS Ip to " + _LocalIp);
 
                         if (_settings.DefaultInterface == 0)
                         {
                             // websocket
                             //string wh_command = ("U" + (option + 1).ToString() + "," + _LocalIp.ToString());
-                            //Console.WriteLine(wh_command);
+                            //Log.Information(wh_command);
                             //controlWS.Send(wh_command);
 
                             WSSetTS(_LocalIp, _settings.TS_Port);
@@ -293,7 +294,7 @@ namespace opentuner.MediaSources.Longmynd
                     break;
 
                 default:
-                    Console.WriteLine("Unconfigured Command Change - " + command.ToString());
+                    Log.Information("Unconfigured Command Change - " + command.ToString());
                     break;
             }
         }

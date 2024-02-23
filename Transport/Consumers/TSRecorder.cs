@@ -1,4 +1,5 @@
 ﻿using opentuner.MediaSources;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -78,7 +79,7 @@ namespace opentuner
                     if (recording == false && record == true)
                     {
                         // open a new file
-                        Console.WriteLine("recording");
+                        Log.Information("recording");
 
                         string filename = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_" + _id + ".ts";
 
@@ -100,7 +101,7 @@ namespace opentuner
                     {
                         if (recording == true && record == false)
                         {
-                            Console.WriteLine("stop recording");
+                            Log.Information("stop recording");
                             recording = false;
 
                             // stop record
@@ -127,7 +128,7 @@ namespace opentuner
                                 {
                                     if (ts_sync == true && data == 0x47)
                                     {
-                                        Console.WriteLine("TS Header Sync");
+                                        Log.Information("TS Header Sync");
                                         ts_sync = false;
                                     }
 
@@ -147,14 +148,14 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Console.WriteLine("TS Recorder Thread: Closing ");
+                Log.Information("TS Recorder Thread: Closing ");
             }
             finally
             {
-                Console.WriteLine("Closing TS Recorder");
+                Log.Information("Closing TS Recorder");
             }
 
-            Console.WriteLine("TS Recorder Thread Closed");
+            Log.Information("TS Recorder Thread Closed");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -21,8 +22,8 @@ namespace opentuner
 
         public TSThread(CircularBuffer _raw_ts_data_queue, FlushTS _flush_ts_callback, ReadTS _read_ts_callback, string _identifier)
         {
-            Console.WriteLine(" >> Starting TS Thread <<");
-            Console.WriteLine(" >> Registering Raw TS Queue << ");
+            Log.Information(" >> Starting TS Thread <<");
+            Log.Information(" >> Registering Raw TS Queue << ");
 
             registered_consumers.Add(_raw_ts_data_queue);
 
@@ -33,30 +34,30 @@ namespace opentuner
 
         public void RegisterTSConsumer(CircularBuffer raw_ts_data_queue)
         {
-            Console.WriteLine(" >> Registering New Queue << ");
+            Log.Information(" >> Registering New Queue << ");
             registered_consumers.Add(raw_ts_data_queue);
         }
 
         public void stop_ts()
         {
-            Console.WriteLine("Stopping TS: " + identifier);
+            Log.Information("Stopping TS: " + identifier);
             ts_build_queue = false;
         }
 
         public void start_ts()
         {
-            Console.WriteLine("Starting TS:" + identifier);
+            Log.Information("Starting TS:" + identifier);
             ts_build_queue = true;
         }
 
         public void worker_thread()
         {
             bool bufferingData = false;
-            Console.WriteLine(">> Starting TS Worked Thread <<");
+            Log.Information(">> Starting TS Worked Thread <<");
 
             try
             {
-                Console.WriteLine("TS Thread: Starting...");
+                Log.Information("TS Thread: Starting...");
 
                 byte[] data = new byte[4096];
 
@@ -85,7 +86,7 @@ namespace opentuner
                     uint dataRead = 0;
 
                     if (read_ts_callback(ref data, ref dataRead) != 0)
-                        Console.WriteLine("Read Error");
+                        Log.Information("Read Error");
 
                     if (dataRead > 0)
                     {
@@ -102,13 +103,13 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Console.WriteLine("TS Thread: Closing ");
+                Log.Information("TS Thread: Closing ");
             }
             finally
             {
             }
 
-            Console.WriteLine("TS Thread Closed");
+            Log.Information("TS Thread Closed");
         }
     }
 }

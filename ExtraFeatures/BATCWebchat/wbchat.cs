@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
 using System.Threading;
+using Serilog;
 
 namespace opentuner
 {
@@ -259,7 +260,7 @@ namespace opentuner
 
         private void Client_OnConnected(object sender, EventArgs e)
         {
-            Console.WriteLine("Connected socketio");
+            Log.Information("Connected socketio");
             lblConnected.Text = "Connected: True";
         }
 

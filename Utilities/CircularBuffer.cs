@@ -266,7 +266,7 @@ namespace opentuner
             head = i;
             tail = 0;
 
-            //Console.WriteLine("Need to resize buffer: " + capacity.ToString());
+            //Log.Information("Need to resize buffer: " + capacity.ToString());
         }
 
     }
