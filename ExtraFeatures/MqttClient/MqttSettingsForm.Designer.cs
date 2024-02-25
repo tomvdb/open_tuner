@@ -44,50 +44,57 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtBrokerIp);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(16, 15);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(311, 111);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(415, 137);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Mqtt Settings";
             // 
             // txtBrokerPort
             // 
-            this.txtBrokerPort.Location = new System.Drawing.Point(118, 62);
+            this.txtBrokerPort.Location = new System.Drawing.Point(157, 76);
+            this.txtBrokerPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtBrokerPort.Name = "txtBrokerPort";
-            this.txtBrokerPort.Size = new System.Drawing.Size(78, 20);
+            this.txtBrokerPort.Size = new System.Drawing.Size(103, 22);
             this.txtBrokerPort.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 65);
+            this.label2.Location = new System.Drawing.Point(25, 80);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 13);
+            this.label2.Size = new System.Drawing.Size(105, 16);
             this.label2.TabIndex = 6;
             this.label2.Text = "Mqtt Broker Port:";
             // 
             // txtBrokerIp
             // 
-            this.txtBrokerIp.Location = new System.Drawing.Point(118, 36);
+            this.txtBrokerIp.Location = new System.Drawing.Point(157, 44);
+            this.txtBrokerIp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtBrokerIp.Name = "txtBrokerIp";
-            this.txtBrokerIp.Size = new System.Drawing.Size(167, 20);
+            this.txtBrokerIp.Size = new System.Drawing.Size(221, 22);
             this.txtBrokerIp.TabIndex = 5;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 39);
+            this.label1.Location = new System.Drawing.Point(25, 48);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.Size = new System.Drawing.Size(93, 16);
             this.label1.TabIndex = 4;
             this.label1.Text = "Mqtt Broker IP:";
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(248, 129);
+            this.btnSave.Location = new System.Drawing.Point(331, 159);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -95,9 +102,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(167, 129);
+            this.btnCancel.Location = new System.Drawing.Point(223, 159);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -105,14 +113,18 @@
             // 
             // MqttSettingsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 170);
+            this.AutoSize = true;
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(447, 209);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MqttSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mqtt Client Settings";

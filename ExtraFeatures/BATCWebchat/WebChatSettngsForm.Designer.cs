@@ -47,9 +47,11 @@
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.txtSigReportTemplate);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Location = new System.Drawing.Point(12, 12);
+            this.groupBox4.Location = new System.Drawing.Point(16, 15);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(693, 227);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Size = new System.Drawing.Size(924, 279);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "QO-100 Specific";
@@ -58,15 +60,17 @@
             // 
             this.label17.AutoSize = true;
             this.label17.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label17.Location = new System.Drawing.Point(14, 37);
+            this.label17.Location = new System.Drawing.Point(19, 46);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(79, 13);
+            this.label17.Size = new System.Drawing.Size(95, 16);
             this.label17.TabIndex = 7;
             this.label17.Text = "Chat Font Size:";
             // 
             // numChatFontSize
             // 
-            this.numChatFontSize.Location = new System.Drawing.Point(99, 35);
+            this.numChatFontSize.Location = new System.Drawing.Point(132, 43);
+            this.numChatFontSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numChatFontSize.Maximum = new decimal(new int[] {
             20,
             0,
@@ -79,7 +83,7 @@
             0});
             this.numChatFontSize.Name = "numChatFontSize";
             this.numChatFontSize.ReadOnly = true;
-            this.numChatFontSize.Size = new System.Drawing.Size(59, 20);
+            this.numChatFontSize.Size = new System.Drawing.Size(79, 22);
             this.numChatFontSize.TabIndex = 6;
             this.numChatFontSize.Value = new decimal(new int[] {
             12,
@@ -91,35 +95,39 @@
             // 
             this.label14.AutoSize = true;
             this.label14.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label14.Location = new System.Drawing.Point(14, 132);
+            this.label14.Location = new System.Drawing.Point(19, 162);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(113, 78);
+            this.label14.Size = new System.Drawing.Size(142, 96);
             this.label14.TabIndex = 5;
             this.label14.Text = "{SN} - ServiceName\r\n{SP} - ServiceProvider\r\n{DBM} - db Margin (D)\r\n{MER} - Mer\r\n{" +
     "SR} - Symbol Rate\r\n{FREQ} - Freq\r\n";
             // 
             // txtSigReportTemplate
             // 
-            this.txtSigReportTemplate.Location = new System.Drawing.Point(17, 104);
+            this.txtSigReportTemplate.Location = new System.Drawing.Point(23, 128);
+            this.txtSigReportTemplate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtSigReportTemplate.Name = "txtSigReportTemplate";
-            this.txtSigReportTemplate.Size = new System.Drawing.Size(670, 20);
+            this.txtSigReportTemplate.Size = new System.Drawing.Size(892, 22);
             this.txtSigReportTemplate.TabIndex = 4;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label13.Location = new System.Drawing.Point(14, 82);
+            this.label13.Location = new System.Drawing.Point(19, 101);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(121, 13);
+            this.label13.Size = new System.Drawing.Size(153, 16);
             this.label13.TabIndex = 3;
             this.label13.Text = "Signal Report Template:";
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(630, 245);
+            this.btnSave.Location = new System.Drawing.Point(840, 302);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -128,9 +136,10 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(549, 245);
+            this.btnCancel.Location = new System.Drawing.Point(732, 302);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -138,14 +147,18 @@
             // 
             // WebChatSettngsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(720, 286);
+            this.ClientSize = new System.Drawing.Size(960, 352);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.groupBox4);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "WebChatSettngsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "QO-100 Web Chat Settings";

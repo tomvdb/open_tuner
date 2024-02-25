@@ -259,6 +259,7 @@
             this.Name = "TunerControlForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Tuner Control";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TunerControlForm_FormClosing);
             this.Load += new System.EventHandler(this.tunerControlForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

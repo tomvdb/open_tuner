@@ -68,8 +68,8 @@ namespace opentuner.MediaSources.Minitiouner
         private bool current_enable_lnb_supply = false;
         private bool current_enable_horiz_supply = false;
         private bool current_tone_22kHz_P1 = false;
-
-
+        private uint current_offset_0 = 0;
+        private uint current_offset_1 = 0;
 
         private VideoChangeCallback VideoChangeCB;
 
@@ -153,11 +153,11 @@ namespace opentuner.MediaSources.Minitiouner
             switch (device)
             {
                 case 0:  
-                    int offset0 = offset_included ? (int)_settings.Offset1 : 0;
+                    int offset0 = offset_included ? (int)current_offset_0 : 0;
                     frequency = current_frequency_0 + offset0; 
                     break;
                 case 1:  
-                    int offset1 = offset_included ? (int)_settings.Offset2 : 0;
+                    int offset1 = offset_included ? (int)current_offset_1 : 0;
                     frequency = current_frequency_1 + offset1; 
                     break;
             }
@@ -171,9 +171,9 @@ namespace opentuner.MediaSources.Minitiouner
             uint freq = 0;
             
             if (device == 0 )
-                freq = frequency - (offset_included ? _settings.Offset1 : 0);
+                freq = frequency - (offset_included ? current_offset_0 : 0);
             else
-                freq = frequency - (offset_included ? _settings.Offset2 : 0);
+                freq = frequency - (offset_included ? current_offset_1 : 0);
 
             change_frequency((byte)(device), freq, symbol_rate, current_enable_lnb_supply, current_enable_horiz_supply, (device == 0 ? current_rf_input_0 : current_rf_input_1 ), current_tone_22kHz_P1);
         }
@@ -240,6 +240,7 @@ namespace opentuner.MediaSources.Minitiouner
             current_tone_22kHz_P1 = tone_22kHz_P1;
 
             config_queue.Enqueue(newConfig);
+            
         }
 
         public byte set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
@@ -370,6 +371,19 @@ namespace opentuner.MediaSources.Minitiouner
             }
         }
 
+        private void ChangeOffset(byte Tuner, int offset)
+        {
+            switch(Tuner)
+            {
+                case 0:
+                    current_offset_0 = (uint)offset;
+                    break;
+                case 1:
+                    current_offset_1 = (uint)offset;
+                    break;
+            }
+        }
+
         private int Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial, Control Parent)
         {
 
@@ -443,6 +457,9 @@ namespace opentuner.MediaSources.Minitiouner
 
             current_frequency_0 = 741525;
             current_frequency_1 = 741525;
+
+            current_offset_0 = _settings.Offset1;
+            current_offset_1 = _settings.Offset2;
 
             current_sr_0 = 1500;
             current_sr_1 = 1500;

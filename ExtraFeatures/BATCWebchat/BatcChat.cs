@@ -19,7 +19,7 @@ namespace opentuner.ExtraFeatures.BATCWebchat
             wc_settingsManager = new SettingsManager<WebChatSettings>("qo100_webchat_settings");
             wc_settings = (wc_settingsManager.LoadSettings(wc_settings));
 
-            _form = new WebChatForm(wc_settings.chat_font_size);
+            _form = new WebChatForm(wc_settings);
             _form.FormClosing += _form_FormClosing;
 
             if (wc_settings.gui_chat_width > 0)
@@ -44,6 +44,7 @@ namespace opentuner.ExtraFeatures.BATCWebchat
 
         public void Close()
         {
+            wc_settingsManager.SaveSettings(wc_settings);
             _form.Close();
         }
 

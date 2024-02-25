@@ -48,9 +48,11 @@
             this.groupBox1.Controls.Add(this.txtWHWSPort);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtWHWSIp);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(16, 15);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(338, 129);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(451, 159);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Winterhill WS Settings";
@@ -58,56 +60,63 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 86);
+            this.label3.Location = new System.Drawing.Point(24, 106);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(125, 13);
+            this.label3.Size = new System.Drawing.Size(155, 16);
             this.label3.TabIndex = 11;
             this.label3.Text = "Winterhill Udp Base Port:";
             // 
             // txtWHWSBaseUdp
             // 
-            this.txtWHWSBaseUdp.Location = new System.Drawing.Point(158, 83);
+            this.txtWHWSBaseUdp.Location = new System.Drawing.Point(211, 102);
+            this.txtWHWSBaseUdp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtWHWSBaseUdp.Name = "txtWHWSBaseUdp";
-            this.txtWHWSBaseUdp.Size = new System.Drawing.Size(86, 20);
+            this.txtWHWSBaseUdp.Size = new System.Drawing.Size(113, 22);
             this.txtWHWSBaseUdp.TabIndex = 10;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 60);
+            this.label2.Location = new System.Drawing.Point(24, 74);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(96, 13);
+            this.label2.Size = new System.Drawing.Size(116, 16);
             this.label2.TabIndex = 9;
             this.label2.Text = "Winterhill WS Port:";
             // 
             // txtWHWSPort
             // 
-            this.txtWHWSPort.Location = new System.Drawing.Point(158, 57);
+            this.txtWHWSPort.Location = new System.Drawing.Point(211, 70);
+            this.txtWHWSPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtWHWSPort.Name = "txtWHWSPort";
-            this.txtWHWSPort.Size = new System.Drawing.Size(86, 20);
+            this.txtWHWSPort.Size = new System.Drawing.Size(113, 22);
             this.txtWHWSPort.TabIndex = 8;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 34);
+            this.label1.Location = new System.Drawing.Point(24, 42);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 13);
+            this.label1.Size = new System.Drawing.Size(104, 16);
             this.label1.TabIndex = 7;
             this.label1.Text = "Winterhill WS IP:";
             // 
             // txtWHWSIp
             // 
-            this.txtWHWSIp.Location = new System.Drawing.Point(158, 31);
+            this.txtWHWSIp.Location = new System.Drawing.Point(211, 38);
+            this.txtWHWSIp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtWHWSIp.Name = "txtWHWSIp";
-            this.txtWHWSIp.Size = new System.Drawing.Size(164, 20);
+            this.txtWHWSIp.Size = new System.Drawing.Size(217, 22);
             this.txtWHWSIp.TabIndex = 6;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(275, 147);
+            this.btnSave.Location = new System.Drawing.Point(367, 181);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 7;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -116,9 +125,10 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(194, 147);
+            this.btnCancel.Location = new System.Drawing.Point(259, 181);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -126,15 +136,18 @@
             // 
             // WinterhillSettingsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(361, 185);
+            this.ClientSize = new System.Drawing.Size(481, 228);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "WinterhillSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Winterhill Settings";

@@ -12,7 +12,7 @@ namespace opentuner.MediaSources
     public abstract class OTSource
     {
         public delegate void VideoChangeCallback(int video_number, bool start);
-        public delegate void SourceDataChange(Dictionary<string,string> Properties, string topic);
+        public delegate void SourceDataChange(Dictionary<string, string> Properties, string topic);
 
         public abstract event SourceDataChange OnSourceData;
 

@@ -52,6 +52,20 @@ namespace opentuner
                 this.dbb = old.dbb;
             }
 
+            public Sig(Sig old, string callsign, float sr)
+            {
+                this.fft_start = old.fft_start;
+                this.fft_stop = old.fft_stop;
+                this.fft_centre = old.fft_centre;
+                this.fft_strength = old.fft_strength;
+                this.frequency = old.frequency;
+                this.sr = sr;
+                this.callsign = callsign;
+                this.overpower = old.overpower;
+                this.dbb = old.dbb;
+            }
+
+
             public void updateCallsign(string callsign)
             {
                 this.callsign = callsign;
@@ -380,7 +394,8 @@ namespace opentuner
                     if (diff_signals(signalsData[x], freq, sr) == false)
                     {
                         //debug("found - updating callsign");
-                        signalsData[x] = new Sig(signalsData[x], callsign);
+                        signalsData[x] = new Sig(signalsData[x], callsign, sr);
+
                         break;
                     }
                 }

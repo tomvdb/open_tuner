@@ -175,7 +175,7 @@ namespace opentuner
                         {
                             freq = freq / 1000;
 
-                            batc_spectrum.updateSignalCallsign(callsign, freq, sr);
+                            batc_spectrum.updateSignalCallsign(callsign, freq, sr/1000);
                         }
                     }
                 }

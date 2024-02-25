@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtUdp1 = new System.Windows.Forms.TextBox();
-            this.txtUdp2 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtUdp3 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.txtUdp4 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.txtUdp3 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtUdp2 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtUdp1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -52,82 +52,93 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtUdp1);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(16, 15);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(240, 166);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(320, 204);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Quick Tune UDP Settings";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Tuner 1 UDP Port:";
-            // 
-            // txtUdp1
-            // 
-            this.txtUdp1.Location = new System.Drawing.Point(121, 40);
-            this.txtUdp1.Name = "txtUdp1";
-            this.txtUdp1.Size = new System.Drawing.Size(100, 20);
-            this.txtUdp1.TabIndex = 1;
-            // 
-            // txtUdp2
-            // 
-            this.txtUdp2.Location = new System.Drawing.Point(121, 66);
-            this.txtUdp2.Name = "txtUdp2";
-            this.txtUdp2.Size = new System.Drawing.Size(100, 20);
-            this.txtUdp2.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 69);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Tuner 1 UDP Port:";
-            // 
-            // txtUdp3
-            // 
-            this.txtUdp3.Location = new System.Drawing.Point(121, 92);
-            this.txtUdp3.Name = "txtUdp3";
-            this.txtUdp3.Size = new System.Drawing.Size(100, 20);
-            this.txtUdp3.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 95);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(95, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Tuner 1 UDP Port:";
-            // 
             // txtUdp4
             // 
-            this.txtUdp4.Location = new System.Drawing.Point(121, 118);
+            this.txtUdp4.Location = new System.Drawing.Point(161, 145);
+            this.txtUdp4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtUdp4.Name = "txtUdp4";
-            this.txtUdp4.Size = new System.Drawing.Size(100, 20);
+            this.txtUdp4.Size = new System.Drawing.Size(132, 22);
             this.txtUdp4.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 121);
+            this.label4.Location = new System.Drawing.Point(27, 149);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 13);
+            this.label4.Size = new System.Drawing.Size(114, 16);
             this.label4.TabIndex = 6;
             this.label4.Text = "Tuner 1 UDP Port:";
             // 
+            // txtUdp3
+            // 
+            this.txtUdp3.Location = new System.Drawing.Point(161, 113);
+            this.txtUdp3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUdp3.Name = "txtUdp3";
+            this.txtUdp3.Size = new System.Drawing.Size(132, 22);
+            this.txtUdp3.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(27, 117);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(114, 16);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Tuner 1 UDP Port:";
+            // 
+            // txtUdp2
+            // 
+            this.txtUdp2.Location = new System.Drawing.Point(161, 81);
+            this.txtUdp2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUdp2.Name = "txtUdp2";
+            this.txtUdp2.Size = new System.Drawing.Size(132, 22);
+            this.txtUdp2.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(27, 85);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(114, 16);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Tuner 1 UDP Port:";
+            // 
+            // txtUdp1
+            // 
+            this.txtUdp1.Location = new System.Drawing.Point(161, 49);
+            this.txtUdp1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUdp1.Name = "txtUdp1";
+            this.txtUdp1.Size = new System.Drawing.Size(132, 22);
+            this.txtUdp1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(27, 53);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(114, 16);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Tuner 1 UDP Port:";
+            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(177, 184);
+            this.btnSave.Location = new System.Drawing.Point(236, 226);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 1;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -136,9 +147,10 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(96, 184);
+            this.btnCancel.Location = new System.Drawing.Point(128, 226);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -146,15 +158,18 @@
             // 
             // QuickTuneControlSettingsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(270, 222);
+            this.ClientSize = new System.Drawing.Size(360, 273);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "QuickTuneControlSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Quick Tune Listener Settings";

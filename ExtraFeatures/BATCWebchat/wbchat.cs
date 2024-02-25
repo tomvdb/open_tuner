@@ -16,6 +16,7 @@ using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
 using System.Threading;
 using Serilog;
+using opentuner.ExtraFeatures.BATCWebchat;
 
 namespace opentuner
 {
@@ -27,11 +28,16 @@ namespace opentuner
 
         public string prop_title { set { this.Text = value; } }
 
-        public WebChatForm(int fontSize)
+        WebChatSettings _settings;
+
+        public WebChatForm(WebChatSettings Settings)
         {
             InitializeComponent();
-            consoleFont = new Font("Consolas", fontSize);
-            consoleFontBold = new Font("Consolas", fontSize + 1, FontStyle.Bold);
+
+            _settings = Settings;
+
+            consoleFont = new Font("Consolas", _settings.chat_font_size);
+            consoleFontBold = new Font("Consolas", _settings.chat_font_size + 1, FontStyle.Bold);
         }
 
         private SocketIO client = null;
@@ -39,9 +45,9 @@ namespace opentuner
         private void wbchat_Load(object sender, EventArgs e)
         {
 
-            if (Properties.Settings.Default.chat_nick.Length > 0)
+            if (_settings.nickname.Length > 0)
             {
-                txtNick.Text = Properties.Settings.Default.chat_nick;
+                txtNick.Text = _settings.nickname;
             }
             else
             {
@@ -275,7 +281,7 @@ namespace opentuner
                     client.EmitAsync("setnick", new nickInfo { nick = nick });
                     txtMessage.Enabled = true;
                     AddItem(lbChat, "*** Your nick is set to " + nick + " ***");
-                    Properties.Settings.Default.chat_nick = nick;
+                    _settings.nickname = nick;
                 }
             }
         }

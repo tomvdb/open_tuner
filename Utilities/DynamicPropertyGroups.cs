@@ -65,7 +65,7 @@ namespace opentuner.Utilities
             //_big_num_label.BorderStyle = BorderStyle.FixedSingle;
             _big_num_label.BackColor = Color.Transparent;
             _big_num_label.AutoSize = false;
-            _big_num_label.Width = 60;
+            _big_num_label.Width = 80;
             _big_num_label.Height = 50;
             _big_num_label.Top = 8;
             _big_num_label.Left = _groupBox.Width - _big_num_label.Width - 2;

@@ -1,4 +1,5 @@
 ﻿using LibVLCSharp.Shared;
+using opentuner.MediaSources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,10 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Vortice.MediaFoundation;
 
 namespace opentuner
 {
     public delegate void TunerChangeCallback(int id, UInt32 freq, uint symbol_rate);
+
+    public delegate void TunerDataUpdateDelegate(uint freq, uint symbolrate, uint offset);
 
     public partial class TunerControlForm : Form
     {
@@ -24,7 +28,9 @@ namespace opentuner
 
         public event TunerChangeCallback OnTunerChange;
 
-        public TunerControlForm(int Id, int initialFrequency, int initialSr, int Offset)
+        OTSource _source = null;
+
+        public TunerControlForm(int Id, int initialFrequency, int initialSr, int Offset, OTSource Source)
         {
             InitializeComponent();
 
@@ -32,6 +38,8 @@ namespace opentuner
             _frequency = initialFrequency;
             _symbol_rate = initialSr;
             _offset = Offset;
+
+            _source = Source;
 
             update_offset();
             update_freq(_frequency);
@@ -42,7 +50,7 @@ namespace opentuner
             lblmHz.MouseWheel += LblmHz_MouseWheel;
             lblgHz.MouseWheel += LblgHz_MouseWheel;
 
-            this.Text += "Tuner " + Id.ToString();
+            this.Text += " - Tuner " + (Id + 1).ToString();
         }
 
         void scroll_frequency(int freq_modifier, int delta)
@@ -150,13 +158,50 @@ namespace opentuner
             comboSR.Text = symbolrate.ToString();
         }
 
-        public void ShowTuner(int freq, int symbolrate)
+        private void update_offset(int offset)
+        {
+            lblOffset.Text = offset.ToString();
+        }
+
+        private void UpdateTunerInvoke(uint freq, uint symbolrate, uint offset)
+        {
+            _frequency = (int)freq;
+            _symbol_rate = (int)symbolrate;
+            _offset = (int)offset;
+
+            update_sr(_symbol_rate);
+            update_offset(_offset);
+
+            update_freq(_frequency);
+
+        }
+
+        public void UpdateTuner(uint freq, uint symbolrate, uint offset)
+        {
+            if (this.InvokeRequired)
+            {
+                TunerDataUpdateDelegate ulb = new TunerDataUpdateDelegate(UpdateTuner);
+                if (ulb != null)
+                {
+                    this.Invoke(ulb, new object[] { freq, symbolrate, offset });
+                }
+            }
+            else
+            {
+                UpdateTunerInvoke(freq, symbolrate, offset);
+            }
+        }
+
+        public void ShowTuner(int freq, int symbolrate, int offset)
         {
             _frequency = freq;
             _symbol_rate = symbolrate;
+            _offset = offset;
+
+            update_sr(_symbol_rate);
+            update_offset(_offset);
 
             update_freq(_frequency);
-            update_sr(_symbol_rate);
 
             Show();
             Focus();
@@ -191,6 +236,12 @@ namespace opentuner
         private void lblgHz_MouseLeave(object sender, EventArgs e)
         {
             lblgHz.ForeColor = Color.Black;
+        }
+
+        private void TunerControlForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
         }
     }
 }

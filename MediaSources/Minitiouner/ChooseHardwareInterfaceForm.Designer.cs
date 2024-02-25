@@ -41,25 +41,28 @@
             this.comboHardwareSelect.Items.AddRange(new object[] {
             "FTDI FT2232",
             "PicoTuner"});
-            this.comboHardwareSelect.Location = new System.Drawing.Point(125, 12);
+            this.comboHardwareSelect.Location = new System.Drawing.Point(167, 15);
+            this.comboHardwareSelect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboHardwareSelect.Name = "comboHardwareSelect";
-            this.comboHardwareSelect.Size = new System.Drawing.Size(180, 21);
+            this.comboHardwareSelect.Size = new System.Drawing.Size(239, 24);
             this.comboHardwareSelect.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
+            this.label1.Location = new System.Drawing.Point(16, 18);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 13);
+            this.label1.Size = new System.Drawing.Size(123, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "Hardware Interface:";
             // 
             // btnSelect
             // 
-            this.btnSelect.Location = new System.Drawing.Point(230, 51);
+            this.btnSelect.Location = new System.Drawing.Point(307, 63);
+            this.btnSelect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(75, 23);
+            this.btnSelect.Size = new System.Drawing.Size(100, 28);
             this.btnSelect.TabIndex = 2;
             this.btnSelect.Text = "Select";
             this.btnSelect.UseVisualStyleBackColor = true;
@@ -68,9 +71,10 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(149, 51);
+            this.btnCancel.Location = new System.Drawing.Point(199, 63);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -79,15 +83,18 @@
             // ChooseHardwareInterfaceForm
             // 
             this.AcceptButton = this.btnSelect;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(327, 94);
+            this.ClientSize = new System.Drawing.Size(436, 116);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboHardwareSelect);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ChooseHardwareInterfaceForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Choose Minitiouner Hardware Interface";

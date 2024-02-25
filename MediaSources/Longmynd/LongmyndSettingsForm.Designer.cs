@@ -32,6 +32,8 @@
             this.txtTuner1FreqOffset = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupHardwareInterface = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtTSPort = new System.Windows.Forms.TextBox();
             this.txtBaseCmdTopic = new System.Windows.Forms.TextBox();
             this.txtMqttPort = new System.Windows.Forms.TextBox();
             this.txtWSPort = new System.Windows.Forms.TextBox();
@@ -46,8 +48,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.txtTSPort = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupHardwareInterface.SuspendLayout();
             this.SuspendLayout();
@@ -56,26 +56,30 @@
             // 
             this.groupBox1.Controls.Add(this.txtTuner1FreqOffset);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(12, 309);
+            this.groupBox1.Location = new System.Drawing.Point(16, 380);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(328, 77);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(437, 95);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tuner Properties";
             // 
             // txtTuner1FreqOffset
             // 
-            this.txtTuner1FreqOffset.Location = new System.Drawing.Point(149, 30);
+            this.txtTuner1FreqOffset.Location = new System.Drawing.Point(199, 37);
+            this.txtTuner1FreqOffset.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtTuner1FreqOffset.Name = "txtTuner1FreqOffset";
-            this.txtTuner1FreqOffset.Size = new System.Drawing.Size(160, 20);
+            this.txtTuner1FreqOffset.Size = new System.Drawing.Size(212, 22);
             this.txtTuner1FreqOffset.TabIndex = 4;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 33);
+            this.label3.Location = new System.Drawing.Point(21, 41);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(102, 13);
+            this.label3.Size = new System.Drawing.Size(123, 16);
             this.label3.TabIndex = 0;
             this.label3.Text = "Tuner 1 Freq Offset:";
             // 
@@ -95,90 +99,120 @@
             this.groupHardwareInterface.Controls.Add(this.label2);
             this.groupHardwareInterface.Controls.Add(this.comboHardwareInterface);
             this.groupHardwareInterface.Controls.Add(this.label1);
-            this.groupHardwareInterface.Location = new System.Drawing.Point(12, 12);
+            this.groupHardwareInterface.Location = new System.Drawing.Point(16, 15);
+            this.groupHardwareInterface.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupHardwareInterface.Name = "groupHardwareInterface";
-            this.groupHardwareInterface.Size = new System.Drawing.Size(328, 291);
+            this.groupHardwareInterface.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupHardwareInterface.Size = new System.Drawing.Size(437, 358);
             this.groupHardwareInterface.TabIndex = 2;
             this.groupHardwareInterface.TabStop = false;
             this.groupHardwareInterface.Text = "Hardware Interface";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(23, 66);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(55, 16);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "TS Port:";
+            // 
+            // txtTSPort
+            // 
+            this.txtTSPort.Location = new System.Drawing.Point(199, 63);
+            this.txtTSPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTSPort.Name = "txtTSPort";
+            this.txtTSPort.Size = new System.Drawing.Size(129, 22);
+            this.txtTSPort.TabIndex = 14;
+            // 
             // txtBaseCmdTopic
             // 
-            this.txtBaseCmdTopic.Location = new System.Drawing.Point(150, 232);
+            this.txtBaseCmdTopic.Location = new System.Drawing.Point(200, 286);
+            this.txtBaseCmdTopic.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtBaseCmdTopic.Name = "txtBaseCmdTopic";
-            this.txtBaseCmdTopic.Size = new System.Drawing.Size(160, 20);
+            this.txtBaseCmdTopic.Size = new System.Drawing.Size(212, 22);
             this.txtBaseCmdTopic.TabIndex = 13;
             // 
             // txtMqttPort
             // 
-            this.txtMqttPort.Location = new System.Drawing.Point(150, 187);
+            this.txtMqttPort.Location = new System.Drawing.Point(200, 230);
+            this.txtMqttPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtMqttPort.Name = "txtMqttPort";
-            this.txtMqttPort.Size = new System.Drawing.Size(160, 20);
+            this.txtMqttPort.Size = new System.Drawing.Size(212, 22);
             this.txtMqttPort.TabIndex = 12;
             // 
             // txtWSPort
             // 
-            this.txtWSPort.Location = new System.Drawing.Point(150, 123);
+            this.txtWSPort.Location = new System.Drawing.Point(200, 151);
+            this.txtWSPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtWSPort.Name = "txtWSPort";
-            this.txtWSPort.Size = new System.Drawing.Size(160, 20);
+            this.txtWSPort.Size = new System.Drawing.Size(212, 22);
             this.txtWSPort.TabIndex = 11;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(17, 235);
+            this.label8.Location = new System.Drawing.Point(23, 289);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(125, 13);
+            this.label8.Size = new System.Drawing.Size(155, 16);
             this.label8.TabIndex = 10;
             this.label8.Text = "MQTT Base CMD Topic:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 190);
+            this.label5.Location = new System.Drawing.Point(23, 234);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 13);
+            this.label5.Size = new System.Drawing.Size(84, 16);
             this.label5.TabIndex = 8;
             this.label5.Text = "Port (MQTT):";
             // 
             // txtMqttIpAddress
             // 
-            this.txtMqttIpAddress.Location = new System.Drawing.Point(150, 161);
+            this.txtMqttIpAddress.Location = new System.Drawing.Point(200, 198);
+            this.txtMqttIpAddress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtMqttIpAddress.Name = "txtMqttIpAddress";
-            this.txtMqttIpAddress.Size = new System.Drawing.Size(160, 20);
+            this.txtMqttIpAddress.Size = new System.Drawing.Size(212, 22);
             this.txtMqttIpAddress.TabIndex = 7;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(17, 164);
+            this.label6.Location = new System.Drawing.Point(23, 202);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(104, 13);
+            this.label6.Size = new System.Drawing.Size(129, 16);
             this.label6.TabIndex = 6;
             this.label6.Text = "IP Address (MQTT): ";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 126);
+            this.label4.Location = new System.Drawing.Point(23, 155);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 13);
+            this.label4.Size = new System.Drawing.Size(67, 16);
             this.label4.TabIndex = 4;
             this.label4.Text = "Port (WS):";
             // 
             // txtWSIpAddress
             // 
-            this.txtWSIpAddress.Location = new System.Drawing.Point(150, 97);
+            this.txtWSIpAddress.Location = new System.Drawing.Point(200, 119);
+            this.txtWSIpAddress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtWSIpAddress.Name = "txtWSIpAddress";
-            this.txtWSIpAddress.Size = new System.Drawing.Size(160, 20);
+            this.txtWSIpAddress.Size = new System.Drawing.Size(212, 22);
             this.txtWSIpAddress.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 100);
+            this.label2.Location = new System.Drawing.Point(23, 123);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 13);
+            this.label2.Size = new System.Drawing.Size(112, 16);
             this.label2.TabIndex = 2;
             this.label2.Text = "IP Address (WS): ";
             // 
@@ -189,26 +223,29 @@
             this.comboHardwareInterface.Items.AddRange(new object[] {
             "Websocket (M0DNY)",
             "Mqtt (F5OEO)"});
-            this.comboHardwareInterface.Location = new System.Drawing.Point(149, 24);
+            this.comboHardwareInterface.Location = new System.Drawing.Point(199, 30);
+            this.comboHardwareInterface.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboHardwareInterface.Name = "comboHardwareInterface";
-            this.comboHardwareInterface.Size = new System.Drawing.Size(160, 21);
+            this.comboHardwareInterface.Size = new System.Drawing.Size(212, 24);
             this.comboHardwareInterface.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 27);
+            this.label1.Location = new System.Drawing.Point(21, 33);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.Size = new System.Drawing.Size(109, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Default Interface: ";
             // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(184, 392);
+            this.btnCancel.Location = new System.Drawing.Point(245, 482);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -216,42 +253,30 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(265, 392);
+            this.btnSave.Location = new System.Drawing.Point(353, 482);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 4;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // txtTSPort
-            // 
-            this.txtTSPort.Location = new System.Drawing.Point(149, 51);
-            this.txtTSPort.Name = "txtTSPort";
-            this.txtTSPort.Size = new System.Drawing.Size(98, 20);
-            this.txtTSPort.TabIndex = 14;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(17, 54);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(46, 13);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "TS Port:";
-            // 
             // LongmyndSettingsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(357, 427);
+            this.ClientSize = new System.Drawing.Size(476, 526);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupHardwareInterface);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "LongmyndSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Longmynd Settings";
