@@ -49,9 +49,9 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtWHWSIp);
             this.groupBox1.Location = new System.Drawing.Point(16, 15);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(451, 159);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
@@ -63,14 +63,14 @@
             this.label3.Location = new System.Drawing.Point(24, 106);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(155, 16);
+            this.label3.Size = new System.Drawing.Size(120, 16);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Winterhill Udp Base Port:";
+            this.label3.Text = "Winterhill Udp Port:";
             // 
             // txtWHWSBaseUdp
             // 
-            this.txtWHWSBaseUdp.Location = new System.Drawing.Point(211, 102);
-            this.txtWHWSBaseUdp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtWHWSBaseUdp.Location = new System.Drawing.Point(226, 103);
+            this.txtWHWSBaseUdp.Margin = new System.Windows.Forms.Padding(4);
             this.txtWHWSBaseUdp.Name = "txtWHWSBaseUdp";
             this.txtWHWSBaseUdp.Size = new System.Drawing.Size(113, 22);
             this.txtWHWSBaseUdp.TabIndex = 10;
@@ -87,8 +87,8 @@
             // 
             // txtWHWSPort
             // 
-            this.txtWHWSPort.Location = new System.Drawing.Point(211, 70);
-            this.txtWHWSPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtWHWSPort.Location = new System.Drawing.Point(226, 71);
+            this.txtWHWSPort.Margin = new System.Windows.Forms.Padding(4);
             this.txtWHWSPort.Name = "txtWHWSPort";
             this.txtWHWSPort.Size = new System.Drawing.Size(113, 22);
             this.txtWHWSPort.TabIndex = 8;
@@ -105,8 +105,8 @@
             // 
             // txtWHWSIp
             // 
-            this.txtWHWSIp.Location = new System.Drawing.Point(211, 38);
-            this.txtWHWSIp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtWHWSIp.Location = new System.Drawing.Point(226, 39);
+            this.txtWHWSIp.Margin = new System.Windows.Forms.Padding(4);
             this.txtWHWSIp.Name = "txtWHWSIp";
             this.txtWHWSIp.Size = new System.Drawing.Size(217, 22);
             this.txtWHWSIp.TabIndex = 6;
@@ -114,7 +114,7 @@
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(367, 181);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 7;
@@ -126,7 +126,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(259, 181);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 8;
@@ -147,7 +147,7 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "WinterhillSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Winterhill Settings";

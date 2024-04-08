@@ -117,44 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Tuner Einstellungen</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 13</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Sprache:</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Generelle Einstellungen</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Media Snapshot Pfad:</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Media Einstellungen</value>
-  </data>
-  <data name="checkEnableSpectrum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 17</value>
-  </data>
-  <data name="checkEnableSpectrum.Text" xml:space="preserve">
-    <value>Zeige BATC Breitband Spektrum</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>QO-100 spezifisch</value>
-  </data>
-  <data name="button3.Text" xml:space="preserve">
-    <value>&amp;Abbrechen</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>378, 13</value>
-  </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Hinweis: Einige dieser Einstellungen wirken erst nach Neustart der Anwendung</value>
+    <value>Streaming 2 Port:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>Settings</value>
   </data>
 </root>

@@ -315,15 +315,15 @@ namespace opentuner
             for (count = 0; count < 4; count++)
             {
                 MPSSEbuffer[NumBytesToSend++] = 0x80;
-                MPSSEbuffer[NumBytesToSend++] = 0x03;
-                MPSSEbuffer[NumBytesToSend++] = 0x13;
+                MPSSEbuffer[NumBytesToSend++] = (byte)(0x03 | ftdi_gpio_lowbyte_value);
+                MPSSEbuffer[NumBytesToSend++] = 0xF3;
             }
 
             for (count = 0; count < 4; count++)
             {
                 MPSSEbuffer[NumBytesToSend++] = 0x80;
-                MPSSEbuffer[NumBytesToSend++] = 0x01;
-                MPSSEbuffer[NumBytesToSend++] = 0x13;
+                MPSSEbuffer[NumBytesToSend++] = (byte)(0x01 | ftdi_gpio_lowbyte_value);
+                MPSSEbuffer[NumBytesToSend++] = 0xF3;
             }
 
             return 0;
@@ -338,21 +338,20 @@ namespace opentuner
             for (count = 0; count < 4; count++)
             {
                 MPSSEbuffer[NumBytesToSend++] = 0x80;
-                MPSSEbuffer[NumBytesToSend++] = 0x01;
-                MPSSEbuffer[NumBytesToSend++] = 0x13;
+                MPSSEbuffer[NumBytesToSend++] = (byte)(0x01 | ftdi_gpio_lowbyte_value);
+                MPSSEbuffer[NumBytesToSend++] = 0xF3;
             }
 
             for (count = 0; count < 4; count++)
             {
                 MPSSEbuffer[NumBytesToSend++] = 0x80;
-                MPSSEbuffer[NumBytesToSend++] = 0x03;
-                MPSSEbuffer[NumBytesToSend++] = 0x13;
+                MPSSEbuffer[NumBytesToSend++] = (byte)(0x03 | ftdi_gpio_lowbyte_value);
+                MPSSEbuffer[NumBytesToSend++] = 0xF3;
             }
 
             MPSSEbuffer[NumBytesToSend++] = 0x80;
-            MPSSEbuffer[NumBytesToSend++] = 0x03;
-            MPSSEbuffer[NumBytesToSend++] = 0x10;
-
+            MPSSEbuffer[NumBytesToSend++] = (byte)(0x03 | ftdi_gpio_lowbyte_value);
+            MPSSEbuffer[NumBytesToSend++] = 0xF0;
             return 0;
         }
 
@@ -362,8 +361,8 @@ namespace opentuner
             byte err;
 
             MPSSEbuffer[NumBytesToSend++] = 0x80; // low byte
-            MPSSEbuffer[NumBytesToSend++] = 0x00; // value
-            MPSSEbuffer[NumBytesToSend++] = 0x13; // direction
+            MPSSEbuffer[NumBytesToSend++] = (byte)(0x00 | ftdi_gpio_lowbyte_value); // value
+            MPSSEbuffer[NumBytesToSend++] = 0xF3; // direction
 
             MPSSEbuffer[NumBytesToSend++] = 0x11; // clock data bytes out
             MPSSEbuffer[NumBytesToSend++] = 0x00; // length l
@@ -371,8 +370,8 @@ namespace opentuner
             MPSSEbuffer[NumBytesToSend++] = b;    // byte
 
             MPSSEbuffer[NumBytesToSend++] = 0x80; // low byte
-            MPSSEbuffer[NumBytesToSend++] = 0x00; // value
-            MPSSEbuffer[NumBytesToSend++] = 0x11; // direction
+            MPSSEbuffer[NumBytesToSend++] = (byte)(0x00 | ftdi_gpio_lowbyte_value); // value
+            MPSSEbuffer[NumBytesToSend++] = 0xF1; // direction
 
             MPSSEbuffer[NumBytesToSend++] = 0x27; // ?
             MPSSEbuffer[NumBytesToSend++] = 0x00; // ?
@@ -399,12 +398,12 @@ namespace opentuner
             byte err;
 
             MPSSEbuffer[NumBytesToSend++] = 0x80;
-            MPSSEbuffer[NumBytesToSend++] = 0x00;
-            MPSSEbuffer[NumBytesToSend++] = 0x13;
+            MPSSEbuffer[NumBytesToSend++] = (byte)(0x00 | ftdi_gpio_lowbyte_value);
+            MPSSEbuffer[NumBytesToSend++] = 0xF3;
 
             MPSSEbuffer[NumBytesToSend++] = 0x80;
-            MPSSEbuffer[NumBytesToSend++] = 0x00;
-            MPSSEbuffer[NumBytesToSend++] = 0x11;
+            MPSSEbuffer[NumBytesToSend++] = (byte)(0x00 | ftdi_gpio_lowbyte_value);
+            MPSSEbuffer[NumBytesToSend++] = 0xF1;
 
             MPSSEbuffer[NumBytesToSend++] = 0x25; // ?
             MPSSEbuffer[NumBytesToSend++] = 0x00; // ?
@@ -935,9 +934,9 @@ namespace opentuner
 
         byte ftdi_gpio_write_highbyte(byte pin_id, bool pin_value)
         {
-            //Log.Information("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
+            Log.Information("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
 
-            //Log.Information("ftdi_gpio_highbyte_value: before: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
+            Log.Information("ftdi_gpio_highbyte_value: before: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
 
             if (pin_value)
             {
@@ -948,7 +947,7 @@ namespace opentuner
                 ftdi_gpio_highbyte_value &= (byte)(~(1 << pin_id));
             }
 
-            //Log.Information("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
+            Log.Information("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
 
             NumBytesToSend = 0;
             MPSSEbuffer[NumBytesToSend++] = 0x82; // aka. MPSSE_CMD_SET_DATA_BITS_HIGHBYTE 
@@ -1055,26 +1054,32 @@ namespace opentuner
                 {
                     if (lnb_num == 0)
                     {
-                        Log.Information("Enable LNB2 VSEL");
                         ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, true);
-                        //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, true);
+                    }
+                    else
+                    {
+                        ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, true);
                     }
                 }
                 else
                 {
-                    Log.Information("Disable LNB2 VSEL");
                     if (lnb_num == 0)
                     {
                         ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
-                        //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, false);
+                    }
+                    else
+                    {
+                        ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, false);
                     }
                 }
 
                 if (lnb_num == 0)
                 {
-                    Log.Information("Enable LNB2 Power");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, true);
-                    //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, true);
+                }
+                else
+                {
+                    ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, true);
                 }
             }
             else
@@ -1082,11 +1087,13 @@ namespace opentuner
                 // disable
                 if (lnb_num == 0)
                 {
-                    Log.Information("Disable LNB2 Power");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, false);
-                    Log.Information("Disable LNB2 VSEL");
                     ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
-                    //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, false);
+                }
+                else
+                {
+                    ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, false);
+                    ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, false);
                 }
             }
 

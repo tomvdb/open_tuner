@@ -42,13 +42,16 @@ namespace opentuner
         static byte I2C_Status = 0;
         public bool Running = true;
 
+        // we only have 1 port on picotuner for control (old FTDI AC Port)
+
         // high byte
         /* Default GPIO value 0x6f = 0b01101111 = LNB Bias Off, LNB Voltage 12V, NIM not reset */
-        byte ftdi_gpio_highbyte_value = 0x6f;
+        byte gpio_value = 0x01;
+      
+        // all pins on picotuner set as output
+        byte gpio_direction = 0xFF;
 
-        /* Default GPIO direction 0xf1 = 0b11110001 = LNB pins, NIM Reset are outputs, TS2SYNC is input (0 for in and 1 for out) */
-        byte ftdi_gpio_highbyte_direction = 0xf1;
-
+        /*
         // low byte
         byte ftdi_gpio_lowbyte_value = 0x00;
         byte ftdi_gpio_lowbyte_direction = 0xFF;
@@ -63,6 +66,26 @@ namespace opentuner
 
         const byte FTDI_GPIO_PINID_LNB2_BIAS_ENABLE = 4;
         const byte FTDI_GPIO_PINID_LNB2_BIAS_VSEL = 5;
+        */
+
+        /*
+            #define AC0 2         //NIM RESET LOW
+            #define AC1 3         //
+            #define AC2 4         //J8-6
+            #define AC3 5         //J8-5
+            #define AC4 6         //J8-4  LNB Bias Enable 
+            #define AC5 7         //J8-3 
+            #define AC6 8         //J8-2 
+            #define AC7 9         //J8-1  LNB BIAS Voltage Select
+
+        */
+
+        const byte GPIO_NIM_RESET = 0;
+
+        const byte GPIO_LNB1_ENABLE = 4;
+        const byte GPIO_LNB2_ENABLE = 5;
+        const byte GPIO_LNB2_VSEL = 6;
+        const byte GPIO_LNB1_VSEL = 7;
 
         public override bool RequireSerialTS => true;
 
@@ -227,8 +250,8 @@ namespace opentuner
             MPSSEbuffer[NumBytesToSend++] = 0xFF; // direction
 
             MPSSEbuffer[NumBytesToSend++] = 0x82; // set output, high byte
-            MPSSEbuffer[NumBytesToSend++] = 0x6F; // value
-            MPSSEbuffer[NumBytesToSend++] = 0xF1; // direction
+            MPSSEbuffer[NumBytesToSend++] = gpio_value; // value
+            MPSSEbuffer[NumBytesToSend++] = gpio_direction; // direction
 
             MPSSEbuffer[NumBytesToSend++] = 0x86; 	//Command to set clock divisor
             MPSSEbuffer[NumBytesToSend++] = (byte)(ClockDivisor & 0x00FF);	//Set 0xValueL of clock divisor
@@ -260,16 +283,15 @@ namespace opentuner
 
         byte ftdi_nim_reset()
         {
-            // byte err = I2C_SetGPIOValuesHigh(0, 0);
-            byte err = ftdi_gpio_write_highbyte(0, false);
+            Log.Information("Nim Reset");
 
+            byte err = gpio_write(0, false);
             Thread.Sleep(10);
 
             if (err != 0)
                 return 1;
 
-            ftdi_gpio_write_highbyte(0, true);
-            //err = I2C_SetGPIOValuesHigh(1, 1);
+            gpio_write(0, true);
             Thread.Sleep(10);
 
             return err;
@@ -689,58 +711,33 @@ namespace opentuner
             return err;            
         }
 
-        byte ftdi_gpio_write_lowbyte(byte pin_id, bool pin_value)
+        byte gpio_write(byte pin_id, bool pin_value)
         {
-            Log.Information("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
+            Log.Information("Flow: GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
 
-            Log.Information("ftdi_gpio_value: before: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
+            //Log.Information("ftdi_gpio_highbyte_value: before: " + Convert.ToString(gpio_value, 2).PadLeft(8,'0'));
 
             if (pin_value)
             {
-                ftdi_gpio_lowbyte_value |= (byte)(1 << pin_id);
+                gpio_value |= (byte)(1 << pin_id);
             }
             else
             {
-                ftdi_gpio_lowbyte_value &= (byte)(~(1 << pin_id));
+                gpio_value &= (byte)(~(1 << pin_id));
             }
 
-            Log.Information("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_lowbyte_value, 2));
-
-            NumBytesToSend = 0;
-            MPSSEbuffer[NumBytesToSend++] = 0x80; // configure low bytes of mpsse port
-            MPSSEbuffer[NumBytesToSend++] = ftdi_gpio_lowbyte_value;
-            MPSSEbuffer[NumBytesToSend++] = ftdi_gpio_lowbyte_direction;
-
-            I2C_Status = Send_Data_i2c(NumBytesToSend);
-
-            NumBytesToSend = 0;
-
-            return I2C_Status;
-        }
-
-        byte ftdi_gpio_write_highbyte(byte pin_id, bool pin_value)
-        {
-            //Log.Information("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);
-
-            //Log.Information("ftdi_gpio_highbyte_value: before: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
-
-            if (pin_value)
-            {
-                ftdi_gpio_highbyte_value |= (byte)(1 << pin_id);
-            }
-            else
-            {
-                ftdi_gpio_highbyte_value &= (byte)(~(1 << pin_id));
-            }
-
-            //Log.Information("ftdi_gpio_value: after: " + Convert.ToString(ftdi_gpio_highbyte_value, 2).PadLeft(8,'0'));
 
             NumBytesToSend = 0;
             MPSSEbuffer[NumBytesToSend++] = 0x82; /* aka. MPSSE_CMD_SET_DATA_BITS_HIGHBYTE */
-            MPSSEbuffer[NumBytesToSend++] = ftdi_gpio_highbyte_value;
-            MPSSEbuffer[NumBytesToSend++] = ftdi_gpio_highbyte_direction;
+            MPSSEbuffer[NumBytesToSend++] = gpio_value;
+            MPSSEbuffer[NumBytesToSend++] = gpio_direction;
+
+            Log.Information(Convert.ToString(gpio_value, 2).PadLeft(8, '0'));
+            Log.Information("0x82: [" + gpio_value + "][" + gpio_direction + "]");
 
             I2C_Status = Send_Data_i2c(NumBytesToSend);
+
+            Log.Information("Result:" + I2C_Status.ToString());
 
             NumBytesToSend = 0;
 
@@ -810,6 +807,7 @@ namespace opentuner
 
         public override byte hw_ts_led(int led, bool setting)
         {
+            /*
             byte err = 0;
 
             switch (led)
@@ -824,15 +822,21 @@ namespace opentuner
 
 
             return err;
+
+            */
+
+            return 0;
         }
 
         // on minitiouner pro 2 there are 2 outputs for the 2 different lnb switching - longmynd originally only catered for 1 output, the pro 2 needs two outputs. 
         // need to confirm express and S versions.
+
+
         public override byte hw_set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal)
         {
             byte err = 0;
 
-            /*
+        
             if (supply_enable)
             {
                 // set voltage
@@ -841,25 +845,38 @@ namespace opentuner
                     if (lnb_num == 0)
                     {
                         Log.Information("Enable LNB2 VSEL");
-                        ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, true);
-                        //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, true);
+                        gpio_write(GPIO_LNB2_VSEL, true);
                     }
+                    else
+                    {
+                        Log.Information("Enable LNB1 VSEL");
+                        gpio_write(GPIO_LNB1_VSEL, true);
+                    }
+
                 }
                 else
                 {
-                    Log.Information("Disable LNB2 VSEL");
                     if (lnb_num == 0)
                     {
-                        ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
-                        //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_VSEL, false);
+                        Log.Information("Disable LNB2 VSEL");
+                        gpio_write(GPIO_LNB2_VSEL, false);
+                    }
+                    else
+                    {
+                        Log.Information("Disable LNB1 VSEL");
+                        gpio_write(GPIO_LNB1_VSEL, false);
                     }
                 }
 
                 if (lnb_num == 0)
                 {
+                    Log.Information("Enable LNB1 Power");
+                    gpio_write(GPIO_LNB2_ENABLE, true);
+                }
+                else
+                {
                     Log.Information("Enable LNB2 Power");
-                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, true);
-                    //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, true);
+                    gpio_write(GPIO_LNB1_ENABLE, true);
                 }
             }
             else
@@ -867,15 +884,20 @@ namespace opentuner
                 // disable
                 if (lnb_num == 0)
                 {
-                    Log.Information("Disable LNB2 Power");
-                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_ENABLE, false);
-                    Log.Information("Disable LNB2 VSEL");
-                    ftdi_gpio_write_highbyte(FTDI_GPIO_PINID_LNB_BIAS_VSEL, false);
-                    //ftdi_gpio_write_lowbyte(FTDI_GPIO_PINID_LNB2_BIAS_ENABLE, false);
+                    Log.Information("Disable LNB1 Power");
+                    gpio_write(GPIO_LNB2_ENABLE, false);
+                    gpio_write(GPIO_LNB2_VSEL, false);
+                }
+                else
+                {
+                    Log.Information("Disable LNB1 Power");
+                    gpio_write(GPIO_LNB1_ENABLE, false);
+                    gpio_write(GPIO_LNB1_VSEL, false);
+
                 }
             }
 
-            */
+            
             return err;
 
         }

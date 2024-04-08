@@ -23,7 +23,13 @@ namespace opentuner.MediaSources.Minitiouner
         SETRFINPUTA,
         SETRFINPUTB,
         SETSYMBOLRATE,
-        SETOFFSET
+        SETOFFSET,
+        LNBA_OFF,
+        LNBA_VERTICAL,
+        LNBA_HORIZONTAL,
+        LNBB_OFF,
+        LNBB_VERTICAL,
+        LNBB_HORIZONTAL
     }
 
     public partial class MinitiounerSource
@@ -63,9 +69,12 @@ namespace opentuner.MediaSources.Minitiouner
 
             // source properties
             _source_properties = new DynamicPropertyGroup("Minitiouner Properties", _parent);
+            _source_properties.setID(99);
             _source_properties.AddItem("source_hw_interface", "Hardware Interface");
             _source_properties.AddItem("source_hw_ldpc_errors", "LPDC Errors");
 
+            _source_properties.AddItem("hw_lnba", "LNB-A Power Supply", _genericContextStrip);
+            _source_properties.AddItem("hw_lnbb", "LNB-B Power Supply", _genericContextStrip);
 
             _tuner_forms = new List<TunerControlForm>();
             // tuner for each device
@@ -284,6 +293,33 @@ namespace opentuner.MediaSources.Minitiouner
             // general
             _source_properties.UpdateValue("source_hw_ldpc_errors", new_status.errors_ldpc_count.ToString());
 
+            switch(current_lnba_psu)
+            {
+                case 0:
+                    _source_properties.UpdateValue("hw_lnba", "OFF");
+                    break;
+                case 1:
+                    _source_properties.UpdateValue("hw_lnba", "Vertical (12V)");
+                    break;
+                case 2:
+                    _source_properties.UpdateValue("hw_lnba", "Horizontal (18V)");
+                    break;
+            }
+
+            switch (current_lnbb_psu)
+            {
+                case 0:
+                    _source_properties.UpdateValue("hw_lnbb", "OFF");
+                    break;
+                case 1:
+                    _source_properties.UpdateValue("hw_lnbb", "Vertical (12V)");
+                    break;
+                case 2:
+                    _source_properties.UpdateValue("hw_lnbb", "Horizontal (18V)");
+                    break;
+            }
+
+
             // tuner 1 properties  *************
             _tuner1_properties.UpdateValue("demodstate", lookups.demod_state_lookup[new_status.T1P2_demod_status]);
 
@@ -306,11 +342,6 @@ namespace opentuner.MediaSources.Minitiouner
             _tuner1_properties.UpdateValue("rf_input", (new_status.T1P2_rf_input == 1 ? "A" : "B"));
             _tuner1_properties.UpdateValue("stream_format", lookups.stream_format_lookups[Convert.ToInt32(new_status.T1P2_stream_format)].ToString());
             _tuner1_properties.UpdateValue("offset", current_offset_0.ToString());
-
-            if (_tuner_forms[0] != null)
-            {
-                _tuner_forms[0].UpdateTuner(current_frequency_0, current_sr_0, current_offset_0);
-            }
 
             // clear ts data if not locked onto signal
             if (new_status.T1P2_demod_status < 2)
@@ -402,10 +433,7 @@ namespace opentuner.MediaSources.Minitiouner
                 _tuner2_properties.UpdateValue("stream_format", lookups.stream_format_lookups[Convert.ToInt32(new_status.T2P1_stream_format)].ToString());
                 _tuner2_properties.UpdateValue("offset", current_offset_1.ToString());
 
-                if (_tuner_forms[1] != null)
-                {
-                    _tuner_forms[1].UpdateTuner(current_frequency_1, current_sr_1, current_offset_1);
-                }
+
 
 
                 // clear ts data if not locked onto signal
@@ -505,6 +533,16 @@ namespace opentuner.MediaSources.Minitiouner
                     contextMenuStrip.Items.Add(ConfigureMenuItem("Default: " + (tuner == 0 ? _settings.Offset1 : _settings.Offset2), MinitiounerPropertyCommands.SETOFFSET, new int[] { (int)contextMenuStrip.SourceControl.Tag - 1, 0 }));
                     contextMenuStrip.Items.Add(ConfigureMenuItem("Zero" , MinitiounerPropertyCommands.SETOFFSET, new int[] { (int)contextMenuStrip.SourceControl.Tag - 1, 1 }));
                     break;
+                case "hw_lnba":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("OFF", MinitiounerPropertyCommands.LNBA_OFF, new int[] { 0, 0 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Vertical", MinitiounerPropertyCommands.LNBA_VERTICAL, new int[] { 0, 0 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Horizontal", MinitiounerPropertyCommands.LNBA_HORIZONTAL, new int[] { 0, 0 }));
+                    break;
+                case "hw_lnbb":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("OFF", MinitiounerPropertyCommands.LNBB_OFF, new int[] { 0, 0 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Vertical", MinitiounerPropertyCommands.LNBB_VERTICAL, new int[] { 0, 0 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Horizontal", MinitiounerPropertyCommands.LNBB_HORIZONTAL, new int[] { 0, 0 }));
+                    break;
             }
 
         }
@@ -558,6 +596,31 @@ namespace opentuner.MediaSources.Minitiouner
 
                 default:
                     Log.Information("Unconfigured Command Change - " + command.ToString());
+                    break;
+
+                case MinitiounerPropertyCommands.LNBA_OFF:
+                    current_lnba_psu = 0;
+                    change_frequency(0, current_frequency_0, current_sr_0, current_rf_input_0, current_tone_22kHz_P1, current_lnba_psu, current_lnbb_psu);
+                    break;
+                case MinitiounerPropertyCommands.LNBA_VERTICAL:
+                    current_lnba_psu = 1;
+                    change_frequency(0, current_frequency_0, current_sr_0, current_rf_input_0, current_tone_22kHz_P1, current_lnba_psu, current_lnbb_psu);
+                    break;
+                case MinitiounerPropertyCommands.LNBA_HORIZONTAL:
+                    current_lnba_psu = 2;
+                    change_frequency(0, current_frequency_0, current_sr_0, current_rf_input_0, current_tone_22kHz_P1, current_lnba_psu, current_lnbb_psu);
+                    break;
+                case MinitiounerPropertyCommands.LNBB_OFF:
+                    current_lnbb_psu = 0;
+                    change_frequency(0, current_frequency_0, current_sr_0, current_rf_input_0, current_tone_22kHz_P1, current_lnba_psu, current_lnbb_psu);
+                    break;
+                case MinitiounerPropertyCommands.LNBB_VERTICAL:
+                    current_lnbb_psu = 1;
+                    change_frequency(0, current_frequency_0, current_sr_0, current_rf_input_0, current_tone_22kHz_P1, current_lnba_psu, current_lnbb_psu);
+                    break;
+                case MinitiounerPropertyCommands.LNBB_HORIZONTAL:
+                    current_lnbb_psu = 2;
+                    change_frequency(0, current_frequency_0, current_sr_0, current_rf_input_0, current_tone_22kHz_P1, current_lnba_psu, current_lnbb_psu);
                     break;
             }
         }

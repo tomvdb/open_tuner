@@ -74,6 +74,7 @@
             // 
             // groupBox3
             // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.checkWindowed4);
             this.groupBox3.Controls.Add(this.checkWindowed3);
             this.groupBox3.Controls.Add(this.comboMediaPlayer4);
@@ -89,7 +90,6 @@
             this.groupBox3.Controls.Add(this.btnBrowseFolder);
             this.groupBox3.Controls.Add(this.txtSnapshotPath);
             this.groupBox3.Controls.Add(this.label4);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -107,24 +107,24 @@
             // 
             // comboMediaPlayer4
             // 
+            resources.ApplyResources(this.comboMediaPlayer4, "comboMediaPlayer4");
             this.comboMediaPlayer4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboMediaPlayer4.FormattingEnabled = true;
             this.comboMediaPlayer4.Items.AddRange(new object[] {
             resources.GetString("comboMediaPlayer4.Items"),
             resources.GetString("comboMediaPlayer4.Items1"),
             resources.GetString("comboMediaPlayer4.Items2")});
-            resources.ApplyResources(this.comboMediaPlayer4, "comboMediaPlayer4");
             this.comboMediaPlayer4.Name = "comboMediaPlayer4";
             // 
             // comboMediaPlayer3
             // 
+            resources.ApplyResources(this.comboMediaPlayer3, "comboMediaPlayer3");
             this.comboMediaPlayer3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboMediaPlayer3.FormattingEnabled = true;
             this.comboMediaPlayer3.Items.AddRange(new object[] {
             resources.GetString("comboMediaPlayer3.Items"),
             resources.GetString("comboMediaPlayer3.Items1"),
             resources.GetString("comboMediaPlayer3.Items2")});
-            resources.ApplyResources(this.comboMediaPlayer3, "comboMediaPlayer3");
             this.comboMediaPlayer3.Name = "comboMediaPlayer3";
             // 
             // label1
@@ -151,24 +151,24 @@
             // 
             // comboMediaPlayer2
             // 
+            resources.ApplyResources(this.comboMediaPlayer2, "comboMediaPlayer2");
             this.comboMediaPlayer2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboMediaPlayer2.FormattingEnabled = true;
             this.comboMediaPlayer2.Items.AddRange(new object[] {
             resources.GetString("comboMediaPlayer2.Items"),
             resources.GetString("comboMediaPlayer2.Items1"),
             resources.GetString("comboMediaPlayer2.Items2")});
-            resources.ApplyResources(this.comboMediaPlayer2, "comboMediaPlayer2");
             this.comboMediaPlayer2.Name = "comboMediaPlayer2";
             // 
             // comboMediaPlayer1
             // 
+            resources.ApplyResources(this.comboMediaPlayer1, "comboMediaPlayer1");
             this.comboMediaPlayer1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboMediaPlayer1.FormattingEnabled = true;
             this.comboMediaPlayer1.Items.AddRange(new object[] {
             resources.GetString("comboMediaPlayer1.Items"),
             resources.GetString("comboMediaPlayer1.Items1"),
             resources.GetString("comboMediaPlayer1.Items2")});
-            resources.ApplyResources(this.comboMediaPlayer1, "comboMediaPlayer1");
             this.comboMediaPlayer1.Name = "comboMediaPlayer1";
             // 
             // label8
@@ -208,17 +208,17 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.btnCancel, "btnCancel");
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.button3_Click);
             // 
             // groupBox5
             // 
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Controls.Add(this.label18);
             this.groupBox5.Controls.Add(this.comboDefaultSource);
-            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
@@ -229,17 +229,18 @@
             // 
             // comboDefaultSource
             // 
+            resources.ApplyResources(this.comboDefaultSource, "comboDefaultSource");
             this.comboDefaultSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDefaultSource.FormattingEnabled = true;
             this.comboDefaultSource.Items.AddRange(new object[] {
             resources.GetString("comboDefaultSource.Items"),
             resources.GetString("comboDefaultSource.Items1"),
             resources.GetString("comboDefaultSource.Items2")});
-            resources.ApplyResources(this.comboDefaultSource, "comboDefaultSource");
             this.comboDefaultSource.Name = "comboDefaultSource";
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.txtStreaming4Port);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.txtStreaming4IP);
@@ -256,7 +257,6 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtStreaming1IP);
             this.groupBox1.Controls.Add(this.label3);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -401,8 +401,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label txt;
         private System.Windows.Forms.TextBox txtStreaming1Port;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtStreaming1IP;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
     }
 }

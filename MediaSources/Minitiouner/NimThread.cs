@@ -350,6 +350,32 @@ namespace opentuner
                         {
                             Thread.Sleep(10);
 
+                            switch(nim_config.lnba_psu)
+                            {
+                                case 0:
+                                    hardware.hw_set_polarization_supply(0, false, false);
+                                    break;
+                                case 1:
+                                    hardware.hw_set_polarization_supply(0, true, false);
+                                    break;
+                                case 2:
+                                    hardware.hw_set_polarization_supply(0, true, true);
+                                    break;
+                            }
+
+                            switch (nim_config.lnbb_psu)
+                            {
+                                case 0:
+                                    hardware.hw_set_polarization_supply(1, false, false);
+                                    break;
+                                case 1:
+                                    hardware.hw_set_polarization_supply(1, true, false);
+                                    break;
+                                case 2:
+                                    hardware.hw_set_polarization_supply(1, true, true);
+                                    break;
+                            }
+
 
                             // setup demod
                             if (err == 0)
