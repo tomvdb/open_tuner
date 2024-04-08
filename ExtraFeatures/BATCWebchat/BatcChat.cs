@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using opentuner.MediaSources;
 
 namespace opentuner.ExtraFeatures.BATCWebchat
 {
@@ -13,13 +14,13 @@ namespace opentuner.ExtraFeatures.BATCWebchat
         private WebChatForm _form;
         private WebChatSettings wc_settings;
         SettingsManager<WebChatSettings> wc_settingsManager;
-        public BATCChat() {
+        public BATCChat(OTSource Source) {
             // webchat settings
             wc_settings = new WebChatSettings();
             wc_settingsManager = new SettingsManager<WebChatSettings>("qo100_webchat_settings");
             wc_settings = (wc_settingsManager.LoadSettings(wc_settings));
 
-            _form = new WebChatForm(wc_settings);
+            _form = new WebChatForm(wc_settings, Source);
             _form.FormClosing += _form_FormClosing;
 
             if (wc_settings.gui_chat_width > 0)
@@ -41,6 +42,8 @@ namespace opentuner.ExtraFeatures.BATCWebchat
             _form.Show();
             _form.Focus();
         }
+
+       
 
         public void Close()
         {

@@ -107,7 +107,8 @@ namespace opentuner.MediaSources.Longmynd
             }
 
 
-            current_frequency_1 = (uint)mm.packet.rx.frequency;
+            current_frequency_0 = (uint)mm.packet.rx.frequency;
+            current_sr_0 = (uint)mm.packet.rx.symbolrate;
 
             UpdatePropertiesWs(mm);
 
@@ -152,6 +153,8 @@ namespace opentuner.MediaSources.Longmynd
                 debug(monitor_message.packet.rx.modcod.ToString());
             }
 
+            last_mer_0 = mer.ToString();
+            last_dbm_0 = "D" + db_margin.ToString("N1").ToString();
             _tuner1_properties.UpdateBigLabel("D" + db_margin.ToString("N1"));
             //_tuner1_properties.UpdateValue("db_margin", "D" + db_margin.ToString("N1"));
             _tuner1_properties.UpdateValue("modcod", modcod_text);
@@ -161,6 +164,10 @@ namespace opentuner.MediaSources.Longmynd
 
             _tuner1_properties.UpdateValue("service_name_provider", monitor_message.packet.ts.service_provider_name);
             _tuner1_properties.UpdateValue("service_name", monitor_message.packet.ts.service_name);
+
+            last_service_name_0 = monitor_message.packet.ts.service_name;
+            last_service_provider_0 = monitor_message.packet.ts.service_provider_name;
+
             _tuner1_properties.UpdateValue("null_packets", monitor_message.packet.ts.null_ratio + "%");
 
             _source_properties.UpdateValue("source_ts_ip", monitor_message.packet.rx.ts_ip_addr + ":" + monitor_message.packet.rx.ts_ip_port.ToString());

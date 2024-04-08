@@ -46,6 +46,11 @@ namespace opentuner.MediaSources.Winterhill
         private int[] _current_frequency = new int[4] {0, 0, 0, 0};
         private int[] _current_sr = new int[4] { 0, 0, 0, 0 };
 
+        private string[] last_service_name = new string[4] { "", "", "", "" };
+        private string[] last_service_provider = new string[4] { "", "", "", "" };
+        private string[] last_dbm = new string[4] { "", "", "", "" };
+        private string[] last_mer = new string[4] { "", "", "", "" };
+        
         private int[] demodstate = new int[4] {0, 0, 0, 0};
 
         private bool[] playing = new bool[4] {false, false, false, false};

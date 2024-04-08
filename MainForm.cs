@@ -854,7 +854,7 @@ namespace opentuner
             if (checkBatcChat.Checked)
             {
                 qO100WidebandChatToolStripMenuItem.Visible = true;
-                batc_chat = new BATCChat();
+                batc_chat = new BATCChat(videoSource);
             }
 
             if (checkQuicktune.Checked)

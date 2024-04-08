@@ -77,8 +77,8 @@ namespace opentuner
         const byte FTDI_GPIO_PINID_LED2 = 6;
         const byte FTDI_GPIO_PINID_LNB_BIAS_VSEL = 7;
 
-        const byte FTDI_GPIO_PINID_LNB2_BIAS_ENABLE = 4;
-        const byte FTDI_GPIO_PINID_LNB2_BIAS_VSEL = 5;
+        const byte FTDI_GPIO_PINID_LNB2_BIAS_ENABLE = 5;
+        const byte FTDI_GPIO_PINID_LNB2_BIAS_VSEL = 4;
 
         public override bool RequireSerialTS => false;
 

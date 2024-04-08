@@ -48,7 +48,13 @@ namespace opentuner.MediaSources.Longmynd
         public override bool DeviceConnected => _connected;
 
         // properties
-        private uint current_frequency_1 = 0;
+        private uint current_frequency_0 = 0;
+        private uint current_sr_0 = 0;
+
+        private string last_service_name_0 = "";
+        private string last_service_provider_0 = "";
+        private string last_dbm_0 = "";
+        private string last_mer_0 = "";
 
         string _mediaPath = "";
 
@@ -106,9 +112,9 @@ namespace opentuner.MediaSources.Longmynd
         public override long GetFrequency(int device, bool offset_included)
         {
             if (offset_included)
-                return current_frequency_1 + _settings.Offset1;
+                return current_frequency_0 + _settings.Offset1;
 
-            return current_frequency_1;
+            return current_frequency_0;
         }
 
         public override string GetName()

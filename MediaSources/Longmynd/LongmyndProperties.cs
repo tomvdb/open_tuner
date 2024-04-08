@@ -253,6 +253,24 @@ namespace opentuner.MediaSources.Longmynd
             return item;
         }
 
+        public override Dictionary<string, string> GetSignalData(int device)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            if (device == 0)
+            {
+                data.Add("ServiceName", last_service_name_0);
+                data.Add("ServiceProvider", last_service_provider_0);
+                data.Add("dbMargin", last_dbm_0);
+                data.Add("Mer", last_mer_0);
+                data.Add("SR", current_sr_0.ToString());
+                data.Add("Frequency", current_frequency_0.ToString());
+            }
+
+            return data;
+        }
+
+
         private void properties_OnPropertyMenuSelect(LongmyndPropertyCommands command, int option)
         {
             Log.Information("Config Change: " + command.ToString() + " - " + option.ToString());

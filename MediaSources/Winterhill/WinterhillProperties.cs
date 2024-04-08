@@ -326,7 +326,6 @@ namespace opentuner.MediaSources.Winterhill
                     {
                         if (rx.scanstate == 2 || rx.scanstate == 3)
                         {
-
                             Log.Information("Playing" + c.ToString());
                             VideoChangeCB?.Invoke(c + 1, true);
                             playing[c] = true;
@@ -378,6 +377,11 @@ namespace opentuner.MediaSources.Winterhill
                     _tuner_properties[c].UpdateValue("null_packets", rx.null_percentage.ToString());
                     _tuner_properties[c].UpdateValue("ts_addr", rx.ts_addr.ToString());
 
+                    last_mer[c] = rx.mer;
+                    last_service_name[c] = rx.service_name;
+                    last_service_provider[c] = rx.service_provider_name;
+                    last_dbm[c] = rx.dbmargin.ToString();
+
                     if (rx.ts_addr != _LocalIp)
                     {
                         _tuner_properties[c].UpdateColor("ts_addr", Color.PaleVioletRed);
@@ -398,6 +402,20 @@ namespace opentuner.MediaSources.Winterhill
             {
                 Log.Warning(Ex, "Error");
             }
+        }
+
+        public override Dictionary<string, string> GetSignalData(int device)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+                data.Add("ServiceName", last_service_name[device]);
+                data.Add("ServiceProvider", last_service_provider[device]);
+                data.Add("dbMargin", last_dbm[device]);
+                data.Add("Mer", last_mer[device]);
+                data.Add("SR", _current_sr[device].ToString());
+                data.Add("Frequency", _current_frequency[device].ToString());
+
+            return data;
         }
     }
 }

@@ -17,25 +17,26 @@ using System.Security.Cryptography;
 using System.Threading;
 using Serilog;
 using opentuner.ExtraFeatures.BATCWebchat;
+using opentuner.MediaSources;
 
 namespace opentuner
 {
     public partial class WebChatForm : Form
     {
-
         static Font consoleFont; 
         static Font consoleFontBold;
 
         public string prop_title { set { this.Text = value; } }
 
         WebChatSettings _settings;
+        OTSource _source;
 
-        public WebChatForm(WebChatSettings Settings)
+        public WebChatForm(WebChatSettings Settings, OTSource Source)
         {
             InitializeComponent();
 
             _settings = Settings;
-
+            _source = Source;
             consoleFont = new Font("Consolas", _settings.chat_font_size);
             consoleFontBold = new Font("Consolas", _settings.chat_font_size + 1, FontStyle.Bold);
         }
@@ -85,6 +86,15 @@ namespace opentuner
             AddChat(richChat, "", "", "Connecting...");
             client.ConnectAsync();
 
+            if (_source.GetVideoSourceCount() > 0)
+                btnSigReportTuner1.Enabled = true;
+            if (_source.GetVideoSourceCount() > 1)
+                btnSigReportTuner2.Enabled = true;
+            if (_source.GetVideoSourceCount() > 2)
+            {
+                btnSigReportTuner3.Enabled = true;
+                btnSigReportTuner4.Enabled = true;
+            }
         }
 
         private void Client_OnDisconnected(object sender, string e)
@@ -450,6 +460,47 @@ namespace opentuner
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtMessage.Text = Clipboard.GetText();
+        }
+
+        private void getSignalReportData(int tuner)
+        {
+            var data = _source.GetSignalData(tuner);
+
+            //string signalReport = "SigReport: " + lblServiceName.Text.ToString() + "/" + lblServiceProvider.Text.ToString() + " - " + lbldbMargin.Text.ToString() + " (" + lblMer.Text.ToString() + ") - " + lblSR.Text.ToString() + "" + " - " + (freq).ToString() + " ";
+            string signalReport = _settings.sigreport_template.ToString();
+
+            // SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}
+
+            signalReport = signalReport.Replace("{SN}", data["ServiceName"]);
+            signalReport = signalReport.Replace("{SP}", data["ServiceProvider"]);
+            signalReport = signalReport.Replace("{DBM}", data["dbMargin"]);
+            signalReport = signalReport.Replace("{MER}", data["Mer"]);
+            signalReport = signalReport.Replace("{SR}", data["SR"] + "");
+            signalReport = signalReport.Replace("{FREQ}", data["Frequency"] + "");
+
+            txtMessage.Text = signalReport;
+
+            Clipboard.SetText(signalReport);
+        }
+
+        private void btnSigReportTuner1_Click(object sender, EventArgs e)
+        {
+            getSignalReportData(0);
+        }
+
+        private void btnSigReportTuner2_Click(object sender, EventArgs e)
+        {
+            getSignalReportData(1);
+        }
+
+        private void btnSigReportTuner3_Click(object sender, EventArgs e)
+        {
+            getSignalReportData(2);
+        }
+
+        private void btnSigReportTuner4_Click(object sender, EventArgs e)
+        {
+            getSignalReportData(3);
         }
     }
 }

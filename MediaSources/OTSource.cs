@@ -13,9 +13,8 @@ namespace opentuner.MediaSources
     {
         public delegate void VideoChangeCallback(int video_number, bool start);
         public delegate void SourceDataChange(Dictionary<string, string> Properties, string topic);
-
         public abstract event SourceDataChange OnSourceData;
-
+        
         // Request the Source Name (eg. Minitiouner)
         public abstract string GetName();
 
@@ -32,6 +31,8 @@ namespace opentuner.MediaSources
 
         public abstract void SetFrequency(int device, uint frequency, uint symbol_rate, bool offset_included);
         public abstract long GetFrequency(int device, bool offset_included);
+
+        public abstract Dictionary<string, string> GetSignalData(int device);
 
         public abstract void StartStreaming(int device);
         public abstract void StopStreaming(int device);

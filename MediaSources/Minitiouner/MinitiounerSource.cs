@@ -71,7 +71,18 @@ namespace opentuner.MediaSources.Minitiouner
         private uint current_offset_1 = 0;
 
         private byte current_lnba_psu = 0;
-        private byte current_lnbb_psu = 0; 
+        private byte current_lnbb_psu = 0;
+
+        private string last_service_name_0 = "";
+        private string last_service_provider_0 = "";
+        private string last_dbm_0 = "";
+        private string last_mer_0 = "";
+
+        private string last_service_name_1 = "";
+        private string last_service_provider_1 = "";
+        private string last_dbm_1 = "";
+        private string last_mer_1 = "";
+
 
         private VideoChangeCallback VideoChangeCB;
 

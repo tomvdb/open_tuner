@@ -53,9 +53,9 @@
             this.groupBox1.Controls.Add(this.txtUdp1);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(16, 15);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(320, 204);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -64,7 +64,7 @@
             // txtUdp4
             // 
             this.txtUdp4.Location = new System.Drawing.Point(161, 145);
-            this.txtUdp4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUdp4.Margin = new System.Windows.Forms.Padding(4);
             this.txtUdp4.Name = "txtUdp4";
             this.txtUdp4.Size = new System.Drawing.Size(132, 22);
             this.txtUdp4.TabIndex = 7;
@@ -77,12 +77,12 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(114, 16);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Tuner 1 UDP Port:";
+            this.label4.Text = "Tuner 4 UDP Port:";
             // 
             // txtUdp3
             // 
             this.txtUdp3.Location = new System.Drawing.Point(161, 113);
-            this.txtUdp3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUdp3.Margin = new System.Windows.Forms.Padding(4);
             this.txtUdp3.Name = "txtUdp3";
             this.txtUdp3.Size = new System.Drawing.Size(132, 22);
             this.txtUdp3.TabIndex = 5;
@@ -95,12 +95,12 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(114, 16);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Tuner 1 UDP Port:";
+            this.label3.Text = "Tuner 3 UDP Port:";
             // 
             // txtUdp2
             // 
             this.txtUdp2.Location = new System.Drawing.Point(161, 81);
-            this.txtUdp2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUdp2.Margin = new System.Windows.Forms.Padding(4);
             this.txtUdp2.Name = "txtUdp2";
             this.txtUdp2.Size = new System.Drawing.Size(132, 22);
             this.txtUdp2.TabIndex = 3;
@@ -113,12 +113,12 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(114, 16);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Tuner 1 UDP Port:";
+            this.label2.Text = "Tuner 2 UDP Port:";
             // 
             // txtUdp1
             // 
             this.txtUdp1.Location = new System.Drawing.Point(161, 49);
-            this.txtUdp1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUdp1.Margin = new System.Windows.Forms.Padding(4);
             this.txtUdp1.Name = "txtUdp1";
             this.txtUdp1.Size = new System.Drawing.Size(132, 22);
             this.txtUdp1.TabIndex = 1;
@@ -136,7 +136,7 @@
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(236, 226);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 1;
@@ -148,7 +148,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(128, 226);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 2;
@@ -169,7 +169,7 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "QuickTuneControlSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Quick Tune Listener Settings";

@@ -264,6 +264,17 @@ namespace opentuner.MediaSources.Minitiouner
             _tuner.UpdateValue("service_name_provider", ts_status.ServiceProvider);
             _tuner.UpdateValue("null_packets", ts_status.NullPacketsPerc.ToString() + "%");
 
+            if (tuner == 1)
+            {
+                last_service_name_0 = ts_status.ServiceName;
+                last_service_provider_0 = ts_status.ServiceProvider;
+            }
+            else
+            {
+                last_service_name_1 = ts_status.ServiceName;
+                last_service_provider_1 = ts_status.ServiceProvider;
+            }
+
         }
 
         private void UpdateMediaProperties(int player, MediaStatus media_status)
@@ -397,6 +408,9 @@ namespace opentuner.MediaSources.Minitiouner
             {
             }
 
+            last_dbm_0 = db_margin_text;
+            last_mer_0 = mer.ToString();
+
             _tuner1_properties.UpdateBigLabel(db_margin_text);
             //_tuner1_properties.UpdateValue("db_margin", db_margin_text);
             _tuner1_properties.UpdateValue("modcod", modcod_text);
@@ -491,6 +505,9 @@ namespace opentuner.MediaSources.Minitiouner
                 catch (Exception Ex)
                 {
                 }
+
+                last_dbm_1 = db_margin_text;
+                last_mer_1 = mer2.ToString();
 
                 _tuner2_properties.UpdateBigLabel(db_margin_text);
                 //_tuner2_properties.UpdateValue("db_margin", db_margin_text);
@@ -640,5 +657,31 @@ namespace opentuner.MediaSources.Minitiouner
 
         }
 
+        public override Dictionary<string, string> GetSignalData(int device)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            if (device == 0)
+            {
+                data.Add("ServiceName", last_service_name_0);
+                data.Add("ServiceProvider", last_service_provider_0);
+                data.Add("dbMargin", last_dbm_0);
+                data.Add("Mer", last_mer_0);
+                data.Add("SR", current_sr_0.ToString());
+                data.Add("Frequency", current_frequency_0.ToString());
+            }
+
+            if (device == 1)
+            {
+                data.Add("ServiceName", last_service_name_1);
+                data.Add("ServiceProvider", last_service_provider_1);
+                data.Add("dbMargin", last_dbm_1);
+                data.Add("Mer", last_mer_1);
+                data.Add("SR", current_sr_1.ToString());
+                data.Add("Frequency", current_frequency_1.ToString());
+            }
+
+            return data;
+        }
     }
 }

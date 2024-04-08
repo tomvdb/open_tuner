@@ -128,6 +128,7 @@ namespace opentuner.MediaSources.Longmynd
 
                 case "dt/longmynd/symbolrate":
                     _tuner1_properties.UpdateValue("symbol_rate", Message);
+                    uint.TryParse(Message, out current_sr_0);
                     break;
                 case "dt/longmynd/ber":
                     _tuner1_properties.UpdateValue("ber", Message);
@@ -135,12 +136,15 @@ namespace opentuner.MediaSources.Longmynd
                 case "dt/longmynd/mer":
                     _tuner1_properties.UpdateValue("mer", Message);
                     double.TryParse(Message, out mqtt_mer);
+                    last_mer_0 = mqtt_mer.ToString();
                     break;
                 case "dt/longmynd/service_name":
                     _tuner1_properties.UpdateValue("service_name", Message);
+                    last_service_name_0 = Message;
                     break;
                 case "dt/longmynd/provider_name":
                     _tuner1_properties.UpdateValue("service_name_provider", Message);
+                    last_service_provider_0 = Message;
                     break;
                 case "dt/longmynd/ts_null":
                     _tuner1_properties.UpdateValue("null_packets", Message);
@@ -172,7 +176,7 @@ namespace opentuner.MediaSources.Longmynd
                     _tuner1_properties.UpdateValue("modcod", mod + " " + fec);
                     break;
                 case "dt/longmynd/carrier_frequency":
-                    if ( uint.TryParse(Message, out current_frequency_1))
+                    if ( uint.TryParse(Message, out current_frequency_0))
                     {
                         _tuner1_properties.UpdateValue("requested_freq", "(" + GetFrequency(0, true).ToString("N0") + ") (" + GetFrequency(0, false).ToString("N0") + ")");
                     }
