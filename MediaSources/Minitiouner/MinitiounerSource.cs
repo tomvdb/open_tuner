@@ -197,7 +197,13 @@ namespace opentuner.MediaSources.Minitiouner
             if (!hardware_connected)
                 return;
 
+            if (device >= GetVideoSourceCount())
+            {
+                return;
+            }
+
             Log.Information("Change Frequency: " + device.ToString());
+
             switch (rf_input)
             {
                 case nim.NIM_INPUT_TOP: Log.Information("RF Input: Nim Input Top Specified"); break;
@@ -251,6 +257,8 @@ namespace opentuner.MediaSources.Minitiouner
             current_tone_22kHz_P1 = tone_22kHz_P1;
 
             config_queue.Enqueue(newConfig);
+
+            
 
             if (_tuner_forms[device] != null)
             {
@@ -519,14 +527,14 @@ namespace opentuner.MediaSources.Minitiouner
             current_sr_0 = 1500;
             current_sr_1 = 1500;
 
-
-
             // setup tuner 0
             change_frequency(0, current_frequency_0, current_sr_0, current_rf_input_0, current_tone_22kHz_P1, current_lnba_psu, current_lnbb_psu);
 
-            // setup tuner 1
-            change_frequency(1, current_frequency_1, current_sr_1, current_rf_input_1, current_tone_22kHz_P1, current_lnba_psu, current_lnbb_psu);
-
+            if (ts_devices == 2)
+            {
+                // setup tuner 1
+                change_frequency(1, current_frequency_1, current_sr_1, current_rf_input_1, current_tone_22kHz_P1, current_lnba_psu, current_lnbb_psu);
+            }
 
             nim_thread_t.Start();
 

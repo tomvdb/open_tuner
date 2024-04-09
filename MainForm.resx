@@ -666,11 +666,14 @@
   <data name="&gt;&gt;linkDocumentation.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="groupBox3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
   <data name="groupBox3.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 439</value>
+    <value>3, 427</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
     <value>422, 346</value>
@@ -1149,11 +1152,14 @@
   <data name="&gt;&gt;checkBatcSpectrum.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
+  <data name="groupBox2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
   <data name="groupBox2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 240</value>
+    <value>3, 234</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>422, 193</value>
@@ -1617,6 +1623,9 @@
   <data name="&gt;&gt;checkBatcSpectrum.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
+  <data name="groupBox1.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
   <data name="&gt;&gt;linkSourceMoreInfo.Name" xml:space="preserve">
     <value>linkSourceMoreInfo</value>
   </data>
@@ -1729,7 +1738,7 @@
     <value>NoControl</value>
   </data>
   <data name="linkSourceMoreInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>342, 208</value>
+    <value>342, 195</value>
   </data>
   <data name="linkSourceMoreInfo.Size" type="System.Drawing.Size, System.Drawing">
     <value>64, 13</value>
@@ -1753,7 +1762,7 @@
     <value>0</value>
   </data>
   <data name="sourceInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 92</value>
+    <value>18, 53</value>
   </data>
   <data name="sourceInfo.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1780,7 +1789,7 @@
     <value>1</value>
   </data>
   <data name="btnSourceSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 50</value>
+    <value>17, 172</value>
   </data>
   <data name="btnSourceSettings.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 36</value>
@@ -1804,7 +1813,7 @@
     <value>2</value>
   </data>
   <data name="btnSourceConnect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 50</value>
+    <value>134, 172</value>
   </data>
   <data name="btnSourceConnect.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 36</value>
@@ -2230,7 +2239,7 @@
     <value>1723, 1196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner  (ZR6TG) - 0.A Test Version - 2024/04/08 (2)</value>
+    <value>Open Tuner  (ZR6TG) - 0.A Version - 2024/04/09</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>

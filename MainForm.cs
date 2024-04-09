@@ -360,8 +360,6 @@ namespace opentuner
 
                 this.Left = _settings.gui_window_x;
                 this.Top = _settings.gui_window_y;
-
-                splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
             }
 
 
@@ -866,6 +864,8 @@ namespace opentuner
             {
                 mqtt_client = new MqttManager();
             }
+
+            splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
 
         }
 

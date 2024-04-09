@@ -380,13 +380,13 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.linkSourceMoreInfo);
             this.groupBox1.Controls.Add(this.sourceInfo);
             this.groupBox1.Controls.Add(this.btnSourceSettings);
             this.groupBox1.Controls.Add(this.btnSourceConnect);
             this.groupBox1.Controls.Add(this.comboAvailableSources);
             this.groupBox1.Controls.Add(this.label1);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
