@@ -279,7 +279,16 @@ namespace opentuner.MediaSources.Winterhill
         {
             int video_id = ((OTMediaPlayer)sender).getID();
 
-            _media_player[video_id].SetVolume((int)_settings.DefaultVolume[video_id]);
+            preMute[video_id] = (int)_settings.DefaultVolume[video_id];
+            muted[video_id] = _settings.DefaultMuted[video_id];
+            if (muted[video_id] == true)
+            {
+                _media_player[video_id].SetVolume(0);
+            }
+            else
+            {
+                _media_player[video_id].SetVolume(preMute[video_id]);
+            }
 
             UpdateMediaProperties(video_id, e);
         }

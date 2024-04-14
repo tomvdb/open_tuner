@@ -18,5 +18,6 @@ namespace opentuner.MediaSources.Winterhill
 
         public uint[] Offset = new uint[] { 9750000, 9750000, 9750000, 9750000 };
         public uint[] DefaultVolume = new uint[] { 0, 0, 0, 0 };
+        public bool[] DefaultMuted = new bool[] { false, false, false, false };
     }
 }
