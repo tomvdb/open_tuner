@@ -10,7 +10,6 @@ using System.Drawing;
 using opentuner.MediaSources.Longmynd;
 using Serilog;
 using System.Globalization;
-using Newtonsoft.Json.Linq;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -70,10 +69,8 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].AddItem("audio_rate", "Audio Rate");
                 _tuner_properties[c].AddSlider("volume_slider_" + c.ToString(), "Volume", 0, 200);
                 _tuner_properties[c].AddMediaControls("media_controls_" + c.ToString(), "Media Controls");
-                if (!_settings.DefaultMuted[c])
-                {
-                    _tuner_properties[c].UpdateValue("volume_slider_" + c.ToString(), _settings.DefaultVolume[c].ToString());
-                }
+
+                _tuner_properties[c].UpdateValue("volume_slider_" + c.ToString(), _settings.DefaultVolume[c].ToString());
             }
 
             _tuner_forms = new List<TunerControlForm>();
@@ -190,14 +187,13 @@ namespace opentuner.MediaSources.Winterhill
                         preMute[tuner] = _media_player[tuner].GetVolume();
                         _media_player[tuner].SetVolume(0);
                         _tuner_properties[tuner].UpdateValue("volume_slider_" + tuner.ToString(), "0");
-                        _settings.DefaultVolume[tuner] = (byte)preMute[tuner];
-                        _settings.DefaultMuted[tuner] = muted[tuner] = true;
+                        muted[tuner] = true;
                     }
                     else
                     {
                         _media_player[tuner].SetVolume(preMute[tuner]);
                         _tuner_properties[tuner].UpdateValue("volume_slider_" + tuner.ToString(), preMute[tuner].ToString());
-                        _settings.DefaultMuted[tuner] = muted[tuner] = false;
+                        muted[tuner] = false;
                     }
 
                     break;
@@ -278,25 +274,21 @@ namespace opentuner.MediaSources.Winterhill
                     muted[0] = false;
                     _media_player[0]?.SetVolume(value);
                     _settings.DefaultVolume[0] = (byte)value;
-                    _settings.DefaultMuted[0] = false;
                     break;
                 case "volume_slider_1":
                     muted[1] = false;
                     _media_player[1]?.SetVolume(value);
                     _settings.DefaultVolume[1] = (byte)value;
-                    _settings.DefaultMuted[1] = false;
                     break;
                 case "volume_slider_2":
                     muted[2] = false;
                     _media_player[2]?.SetVolume(value);
                     _settings.DefaultVolume[2] = (byte)value;
-                    _settings.DefaultMuted[2] = false;
                     break;
                 case "volume_slider_3":
                     muted[3] = false;
                     _media_player[3]?.SetVolume(value);
                     _settings.DefaultVolume[3] = (byte)value;
-                    _settings.DefaultMuted[3] = false;
                     break;
             }
         }

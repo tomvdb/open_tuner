@@ -62,7 +62,7 @@ namespace opentuner.MediaSources.Winterhill
             // settings
             _settings = new WinterhillSettings();
             _settingsManager = new SettingsManager<WinterhillSettings>("winterhill_settings");
-            _settings = _settingsManager.LoadSettings(_settings);
+            _settings = (_settingsManager.LoadSettings(_settings));
         }
 
         public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
@@ -278,16 +278,8 @@ namespace opentuner.MediaSources.Winterhill
         private void WinterhillSource_onVideoOut(object sender, MediaStatus e)
         {
             int video_id = ((OTMediaPlayer)sender).getID();
-            preMute[video_id] = (int)_settings.DefaultVolume[video_id];
-            muted[video_id] = _settings.DefaultMuted[video_id];
-            if (muted[video_id] == true)
-            {
-                _media_player[video_id].SetVolume(0);
-            }
-            else
-            {
-                _media_player[video_id].SetVolume(preMute[video_id]);
-            }
+
+            _media_player[video_id].SetVolume((int)_settings.DefaultVolume[video_id]);
 
             UpdateMediaProperties(video_id, e);
         }
