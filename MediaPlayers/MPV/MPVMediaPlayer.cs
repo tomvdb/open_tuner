@@ -136,8 +136,6 @@ namespace opentuner.MediaPlayers.MPV
                             info.AudioCodec = data;
                             data = GetPropertyString("audio-device");
                             debug(data);
-                            data = GetPropertyString("audio-params/channel-count");
-                            uint.TryParse(data, out info.AudioChannels);
                             data = GetPropertyString("audio-params/samplerate");
                             uint.TryParse(data, out info.AudioRate);
 
