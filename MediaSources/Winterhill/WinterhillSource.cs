@@ -62,7 +62,7 @@ namespace opentuner.MediaSources.Winterhill
             // settings
             _settings = new WinterhillSettings();
             _settingsManager = new SettingsManager<WinterhillSettings>("winterhill_settings");
-            _settings = (_settingsManager.LoadSettings(_settings));
+            _settings = _settingsManager.LoadSettings(_settings);
         }
 
         public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
