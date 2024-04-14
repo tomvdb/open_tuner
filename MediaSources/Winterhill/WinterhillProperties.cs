@@ -268,8 +268,8 @@ namespace opentuner.MediaSources.Winterhill
             }
         }
 
-        private bool[] muted = new bool[] {false, false, false, false};
-        private int[] preMute = new int[] { 0, 0, 0, 0 };
+        private bool[] muted = new bool[] {true, true, true, true};
+        private int[] preMute = new int[] { 50, 50, 50, 50 };
         private int[] indicatorStatus = new int[] {0, 0, 0, 0};
 
         private void WinterhillSource_OnSlidersChanged(string key, int value)

@@ -17,7 +17,7 @@ namespace opentuner.MediaSources.Winterhill
         public int WinterhillUdpBasePort = 9900;
 
         public uint[] Offset = new uint[] { 9750000, 9750000, 9750000, 9750000 };
-        public uint[] DefaultVolume = new uint[] { 0, 0, 0, 0 };
-        public bool[] DefaultMuted = new bool[] { false, false, false, false };
+        public uint[] DefaultVolume = new uint[] { 50, 50, 50, 50 };
+        public bool[] DefaultMuted = new bool[] { true, true, true, true };
     }
 }
