@@ -47,7 +47,7 @@ namespace opentuner.Utilities
         public override string LastValue { get => _value; }
 
         // height of the property row
-        private const int ItemHeight = 20;
+        private const int ItemHeight = 12;
 
         private void UpdateLabel(Label Lbl, Object obj)
         {

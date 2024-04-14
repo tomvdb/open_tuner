@@ -238,6 +238,7 @@ namespace opentuner
 
                 videoSource.StartStreaming(video_number);
                 _mediaPlayers[video_number].Play();
+                _mediaPlayers[video_number].SetVolume(0);
             }
         }
 
