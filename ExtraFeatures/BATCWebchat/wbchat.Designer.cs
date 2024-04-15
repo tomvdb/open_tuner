@@ -35,6 +35,11 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblViewers = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnSigReportTuner4 = new System.Windows.Forms.Button();
+            this.btnSigReportTuner3 = new System.Windows.Forms.Button();
+            this.btnSigReportTuner2 = new System.Windows.Forms.Button();
+            this.btnSigReportTuner1 = new System.Windows.Forms.Button();
             this.lbUsers = new System.Windows.Forms.ListBox();
             this.richChat = new System.Windows.Forms.RichTextBox();
             this.chatContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -43,19 +48,14 @@
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.textInputContextStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnSigReportTuner1 = new System.Windows.Forms.Button();
-            this.btnSigReportTuner2 = new System.Windows.Forms.Button();
-            this.btnSigReportTuner3 = new System.Windows.Forms.Button();
-            this.btnSigReportTuner4 = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.chatContextMenuStrip.SuspendLayout();
             this.textInputContextStrip.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -103,8 +103,8 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.lbUsers);
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             // 
             // splitContainer1.Panel2
             // 
@@ -114,6 +114,63 @@
             this.splitContainer1.Size = new System.Drawing.Size(1073, 480);
             this.splitContainer1.SplitterDistance = 180;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnSigReportTuner4);
+            this.groupBox1.Controls.Add(this.btnSigReportTuner3);
+            this.groupBox1.Controls.Add(this.btnSigReportTuner2);
+            this.groupBox1.Controls.Add(this.btnSigReportTuner1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.Location = new System.Drawing.Point(0, 340);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(180, 140);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            // 
+            // btnSigReportTuner4
+            // 
+            this.btnSigReportTuner4.Enabled = false;
+            this.btnSigReportTuner4.Location = new System.Drawing.Point(12, 106);
+            this.btnSigReportTuner4.Name = "btnSigReportTuner4";
+            this.btnSigReportTuner4.Size = new System.Drawing.Size(151, 23);
+            this.btnSigReportTuner4.TabIndex = 3;
+            this.btnSigReportTuner4.Text = "Signal Report Tuner 4";
+            this.btnSigReportTuner4.UseVisualStyleBackColor = true;
+            this.btnSigReportTuner4.Click += new System.EventHandler(this.btnSigReportTuner4_Click);
+            // 
+            // btnSigReportTuner3
+            // 
+            this.btnSigReportTuner3.Enabled = false;
+            this.btnSigReportTuner3.Location = new System.Drawing.Point(12, 77);
+            this.btnSigReportTuner3.Name = "btnSigReportTuner3";
+            this.btnSigReportTuner3.Size = new System.Drawing.Size(151, 23);
+            this.btnSigReportTuner3.TabIndex = 2;
+            this.btnSigReportTuner3.Text = "Signal Report Tuner 3";
+            this.btnSigReportTuner3.UseVisualStyleBackColor = true;
+            this.btnSigReportTuner3.Click += new System.EventHandler(this.btnSigReportTuner3_Click);
+            // 
+            // btnSigReportTuner2
+            // 
+            this.btnSigReportTuner2.Enabled = false;
+            this.btnSigReportTuner2.Location = new System.Drawing.Point(12, 48);
+            this.btnSigReportTuner2.Name = "btnSigReportTuner2";
+            this.btnSigReportTuner2.Size = new System.Drawing.Size(151, 23);
+            this.btnSigReportTuner2.TabIndex = 1;
+            this.btnSigReportTuner2.Text = "Signal Report Tuner 2";
+            this.btnSigReportTuner2.UseVisualStyleBackColor = true;
+            this.btnSigReportTuner2.Click += new System.EventHandler(this.btnSigReportTuner2_Click);
+            // 
+            // btnSigReportTuner1
+            // 
+            this.btnSigReportTuner1.Enabled = false;
+            this.btnSigReportTuner1.Location = new System.Drawing.Point(12, 19);
+            this.btnSigReportTuner1.Name = "btnSigReportTuner1";
+            this.btnSigReportTuner1.Size = new System.Drawing.Size(151, 23);
+            this.btnSigReportTuner1.TabIndex = 0;
+            this.btnSigReportTuner1.Text = "Signal Report Tuner 1";
+            this.btnSigReportTuner1.UseVisualStyleBackColor = true;
+            this.btnSigReportTuner1.Click += new System.EventHandler(this.btnSigReportTuner1_Click);
             // 
             // lbUsers
             // 
@@ -125,7 +182,7 @@
             this.lbUsers.ItemHeight = 15;
             this.lbUsers.Location = new System.Drawing.Point(0, 0);
             this.lbUsers.Name = "lbUsers";
-            this.lbUsers.Size = new System.Drawing.Size(180, 480);
+            this.lbUsers.Size = new System.Drawing.Size(180, 340);
             this.lbUsers.Sorted = true;
             this.lbUsers.TabIndex = 0;
             this.lbUsers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseClick);
@@ -151,13 +208,13 @@
             this.chatContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copySelectedTextToolStripMenuItem});
             this.chatContextMenuStrip.Name = "contextMenuStrip1";
-            this.chatContextMenuStrip.Size = new System.Drawing.Size(216, 26);
+            this.chatContextMenuStrip.Size = new System.Drawing.Size(218, 26);
             // 
             // copySelectedTextToolStripMenuItem
             // 
             this.copySelectedTextToolStripMenuItem.Name = "copySelectedTextToolStripMenuItem";
             this.copySelectedTextToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copySelectedTextToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.copySelectedTextToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.copySelectedTextToolStripMenuItem.Text = "Copy Selected Text";
             this.copySelectedTextToolStripMenuItem.Click += new System.EventHandler(this.copySelectedTextToolStripMenuItem_Click);
             // 
@@ -193,72 +250,15 @@
             this.textInputContextStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem});
             this.textInputContextStrip.Name = "textInputContextStrip";
-            this.textInputContextStrip.Size = new System.Drawing.Size(144, 26);
+            this.textInputContextStrip.Size = new System.Drawing.Size(146, 26);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.selectAllToolStripMenuItem.Text = "&Paste";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btnSigReportTuner4);
-            this.groupBox1.Controls.Add(this.btnSigReportTuner3);
-            this.groupBox1.Controls.Add(this.btnSigReportTuner2);
-            this.groupBox1.Controls.Add(this.btnSigReportTuner1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 340);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(180, 140);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            // 
-            // btnSigReportTuner1
-            // 
-            this.btnSigReportTuner1.Enabled = false;
-            this.btnSigReportTuner1.Location = new System.Drawing.Point(12, 19);
-            this.btnSigReportTuner1.Name = "btnSigReportTuner1";
-            this.btnSigReportTuner1.Size = new System.Drawing.Size(151, 23);
-            this.btnSigReportTuner1.TabIndex = 0;
-            this.btnSigReportTuner1.Text = "Signal Report Tuner 1";
-            this.btnSigReportTuner1.UseVisualStyleBackColor = true;
-            this.btnSigReportTuner1.Click += new System.EventHandler(this.btnSigReportTuner1_Click);
-            // 
-            // btnSigReportTuner2
-            // 
-            this.btnSigReportTuner2.Enabled = false;
-            this.btnSigReportTuner2.Location = new System.Drawing.Point(12, 48);
-            this.btnSigReportTuner2.Name = "btnSigReportTuner2";
-            this.btnSigReportTuner2.Size = new System.Drawing.Size(151, 23);
-            this.btnSigReportTuner2.TabIndex = 1;
-            this.btnSigReportTuner2.Text = "Signal Report Tuner 2";
-            this.btnSigReportTuner2.UseVisualStyleBackColor = true;
-            this.btnSigReportTuner2.Click += new System.EventHandler(this.btnSigReportTuner2_Click);
-            // 
-            // btnSigReportTuner3
-            // 
-            this.btnSigReportTuner3.Enabled = false;
-            this.btnSigReportTuner3.Location = new System.Drawing.Point(12, 77);
-            this.btnSigReportTuner3.Name = "btnSigReportTuner3";
-            this.btnSigReportTuner3.Size = new System.Drawing.Size(151, 23);
-            this.btnSigReportTuner3.TabIndex = 2;
-            this.btnSigReportTuner3.Text = "Signal Report Tuner 3";
-            this.btnSigReportTuner3.UseVisualStyleBackColor = true;
-            this.btnSigReportTuner3.Click += new System.EventHandler(this.btnSigReportTuner3_Click);
-            // 
-            // btnSigReportTuner4
-            // 
-            this.btnSigReportTuner4.Enabled = false;
-            this.btnSigReportTuner4.Location = new System.Drawing.Point(12, 106);
-            this.btnSigReportTuner4.Name = "btnSigReportTuner4";
-            this.btnSigReportTuner4.Size = new System.Drawing.Size(151, 23);
-            this.btnSigReportTuner4.TabIndex = 3;
-            this.btnSigReportTuner4.Text = "Signal Report Tuner 4";
-            this.btnSigReportTuner4.UseVisualStyleBackColor = true;
-            this.btnSigReportTuner4.Click += new System.EventHandler(this.btnSigReportTuner4_Click);
             // 
             // WebChatForm
             // 
@@ -279,9 +279,9 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.chatContextMenuStrip.ResumeLayout(false);
             this.textInputContextStrip.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
