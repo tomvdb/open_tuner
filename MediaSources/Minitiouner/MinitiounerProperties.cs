@@ -264,12 +264,14 @@ namespace opentuner.MediaSources.Minitiouner
                     _settings.DefaultMuted[0] = muted[0] = false;
                     _media_players[0]?.SetVolume(value);
                     _settings.DefaultVolume[0] = (byte)value;
+                    _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
                     break;
                 case "volume_slider_2":
                     // cancel mute
                     _settings.DefaultMuted[1] = muted[1] = false;
                     _media_players[1]?.SetVolume(value);
                     _settings.DefaultVolume[1] = (byte)value;
+                    _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Transparent);
                     break;
             }
         }
