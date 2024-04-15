@@ -271,5 +271,10 @@ namespace opentuner.Utilities
         {
             //UpdateColor(_valueLabel, Col);
         }
+
+        public override void UpdateMuteButtonColor(Color Col)
+        {
+            _MuteButton.BackColor = Col;
+        }
     }
  }

@@ -77,6 +77,10 @@ namespace opentuner.MediaSources.Winterhill
                 {
                     _tuner_properties[c].UpdateValue("volume_slider_" + c.ToString(), _settings.DefaultVolume[c].ToString());
                 }
+                else
+                {
+                    _tuner_properties[c].UpdateMuteButtonColor("media_controls_" + c.ToString(), Color.Tomato);
+                }
             }
 
             _tuner_forms = new List<TunerControlForm>();
@@ -88,7 +92,6 @@ namespace opentuner.MediaSources.Winterhill
 
                 _tuner_forms.Add(tunerControl);
             }
-
 
             return true;
         }
@@ -195,12 +198,14 @@ namespace opentuner.MediaSources.Winterhill
                         _tuner_properties[tuner].UpdateValue("volume_slider_" + tuner.ToString(), "0");
                         _settings.DefaultVolume[tuner] = (byte)preMute[tuner];
                         _settings.DefaultMuted[tuner] = muted[tuner] = true;
+                        _tuner_properties[tuner].UpdateMuteButtonColor("media_controls_" + tuner.ToString(), Color.Tomato);
                     }
                     else
                     {
                         _media_player[tuner].SetVolume(preMute[tuner]);
                         _tuner_properties[tuner].UpdateValue("volume_slider_" + tuner.ToString(), preMute[tuner].ToString());
                         _settings.DefaultMuted[tuner] = muted[tuner] = false;
+                        _tuner_properties[tuner].UpdateMuteButtonColor("media_controls_" + tuner.ToString(), Color.Transparent);
                     }
 
                     break;
@@ -261,10 +266,18 @@ namespace opentuner.MediaSources.Winterhill
         {
             switch(key)
             {
-                case "media_controls_0": MediaControlsHandler(0, function); break;
-                case "media_controls_1": MediaControlsHandler(1, function); break;
-                case "media_controls_2": MediaControlsHandler(2, function); break;
-                case "media_controls_3": MediaControlsHandler(3, function); break;
+                case "media_controls_0":
+                    MediaControlsHandler(0, function);
+                    break;
+                case "media_controls_1":
+                    MediaControlsHandler(1, function);
+                    break;
+                case "media_controls_2":
+                    MediaControlsHandler(2, function);
+                    break;
+                case "media_controls_3":
+                    MediaControlsHandler(3, function);
+                    break;
             }
         }
 
@@ -278,28 +291,24 @@ namespace opentuner.MediaSources.Winterhill
             switch(key)
             {
                 case "volume_slider_0":
-                    muted[0] = false;
+                    _settings.DefaultMuted[0] = muted[0] = false;
                     _media_player[0]?.SetVolume(value);
                     _settings.DefaultVolume[0] = (byte)value;
-                    _settings.DefaultMuted[0] = false;
                     break;
                 case "volume_slider_1":
-                    muted[1] = false;
+                    _settings.DefaultMuted[1] = muted[1] = false;
                     _media_player[1]?.SetVolume(value);
                     _settings.DefaultVolume[1] = (byte)value;
-                    _settings.DefaultMuted[1] = false;
                     break;
                 case "volume_slider_2":
-                    muted[2] = false;
+                    _settings.DefaultMuted[2] = muted[2] = false;
                     _media_player[2]?.SetVolume(value);
                     _settings.DefaultVolume[2] = (byte)value;
-                    _settings.DefaultMuted[2] = false;
                     break;
                 case "volume_slider_3":
-                    muted[3] = false;
+                    _settings.DefaultMuted[3] = muted[3] = false;
                     _media_player[3]?.SetVolume(value);
                     _settings.DefaultVolume[3] = (byte)value;
-                    _settings.DefaultMuted[3] = false;
                     break;
             }
         }

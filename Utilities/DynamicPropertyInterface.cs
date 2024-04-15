@@ -13,5 +13,6 @@ namespace opentuner.Utilities
         public abstract string LastValue { get;}
         public abstract void UpdateValue(string Value);
         public abstract void UpdateColor(Color Col);
+        public abstract void UpdateMuteButtonColor(Color Col);
     }
 }

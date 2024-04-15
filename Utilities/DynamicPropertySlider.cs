@@ -116,5 +116,9 @@ namespace opentuner.Utilities
         {
             throw new NotImplementedException();
         }
+        public override void UpdateMuteButtonColor(Color Col)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
