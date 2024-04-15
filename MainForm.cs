@@ -238,6 +238,13 @@ namespace opentuner
 
                 videoSource.StartStreaming(video_number);
                 _mediaPlayers[video_number].Play();
+                // Start with volume "muted".
+                // The real audio volume is set later.
+                // Reason for muting here:
+                //   If audio is muted for the tuner and stream
+                //   we start with Volume 100 or so here and get an annoying audio glitch.
+                //   (detected with MPV player)
+                _mediaPlayers[video_number].SetVolume(0);
             }
         }
 
@@ -301,9 +308,10 @@ namespace opentuner
 
                 if (videoSource != null)
                 {
-                    ChangeVideo(1, false);
-                    if (videoSource.GetVideoSourceCount() == 2)
-                        ChangeVideo(2, false);
+                    for (int i = 0; i < videoSource.GetVideoSourceCount(); i++)
+                    {
+                        ChangeVideo(i+1, false);
+                    }
                 }
 
                 Log.Information("* Closing Extra TS Threads");

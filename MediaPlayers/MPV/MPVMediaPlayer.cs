@@ -136,6 +136,8 @@ namespace opentuner.MediaPlayers.MPV
                             info.AudioCodec = data;
                             data = GetPropertyString("audio-device");
                             debug(data);
+                            data = GetPropertyString("audio-params/channel-count");
+                            uint.TryParse(data, out info.AudioChannels);
                             data = GetPropertyString("audio-params/samplerate");
                             uint.TryParse(data, out info.AudioRate);
 
@@ -350,13 +352,16 @@ namespace opentuner.MediaPlayers.MPV
         public override void SetVolume(int Volume)
         {
             _volume = Volume;
-            try
+            if (_mpvHandle != IntPtr.Zero)
             {
-                LibMpv.mpv_set_option(_mpvHandle, LibMpv.GetUtf8Bytes("volume"), mpv_format.MPV_FORMAT_INT64, ref _volume);
-            }
-            catch (Exception ex)
-            {
-                Log.Information("Error setting volume for MediaPlayer MPV: " + ex.Message);
+                try
+                {
+                    LibMpv.mpv_set_option(_mpvHandle, LibMpv.GetUtf8Bytes("volume"), mpv_format.MPV_FORMAT_INT64, ref _volume);
+                }
+                catch (Exception ex)
+                {
+                    Log.Information("Error setting volume for MediaPlayer MPV: " + ex.Message);
+                }
             }
         }
 
