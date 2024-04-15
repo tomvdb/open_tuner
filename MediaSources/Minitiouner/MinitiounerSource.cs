@@ -690,14 +690,15 @@ namespace opentuner.MediaSources.Minitiouner
             {
                 if ((OTMediaPlayer)sender == _media_players[c])
                 {
-                    switch(c)
+                    preMute[c] = (int)_settings.DefaultVolume[c];
+                    muted[c] = _settings.DefaultMuted[c];
+                    if (muted[c] == true)
                     {
-                        case 0:
-                            _media_players[c].SetVolume(_settings.DefaultVolume1);
-                            break;
-                        case 1:
-                            _media_players[c].SetVolume(_settings.DefaultVolume2);
-                            break;
+                        _media_players[c].SetVolume(0);
+                    }
+                    else
+                    {
+                        _media_players[c].SetVolume(preMute[c]);
                     }
 
                     UpdateMediaProperties(c, e);

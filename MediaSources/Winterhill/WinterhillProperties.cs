@@ -89,7 +89,6 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_forms.Add(tunerControl);
             }
 
-
             return true;
         }
 
@@ -261,10 +260,18 @@ namespace opentuner.MediaSources.Winterhill
         {
             switch(key)
             {
-                case "media_controls_0": MediaControlsHandler(0, function); break;
-                case "media_controls_1": MediaControlsHandler(1, function); break;
-                case "media_controls_2": MediaControlsHandler(2, function); break;
-                case "media_controls_3": MediaControlsHandler(3, function); break;
+                case "media_controls_0":
+                    MediaControlsHandler(0, function);
+                    break;
+                case "media_controls_1":
+                    MediaControlsHandler(1, function);
+                    break;
+                case "media_controls_2":
+                    MediaControlsHandler(2, function);
+                    break;
+                case "media_controls_3":
+                    MediaControlsHandler(3, function);
+                    break;
             }
         }
 
@@ -278,28 +285,24 @@ namespace opentuner.MediaSources.Winterhill
             switch(key)
             {
                 case "volume_slider_0":
-                    muted[0] = false;
+                    _settings.DefaultMuted[0] = muted[0] = false;
                     _media_player[0]?.SetVolume(value);
                     _settings.DefaultVolume[0] = (byte)value;
-                    _settings.DefaultMuted[0] = false;
                     break;
                 case "volume_slider_1":
-                    muted[1] = false;
+                    _settings.DefaultMuted[1] = muted[1] = false;
                     _media_player[1]?.SetVolume(value);
                     _settings.DefaultVolume[1] = (byte)value;
-                    _settings.DefaultMuted[1] = false;
                     break;
                 case "volume_slider_2":
-                    muted[2] = false;
+                    _settings.DefaultMuted[2] = muted[2] = false;
                     _media_player[2]?.SetVolume(value);
                     _settings.DefaultVolume[2] = (byte)value;
-                    _settings.DefaultMuted[2] = false;
                     break;
                 case "volume_slider_3":
-                    muted[3] = false;
+                    _settings.DefaultMuted[3] = muted[3] = false;
                     _media_player[3]?.SetVolume(value);
                     _settings.DefaultVolume[3] = (byte)value;
-                    _settings.DefaultMuted[3] = false;
                     break;
             }
         }

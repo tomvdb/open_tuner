@@ -50,7 +50,14 @@ namespace opentuner.MediaSources.Longmynd
 
 
             _tuner1_properties = ConfigureTunerProperties(1);
-            _tuner1_properties.UpdateValue("volume_slider_1", _settings.DefaultVolume1.ToString());
+
+            muted = _settings.DefaultMuted;
+            preMute = (int)_settings.DefaultVolume;
+
+            if (!_settings.DefaultMuted)
+            {
+                _tuner1_properties.UpdateValue("volume_slider_1", _settings.DefaultVolume.ToString());
+            }
 
             // source properties
             _source_properties = new DynamicPropertyGroup("Longmynd Properties", _parent);
@@ -87,14 +94,14 @@ namespace opentuner.MediaSources.Longmynd
             dynamicPropertyGroup.AddItem("audio_codec", "Audio Codec");
             dynamicPropertyGroup.AddItem("audio_rate", "Audio Rate");
             dynamicPropertyGroup.AddSlider("volume_slider_" + tuner.ToString(), "Volume", 0, 200);
-            dynamicPropertyGroup.AddMediaControls("media_controls", "Media Controls");
+            dynamicPropertyGroup.AddMediaControls("media_controls_" + tuner.ToString(), "Media Controls");
             return dynamicPropertyGroup;
         }
 
 
-        int preMute1 = 0;
-        bool muted1 = false;
-        int indicatorStatus = 0;
+        private int preMute = 50;
+        private bool muted = true;
+        private int indicatorStatus = 0;
 
 
         public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
@@ -112,19 +119,20 @@ namespace opentuner.MediaSources.Longmynd
             switch (function)
             {
                 case 0: // mute
-                        if (!muted1)
-                        {
-                            preMute1 = _media_player.GetVolume();
-                            _media_player.SetVolume(0);
-                            _tuner1_properties.UpdateValue("volume_slider_1", "0");
-                            muted1 = true;
-                        }
-                        else
-                        {
-                            _media_player.SetVolume(preMute1);
-                            _tuner1_properties.UpdateValue("volume_slider_1", preMute1.ToString());
-                            muted1 = false;
-                        }
+                    if (!muted)
+                    {
+                        preMute = _media_player.GetVolume();
+                        _media_player.SetVolume(0);
+                        _tuner1_properties.UpdateValue("volume_slider_1", "0");
+                        _settings.DefaultVolume = (byte)preMute;
+                        _settings.DefaultMuted = muted = true;
+                    }
+                    else
+                    {
+                        _media_player.SetVolume(preMute);
+                        _tuner1_properties.UpdateValue("volume_slider_1", preMute.ToString());
+                        _settings.DefaultMuted = muted = false;
+                    }
                     break;
                 case 1: // snapshot
                     Log.Information("Snapshot");
@@ -153,7 +161,7 @@ namespace opentuner.MediaSources.Longmynd
                         }
                     }
 
-                    _tuner1_properties.UpdateValue("media_controls", indicatorStatus.ToString());
+                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus.ToString());
 
                     break;
 
@@ -175,7 +183,7 @@ namespace opentuner.MediaSources.Longmynd
                         }
                     }
 
-                    _tuner1_properties.UpdateValue("media_controls", indicatorStatus.ToString());
+                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus.ToString());
 
                     break;
 
@@ -187,9 +195,9 @@ namespace opentuner.MediaSources.Longmynd
             switch (key)
             {
                 case "volume_slider_1":
-                      muted1 = false;
-                      _media_player?.SetVolume(value);
-                      _settings.DefaultVolume1 = (byte)value;
+                    _settings.DefaultMuted = muted = false;
+                    _media_player?.SetVolume(value);
+                    _settings.DefaultVolume = (byte)value;
                     break;
             }
         }

@@ -23,7 +23,8 @@ namespace opentuner.MediaSources.Longmynd
         public byte DefaultInterface = 0;   // 0 = ws 1 = mqtt
 
         public uint Offset1 = 9750000;
-        public int DefaultVolume1 = 0;
+        public uint DefaultVolume = 50;
+        public bool DefaultMuted = true;
 
     }
 }

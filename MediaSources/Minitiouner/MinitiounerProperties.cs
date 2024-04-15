@@ -61,11 +61,23 @@ namespace opentuner.MediaSources.Minitiouner
             if (ts_devices == 2)
             {
                 _tuner2_properties = ConfigureTunerProperties(2);
-                _tuner2_properties.UpdateValue("volume_slider_2", _settings.DefaultVolume2.ToString());
+                muted[1] = _settings.DefaultMuted[1];
+                preMute[1] = (int)_settings.DefaultVolume[1];
+
+                if (!_settings.DefaultMuted[1])
+                {
+                    _tuner2_properties.UpdateValue("volume_slider_2", _settings.DefaultVolume[1].ToString());
+                }
             }
 
             _tuner1_properties = ConfigureTunerProperties(1);
-            _tuner1_properties.UpdateValue("volume_slider_1", _settings.DefaultVolume1.ToString());
+            muted[0] = _settings.DefaultMuted[0];
+            preMute[0] = (int)_settings.DefaultVolume[0];
+
+            if (!_settings.DefaultMuted[0])
+            {
+                _tuner1_properties.UpdateValue("volume_slider_1", _settings.DefaultVolume[0].ToString());
+            }
 
             // source properties
             _source_properties = new DynamicPropertyGroup("Minitiouner Properties", _parent);
@@ -119,10 +131,8 @@ namespace opentuner.MediaSources.Minitiouner
             return dynamicPropertyGroup;
         }
 
-        private int preMute1 = 0;
-        private int preMute2 = 0;
-        private bool muted1 = false;
-        private bool muted2 = false;
+        private int[] preMute = new int[] { 50, 50 };
+        private bool[] muted = new bool[] { true, true };
         private int indicatorStatus1 = 0;
         private int indicatorStatus2 = 0;
 
@@ -150,34 +160,36 @@ namespace opentuner.MediaSources.Minitiouner
                 case 0: // mute
                     if (tuner == 0)
                     {
-                        if (!muted1)
+                        if (!muted[0])
                         {
-                            preMute1 = _media_players[0].GetVolume();
+                            preMute[0] = _media_players[0].GetVolume();
                             _media_players[0].SetVolume(0);
                             _tuner1_properties.UpdateValue("volume_slider_1", "0");
-                            muted1 = true;
+                            _settings.DefaultVolume[0] = (byte)preMute[0];
+                            _settings.DefaultMuted[0] = muted[0] = true;
                         }
                         else
                         {
-                            _media_players[0].SetVolume(preMute1);
-                            _tuner1_properties.UpdateValue("volume_slider_1", preMute1.ToString());
-                            muted1 = false;
+                            _media_players[0].SetVolume(preMute[0]);
+                            _tuner1_properties.UpdateValue("volume_slider_1", preMute[0].ToString());
+                            _settings.DefaultMuted[0] = muted[0] = false;
                         }
                     }
                     else
                     {
-                        if (!muted2)
+                        if (!muted[1])
                         {
-                            preMute2 = _media_players[1].GetVolume();
+                            preMute[1] = _media_players[1].GetVolume();
                             _media_players[1].SetVolume(0);
                             _tuner2_properties.UpdateValue("volume_slider_2", "0");
-                            muted2 = true;
+                            _settings.DefaultVolume[1] = (byte)preMute[1];
+                            _settings.DefaultMuted[1] = muted[1] = true;
                         }
                         else
                         {
-                            _media_players[1].SetVolume(preMute2);
-                            _tuner2_properties.UpdateValue("volume_slider_2", preMute2.ToString());
-                            muted2 = false;
+                            _media_players[1].SetVolume(preMute[1]);
+                            _tuner2_properties.UpdateValue("volume_slider_2", preMute[1].ToString());
+                            _settings.DefaultMuted[1] = muted[1] = false;
                         }
 
                     }
@@ -236,22 +248,16 @@ namespace opentuner.MediaSources.Minitiouner
             switch (key)
             {
                 case "volume_slider_1":
-                    if (_media_players.Count > 0)
-                    {
-                        // cancel mute
-                        muted1 = false;
-                        _media_players[0].SetVolume(value);
-                        _settings.DefaultVolume1 = (byte)value;
-                    }
+                    // cancel mute
+                    _settings.DefaultMuted[0] = muted[0] = false;
+                    _media_players[0]?.SetVolume(value);
+                    _settings.DefaultVolume[0] = (byte)value;
                     break;
                 case "volume_slider_2":
-                    if (_media_players.Count > 0)
-                    {
-                        // cancel mute
-                        muted2 = false;
-                        _media_players[1].SetVolume(value);
-                        _settings.DefaultVolume2 = (byte)value;
-                    }
+                    // cancel mute
+                    _settings.DefaultMuted[1] = muted[1] = false;
+                    _media_players[1]?.SetVolume(value);
+                    _settings.DefaultVolume[1] = (byte)value;
                     break;
             }
         }
