@@ -85,6 +85,14 @@ namespace opentuner.MediaSources.Longmynd
         {
             _media_player = MediaPlayers[0];
             _media_player.onVideoOut += _media_player_onVideoOut;
+            if (_settings.DefaultMuted)
+            {
+                _media_player.SetVolume(0);
+            }
+            else
+            {
+                _media_player.SetVolume((int)_settings.DefaultVolume);
+            }
         }
 
         private void _media_player_onVideoOut(object sender, MediaStatus e)

@@ -680,6 +680,14 @@ namespace opentuner.MediaSources.Minitiouner
             {
                 _media_players.Add(MediaPlayers[c]);
                 _media_players[c].onVideoOut += MinitiounerSource_onVideoOut;
+                if (_settings.DefaultMuted[c])
+                {
+                    _media_players[c].SetVolume(0);
+                }
+                else
+                {
+                    _media_players[c].SetVolume((int)_settings.DefaultVolume[c]);
+                }
             }
 
         }
