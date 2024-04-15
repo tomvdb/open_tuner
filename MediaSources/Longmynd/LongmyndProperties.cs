@@ -58,6 +58,10 @@ namespace opentuner.MediaSources.Longmynd
             {
                 _tuner1_properties.UpdateValue("volume_slider_1", _settings.DefaultVolume.ToString());
             }
+            else
+            {
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Tomato);
+            }
 
             // source properties
             _source_properties = new DynamicPropertyGroup("Longmynd Properties", _parent);
@@ -126,12 +130,14 @@ namespace opentuner.MediaSources.Longmynd
                         _tuner1_properties.UpdateValue("volume_slider_1", "0");
                         _settings.DefaultVolume = (byte)preMute;
                         _settings.DefaultMuted = muted = true;
+                        _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Tomato);
                     }
                     else
                     {
                         _media_player.SetVolume(preMute);
                         _tuner1_properties.UpdateValue("volume_slider_1", preMute.ToString());
                         _settings.DefaultMuted = muted = false;
+                        _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
                     }
                     break;
                 case 1: // snapshot

@@ -201,6 +201,19 @@ namespace opentuner.Utilities
             }
         }
 
+        public void UpdateMuteButtonColor(string Key, Color Col)
+        {
+            // this can probably be done more efficient, but will do for now
+            for (int c = 0; c < _items.Count; c++)
+            {
+                if (_items[c].Key == Key)
+                {
+                    _items[c].UpdateMuteButtonColor(Col);
+                    break;
+                }
+            }
+        }
+
         public Dictionary<string, string> GetAll()
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
