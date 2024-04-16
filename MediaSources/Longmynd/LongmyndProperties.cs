@@ -204,6 +204,7 @@ namespace opentuner.MediaSources.Longmynd
                     _settings.DefaultMuted = muted = false;
                     _media_player?.SetVolume(value);
                     _settings.DefaultVolume = (byte)value;
+                    _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
                     break;
             }
         }

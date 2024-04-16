@@ -267,9 +267,18 @@ namespace opentuner.MediaSources.Winterhill
 
         public override void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers)
         {
-            for (int c = 0; c < 4; c++) {
+            for (int c = 0; c < 4; c++)
+            {
                 _media_player[c] = MediaPlayers[c];
                 _media_player[c].onVideoOut += WinterhillSource_onVideoOut;
+                if (_settings.DefaultMuted[c])
+                {
+                    _media_player[c].SetVolume(0);
+                }
+                else
+                {
+                    _media_player[c].SetVolume((int)_settings.DefaultVolume[c]);
+                }
             }
 
             _videoPlayersReady = true;

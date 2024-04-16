@@ -294,21 +294,25 @@ namespace opentuner.MediaSources.Winterhill
                     _settings.DefaultMuted[0] = muted[0] = false;
                     _media_player[0]?.SetVolume(value);
                     _settings.DefaultVolume[0] = (byte)value;
+                    _tuner_properties[0].UpdateMuteButtonColor("media_controls_0", Color.Transparent);
                     break;
                 case "volume_slider_1":
                     _settings.DefaultMuted[1] = muted[1] = false;
                     _media_player[1]?.SetVolume(value);
                     _settings.DefaultVolume[1] = (byte)value;
+                    _tuner_properties[1].UpdateMuteButtonColor("media_controls_1", Color.Transparent);
                     break;
                 case "volume_slider_2":
                     _settings.DefaultMuted[2] = muted[2] = false;
                     _media_player[2]?.SetVolume(value);
                     _settings.DefaultVolume[2] = (byte)value;
+                    _tuner_properties[2].UpdateMuteButtonColor("media_controls_2", Color.Transparent);
                     break;
                 case "volume_slider_3":
                     _settings.DefaultMuted[3] = muted[3] = false;
                     _media_player[3]?.SetVolume(value);
                     _settings.DefaultVolume[3] = (byte)value;
+                    _tuner_properties[3].UpdateMuteButtonColor("media_controls_3", Color.Transparent);
                     break;
             }
         }
