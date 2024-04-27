@@ -55,6 +55,9 @@ namespace opentuner.Utilities
             if (Lbl == null)
                 return;
 
+            if (obj == null)
+                return;
+
             if (Lbl.InvokeRequired)
             {
                 UpdateLabelDelegate ulb = new UpdateLabelDelegate(UpdateLabel);

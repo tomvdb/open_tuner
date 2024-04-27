@@ -118,47 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="txtDefaultLO2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 55</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 13</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Standaard LO B:</value>
-  </data>
-  <data name="comboDefaultLNB.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 89</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 13</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Standaard LNB Voeding:</value>
-  </data>
-  <data name="txtDefaultLO.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 30</value>
-  </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 13</value>
+    <value>105, 16</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Standaard LO A:</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Tuner Instellingen</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 16</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Taal:</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Standaard Instellingen</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Standaard LNB Voeding:</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 13</value>
+    <value>136, 16</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Media Snapshot Pad:</value>
@@ -166,20 +139,26 @@
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Media Instellingen</value>
   </data>
-  <data name="checkEnableSpectrum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>178, 17</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 16</value>
   </data>
-  <data name="checkEnableSpectrum.Text" xml:space="preserve">
-    <value>BATC Band Spektrum Toestaan</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>QO100 Specifiek</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Standaard LO B:</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>332, 13</value>
+    <value>418, 16</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Sommige instellingen werken alleen na een herstart van de applicatie</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 16</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Taal:</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Tuner Instellingen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Instellingen</value>

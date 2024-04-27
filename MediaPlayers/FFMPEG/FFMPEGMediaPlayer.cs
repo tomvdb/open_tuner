@@ -109,6 +109,8 @@ namespace opentuner.MediaPlayers.FFMPEG
 
         public override void Initialize(CircularBuffer TSDataQueue)
         {
+            Log.Information("FFMPEG: " + TSDataQueue.ToString());
+           
             ts_data_queue = TSDataQueue;
             media_stream = new MediaStream(TSDataQueue);
             Log.Information("MediaStream: Open");
@@ -166,7 +168,7 @@ namespace opentuner.MediaPlayers.FFMPEG
         public override void Initialize(CircularBuffer TSDataQueue, int ID)
         {
             _id = ID;
-            Initialize(ts_data_queue);
+            Initialize(TSDataQueue);
         }
     }
 
@@ -203,7 +205,7 @@ namespace opentuner.MediaPlayers.FFMPEG
         {
             //Log.Information("Buffer: Len: " + buffer.Length.ToString() + "," + offset.ToString() + "," + count.ToString());
 
-            while (ts_data_queue.Count< 10000)
+            while (ts_data_queue.Count< 100000)
             {
                 if (end == true)
                 {

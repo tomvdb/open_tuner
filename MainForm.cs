@@ -137,7 +137,7 @@ namespace opentuner
             // preferred player to use for each video view
             // 0 = vlc, 1 = ffmpeg, 2 = mpv
             Log.Information("Configuring Media Players");
-            _mediaPlayers = ConfigureMediaPlayers(videoSource.GetVideoSourceCount(), _settings.mediaplayer_preferences );
+            _mediaPlayers = ConfigureMediaPlayers(videoSource.GetVideoSourceCount(), _settings.mediaplayer_preferences, _settings.mediaplayer_windowed );
             videoSource.ConfigureVideoPlayers(_mediaPlayers);
             videoSource.ConfigureMediaPath(_settings.media_path);
 
@@ -718,8 +718,17 @@ namespace opentuner
         }
 
         SplitterPanel[] videoPanels = new SplitterPanel[4];
+        
+        private void LoadSeperateWindow(Control VideoControl, string Title, int Nr)
+        {
+            var external_video_form = new VideoViewForm(VideoControl, Title, Nr, videoSource);
+            //external_video_form.Text = Title;
+            //external_video_form.Controls.Add(VideoControl);
+            external_video_form.Show();
 
-        private OTMediaPlayer ConfigureVideoPlayer(int nr, int preference)
+        }
+
+        private OTMediaPlayer ConfigureVideoPlayer(int nr, int preference, bool seperate_window)
         {
             OTMediaPlayer player;
             switch (preference)
@@ -728,7 +737,16 @@ namespace opentuner
                     Log.Information(nr.ToString() + " - " + "VLC");
                     var vlc_video_player = new LibVLCSharp.WinForms.VideoView();
                     vlc_video_player.Dock = DockStyle.Fill;
-                    videoPanels[nr].Controls.Add(vlc_video_player);
+
+                    if (seperate_window)
+                    {
+                        LoadSeperateWindow(vlc_video_player, "VLC - " + (nr + 1).ToString(), nr);
+                    }
+                    else
+                    {
+                        videoPanels[nr].Controls.Add(vlc_video_player);
+                    }
+
                     player = new VLCMediaPlayer(vlc_video_player);
                     player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
                     return player;
@@ -737,15 +755,34 @@ namespace opentuner
                     Log.Information(nr.ToString() + " - " + "FFMPEG");
                     var ffmpeg_video_player = new FlyleafLib.Controls.WinForms.FlyleafHost();
                     ffmpeg_video_player.Dock = DockStyle.Fill;
-                    videoPanels[nr].Controls.Add(ffmpeg_video_player);
+
+                    if (seperate_window)
+                    {
+                        LoadSeperateWindow(ffmpeg_video_player, "FFMPEG - " + (nr + 1).ToString(), nr);
+                    }
+                    else
+                    {
+                        videoPanels[nr].Controls.Add(ffmpeg_video_player);
+                    }
+                    
                     player = new FFMPEGMediaPlayer(ffmpeg_video_player);
                     player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
                     return player;
+
                 case 2: // mpv
                     Log.Information(nr.ToString() + " - " + "MPV");
                     var mpv_video_player = new PictureBox();
                     mpv_video_player.Dock = DockStyle.Fill;
-                    videoPanels[nr].Controls.Add(mpv_video_player);
+
+                    if (seperate_window)
+                    {
+                        LoadSeperateWindow(mpv_video_player, "MPV - " + (nr + 1).ToString(), nr);
+                    }
+                    else
+                    {
+                        videoPanels[nr].Controls.Add(mpv_video_player);
+                    }
+                    
                     player = new MPVMediaPlayer(mpv_video_player.Handle.ToInt64());
                     player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
                     return player;
@@ -784,7 +821,7 @@ namespace opentuner
 
 
         // configure media players
-        private List<OTMediaPlayer> ConfigureMediaPlayers(int amount, int[] playerPreference)
+        private List<OTMediaPlayer> ConfigureMediaPlayers(int amount, int[] playerPreference, bool[] windowed)
         {
             List<OTMediaPlayer> mediaPlayers = new List<OTMediaPlayer>();
 
@@ -805,7 +842,7 @@ namespace opentuner
 
             for (int c = 0; c < amount; c++)
             {
-                var media_player = ConfigureVideoPlayer(c, playerPreference[c]);
+                var media_player = ConfigureVideoPlayer(c, playerPreference[c], windowed[c]);
                 mediaPlayers.Add(media_player);
             }
 
