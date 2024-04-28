@@ -281,6 +281,13 @@
     <Compile Include="MediaSources\Minitiouner\MinitiounerSettingsForm.Designer.cs">
       <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MediaSources\Winterhill\PicoWHBroadcastListener.cs" />
+    <Compile Include="MediaSources\Winterhill\PicoWHBroadcastListenerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediaSources\Winterhill\PicoWHBroadcastListenerForm.Designer.cs">
+      <DependentUpon>PicoWHBroadcastListenerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MediaSources\Winterhill\WinterhillProperties.cs" />
     <Compile Include="MediaSources\Winterhill\WinterhillSettings.cs" />
     <Compile Include="MediaSources\Winterhill\WinterhillSettingsForm.cs">
@@ -290,6 +297,7 @@
       <DependentUpon>WinterhillSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaSources\Winterhill\WinterhillSource.cs" />
+    <Compile Include="MediaSources\Winterhill\WinterhillUDP.cs" />
     <Compile Include="MediaSources\Winterhill\WinterhillWS.cs" />
     <Compile Include="Transmit\F5OEOPlutoControl.cs" />
     <Compile Include="Transmit\PlutoControl.cs">
@@ -479,6 +487,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MediaSources\Minitiouner\MinitiounerSettingsForm.resx">
       <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaSources\Winterhill\PicoWHBroadcastListenerForm.resx">
+      <DependentUpon>PicoWHBroadcastListenerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MediaSources\Winterhill\WinterhillSettingsForm.resx">
       <DependentUpon>WinterhillSettingsForm.cs</DependentUpon>

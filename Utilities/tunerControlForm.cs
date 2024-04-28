@@ -14,7 +14,7 @@ using Vortice.MediaFoundation;
 
 namespace opentuner
 {
-    public delegate void TunerChangeCallback(int id, UInt32 freq, uint symbol_rate);
+    public delegate void TunerChangeCallback(int id, UInt32 freq);
 
     public delegate void TunerDataUpdateDelegate(uint freq, uint symbolrate, uint offset);
 
@@ -150,12 +150,12 @@ namespace opentuner
 
         private void btnUpdateFreq_Click(object sender, EventArgs e)
         {
-            OnTunerChange?.Invoke(_id, Convert.ToUInt32(_frequency), Convert.ToUInt32(comboSR.Text));
+            OnTunerChange?.Invoke(_id, Convert.ToUInt32(_frequency));
         }
 
         private void update_sr(int symbolrate)
         {
-            comboSR.Text = symbolrate.ToString();
+            lblSR.Text = symbolrate.ToString();
         }
 
         private void update_offset(int offset)

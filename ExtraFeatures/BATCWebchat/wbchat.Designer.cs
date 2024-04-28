@@ -35,12 +35,12 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblViewers = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lbUsers = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSigReportTuner4 = new System.Windows.Forms.Button();
             this.btnSigReportTuner3 = new System.Windows.Forms.Button();
             this.btnSigReportTuner2 = new System.Windows.Forms.Button();
             this.btnSigReportTuner1 = new System.Windows.Forms.Button();
-            this.lbUsers = new System.Windows.Forms.ListBox();
             this.richChat = new System.Windows.Forms.RichTextBox();
             this.chatContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copySelectedTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +48,7 @@
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.textInputContextStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkStayOnTop = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -115,16 +116,35 @@
             this.splitContainer1.SplitterDistance = 180;
             this.splitContainer1.TabIndex = 1;
             // 
+            // lbUsers
+            // 
+            this.lbUsers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
+            this.lbUsers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUsers.FormattingEnabled = true;
+            this.lbUsers.IntegralHeight = false;
+            this.lbUsers.ItemHeight = 15;
+            this.lbUsers.Location = new System.Drawing.Point(0, 0);
+            this.lbUsers.Name = "lbUsers";
+            this.lbUsers.Size = new System.Drawing.Size(180, 317);
+            this.lbUsers.Sorted = true;
+            this.lbUsers.TabIndex = 0;
+            this.lbUsers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseClick);
+            this.lbUsers.SelectedIndexChanged += new System.EventHandler(this.lbUsers_SelectedIndexChanged);
+            this.lbUsers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseDoubleClick);
+            this.lbUsers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseDown);
+            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkStayOnTop);
             this.groupBox1.Controls.Add(this.btnSigReportTuner4);
             this.groupBox1.Controls.Add(this.btnSigReportTuner3);
             this.groupBox1.Controls.Add(this.btnSigReportTuner2);
             this.groupBox1.Controls.Add(this.btnSigReportTuner1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 340);
+            this.groupBox1.Location = new System.Drawing.Point(0, 317);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(180, 140);
+            this.groupBox1.Size = new System.Drawing.Size(180, 163);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
@@ -172,24 +192,6 @@
             this.btnSigReportTuner1.UseVisualStyleBackColor = true;
             this.btnSigReportTuner1.Click += new System.EventHandler(this.btnSigReportTuner1_Click);
             // 
-            // lbUsers
-            // 
-            this.lbUsers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
-            this.lbUsers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbUsers.FormattingEnabled = true;
-            this.lbUsers.IntegralHeight = false;
-            this.lbUsers.ItemHeight = 15;
-            this.lbUsers.Location = new System.Drawing.Point(0, 0);
-            this.lbUsers.Name = "lbUsers";
-            this.lbUsers.Size = new System.Drawing.Size(180, 340);
-            this.lbUsers.Sorted = true;
-            this.lbUsers.TabIndex = 0;
-            this.lbUsers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseClick);
-            this.lbUsers.SelectedIndexChanged += new System.EventHandler(this.lbUsers_SelectedIndexChanged);
-            this.lbUsers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseDoubleClick);
-            this.lbUsers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbUsers_MouseDown);
-            // 
             // richChat
             // 
             this.richChat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(70)))), ((int)(((byte)(76)))));
@@ -208,13 +210,13 @@
             this.chatContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copySelectedTextToolStripMenuItem});
             this.chatContextMenuStrip.Name = "contextMenuStrip1";
-            this.chatContextMenuStrip.Size = new System.Drawing.Size(218, 26);
+            this.chatContextMenuStrip.Size = new System.Drawing.Size(216, 26);
             // 
             // copySelectedTextToolStripMenuItem
             // 
             this.copySelectedTextToolStripMenuItem.Name = "copySelectedTextToolStripMenuItem";
             this.copySelectedTextToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copySelectedTextToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.copySelectedTextToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.copySelectedTextToolStripMenuItem.Text = "Copy Selected Text";
             this.copySelectedTextToolStripMenuItem.Click += new System.EventHandler(this.copySelectedTextToolStripMenuItem_Click);
             // 
@@ -250,15 +252,26 @@
             this.textInputContextStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem});
             this.textInputContextStrip.Name = "textInputContextStrip";
-            this.textInputContextStrip.Size = new System.Drawing.Size(146, 26);
+            this.textInputContextStrip.Size = new System.Drawing.Size(144, 26);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.selectAllToolStripMenuItem.Text = "&Paste";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            // 
+            // checkStayOnTop
+            // 
+            this.checkStayOnTop.AutoSize = true;
+            this.checkStayOnTop.Location = new System.Drawing.Point(12, 140);
+            this.checkStayOnTop.Name = "checkStayOnTop";
+            this.checkStayOnTop.Size = new System.Drawing.Size(86, 17);
+            this.checkStayOnTop.TabIndex = 4;
+            this.checkStayOnTop.Text = "Stay On Top";
+            this.checkStayOnTop.UseVisualStyleBackColor = true;
+            this.checkStayOnTop.CheckedChanged += new System.EventHandler(this.checkStayOnTop_CheckedChanged);
             // 
             // WebChatForm
             // 
@@ -280,6 +293,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.chatContextMenuStrip.ResumeLayout(false);
             this.textInputContextStrip.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -308,5 +322,6 @@
         private System.Windows.Forms.Button btnSigReportTuner3;
         private System.Windows.Forms.Button btnSigReportTuner2;
         private System.Windows.Forms.Button btnSigReportTuner1;
+        private System.Windows.Forms.CheckBox checkStayOnTop;
     }
 }

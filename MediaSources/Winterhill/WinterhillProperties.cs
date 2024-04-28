@@ -46,7 +46,7 @@ namespace opentuner.MediaSources.Winterhill
             _genericContextStrip.Opening += _genericContextStrip_Opening;
 
 
-            for (int c = 3; c >= 0; c--)
+            for (int c = ts_devices-1; c >= 0; c--)
             {
                 _tuner_properties[c] = new DynamicPropertyGroup("Tuner " +  (c+1).ToString(), _parent);
                 _tuner_properties[c].setID(c);  // set this before creating any items
@@ -96,10 +96,10 @@ namespace opentuner.MediaSources.Winterhill
             return true;
         }
 
-        private void TunerControl_OnTunerChange(int id, uint freq, uint symbol_rate)
+        private void TunerControl_OnTunerChange(int id, uint freq)
         {
-            Log.Information("set frequency : " + id.ToString() + "," + freq.ToString() + " , " + symbol_rate.ToString());
-            SetFrequency(id, freq, symbol_rate, false);
+            Log.Information("set frequency : " + id.ToString() + "," + freq.ToString());
+            SetFrequency(id, freq,  (uint)_current_sr[id] , false);
         }
 
         private void _genericContextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -292,25 +292,29 @@ namespace opentuner.MediaSources.Winterhill
             {
                 case "volume_slider_0":
                     _settings.DefaultMuted[0] = muted[0] = false;
-                    _media_player[0]?.SetVolume(value);
+                    if (_media_player.Count() > 0 )
+                        _media_player[0]?.SetVolume(value);
                     _settings.DefaultVolume[0] = (byte)value;
                     _tuner_properties[0].UpdateMuteButtonColor("media_controls_0", Color.Transparent);
                     break;
                 case "volume_slider_1":
                     _settings.DefaultMuted[1] = muted[1] = false;
-                    _media_player[1]?.SetVolume(value);
+                    if (_media_player.Count() > 1)
+                        _media_player[1]?.SetVolume(value);
                     _settings.DefaultVolume[1] = (byte)value;
                     _tuner_properties[1].UpdateMuteButtonColor("media_controls_1", Color.Transparent);
                     break;
                 case "volume_slider_2":
                     _settings.DefaultMuted[2] = muted[2] = false;
-                    _media_player[2]?.SetVolume(value);
+                    if (_media_player.Count() > 2)
+                        _media_player[2]?.SetVolume(value);
                     _settings.DefaultVolume[2] = (byte)value;
                     _tuner_properties[2].UpdateMuteButtonColor("media_controls_2", Color.Transparent);
                     break;
                 case "volume_slider_3":
                     _settings.DefaultMuted[3] = muted[3] = false;
-                    _media_player[3]?.SetVolume(value);
+                    if (_media_player.Count() > 3)
+                        _media_player[3]?.SetVolume(value);
                     _settings.DefaultVolume[3] = (byte)value;
                     _tuner_properties[3].UpdateMuteButtonColor("media_controls_3", Color.Transparent);
                     break;
@@ -342,9 +346,16 @@ namespace opentuner.MediaSources.Winterhill
 
                 if (_tuner_properties == null) return;
 
+
+                //Log.Information("REady for info");
+
                 for (int c = 0; c < mm.rx.Length - 1; c++)
                 {
                     ReceiverMessage rx = mm.rx[c + 1];
+
+                    // provision for single messages from picotuner ethernet
+                    if (rx.rx == 99)
+                        continue;
 
                     if (demodstate[c] != rx.scanstate)
                     {

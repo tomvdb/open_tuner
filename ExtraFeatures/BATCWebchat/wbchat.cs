@@ -350,7 +350,7 @@ namespace opentuner
 
         private void checkStayOnTop_CheckedChanged(object sender, EventArgs e)
         {
-            /*
+            
             if ( checkStayOnTop.Checked )
             {
                 TopMost = true;
@@ -359,7 +359,7 @@ namespace opentuner
             {
                 TopMost = false;
             }
-            */
+           
         }
 
         private void copySelectedTextToolStripMenuItem_Click(object sender, EventArgs e)
@@ -384,24 +384,11 @@ namespace opentuner
             }
         }
 
-        /*
-        private void lst_MeasureItem(object sender, MeasureItemEventArgs e)
-        {
-            e.ItemHeight = (int)e.Graphics.MeasureString(lbChat.Items[e.Index].ToString(), lbChat.Font, lbChat.Width).Height;
-        }
 
-        private void lst_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            e.DrawBackground();
-            e.DrawFocusRectangle();
-            e.Graphics.DrawString(lbChat.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds);
-        }
-        */
 
 
         private void lbChat_Resize(object sender, EventArgs e)
         {
-            //lbChat.Refresh();
         }
 
         private void richChat_LinkClicked(object sender, LinkClickedEventArgs e)
