@@ -67,9 +67,13 @@ namespace opentuner.MediaSources.Minitiouner
                 if (!_settings.DefaultMuted[1])
                 {
                     _tuner2_properties.UpdateValue("volume_slider_2", _settings.DefaultVolume[1].ToString());
+                    _settings.DefaultVolume[1] = (uint)preMute[1];  // restore as changed by update volume_slider function
+                    _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Transparent);
                 }
                 else
                 {
+                    _tuner2_properties.UpdateValue("volume_slider_2", "0");
+                    _settings.DefaultVolume[1] = (uint)preMute[1];  // restore as changed by update volume_slider function
                     _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Tomato);
                 }
             }
@@ -81,9 +85,13 @@ namespace opentuner.MediaSources.Minitiouner
             if (!_settings.DefaultMuted[0])
             {
                 _tuner1_properties.UpdateValue("volume_slider_1", _settings.DefaultVolume[0].ToString());
+                _settings.DefaultVolume[0] = (uint)preMute[0];  // restore as changed by update volume_slider function
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Tomato);
             }
             else
             {
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Tomato);
+                _settings.DefaultVolume[0] = (uint)preMute[0];  // restore as changed by update volume_slider function
                 _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Tomato);
             }
 
