@@ -3,6 +3,7 @@ using opentuner.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -718,6 +719,24 @@ namespace opentuner.MediaSources.Minitiouner
         public override string GetName()
         {
             return "Minitiouner Variant";
+        }
+
+        public override void OverrideDefaultMuted(bool Override)
+        {
+            if (Override)
+            {
+                preMute[0] = (int)_settings.DefaultVolume[0];               // save DefaultVolume in preMute
+                _tuner1_properties.UpdateValue("volume_slider_1", "0");     // side effect: will set DefaultVolume to 0
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Tomato);
+                muted[0] = _settings.DefaultMuted[0] = true;
+                _settings.DefaultVolume[0] = (uint)preMute[0];              // restore DefaultVolume
+
+                preMute[1] = (int)_settings.DefaultVolume[1];               // save DefaultVolume in preMute
+                _tuner2_properties.UpdateValue("volume_slider_2", "0");     // side effect: will set DefaultVolume to 0
+                _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Tomato);
+                muted[1] = _settings.DefaultMuted[1] = true;
+                _settings.DefaultVolume[1] = (uint)preMute[1];              // restore DefaultVolume
+            }
         }
 
         public override string GetDescription()

@@ -66,9 +66,12 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtStreaming1IP = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBoxMuted = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -193,6 +196,7 @@
             this.checkWindowed1.TabIndex = 7;
             this.checkWindowed1.Text = "Seperate Window";
             this.checkWindowed1.UseVisualStyleBackColor = true;
+            this.checkWindowed1.CheckedChanged += new System.EventHandler(this.checkBoxMuted_CheckedChanged);
             // 
             // comboMediaPlayer2
             // 
@@ -512,6 +516,26 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Streaming 1 IP:";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.checkBoxMuted);
+            this.groupBox2.Location = new System.Drawing.Point(491, 15);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(417, 79);
+            this.groupBox2.TabIndex = 9;
+            this.groupBox2.TabStop = false;
+            // 
+            // checkBoxMuted
+            // 
+            this.checkBoxMuted.AutoSize = true;
+            this.checkBoxMuted.Location = new System.Drawing.Point(24, 36);
+            this.checkBoxMuted.Name = "checkBoxMuted";
+            this.checkBoxMuted.Size = new System.Drawing.Size(114, 20);
+            this.checkBoxMuted.TabIndex = 0;
+            this.checkBoxMuted.Text = "Mute at Startup";
+            this.checkBoxMuted.UseVisualStyleBackColor = true;
+            this.checkBoxMuted.CheckedChanged += new System.EventHandler(this.checkBoxMuted_CheckedChanged);
+            // 
             // settingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -520,6 +544,7 @@
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(937, 484);
             this.ControlBox = false;
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.btnCancel);
@@ -539,6 +564,8 @@
             this.groupBox5.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -582,5 +609,7 @@
         private System.Windows.Forms.TextBox txtStreaming1IP;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox2;
+        public System.Windows.Forms.CheckBox checkBoxMuted;
     }
 }

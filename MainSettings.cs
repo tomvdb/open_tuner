@@ -19,6 +19,7 @@ namespace opentuner
         public bool enable_pluto_checkbox = false;
 
         public int default_source = 0;        
+        public bool mute_at_startup = true;
 
         // future
         public bool auto_connect = false;

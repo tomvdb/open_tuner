@@ -43,6 +43,9 @@ namespace opentuner
             txtStreaming4Port.Text = _settings.streamer_udp_ports[3].ToString();
 
             txtSnapshotPath.Text = _settings.media_path;
+
+            checkBoxMuted.Checked = _settings.mute_at_startup;
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -107,6 +110,8 @@ namespace opentuner
 
             _settings.default_source = comboDefaultSource.SelectedIndex;
 
+            _settings.mute_at_startup = checkBoxMuted.Checked;
+
             this.DialogResult = DialogResult.OK;
             Close();
         }
@@ -122,6 +127,9 @@ namespace opentuner
             }
         }
 
+        private void checkBoxMuted_CheckedChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }
