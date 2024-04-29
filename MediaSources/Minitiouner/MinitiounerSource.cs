@@ -277,7 +277,7 @@ namespace opentuner.MediaSources.Minitiouner
             switch (_settings.DefaultInterface)
             {
                 case 0:
-                    var hw_ask = new ChooseHardwareInterfaceForm();
+                    var hw_ask = new ChooseMinitiounerHardwareInterfaceForm();
 
                     if (hw_ask.ShowDialog() == DialogResult.OK)
                     {

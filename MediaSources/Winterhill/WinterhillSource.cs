@@ -74,8 +74,24 @@ namespace opentuner.MediaSources.Winterhill
 
             int udp_port = _settings.WinterhillWSUdpBasePort;
 
+            int defaultInterface = _settings.DefaultInterface;
+
+            if (defaultInterface == 0)
+            {
+                ChooseWinterhillHardwareInterfaceForm chooseInterfaceForm = new ChooseWinterhillHardwareInterfaceForm();
+
+                if (chooseInterfaceForm.ShowDialog() == DialogResult.OK)
+                {
+                    defaultInterface = chooseInterfaceForm.comboHardwareInterface.SelectedIndex + 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
             // connect interface
-            switch (_settings.DefaultInterface)
+            switch (defaultInterface)
             {
                 case 1: // websockets
                     connectWebsockets();

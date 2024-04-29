@@ -15,7 +15,6 @@ namespace opentuner.MediaSources.Winterhill
 {
     public partial class WinterhillSource
     {
-
         UdpClient WH_Client = new UdpClient();
         IPEndPoint winterhill_end_point;
 
