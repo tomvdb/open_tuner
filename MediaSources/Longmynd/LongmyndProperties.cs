@@ -57,9 +57,13 @@ namespace opentuner.MediaSources.Longmynd
             if (!_settings.DefaultMuted)
             {
                 _tuner1_properties.UpdateValue("volume_slider_1", _settings.DefaultVolume.ToString());
+                _settings.DefaultVolume = (uint)preMute;        // restore as changed by update volume_slider function
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
             }
             else
             {
+                _tuner1_properties.UpdateValue("volume_slider_1", "0");
+                _settings.DefaultVolume = (uint)preMute;        // restore as changed by update volume_slider function
                 _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Tomato);
             }
 
