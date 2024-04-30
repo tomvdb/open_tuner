@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using static FTD2XX_NET.FTDI;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -58,6 +59,8 @@ namespace opentuner.MediaSources.Winterhill
 
         bool _videoPlayersReady = false;
 
+        int hw_device = 1;
+
         public WinterhillSource()
         {
             // settings
@@ -70,15 +73,44 @@ namespace opentuner.MediaSources.Winterhill
         {
             _parent = Parent;
 
+            int udp_port = _settings.WinterhillWSUdpBasePort;
+
+            int defaultInterface = _settings.DefaultInterface;
+
+            if (defaultInterface == 0)
+            {
+                ChooseWinterhillHardwareInterfaceForm chooseInterfaceForm = new ChooseWinterhillHardwareInterfaceForm();
+
+                if (chooseInterfaceForm.ShowDialog() == DialogResult.OK)
+                {
+                    defaultInterface = chooseInterfaceForm.comboHardwareInterface.SelectedIndex + 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
             // connect interface
-            switch(_settings.DefaultInterface)
+            switch (defaultInterface)
             {
                 case 1: // websockets
                     connectWebsockets();
+                    udp_port = _settings.WinterhillWSUdpBasePort;
+                    ts_devices = 4;
+                    hw_device = 1;
                     break;
-                case 2: // udp
+                case 2: // udp pico wh
+                    ConnectWinterhillUDP();
+                    UDPSetFrequency(0, 10491500, 1500);
+                    UDPSetFrequency(1, 10491500, 1500);
+                    ts_devices = 2;
+                    hw_device = 2;
+                    udp_port = _settings.WinterhillUdpBasePort;
                     break;
             }
+
+
 
             // open udp ts ports
             udp_clients = new UDPClient[4];
@@ -89,7 +121,7 @@ namespace opentuner.MediaSources.Winterhill
 
             for (int c = 0; c < ts_devices; c++)
             {
-                int port = _settings.WinterhillUdpBasePort + 41 + c;
+                int port = udp_port + 41 + c;
 
                 Log.Information("UDP Port: " + port.ToString());
 
@@ -268,7 +300,7 @@ namespace opentuner.MediaSources.Winterhill
 
         public override void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers)
         {
-            for (int c = 0; c < 4; c++)
+            for (int c = 0; c < ts_devices; c++)
             {
                 _media_player[c] = MediaPlayers[c];
                 _media_player[c].onVideoOut += WinterhillSource_onVideoOut;
@@ -307,12 +339,20 @@ namespace opentuner.MediaSources.Winterhill
         {
             return "Winterhill Client, Compatible with:" +
             Environment.NewLine + Environment.NewLine +
-            "ZR6TG Variant (websocket)";
+            "ZR6TG - WH Variant (websocket)" + Environment.NewLine +
+            "G4EWJ - PicoTuner WH (Ethernet)" + Environment.NewLine;
+
         }
 
         public override string GetDeviceName()
         {
-            return "Winterhill";
+            switch (hw_device)
+            {
+                case 1: return "Winterhill (ZR6TG Variant)";
+                case 2: return "PicoTuner (G4EWJ Ethernet WH)";
+            }
+
+            return "Unknown";
         }
 
         public override long GetFrequency(int device, bool offset_included)
@@ -359,13 +399,27 @@ namespace opentuner.MediaSources.Winterhill
         {
             Log.Information("SetFrequency: " + device.ToString() + "," + frequency.ToString() + "," + symbol_rate.ToString() + "," + offset_included.ToString());
 
+
             if (offset_included)
             {
-                WSSetFrequency(device, (int)frequency, (int)symbol_rate);
+                switch (hw_device)
+                {
+                    case 1: WSSetFrequency(device, (int)frequency, (int)symbol_rate);
+                        break;
+                    case 2: UDPSetFrequency(device, (int)frequency, (int)symbol_rate);
+                        break;
+                }
+
             }
             else
             {
-                WSSetFrequency(device, (int)frequency + (int)_settings.Offset[device], (int)symbol_rate);
+                switch (hw_device)
+                {
+                    case 1:  WSSetFrequency(device, (int)frequency + (int)_settings.Offset[device], (int)symbol_rate);
+                        break;
+                    case 2: UDPSetFrequency(device, (int)frequency + (int)_settings.Offset[device], (int)symbol_rate);
+                        break;
+                }
             }
         }
 

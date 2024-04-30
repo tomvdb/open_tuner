@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace opentuner.MediaSources.Minitiouner
 {
-    public partial class ChooseHardwareInterfaceForm : Form
+    public partial class ChooseMinitiounerHardwareInterfaceForm : Form
     {
-        public ChooseHardwareInterfaceForm()
+        public ChooseMinitiounerHardwareInterfaceForm()
         {
             InitializeComponent();
         }

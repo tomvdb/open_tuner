@@ -267,11 +267,11 @@
     </Compile>
     <Compile Include="MediaSources\Longmynd\LongmyndSource.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndWS.cs" />
-    <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.cs">
+    <Compile Include="MediaSources\Minitiouner\ChooseMinitiounerHardwareInterfaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.Designer.cs">
-      <DependentUpon>ChooseHardwareInterfaceForm.cs</DependentUpon>
+    <Compile Include="MediaSources\Minitiouner\ChooseMinitiounerHardwareInterfaceForm.Designer.cs">
+      <DependentUpon>ChooseMinitiounerHardwareInterfaceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaSources\Minitiouner\MinitiounerProperties.cs" />
     <Compile Include="MediaSources\Minitiouner\MinitiounerSettings.cs" />
@@ -280,6 +280,19 @@
     </Compile>
     <Compile Include="MediaSources\Minitiouner\MinitiounerSettingsForm.Designer.cs">
       <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MediaSources\Winterhill\ChooseWinterhillHardwareInterfaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediaSources\Winterhill\ChooseWinterhillHardwareInterfaceForm.Designer.cs">
+      <DependentUpon>ChooseWinterhillHardwareInterfaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MediaSources\Winterhill\PicoWHBroadcastListener.cs" />
+    <Compile Include="MediaSources\Winterhill\PicoWHBroadcastListenerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediaSources\Winterhill\PicoWHBroadcastListenerForm.Designer.cs">
+      <DependentUpon>PicoWHBroadcastListenerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaSources\Winterhill\WinterhillProperties.cs" />
     <Compile Include="MediaSources\Winterhill\WinterhillSettings.cs" />
@@ -290,6 +303,7 @@
       <DependentUpon>WinterhillSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaSources\Winterhill\WinterhillSource.cs" />
+    <Compile Include="MediaSources\Winterhill\WinterhillUDP.cs" />
     <Compile Include="MediaSources\Winterhill\WinterhillWS.cs" />
     <Compile Include="Transmit\F5OEOPlutoControl.cs" />
     <Compile Include="Transmit\PlutoControl.cs">
@@ -474,11 +488,17 @@
     <EmbeddedResource Include="MediaSources\Longmynd\LongmyndSettingsForm.resx">
       <DependentUpon>LongmyndSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MediaSources\Minitiouner\ChooseHardwareInterfaceForm.resx">
-      <DependentUpon>ChooseHardwareInterfaceForm.cs</DependentUpon>
+    <EmbeddedResource Include="MediaSources\Minitiouner\ChooseMinitiounerHardwareInterfaceForm.resx">
+      <DependentUpon>ChooseMinitiounerHardwareInterfaceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MediaSources\Minitiouner\MinitiounerSettingsForm.resx">
       <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaSources\Winterhill\ChooseWinterhillHardwareInterfaceForm.resx">
+      <DependentUpon>ChooseWinterhillHardwareInterfaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaSources\Winterhill\PicoWHBroadcastListenerForm.resx">
+      <DependentUpon>PicoWHBroadcastListenerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MediaSources\Winterhill\WinterhillSettingsForm.resx">
       <DependentUpon>WinterhillSettingsForm.cs</DependentUpon>

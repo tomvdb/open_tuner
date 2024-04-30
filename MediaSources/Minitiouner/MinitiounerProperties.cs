@@ -270,14 +270,21 @@ namespace opentuner.MediaSources.Minitiouner
                 case "volume_slider_1":
                     // cancel mute
                     _settings.DefaultMuted[0] = muted[0] = false;
-                    _media_players[0]?.SetVolume(value);
+                    if (_media_players.Count > 0) 
+                    {
+                        _media_players[0]?.SetVolume(value);
+                    }
+                    
                     _settings.DefaultVolume[0] = (byte)value;
                     _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
                     break;
                 case "volume_slider_2":
                     // cancel mute
                     _settings.DefaultMuted[1] = muted[1] = false;
-                    _media_players[1]?.SetVolume(value);
+                    if (_media_players.Count > 0)
+                    {
+                        _media_players[1]?.SetVolume(value);
+                    }
                     _settings.DefaultVolume[1] = (byte)value;
                     _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Transparent);
                     break;
@@ -670,10 +677,10 @@ namespace opentuner.MediaSources.Minitiouner
             }
         }
 
-        private void TunerControl_OnTunerChange(int id, uint freq, uint symbol_rate)
+        private void TunerControl_OnTunerChange(int id, uint freq)
         {
-            Log.Information("set frequency : " + id.ToString() + "," + freq.ToString() + " , " + symbol_rate.ToString());
-            SetFrequency(id, freq, symbol_rate, false);
+            Log.Information("set frequency : " + id.ToString() + "," + freq.ToString());
+            SetFrequency(id, freq, id == 0 ? current_sr_0 : current_sr_1, false);
         }
 
         private void ResetVideo(int tuner)

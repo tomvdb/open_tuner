@@ -37,13 +37,13 @@
             this.checkTunerOnTop = new System.Windows.Forms.CheckBox();
             this.lblNimFreq = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboSR = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.khzIndicator = new System.Windows.Forms.Label();
             this.mhzIndicator = new System.Windows.Forms.Label();
             this.ghzIndicator = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblSR = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblgHz
@@ -154,33 +154,6 @@
             this.label2.TabIndex = 10;
             this.label2.Text = "Nim Freq (kHz):";
             // 
-            // comboSR
-            // 
-            this.comboSR.FormattingEnabled = true;
-            this.comboSR.Items.AddRange(new object[] {
-            "66",
-            "125",
-            "250",
-            "333",
-            "500",
-            "1000",
-            "1500",
-            "2000"});
-            this.comboSR.Location = new System.Drawing.Point(510, 8);
-            this.comboSR.Name = "comboSR";
-            this.comboSR.Size = new System.Drawing.Size(83, 21);
-            this.comboSR.TabIndex = 12;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(408, 9);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 17);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Symbol Rate :";
-            // 
             // khzIndicator
             // 
             this.khzIndicator.AutoSize = true;
@@ -231,19 +204,39 @@
             this.label5.TabIndex = 17;
             this.label5.Text = "CTRL x100";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(449, 13);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(92, 17);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Symbol Rate:";
+            // 
+            // lblSR
+            // 
+            this.lblSR.AutoSize = true;
+            this.lblSR.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSR.Location = new System.Drawing.Point(547, 13);
+            this.lblSR.Name = "lblSR";
+            this.lblSR.Size = new System.Drawing.Size(40, 17);
+            this.lblSR.TabIndex = 19;
+            this.lblSR.Text = "2000";
+            // 
             // TunerControlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(618, 270);
+            this.Controls.Add(this.lblSR);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ghzIndicator);
             this.Controls.Add(this.mhzIndicator);
             this.Controls.Add(this.khzIndicator);
-            this.Controls.Add(this.comboSR);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblNimFreq);
             this.Controls.Add(this.checkTunerOnTop);
@@ -277,12 +270,12 @@
         private System.Windows.Forms.CheckBox checkTunerOnTop;
         private System.Windows.Forms.Label lblNimFreq;
         private System.Windows.Forms.Label label2;
-        public System.Windows.Forms.ComboBox comboSR;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label khzIndicator;
         private System.Windows.Forms.Label mhzIndicator;
         private System.Windows.Forms.Label ghzIndicator;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblSR;
     }
 }

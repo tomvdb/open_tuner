@@ -20,10 +20,13 @@ namespace opentuner.MediaSources.Winterhill
 
             _settings = Settings;
 
+            comboDefaultInterface.SelectedIndex = _settings.DefaultInterface;
             txtWHWSIp.Text = _settings.WinterhillWSHost;
             txtWHWSPort.Text = _settings.WinterhillWSPort.ToString();
-            txtWHWSBaseUdp.Text = _settings.WinterhillUdpBasePort.ToString();
+            txtWHWSBaseUdp.Text = _settings.WinterhillWSUdpBasePort.ToString();
 
+            txtUDPBasePort.Text = _settings.WinterhillUdpBasePort.ToString();
+            txtUDPIP.Text = _settings.WinterhillUdpHost.ToString();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -37,6 +40,8 @@ namespace opentuner.MediaSources.Winterhill
             int wsport = 0;
             int baseport = 0;
 
+            int udpbaseport = 0;
+
             if (!int.TryParse(txtWHWSPort.Text, out wsport))
             {
                 MessageBox.Show("Winterhill WS Port is not valid.");
@@ -49,12 +54,33 @@ namespace opentuner.MediaSources.Winterhill
                 return;
             }
 
+            if (!int.TryParse(txtUDPBasePort.Text, out udpbaseport))
+            {
+                MessageBox.Show("Winterhill UDP Base Port is not valid");
+                return;
+            }
+
             _settings.WinterhillWSHost = txtWHWSIp.Text;
             _settings.WinterhillWSPort = wsport;
-            _settings.WinterhillUdpBasePort = baseport;
+            _settings.WinterhillWSUdpBasePort = baseport;
 
+            _settings.WinterhillUdpBasePort = udpbaseport;
+            _settings.WinterhillUdpHost = txtUDPIP.Text;
+            _settings.DefaultInterface = (byte)comboDefaultInterface.SelectedIndex;
+            
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void comboDefaultInterface_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void btnBroadcastListener_Click(object sender, EventArgs e)
+        {
+            PicoWHBroadcastListenerForm picoWHBroadcastListenerForm = new PicoWHBroadcastListenerForm();
+            picoWHBroadcastListenerForm.Show();
         }
     }
 }

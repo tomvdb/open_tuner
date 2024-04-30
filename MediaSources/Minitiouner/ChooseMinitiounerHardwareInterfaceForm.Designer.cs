@@ -1,6 +1,6 @@
 ﻿namespace opentuner.MediaSources.Minitiouner
 {
-    partial class ChooseHardwareInterfaceForm
+    partial class ChooseMinitiounerHardwareInterfaceForm
     {
         /// <summary>
         /// Required designer variable.
