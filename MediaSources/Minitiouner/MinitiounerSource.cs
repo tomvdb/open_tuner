@@ -731,11 +731,14 @@ namespace opentuner.MediaSources.Minitiouner
                 muted[0] = _settings.DefaultMuted[0] = true;
                 _settings.DefaultVolume[0] = (uint)preMute[0];              // restore DefaultVolume
 
-                preMute[1] = (int)_settings.DefaultVolume[1];               // save DefaultVolume in preMute
-                _tuner2_properties.UpdateValue("volume_slider_2", "0");     // side effect: will set DefaultVolume to 0
-                _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Tomato);
-                muted[1] = _settings.DefaultMuted[1] = true;
-                _settings.DefaultVolume[1] = (uint)preMute[1];              // restore DefaultVolume
+                if (ts_devices == 2)
+                {
+                    preMute[1] = (int)_settings.DefaultVolume[1];           // save DefaultVolume in preMute
+                    _tuner2_properties.UpdateValue("volume_slider_2", "0"); // side effect: will set DefaultVolume to 0
+                    _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Tomato);
+                    muted[1] = _settings.DefaultMuted[1] = true;
+                    _settings.DefaultVolume[1] = (uint)preMute[1];          // restore DefaultVolume
+                }
             }
         }
 
