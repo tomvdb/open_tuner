@@ -83,7 +83,7 @@ namespace opentuner.MediaSources.Winterhill
                 {
                     _tuner_properties[c].UpdateValue("volume_slider_" + c.ToString(), "0");
                     _settings.DefaultVolume[c] = (uint)preMute[c];  // restore as changed by update volume_slider function
-                    _tuner_properties[c].UpdateMuteButtonColor("media_controls_" + c.ToString(), Color.Tomato);
+                    _tuner_properties[c].UpdateMuteButtonColor("media_controls_" + c.ToString(), Color.PaleVioletRed);
                 }
             }
 
@@ -202,7 +202,7 @@ namespace opentuner.MediaSources.Winterhill
                         _tuner_properties[tuner].UpdateValue("volume_slider_" + tuner.ToString(), "0");
                         _settings.DefaultVolume[tuner] = (byte)preMute[tuner];
                         _settings.DefaultMuted[tuner] = muted[tuner] = true;
-                        _tuner_properties[tuner].UpdateMuteButtonColor("media_controls_" + tuner.ToString(), Color.Tomato);
+                        _tuner_properties[tuner].UpdateMuteButtonColor("media_controls_" + tuner.ToString(), Color.PaleVioletRed);
                     }
                     else
                     {
