@@ -55,14 +55,14 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].AddItem("demodstate", "Demod State", Color.PaleVioletRed);
                 _tuner_properties[c].AddItem("mer", "Mer");
                 _tuner_properties[c].AddItem("frequency", "Frequency" ,_genericContextStrip);
-                _tuner_properties[c].AddItem("nim_frequency", "Nim Frequency");
-                _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate");
-                _tuner_properties[c].AddItem("modcod", "Modcod");
+                //_tuner_properties[c].AddItem("nim_frequency", "Nim Frequency");
+                _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate / Modcod");
+                //_tuner_properties[c].AddItem("modcod", "Modcod");
                 _tuner_properties[c].AddItem("service_name", "Service Name");
                 _tuner_properties[c].AddItem("service_name_provider", "Service Name Provider");
                 _tuner_properties[c].AddItem("null_packets", "Null Packets");
-                _tuner_properties[c].AddItem("ts_addr", "TS Address", _genericContextStrip);
-                _tuner_properties[c].AddItem("ts_port", "TS Port");
+                _tuner_properties[c].AddItem("ts_addr", "TS Address : Port", _genericContextStrip);
+                //_tuner_properties[c].AddItem("ts_port", "TS Port");
                 _tuner_properties[c].AddItem("video_codec", "Video Codec");
                 _tuner_properties[c].AddItem("video_resolution", "Video Resolution");
                 _tuner_properties[c].AddItem("audio_codec", "Audio Codec");
@@ -332,7 +332,7 @@ namespace opentuner.MediaSources.Winterhill
             _tuner_properties[player].UpdateTitle("Tuner " + tuner.ToString() + " - " + _media_player[player].GetName());
 
             string video_res = media_status.VideoWidth.ToString() + " x " + media_status.VideoHeight.ToString();
-            string audio_rate = media_status.AudioRate.ToString() + " Hz, " + media_status.AudioChannels.ToString() + " channels";
+            string audio_rate = media_status.AudioRate.ToString("#,##0") + " Hz, " + media_status.AudioChannels.ToString() + " channels";
 
             _tuner_properties[player].UpdateValue("video_codec", media_status.VideoCodec);
             _tuner_properties[player].UpdateValue("video_resolution", video_res);
@@ -406,15 +406,15 @@ namespace opentuner.MediaSources.Winterhill
                     }
 
                     _tuner_properties[c].UpdateValue("demodstate", scanstate_lookup[rx.scanstate]);
-                    _tuner_properties[c].UpdateValue("mer", rx.mer.ToString());
-                    _tuner_properties[c].UpdateValue("frequency", GetFrequency(c, true).ToString());
-                    _tuner_properties[c].UpdateValue("nim_frequency", GetFrequency(c, false).ToString());
-                    _tuner_properties[c].UpdateValue("symbol_rate", rx.symbol_rate.ToString());
-                    _tuner_properties[c].UpdateValue("modcod", rx.modcod.ToString());
-                    _tuner_properties[c].UpdateValue("service_name", rx.service_name.ToString());
-                    _tuner_properties[c].UpdateValue("service_name_provider", rx.service_provider_name.ToString());
-                    _tuner_properties[c].UpdateValue("null_packets", rx.null_percentage.ToString());
-                    _tuner_properties[c].UpdateValue("ts_addr", rx.ts_addr.ToString());
+                    _tuner_properties[c].UpdateValue("mer", rx.mer);
+                    _tuner_properties[c].UpdateValue("frequency", GetFrequency(c, true).ToString("#,##0") + "  (" + GetFrequency(c, false).ToString("#,##0") + ")");
+                    //_tuner_properties[c].UpdateValue("nim_frequency", GetFrequency(c, false).ToString());
+                    _tuner_properties[c].UpdateValue("symbol_rate", rx.symbol_rate + " / " + rx.modcod);
+                    //_tuner_properties[c].UpdateValue("modcod", rx.modcod.ToString());
+                    _tuner_properties[c].UpdateValue("service_name", rx.service_name);
+                    _tuner_properties[c].UpdateValue("service_name_provider", rx.service_provider_name);
+                    _tuner_properties[c].UpdateValue("null_packets", rx.null_percentage);
+                    _tuner_properties[c].UpdateValue("ts_addr", rx.ts_addr + " : " + rx.ts_port);
 
                     last_mer[c] = rx.mer;
                     last_service_name[c] = rx.service_name;
@@ -430,7 +430,7 @@ namespace opentuner.MediaSources.Winterhill
                         _tuner_properties[c].UpdateColor("ts_addr", Color.Bisque);
                     }
 
-                    _tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
+                    //_tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
                     _tuner_properties[c].UpdateBigLabel(rx.dbmargin.ToString());
 
                     var data = _tuner_properties[c].GetAll();
