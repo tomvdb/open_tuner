@@ -20,16 +20,25 @@ namespace opentuner
         private ReadTS read_ts_callback = null;
         private string identifier = "";
 
+        private EventWaitHandle thread_wait_event_handle;
+
         public TSThread(CircularBuffer _raw_ts_data_queue, FlushTS _flush_ts_callback, ReadTS _read_ts_callback, string _identifier)
         {
             Log.Information(" >> Starting TS Thread <<");
             Log.Information(" >> Registering Raw TS Queue << ");
+
+            thread_wait_event_handle = new EventWaitHandle(false, EventResetMode.AutoReset);
 
             registered_consumers.Add(_raw_ts_data_queue);
 
             flush_ts_callback = _flush_ts_callback;
             read_ts_callback = _read_ts_callback;
             identifier = _identifier;
+        }
+
+        public void NewDataPresent()
+        {
+            thread_wait_event_handle.Set();
         }
 
         public void RegisterTSConsumer(CircularBuffer raw_ts_data_queue)
@@ -42,12 +51,14 @@ namespace opentuner
         {
             Log.Information("Stopping TS: " + identifier);
             ts_build_queue = false;
+            thread_wait_event_handle.Set(); // fire worker thread to handle stop event
         }
 
         public void start_ts()
         {
             Log.Information("Starting TS:" + identifier);
             ts_build_queue = true;
+            thread_wait_event_handle.Set(); // fire worker thread to handle start event
         }
 
         public void worker_thread()
@@ -60,9 +71,12 @@ namespace opentuner
                 Log.Information("TS Thread: Starting...");
 
                 byte[] data = new byte[4096];
+                uint dataRead = 0;
 
                 while (true)
                 {
+                    // Wait on an Event.
+                    thread_wait_event_handle.WaitOne();
 
                     if (ts_build_queue == false)
                     {
@@ -82,20 +96,23 @@ namespace opentuner
                         registered_consumers[0].Clear();
                         bufferingData = true;
                     }
-                         
-                    uint dataRead = 0;
 
-                    if (read_ts_callback(ref data, ref dataRead) != 0)
-                        Log.Information("Read Error");
-
-                    if (dataRead > 0)
+                    if (bufferingData == true)
                     {
-                        for ( int c = 0; c < dataRead; c++)
+                        dataRead = 0;
+
+                        if (read_ts_callback(ref data, ref dataRead) != 0)
+                            Log.Information("Read Error");
+
+                        if (dataRead > 0)
                         {
-                            for (int consumers = 0; consumers < registered_consumers.Count; consumers++)
+                            for (int c = 0; c < dataRead; c++)
                             {
-                                if (registered_consumers[consumers] != null)
-                                    registered_consumers[consumers].Enqueue(data[c]);
+                                for (int consumers = 0; consumers < registered_consumers.Count; consumers++)
+                                {
+                                    if (registered_consumers[consumers] != null)
+                                        registered_consumers[consumers].Enqueue(data[c]);
+                                }
                             }
                         }
                     }

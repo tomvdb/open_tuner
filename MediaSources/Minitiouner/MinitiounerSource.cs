@@ -597,12 +597,16 @@ namespace opentuner.MediaSources.Minitiouner
 
         byte ReadTS2(ref byte[] data, ref uint dataRead)
         {
-            return hardware_interface.transport_read(PicoTunerInterface.TS2, ref data, ref dataRead);
+            byte err = hardware_interface.transport_read(PicoTunerInterface.TS2, ref data, ref dataRead);
+            DataReceived(PicoTunerInterface.TS2);
+            return err;
         }
 
         byte ReadTS1(ref byte[] data, ref uint dataRead)
         {
-            return hardware_interface.transport_read(PicoTunerInterface.TS1, ref data, ref dataRead);
+            byte err = hardware_interface.transport_read(PicoTunerInterface.TS1, ref data, ref dataRead);
+            DataReceived(PicoTunerInterface.TS1);
+            return err;
         }
 
 
@@ -611,6 +615,18 @@ namespace opentuner.MediaSources.Minitiouner
             hardware_interface.transport_flush(PicoTunerInterface.TS1);
         }
 
+
+        private void DataReceived(byte TS)
+        {
+            if (TS == 1)
+            {
+                ts_thread.NewDataPresent();
+            }
+            else
+            {
+                ts_thread2.NewDataPresent();
+            }
+        }
 
         private void hardware_init(bool manual, string i2c_serial, string ts_serial, string ts2_serial)
         {

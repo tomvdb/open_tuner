@@ -171,6 +171,7 @@ namespace opentuner.MediaSources.Longmynd
             {
                 udp_buffer.Enqueue(e[c]);
             }
+            ts_thread.NewDataPresent();
         }
 
         private void Udp_client_ConnectionStatusChanged(object sender, string e)

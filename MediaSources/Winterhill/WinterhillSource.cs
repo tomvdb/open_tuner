@@ -242,6 +242,7 @@ namespace opentuner.MediaSources.Winterhill
             {
                 udp_buffer[device].Enqueue(e[c]);
             }
+            ts_threads[device].NewDataPresent();
         }
 
         private void WinterhillSource_ConnectionStatusChanged(object sender, string e)
