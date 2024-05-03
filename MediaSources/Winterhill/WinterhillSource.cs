@@ -370,7 +370,8 @@ namespace opentuner.MediaSources.Winterhill
         {
             if (Override)
             {
-                for (int i = 0; i < _settings.DefaultMuted.Count(); i++)
+//                for (int i = 0; i < _settings.DefaultMuted.Count(); i++)
+                for (int i = 0; i < hw_device; i++)
                 {
                     preMute[i] = (int)_settings.DefaultVolume[i];                           // save DefaultVolume in preMute
                     _tuner_properties[i].UpdateValue("volume_slider_" + i.ToString(), "0"); // side effect: will set DefaultVolume to 0
