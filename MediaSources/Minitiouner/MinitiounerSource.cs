@@ -3,6 +3,7 @@ using opentuner.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -596,12 +597,16 @@ namespace opentuner.MediaSources.Minitiouner
 
         byte ReadTS2(ref byte[] data, ref uint dataRead)
         {
-            return hardware_interface.transport_read(PicoTunerInterface.TS2, ref data, ref dataRead);
+            byte err = hardware_interface.transport_read(PicoTunerInterface.TS2, ref data, ref dataRead);
+            DataReceived(PicoTunerInterface.TS2);
+            return err;
         }
 
         byte ReadTS1(ref byte[] data, ref uint dataRead)
         {
-            return hardware_interface.transport_read(PicoTunerInterface.TS1, ref data, ref dataRead);
+            byte err = hardware_interface.transport_read(PicoTunerInterface.TS1, ref data, ref dataRead);
+            DataReceived(PicoTunerInterface.TS1);
+            return err;
         }
 
 
@@ -610,6 +615,18 @@ namespace opentuner.MediaSources.Minitiouner
             hardware_interface.transport_flush(PicoTunerInterface.TS1);
         }
 
+
+        private void DataReceived(byte TS)
+        {
+            if (TS == 1)
+            {
+                ts_thread.NewDataPresent();
+            }
+            else
+            {
+                ts_thread2.NewDataPresent();
+            }
+        }
 
         private void hardware_init(bool manual, string i2c_serial, string ts_serial, string ts2_serial)
         {
@@ -718,6 +735,27 @@ namespace opentuner.MediaSources.Minitiouner
         public override string GetName()
         {
             return "Minitiouner Variant";
+        }
+
+        public override void OverrideDefaultMuted(bool Override)
+        {
+            if (Override)
+            {
+                preMute[0] = (int)_settings.DefaultVolume[0];               // save DefaultVolume in preMute
+                _tuner1_properties.UpdateValue("volume_slider_1", "0");     // side effect: will set DefaultVolume to 0
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
+                muted[0] = _settings.DefaultMuted[0] = true;
+                _settings.DefaultVolume[0] = (uint)preMute[0];              // restore DefaultVolume
+
+                if (ts_devices == 2)
+                {
+                    preMute[1] = (int)_settings.DefaultVolume[1];           // save DefaultVolume in preMute
+                    _tuner2_properties.UpdateValue("volume_slider_2", "0"); // side effect: will set DefaultVolume to 0
+                    _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.PaleVioletRed);
+                    muted[1] = _settings.DefaultMuted[1] = true;
+                    _settings.DefaultVolume[1] = (uint)preMute[1];          // restore DefaultVolume
+                }
+            }
         }
 
         public override string GetDescription()

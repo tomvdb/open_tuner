@@ -910,6 +910,11 @@ namespace opentuner
                 mqtt_client = new MqttManager();
             }
 
+            if (_settings.mute_at_startup)
+            {
+                _availableSources[comboAvailableSources.SelectedIndex].OverrideDefaultMuted(_settings.mute_at_startup);
+            }
+
             splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
 
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -73,11 +74,19 @@ namespace opentuner
             {
                 if (Count == 0)
                 {
-                    throw new InvalidOperationException("Buffer is empty.");
+                    // throw new InvalidOperationException("Buffer is empty.");
+                    /* remark DL1RF: I observed this exception a few times.
+                     * There seem to be a glitch between threads.
+                     * Log an Error instead and return 0 as fake data here
+                     * This happend while stop playing or leaving the program at all
+                     * Occured only a very times.
+                     */
+                    Log.Error("Dequeue(): Buffer is empty.");
+                    return 0;
                 }
 
                 byte item = buffer[tail];
-                buffer[tail] = 0;
+                // buffer[tail] = 0;    // mod dl1rf: I think no need to do this.
                 tail = (tail + 1) % capacity;
                 Count--;
 
@@ -91,7 +100,15 @@ namespace opentuner
             {
                 if (Count == 0)
                 {
-                    throw new InvalidOperationException("Buffer is empty.");
+                    // throw new InvalidOperationException("Buffer is empty.");
+                    /* remark DL1RF: I observed this exception a few times.
+                     * There seem to be a glitch between threads.
+                     * Log an Error instead and return 0 as fake data here
+                     * This happend while stop playing or leaving the program at all
+                     * Occured only a very few times.
+                     */
+                    Log.Error("Peek(): Buffer is empty.");
+                    return 0;
                 }
 
                 return buffer[tail];

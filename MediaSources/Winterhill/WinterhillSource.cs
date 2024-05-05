@@ -3,6 +3,7 @@ using opentuner.Utilities;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -241,6 +242,7 @@ namespace opentuner.MediaSources.Winterhill
             {
                 udp_buffer[device].Enqueue(e[c]);
             }
+            ts_threads[device].NewDataPresent();
         }
 
         private void WinterhillSource_ConnectionStatusChanged(object sender, string e)
@@ -362,6 +364,22 @@ namespace opentuner.MediaSources.Winterhill
         public override string GetName()
         {
             return "Winterhill Variant";
+        }
+
+        public override void OverrideDefaultMuted(bool Override)
+        {
+            if (Override)
+            {
+//                for (int i = 0; i < _settings.DefaultMuted.Count(); i++)
+                for (int i = 0; i < hw_device; i++)
+                {
+                    preMute[i] = (int)_settings.DefaultVolume[i];                           // save DefaultVolume in preMute
+                    _tuner_properties[i].UpdateValue("volume_slider_" + i.ToString(), "0"); // side effect: will set DefaultVolume to 0
+                    _tuner_properties[i].UpdateMuteButtonColor("media_controls_" + i.ToString(), Color.PaleVioletRed);
+                    muted[i] = _settings.DefaultMuted[i] = true;
+                    _settings.DefaultVolume[i] = (uint)preMute[i];                          // restore DefaultVolume
+                }
+            }
         }
 
         public override CircularBuffer GetVideoDataQueue(int device)

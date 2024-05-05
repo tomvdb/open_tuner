@@ -4,6 +4,7 @@ using opentuner.MediaSources.Minitiouner;
 using opentuner.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.Remoting.Messaging;
@@ -139,6 +140,19 @@ namespace opentuner.MediaSources.Longmynd
             return "Longmynd";
         }
 
+        public override void OverrideDefaultMuted(bool Override)
+        {
+            if (Override)
+            {
+                preMute = (int)_settings.DefaultVolume;                             // save DefaultVolume in preMute
+                _tuner1_properties.UpdateValue("volume_slider_1", "0");             // side effect: will set DefaultVolume to 0
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
+                muted = _settings.DefaultMuted = true;
+                _settings.DefaultVolume = (uint)preMute;                            // restore DefaultVolume
+                _settings.DefaultMuted = true;
+            }
+        }
+
         public override CircularBuffer GetVideoDataQueue(int device)
         {
             return ts_data_queue;
@@ -157,6 +171,7 @@ namespace opentuner.MediaSources.Longmynd
             {
                 udp_buffer.Enqueue(e[c]);
             }
+            ts_thread.NewDataPresent();
         }
 
         private void Udp_client_ConnectionStatusChanged(object sender, string e)

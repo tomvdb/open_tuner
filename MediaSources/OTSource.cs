@@ -56,6 +56,7 @@ namespace opentuner.MediaSources
 
         //public abstract byte SelectHardwareInterface(int hardware_interface);
 
+        public abstract void OverrideDefaultMuted(bool Override);
 
     }
 }
