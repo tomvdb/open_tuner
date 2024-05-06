@@ -34,12 +34,12 @@ namespace opentuner.Utilities
         private Button _UDPStreamButton;
         private Button _RecordButton;
 
-        private PictureBox _recordIndicator;
-        private PictureBox _streamIndicator;
+//        private PictureBox _recordIndicator;
+//        private PictureBox _streamIndicator;
 
-        Bitmap _recordBitmap;
-        Bitmap _streamBitmap;
-        Bitmap _offBitmap;
+//        Bitmap _recordBitmap;
+//        Bitmap _streamBitmap;
+//        Bitmap _offBitmap;
 
         private int buttonSize = 32;
         public override string Key
@@ -98,14 +98,17 @@ namespace opentuner.Utilities
 
         }
 
+/*
         public bool IsIndicatorSet(int indicatorInput, PropertyIndicators indicator)
         {
             
             return (indicatorInput & (1 << (int)indicator)) != 0;
         }
+*/
 
         public override void UpdateValue(string Value)
         {
+/*
             _value = Value;
 
             int indicatorInput = 0;
@@ -131,6 +134,7 @@ namespace opentuner.Utilities
                 }
 
             }
+*/
         }
 
         private void DrawIndicator(ref Bitmap bmp, Brush brush)
@@ -151,7 +155,7 @@ namespace opentuner.Utilities
         public DynamicPropertyMediaControls(GroupBox Group, string Key, string Title, ButtonPressedCallback ButtonPressedCB)
         {
             _buttonPressedCallback = ButtonPressedCB;
-
+/*
             _recordBitmap = new Bitmap(32,32);
             DrawIndicator(ref _recordBitmap, Brushes.PaleVioletRed);
 
@@ -160,10 +164,9 @@ namespace opentuner.Utilities
 
             _offBitmap = new Bitmap(32,32);
             DrawIndicator(ref _offBitmap, Brushes.LightGray);
-
+*/
             InitComponents(Group, Key, Title, Color.Transparent);
         }
-
 
         protected virtual void InitComponents(GroupBox Group, string Key, string Title, System.Drawing.Color Color)
         {
@@ -214,7 +217,7 @@ namespace opentuner.Utilities
             _RecordButton.Left = _parent.Width - (1 * (buttonSize + 2)) - (_parent.Width / 4) / 2;
             _RecordButton.Click += _RecordButton_Click;
             _toolTip.SetToolTip(_RecordButton, "Record");
-
+/*
             _streamIndicator = new PictureBox();
             _streamIndicator.Size = new Size(buttonSize, buttonSize);
             _streamIndicator.Image = _offBitmap;
@@ -228,9 +231,9 @@ namespace opentuner.Utilities
             _recordIndicator.Top = _MuteButton.Top;
             _recordIndicator.Left = 10 + 42;
             _toolTip.SetToolTip(_recordIndicator, "Record Indicator");
-
-            _parent.Controls.Add(_recordIndicator);
-            _parent.Controls.Add(_streamIndicator);
+*/
+ //           _parent.Controls.Add(_recordIndicator);
+ //           _parent.Controls.Add(_streamIndicator);
             _parent.Controls.Add(_MuteButton);
             _parent.Controls.Add(_SnapshotButton);
             _parent.Controls.Add(_RecordButton);
@@ -276,5 +279,15 @@ namespace opentuner.Utilities
         {
             _MuteButton.BackColor = Col;
         }
+
+        public override void UpdateRecordButtonColor(Color Col)
+        {
+            _RecordButton.BackColor = Col;
+        }
+
+        public override void UpdateStreamButtonColor(Color Col)
+        {
+            _UDPStreamButton.BackColor = Col;
+        }
     }
- }
+}
