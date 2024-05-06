@@ -81,29 +81,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuManageFrequencyPresets = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.manageStoredFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-            this.storedFrequenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.externalToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manageExternalToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
-            this.externalToolsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tunerControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tuner1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.recordAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enableUDPOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tuner2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enableUDPOutputToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.lNBPowerSupplyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lNBAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vertical13VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.horizontal18VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.kHzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.plutoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -555,10 +535,6 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTunerToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.externalToolsToolStripMenuItem,
-            this.tunerControlToolStripMenuItem,
-            this.toolStripMenuItem4,
             this.qO100WidebandChatToolStripMenuItem,
             this.plutoToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
@@ -568,6 +544,7 @@
             // 
             this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
+            this.menuManageFrequencyPresets,
             this.toolStripSeparator1,
             this.quitToolStripMenuItem});
             this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
@@ -579,6 +556,12 @@
             resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
+            // menuManageFrequencyPresets
+            // 
+            this.menuManageFrequencyPresets.Name = "menuManageFrequencyPresets";
+            resources.ApplyResources(this.menuManageFrequencyPresets, "menuManageFrequencyPresets");
+            this.menuManageFrequencyPresets.Click += new System.EventHandler(this.menuManageFrequencyPresets_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -589,140 +572,6 @@
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             resources.ApplyResources(this.quitToolStripMenuItem, "quitToolStripMenuItem");
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manageStoredFrequenciesToolStripMenuItem,
-            this.toolStripMenuItem6,
-            this.storedFrequenciesToolStripMenuItem});
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
-            // 
-            // manageStoredFrequenciesToolStripMenuItem
-            // 
-            this.manageStoredFrequenciesToolStripMenuItem.Name = "manageStoredFrequenciesToolStripMenuItem";
-            resources.ApplyResources(this.manageStoredFrequenciesToolStripMenuItem, "manageStoredFrequenciesToolStripMenuItem");
-            this.manageStoredFrequenciesToolStripMenuItem.Click += new System.EventHandler(this.manageStoredFrequenciesToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            resources.ApplyResources(this.toolStripMenuItem6, "toolStripMenuItem6");
-            // 
-            // storedFrequenciesToolStripMenuItem
-            // 
-            this.storedFrequenciesToolStripMenuItem.Name = "storedFrequenciesToolStripMenuItem";
-            resources.ApplyResources(this.storedFrequenciesToolStripMenuItem, "storedFrequenciesToolStripMenuItem");
-            // 
-            // externalToolsToolStripMenuItem
-            // 
-            this.externalToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manageExternalToolsToolStripMenuItem,
-            this.toolStripMenuItem8,
-            this.externalToolsToolStripMenuItem1});
-            this.externalToolsToolStripMenuItem.Name = "externalToolsToolStripMenuItem";
-            resources.ApplyResources(this.externalToolsToolStripMenuItem, "externalToolsToolStripMenuItem");
-            // 
-            // manageExternalToolsToolStripMenuItem
-            // 
-            this.manageExternalToolsToolStripMenuItem.Name = "manageExternalToolsToolStripMenuItem";
-            resources.ApplyResources(this.manageExternalToolsToolStripMenuItem, "manageExternalToolsToolStripMenuItem");
-            this.manageExternalToolsToolStripMenuItem.Click += new System.EventHandler(this.manageExternalToolsToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem8
-            // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            resources.ApplyResources(this.toolStripMenuItem8, "toolStripMenuItem8");
-            // 
-            // externalToolsToolStripMenuItem1
-            // 
-            this.externalToolsToolStripMenuItem1.Name = "externalToolsToolStripMenuItem1";
-            resources.ApplyResources(this.externalToolsToolStripMenuItem1, "externalToolsToolStripMenuItem1");
-            // 
-            // tunerControlToolStripMenuItem
-            // 
-            this.tunerControlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tuner1ToolStripMenuItem,
-            this.tuner2ToolStripMenuItem});
-            this.tunerControlToolStripMenuItem.Name = "tunerControlToolStripMenuItem";
-            resources.ApplyResources(this.tunerControlToolStripMenuItem, "tunerControlToolStripMenuItem");
-            // 
-            // tuner1ToolStripMenuItem
-            // 
-            this.tuner1ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.recordAllToolStripMenuItem,
-            this.enableUDPOutputToolStripMenuItem});
-            this.tuner1ToolStripMenuItem.Name = "tuner1ToolStripMenuItem";
-            resources.ApplyResources(this.tuner1ToolStripMenuItem, "tuner1ToolStripMenuItem");
-            // 
-            // recordAllToolStripMenuItem
-            // 
-            this.recordAllToolStripMenuItem.Name = "recordAllToolStripMenuItem";
-            resources.ApplyResources(this.recordAllToolStripMenuItem, "recordAllToolStripMenuItem");
-            // 
-            // enableUDPOutputToolStripMenuItem
-            // 
-            this.enableUDPOutputToolStripMenuItem.Name = "enableUDPOutputToolStripMenuItem";
-            resources.ApplyResources(this.enableUDPOutputToolStripMenuItem, "enableUDPOutputToolStripMenuItem");
-            // 
-            // tuner2ToolStripMenuItem
-            // 
-            this.tuner2ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enableUDPOutputToolStripMenuItem1});
-            this.tuner2ToolStripMenuItem.Name = "tuner2ToolStripMenuItem";
-            resources.ApplyResources(this.tuner2ToolStripMenuItem, "tuner2ToolStripMenuItem");
-            // 
-            // enableUDPOutputToolStripMenuItem1
-            // 
-            this.enableUDPOutputToolStripMenuItem1.Name = "enableUDPOutputToolStripMenuItem1";
-            resources.ApplyResources(this.enableUDPOutputToolStripMenuItem1, "enableUDPOutputToolStripMenuItem1");
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lNBPowerSupplyToolStripMenuItem,
-            this.kHzToolStripMenuItem});
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
-            // 
-            // lNBPowerSupplyToolStripMenuItem
-            // 
-            this.lNBPowerSupplyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lNBAToolStripMenuItem});
-            this.lNBPowerSupplyToolStripMenuItem.Name = "lNBPowerSupplyToolStripMenuItem";
-            resources.ApplyResources(this.lNBPowerSupplyToolStripMenuItem, "lNBPowerSupplyToolStripMenuItem");
-            // 
-            // lNBAToolStripMenuItem
-            // 
-            this.lNBAToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.offToolStripMenuItem,
-            this.vertical13VToolStripMenuItem,
-            this.horizontal18VToolStripMenuItem});
-            this.lNBAToolStripMenuItem.Name = "lNBAToolStripMenuItem";
-            resources.ApplyResources(this.lNBAToolStripMenuItem, "lNBAToolStripMenuItem");
-            // 
-            // offToolStripMenuItem
-            // 
-            this.offToolStripMenuItem.Checked = true;
-            this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            resources.ApplyResources(this.offToolStripMenuItem, "offToolStripMenuItem");
-            // 
-            // vertical13VToolStripMenuItem
-            // 
-            this.vertical13VToolStripMenuItem.Name = "vertical13VToolStripMenuItem";
-            resources.ApplyResources(this.vertical13VToolStripMenuItem, "vertical13VToolStripMenuItem");
-            // 
-            // horizontal18VToolStripMenuItem
-            // 
-            this.horizontal18VToolStripMenuItem.Name = "horizontal18VToolStripMenuItem";
-            resources.ApplyResources(this.horizontal18VToolStripMenuItem, "horizontal18VToolStripMenuItem");
-            // 
-            // kHzToolStripMenuItem
-            // 
-            this.kHzToolStripMenuItem.Name = "kHzToolStripMenuItem";
-            resources.ApplyResources(this.kHzToolStripMenuItem, "kHzToolStripMenuItem");
             // 
             // qO100WidebandChatToolStripMenuItem
             // 
@@ -825,32 +674,11 @@
         private System.Windows.Forms.ListBox dbgListBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem qO100WidebandChatToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem manageStoredFrequenciesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem storedFrequenciesToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextSpectrumMenu;
         private System.Windows.Forms.ToolStripMenuItem autoTuneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoTimedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoHoldToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tunerControlToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tuner1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem recordAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem enableUDPOutputToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem lNBPowerSupplyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem lNBAToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem vertical13VToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem horizontal18VToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem kHzToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tuner2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem enableUDPOutputToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem externalToolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem manageExternalToolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
-        private System.Windows.Forms.ToolStripMenuItem externalToolsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem plutoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem commandsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem systemFunctionsToolStripMenuItem;
@@ -896,6 +724,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ToolStripMenuItem menuManageFrequencyPresets;
     }
 }
 

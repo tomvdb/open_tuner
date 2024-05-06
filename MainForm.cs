@@ -72,6 +72,8 @@ namespace opentuner
         private MainSettings _settings;
         private SettingsManager<MainSettings> _settingsManager;
 
+        SettingsManager<List<StoredFrequency>> frequenciesManager;
+
         List<StoredFrequency> stored_frequencies = new List<StoredFrequency>();
         List<ExternalTool> external_tools = new List<ExternalTool>();
 
@@ -111,6 +113,10 @@ namespace opentuner
             comboAvailableSources.SelectedIndex = _settings.default_source;
             sourceInfo.Text = _availableSources[_settings.default_source].GetDescription();
 
+
+            // load stored presets
+            frequenciesManager = new SettingsManager<List<StoredFrequency>>("frequency_presets");
+            stored_frequencies = frequenciesManager.LoadSettings(stored_frequencies);
         }
 
         /// <summary>
@@ -421,6 +427,7 @@ namespace opentuner
             videoSource.SetFrequency(Receiver, Freq, SymbolRate, true);
         }
 
+        /*
         private void rebuild_external_tools()
         {
             externalToolsToolStripMenuItem1.DropDownItems.Clear();
@@ -442,6 +449,7 @@ namespace opentuner
                 externalToolsToolStripMenuItem1.DropDownItems.Add(et_menu);
             }
         }
+        */
 
         /*
         private void Et_menu_Click(object sender, EventArgs e)
@@ -487,7 +495,6 @@ namespace opentuner
                 }
             }
         }
-        */
 
         private void rebuild_stored_frequencies()
         {
@@ -512,6 +519,7 @@ namespace opentuner
         }
        
 
+        
         private void Sf_menu_Click(object sender, EventArgs e)
         {
             int tag = Convert.ToInt32(((ToolStripMenuItem)(sender)).Tag);
@@ -522,7 +530,9 @@ namespace opentuner
                 tune_stored_frequency(stored_frequencies[tag]);
             }
         }
+        */
 
+        /*
         void tune_stored_frequency(StoredFrequency sf)
         {
             //if (videoSource != null)
@@ -560,6 +570,8 @@ namespace opentuner
                 Log.Information("Error reading frequencies.json - file missing, or wrong format :" + Ex.Message);
             }
         }
+
+        */
 
         private void save_external_tools()
         {
@@ -624,38 +636,39 @@ namespace opentuner
                 batc_chat.Show();
         }
 
-        private void manageStoredFrequenciesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frequencyManagerForm freqForm = new frequencyManagerForm(stored_frequencies);
-            freqForm.ShowDialog();
-
-            save_stored_frequencies();
-            rebuild_stored_frequencies();
-        }
-
         /*
-        private void lblChatSigReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            float freq = videoSource.current_frequency_1 + videoSource.current_offset_A;
-            freq = freq / 1000;
 
-            //string signalReport = "SigReport: " + lblServiceName.Text.ToString() + "/" + lblServiceProvider.Text.ToString() + " - " + lbldbMargin.Text.ToString() + " (" + lblMer.Text.ToString() + ") - " + lblSR.Text.ToString() + "" + " - " + (freq).ToString() + " ";
-            string signalReport = setting_sigreport_template.ToString();
+            private void manageStoredFrequenciesToolStripMenuItem_Click(object sender, EventArgs e)
+            {
+                frequencyManagerForm freqForm = new frequencyManagerForm(stored_frequencies);
+                freqForm.ShowDialog();
 
-            // SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}
+                save_stored_frequencies();
+                rebuild_stored_frequencies();
+            }
 
-            signalReport = signalReport.Replace("{SN}", lblServiceName.Text);
-            signalReport = signalReport.Replace("{SP}", lblServiceProvider.Text);
-            signalReport = signalReport.Replace("{DBM}", lbldbMargin.Text);
-            signalReport = signalReport.Replace("{MER}", lblMer.Text);
-            signalReport = signalReport.Replace("{SR}", lblSR.Text + "");
-            signalReport = signalReport.Replace("{FREQ}", freq.ToString() + "");
+            private void lblChatSigReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+            {
+                float freq = videoSource.current_frequency_1 + videoSource.current_offset_A;
+                freq = freq / 1000;
 
-            chatForm.txtMessage.Text = signalReport;
+                //string signalReport = "SigReport: " + lblServiceName.Text.ToString() + "/" + lblServiceProvider.Text.ToString() + " - " + lbldbMargin.Text.ToString() + " (" + lblMer.Text.ToString() + ") - " + lblSR.Text.ToString() + "" + " - " + (freq).ToString() + " ";
+                string signalReport = setting_sigreport_template.ToString();
 
-            Clipboard.SetText(signalReport);
-        }
-        */
+                // SigReport: {SN}/{SP} - {DBM} - ({MER}) - {SR} - {FREQ}
+
+                signalReport = signalReport.Replace("{SN}", lblServiceName.Text);
+                signalReport = signalReport.Replace("{SP}", lblServiceProvider.Text);
+                signalReport = signalReport.Replace("{DBM}", lbldbMargin.Text);
+                signalReport = signalReport.Replace("{MER}", lblMer.Text);
+                signalReport = signalReport.Replace("{SR}", lblSR.Text + "");
+                signalReport = signalReport.Replace("{FREQ}", freq.ToString() + "");
+
+                chatForm.txtMessage.Text = signalReport;
+
+                Clipboard.SetText(signalReport);
+            }
+            */
 
         private void manualToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -698,6 +711,7 @@ namespace opentuner
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/adding-2nd-transport-to-batc-minitiouner-v2/");
         }
 
+        /*
         private void manageExternalToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             externalToolsManager etManager = new externalToolsManager(external_tools);
@@ -706,6 +720,7 @@ namespace opentuner
             save_external_tools();
             rebuild_external_tools();
         }
+        */
 
         private void configureCallsignToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -917,6 +932,7 @@ namespace opentuner
 
             splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
 
+            videoSource.UpdateFrequencyPresets(stored_frequencies);
         }
 
         private void btnSourceSettings_Click(object sender, EventArgs e)
@@ -1060,12 +1076,25 @@ namespace opentuner
         private void link2ndTS_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/adding-2nd-transport-to-batc-minitiouner-v2/");
-
         }
 
         private void linkPicoTuner_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/2024/02/11/picotuner-an-experimental-dual-ts-alternative/");
+        }
+
+        private void menuManageFrequencyPresets_Click(object sender, EventArgs e)
+        {
+            frequencyManagerForm freqManager = new frequencyManagerForm(stored_frequencies);
+
+            freqManager.ShowDialog();
+
+            frequenciesManager.SaveSettings(stored_frequencies);
+
+            if (videoSource != null)
+            {
+                videoSource.UpdateFrequencyPresets(stored_frequencies);
+            }
         }
     }
 

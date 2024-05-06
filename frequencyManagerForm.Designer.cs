@@ -30,8 +30,6 @@
         {
             this.listFreq = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblDefaultTuner = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.lblRFInput = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.lblSymbolRate = new System.Windows.Forms.Label();
@@ -60,8 +58,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.lblDefaultTuner);
-            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.lblRFInput);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.lblSymbolRate);
@@ -74,27 +70,10 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(350, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(295, 179);
+            this.groupBox1.Size = new System.Drawing.Size(295, 153);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Frequency Information";
-            // 
-            // lblDefaultTuner
-            // 
-            this.lblDefaultTuner.AutoSize = true;
-            this.lblDefaultTuner.Location = new System.Drawing.Point(111, 142);
-            this.lblDefaultTuner.Name = "lblDefaultTuner";
-            this.lblDefaultTuner.Size = new System.Drawing.Size(0, 13);
-            this.lblDefaultTuner.TabIndex = 11;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 142);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Default Tuner:";
             // 
             // lblRFInput
             // 
@@ -237,6 +216,7 @@
             this.Name = "frequencyManagerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Frequency Manager";
+            this.Load += new System.EventHandler(this.frequencyManagerForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -261,7 +241,5 @@
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Label lblDefaultTuner;
-        private System.Windows.Forms.Label label2;
     }
 }

@@ -30,7 +30,7 @@ namespace opentuner
             lblOffset.Text = "";
             lblSymbolRate.Text = "";
             lblRFInput.Text = "";
-            lblDefaultTuner.Text = "";
+           
 
             for (int c = 0; c < stored_frequencies.Count; c++)
             {
@@ -49,11 +49,6 @@ namespace opentuner
                 lblName.Text = stored_frequencies[index].Name.ToString();
                 lblOffset.Text = stored_frequencies[index].Offset.ToString();
                 lblSymbolRate.Text = stored_frequencies[index].SymbolRate.ToString();
-
-                if (stored_frequencies[index].DefaultTuner == 0)
-                    lblDefaultTuner.Text = "Tuner 1";
-                else
-                    lblDefaultTuner.Text = "Tuner 2";
 
                 if (stored_frequencies[index].RFInput == 1)
                     lblRFInput.Text = "A";
@@ -96,7 +91,7 @@ namespace opentuner
                 editForm.txtOffset.Text = stored_frequencies[index].Offset.ToString();
                 editForm.txtSR.Text = stored_frequencies[index].SymbolRate.ToString();
                 editForm.comboRFInput.SelectedIndex = stored_frequencies[index].RFInput - 1;
-                editForm.comboDefaultTuner.SelectedIndex = stored_frequencies[index].DefaultTuner;
+            
 
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
@@ -105,8 +100,7 @@ namespace opentuner
                     stored_frequencies[index].Offset = Convert.ToUInt32(editForm.txtOffset.Text);
                     stored_frequencies[index].SymbolRate = Convert.ToUInt32(editForm.txtSR.Text);
                     stored_frequencies[index].RFInput = Convert.ToByte(editForm.comboRFInput.SelectedIndex + 1);
-                    stored_frequencies[index].DefaultTuner = Convert.ToByte(editForm.comboDefaultTuner.SelectedIndex);
-
+   
                     load_frequencies();
                 }
                 
@@ -126,11 +120,15 @@ namespace opentuner
                 sf.Offset = Convert.ToUInt32(editForm.txtOffset.Text);
                 sf.SymbolRate = Convert.ToUInt32(editForm.txtSR.Text);
                 sf.RFInput = Convert.ToByte(editForm.comboRFInput.SelectedIndex + 1);
-                sf.DefaultTuner = Convert.ToByte(editForm.comboDefaultTuner.SelectedIndex);
                 stored_frequencies.Add(sf);
 
                 load_frequencies();
             }
+
+        }
+
+        private void frequencyManagerForm_Load(object sender, EventArgs e)
+        {
 
         }
     }

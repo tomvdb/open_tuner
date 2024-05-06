@@ -14,6 +14,8 @@ using System.Runtime.CompilerServices;
 using FlyleafLib.MediaFramework.MediaFrame;
 using Vortice.MediaFoundation;
 using Serilog;
+using opentuner.MediaSources.Longmynd;
+using NAudio.SoundFont;
 
 namespace opentuner.MediaSources.Minitiouner
 {
@@ -29,7 +31,8 @@ namespace opentuner.MediaSources.Minitiouner
         LNBA_HORIZONTAL,
         LNBB_OFF,
         LNBB_VERTICAL,
-        LNBB_HORIZONTAL
+        LNBB_HORIZONTAL,
+        SETPRESET,
     }
 
     public partial class MinitiounerSource
@@ -46,6 +49,7 @@ namespace opentuner.MediaSources.Minitiouner
 
         public override event SourceDataChange OnSourceData;
 
+        private List<StoredFrequency> _frequency_presets = null;
         private bool BuildSourceProperties()
         {
             if (_parent == null)
@@ -610,9 +614,31 @@ namespace opentuner.MediaSources.Minitiouner
                 // change frequency
                 case "requested_freq_1":
                     contextMenuStrip.Items.Add(ConfigureMenuItem("Tuner Control", MinitiounerPropertyCommands.SETFREQUENCY, new int[] {0}));
+                    
+                    if (_frequency_presets != null)
+                    {
+                        contextMenuStrip.Items.Add(new ToolStripSeparator());
+
+                        for (int c = 0; c < _frequency_presets.Count; c++)
+                        {
+                            contextMenuStrip.Items.Add(ConfigureMenuItem(_frequency_presets[c].Name + " (" + _frequency_presets[c].Frequency + ")", MinitiounerPropertyCommands.SETPRESET, new int[] { 0, c }));
+                        }
+                    }
+
                     break;
                 case "requested_freq_2":
                     contextMenuStrip.Items.Add(ConfigureMenuItem("Tuner Control", MinitiounerPropertyCommands.SETFREQUENCY, new int[] { 1 }));
+
+                    if (_frequency_presets != null)
+                    {
+                        contextMenuStrip.Items.Add(new ToolStripSeparator());
+
+                        for (int c = 0; c < _frequency_presets.Count; c++)
+                        {
+                            contextMenuStrip.Items.Add(ConfigureMenuItem(_frequency_presets[c].Name + " (" + _frequency_presets[c].Frequency + ")", MinitiounerPropertyCommands.SETPRESET, new int[] { 1, c }));
+                        }
+                    }
+
                     break;                  
                 case "rf_input":
                     contextMenuStrip.Items.Add(ConfigureMenuItem("A", MinitiounerPropertyCommands.SETRFINPUTA, new int[] { (int)contextMenuStrip.SourceControl.Tag - 1 }));
@@ -653,8 +679,6 @@ namespace opentuner.MediaSources.Minitiouner
             return item;
         }
 
-
-
         private void properties_OnPropertyMenuSelect(MinitiounerPropertyCommands command, int[] options)
         {
             Log.Information("Config Change: " + command.ToString() + " - " + options.Length.ToString());
@@ -686,11 +710,32 @@ namespace opentuner.MediaSources.Minitiouner
                         ChangeOffset((byte)tuner, ((tuner == 0) ? (int)_settings.Offset1 : (int)_settings.Offset2));
                     if (options[1] == 1)    // zero out
                         ChangeOffset((byte)tuner, 0);
-
                     break;
 
                 default:
                     Log.Information("Unconfigured Command Change - " + command.ToString());
+                    break;
+
+                case MinitiounerPropertyCommands.SETPRESET:
+                    tuner = options[0];
+                    int presetNumber = options[1];
+
+                    if (_frequency_presets != null)
+                    {
+                        if (_frequency_presets.Count > presetNumber)
+                        {
+                            Log.Information("Tuning to preset " + presetNumber);
+                            Log.Information("Preset Name: " + _frequency_presets[presetNumber].Name);
+                            Log.Information("Preset Frequency: " + _frequency_presets[presetNumber].Frequency.ToString());
+                            Log.Information("Preset Offset: " + _frequency_presets[presetNumber].Offset.ToString());
+                            Log.Information("Preset SymbolRate: " + _frequency_presets[presetNumber].SymbolRate.ToString());
+                            Log.Information("Preset RF Input: " + _frequency_presets[presetNumber].RFInput.ToString());
+
+                            ChangeOffset((byte)tuner, (int)_frequency_presets[presetNumber].Offset);
+                            ChangeRFInput((byte)tuner, _frequency_presets[presetNumber].RFInput == 1 ? nim.NIM_INPUT_TOP : nim.NIM_INPUT_BOTTOM);
+                            SetFrequency((byte)tuner, _frequency_presets[presetNumber].Frequency, _frequency_presets[presetNumber].SymbolRate, true);
+                        }
+                    } 
                     break;
 
                 case MinitiounerPropertyCommands.LNBA_OFF:
@@ -722,7 +767,7 @@ namespace opentuner.MediaSources.Minitiouner
 
         private void TunerControl_OnTunerChange(int id, uint freq)
         {
-            Log.Information("set frequency : " + id.ToString() + "," + freq.ToString());
+            Log.Information("Tuner: Set frequency : " + id.ToString() + "," + freq.ToString());
             SetFrequency(id, freq, id == 0 ? current_sr_0 : current_sr_1, false);
         }
 
@@ -760,6 +805,11 @@ namespace opentuner.MediaSources.Minitiouner
             }
 
             return data;
+        }
+
+        public override void UpdateFrequencyPresets(List<StoredFrequency> FrequencyPresets)
+        {
+            _frequency_presets = FrequencyPresets;
         }
     }
 }
