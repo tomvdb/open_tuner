@@ -19,6 +19,7 @@ namespace opentuner.MediaSources.Longmynd
     public enum LongmyndPropertyCommands
     {
         SETFREQUENCY,
+        SETPRESET,
         SETTSLOCAL
     }
 
@@ -36,6 +37,8 @@ namespace opentuner.MediaSources.Longmynd
 
         // context menu strip
         ContextMenuStrip _genericContextStrip;
+
+        private List<StoredFrequency> _frequency_presets = null;
 
         private bool BuildSourceProperties()
         {
@@ -336,6 +339,10 @@ namespace opentuner.MediaSources.Longmynd
             }
         }
 
+        public override void UpdateFrequencyPresets(List<StoredFrequency> FrequencyPresets)
+        {
+            _frequency_presets = FrequencyPresets;
+        }
 
     }
 }

@@ -58,5 +58,7 @@ namespace opentuner.MediaSources
 
         public abstract void OverrideDefaultMuted(bool Override);
 
+        public abstract void UpdateFrequencyPresets(List<StoredFrequency> FrequencyPresets);
+
     }
 }
