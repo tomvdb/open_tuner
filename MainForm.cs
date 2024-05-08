@@ -341,11 +341,6 @@ namespace opentuner
                     _availableSources[c].Close();
                 }
 
-                for (int c = 0; c < _mediaPlayers.Count; c++)
-                {
-                    _mediaPlayers[c].Close();
-                }
-
                 if (tuner1ControlForm != null)
                     tuner1ControlForm.Close();
                 if (tuner2ControlForm != null)
