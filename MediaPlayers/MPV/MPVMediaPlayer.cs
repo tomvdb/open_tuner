@@ -301,8 +301,8 @@ namespace opentuner.MediaPlayers.MPV
 
         public override void Close()
         {
-            //if (_mpvHandle != IntPtr.Zero)
-            //    LibMpv.mpv_destroy(_mpvHandle);
+            if (_mpvHandle != IntPtr.Zero)
+                LibMpv.mpv_destroy(_mpvHandle);
         }
 
         public override int GetVolume()

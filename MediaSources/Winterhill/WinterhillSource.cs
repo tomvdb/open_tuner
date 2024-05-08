@@ -256,6 +256,7 @@ namespace opentuner.MediaSources.Winterhill
             
             _settingsManager.SaveSettings(_settings);
 
+            Disconnect();
             monitorWS?.Close();
             controlWS?.Close();
 

@@ -118,6 +118,18 @@ namespace opentuner.MediaPlayers.FFMPEG
 
         public override void Close()
         {
+            if (player != IntPtr.Zero)
+            {
+                player.Dispose();
+            }
+            if (media_player != IntPtr.Zero)
+            {
+                media_player.Dispose();
+            }
+            if (media_stream != IntPtr.Zero)
+            {
+                media_stream.Dispose();
+            }
         }
 
         public override void Play()

@@ -16,6 +16,8 @@ namespace opentuner.MediaSources.Winterhill
         private WebSocket controlWS;        // longmynd control ws websocket
         private WebSocket monitorWS;        // longmynd monitor ws websocket
 
+        private bool _closing = false;      // stop retrying connect
+
         /*
         private void WSSetFrequency(uint frequency, uint symbol_rate)
         {
@@ -71,16 +73,20 @@ namespace opentuner.MediaSources.Winterhill
 
         private void Controlws_OnClose(object sender, CloseEventArgs e)
         {
+            if (_closing == true)
+                return;
             debug("Error: Control WS Closed - Check WS IP");
             debug("Attempting to reconnect...");
-            controlWS.Connect();
+            controlWS.ConnectAsync();
         }
 
         private void Monitorws_OnClose(object sender, CloseEventArgs e)
         {
+            if (_closing == true)
+                return;
             debug("Error: Monitor WS Closed - Check WS IP");
             debug("Attempting to reconnect...");
-            monitorWS.Connect();
+            monitorWS.ConnectAsync();
         }
 
         private void Monitorws_OnMessage(object sender, MessageEventArgs e)
@@ -89,6 +95,11 @@ namespace opentuner.MediaSources.Winterhill
             UpdateInfo(mm);
         }
 
+        public void Disconnect()
+        {
+            _connected = false;
+            _closing = true;
+        }
     }
 
     [Serializable]
