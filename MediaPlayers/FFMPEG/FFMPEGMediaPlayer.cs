@@ -11,7 +11,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using FlyleafLib;
 using Serilog;
 
 namespace opentuner.MediaPlayers.FFMPEG
@@ -19,6 +18,8 @@ namespace opentuner.MediaPlayers.FFMPEG
    
     public class FFMPEGMediaPlayer : OTMediaPlayer
     {
+        private IntPtr handler_ptr;
+
         private int player_volume = 0;
 
         public override event EventHandler<MediaStatus> onVideoOut;
