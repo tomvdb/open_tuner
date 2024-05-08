@@ -126,10 +126,5 @@ namespace opentuner
                 txtSnapshotPath.Text = fbd.SelectedPath + "\\";
             }
         }
-
-        private void checkBoxMuted_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
