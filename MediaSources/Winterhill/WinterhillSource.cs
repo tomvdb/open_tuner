@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using static FTD2XX_NET.FTDI;
@@ -231,12 +232,12 @@ namespace opentuner.MediaSources.Winterhill
             return ReadTSGeneric(3, ref data, ref dataRead);
         }
 
-
         private void WinterhillSource_DataReceived(object sender, byte[] e)
         {
             int device = ((UDPClient)sender).getID();
 
-            if (!playing[device]) return;
+            if (!playing[device])
+                return;
 
             for (int c = 0; c < e.Length; c++)
             {
@@ -257,8 +258,10 @@ namespace opentuner.MediaSources.Winterhill
             _settingsManager.SaveSettings(_settings);
 
             Disconnect();
-            monitorWS?.Close();
-            controlWS?.Close();
+            if (monitorWS.IsAlive)
+                monitorWS?.Close();
+            if (controlWS.IsAlive)
+                controlWS?.Close();
 
             if (ts_thread_t != null) 
             {

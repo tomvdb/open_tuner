@@ -10,6 +10,7 @@ using System.Drawing;
 using opentuner.MediaSources.Longmynd;
 using Serilog;
 using System.Globalization;
+using System.Timers;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -351,7 +352,8 @@ namespace opentuner.MediaSources.Winterhill
                 if (!_videoPlayersReady)
                     return;
 
-                if (_tuner_properties == null) return;
+                if (_tuner_properties == null)
+                    return;
 
 
                 //Log.Information("REady for info");
@@ -441,6 +443,37 @@ namespace opentuner.MediaSources.Winterhill
                 }
             }
             catch ( Exception Ex)
+            {
+                Log.Warning(Ex, "Error");
+            }
+        }
+
+        private void WebSocketTimeout()
+        {
+            try
+            {
+                // still setting up
+                if (!_videoPlayersReady)
+                    return;
+
+                if (_tuner_properties == null)
+                    return;
+
+                for (int c = 0; c < ts_devices; c++)
+                {
+                    demodstate[c] = 0x81;   // timeout
+                    Log.Information("Stopping " + c.ToString() + " - " + demodstate[c].ToString());
+
+                    VideoChangeCB?.Invoke(c + 1, false);
+                    playing[c] = false;
+                    _tuner_properties[c].UpdateColor("demodstate", Color.PaleVioletRed);
+                    _tuner_properties[c].UpdateValue("demodstate", scanstate_lookup[demodstate[c]]);
+
+                    var data = _tuner_properties[c].GetAll();
+                    OnSourceData?.Invoke(data, "Tuner " + c.ToString());
+                }
+            }
+            catch (Exception Ex)
             {
                 Log.Warning(Ex, "Error");
             }
