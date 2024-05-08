@@ -216,7 +216,14 @@ namespace opentuner.MediaSources.Winterhill
                     break;
                 case 1: // snapshot
                     if (playing[tuner])
+                    {
                         _media_player[tuner].SnapShot(_MediaPath + CommonFunctions.GenerateTimestampFilename() + ".png");
+                    }
+                    else
+                    {
+                        Log.Error("Can't do snapshot, not locked to a signal");
+                    }
+
                     break;
 
                 case 2: // record
