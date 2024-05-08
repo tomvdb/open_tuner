@@ -18,8 +18,6 @@ namespace opentuner.MediaPlayers.FFMPEG
    
     public class FFMPEGMediaPlayer : OTMediaPlayer
     {
-        private IntPtr handler_ptr;
-
         private int player_volume = 0;
 
         public override event EventHandler<MediaStatus> onVideoOut;
@@ -119,15 +117,15 @@ namespace opentuner.MediaPlayers.FFMPEG
 
         public override void Close()
         {
-            if (player != IntPtr.Zero)
+            if (player != null)
             {
                 player.Dispose();
             }
-            if (media_player != IntPtr.Zero)
+            if (media_player != null)
             {
                 media_player.Dispose();
             }
-            if (media_stream != IntPtr.Zero)
+            if (media_stream != null)
             {
                 media_stream.Dispose();
             }
