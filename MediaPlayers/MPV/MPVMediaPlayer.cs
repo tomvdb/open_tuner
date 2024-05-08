@@ -302,7 +302,10 @@ namespace opentuner.MediaPlayers.MPV
         public override void Close()
         {
             if (_mpvHandle != IntPtr.Zero)
+            {
                 LibMpv.mpv_destroy(_mpvHandle);
+                _mpvHandle = IntPtr.Zero;
+            }
         }
 
         public override int GetVolume()
@@ -369,15 +372,23 @@ namespace opentuner.MediaPlayers.MPV
         {
             Log.Information("MPV Snapshot: " + Path.GetDirectoryName(FileName) + "\\");
 
-            LibMpv.mpv_set_option_string(_mpvHandle, LibMpv.GetUtf8Bytes("screenshot-directory"), LibMpv.GetUtf8Bytes(Path.GetDirectoryName(FileName) + "\\"));
-            LibMpv.mpv_set_option_string(_mpvHandle, LibMpv.GetUtf8Bytes("screenshot-template"), LibMpv.GetUtf8Bytes("ot_mpv_%n"));
-            LibMpv.mpv_set_option_string(_mpvHandle, LibMpv.GetUtf8Bytes("screenshot-format"), LibMpv.GetUtf8Bytes("png"));
-            DoMpvCommand("screenshot", "video");
+            if (_mpvHandle != IntPtr.Zero)
+            {
+                LibMpv.mpv_set_option_string(_mpvHandle, LibMpv.GetUtf8Bytes("screenshot-directory"), LibMpv.GetUtf8Bytes(Path.GetDirectoryName(FileName) + "\\"));
+                LibMpv.mpv_set_option_string(_mpvHandle, LibMpv.GetUtf8Bytes("screenshot-template"), LibMpv.GetUtf8Bytes("ot_mpv_%n"));
+                LibMpv.mpv_set_option_string(_mpvHandle, LibMpv.GetUtf8Bytes("screenshot-format"), LibMpv.GetUtf8Bytes("png"));
+                DoMpvCommand("screenshot", "video");
+            }
         }
 
         public override void Stop()
         {
             stopFlag = true;
+            if (_mpvHandle != IntPtr.Zero)
+            {
+                LibMpv.mpv_destroy(_mpvHandle);
+                _mpvHandle = IntPtr.Zero;
+            }
         }
 
         public override int getID()
