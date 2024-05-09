@@ -65,7 +65,7 @@ namespace opentuner.Utilities
             if (isListening)
             {
                 isListening = false;
-                listenThread.Join(); // Wait for the thread to finish
+//                listenThread.Join(); // Wait for the thread to finish
 
                 udpClient.Close();
 

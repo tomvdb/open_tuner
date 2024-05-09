@@ -135,10 +135,14 @@ namespace opentuner.MediaSources.Winterhill
             Timeout_Timer.Start();
         }
 
-        public void Disconnect()
+        public void DisconnectWebsockets()
         {
             _connected = false;
             _closing = true;
+            if (monitorWS.IsAlive)
+                monitorWS.Close();
+            if (controlWS.IsAlive)
+                controlWS.Close();
         }
     }
 

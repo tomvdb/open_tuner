@@ -254,15 +254,19 @@ namespace opentuner.MediaSources.Winterhill
         public override void Close()
         {
             Log.Information("Closing Winterhill Source");
-            
+
+            int defaultInterface = _settings.DefaultInterface;
             _settingsManager.SaveSettings(_settings);
 
-            Disconnect();
-            if (monitorWS.IsAlive)
-                monitorWS?.Close();
-            if (controlWS.IsAlive)
-                controlWS?.Close();
-
+            switch (defaultInterface)
+            {
+                case 1: // websockets
+                    DisconnectWebsockets();
+                    break;
+                case 2: // udp pico wh
+                    DisconnectWinterhillUDP();
+                    break;
+            }
             if (ts_thread_t != null) 
             {
                 for (int c = 0; c < ts_thread_t.Length; c++)
@@ -275,7 +279,7 @@ namespace opentuner.MediaSources.Winterhill
             {
                 for (int c = 0; c < udp_clients.Length; c++)
                 {
-                    udp_clients[c]?.Close();
+                    udp_clients[c]?.Disconnect();
                 }
 
             }
