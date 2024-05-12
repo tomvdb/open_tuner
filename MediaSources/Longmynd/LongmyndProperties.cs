@@ -115,15 +115,15 @@ namespace opentuner.MediaSources.Longmynd
         private int indicatorStatus = 0;
 
 
-        public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
-        {
-            indicatorInput |= (byte)(1 << (int)indicator);
-        }
+//        public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
+//        {
+//            indicatorInput |= (byte)(1 << (int)indicator);
+//        }
 
-        public void ClearIndicator(ref int indicatorInput, PropertyIndicators indicator)
-        {
-            indicatorInput &= (byte)~(1 << (int)indicator);
-        }
+//        public void ClearIndicator(ref int indicatorInput, PropertyIndicators indicator)
+//        {
+//            indicatorInput &= (byte)~(1 << (int)indicator);
+//        }
 
         private void DynamicPropertyGroup_OnMediaButtonPressed(string key, int function)
         {
@@ -149,8 +149,8 @@ namespace opentuner.MediaSources.Longmynd
                     break;
                 case 1: // snapshot
                     Log.Information("Snapshot");
-                    _media_player.SnapShot(_mediaPath + CommonFunctions.GenerateTimestampFilename() + ".png");
-
+                    if (playing)
+                        _media_player.SnapShot(_mediaPath + CommonFunctions.GenerateTimestampFilename() + ".png");
                     break;
                 case 2: // record
                     Log.Information("Record");
@@ -158,7 +158,8 @@ namespace opentuner.MediaSources.Longmynd
                     if (_recorder.record)
                     {
                         _recorder.record = false;    // stop recording
-                        ClearIndicator(ref indicatorStatus, PropertyIndicators.RecordingIndicator);
+//                        ClearIndicator(ref indicatorStatus, PropertyIndicators.RecordingIndicator);
+                        _tuner1_properties.UpdateRecordButtonColor("media_controls_1", Color.Transparent);
                     }
                     else
                     {
@@ -166,7 +167,8 @@ namespace opentuner.MediaSources.Longmynd
                         if (demodState >= 3)
                         {
                             _recorder.record = true;     // start recording
-                            SetIndicator(ref indicatorStatus, PropertyIndicators.RecordingIndicator);
+//                            SetIndicator(ref indicatorStatus, PropertyIndicators.RecordingIndicator);
+                            _tuner1_properties.UpdateRecordButtonColor("media_controls_1", Color.PaleVioletRed);
                         }
                         else
                         {
@@ -185,14 +187,16 @@ namespace opentuner.MediaSources.Longmynd
                     if ( _streamer.stream)
                     {
                         _streamer.stream = false;   
-                        ClearIndicator(ref indicatorStatus, PropertyIndicators.StreamingIndicator);
+//                        ClearIndicator(ref indicatorStatus, PropertyIndicators.StreamingIndicator);
+                        _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
                     }
                     else
                     {
                         if (demodState >= 3)
                         {
                             _streamer.stream = true;
-                            SetIndicator(ref indicatorStatus, PropertyIndicators.StreamingIndicator);
+//                            SetIndicator(ref indicatorStatus, PropertyIndicators.StreamingIndicator);
+                            _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.PaleTurquoise);
                         }
                     }
 

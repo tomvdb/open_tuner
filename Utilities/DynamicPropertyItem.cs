@@ -168,5 +168,15 @@ namespace opentuner.Utilities
         {
             throw new NotImplementedException();
         }
+
+        public override void UpdateRecordButtonColor(Color Col)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void UpdateStreamButtonColor(Color Col)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

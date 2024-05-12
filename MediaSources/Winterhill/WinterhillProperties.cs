@@ -10,6 +10,7 @@ using System.Drawing;
 using opentuner.MediaSources.Longmynd;
 using Serilog;
 using System.Globalization;
+using System.Timers;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -180,16 +181,15 @@ namespace opentuner.MediaSources.Winterhill
             }
         }
 
-        public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
-        {
-            indicatorInput |= (byte)(1 << (int)indicator);
-        }
+//        public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
+//        {
+//            indicatorInput |= (byte)(1 << (int)indicator);
+//        }
 
-        public void ClearIndicator(ref int indicatorInput, PropertyIndicators indicator)
-        {
-            indicatorInput &= (byte)~(1 << (int)indicator);
-        }
-
+//        public void ClearIndicator(ref int indicatorInput, PropertyIndicators indicator)
+//        {
+//            indicatorInput &= (byte)~(1 << (int)indicator);
+//        }
 
         private void MediaControlsHandler(int tuner, int function)
         {
@@ -215,21 +215,31 @@ namespace opentuner.MediaSources.Winterhill
 
                     break;
                 case 1: // snapshot
-                    _media_player[tuner].SnapShot(_MediaPath + CommonFunctions.GenerateTimestampFilename() + ".png");
+                    if (playing[tuner])
+                    {
+                        _media_player[tuner].SnapShot(_MediaPath + CommonFunctions.GenerateTimestampFilename() + ".png");
+                    }
+                    else
+                    {
+                        Log.Error("Can't do snapshot, not locked to a signal");
+                    }
+
                     break;
 
                 case 2: // record
                     if (_recorders[tuner].record)
                     {
                         _recorders[tuner].record = false;
-                        ClearIndicator(ref indicatorStatus[tuner], PropertyIndicators.RecordingIndicator);
+//                        ClearIndicator(ref indicatorStatus[tuner], PropertyIndicators.RecordingIndicator);
+                        _tuner_properties[tuner].UpdateRecordButtonColor("media_controls_" + tuner.ToString(), Color.Transparent);
                     }
                     else
                     {
                         if (demodstate[tuner] == 3 || demodstate[tuner] == 2)
                         {
                             _recorders[tuner].record = true;
-                            SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.RecordingIndicator);
+//                            SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.RecordingIndicator);
+                            _tuner_properties[tuner].UpdateRecordButtonColor("media_controls_" + tuner.ToString(), Color.PaleVioletRed);
                         }
                         else
                         {
@@ -244,14 +254,16 @@ namespace opentuner.MediaSources.Winterhill
                     if (_streamer[tuner].stream)
                     {
                         _streamer[tuner].stream = false;
-                        ClearIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
+//                        ClearIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
+                        _tuner_properties[tuner].UpdateStreamButtonColor("media_controls_" + tuner.ToString(), Color.Transparent);
                     }
                     else
-                    {                        
+                    {
                         if (demodstate[tuner] == 3 || demodstate[tuner] == 2)
                         {
                             _streamer[tuner].stream = true;
-                            SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
+//                            SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
+                            _tuner_properties[tuner].UpdateStreamButtonColor("media_controls_" + tuner.ToString(), Color.PaleTurquoise);
                         }
                         else
                         {
@@ -262,8 +274,6 @@ namespace opentuner.MediaSources.Winterhill
                     _tuner_properties[tuner].UpdateValue("media_controls_" + tuner.ToString(), indicatorStatus[tuner].ToString());
 
                     break;
-
-
             }
         }
 
@@ -349,7 +359,8 @@ namespace opentuner.MediaSources.Winterhill
                 if (!_videoPlayersReady)
                     return;
 
-                if (_tuner_properties == null) return;
+                if (_tuner_properties == null)
+                    return;
 
 
                 //Log.Information("REady for info");
@@ -439,6 +450,37 @@ namespace opentuner.MediaSources.Winterhill
                 }
             }
             catch ( Exception Ex)
+            {
+                Log.Warning(Ex, "Error");
+            }
+        }
+
+        private void WebSocketTimeout()
+        {
+            try
+            {
+                // still setting up
+                if (!_videoPlayersReady)
+                    return;
+
+                if (_tuner_properties == null)
+                    return;
+
+                for (int c = 0; c < ts_devices; c++)
+                {
+                    demodstate[c] = 0x81;   // timeout
+                    Log.Information("Stopping " + c.ToString() + " - " + demodstate[c].ToString());
+
+                    VideoChangeCB?.Invoke(c + 1, false);
+                    playing[c] = false;
+                    _tuner_properties[c].UpdateColor("demodstate", Color.PaleVioletRed);
+                    _tuner_properties[c].UpdateValue("demodstate", scanstate_lookup[demodstate[c]]);
+
+                    var data = _tuner_properties[c].GetAll();
+                    OnSourceData?.Invoke(data, "Tuner " + c.ToString());
+                }
+            }
+            catch (Exception Ex)
             {
                 Log.Warning(Ex, "Error");
             }

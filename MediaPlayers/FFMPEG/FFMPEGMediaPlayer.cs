@@ -11,7 +11,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using FlyleafLib;
 using Serilog;
 
 namespace opentuner.MediaPlayers.FFMPEG
@@ -118,6 +117,18 @@ namespace opentuner.MediaPlayers.FFMPEG
 
         public override void Close()
         {
+            if (player != null)
+            {
+                player.Dispose();
+            }
+            if (media_player != null)
+            {
+                media_player.Dispose();
+            }
+            if (media_stream != null)
+            {
+                media_stream.Dispose();
+            }
         }
 
         public override void Play()

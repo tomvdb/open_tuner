@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using static FTD2XX_NET.FTDI;
@@ -231,12 +232,12 @@ namespace opentuner.MediaSources.Winterhill
             return ReadTSGeneric(3, ref data, ref dataRead);
         }
 
-
         private void WinterhillSource_DataReceived(object sender, byte[] e)
         {
             int device = ((UDPClient)sender).getID();
 
-            if (!playing[device]) return;
+            if (!playing[device])
+                return;
 
             for (int c = 0; c < e.Length; c++)
             {
@@ -253,12 +254,19 @@ namespace opentuner.MediaSources.Winterhill
         public override void Close()
         {
             Log.Information("Closing Winterhill Source");
-            
+
+            int defaultInterface = _settings.DefaultInterface;
             _settingsManager.SaveSettings(_settings);
 
-            monitorWS?.Close();
-            controlWS?.Close();
-
+            switch (defaultInterface)
+            {
+                case 1: // websockets
+                    DisconnectWebsockets();
+                    break;
+                case 2: // udp pico wh
+                    DisconnectWinterhillUDP();
+                    break;
+            }
             if (ts_thread_t != null) 
             {
                 for (int c = 0; c < ts_thread_t.Length; c++)
@@ -271,7 +279,7 @@ namespace opentuner.MediaSources.Winterhill
             {
                 for (int c = 0; c < udp_clients.Length; c++)
                 {
-                    udp_clients[c]?.Close();
+                    udp_clients[c]?.Disconnect();
                 }
 
             }
