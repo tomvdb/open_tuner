@@ -16,6 +16,7 @@ using Vortice.MediaFoundation;
 using Serilog;
 using opentuner.MediaSources.Longmynd;
 using NAudio.SoundFont;
+using System.Globalization;
 
 namespace opentuner.MediaSources.Minitiouner
 {
@@ -784,6 +785,9 @@ namespace opentuner.MediaSources.Minitiouner
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
+            // Gets a NumberFormatInfo associated with the en-US culture.
+            NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+
             if (device == 0)
             {
                 data.Add("ServiceName", last_service_name_0);
@@ -791,7 +795,7 @@ namespace opentuner.MediaSources.Minitiouner
                 data.Add("dbMargin", last_dbm_0);
                 data.Add("Mer", last_mer_0);
                 data.Add("SR", current_sr_0.ToString());
-                data.Add("Frequency", current_frequency_0.ToString());
+                data.Add("Frequency", ((float)(current_frequency_0 + _settings.Offset1) / 1000.0f).ToString("F", nfi));
             }
 
             if (device == 1)
@@ -801,7 +805,7 @@ namespace opentuner.MediaSources.Minitiouner
                 data.Add("dbMargin", last_dbm_1);
                 data.Add("Mer", last_mer_1);
                 data.Add("SR", current_sr_1.ToString());
-                data.Add("Frequency", current_frequency_1.ToString());
+                data.Add("Frequency", ((float)(current_frequency_1 + _settings.Offset2) / 1000.0f).ToString("F", nfi));
             }
 
             return data;

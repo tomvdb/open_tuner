@@ -13,6 +13,7 @@ using FlyleafLib.MediaFramework.MediaFrame;
 using LibVLCSharp.Shared;
 using Vortice.MediaFoundation;
 using Serilog;
+using System.Globalization;
 
 namespace opentuner.MediaSources.Longmynd
 {
@@ -283,6 +284,9 @@ namespace opentuner.MediaSources.Longmynd
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
+            // Gets a NumberFormatInfo associated with the en-US culture.
+            NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+
             if (device == 0)
             {
                 data.Add("ServiceName", last_service_name_0);
@@ -290,7 +294,7 @@ namespace opentuner.MediaSources.Longmynd
                 data.Add("dbMargin", last_dbm_0);
                 data.Add("Mer", last_mer_0);
                 data.Add("SR", current_sr_0.ToString());
-                data.Add("Frequency", current_frequency_0.ToString());
+                data.Add("Frequency", ((float)(current_frequency_0 + _settings.Offset1) / 1000.0f).ToString("F", nfi));
             }
 
             return data;
