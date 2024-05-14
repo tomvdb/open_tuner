@@ -389,6 +389,16 @@ namespace opentuner.MediaSources.Winterhill
                             VideoChangeCB?.Invoke(c + 1, false);
                             playing[c] = false;
                             _tuner_properties[c].UpdateColor("demodstate", Color.PaleVioletRed);
+                            if (_recorders[c].record)
+                            {
+                                _recorders[c].record = false;
+                                _tuner_properties[c].UpdateRecordButtonColor("media_controls_" + c.ToString(), Color.Transparent);
+                            }
+                            if (_streamer[c].stream)
+                            {
+                                _streamer[c].stream = false;
+                                _tuner_properties[c].UpdateStreamButtonColor("media_controls_" + c.ToString(), Color.Transparent);
+                            }
                         }
 
                         demodstate[c] = rx.scanstate;
