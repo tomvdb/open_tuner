@@ -16,6 +16,7 @@ using Vortice.MediaFoundation;
 using Serilog;
 using opentuner.MediaSources.Longmynd;
 using NAudio.SoundFont;
+using System.Globalization;
 
 namespace opentuner.MediaSources.Minitiouner
 {
@@ -153,8 +154,8 @@ namespace opentuner.MediaSources.Minitiouner
 
         private int[] preMute = new int[] { 50, 50 };
         private bool[] muted = new bool[] { true, true };
-        private int indicatorStatus1 = 0;
-        private int indicatorStatus2 = 0;
+//        private int indicatorStatus1 = 0;
+//        private int indicatorStatus2 = 0;
 
         
 
@@ -248,7 +249,7 @@ namespace opentuner.MediaSources.Minitiouner
                         {
                             _tuner1_properties.UpdateRecordButtonColor("media_controls_1", Color.Transparent);
                         }
-                        _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+//                        _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
                     }
                     else
                     {
@@ -260,7 +261,7 @@ namespace opentuner.MediaSources.Minitiouner
                         {
                             _tuner2_properties.UpdateRecordButtonColor("media_controls_2", Color.Transparent);
                         }
-                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+//                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
                     }
                     break;
                 case 3: // udp stream
@@ -287,7 +288,7 @@ namespace opentuner.MediaSources.Minitiouner
                         {
                             _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
                         }
-                        _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+//                        _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
                     }
                     else
                     {
@@ -299,7 +300,7 @@ namespace opentuner.MediaSources.Minitiouner
                         {
                             _tuner2_properties.UpdateStreamButtonColor("media_controls_2", Color.Transparent);
                         }
-                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+//                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
                     }
 
                     break;
@@ -450,7 +451,7 @@ namespace opentuner.MediaSources.Minitiouner
 //                    ClearIndicator(ref indicatorStatus1, PropertyIndicators.RecordingIndicator);
                     _ts_recorders[0].record = false;    // stop recording
                     _tuner1_properties.UpdateRecordButtonColor("media_controls_1", Color.Transparent);
-                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+//                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
                 }
 
                 // stop streaming
@@ -459,7 +460,7 @@ namespace opentuner.MediaSources.Minitiouner
 //                    ClearIndicator(ref indicatorStatus1, PropertyIndicators.StreamingIndicator);
                     _ts_streamers[0].stream = false;    // stop streaming
                     _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
-                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+//                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
                 }
 
 
@@ -550,7 +551,7 @@ namespace opentuner.MediaSources.Minitiouner
 //                        ClearIndicator(ref indicatorStatus2, PropertyIndicators.RecordingIndicator);
                         _ts_recorders[1].record = false;    // stop recording
                         _tuner2_properties.UpdateRecordButtonColor("media_controls_2", Color.Transparent);
-                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+//                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
                     }
 
                     // stop streaming
@@ -559,7 +560,7 @@ namespace opentuner.MediaSources.Minitiouner
 //                        ClearIndicator(ref indicatorStatus2, PropertyIndicators.StreamingIndicator);
                         _ts_streamers[1].stream = false;    // stop streaming
                         _tuner2_properties.UpdateStreamButtonColor("media_controls_2", Color.Transparent);
-                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+//                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
                     }
 
 
@@ -784,6 +785,9 @@ namespace opentuner.MediaSources.Minitiouner
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
+            // Gets a NumberFormatInfo associated with the en-US culture.
+            NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+
             if (device == 0)
             {
                 data.Add("ServiceName", last_service_name_0);
@@ -791,7 +795,7 @@ namespace opentuner.MediaSources.Minitiouner
                 data.Add("dbMargin", last_dbm_0);
                 data.Add("Mer", last_mer_0);
                 data.Add("SR", current_sr_0.ToString());
-                data.Add("Frequency", current_frequency_0.ToString());
+                data.Add("Frequency", ((float)(current_frequency_0 + _settings.Offset1) / 1000.0f).ToString("F", nfi));
             }
 
             if (device == 1)
@@ -801,7 +805,7 @@ namespace opentuner.MediaSources.Minitiouner
                 data.Add("dbMargin", last_dbm_1);
                 data.Add("Mer", last_mer_1);
                 data.Add("SR", current_sr_1.ToString());
-                data.Add("Frequency", current_frequency_1.ToString());
+                data.Add("Frequency", ((float)(current_frequency_1 + _settings.Offset2) / 1000.0f).ToString("F", nfi));
             }
 
             return data;
