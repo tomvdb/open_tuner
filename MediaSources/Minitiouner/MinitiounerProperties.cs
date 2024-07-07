@@ -158,15 +158,15 @@ namespace opentuner.MediaSources.Minitiouner
 
         
 
-        public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
-        {
-            indicatorInput |= (byte)(1 << (int)indicator);
-        }
+//        public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
+//        {
+//            indicatorInput |= (byte)(1 << (int)indicator);
+//        }
 
-        public void ClearIndicator(ref int indicatorInput, PropertyIndicators indicator)
-        {
-            indicatorInput &= (byte)~(1 << (int)indicator);
-        }
+//        public void ClearIndicator(ref int indicatorInput, PropertyIndicators indicator)
+//        {
+//            indicatorInput &= (byte)~(1 << (int)indicator);
+//        }
 
         private void DynamicPropertyGroup_OnMediaButtonPressed(string key, int function)
         {
@@ -224,44 +224,83 @@ namespace opentuner.MediaSources.Minitiouner
                     _media_players[tuner].SnapShot(_mediapath + CommonFunctions.GenerateTimestampFilename() + ".png");
 
                     break;
-                case 2: // mute
+                case 2: // record
                     Log.Information("Record: " + tuner.ToString());
 
                     if (_ts_recorders[tuner].record)
                     {
-                        ClearIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.RecordingIndicator);
+//                        ClearIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.RecordingIndicator);
                         _ts_recorders[tuner].record = false;    // stop recording
                     }
                     else
                     {
-                        SetIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.RecordingIndicator);
+//                        SetIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.RecordingIndicator);
                         _ts_recorders[tuner].record = true;     // start recording
                     }
 
                     if (tuner == 0)
+                    {
+                        if (_ts_recorders[0].record == true)
+                        {
+                            _tuner1_properties.UpdateRecordButtonColor("media_controls_1", Color.PaleVioletRed);
+                        }
+                        else
+                        {
+                            _tuner1_properties.UpdateRecordButtonColor("media_controls_1", Color.Transparent);
+                        }
                         _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+                    }
                     else
+                    {
+                        if (_ts_recorders[1].record == true)
+                        {
+                            _tuner2_properties.UpdateRecordButtonColor("media_controls_2", Color.PaleVioletRed);
+                        }
+                        else
+                        {
+                            _tuner2_properties.UpdateRecordButtonColor("media_controls_2", Color.Transparent);
+                        }
                         _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
-
+                    }
                     break;
                 case 3: // udp stream
                     Log.Information("UDP Stream: " + tuner.ToString());
 
                     if (_ts_streamers[tuner].stream)
                     {
-                        ClearIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.StreamingIndicator);
+//                        ClearIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.StreamingIndicator);
                         _ts_streamers[tuner].stream = false;
                     }
                     else
                     {
-                        SetIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.StreamingIndicator);
+//                        SetIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.StreamingIndicator);
                         _ts_streamers[tuner].stream = true;
                     }
 
                     if (tuner == 0)
+                    {
+                        if (_ts_streamers[0].stream == true)
+                        {
+                            _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.PaleTurquoise);
+                        }
+                        else
+                        {
+                            _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
+                        }
                         _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+                    }
                     else
+                    {
+                        if (_ts_streamers[1].stream == true)
+                        {
+                            _tuner2_properties.UpdateStreamButtonColor("media_controls_2", Color.PaleTurquoise);
+                        }
+                        else
+                        {
+                            _tuner2_properties.UpdateStreamButtonColor("media_controls_2", Color.Transparent);
+                        }
                         _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+                    }
 
                     break;
             }
@@ -408,16 +447,18 @@ namespace opentuner.MediaSources.Minitiouner
                 // stop recording if recording
                 if (_ts_recorders[0].record)
                 {
-                    ClearIndicator(ref indicatorStatus1, PropertyIndicators.RecordingIndicator);
+//                    ClearIndicator(ref indicatorStatus1, PropertyIndicators.RecordingIndicator);
                     _ts_recorders[0].record = false;    // stop recording
+                    _tuner1_properties.UpdateRecordButtonColor("media_controls_1", Color.Transparent);
                     _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
                 }
 
                 // stop streaming
                 if (_ts_streamers[0].stream)
                 {
-                    ClearIndicator(ref indicatorStatus1, PropertyIndicators.StreamingIndicator);
+//                    ClearIndicator(ref indicatorStatus1, PropertyIndicators.StreamingIndicator);
                     _ts_streamers[0].stream = false;    // stop streaming
+                    _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
                     _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
                 }
 
@@ -506,16 +547,18 @@ namespace opentuner.MediaSources.Minitiouner
                     // stop recording if recording
                     if (_ts_recorders[1].record)
                     {
-                        ClearIndicator(ref indicatorStatus2, PropertyIndicators.RecordingIndicator);
+//                        ClearIndicator(ref indicatorStatus2, PropertyIndicators.RecordingIndicator);
                         _ts_recorders[1].record = false;    // stop recording
+                        _tuner2_properties.UpdateRecordButtonColor("media_controls_2", Color.Transparent);
                         _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
                     }
 
                     // stop streaming
                     if (_ts_streamers[1].stream)
                     {
-                        ClearIndicator(ref indicatorStatus2, PropertyIndicators.StreamingIndicator);
+//                        ClearIndicator(ref indicatorStatus2, PropertyIndicators.StreamingIndicator);
                         _ts_streamers[1].stream = false;    // stop streaming
+                        _tuner2_properties.UpdateStreamButtonColor("media_controls_2", Color.Transparent);
                         _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
                     }
 

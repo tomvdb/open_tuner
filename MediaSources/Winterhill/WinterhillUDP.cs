@@ -10,6 +10,7 @@ using Serilog;
 using System.Collections;
 using opentuner.Utilities;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -23,13 +24,12 @@ namespace opentuner.MediaSources.Winterhill
 
         public void ConnectWinterhillUDP(int port)
         {
+
             longmynd_status = new UDPClient(port);
 
-            Log.Information("Connecting to status port: " + port.ToString());
-
-            longmynd_status.Connect();
             longmynd_status.DataReceived += Longmynd_status_DataReceived;
             longmynd_status.ConnectionStatusChanged += Longmynd_status_ConnectionStatusChanged;
+            longmynd_status.Connect();
         }
 
         private void Longmynd_status_ConnectionStatusChanged(object sender, bool connection_status)
@@ -43,6 +43,11 @@ namespace opentuner.MediaSources.Winterhill
 
         }
 
+
+        public void DisconnectWinterhillUDP()
+        {
+            longmynd_status.Close();
+        }
 
         private void Longmynd_status_DataReceived(object sender, byte[] e)
         {

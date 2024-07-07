@@ -196,7 +196,6 @@
             this.checkWindowed1.TabIndex = 7;
             this.checkWindowed1.Text = "Seperate Window";
             this.checkWindowed1.UseVisualStyleBackColor = true;
-            this.checkWindowed1.CheckedChanged += new System.EventHandler(this.checkBoxMuted_CheckedChanged);
             // 
             // comboMediaPlayer2
             // 
@@ -534,7 +533,6 @@
             this.checkBoxMuted.TabIndex = 0;
             this.checkBoxMuted.Text = "Mute at Startup";
             this.checkBoxMuted.UseVisualStyleBackColor = true;
-            this.checkBoxMuted.CheckedChanged += new System.EventHandler(this.checkBoxMuted_CheckedChanged);
             // 
             // settingsForm
             // 
