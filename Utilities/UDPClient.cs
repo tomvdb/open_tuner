@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WebSocketSharp;
+using Serilog;
 
 namespace opentuner.Utilities
 {
@@ -20,7 +21,7 @@ namespace opentuner.Utilities
         private int _id;
 
         public event EventHandler<byte[]> DataReceived;
-        public event EventHandler<string> ConnectionStatusChanged;
+        public event EventHandler<bool> ConnectionStatusChanged;
 
         public int getID() { return _id; }  
 
@@ -56,7 +57,7 @@ namespace opentuner.Utilities
                 isListening = true;
                 listenThread.Start();
 
-                OnConnectionStatusChanged("Connected");
+                OnConnectionStatusChanged(true);
             }
         }
 
@@ -69,25 +70,35 @@ namespace opentuner.Utilities
 
                 udpClient.Close();
 
-                OnConnectionStatusChanged("Disconnected");
+                OnConnectionStatusChanged(false);
             }
         }
 
         private void ListenForData()
         {
+            IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
             try
             {
-                IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
                 while (isListening)
                 {
                     byte[] receivedBytes = udpClient.Receive(ref remoteEndPoint);
-                    OnDataReceived(receivedBytes);
+
+                    try
+                    {
+                        OnDataReceived(receivedBytes);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Information("OnDataReceived event failed: " + ex.Message);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                OnConnectionStatusChanged($"Error: {ex.Message}");
+                Log.Information("Listen for UDP Data Exception: "  + this.port.ToString() + " : "+  ex.Message);
+                OnConnectionStatusChanged(false);
             }
         }
 
@@ -96,7 +107,7 @@ namespace opentuner.Utilities
             DataReceived?.Invoke(this, data);
         }
 
-        protected virtual void OnConnectionStatusChanged(string status)
+        protected virtual void OnConnectionStatusChanged(bool status)
         {
             ConnectionStatusChanged?.Invoke(this, status);
         }

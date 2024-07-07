@@ -25,9 +25,7 @@ using opentuner.MediaSources.Longmynd;
 using opentuner.ExtraFeatures.BATCWebchat;
 using opentuner.ExtraFeatures.QuickTuneControl;
 using opentuner.MediaSources.Winterhill;
-using static opentuner.signal;
-using System.Runtime.CompilerServices;
-using Vortice.MediaFoundation;
+
 using Serilog;
 
 namespace opentuner

@@ -36,7 +36,7 @@ namespace opentuner.MediaPlayers.VLC
 
         private void LibVLC_Log(object sender, LogEventArgs e)
         {
-            Log.Information("VLCMediaPlayer: " + e.FormattedLog);
+            //Log.Information("VLCMediaPlayer: " + e.FormattedLog);
         }
 
         public override string GetName()

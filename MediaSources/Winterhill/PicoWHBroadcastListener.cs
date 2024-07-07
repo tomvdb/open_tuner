@@ -31,8 +31,8 @@ namespace opentuner.MediaSources.Winterhill
         public void Close()
         {
             CloseThread = true;
-            listener.Close();
             listener_thread?.Abort();
+            listener.Close();
         }
 
         public void ListenerThread()

@@ -16,25 +16,41 @@ namespace opentuner.MediaSources.Winterhill
     public partial class WinterhillSource
     {
         UdpClient WH_Client = new UdpClient();
-        IPEndPoint winterhill_end_point;
 
-        UDPClient longmynd_status = new UDPClient(9901);
+        UDPClient longmynd_status;
 
-        public void ConnectWinterhillUDP()
+        
+
+        public void ConnectWinterhillUDP(int port)
         {
+            longmynd_status = new UDPClient(port);
+
+            Log.Information("Connecting to status port: " + port.ToString());
+
             longmynd_status.Connect();
             longmynd_status.DataReceived += Longmynd_status_DataReceived;
             longmynd_status.ConnectionStatusChanged += Longmynd_status_ConnectionStatusChanged;
         }
 
-        private void Longmynd_status_ConnectionStatusChanged(object sender, string e)
+        private void Longmynd_status_ConnectionStatusChanged(object sender, bool connection_status)
         {
-            Log.Information("WH UDP Connection Status Changed: " + e);
+            if (connection_status)
+            {
+                Log.Information("UDP Status Port Connected");
+            }
+            else
+                Log.Warning("UDP Status Port Disconnected");
+
         }
+
 
         private void Longmynd_status_DataReceived(object sender, byte[] e)
         {
+            // Log.Information("Status Data Received");
+
             var data = Encoding.ASCII.GetString(e);
+
+            int udp_base_port = _settings.WinterhillUdpBasePort;
 
             string[] status_strings = data.Split('\n');
 
@@ -56,10 +72,22 @@ namespace opentuner.MediaSources.Winterhill
             {
                 string[] dt = status_strings[c].Split(',');
 
+
                 switch(dt[0])
                 {
                     case "$0":
-                        receiver = Convert.ToInt32(dt[1]); break;
+
+                        int receiver_num = udp_base_port % 100;
+
+                        receiver = Convert.ToInt32(dt[1]) - receiver_num;
+
+                        if (receiver < 1 || receiver > 2 )
+                        {
+                            Log.Information( "receiver: " + receiver.ToString() + " : " + status_strings[c]);
+                            return;
+                        }
+                        
+                        break;
                     case "$1":
                         switch(dt[1].Trim())
                         {
@@ -108,6 +136,33 @@ namespace opentuner.MediaSources.Winterhill
                     case "$30":
                         mm.rx[receiver].dbmargin = dt[1];
                         break;
+
+                    case "$33":
+                        //Log.Information(dt[1]);
+
+                        if (dt[1].Trim() == "TOP")
+                        {
+                            mm.rx[receiver].rfport = 0;
+                        }
+                        else
+                        {
+                            mm.rx[receiver].rfport = 1;
+                        }
+                        break;
+
+                    case "$92":
+                        string[] ts_data = dt[1].Split(':');
+
+                        if (ts_data.Length > 1)
+                        {
+                            mm.rx[receiver].ts_addr = ts_data[0];
+                            mm.rx[receiver].ts_port = ts_data[1];
+                        }
+                        break;
+
+                    default:
+                        //Log.Information("Unknown status string: " + status_strings[c]);
+                        break;
                 }
             }
 
@@ -126,21 +181,68 @@ namespace opentuner.MediaSources.Winterhill
             if (mm.rx[receiver].dbmargin == null)
                 mm.rx[receiver].dbmargin = "";
 
+            if (mm.rx[receiver].ts_port == null) 
+                mm.rx[receiver].ts_port = "";
+
+            if (mm.rx[receiver].ts_addr == null)
+                mm.rx[receiver].ts_addr = "";
+
 
             mm.rx[receiver].rx = receiver;
-            mm.rx[receiver].ts_addr = "";
-            mm.rx[receiver].ts_port = (_settings.WinterhillUdpBasePort + (receiver == 1 ? 21 : 22)).ToString();
 
             UpdateInfo(mm);
         }
 
+
+        public void UDPSetVoltage(int plug, uint voltage)
+        {
+            int base_port = _settings.WinterhillUdpBasePort;
+
+            IPEndPoint winterhill_end_point = new IPEndPoint(IPAddress.Parse(_settings.WinterhillUdpHost), base_port + 21);
+
+            string command2 = "";
+            string vg = "vgx";
+
+            if (plug == 0)
+            {
+                vg = "vgx";
+            }
+            else
+            {
+                vg = "vgy";
+            }
+            switch (voltage)
+            {
+                case 0: command2 =  ("[to@wh] " + vg + "=OFF"); break;
+                case 13: command2 = ("[to@wh] " + vg + "=LO"); break;
+                case 18: command2 = ("[to@wh] " + vg + "=HI"); break;
+            }
+
+            _settings.LNBVoltage[plug] = voltage;
+
+            Log.Information(command2);
+
+            byte[] outStream = Encoding.ASCII.GetBytes(command2);
+            try
+            {
+                WH_Client.Client.SendTo(outStream, winterhill_end_point);
+            }
+            catch
+            {
+                Console.WriteLine("Error sending UDP Command");
+            }
+
+        }
+
         public void UDPSetFrequency(int device, int freq, int sr)
         {
+            int base_port = _settings.WinterhillUdpBasePort + ( device == 0 ? 21 :  22);
 
-            winterhill_end_point = new IPEndPoint(IPAddress.Parse(_settings.WinterhillUdpHost), device == 0 ? 9921 : 9922);
+            int receiver_num = (_settings.WinterhillUdpBasePort % 100) + 1 + device;
 
-            Log.Information("UDP Set Frequency Device: " + device);
-            
+            IPEndPoint winterhill_end_point = new IPEndPoint(IPAddress.Parse(_settings.WinterhillUdpHost), base_port );
+
+            Log.Information("UDP Set Frequency Device: " + device + " : " + _settings.WinterhillUdpHost + " : " + base_port.ToString() );
             
             try
             {
@@ -149,9 +251,13 @@ namespace opentuner.MediaSources.Winterhill
                 demodstate[device] = -1;
             }
             catch (Exception ex) { }
-            
 
-            byte[] outStream = Encoding.ASCII.GetBytes("[GlobalMsg],Freq=" + freq.ToString() + ",Offset=" + _settings.Offset[device].ToString() + ",Doppler=0,Srate=" + sr.ToString() + ",FPlug=A" + "\n");
+
+            string command = "[to@wh] rcv=" + receiver_num.ToString() + ",freq=" + freq.ToString() + ",offset=" + _current_offset[device].ToString() + ",srate=" + sr.ToString()  + ",fplug=" + (_settings.RFPort[device] == 0 ? "A" : "B") + "\n";
+
+            Log.Information(command);
+
+            byte[] outStream = Encoding.ASCII.GetBytes(command);
             try
             {
                 Log.Information("Setting WH UDP Frequency: " + freq.ToString());

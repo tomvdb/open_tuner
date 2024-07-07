@@ -10,6 +10,8 @@ using System.Drawing;
 using opentuner.MediaSources.Longmynd;
 using Serilog;
 using System.Globalization;
+using opentuner.MediaSources.Minitiouner;
+using static FTD2XX_NET.FTDI;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -18,6 +20,7 @@ namespace opentuner.MediaSources.Winterhill
         private Control _parent;
 
         private DynamicPropertyGroup[] _tuner_properties = new DynamicPropertyGroup[4];
+        private DynamicPropertyGroup _source_properties;
 
         ContextMenuStrip _genericContextStrip;
 
@@ -55,7 +58,14 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].OnMediaButtonPressed += WinterhillSource_OnMediaButtonPressed;
                 _tuner_properties[c].AddItem("demodstate", "Demod State", Color.PaleVioletRed);
                 _tuner_properties[c].AddItem("mer", "Mer");
+
+                if (hw_device == 2) // picotuner
+                {
+                    _tuner_properties[c].AddItem("rf_input", "RF Input", _genericContextStrip);
+                }
+                
                 _tuner_properties[c].AddItem("frequency", "Frequency" ,_genericContextStrip);
+                _tuner_properties[c].AddItem("offset", "Freq Offset", _genericContextStrip);
                 _tuner_properties[c].AddItem("nim_frequency", "Nim Frequency");
                 _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate / Modcod");
                 _tuner_properties[c].AddItem("modcod", "Modcod");
@@ -88,11 +98,28 @@ namespace opentuner.MediaSources.Winterhill
                 }
             }
 
+            // source properties
+            _source_properties = new DynamicPropertyGroup("Hardware Properties", _parent);
+            _source_properties.setID(99);
+            _source_properties.AddItem("hardware", "Hardware");
+
+            if (hw_device == 1)
+            {
+                _source_properties.UpdateValue("hardware", "Winterhill");
+            }
+            else
+            {
+                _source_properties.UpdateValue("hardware", "Picotuner (ETH)");
+                _source_properties.AddItem("hw_lnba", "LNB-A Power Supply", _genericContextStrip);
+                _source_properties.AddItem("hw_lnbb", "LNB-B Power Supply", _genericContextStrip);
+            }
+
             _tuner_forms = new List<TunerControlForm>();
+
             // tuner for each device
             for (int c = 0; c < ts_devices; c++)
             {
-                var tunerControl = new TunerControlForm(c, 0, 0, (int)_settings.Offset[c], this);
+                var tunerControl = new TunerControlForm(c, 0, 0, (int)_current_offset[c], this);
                 tunerControl.OnTunerChange += TunerControl_OnTunerChange;
 
                 _tuner_forms.Add(tunerControl);
@@ -116,9 +143,41 @@ namespace opentuner.MediaSources.Winterhill
 
             switch (contextMenuStrip.SourceControl.Name)
             {
+                case "hw_lnba":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("OFF", LongmyndPropertyCommands.LNBA_OFF, new int[] { 0, 0 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Vertical", LongmyndPropertyCommands.LNBA_VERTICAL, new int[] { 0, 0 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Horizontal", LongmyndPropertyCommands.LNBA_HORIZONTAL, new int[] { 0, 0 }));
+                    break;
+                case "hw_lnbb":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("OFF", LongmyndPropertyCommands.LNBB_OFF, new int[] { 0, 0 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Vertical", LongmyndPropertyCommands.LNBB_VERTICAL, new int[] { 0, 0 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Horizontal", LongmyndPropertyCommands.LNBB_HORIZONTAL, new int[] { 0, 0 }));
+                    break;
+
+                case "rf_input":
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("A", LongmyndPropertyCommands.SETRFINPUTA, new int[] { (int)contextMenuStrip.SourceControl.Tag }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("B", LongmyndPropertyCommands.SETRFINPUTB, new int[] { (int)contextMenuStrip.SourceControl.Tag  }));
+                    break;
+
+
+                case "offset":
+                    int tuner = (int)contextMenuStrip.SourceControl.Tag;
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Default: " + _settings.DefaultOffset[tuner], LongmyndPropertyCommands.SETOFFSET, new int[] { (int)contextMenuStrip.SourceControl.Tag, 0 }));
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Zero", LongmyndPropertyCommands.SETOFFSET, new int[] { (int)contextMenuStrip.SourceControl.Tag, 1 }));
+                    break;
                 // change frequency
                 case "frequency":
-                    contextMenuStrip.Items.Add(ConfigureMenuItem("Change Frequency", LongmyndPropertyCommands.SETFREQUENCY, (int)contextMenuStrip.SourceControl.Tag));  
+                    contextMenuStrip.Items.Add(ConfigureMenuItem("Tuner Control", LongmyndPropertyCommands.SETFREQUENCY, new int[] { (int)contextMenuStrip.SourceControl.Tag }));
+
+                    if (_frequency_presets != null)
+                    {
+                        contextMenuStrip.Items.Add(new ToolStripSeparator());
+
+                        for (int c = 0; c < _frequency_presets.Count; c++)
+                        {
+                            contextMenuStrip.Items.Add(ConfigureMenuItem(_frequency_presets[c].Name + " (" + _frequency_presets[c].Frequency + ")", LongmyndPropertyCommands.SETPRESET, new int[] { (int)contextMenuStrip.SourceControl.Tag, c }));
+                        }
+                    }
                     break;
                 case "ts_addr":
 
@@ -129,13 +188,13 @@ namespace opentuner.MediaSources.Winterhill
                     }
                     else
                     {
-                        contextMenuStrip.Items.Add(ConfigureMenuItem("Update TS to " + _LocalIp, LongmyndPropertyCommands.SETTSLOCAL, (int)contextMenuStrip.SourceControl.Tag));
+                        contextMenuStrip.Items.Add(ConfigureMenuItem("Update TS to " + _LocalIp, LongmyndPropertyCommands.SETTSLOCAL, new int[] { (int)contextMenuStrip.SourceControl.Tag }));
                     }
                     break;
             }
         }
 
-        private ToolStripMenuItem ConfigureMenuItem(string Text, LongmyndPropertyCommands command, int option)
+        private ToolStripMenuItem ConfigureMenuItem(string Text, LongmyndPropertyCommands command, int[] option)
         {
             ToolStripMenuItem item = new ToolStripMenuItem(Text);
             item.Click += (sender, e) =>
@@ -146,15 +205,94 @@ namespace opentuner.MediaSources.Winterhill
             return item;
         }
 
-        private void properties_OnPropertyMenuSelect(LongmyndPropertyCommands command, int option)
+        private void properties_OnPropertyMenuSelect(LongmyndPropertyCommands command, int[] option)
         {
             Log.Information("Config Change: " + command.ToString() + " - " + option.ToString());
 
+            int tuner = 0;
+
             switch (command)
             {
+                case LongmyndPropertyCommands.LNBA_OFF:
+                    UDPSetVoltage(0, 0);
+                    break;
+
+                case LongmyndPropertyCommands.LNBA_VERTICAL:
+                    UDPSetVoltage(0, 13);
+                    break;
+
+                case LongmyndPropertyCommands.LNBA_HORIZONTAL:
+                    UDPSetVoltage(0, 18);
+                    break;
+
+                case LongmyndPropertyCommands.LNBB_OFF:
+                    UDPSetVoltage(1, 0);
+                    break;
+
+                case LongmyndPropertyCommands.LNBB_VERTICAL:
+                    UDPSetVoltage(1, 13);
+                    break;
+
+                case LongmyndPropertyCommands.LNBB_HORIZONTAL:
+                    UDPSetVoltage(1, 18);
+                    break;
+
+
+                case LongmyndPropertyCommands.SETRFINPUTA:
+                    tuner = option[0];
+
+                    SetRFPort(tuner, 0);
+                    //_settings.RFPort[tuner] = 0;
+
+                    //SetFrequency(tuner, (uint)_current_frequency[tuner], (uint)_current_sr[tuner], false);
+                    break;
+
+                case LongmyndPropertyCommands.SETRFINPUTB:
+                    tuner = option[0];
+
+                    SetRFPort(tuner, 1);
+                    //_settings.RFPort[tuner] = 1;
+
+                    //SetFrequency(tuner, (uint)_current_frequency[tuner], (uint)_current_sr[tuner], false);
+                    break;
+
+                case LongmyndPropertyCommands.SETOFFSET:
+                    tuner = option[0];
+                    
+                    switch (option[1])
+                    {
+                        case 0: _current_offset[tuner] = (int)_settings.DefaultOffset[tuner]; break;
+                        case 1: _current_offset[tuner] = 0; break;
+                    }
+
+                    SetFrequency(tuner, (uint)_current_frequency[tuner], (uint)_current_sr[tuner], false);
+                    break;
+
                 case LongmyndPropertyCommands.SETFREQUENCY:
-                    int tuner = option;
-                    _tuner_forms[tuner].ShowTuner(_current_frequency[tuner], _current_sr[tuner], (int)_settings.Offset[tuner]);
+                    tuner = option[0];
+                    _tuner_forms[tuner].ShowTuner(_current_frequency[tuner], _current_sr[tuner], (int)_current_offset[tuner]);
+                    break;
+
+                case LongmyndPropertyCommands.SETPRESET:
+                    tuner = option[0];
+                    int presetNumber = option[1];
+
+                    if (_frequency_presets != null)
+                    {
+                        if (_frequency_presets.Count > presetNumber)
+                        {
+                            Log.Information("Tuning to preset " + presetNumber);
+                            Log.Information("Preset Name: " + _frequency_presets[presetNumber].Name);
+                            Log.Information("Preset Frequency: " + _frequency_presets[presetNumber].Frequency.ToString());
+                            Log.Information("Preset Offset: " + _frequency_presets[presetNumber].Offset.ToString());
+                            Log.Information("Preset SymbolRate: " + _frequency_presets[presetNumber].SymbolRate.ToString());
+                            Log.Information("Preset RF Input: " + _frequency_presets[presetNumber].RFInput.ToString());
+
+                            _current_offset[tuner] = (int)_frequency_presets[presetNumber].Offset;
+                            _settings.RFPort[tuner] = (uint)(_frequency_presets[presetNumber].RFInput- 1);
+                            SetFrequency(tuner, _frequency_presets[presetNumber].Frequency, _frequency_presets[presetNumber].SymbolRate, true) ;
+                        }
+                    }
                     break;
 
                 case LongmyndPropertyCommands.SETTSLOCAL:
@@ -162,15 +300,23 @@ namespace opentuner.MediaSources.Winterhill
                     if (_LocalIp.Length > 0)
                     {
                         Log.Information("Updating TS Ip to " + _LocalIp);
-                        string wh_command = ("U" + (option + 1).ToString() + "," + _LocalIp.ToString());
-                        Log.Debug(wh_command);
-                        controlWS.Send(wh_command);
+
+                        if (hw_device == 1)
+                        {
+                            WSSetTS(option[0]);
+                        }
+                        else
+                        {
+                            // to change ts for pico tuner ethernet we need to send a tuning command
+                            SetFrequency(tuner, (uint)_current_frequency[option[0]], (uint)_current_sr[option[0]], false);
+                        }
+
                         // reset status
 
-                        VideoChangeCB?.Invoke(option + 1, false);
-                        playing[option] = false;
-                        _tuner_properties[option].UpdateColor("demodstate", Color.PaleVioletRed);
-                        demodstate[option] = -1;
+                        VideoChangeCB?.Invoke(option[0] + 1, false);
+                        playing[option[0]] = false;
+                        _tuner_properties[option[0]].UpdateColor("demodstate", Color.PaleVioletRed);
+                        demodstate[option[0]] = -1;
                     }
                     break;
 
@@ -388,7 +534,7 @@ namespace opentuner.MediaSources.Winterhill
                         {
                             if (float.TryParse(rx.frequency, NumberStyles.Any, CultureInfo.InvariantCulture, out sent_freq))
                             {
-                                _current_frequency[c] = Convert.ToInt32((sent_freq * 1000) - _settings.Offset[c]);
+                                _current_frequency[c] = Convert.ToInt32((sent_freq * 1000) - _current_offset[c]);
                             }
                         }
                         catch (Exception Ex)
@@ -406,9 +552,30 @@ namespace opentuner.MediaSources.Winterhill
 
                     }
 
+                    
+                    if (hw_device == 2)
+                    {
+                        for (int counter = 0; counter < 2; counter++)
+                        {
+                            switch (_settings.LNBVoltage[counter])
+                            {
+                                case 0:
+                                    _source_properties.UpdateValue(counter == 0 ? "hw_lnba" : "hw_lnbb", "OFF");
+                                    break;
+                                case 13:
+                                    _source_properties.UpdateValue(counter == 0 ? "hw_lnba" : "hw_lnbb", "Vertical (12V)");
+                                    break;
+                                case 18:
+                                    _source_properties.UpdateValue(counter == 0 ? "hw_lnba" : "hw_lnbb", "Horizontal (18V)");
+                                    break;
+                            }
+                        }
+                    }
+                    
                     _tuner_properties[c].UpdateValue("demodstate", scanstate_lookup[rx.scanstate]);
                     _tuner_properties[c].UpdateValue("mer", rx.mer);
                     _tuner_properties[c].UpdateValue("frequency", GetFrequency(c, true).ToString("#,##0") + "  (" + GetFrequency(c, false).ToString("#,##0") + ")");
+                    _tuner_properties[c].UpdateValue("offset", _current_offset[c].ToString());
                     _tuner_properties[c].UpdateValue("nim_frequency", GetFrequency(c, false).ToString());
                     _tuner_properties[c].UpdateValue("symbol_rate", rx.symbol_rate);
                     _tuner_properties[c].UpdateValue("modcod", rx.modcod.ToString());
@@ -416,6 +583,11 @@ namespace opentuner.MediaSources.Winterhill
                     _tuner_properties[c].UpdateValue("service_name_provider", rx.service_provider_name);
                     _tuner_properties[c].UpdateValue("null_packets", rx.null_percentage);
                     _tuner_properties[c].UpdateValue("ts_addr", rx.ts_addr);
+
+                    if (hw_device == 2)
+                    {
+                        _tuner_properties[c].UpdateValue("rf_input", (rx.rfport == 0 ? "A" : "B"));
+                    }
 
                     last_mer[c] = rx.mer;
                     last_service_name[c] = rx.service_name;

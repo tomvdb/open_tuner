@@ -46,6 +46,7 @@ namespace opentuner.MediaSources.Winterhill
         private string _LocalIp;
 
         private int[] _current_frequency = new int[4] {0, 0, 0, 0};
+        private int[] _current_offset = new int[4] { 0, 0, 0, 0 };
         private int[] _current_sr = new int[4] { 0, 0, 0, 0 };
 
         private string[] last_service_name = new string[4] { "", "", "", "" };
@@ -69,6 +70,7 @@ namespace opentuner.MediaSources.Winterhill
             _settings = _settingsManager.LoadSettings(_settings);
         }
 
+
         public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
         {
             _parent = Parent;
@@ -91,6 +93,9 @@ namespace opentuner.MediaSources.Winterhill
                 }
             }
 
+            for (int c = 0; c < 4; c++)
+                _current_offset[c] = (int)_settings.DefaultOffset[c];
+
             // connect interface
             switch (defaultInterface)
             {
@@ -99,18 +104,23 @@ namespace opentuner.MediaSources.Winterhill
                     udp_port = _settings.WinterhillWSUdpBasePort;
                     ts_devices = 4;
                     hw_device = 1;
+
                     break;
                 case 2: // udp pico wh
-                    ConnectWinterhillUDP();
-                    UDPSetFrequency(0, 10491500, 1500);
-                    UDPSetFrequency(1, 10491500, 1500);
+                    udp_port = _settings.WinterhillUdpBasePort;
+                    ConnectWinterhillUDP(udp_port + 1);
+
+                    UDPSetVoltage(0, _settings.LNBVoltage[0]);
+                    UDPSetVoltage(1, _settings.LNBVoltage[1]);
+
+
                     ts_devices = 2;
                     hw_device = 2;
-                    udp_port = _settings.WinterhillUdpBasePort;
                     break;
             }
 
-
+            for (int c = 0; c < ts_devices; c++)
+                SetFrequency(c, _settings.DefaultFrequency[c], _settings.DefaultSR[c], true);
 
             // open udp ts ports
             udp_clients = new UDPClient[4];
@@ -123,7 +133,7 @@ namespace opentuner.MediaSources.Winterhill
             {
                 int port = udp_port + 41 + c;
 
-                Log.Information("UDP Port: " + port.ToString());
+                Log.Information("TS UDP Ports: " + port.ToString());
 
                 udp_buffer[c] = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
                 ts_data_queue[c] = new CircularBuffer(GlobalDefines.CircularBufferStartingCapacity);
@@ -245,9 +255,9 @@ namespace opentuner.MediaSources.Winterhill
             ts_threads[device].NewDataPresent();
         }
 
-        private void WinterhillSource_ConnectionStatusChanged(object sender, string e)
+        private void WinterhillSource_ConnectionStatusChanged(object sender, bool connection_status)
         {
-            Log.Information("Connection Status " + ((UDPClient)sender).getID() + " : " + e);
+            Log.Information("Connection Status " + ((UDPClient)sender).getID() + " : " + (connection_status ? "Connected" : "Disconnected"));
         }
 
         public override void Close()
@@ -258,6 +268,8 @@ namespace opentuner.MediaSources.Winterhill
 
             monitorWS?.Close();
             controlWS?.Close();
+
+            longmynd_status?.Close();
 
             if (ts_thread_t != null) 
             {
@@ -358,7 +370,7 @@ namespace opentuner.MediaSources.Winterhill
 
         public override long GetFrequency(int device, bool offset_included)
         {
-            return _current_frequency[device] + (offset_included ? _settings.Offset[device] : 0);
+            return _current_frequency[device] + (offset_included ? _current_offset[device] : 0);
         }
 
         public override string GetName()
@@ -397,6 +409,15 @@ namespace opentuner.MediaSources.Winterhill
             ts_threads[device].RegisterTSConsumer(ts_buffer_queue);
         }
 
+        public void SetRFPort(int device, int port)
+        {
+            Console.WriteLine("Set Device: " + device.ToString() + "," + port.ToString());
+            _settings.RFPort[device] = (uint)port;
+
+            SetFrequency(device, (uint)_current_frequency[device], (uint)_current_sr[device], false);
+        }
+
+
         public override void SetFrequency(int device, uint frequency, uint symbol_rate, bool offset_included)
         {
             Log.Information("SetFrequency: " + device.ToString() + "," + frequency.ToString() + "," + symbol_rate.ToString() + "," + offset_included.ToString());
@@ -417,12 +438,13 @@ namespace opentuner.MediaSources.Winterhill
             {
                 switch (hw_device)
                 {
-                    case 1:  WSSetFrequency(device, (int)frequency + (int)_settings.Offset[device], (int)symbol_rate);
+                    case 1:  WSSetFrequency(device, (int)frequency + (int)_current_offset[device], (int)symbol_rate);
                         break;
-                    case 2: UDPSetFrequency(device, (int)frequency + (int)_settings.Offset[device], (int)symbol_rate);
+                    case 2: UDPSetFrequency(device, (int)frequency + (int)_current_offset[device], (int)symbol_rate);
                         break;
                 }
             }
+
         }
 
         public override void ShowSettings()

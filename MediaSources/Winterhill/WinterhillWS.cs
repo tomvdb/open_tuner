@@ -16,16 +16,16 @@ namespace opentuner.MediaSources.Winterhill
         private WebSocket controlWS;        // longmynd control ws websocket
         private WebSocket monitorWS;        // longmynd monitor ws websocket
 
-        /*
-        private void WSSetFrequency(uint frequency, uint symbol_rate)
-        {
-            controlWS.Send("C" + (frequency - _settings.Offset1).ToString() + "," + symbol_rate.ToString());
-        }
-        */
-
         private void WSSetFrequency(int device, int freq, int sr)
         {           
-            controlWS.Send("F" + (device + 1).ToString() + "," + freq + "," + sr.ToString() + "," + _settings.Offset[device]);
+            controlWS.Send("F" + (device + 1).ToString() + "," + freq + "," + sr.ToString() + "," + _current_offset[device]);
+        }
+
+        private void WSSetTS(int device)
+        {
+            string wh_command = ("U" + (device + 1).ToString() + "," + _LocalIp.ToString());
+            Log.Debug(wh_command);
+            controlWS.Send(wh_command);
         }
 
         private void connectWebsockets()
@@ -108,6 +108,7 @@ namespace opentuner.MediaSources.Winterhill
         public string audio_type;
         public string ts_addr;
         public string ts_port;
+        public int rfport;
     }
 
 

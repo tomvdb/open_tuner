@@ -53,7 +53,7 @@ namespace opentuner.MediaPlayers.MPV
 
         private void debug(string msg)
         {
-            Log.Information("MPVMediaPlayer: " + msg);
+            //Log.Information("MPVMediaPlayer: " + msg);
         }
 
         public void startEventLoop()

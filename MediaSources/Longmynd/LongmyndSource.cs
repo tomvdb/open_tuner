@@ -174,9 +174,9 @@ namespace opentuner.MediaSources.Longmynd
             ts_thread.NewDataPresent();
         }
 
-        private void Udp_client_ConnectionStatusChanged(object sender, string e)
+        private void Udp_client_ConnectionStatusChanged(object sender, bool connection_status)
         {
-            debug("udp: Connection status changed: " + e);
+            debug("udp: Connection status changed: " + (connection_status ? "Connected" : "Disconnected"));
         }
 
 

@@ -136,6 +136,12 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public void Close()
         {
+            websocketTimer?.Stop();
+            websocketTimer?.Dispose();
+
+            SpectrumTuneTimer?.Stop();
+            SpectrumTuneTimer?.Dispose();
+            
             // stop socket
             sock?.stop();
         }

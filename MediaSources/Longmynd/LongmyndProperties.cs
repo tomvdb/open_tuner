@@ -20,12 +20,20 @@ namespace opentuner.MediaSources.Longmynd
     {
         SETFREQUENCY,
         SETPRESET,
-        SETTSLOCAL
+        SETTSLOCAL,
+        SETRFINPUTA,
+        SETRFINPUTB,
+        LNBA_OFF,
+        LNBA_VERTICAL,
+        LNBA_HORIZONTAL,
+        LNBB_OFF,
+        LNBB_VERTICAL,
+        LNBB_HORIZONTAL,
+        SETOFFSET
     }
 
     public partial class LongmyndSource
     {
-
         public override event SourceDataChange OnSourceData;
 
         // properties management
