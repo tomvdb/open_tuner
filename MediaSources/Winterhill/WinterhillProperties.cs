@@ -533,6 +533,16 @@ namespace opentuner.MediaSources.Winterhill
                             VideoChangeCB?.Invoke(c + 1, false);
                             playing[c] = false;
                             _tuner_properties[c].UpdateColor("demodstate", Color.PaleVioletRed);
+                            if (_recorders[c].record)
+                            {
+                                _recorders[c].record = false;
+                                _tuner_properties[c].UpdateRecordButtonColor("media_controls_" + c.ToString(), Color.Transparent);
+                            }
+                            if (_streamer[c].stream)
+                            {
+                                _streamer[c].stream = false;
+                                _tuner_properties[c].UpdateStreamButtonColor("media_controls_" + c.ToString(), Color.Transparent);
+                            }
                         }
 
                         demodstate[c] = rx.scanstate;
@@ -660,12 +670,15 @@ namespace opentuner.MediaSources.Winterhill
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
-                data.Add("ServiceName", last_service_name[device]);
-                data.Add("ServiceProvider", last_service_provider[device]);
-                data.Add("dbMargin", last_dbm[device]);
-                data.Add("Mer", last_mer[device]);
-                data.Add("SR", _current_sr[device].ToString());
-                data.Add("Frequency", _current_frequency[device].ToString());
+            // Gets a NumberFormatInfo associated with the en-US culture.
+            NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+
+            data.Add("ServiceName", last_service_name[device]);
+            data.Add("ServiceProvider", last_service_provider[device]);
+            data.Add("dbMargin", last_dbm[device]);
+            data.Add("Mer", last_mer[device]);
+            data.Add("SR", _current_sr[device].ToString());
+            data.Add("Frequency", ((float)(_current_frequency[device] + _settings.Offset[device])/1000.0f).ToString("F", nfi));
 
             return data;
         }

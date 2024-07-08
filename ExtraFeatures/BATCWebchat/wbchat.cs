@@ -460,8 +460,8 @@ namespace opentuner
 
             signalReport = signalReport.Replace("{SN}", data["ServiceName"]);
             signalReport = signalReport.Replace("{SP}", data["ServiceProvider"]);
-            signalReport = signalReport.Replace("{DBM}", data["dbMargin"]);
-            signalReport = signalReport.Replace("{MER}", data["Mer"]);
+            signalReport = signalReport.Replace("{DBM}", "D" + data["dbMargin"]);
+            signalReport = signalReport.Replace("{MER}", data["Mer"] + " dB");
             signalReport = signalReport.Replace("{SR}", data["SR"] + "");
             signalReport = signalReport.Replace("{FREQ}", data["Frequency"] + "");
 
