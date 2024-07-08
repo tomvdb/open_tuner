@@ -156,7 +156,7 @@ namespace opentuner.MediaSources.Winterhill
                 }
 
 
-                ts_threads[c] = new TSThread(ts_data_queue[c], flush_ts, read_ts, "WS TS" + c.ToString());
+                ts_threads[c] = new TSThread(ts_data_queue[c], flush_ts, read_ts, "WH TS" + c.ToString());
                 ts_thread_t[c] = new Thread(ts_threads[c].worker_thread);
                 ts_thread_t[c].Start();
 

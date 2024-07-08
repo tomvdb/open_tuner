@@ -127,9 +127,7 @@ namespace opentuner.MediaSources.Winterhill
         {
             if (lblDetectedIP.Text != "Unknown")
             {
-                btnReset.Enabled = true;
-                btnReboot.Enabled = true;
-                btnBootsel.Enabled = true;
+                EnableRemoteCommands();
             }
         }
 
@@ -137,10 +135,16 @@ namespace opentuner.MediaSources.Winterhill
         {
             if (lblDetectedBasePort.Text != "Unknown")
             {
-                btnReset.Enabled = true;
-                btnReboot.Enabled = true;
-                btnBootsel.Enabled = true;
+                EnableRemoteCommands();
             }
+        }
+
+        private void EnableRemoteCommands()
+        {
+            btnReset.Enabled = true;
+            btnReboot.Enabled = true;
+            btnBootsel.Enabled = true;
+            btnChangeBasePort.Enabled = true;
         }
 
         public void SendRemoteCommand(string command)

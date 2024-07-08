@@ -144,6 +144,7 @@
             // 
             // btnChangeBasePort
             // 
+            this.btnChangeBasePort.Enabled = false;
             this.btnChangeBasePort.Location = new System.Drawing.Point(16, 119);
             this.btnChangeBasePort.Name = "btnChangeBasePort";
             this.btnChangeBasePort.Size = new System.Drawing.Size(75, 44);
