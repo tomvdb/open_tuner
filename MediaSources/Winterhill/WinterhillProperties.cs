@@ -678,7 +678,7 @@ namespace opentuner.MediaSources.Winterhill
             data.Add("dbMargin", last_dbm[device]);
             data.Add("Mer", last_mer[device]);
             data.Add("SR", _current_sr[device].ToString());
-            data.Add("Frequency", ((float)(_current_frequency[device] + _settings.Offset[device])/1000.0f).ToString("F", nfi));
+            data.Add("Frequency", ((float)(_current_frequency[device] + _current_offset[device])/1000.0f).ToString("F", nfi));
 
             return data;
         }
