@@ -18,20 +18,24 @@ namespace opentuner
         private int _device_id;
         private string _title;
 
-        public VideoViewForm(Control VideoControl, String Title, int DeviceID, OTSource VideoSource)
+        public VideoViewForm(Control video_control, String title, int device_id, OTSource video_source, Control[] extra_controls)
         {
             InitializeComponent();
-            _video_source = VideoSource;
-            this.Text = Title;
-            _title = Title;
-            _device_id = DeviceID;
-            this.Controls.Add(VideoControl);
-            VideoSource.OnSourceData += VideoSource_OnSourceData;
+
+            _video_source = video_source;
+            _title = title;
+            _device_id = device_id;
+
+            this.Text = title;
+
+
+            foreach (Control control in extra_controls)
+            {
+                Controls.Add(control);
+            }
+
+            Controls.Add(video_control);
         }
 
-        private void VideoSource_OnSourceData(Dictionary<string, string> Properties, string topic)
-        {
-            
-        }
     }
 }

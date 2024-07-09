@@ -11,6 +11,7 @@ using opentuner.MediaSources.Longmynd;
 using Serilog;
 using System.Globalization;
 using System.Timers;
+using System.Runtime.ConstrainedExecution;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -625,8 +626,31 @@ namespace opentuner.MediaSources.Winterhill
                     _tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
                     _tuner_properties[c].UpdateBigLabel(rx.dbmargin.ToString());
 
-                    var data = _tuner_properties[c].GetAll();
-                    OnSourceData?.Invoke(data, "Tuner " + c.ToString());
+                    //var data = _tuner_properties[c].GetAll();
+
+
+                    var source_data = new OTSourceData();
+                    source_data.frequency = GetFrequency(c, true);
+                    source_data.video_number = 1;
+                    double mer_d = 0.0;
+                    double.TryParse(rx.mer, out mer_d);
+                    source_data.mer = mer_d;
+                    double db_margin_d = 0.0;
+                    double.TryParse(rx.dbmargin, out db_margin_d);
+                    source_data.db_margin = db_margin_d;
+                    int symbol_rate_i = 0;
+                    int.TryParse(rx.symbol_rate, out symbol_rate_i);
+                    source_data.symbol_rate = symbol_rate_i;
+                    source_data.demod_locked = (rx.scanstate == 2 || rx.scanstate == 3);
+                    source_data.service_name = rx.service_name;
+
+                    if (_media_player.Count() > c)
+                    {
+                        if (_media_player[c] != null)
+                            source_data.volume = _media_player[c].GetVolume();
+                    }
+
+                    OnSourceData?.Invoke(c, source_data, "Tuner " + c.ToString());
                 }
             }
             catch ( Exception Ex)
@@ -656,8 +680,17 @@ namespace opentuner.MediaSources.Winterhill
                     _tuner_properties[c].UpdateColor("demodstate", Color.PaleVioletRed);
                     _tuner_properties[c].UpdateValue("demodstate", scanstate_lookup[demodstate[c]]);
 
-                    var data = _tuner_properties[c].GetAll();
-                    OnSourceData?.Invoke(data, "Tuner " + c.ToString());
+                    //var data = _tuner_properties[c].GetAll();
+                    //OnSourceData?.Invoke(c, data, "Tuner " + c.ToString());
+
+                    var source_data = new OTSourceData();
+                    source_data.frequency = GetFrequency(c, true);
+                    source_data.video_number = 0;
+                    source_data.mer = 0;
+                    source_data.db_margin = 0;
+                    source_data.demod_locked = false;
+
+                    OnSourceData?.Invoke(c, source_data, "Tuner " + (c+1).ToString());
                 }
             }
             catch (Exception Ex)

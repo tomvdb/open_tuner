@@ -14,7 +14,7 @@ namespace opentuner.Utilities
         private int _last_volume = 0;
         private Timer _timer;
 
-        public VolumeInfoContainer(Control video_player)
+        public VolumeInfoContainer()
         {
             BackColor = Color.Black;
             Dock = DockStyle.Right;
@@ -49,6 +49,8 @@ namespace opentuner.Utilities
 
         protected override void OnPaint(PaintEventArgs pe)
         {
+
+
             base.OnPaint(pe);
 
             pe.Graphics.FillRectangle(Brushes.Black, 0, 0, Width, Height);

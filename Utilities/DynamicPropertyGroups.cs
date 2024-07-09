@@ -240,6 +240,19 @@ namespace opentuner.Utilities
             }
         }
 
+        public string GetValue(string key)
+        {
+            foreach (var item in _items)
+            {
+                if (item.Key == key)
+                {
+                    return item.LastValue;
+                }
+            }
+            
+            return ""; 
+        }
+
         public Dictionary<string, string> GetAll()
         {
             Dictionary<string, string> data = new Dictionary<string, string>();

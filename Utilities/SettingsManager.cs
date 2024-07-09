@@ -49,10 +49,18 @@ namespace opentuner.Utilities
 
             Debug("Loading Settings...");
             string json_input = File.ReadAllText(_filename_base);
+            
             Debug(json_input);
 
-            return (T)JsonConvert.DeserializeObject(json_input, typeof(T) );
+            var settings_object = (T)JsonConvert.DeserializeObject(json_input, typeof(T));
 
+            if (settings_object == null)
+            {
+                Debug("File possibly faulty - returning defaults");
+                return (T)_settings_reference;
+            }
+
+            return settings_object;
         }
 
         public bool SaveSettings(object _settings_reference)

@@ -281,6 +281,7 @@
     <Compile Include="MediaSources\Minitiouner\MinitiounerSettingsForm.Designer.cs">
       <DependentUpon>MinitiounerSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MediaSources\OTSourceData.cs" />
     <Compile Include="MediaSources\Winterhill\ChooseWinterhillHardwareInterfaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -408,6 +409,9 @@
     <Compile Include="Transport\TSThread.cs" />
     <Compile Include="Transport\Consumers\TSUdpStreamer.cs" />
     <Compile Include="Utilities\OTProperty.cs" />
+    <Compile Include="Utilities\StreamInfoContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Utilities\tunerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>

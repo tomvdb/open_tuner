@@ -80,6 +80,8 @@
             this.autoHoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstripConnectToggle = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuManageFrequencyPresets = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -543,12 +545,25 @@
             // openTunerToolStripMenuItem
             // 
             this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstripConnectToggle,
+            this.toolStripSeparator3,
             this.settingsToolStripMenuItem,
             this.menuManageFrequencyPresets,
             this.toolStripSeparator1,
             this.quitToolStripMenuItem});
             this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
             resources.ApplyResources(this.openTunerToolStripMenuItem, "openTunerToolStripMenuItem");
+            // 
+            // toolstripConnectToggle
+            // 
+            this.toolstripConnectToggle.Name = "toolstripConnectToggle";
+            resources.ApplyResources(this.toolstripConnectToggle, "toolstripConnectToggle");
+            this.toolstripConnectToggle.Click += new System.EventHandler(this.toolstripConnectToggle_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             // 
             // settingsToolStripMenuItem
             // 
@@ -725,6 +740,8 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ToolStripMenuItem menuManageFrequencyPresets;
+        private System.Windows.Forms.ToolStripMenuItem toolstripConnectToggle;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 

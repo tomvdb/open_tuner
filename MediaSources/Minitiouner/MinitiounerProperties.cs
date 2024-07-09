@@ -496,11 +496,26 @@ namespace opentuner.MediaSources.Minitiouner
             //_tuner1_properties.UpdateValue("db_margin", db_margin_text);
             _tuner1_properties.UpdateValue("modcod", modcod_text);
 
-            var data1 = _tuner1_properties.GetAll();
-            data1.Add("frequency", GetFrequency(0, true).ToString());
-            OnSourceData?.Invoke(data1, "Tuner 1");
+            // var data1 = _tuner1_properties.GetAll();
+            //data1.Add("frequency", GetFrequency(0, true).ToString());
 
+            var source_data = new OTSourceData();
+            source_data.frequency = GetFrequency(0, true);
+            source_data.video_number = 0;
+            source_data.mer = mer;
+            source_data.db_margin = dbmargin;
+            source_data.service_name = _tuner1_properties.GetValue("service_name");
+            source_data.symbol_rate = (int)(new_status.T1P2_symbol_rate / 1000);
 
+            if (_media_player.Count > 0)
+            {
+                if (_media_player[0] != null)
+                    source_data.volume = _media_player[0].GetVolume();
+            }
+            
+            source_data.demod_locked = (new_status.T1P2_demod_status >  1);
+
+            OnSourceData?.Invoke(0, source_data, "Tuner 1");
 
             if (ts_devices == 2 && _tuner2_properties != null)
             {
@@ -596,9 +611,25 @@ namespace opentuner.MediaSources.Minitiouner
                 //_tuner2_properties.UpdateValue("db_margin", db_margin_text);
                 _tuner2_properties.UpdateValue("modcod", modcod_text);
 
-                var data2 = _tuner2_properties.GetAll();
-                data2.Add("frequency", GetFrequency(1, true).ToString());
-                OnSourceData?.Invoke(data2, "Tuner 2");
+                //var data2 = _tuner2_properties.GetAll();
+                //data2.Add("frequency", GetFrequency(1, true).ToString());
+
+                var source_data_2 = new OTSourceData();
+                source_data_2.frequency = GetFrequency(1, true);
+                source_data_2.video_number = 1;
+                source_data_2.mer = mer;
+                source_data_2.db_margin = dbmargin;
+                source_data_2.service_name = _tuner2_properties.GetValue("service_name");
+                source_data_2.demod_locked = (new_status.T2P1_demod_status > 1);
+                source_data_2.symbol_rate = (int)(new_status.T2P1_symbol_rate / 1000);
+
+                if (_media_player.Count > 1)
+                {
+                    if (_media_player[1] != null)
+                        source_data_2.volume = _media_player[1].GetVolume();
+                }
+
+                OnSourceData?.Invoke(1, source_data_2, "Tuner 2");
 
             }
         }
@@ -833,8 +864,8 @@ namespace opentuner.MediaSources.Minitiouner
 
             switch (device)
             {
-                case 0: _tuner1_properties?.UpdateValue("volume_slider_" + device.ToString(), new_volume.ToString()); break;
-                case 1: _tuner2_properties?.UpdateValue("volume_slider_" + device.ToString(), new_volume.ToString()); break;
+                case 0: _tuner1_properties?.UpdateValue("volume_slider_" + (device + 1).ToString(), new_volume.ToString()); break;
+                case 1: _tuner2_properties?.UpdateValue("volume_slider_" + (device + 1).ToString(), new_volume.ToString()); break;
             }
         }
 
