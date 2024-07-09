@@ -33,7 +33,7 @@ namespace opentuner
                     FFmpegDevices = false,    // Prevents loading avdevice/avfilter dll files. Enable it only if you plan to use dshow/gdigrab etc.
                                               //LogLevel = LogLevel.Debug,
                                               //LogOutput = ":console",
-                                              //LogOutput = @"C:\temp\audio_flyleaf_test.log",
+                                              //LogOutput = @"C:\temp2\ffmpeg.log",
 
                     /*
                     UIRefresh = true,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true

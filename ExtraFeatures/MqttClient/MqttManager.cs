@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MQTTnet;
 using MQTTnet.Client;
+using opentuner.MediaSources;
 using opentuner.Utilities;
 using Serilog;
 
@@ -68,12 +69,14 @@ namespace opentuner.ExtraFeatures.MqttClient
             catch (Exception ex) { }
         }
 
-        public void SendProperties(Dictionary<string, string> Properties, string ChildTopic)
+        public void SendProperties(OTSourceData properties, string ChildTopic)
         {
-            foreach (var key in Properties.Keys)
-            {
-                SendMqttStatus(ChildTopic + "/" + key, Properties[key]);
-            }
+            SendMqttStatus(ChildTopic + "/demod_locked", properties.demod_locked.ToString());
+            SendMqttStatus(ChildTopic + "/frequency", properties.frequency.ToString());
+            SendMqttStatus(ChildTopic + "/symbol_rate", properties.symbol_rate.ToString());
+            SendMqttStatus(ChildTopic + "/service_name", properties.service_name.ToString());
+            SendMqttStatus(ChildTopic + "/mer", properties.mer.ToString());
+            SendMqttStatus(ChildTopic + "/db_margin", properties.db_margin.ToString());
         }
 
         public void SendMqttStatus(string topic, string value)

@@ -22,6 +22,7 @@ using opentuner.ExtraFeatures.MqttClient;
 using opentuner.ExtraFeatures.QuickTuneControl;
 
 using Serilog;
+using System.Runtime.CompilerServices;
 
 namespace opentuner
 {
@@ -186,47 +187,36 @@ namespace opentuner
 
         private void VideoSource_OnSourceData(int video_nr, OTSourceData properties, string description)
         {
-
-
             
             if (video_nr < info_display.Count && video_nr >= 0)
             {
                 if (info_display[video_nr] != null)
                     UpdateInfo(info_display[video_nr], properties);
-                
             }
             else
             {
                 Log.Error("info_display count does not fit video_nr");
             }
 
-            /*
+            
             if (batc_spectrum != null)
             {
-                if (Properties.ContainsKey("frequency") && Properties.ContainsKey("service_name") && Properties.ContainsKey("symbol_rate"))
-                {
-                    double freq = 0;
-                    float sr = 0;
-                    string callsign = Properties["service_name"];
+                float freq = properties.frequency;
+                float sr = properties.symbol_rate;
+                string callsign = properties.service_name;
 
-                    if (double.TryParse(Properties["frequency"], NumberStyles.Any, CultureInfo.InvariantCulture, out freq))
-                    {
-                        if (float.TryParse(Properties["symbol_rate"], NumberStyles.Any, CultureInfo.InvariantCulture, out sr))
-                        {
-                            freq = freq / 1000;
+                //Log.Information(callsign.ToString() + "," + freq.ToString() + "," + sr.ToString());
 
-                            batc_spectrum.updateSignalCallsign(callsign, freq, sr/1000);
-                        }
-                    }
-                }
+                batc_spectrum.updateSignalCallsign(callsign, freq/1000, sr/1000);
             }
 
+            
             if (mqtt_client != null)
             {
                 // send mqtt data
-                mqtt_client.SendProperties(Properties, videoSource.GetName() + "/" + topic);
+                mqtt_client.SendProperties(properties, videoSource.GetName() + "/" + description);
             }
-            */
+            
 
         }
 

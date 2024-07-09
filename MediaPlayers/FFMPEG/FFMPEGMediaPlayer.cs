@@ -214,7 +214,7 @@ namespace opentuner.MediaPlayers.FFMPEG
         public override int Read(byte[] buffer, int offset, int count)
         {
             //Log.Information("Buffer: Len: " + buffer.Length.ToString() + "," + offset.ToString() + "," + count.ToString());
-
+        
             while (ts_data_queue.Count< 100000)
             {
                 if (end == true)
@@ -261,10 +261,11 @@ namespace opentuner.MediaPlayers.FFMPEG
                         Log.Information("Warning: Trying to dequeue, but nothing available : ffmpeg: read : " + queue_count.ToString());
                     }
                 }
-
+                //Log.Information("Sent " + buildLen);
                 return buildLen;
             }
 
+            
             Log.Information("TS StreamInput: Shouldn't be here");
             return 0;
         }
