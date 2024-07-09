@@ -405,7 +405,7 @@ namespace opentuner
             {
                 // from Chris - DH3CS
                 string user = lbUsers.GetItemText(lbUsers.SelectedItem);
-                string result = null;
+
                 try
                 {
                     richChat.SelectionStart = 0;

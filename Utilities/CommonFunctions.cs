@@ -19,9 +19,6 @@ namespace opentuner.Utilities
         {
             List<string> detected_ips = new List<string>();
 
-
-            int ipCount = 0;
-
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)
             {

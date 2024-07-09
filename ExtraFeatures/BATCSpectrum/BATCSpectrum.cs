@@ -365,7 +365,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             tmp.DrawImage(bmp2, 0, 255 - bandplan_height); //bandplan
 
             y = 0;
-            int y_offset = 0; ;
 
             for (int tuner = 0; tuner < _tuners; tuner++)
             {
@@ -477,8 +476,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                         debug("Freq: " + freq.ToString());
                         debug("SR: " + sr.ToString());
-
-                        UInt32 lo = 0;
 
                         OnSignalSelected?.Invoke(rx, freq, sr);
 

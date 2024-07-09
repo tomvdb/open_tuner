@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using System.Net;
 using System.Net.Sockets;
 using Serilog;
-using System.Collections;
 using opentuner.Utilities;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -19,8 +12,6 @@ namespace opentuner.MediaSources.Winterhill
         UdpClient WH_Client = new UdpClient();
 
         UDPClient longmynd_status;
-
-        
 
         public void ConnectWinterhillUDP(int port)
         {

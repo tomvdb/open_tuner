@@ -121,35 +121,20 @@ namespace opentuner
 
                                 if (ts_pid == TS_PID_SDT)   // service description table
                                 {
-                                    //Log.Information("Payload Data: " + ts_payload_content_offset.ToString());
-
                                     int ts_payload_offset = ts_payload_content_offset + 1 + ts_packet[ts_payload_content_offset];
 
-                                    string hex_data = "";
-
-                                    //  temp debug
-                                    /*
-                                    int hex_count = 0;
-
-                                    for (int c = 0; c < ts_packet.Length;c++)
+                                    try
                                     {
-                                        hex_data += " " + ts_packet[c].ToString("X");
-                                        hex_count += 1;
-
-                                        if (hex_count > 10)
+                                        if (ts_packet[ts_payload_offset] != TS_TABLE_SDT)
                                         {
-                                            hex_count = 0;
-                                            hex_data += "\n";
+                                            continue;
                                         }
                                     }
-
-                                    Log.Information(hex_data);
-                                    */
-
-                                    if (ts_packet[ts_payload_offset] != TS_TABLE_SDT)
+                                    catch ( Exception Ex )
                                     {
-                                        continue;
+                                        Log.Warning("TS_TABLE_SDT Exception : " + Ex.Message);
                                     }
+
 
                                     UInt32 ts_payload_section_length = ((UInt32)(ts_packet[ts_payload_offset + 1] & 0x0F) << 8) | (UInt32)ts_packet[ts_payload_offset + 2];
 

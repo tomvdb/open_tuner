@@ -41,7 +41,6 @@ namespace opentuner.MediaSources.Longmynd
         Control _parent = null;
 
         private static DynamicPropertyGroup _tuner1_properties = null;
-        private static DynamicPropertyGroup _tuner2_properties = null;
         private static DynamicPropertyGroup _source_properties = null;
 
         // context menu strip
@@ -360,5 +359,32 @@ namespace opentuner.MediaSources.Longmynd
             _frequency_presets = FrequencyPresets;
         }
 
+        public override void UpdateVolume(int device, int volume)
+        {
+            if (_media_player == null)
+                return;
+
+            int new_volume = _media_player.GetVolume() + volume;
+
+            if (new_volume < 0) new_volume = 0;
+            if (new_volume > 200) new_volume = 200;
+
+            _media_player.SetVolume(new_volume);
+
+            _tuner1_properties?.UpdateValue("volume_slider_1", new_volume.ToString());
+        }
+
+        public override void ToggleMute(int device)
+        {
+
+        }
+
+        public override int GetVolume(int device)
+        {
+            if (_media_player == null)
+                return -1;
+
+            return _media_player.GetVolume();
+        }
     }
 }

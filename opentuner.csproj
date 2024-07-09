@@ -70,17 +70,17 @@
     <Reference Include="FFmpeg.AutoGen, Version=6.0.0.0, Culture=neutral, PublicKeyToken=9b7632533a381715, processorArchitecture=MSIL">
       <HintPath>packages\FFmpeg.AutoGen.6.0.0\lib\netstandard2.0\FFmpeg.AutoGen.dll</HintPath>
     </Reference>
-    <Reference Include="FlyleafLib, Version=3.7.44.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\FlyleafLib.3.7.44\lib\net472\FlyleafLib.dll</HintPath>
+    <Reference Include="FlyleafLib, Version=3.7.50.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\FlyleafLib.3.7.50\lib\net472\FlyleafLib.dll</HintPath>
     </Reference>
     <Reference Include="FTD2XX_NET">
       <HintPath>.\FTD2XX_NET.dll</HintPath>
     </Reference>
-    <Reference Include="LibVLCSharp, Version=3.8.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\LibVLCSharp.3.8.2\lib\net471\LibVLCSharp.dll</HintPath>
+    <Reference Include="LibVLCSharp, Version=3.8.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\LibVLCSharp.3.8.5\lib\net471\LibVLCSharp.dll</HintPath>
     </Reference>
-    <Reference Include="LibVLCSharp.WinForms, Version=3.8.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\LibVLCSharp.WinForms.3.8.2\lib\net40\LibVLCSharp.WinForms.dll</HintPath>
+    <Reference Include="LibVLCSharp.WinForms, Version=3.8.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\LibVLCSharp.WinForms.3.8.5\lib\net40\LibVLCSharp.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -429,6 +429,9 @@
     </Compile>
     <Compile Include="ExtraFeatures\BATCWebchat\wbchat.Designer.cs">
       <DependentUpon>wbchat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\VolumeInfoContainer.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="WebsocketServer.cs" />
     <EmbeddedResource Include="EditExternalToolForm.resx">

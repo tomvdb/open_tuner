@@ -37,7 +37,7 @@ namespace opentuner
     delegate void UpdateLabelDelegate(Label LB, Object obj);
     delegate void updateRecordingStatusDelegate(MainForm gui, bool recording_status, string id);
 
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IMessageFilter
     {
         // extras
         MqttManager mqtt_client;
@@ -53,19 +53,8 @@ namespace opentuner
 
         private static OTSource videoSource;
 
-        // mqtt settings
-        string setting_mqtt_broker_host = "127.0.0.1";
-        int setting_mqtt_broker_port = 1883;
-        string setting_mqtt_parent_topic = "";
-
-        // f5oeoe firmware pluto
-        bool setting_enable_pluto = false;
-
         private TunerControlForm tuner1ControlForm;
         private TunerControlForm tuner2ControlForm;
-
-        private VideoViewForm mediaPlayer1Window;
-        private VideoViewForm mediaPlayer2Window;
 
         private MainSettings _settings;
         private SettingsManager<MainSettings> _settingsManager;
@@ -75,6 +64,8 @@ namespace opentuner
         List<StoredFrequency> stored_frequencies = new List<StoredFrequency>();
         List<ExternalTool> external_tools = new List<ExternalTool>();
 
+        List<VolumeInfoContainer> volume_display = new List<VolumeInfoContainer>();
+
 
         public MainForm()
         {
@@ -82,6 +73,8 @@ namespace opentuner
             ThreadPool.SetMinThreads(workers + 6, ports + 6);
 
             InitializeComponent();
+
+            Application.AddMessageFilter(this);
 
             _settings = new MainSettings();
             _settingsManager = new SettingsManager<MainSettings>("open_tuner_settings");
@@ -279,6 +272,9 @@ namespace opentuner
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Log.Information("Exiting...");
+
+            Application.RemoveMessageFilter(this);
+
             Log.Information("* Saving Settings");
 
             // save current windows properties
@@ -350,6 +346,8 @@ namespace opentuner
                 // we are closing, we don't really care about exceptions at this point
                 Log.Error( Ex, "Closing Exception");
             }
+
+
 
             Log.Information("Bye!");
 
@@ -742,13 +740,23 @@ namespace opentuner
 
         private OTMediaPlayer ConfigureVideoPlayer(int nr, int preference, bool seperate_window)
         {
-            OTMediaPlayer player;
+            OTMediaPlayer player = null;
+
+            VolumeInfoContainer video_volume_display = null;
+
             switch (preference)
             {
                 case 0: // vlc
                     Log.Information(nr.ToString() + " - " + "VLC");
                     var vlc_video_player = new LibVLCSharp.WinForms.VideoView();
                     vlc_video_player.Dock = DockStyle.Fill;
+                    vlc_video_player.MouseDoubleClick += video_player_MouseDoubleClick;
+                    vlc_video_player.MouseWheel += video_player_MouseWheel;
+                    vlc_video_player.Tag = nr;
+
+                    video_volume_display = new VolumeInfoContainer((Control)vlc_video_player);
+                    video_volume_display.Tag = nr;
+                    
 
                     if (seperate_window)
                     {
@@ -756,17 +764,24 @@ namespace opentuner
                     }
                     else
                     {
+                        videoPanels[nr].Controls.Add(video_volume_display);
                         videoPanels[nr].Controls.Add(vlc_video_player);
                     }
 
                     player = new VLCMediaPlayer(vlc_video_player);
                     player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
-                    return player;
+                    break;
                     
                 case 1: // ffmpeg
                     Log.Information(nr.ToString() + " - " + "FFMPEG");
                     var ffmpeg_video_player = new FlyleafLib.Controls.WinForms.FlyleafHost();
                     ffmpeg_video_player.Dock = DockStyle.Fill;
+                    ffmpeg_video_player.MouseDoubleClick += video_player_MouseDoubleClick;
+                    ffmpeg_video_player.MouseWheel += video_player_MouseWheel;
+                    ffmpeg_video_player.Tag = nr;
+
+                    video_volume_display = new VolumeInfoContainer((Control)ffmpeg_video_player);
+                    video_volume_display.Tag = nr;
 
                     if (seperate_window)
                     {
@@ -774,17 +789,25 @@ namespace opentuner
                     }
                     else
                     {
+                        videoPanels[nr].Controls.Add(video_volume_display);
                         videoPanels[nr].Controls.Add(ffmpeg_video_player);
                     }
                     
                     player = new FFMPEGMediaPlayer(ffmpeg_video_player);
                     player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
-                    return player;
+                    break;
 
                 case 2: // mpv
                     Log.Information(nr.ToString() + " - " + "MPV");
                     var mpv_video_player = new PictureBox();
                     mpv_video_player.Dock = DockStyle.Fill;
+                    mpv_video_player.MouseDoubleClick += video_player_MouseDoubleClick;
+                    mpv_video_player.MouseWheel += video_player_MouseWheel;
+                    mpv_video_player.Tag = nr;
+
+                    video_volume_display = new VolumeInfoContainer((Control)mpv_video_player);
+                    video_volume_display.Tag = nr;
+
 
                     if (seperate_window)
                     {
@@ -792,15 +815,47 @@ namespace opentuner
                     }
                     else
                     {
+                        videoPanels[nr].Controls.Add(video_volume_display);
                         videoPanels[nr].Controls.Add(mpv_video_player);
                     }
                     
                     player = new MPVMediaPlayer(mpv_video_player.Handle.ToInt64());
                     player.Initialize(videoSource.GetVideoDataQueue(nr), nr);
-                    return player;
+                    break;
             }
 
-            return null;
+
+            if (video_volume_display != null)
+                this.volume_display.Add(video_volume_display);
+
+            return player;
+        }
+
+        private void video_player_MouseWheel(object sender, MouseEventArgs e)
+        {
+            int wheel_volume_rate = 10;  // todo, maybe turn this into a setting
+
+            int video_nr = (int)((Control)sender).Tag;
+
+            if (e.Delta < 0)
+            {
+                videoSource.UpdateVolume(video_nr, -1 * wheel_volume_rate);
+            }
+            if (e.Delta > 0)
+            {
+                videoSource.UpdateVolume(video_nr, wheel_volume_rate);
+            }
+
+            if (volume_display.Count > video_nr)
+            {
+                volume_display[video_nr].UpdateVolume(videoSource.GetVolume(video_nr));
+            }
+
+        }
+
+        private void video_player_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Log.Information("Double Clicked on " + ((Control)sender).Tag);
         }
 
         // configure TS recorders
@@ -1092,6 +1147,35 @@ namespace opentuner
             {
                 videoSource.UpdateFrequencyPresets(stored_frequencies);
             }
+        }
+
+        bool PropertiesHidden = false;
+
+        private void TogglePropertiesPanel(bool hide)
+        {
+            if (hide)
+            {
+                splitContainer1.Panel1.Hide();
+                splitContainer1.Panel1Collapsed = true;
+                PropertiesHidden = true;
+            }
+            else
+            {
+                splitContainer1.Panel1.Show();
+                splitContainer1.Panel1Collapsed = false;
+                PropertiesHidden = false;
+            }
+        }
+
+        public bool PreFilterMessage(ref Message m)
+        {
+            if (m.Msg == 0X0100 && (Keys)m.WParam.ToInt32() == Keys.P && ModifierKeys == Keys.Control)
+            {
+                TogglePropertiesPanel(!PropertiesHidden);
+                return true;
+            }
+
+            return false;
         }
     }
 

@@ -28,12 +28,6 @@ namespace opentuner.MediaPlayers.MPV
         private MyStreamCbReadFn readfn;
         private MyStreamCbCloseFn closefn;
 
-
-        private string _videoPlayerId = "";
-        private string _videoPlayerTitle = "";
-
-        Int64 counter = 0;
-
         private CircularBuffer _videoBuffer;
 
         bool stopFlag = false;
@@ -320,7 +314,6 @@ namespace opentuner.MediaPlayers.MPV
 
         public override void Play()
         {
-            counter = 0;
             ts_sync = false;
             stopFlag = false;
 

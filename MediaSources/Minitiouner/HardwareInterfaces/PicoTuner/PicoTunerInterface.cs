@@ -570,7 +570,6 @@ namespace opentuner
         // get a list of all detected ft2232 devices
         public List<FTDIDevice> detect_all_ftdi()
         {
-            uint device_count = 0;
             List<FTDIDevice> ftdi_devices = new List<FTDIDevice>();
             /*
 
@@ -649,7 +648,6 @@ namespace opentuner
         public override byte hw_init(uint i2c_device, uint ts_device, uint ts_device2)
         {
             byte err = 0;
-            uint devcount = 0;
 
 
             UsbContext usbContext = new UsbContext();

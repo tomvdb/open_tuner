@@ -678,7 +678,7 @@ namespace opentuner.MediaSources.Winterhill
             data.Add("dbMargin", last_dbm[device]);
             data.Add("Mer", last_mer[device]);
             data.Add("SR", _current_sr[device].ToString());
-            data.Add("Frequency", ((float)(_current_frequency[device] + _settings.Offset[device])/1000.0f).ToString("F", nfi));
+            data.Add("Frequency", ((float)(_current_frequency[device] + _current_offset[device])/1000.0f).ToString("F", nfi));
 
             return data;
         }
@@ -688,5 +688,43 @@ namespace opentuner.MediaSources.Winterhill
             _frequency_presets = FrequencyPresets;
         }
 
+        public override void UpdateVolume(int device, int volume)
+        {
+            if (device >= _media_player.Count() || device < 0)
+                return;
+
+            if (_media_player[device] == null)
+                return;
+
+            int new_volume = _media_player[device].GetVolume() + volume;
+
+            if (new_volume < 0) new_volume = 0;
+            if (new_volume > 200) new_volume = 200;
+            
+            _media_player[device].SetVolume(new_volume);
+
+            if (device >= _tuner_properties.Count())
+                return;
+
+            if (_tuner_properties[device] == null)
+                return;
+
+            _tuner_properties[device].UpdateValue("volume_slider_" + device.ToString(), new_volume.ToString());
+        }
+
+        public override void ToggleMute(int device)
+        {
+        }
+
+        public override int GetVolume(int device)
+        {
+            if (device >= _media_player.Count() || device < 0)
+                return -1;
+
+            if (_media_player[device] == null)
+                return -1;
+
+            return _media_player[device].GetVolume();
+        }
     }
 }

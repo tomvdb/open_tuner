@@ -29,7 +29,6 @@ namespace opentuner.MediaPlayers.FFMPEG
 
         MediaStream media_stream;
 
-        int counter = 0;
         CircularBuffer ts_data_queue;
 
         int _id = 0;

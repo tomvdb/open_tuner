@@ -98,13 +98,11 @@ namespace opentuner
 
                 // set up the common clock for both tuners (note rdiv is a global) 
 
+                rdiv = 0;
+
                 if (nim.NIM_TUNER_XTAL >= STV6120_RDIV_THRESHOLD)
                 {
                     rdiv = 1;       // from the data sheet
-                }
-                else
-                {
-                    rdiv = 0;
                 }
 
                 if (err == 0)
