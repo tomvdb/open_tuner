@@ -501,7 +501,7 @@ namespace opentuner
                     Log.Information(nr.ToString() + " - " + "VLC");
                     var vlc_video_player = new LibVLCSharp.WinForms.VideoView();
                     vlc_video_player.Dock = DockStyle.Fill;
-                    vlc_video_player.MouseDoubleClick += video_player_MouseDoubleClick;
+                    vlc_video_player.MouseClick += video_player_MouseClick;
                     vlc_video_player.MouseWheel += video_player_MouseWheel;
                     vlc_video_player.Tag = nr;
 
@@ -525,7 +525,7 @@ namespace opentuner
                     Log.Information(nr.ToString() + " - " + "FFMPEG");
                     var ffmpeg_video_player = new FlyleafLib.Controls.WinForms.FlyleafHost();
                     ffmpeg_video_player.Dock = DockStyle.Fill;
-                    ffmpeg_video_player.MouseDoubleClick += video_player_MouseDoubleClick;
+                    ffmpeg_video_player.MouseClick += video_player_MouseClick;
                     ffmpeg_video_player.MouseWheel += video_player_MouseWheel;
                     ffmpeg_video_player.Tag = nr;
 
@@ -549,7 +549,7 @@ namespace opentuner
                     Log.Information(nr.ToString() + " - " + "MPV");
                     var mpv_video_player = new PictureBox();
                     mpv_video_player.Dock = DockStyle.Fill;
-                    mpv_video_player.MouseDoubleClick += video_player_MouseDoubleClick;
+                    mpv_video_player.MouseClick += video_player_MouseClick;
                     mpv_video_player.MouseWheel += video_player_MouseWheel;
                     mpv_video_player.Tag = nr;
 
@@ -602,7 +602,7 @@ namespace opentuner
             }
         }
 
-        private void video_player_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void video_player_MouseClick(object sender, MouseEventArgs e)
         {
             int video_nr = (int)((Control)sender).Tag;
 
