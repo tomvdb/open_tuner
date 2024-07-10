@@ -9,5 +9,6 @@ namespace opentuner
     public static class GlobalDefines
     {
         public const int CircularBufferStartingCapacity = 250000;
+        public const string Version = "0.B";
     }
 }

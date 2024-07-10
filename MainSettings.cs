@@ -14,6 +14,7 @@ namespace opentuner
         public bool enable_chatform_checkbox = true;
         public bool enable_mqtt_checkbox = true;
         public bool enable_quicktune_checkbox = true;
+        public bool enable_datvreporter_checkbox = false;
 
         // future
         public bool enable_pluto_checkbox = false;

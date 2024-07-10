@@ -44,6 +44,8 @@
             this.linkOpenTunerUpdates = new System.Windows.Forms.Label();
             this.linkDocumentation = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.linkDATVReporterSettings = new System.Windows.Forms.Label();
+            this.checkDATVReporter = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.linkQuickTuneSettings = new System.Windows.Forms.Label();
@@ -239,6 +241,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.linkDATVReporterSettings);
+            this.groupBox2.Controls.Add(this.checkDATVReporter);
             this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.linkQuickTuneSettings);
@@ -256,6 +260,20 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // linkDATVReporterSettings
+            // 
+            resources.ApplyResources(this.linkDATVReporterSettings, "linkDATVReporterSettings");
+            this.linkDATVReporterSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkDATVReporterSettings.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkDATVReporterSettings.Name = "linkDATVReporterSettings";
+            this.linkDATVReporterSettings.Click += new System.EventHandler(this.linkDATVReporterSettings_Click);
+            // 
+            // checkDATVReporter
+            // 
+            resources.ApplyResources(this.checkDATVReporter, "checkDATVReporter");
+            this.checkDATVReporter.Name = "checkDATVReporter";
+            this.checkDATVReporter.UseVisualStyleBackColor = true;
             // 
             // checkBox2
             // 
@@ -742,6 +760,8 @@
         private System.Windows.Forms.ToolStripMenuItem menuManageFrequencyPresets;
         private System.Windows.Forms.ToolStripMenuItem toolstripConnectToggle;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.Label linkDATVReporterSettings;
+        private System.Windows.Forms.CheckBox checkDATVReporter;
     }
 }
 

@@ -20,6 +20,7 @@ using opentuner.ExtraFeatures.BATCSpectrum;
 using opentuner.ExtraFeatures.BATCWebchat;
 using opentuner.ExtraFeatures.MqttClient;
 using opentuner.ExtraFeatures.QuickTuneControl;
+using opentuner.ExtraFeatures.DATVReporter;
 
 using Serilog;
 using System.Runtime.CompilerServices;
@@ -43,6 +44,7 @@ namespace opentuner
         BATCSpectrum batc_spectrum;
         BATCChat batc_chat;
         QuickTuneControl quickTune_control;
+        DATVReporter datv_reporter = new DATVReporter();
 
         private static List<OTMediaPlayer> _mediaPlayers;
         private static List<OTSource> _availableSources = new List<OTSource>();
@@ -111,6 +113,7 @@ namespace opentuner
             checkBatcChat.Checked = _settings.enable_chatform_checkbox;
             checkMqttClient.Checked = _settings.enable_mqtt_checkbox;
             checkQuicktune.Checked = _settings.enable_quicktune_checkbox;
+            checkDATVReporter.Checked = _settings.enable_datvreporter_checkbox;
 
             // load available sources
             _availableSources.Add(new MinitiounerSource());
@@ -131,6 +134,9 @@ namespace opentuner
             // load stored presets
             frequenciesManager = new SettingsManager<List<StoredFrequency>>("frequency_presets");
             stored_frequencies = frequenciesManager.LoadSettings(stored_frequencies);
+
+
+            Text = "Open Tuner (ZR6TG) - Version " + GlobalDefines.Version + " - " + opentuner.Properties.Resources.BuildDate;
         }
 
         /// <summary>
@@ -192,7 +198,20 @@ namespace opentuner
                 Log.Error("info_display count does not fit video_nr");
             }
 
-            
+            if (datv_reporter != null)
+            {
+                if (properties.demod_locked)
+                {
+                    datv_reporter.SendISawMessage(new ISawMessage(
+                        properties.service_name,
+                        properties.db_margin,
+                        properties.mer,
+                        properties.frequency,
+                        properties.symbol_rate
+                        ));
+                }
+            }
+
             if (batc_spectrum != null)
             {
                 float freq = properties.frequency;
@@ -331,6 +350,9 @@ namespace opentuner
 
                 if (quickTune_control != null)
                     quickTune_control.Close();
+
+                if (datv_reporter != null)
+                    datv_reporter.Close();
 
                 Log.Information("* Stopping Playing Video");
 
@@ -730,10 +752,19 @@ namespace opentuner
                 mqtt_client = new MqttManager();
             }
 
+            if (checkDATVReporter.Checked)
+            {
+                if (!datv_reporter.Connect())
+                {
+                    Log.Error("DATV Reporter can't connect - check your settings");
+                }
+            }
+
             if (_settings.mute_at_startup)
             {
                 _availableSources[comboAvailableSources.SelectedIndex].OverrideDefaultMuted(_settings.mute_at_startup);
             }
+
 
             splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
 
@@ -945,6 +976,11 @@ namespace opentuner
             {
                 source_connected = ConnectSelectedSource();
             }
+        }
+
+        private void linkDATVReporterSettings_Click(object sender, EventArgs e)
+        {
+            datv_reporter.ShowSettings();
         }
     }
 
