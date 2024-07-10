@@ -35,8 +35,6 @@ namespace opentuner
 
     delegate void UpdateInfoDelegate(StreamInfoContainer info_object, OTSourceData info);
 
-
-
     public partial class MainForm : Form, IMessageFilter
     {
         // extras
@@ -64,15 +62,11 @@ namespace opentuner
         List<VolumeInfoContainer> volume_display = new List<VolumeInfoContainer>();
         List<StreamInfoContainer> info_display = new List<StreamInfoContainer>();
 
-
-
         private bool source_connected = false;
 
         SplitterPanel[] video_panels = new SplitterPanel[4];
 
         bool properties_hidden = false;
-
-
 
         public void UpdateInfo(StreamInfoContainer info_object, OTSourceData info)
         {

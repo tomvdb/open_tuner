@@ -53,7 +53,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         List<string> blocks = new List<string>();
 
-        socket sock;
+        socket web_socket;
         signal sigs;
 
         int num_rxs_to_scan = 1;
@@ -65,6 +65,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Timer websocketTimer;
 
         private int _autoTuneMode = 0;
+
+        int connect_retries = 5;
+        int connect_retry_count = 0;
 
         public void updateSignalCallsign(string callsign, double freq, float sr)
         {
@@ -108,18 +111,19 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 MessageBox.Show(ex.Message);
             }
 
-            sock = new socket();
-            sigs = new signal(list_lock);
-            sock.callback += drawspectrum;
-            sigs.debug += debug;
-            //string title = this.Text;
-            sock.start();
-            //this.Text = title;
+            web_socket = new socket();
 
+            sigs = new signal(list_lock);
+            web_socket.callback += drawspectrum;
+            web_socket.ConnectionStatusChanged += Web_socket_ConnectionStatusChanged;
+            sigs.debug += debug;
+
+            // try to connect
+            web_socket.start();
 
             sigs.set_num_rx_scan(num_rxs_to_scan);
             sigs.set_num_rx(1);
-            //sigs.set_avoidbeacon(avoidBeacon);
+
             sigs.set_avoidbeacon(true);
 
             SpectrumTuneTimer = new Timer();
@@ -128,10 +132,44 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
 
             websocketTimer = new Timer();
-            websocketTimer.Enabled = true;
             websocketTimer.Interval = 2000;
             websocketTimer.Tick += new System.EventHandler(this.websocketTimer_Tick);
+            websocketTimer.Enabled = true;
 
+            draw_disconnect();
+        }
+
+        private void draw_disconnect()
+        {
+            tmp.Clear(Color.Black);
+            tmp.DrawString("FFT Service Disconnected", new Font("Tahoma", 10), Brushes.Red, new PointF(10, 10));
+
+            if (connect_retry_count < connect_retries)
+            {
+                tmp.DrawString("Retrying ...." + connect_retry_count.ToString() + "/" + connect_retries.ToString(), new Font("Tahoma", 10), Brushes.Red, new PointF(10, 30));
+            }
+            else
+            {
+                tmp.DrawString("", new Font("Tahoma", 10), Brushes.Red, new PointF(10, 30));
+            }
+            UpdateDrawing();
+        }
+
+        private void Web_socket_ConnectionStatusChanged(object sender, bool connection_status)
+        {
+            if (connection_status)  // we are connected
+            {
+                // reset retry count
+                connect_retry_count = 0;
+                
+            }
+            else
+            {
+                // if we lost connection then disable autotune
+                _autoTuneMode = 0;
+                SpectrumTuneTimer.Enabled = false;
+            }
+            
         }
 
         public void Close()
@@ -143,25 +181,33 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             SpectrumTuneTimer?.Dispose();
             
             // stop socket
-            sock?.stop();
+            web_socket?.stop();
         }
 
         private void websocketTimer_Tick(object sender, EventArgs e)
         {
-            if (sock != null)
+            if (web_socket != null)
             {
-                TimeSpan t = DateTime.Now - sock.lastdata;
+
+                TimeSpan t = DateTime.Now - web_socket.lastdata;
 
                 if (t.Seconds > 2)
                 {
-                    debug("FFT Websocket Timeout, Disconnected");
-                    sock.stop();
+                    web_socket.stop();
                 }
 
-                if (!sock.connected)
+                if (!web_socket.connected)
                 {
-                    sock.start();
+                    draw_disconnect();
+                    connect_retry_count += 1;
+
+                    if (connect_retry_count < connect_retries)
+                    {
+                        debug("Websocket Not Connected: Retrying " + connect_retry_count.ToString() + "/" + connect_retries.ToString());
+                        web_socket.start();
+                    }
                 }
+
             }
         }
 
@@ -209,7 +255,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             spectrumTunerHighlight = -1;
         }
-
 
         private void spectrum_SizeChanged(object sender, EventArgs e)
         {
@@ -309,6 +354,12 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (25)), (255 - Convert.ToSingle(s.fft_strength + 50))));
                 }
             }
+
+            UpdateDrawing();
+        }
+
+        private void UpdateDrawing()
+        {
             try
             {
                 _spectrum.Parent?.Invoke(new MethodInvoker(delegate () { _spectrum.Image = bmp; _spectrum.Update(); }));
@@ -317,6 +368,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
 
             }
+
         }
 
         private void drawspectrum(UInt16[] fft_data)

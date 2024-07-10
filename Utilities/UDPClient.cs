@@ -31,7 +31,6 @@ namespace opentuner.Utilities
         }
 
 
-
         public UDPClient(int port)
         {
             this.port = port;
