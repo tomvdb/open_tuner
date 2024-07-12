@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Drawing.Printing;
 using Serilog;
 using opentuner.Utilities;
+using System.Timers;
 
 namespace opentuner.ExtraFeatures.DATVReporter
 {
@@ -18,7 +19,6 @@ namespace opentuner.ExtraFeatures.DATVReporter
         private DATVReporterSettings _datv_reporter_settings;
         private SettingsManager<DATVReporterSettings> _settings_manager;
 
-
         private WebSocket _websocket;
 
         public bool Connected = false;
@@ -27,9 +27,11 @@ namespace opentuner.ExtraFeatures.DATVReporter
         private TimeSpan _last_callsign_threshold = TimeSpan.FromSeconds(30);
         private DateTime _last_callsign_timestamp = DateTime.MinValue;
 
-        private TimeSpan _last_send_threshold = TimeSpan.FromSeconds(5);
+        private TimeSpan _last_send_threshold = TimeSpan.FromSeconds(10);
         private DateTime _last_send_timestamp = DateTime.MinValue;
-        
+
+        private static Timer _timer;
+
         public void ShowSettings()
         {
             _settings_form = new DATVReporterSettingsForm();
@@ -79,6 +81,19 @@ namespace opentuner.ExtraFeatures.DATVReporter
             _settings_manager = new SettingsManager<DATVReporterSettings>("datvreporter_settings");
             _datv_reporter_settings = (_settings_manager.LoadSettings(_datv_reporter_settings));
 
+            _timer = new Timer(10000);
+
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = false;
+        }
+
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if ( !Connected )
+            {
+                Log.Warning("DATV Reporter : Attempt Reconnect");
+                Connect();
+            }
         }
 
         private void Debug(string msg)
@@ -113,6 +128,8 @@ namespace opentuner.ExtraFeatures.DATVReporter
                 Debug("Connecting: " + url);
 
                 _websocket = new WebSocket(url);
+                // _websocket.Log.Level = LogLevel.Trace;
+                _websocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
                 _websocket.OnClose += _websocket_OnClose;
                 _websocket.OnMessage += _websocket_OnMessage;
                 _websocket.OnOpen += _websocket_OnOpen;
@@ -183,6 +200,7 @@ namespace opentuner.ExtraFeatures.DATVReporter
         {
             Debug("Connected ");
             Connected = true;
+            _timer.Enabled = true; // stay alive timer, only start when connected properly first time
         }
 
         private void _websocket_OnMessage(object sender, MessageEventArgs e)
@@ -192,6 +210,7 @@ namespace opentuner.ExtraFeatures.DATVReporter
 
         private void _websocket_OnClose(object sender, CloseEventArgs e)
         {
+            Log.Warning("DATV Reporter Disconnected");
             Connected = false;
         }
     }

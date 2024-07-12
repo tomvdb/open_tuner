@@ -626,20 +626,25 @@ namespace opentuner.MediaSources.Winterhill
                     _tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
                     _tuner_properties[c].UpdateBigLabel(rx.dbmargin.ToString());
 
-                    //var data = _tuner_properties[c].GetAll();
+                    //Log.Information("(S)ROLF Test: " + rx.mer);
+                    //Log.Information("(D)ROLF Test: " + Convert.ToDouble(rx.mer).ToString());
 
+                    CultureInfo specific_culture = CultureInfo.CreateSpecificCulture("en-US");
 
                     var source_data = new OTSourceData();
                     source_data.frequency = GetFrequency(c, true);
-                    source_data.video_number = 1;
+                    source_data.video_number = c;
                     double mer_d = 0.0;
-                    double.TryParse(rx.mer, out mer_d);
+                    double.TryParse(rx.mer, NumberStyles.Number, CultureInfo.InvariantCulture, out mer_d);
                     source_data.mer = mer_d;
+
+                    //Log.Information(" * ROLF Test: " + (mer_d).ToString());
+
                     double db_margin_d = 0.0;
-                    double.TryParse(rx.dbmargin, out db_margin_d);
+                    double.TryParse(rx.dbmargin, NumberStyles.Number, CultureInfo.InvariantCulture, out db_margin_d);
                     source_data.db_margin = db_margin_d;
                     int symbol_rate_i = 0;
-                    int.TryParse(rx.symbol_rate, out symbol_rate_i);
+                    int.TryParse(rx.symbol_rate, NumberStyles.Number, CultureInfo.InvariantCulture, out symbol_rate_i);
                     source_data.symbol_rate = symbol_rate_i;
                     source_data.demod_locked = (rx.scanstate == 2 || rx.scanstate == 3);
                     source_data.service_name = rx.service_name;

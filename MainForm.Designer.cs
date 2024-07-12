@@ -274,6 +274,7 @@
             resources.ApplyResources(this.checkDATVReporter, "checkDATVReporter");
             this.checkDATVReporter.Name = "checkDATVReporter";
             this.checkDATVReporter.UseVisualStyleBackColor = true;
+            this.checkDATVReporter.CheckedChanged += new System.EventHandler(this.checkDATVReporter_CheckedChanged);
             // 
             // checkBox2
             // 

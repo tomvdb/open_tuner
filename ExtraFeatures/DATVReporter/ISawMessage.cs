@@ -18,8 +18,9 @@ namespace opentuner.ExtraFeatures.DATVReporter
         public double mer;
         public long frequency;
         public int symbol_rate;
+        public string hardware;
 
-        public ISawMessage(string callsign, double db_margin, double mer, long frequency, int symbol_rate)
+        public ISawMessage(string callsign, double db_margin, double mer, long frequency, int symbol_rate, string hardware)
         {
             this.target_callsign = callsign;
             this.observed_time = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
@@ -27,6 +28,7 @@ namespace opentuner.ExtraFeatures.DATVReporter
             this.mer = mer;
             this.frequency = frequency;
             this.symbol_rate = symbol_rate;
+            this.hardware = hardware;
         }
     }
 }

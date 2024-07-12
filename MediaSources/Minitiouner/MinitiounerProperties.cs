@@ -617,7 +617,7 @@ namespace opentuner.MediaSources.Minitiouner
                 var source_data_2 = new OTSourceData();
                 source_data_2.frequency = GetFrequency(1, true);
                 source_data_2.video_number = 1;
-                source_data_2.mer = mer;
+                source_data_2.mer = mer2;
                 source_data_2.db_margin = dbmargin;
                 source_data_2.service_name = _tuner2_properties.GetValue("service_name");
                 source_data_2.demod_locked = (new_status.T2P1_demod_status > 1);

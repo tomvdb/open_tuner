@@ -130,13 +130,11 @@ namespace opentuner
             comboAvailableSources.SelectedIndex = _settings.default_source;
             sourceInfo.Text = _availableSources[_settings.default_source].GetDescription();
 
-
             // load stored presets
             frequenciesManager = new SettingsManager<List<StoredFrequency>>("frequency_presets");
             stored_frequencies = frequenciesManager.LoadSettings(stored_frequencies);
 
-
-            Text = "Open Tuner (ZR6TG) - Version " + GlobalDefines.Version + " - " + opentuner.Properties.Resources.BuildDate;
+            Text = "Open Tuner (ZR6TG) - Version " + GlobalDefines.Version + " - Build: " + opentuner.Properties.Resources.BuildDate;
         }
 
         /// <summary>
@@ -202,13 +200,24 @@ namespace opentuner
             {
                 if (properties.demod_locked)
                 {
-                    datv_reporter.SendISawMessage(new ISawMessage(
+                    bool result = datv_reporter.SendISawMessage(new ISawMessage(
                         properties.service_name,
                         properties.db_margin,
                         properties.mer,
                         properties.frequency,
-                        properties.symbol_rate
+                        properties.symbol_rate,
+                        videoSource.GetDeviceName()
                         ));
+
+                    /*
+                    if (!result)
+                    {
+                        if (!datv_reporter.Connected)
+                        {
+                            datv_reporter.Connect();
+                        }
+                    }
+                    */
                 }
             }
 
@@ -981,6 +990,11 @@ namespace opentuner
         private void linkDATVReporterSettings_Click(object sender, EventArgs e)
         {
             datv_reporter.ShowSettings();
+        }
+
+        private void checkDATVReporter_CheckedChanged(object sender, EventArgs e)
+        {
+            _settings.enable_datvreporter_checkbox = checkDATVReporter.Checked;
         }
     }
 
