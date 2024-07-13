@@ -68,7 +68,7 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].AddItem("frequency", "Frequency" ,_genericContextStrip);
                 _tuner_properties[c].AddItem("offset", "Freq Offset", _genericContextStrip);
                 _tuner_properties[c].AddItem("nim_frequency", "Nim Frequency");
-                _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate / Modcod", _genericContextStrip);
+                _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate", _genericContextStrip);
                 _tuner_properties[c].AddItem("modcod", "Modcod");
                 _tuner_properties[c].AddItem("service_name", "Service Name");
                 _tuner_properties[c].AddItem("service_name_provider", "Service Name Provider");
@@ -542,6 +542,8 @@ namespace opentuner.MediaSources.Winterhill
                         }
                         else
                         {
+                            _tuner_properties[c].UpdateBigLabel("");
+
                             Log.Information("Stopping " + c.ToString() + " - " + rx.scanstate.ToString());
 
                             VideoChangeCB?.Invoke(c + 1, false);
@@ -557,6 +559,8 @@ namespace opentuner.MediaSources.Winterhill
                                 _streamer[c].stream = false;
                                 _tuner_properties[c].UpdateStreamButtonColor("media_controls_" + c.ToString(), Color.Transparent);
                             }
+
+
                         }
 
                         demodstate[c] = rx.scanstate;
@@ -637,7 +641,7 @@ namespace opentuner.MediaSources.Winterhill
                     }
 
                     _tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
-                    _tuner_properties[c].UpdateBigLabel(rx.dbmargin.ToString());
+                    _tuner_properties[c].UpdateBigLabel("D" + rx.dbmargin.ToString());
 
                     //Log.Information("(S)ROLF Test: " + rx.mer);
                     //Log.Information("(D)ROLF Test: " + Convert.ToDouble(rx.mer).ToString());

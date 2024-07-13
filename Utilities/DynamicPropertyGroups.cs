@@ -19,7 +19,7 @@ namespace opentuner.Utilities
     public class DynamicPropertyGroup
     {
 
-        private delegate void UpdateTitleDelegate(CollapsibleGroupBox group_box, Object obj);
+        private delegate void UpdateTitleDelegate(CustomGroupBox group_box, Object obj);
         public delegate void SliderChanged(string key, int value);
 
 
@@ -27,7 +27,7 @@ namespace opentuner.Utilities
         private Label _big_num_label;
 
         //private GroupBox _groupBox;
-        private CollapsibleGroupBox _groupBox;
+        private CustomGroupBox _groupBox;
         private List<DynamicPropertyInterface> _items = new List<DynamicPropertyInterface>();
 
         public event SliderChanged OnSlidersChanged;
@@ -52,13 +52,14 @@ namespace opentuner.Utilities
 
 
             // groupbox
-            _groupBox = new CollapsibleGroupBox();
+            _groupBox = new CustomGroupBox();
             _groupBox.Dock = DockStyle.Top;
             _groupBox.AutoSize = true; 
             _groupBox.Text = GroupTitle;
             _groupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
 
+            /*
             // main number - d number value
             _big_num_label = new Label();
             _big_num_label.Text = "";
@@ -71,7 +72,7 @@ namespace opentuner.Utilities
             _big_num_label.Left = _groupBox.Width - _big_num_label.Width - 2;
             _big_num_label.Font = new Font("Arial", 15, FontStyle.Bold);
             _big_num_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
+            */
             _groupBox.Controls.Add(_big_num_label);
             Parent.Controls.Add(_groupBox);
             Parent.Resize += _groupBox_Resize;
@@ -81,11 +82,11 @@ namespace opentuner.Utilities
 
         private void _groupBox_Resize(object sender, EventArgs e)
         {
-            _big_num_label.Top = 8;
-            _big_num_label.Left = _groupBox.Width - _big_num_label.Width ;
+            //_big_num_label.Top = 8;
+            //_big_num_label.Left = _groupBox.Width - _big_num_label.Width ;
         }
 
-        private void UpdateTitle(CollapsibleGroupBox group_box, Object obj)
+        private void UpdateTitle(CustomGroupBox group_box, Object obj)
         {
             if (group_box == null)
                 return;
@@ -104,6 +105,7 @@ namespace opentuner.Utilities
             }
         }
 
+        /*
         private void UpdateBigLabel(Label Lbl, Object obj)
         {
             if (Lbl == null)
@@ -122,11 +124,13 @@ namespace opentuner.Utilities
                 Lbl.Text = obj.ToString();
             }
         }
+        */
 
 
         public void UpdateBigLabel(string Text)
         {
-            UpdateBigLabel(_big_num_label, Text);
+            //UpdateBigLabel(_big_num_label, Text);
+            _groupBox.db_margin = Text;
         }
 
         public void UpdateTitle(string Title)

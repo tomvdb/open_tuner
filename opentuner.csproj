@@ -372,7 +372,7 @@
     </Compile>
     <Compile Include="lookups.cs" />
     <Compile Include="MediaSources\Minitiouner\HardwareInterfaces\MTHardwareInterface.cs" />
-    <Compile Include="Utilities\CollapsibleGroupBox.cs">
+    <Compile Include="Utilities\CustomGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utilities\CommonFunctions.cs" />
