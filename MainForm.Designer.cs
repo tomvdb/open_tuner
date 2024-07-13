@@ -74,6 +74,8 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.ExtraToolsTab = new System.Windows.Forms.TabControl();
+            this.ExtraSpectrumTab = new System.Windows.Forms.TabPage();
             this.spectrum = new System.Windows.Forms.PictureBox();
             this.contextSpectrumMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.autoTuneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,6 +119,8 @@
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.SuspendLayout();
+            this.ExtraToolsTab.SuspendLayout();
+            this.ExtraSpectrumTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
             this.contextSpectrumMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -463,7 +467,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.spectrum);
+            this.splitContainer2.Panel2.Controls.Add(this.ExtraToolsTab);
             // 
             // splitContainer3
             // 
@@ -507,6 +511,21 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.BackColor = System.Drawing.Color.Black;
+            // 
+            // ExtraToolsTab
+            // 
+            this.ExtraToolsTab.Controls.Add(this.ExtraSpectrumTab);
+            resources.ApplyResources(this.ExtraToolsTab, "ExtraToolsTab");
+            this.ExtraToolsTab.Name = "ExtraToolsTab";
+            this.ExtraToolsTab.SelectedIndex = 0;
+            this.ExtraToolsTab.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ExtraToolsTab_DrawItem);
+            // 
+            // ExtraSpectrumTab
+            // 
+            this.ExtraSpectrumTab.BackColor = System.Drawing.Color.Black;
+            this.ExtraSpectrumTab.Controls.Add(this.spectrum);
+            resources.ApplyResources(this.ExtraSpectrumTab, "ExtraSpectrumTab");
+            this.ExtraSpectrumTab.Name = "ExtraSpectrumTab";
             // 
             // spectrum
             // 
@@ -656,6 +675,7 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -687,6 +707,8 @@
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
             this.splitContainer5.ResumeLayout(false);
+            this.ExtraToolsTab.ResumeLayout(false);
+            this.ExtraSpectrumTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).EndInit();
             this.contextSpectrumMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -721,7 +743,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.TabPage PropertiesPage;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.PictureBox spectrum;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;
@@ -763,6 +784,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.Label linkDATVReporterSettings;
         private System.Windows.Forms.CheckBox checkDATVReporter;
+        private System.Windows.Forms.TabControl ExtraToolsTab;
+        private System.Windows.Forms.TabPage ExtraSpectrumTab;
+        private System.Windows.Forms.PictureBox spectrum;
     }
 }
 

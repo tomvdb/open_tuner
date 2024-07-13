@@ -24,6 +24,7 @@ using opentuner.ExtraFeatures.DATVReporter;
 
 using Serilog;
 using System.Runtime.CompilerServices;
+using System.Drawing;
 
 namespace opentuner
 {
@@ -56,7 +57,7 @@ namespace opentuner
         private MainSettings _settings;
         private SettingsManager<MainSettings> _settingsManager;
 
-  
+        private bool _settings_save = true;
 
         SettingsManager<List<StoredFrequency>> frequenciesManager;
 
@@ -102,6 +103,9 @@ namespace opentuner
             {
                 switch (args[i])
                 {
+                    case "--nosave":
+                        _settings_save = false;
+                        break;
                     case "--autoconnect":
                         _settings.auto_connect = true;
                         break;
@@ -518,7 +522,8 @@ namespace opentuner
             _settings.gui_window_y = this.Top;
             _settings.gui_main_splitter_position = splitContainer1.SplitterDistance;
 
-            _settingsManager.SaveSettings(_settings);
+            if (_settings_save)
+                _settingsManager.SaveSettings(_settings);
 
             try
             {
@@ -1170,6 +1175,11 @@ namespace opentuner
         private void checkDATVReporter_CheckedChanged(object sender, EventArgs e)
         {
             _settings.enable_datvreporter_checkbox = checkDATVReporter.Checked;
+        }
+
+        private void ExtraToolsTab_DrawItem(object sender, DrawItemEventArgs e)
+        {
+
         }
     }
 

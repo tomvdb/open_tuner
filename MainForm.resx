@@ -1366,7 +1366,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1283, 455</value>
+    <value>1283, 443</value>
   </data>
   <data name="splitContainer4.SplitterDistance" type="System.Int32, mscorlib">
     <value>642</value>
@@ -1432,7 +1432,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1283, 451</value>
+    <value>1283, 443</value>
   </data>
   <data name="splitContainer5.SplitterDistance" type="System.Int32, mscorlib">
     <value>642</value>
@@ -1468,10 +1468,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1283, 910</value>
+    <value>1283, 890</value>
   </data>
   <data name="splitContainer3.SplitterDistance" type="System.Int32, mscorlib">
-    <value>455</value>
+    <value>443</value>
   </data>
   <data name="splitContainer3.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1546,13 +1546,13 @@
     <value>NoControl</value>
   </data>
   <data name="spectrum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>3, 3</value>
   </data>
   <data name="spectrum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1283, 258</value>
+    <value>1269, 246</value>
   </data>
   <data name="spectrum.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;spectrum.Name" xml:space="preserve">
     <value>spectrum</value>
@@ -1561,9 +1561,60 @@
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;spectrum.Parent" xml:space="preserve">
-    <value>splitContainer2.Panel2</value>
+    <value>ExtraSpectrumTab</value>
   </data>
   <data name="&gt;&gt;spectrum.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ExtraSpectrumTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="ExtraSpectrumTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="ExtraSpectrumTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1275, 252</value>
+  </data>
+  <data name="ExtraSpectrumTab.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="ExtraSpectrumTab.Text" xml:space="preserve">
+    <value>BATC Spectrum</value>
+  </data>
+  <data name="&gt;&gt;ExtraSpectrumTab.Name" xml:space="preserve">
+    <value>ExtraSpectrumTab</value>
+  </data>
+  <data name="&gt;&gt;ExtraSpectrumTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ExtraSpectrumTab.Parent" xml:space="preserve">
+    <value>ExtraToolsTab</value>
+  </data>
+  <data name="&gt;&gt;ExtraSpectrumTab.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ExtraToolsTab.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ExtraToolsTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ExtraToolsTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1283, 278</value>
+  </data>
+  <data name="ExtraToolsTab.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ExtraToolsTab.Name" xml:space="preserve">
+    <value>ExtraToolsTab</value>
+  </data>
+  <data name="&gt;&gt;ExtraToolsTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ExtraToolsTab.Parent" xml:space="preserve">
+    <value>splitContainer2.Panel2</value>
+  </data>
+  <data name="&gt;&gt;ExtraToolsTab.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;splitContainer2.Panel2.Name" xml:space="preserve">
@@ -1582,7 +1633,7 @@
     <value>1283, 1172</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>910</value>
+    <value>890</value>
   </data>
   <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
