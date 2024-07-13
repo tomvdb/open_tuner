@@ -56,6 +56,8 @@ namespace opentuner
         private MainSettings _settings;
         private SettingsManager<MainSettings> _settingsManager;
 
+  
+
         SettingsManager<List<StoredFrequency>> frequenciesManager;
 
         List<StoredFrequency> stored_frequencies = new List<StoredFrequency>();
@@ -92,7 +94,180 @@ namespace opentuner
 
         }
 
-        public MainForm()
+        void ParseCommandLineOptions(string[] args)
+        {
+            int i = 0;
+
+            while ( i < args.Length )
+            {
+                switch (args[i])
+                {
+                    case "--autoconnect":
+                        _settings.auto_connect = true;
+                        break;
+
+                    case "--noconnect":
+                        _settings.auto_connect = false;
+                        break;
+
+                    case "--enablebatcspectrum":
+                        _settings.enable_spectrum_checkbox = true; 
+                        break;
+
+                    case "--disablebatcspectrum":
+                        _settings.enable_spectrum_checkbox = false;
+                        break;
+
+                    case "--enablebatcchat":
+                        _settings.enable_chatform_checkbox = true;
+                        break;
+
+                    case "--disablebatcchat":
+                        _settings.enable_chatform_checkbox = false;
+                        break;
+
+                    case "--enablemqtt":
+                        _settings.enable_mqtt_checkbox = true;
+                        break;
+
+                    case "--disablemqtt":
+                        _settings.enable_mqtt_checkbox = false;
+                        break;
+
+                    case "--enablequicktune":
+                        _settings.enable_quicktune_checkbox = true;
+                        break;
+
+                    case "--disablequicktune":
+                        _settings.enable_quicktune_checkbox = false;
+                        break;
+
+                    case "--enabledatvreporter":
+                        _settings.enable_datvreporter_checkbox = true;
+                        break;
+
+                    case "--disabledatvreporter":
+                        _settings.enable_datvreporter_checkbox = false;
+                        break;
+
+                    case "--hideproperties":
+                        _settings.hide_properties = true;
+                        break;
+
+                    case "--showproperties":
+                        _settings.hide_properties = false;
+                        break;
+
+                    case "--hidevideoinfo":
+                        _settings.show_video_overlay = false;
+                        break;
+
+                    case "--showvideoinfo":
+                        _settings.show_video_overlay = true;
+                        break;
+
+                    case "--windowwidth":
+                        
+                        int new_window_width = 0;
+
+                        if (int.TryParse(args[i+1], out new_window_width))
+                        {
+                            _settings.gui_window_width = new_window_width;
+                        }
+                        else
+                        {
+                            Log.Error(args[i + 1] + " is not a valid window width. Integer Expected");
+                        }
+
+                        i += 1;
+
+                        break;
+
+                    case "--windowheight":
+
+                        int new_window_height = 0;
+
+                        if (int.TryParse(args[i + 1], out new_window_height))
+                        {
+                            _settings.gui_window_height = new_window_height;
+                        }
+                        else
+                        {
+                            Log.Error(args[i + 1] + " is not a valid window height. Integer Expected");
+                        }
+
+                        i += 1;
+
+                        break;
+
+                    case "--windowx":
+                        int new_window_x = 0;
+
+                        if (int.TryParse(args[i + 1], out new_window_x))
+                        {
+                            _settings.gui_window_x = new_window_x;
+                        }
+                        else
+                        {
+                            Log.Error(args[i + 1] + " is not a valid window x. Integer Expected");
+                        }
+
+                        i += 1;
+
+                        break;
+
+                    case "--windowy":
+                        int new_window_y = 0;
+
+                        if (int.TryParse(args[i + 1], out new_window_y))
+                        {
+                            _settings.gui_window_y = new_window_y;
+                        }
+                        else
+                        {
+                            Log.Error(args[i + 1] + " is not a valid window y. Integer Expected");
+                        }
+
+                        i += 1;
+
+                        break;
+
+
+                    case "--defaultsource":
+
+                        int new_default_source = 0;
+
+                        if (int.TryParse(args[i + 1], out new_default_source))
+                        {
+                            if (new_default_source < 3 && new_default_source >= 0)
+                            {
+                                _settings.default_source = new_default_source;
+                            }
+                            else
+                            {
+                                Log.Error(args[i + 1] + " is not a valid default source parameter. 0-2 Expected");
+                            }
+                        }
+                        else
+                        {
+                            Log.Error(args[i + 1] + " is not a valid default source parameter. 0-2 Expected");
+                        }
+                        
+                        i += 1;
+
+                        break;
+
+                    default:
+                        Log.Warning("Unknown command line param: " + args[i]);
+                        break;
+                }
+
+                // grab next param
+                i += 1;
+            }
+        }
+
+        public MainForm(string[] args)
         {
             ThreadPool.GetMinThreads(out int workers, out int ports);
             ThreadPool.SetMinThreads(workers + 6, ports + 6);
@@ -104,6 +279,9 @@ namespace opentuner
             _settings = new MainSettings();
             _settingsManager = new SettingsManager<MainSettings>("open_tuner_settings");
             _settings = (_settingsManager.LoadSettings(_settings));
+
+            // parse command line options
+            ParseCommandLineOptions(args);
 
             //setup
             splitContainer2.Panel2Collapsed = true;
@@ -426,22 +604,16 @@ namespace opentuner
             }
 
 
-            /*
-            // mqtt client
-            setting_enable_mqtt = false;
-            if (setting_enable_mqtt)
+            // auto connect if specified
+            if (_settings.auto_connect)
             {
-                mqtt_client = new MqttManager(setting_mqtt_broker_host, setting_mqtt_broker_port, setting_mqtt_parent_topic);
-                mqtt_client.OnMqttMessageReceived += Mqtt_client_OnMqttMessageReceived;
-
-                // pluto - requires mqtt
-                if (setting_enable_pluto)
-                {
-                    pluto_client = new F5OEOPlutoControl(mqtt_client);
-                    plutoToolStripMenuItem.Visible = true;
-                }
+                source_connected = ConnectSelectedSource();
             }
-            */
+
+
+
+            // hide/show video overlay
+
         }
 
         private void Batc_spectrum_OnSignalSelected(int Receiver, uint Freq, uint SymbolRate)
@@ -516,7 +688,7 @@ namespace opentuner
             video_volume_display = new VolumeInfoContainer();
             video_volume_display.Tag = nr;
 
-            video_info_display = new StreamInfoContainer();
+            video_info_display = new StreamInfoContainer(_settings.show_video_overlay);
             video_info_display.Tag = nr;
 
 
@@ -781,6 +953,9 @@ namespace opentuner
 
             //toolstripConnectToggle.Text = "Disconnect Source";
             toolstripConnectToggle.Visible = false;
+
+            // hide/show panel
+            TogglePropertiesPanel(_settings.hide_properties);
 
             return true;
         }

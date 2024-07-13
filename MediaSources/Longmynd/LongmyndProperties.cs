@@ -30,7 +30,8 @@ namespace opentuner.MediaSources.Longmynd
         LNBB_OFF,
         LNBB_VERTICAL,
         LNBB_HORIZONTAL,
-        SETOFFSET
+        SETOFFSET,
+        SETSYMBOLRATE
     }
 
     public partial class LongmyndSource

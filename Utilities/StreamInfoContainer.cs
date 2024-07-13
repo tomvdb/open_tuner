@@ -14,12 +14,12 @@ namespace opentuner.Utilities
     {
         OTSourceData last_info_data = null;
 
-        public StreamInfoContainer() 
+        public StreamInfoContainer(bool show) 
         {
             BackColor = Color.Black;
             Dock = DockStyle.Top;
             Height = 30;
-            Visible = false;
+            Visible = show;
         }
 
         public void UpdateInfo(OTSourceData info_data)

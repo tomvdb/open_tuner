@@ -41,7 +41,7 @@ namespace opentuner.ExtraFeatures.DATVReporter
 
             if (_settings_form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                _datv_reporter_settings.callsign = _settings_form.txtCallsign.Text;
+                _datv_reporter_settings.callsign = _settings_form.txtCallsign.Text.ToUpper();
                 _datv_reporter_settings.grid_locator = _settings_form.txtGridLocator.Text;
                 _datv_reporter_settings.service_url = _settings_form.txtServiceUrl.Text;
 
@@ -146,6 +146,7 @@ namespace opentuner.ExtraFeatures.DATVReporter
 
         public void Close()
         {
+            _timer?.Stop();
             _websocket?.Close();
         }
 

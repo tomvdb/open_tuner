@@ -12,6 +12,7 @@ using Serilog;
 using System.Globalization;
 using System.Timers;
 using System.Runtime.ConstrainedExecution;
+using opentuner.MediaSources.Minitiouner;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -67,7 +68,7 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].AddItem("frequency", "Frequency" ,_genericContextStrip);
                 _tuner_properties[c].AddItem("offset", "Freq Offset", _genericContextStrip);
                 _tuner_properties[c].AddItem("nim_frequency", "Nim Frequency");
-                _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate / Modcod");
+                _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate / Modcod", _genericContextStrip);
                 _tuner_properties[c].AddItem("modcod", "Modcod");
                 _tuner_properties[c].AddItem("service_name", "Service Name");
                 _tuner_properties[c].AddItem("service_name_provider", "Service Name Provider");
@@ -143,6 +144,12 @@ namespace opentuner.MediaSources.Winterhill
 
             switch (contextMenuStrip.SourceControl.Name)
             {
+                case "symbol_rate":
+                    uint[] symbol_rates = new uint[] { 2000, 1500, 1000, 500, 333, 250, 125, 66 };
+                    foreach (uint rate in symbol_rates)
+                        contextMenuStrip.Items.Add(ConfigureMenuItem(rate.ToString(), LongmyndPropertyCommands.SETSYMBOLRATE, new int[] { (int)contextMenuStrip.SourceControl.Tag, (int)rate }));
+                    break;
+
                 case "hw_lnba":
                     contextMenuStrip.Items.Add(ConfigureMenuItem("OFF", LongmyndPropertyCommands.LNBA_OFF, new int[] { 0, 0 }));
                     contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Vertical", LongmyndPropertyCommands.LNBA_VERTICAL, new int[] { 0, 0 }));
@@ -266,6 +273,12 @@ namespace opentuner.MediaSources.Winterhill
                     }
 
                     SetFrequency(tuner, (uint)_current_frequency[tuner], (uint)_current_sr[tuner], false);
+                    break;
+
+                case LongmyndPropertyCommands.SETSYMBOLRATE:
+                    tuner = option[0];
+                    var new_rate = option[1];
+                    SetFrequency(tuner, (uint)_current_frequency[option[0]], (uint)new_rate, false);
                     break;
 
                 case LongmyndPropertyCommands.SETFREQUENCY:
