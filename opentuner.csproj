@@ -318,6 +318,11 @@
     <Compile Include="MediaSources\Winterhill\WinterhillSource.cs" />
     <Compile Include="MediaSources\Winterhill\WinterhillUDP.cs" />
     <Compile Include="MediaSources\Winterhill\WinterhillWS.cs" />
+    <Compile Include="SettingsManagement\FriendlyNameAttribute.cs" />
+    <Compile Include="SettingsManagement\GenericSettings.cs" />
+    <Compile Include="SettingsManagement\GroupAttribute.cs" />
+    <Compile Include="SettingsManagement\SelectionAttribute.cs" />
+    <Compile Include="SettingsManagement\SettingsFormBuilder.cs" />
     <Compile Include="Transmit\F5OEOPlutoControl.cs" />
     <Compile Include="Transmit\PlutoControl.cs">
       <SubType>Form</SubType>

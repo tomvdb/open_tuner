@@ -25,6 +25,7 @@ using opentuner.ExtraFeatures.DATVReporter;
 using Serilog;
 using System.Runtime.CompilerServices;
 using System.Drawing;
+using opentuner.SettingsManagement;
 
 namespace opentuner
 {
@@ -281,6 +282,9 @@ namespace opentuner
             Application.AddMessageFilter(this);
 
             _settings = new MainSettings();
+
+            //SettingsFormBuilder test = new SettingsFormBuilder(_settings);
+
             _settingsManager = new SettingsManager<MainSettings>("open_tuner_settings");
             _settings = (_settingsManager.LoadSettings(_settings));
 
@@ -1180,6 +1184,11 @@ namespace opentuner
         private void ExtraToolsTab_DrawItem(object sender, DrawItemEventArgs e)
         {
 
+        }
+
+        private void LinkDatvReportMoreInfo_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-datv-reporter/");
         }
     }
 

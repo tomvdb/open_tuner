@@ -44,6 +44,7 @@
             this.linkOpenTunerUpdates = new System.Windows.Forms.Label();
             this.linkDocumentation = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.LinkDatvReportMoreInfo = new System.Windows.Forms.Label();
             this.linkDATVReporterSettings = new System.Windows.Forms.Label();
             this.checkDATVReporter = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -245,6 +246,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.LinkDatvReportMoreInfo);
             this.groupBox2.Controls.Add(this.linkDATVReporterSettings);
             this.groupBox2.Controls.Add(this.checkDATVReporter);
             this.groupBox2.Controls.Add(this.checkBox2);
@@ -264,6 +266,14 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // LinkDatvReportMoreInfo
+            // 
+            resources.ApplyResources(this.LinkDatvReportMoreInfo, "LinkDatvReportMoreInfo");
+            this.LinkDatvReportMoreInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.LinkDatvReportMoreInfo.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.LinkDatvReportMoreInfo.Name = "LinkDatvReportMoreInfo";
+            this.LinkDatvReportMoreInfo.Click += new System.EventHandler(this.LinkDatvReportMoreInfo_Click);
             // 
             // linkDATVReporterSettings
             // 
@@ -788,6 +798,7 @@
         private System.Windows.Forms.TabControl ExtraToolsTab;
         private System.Windows.Forms.TabPage ExtraSpectrumTab;
         private System.Windows.Forms.PictureBox spectrum;
+        private System.Windows.Forms.Label LinkDatvReportMoreInfo;
     }
 }
 

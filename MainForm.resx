@@ -447,6 +447,39 @@
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="LinkDatvReportMoreInfo.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LinkDatvReportMoreInfo.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt, style=Underline</value>
+  </data>
+  <data name="LinkDatvReportMoreInfo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LinkDatvReportMoreInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 180</value>
+  </data>
+  <data name="LinkDatvReportMoreInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
+  </data>
+  <data name="LinkDatvReportMoreInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="LinkDatvReportMoreInfo.Text" xml:space="preserve">
+    <value>More Info ...</value>
+  </data>
+  <data name="&gt;&gt;LinkDatvReportMoreInfo.Name" xml:space="preserve">
+    <value>LinkDatvReportMoreInfo</value>
+  </data>
+  <data name="&gt;&gt;LinkDatvReportMoreInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LinkDatvReportMoreInfo.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;LinkDatvReportMoreInfo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="linkDATVReporterSettings.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -478,7 +511,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;linkDATVReporterSettings.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="checkDATVReporter.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -508,7 +541,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;checkDATVReporter.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="checkBox2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -541,7 +574,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;checkBox2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="checkBox1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -574,7 +607,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;checkBox1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="linkQuickTuneSettings.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -607,7 +640,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;linkQuickTuneSettings.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="linkBatcWebchatSettings.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -640,7 +673,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;linkBatcWebchatSettings.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="linkBatcSpectrumSettings.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -676,7 +709,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;linkBatcSpectrumSettings.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="linkMqttSettings.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -709,7 +742,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;linkMqttSettings.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="linkQuickTuneDocumentation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -742,7 +775,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;linkQuickTuneDocumentation.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="checkQuicktune.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -769,7 +802,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;checkQuicktune.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="linkBatcWebchatDocumentation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -802,7 +835,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;linkBatcWebchatDocumentation.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="linkSpectrumDocumentation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -835,7 +868,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;linkSpectrumDocumentation.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="LinkMqttDocumentation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -865,7 +898,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;LinkMqttDocumentation.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="checkMqttClient.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -892,7 +925,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;checkMqttClient.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="checkBatcChat.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -922,7 +955,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;checkBatcChat.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="checkBatcSpectrum.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -949,7 +982,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;checkBatcSpectrum.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="groupBox2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>

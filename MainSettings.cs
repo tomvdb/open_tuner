@@ -1,4 +1,5 @@
-﻿using System;
+﻿using opentuner.SettingsManagement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace opentuner
 {
-    public class MainSettings
+    public class MainSettings : GenericSettings
     {
+        [Group("Settings 1")]
+        [FriendlyName("Media Path")]
         public string media_path = "";
 
+        [Group("Settings 2")]
         public bool enable_spectrum_checkbox = true;
         public bool enable_chatform_checkbox = true;
         public bool enable_mqtt_checkbox = true;

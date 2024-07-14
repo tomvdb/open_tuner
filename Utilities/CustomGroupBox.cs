@@ -8,19 +8,25 @@ using System.Windows.Forms;
 
 namespace opentuner.Utilities
 {
-    // an attempt at making a collapsable group box :p
 
     public class CustomGroupBox : GroupBox
     {
 
-        public string db_margin = "";
+        public string _db_margin = "";
 
         public CustomGroupBox() 
         {
-            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.UserPaint | 
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer, true);
         }
 
 
+        public string db_margin
+        {
+            get { return this._db_margin; }
+            set { _db_margin = value; Invalidate(); }
+        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -45,14 +51,14 @@ namespace opentuner.Utilities
 
             TextRenderer.DrawText(g, this.Text, textFont, new Point(10, 0), textColor);
 
-            if (db_margin.Length > 1)
+            if (_db_margin.Length > 1)
             {
                 Font db_margin_font = new Font(this.Font.FontFamily, 15f, FontStyle.Bold);
 
-                SizeF db_margin_textSize = g.MeasureString(db_margin.ToString(), db_margin_font);
+                SizeF db_margin_textSize = g.MeasureString(_db_margin.ToString(), db_margin_font);
 
                 g.FillRectangle(new SolidBrush(Color.FromArgb(240, 240, 240)), new Rectangle(this.Width - (int)db_margin_textSize.Width - 15, 0, (int)db_margin_textSize.Width + 5, (int)db_margin_textSize.Height));
-                TextRenderer.DrawText(g, db_margin.ToString(), db_margin_font, new Point(this.Width - (int)db_margin_textSize.Width - 15, 0), textColor);
+                TextRenderer.DrawText(g, _db_margin.ToString(), db_margin_font, new Point(this.Width - (int)db_margin_textSize.Width - 15, 0), textColor);
             }
         }
     }
