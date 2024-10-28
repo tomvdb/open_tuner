@@ -16,7 +16,7 @@ namespace opentuner.MediaPlayers.VLC
     {
         LibVLC libVLC = new LibVLC("--aout=directsound");
         Media media;
-        TSStreamMediaInput mediaInput;
+        TSStreamMediaInput media_input;
         LibVLCSharp.WinForms.VideoView videoView;
 
         MediaPlayer _mediaplayer;
@@ -46,6 +46,7 @@ namespace opentuner.MediaPlayers.VLC
 
         // update mediaplayer reference invoking if required
         private delegate void updateMediaPlayerDelegate(MediaPlayer newPlayer, bool play);
+
         private void updateVideoPlayer(MediaPlayer newPlayer, bool play)
         {
             if (videoView.InvokeRequired)
@@ -103,93 +104,21 @@ namespace opentuner.MediaPlayers.VLC
             _mediaplayer.SetMarqueeInt(VideoMarqueeOption.X, 10);
             _mediaplayer.SetMarqueeInt(VideoMarqueeOption.Y, 10);
 
-            mediaInput = new TSStreamMediaInput(ts_data_queue);
-            media = new Media(libVLC, mediaInput);
+            media_input = new TSStreamMediaInput(ts_data_queue);
+            media = new Media(libVLC, media_input);
 
-            MediaConfiguration mediaConfig1 = new MediaConfiguration();
-            mediaConfig1.EnableHardwareDecoding = false;
-            media.AddOption(mediaConfig1);
-
-            /*
-            videoView.MediaPlayer = new MediaPlayer(libVLC);
-            videoView.MediaPlayer.Stopped += MediaPlayer_Stopped;
-            videoView.MediaPlayer.Playing += MediaPlayer_Playing;
-            videoView.MediaPlayer.EncounteredError += MediaPlayer_EncounteredError;
-            videoView.MediaPlayer.Vout += MediaPlayer_Vout;
-
-            videoView.MediaPlayer.EnableMouseInput = false;
-            videoView.MediaPlayer.EnableKeyInput = false;
-
-            videoView.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Size, 20);
-            videoView.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.X, 10);
-            videoView.MediaPlayer.SetMarqueeInt(VideoMarqueeOption.Y, 10);
-
-            //videoView.MouseWheel += VideoView1_MouseWheel;
-
-            mediaInput = new TSStreamMediaInput(TSDataQueue);
-            media = new Media(libVLC, mediaInput);
-
-            MediaConfiguration mediaConfig1 = new MediaConfiguration();
-            mediaConfig1.EnableHardwareDecoding = false;
-            media.AddOption(mediaConfig1);
-            */
-        }
-
-
-        private void altPlay()
-        {
-            Log.Information("Alt Play Start");
-            altStop();
-
-            _mediaplayer = new MediaPlayer(libVLC);
-            _mediaplayer.Stopped += MediaPlayer_Stopped;
-            _mediaplayer.Playing += MediaPlayer_Playing;
-            _mediaplayer.EncounteredError += MediaPlayer_EncounteredError;
-            _mediaplayer.Vout += MediaPlayer_Vout;
-
-            _mediaplayer.EnableMouseInput = false;
-            _mediaplayer.EnableKeyInput = false;
-
-            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.Size, 20);
-            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.X, 10);
-            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.Y, 10);
-
-            mediaInput = new TSStreamMediaInput(ts_data_queue);
-            media = new Media(libVLC, mediaInput);
-
-            MediaConfiguration mediaConfig1 = new MediaConfiguration();
-            mediaConfig1.EnableHardwareDecoding = false;
-            media.AddOption(mediaConfig1);
-
-            updateVideoPlayer(_mediaplayer, true);
-            Log.Information("Alt Play Stop");
-
-        }
-
-        private void altStop()
-        {
-            Log.Information("Alt Stop");
-
-            if (_mediaplayer != null)
-                _mediaplayer.Dispose();
-            _mediaplayer = null;
-            GC.Collect();
-            GC.Collect();
-
-            updateVideoPlayer(null, false);
-
-            Log.Information("Alt Stop Done");
+            MediaConfiguration media_config = new MediaConfiguration();
+            media_config.EnableHardwareDecoding = false;
+            media.AddOption(media_config);
 
         }
 
         private void MediaPlayer_Vout(object sender, MediaPlayerVoutEventArgs e)
         {
-            // volume changes only take affect when media is playing
             if (videoView.MediaPlayer == null)
-            {
                 return;
-            }
 
+            // volume changes only take affect when media is playing
             videoView.MediaPlayer.Volume = player_volume;
 
             MediaStatus media_status = new MediaStatus();
@@ -226,26 +155,59 @@ namespace opentuner.MediaPlayers.VLC
 
         public override void Close()
         {
-            if (mediaInput != null)
-                mediaInput.Dispose();
+            if (media_input != null)
+                media_input.Dispose();
             if (media != null)
                 media.Dispose();
         }
 
         public override void Stop()
         {
-                mediaInput.end = true;
-                altStop();
+            media_input.end = true;
+
+            Log.Information("VLC: Stop Command");
+
+            if (_mediaplayer != null)
+                _mediaplayer.Dispose();
+            _mediaplayer = null;
+            GC.Collect();
+            GC.Collect();
+
+            updateVideoPlayer(null, false);
         }
 
         public override void Play()
         {
             ts_data_queue.Clear();
 
-            mediaInput.ts_sync = false;
-            mediaInput.end = false;
+            media_input.ts_sync = false;
+            media_input.end = false;
 
-            altPlay();
+            Stop();
+
+            Log.Information("VLC: Play Command");
+
+            _mediaplayer = new MediaPlayer(libVLC);
+            _mediaplayer.Stopped += MediaPlayer_Stopped;
+            _mediaplayer.Playing += MediaPlayer_Playing;
+            _mediaplayer.EncounteredError += MediaPlayer_EncounteredError;
+            _mediaplayer.Vout += MediaPlayer_Vout;
+
+            _mediaplayer.EnableMouseInput = false;
+            _mediaplayer.EnableKeyInput = false;
+
+            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.Size, 20);
+            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.X, 10);
+            _mediaplayer.SetMarqueeInt(VideoMarqueeOption.Y, 10);
+
+            media_input = new TSStreamMediaInput(ts_data_queue);
+            media = new Media(libVLC, media_input);
+
+            MediaConfiguration mediaConfig1 = new MediaConfiguration();
+            mediaConfig1.EnableHardwareDecoding = false;
+            media.AddOption(mediaConfig1);
+
+            updateVideoPlayer(_mediaplayer, true);
         }
 
         public override void SetVolume(int Volume)

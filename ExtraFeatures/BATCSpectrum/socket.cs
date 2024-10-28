@@ -15,15 +15,18 @@ namespace opentuner
         public Action<ushort[]> callback;
 
         private WebSocket ws;       //websocket client
-        public bool connected;
+
         private ushort[] fft_data;
 
+        public bool connected;
+
         public DateTime lastdata;
+
+        public event EventHandler<bool> ConnectionStatusChanged;
 
         public socket()
         {
             connected = false;
-
         }
 
         public void start()
@@ -32,39 +35,56 @@ namespace opentuner
             {
                 Log.Information(connected.ToString());
                 Log.Information("Websocket: QO_Spectrum: Try connect..\n");
-                // System.Threading.Thread.Sleep(500);     //can't catch exception from websocket!?, slow down retries if no network
 
                 ws = new WebSocket("wss://eshail.batc.org.uk/wb/fft", "fft_m0dtslivetune");
-                //ws = new                 WebSocket("ws://192.168.0.244:7681", "fft_m0dtslivetune");
+
                 ws.OnMessage += (ss, ee) => NewData(ee.RawData);
-                ws.OnOpen += (ss, ee) => { connected = true; Log.Information("Websocket: QO_Spectrum: Connected.\n"); };
-                ws.OnClose += (ss, ee) => { connected = false; };
-                ws.Connect();
-                lastdata = DateTime.Now;
+                ws.OnOpen += Ws_OnOpen;
+                ws.OnClose += Ws_OnClose; 
+                ws.OnError += Ws_OnError;
+
+                ws.ConnectAsync();
             }
+        }
+
+        private void Ws_OnClose(object sender, CloseEventArgs e)
+        {
+            connected = false;
+            Log.Information("Websocket: QO_Spectrum: Connection Closed");
+
+            ConnectionStatusChanged?.Invoke(this, connected);
+        }
+
+        private void Ws_OnOpen(object sender, EventArgs e)
+        {
+            connected = true; 
+            Log.Information("Websocket: QO_Spectrum: Connected.\n");
+
+            ConnectionStatusChanged?.Invoke(this, connected);
+            lastdata = DateTime.Now;
+
+        }
+
+        private void Ws_OnError(object sender, ErrorEventArgs e)
+        {
+            Log.Information("Websocket: QO_Spectrum: Error" + e.ToString());
         }
 
         public void stop()
         {
             if (connected)
             {
-                ws.Close();
+                ws?.Close();
                 connected = false;
             }
 
         }
 
-
-
         private void NewData(byte[] data)
         {
-            //Log.Information("newdata\n");
-            //Log.Information(data[0]);
-
             lastdata = DateTime.Now;
 
             fft_data = new UInt16[data.Length / 2];
-
 
             //unpack bytes to unsigned short int values
             int n = 0;
@@ -79,7 +99,6 @@ namespace opentuner
             }
             callback(fft_data);
             //Log.Information(".");
-
 
         }
 

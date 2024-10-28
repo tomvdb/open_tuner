@@ -12,9 +12,10 @@ namespace opentuner.MediaSources
     public abstract class OTSource
     {
         public delegate void VideoChangeCallback(int video_number, bool start);
-        public delegate void SourceDataChange(Dictionary<string, string> Properties, string topic);
+        public delegate void SourceDataChange(int video_nr, OTSourceData properties, string description);
         public abstract event SourceDataChange OnSourceData;
-        
+
+
         // Request the Source Name (eg. Minitiouner)
         public abstract string GetName();
 
@@ -31,6 +32,10 @@ namespace opentuner.MediaSources
 
         public abstract void SetFrequency(int device, uint frequency, uint symbol_rate, bool offset_included);
         public abstract long GetFrequency(int device, bool offset_included);
+
+        public abstract int GetVolume(int device);
+        public abstract void UpdateVolume(int device, int volume_delta);
+        public abstract void ToggleMute(int device);
 
         public abstract Dictionary<string, string> GetSignalData(int device);
 

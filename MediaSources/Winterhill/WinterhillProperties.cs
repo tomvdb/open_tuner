@@ -11,6 +11,8 @@ using opentuner.MediaSources.Longmynd;
 using Serilog;
 using System.Globalization;
 using System.Timers;
+using System.Runtime.ConstrainedExecution;
+using opentuner.MediaSources.Minitiouner;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -66,7 +68,7 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].AddItem("frequency", "Frequency" ,_genericContextStrip);
                 _tuner_properties[c].AddItem("offset", "Freq Offset", _genericContextStrip);
                 _tuner_properties[c].AddItem("nim_frequency", "Nim Frequency");
-                _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate / Modcod");
+                _tuner_properties[c].AddItem("symbol_rate", "Symbol Rate", _genericContextStrip);
                 _tuner_properties[c].AddItem("modcod", "Modcod");
                 _tuner_properties[c].AddItem("service_name", "Service Name");
                 _tuner_properties[c].AddItem("service_name_provider", "Service Name Provider");
@@ -142,6 +144,12 @@ namespace opentuner.MediaSources.Winterhill
 
             switch (contextMenuStrip.SourceControl.Name)
             {
+                case "symbol_rate":
+                    uint[] symbol_rates = new uint[] { 2000, 1500, 1000, 500, 333, 250, 125, 66 };
+                    foreach (uint rate in symbol_rates)
+                        contextMenuStrip.Items.Add(ConfigureMenuItem(rate.ToString(), LongmyndPropertyCommands.SETSYMBOLRATE, new int[] { (int)contextMenuStrip.SourceControl.Tag, (int)rate }));
+                    break;
+
                 case "hw_lnba":
                     contextMenuStrip.Items.Add(ConfigureMenuItem("OFF", LongmyndPropertyCommands.LNBA_OFF, new int[] { 0, 0 }));
                     contextMenuStrip.Items.Add(ConfigureMenuItem("Switch Vertical", LongmyndPropertyCommands.LNBA_VERTICAL, new int[] { 0, 0 }));
@@ -265,6 +273,12 @@ namespace opentuner.MediaSources.Winterhill
                     }
 
                     SetFrequency(tuner, (uint)_current_frequency[tuner], (uint)_current_sr[tuner], false);
+                    break;
+
+                case LongmyndPropertyCommands.SETSYMBOLRATE:
+                    tuner = option[0];
+                    var new_rate = option[1];
+                    SetFrequency(tuner, (uint)_current_frequency[option[0]], (uint)new_rate, false);
                     break;
 
                 case LongmyndPropertyCommands.SETFREQUENCY:
@@ -528,6 +542,8 @@ namespace opentuner.MediaSources.Winterhill
                         }
                         else
                         {
+                            _tuner_properties[c].UpdateBigLabel("");
+
                             Log.Information("Stopping " + c.ToString() + " - " + rx.scanstate.ToString());
 
                             VideoChangeCB?.Invoke(c + 1, false);
@@ -543,6 +559,8 @@ namespace opentuner.MediaSources.Winterhill
                                 _streamer[c].stream = false;
                                 _tuner_properties[c].UpdateStreamButtonColor("media_controls_" + c.ToString(), Color.Transparent);
                             }
+
+
                         }
 
                         demodstate[c] = rx.scanstate;
@@ -623,10 +641,38 @@ namespace opentuner.MediaSources.Winterhill
                     }
 
                     _tuner_properties[c].UpdateValue("ts_port", rx.ts_port.ToString());
-                    _tuner_properties[c].UpdateBigLabel(rx.dbmargin.ToString());
+                    _tuner_properties[c].UpdateBigLabel("D" + rx.dbmargin.ToString());
 
-                    var data = _tuner_properties[c].GetAll();
-                    OnSourceData?.Invoke(data, "Tuner " + c.ToString());
+                    //Log.Information("(S)ROLF Test: " + rx.mer);
+                    //Log.Information("(D)ROLF Test: " + Convert.ToDouble(rx.mer).ToString());
+
+                    CultureInfo specific_culture = CultureInfo.CreateSpecificCulture("en-US");
+
+                    var source_data = new OTSourceData();
+                    source_data.frequency = GetFrequency(c, true);
+                    source_data.video_number = c;
+                    double mer_d = 0.0;
+                    double.TryParse(rx.mer, NumberStyles.Number, CultureInfo.InvariantCulture, out mer_d);
+                    source_data.mer = mer_d;
+
+                    //Log.Information(" * ROLF Test: " + (mer_d).ToString());
+
+                    double db_margin_d = 0.0;
+                    double.TryParse(rx.dbmargin, NumberStyles.Number, CultureInfo.InvariantCulture, out db_margin_d);
+                    source_data.db_margin = db_margin_d;
+                    int symbol_rate_i = 0;
+                    int.TryParse(rx.symbol_rate, NumberStyles.Number, CultureInfo.InvariantCulture, out symbol_rate_i);
+                    source_data.symbol_rate = symbol_rate_i;
+                    source_data.demod_locked = (rx.scanstate == 2 || rx.scanstate == 3);
+                    source_data.service_name = rx.service_name;
+
+                    if (_media_player.Count() > c)
+                    {
+                        if (_media_player[c] != null)
+                            source_data.volume = _media_player[c].GetVolume();
+                    }
+
+                    OnSourceData?.Invoke(c, source_data, "Tuner " + c.ToString());
                 }
             }
             catch ( Exception Ex)
@@ -656,8 +702,17 @@ namespace opentuner.MediaSources.Winterhill
                     _tuner_properties[c].UpdateColor("demodstate", Color.PaleVioletRed);
                     _tuner_properties[c].UpdateValue("demodstate", scanstate_lookup[demodstate[c]]);
 
-                    var data = _tuner_properties[c].GetAll();
-                    OnSourceData?.Invoke(data, "Tuner " + c.ToString());
+                    //var data = _tuner_properties[c].GetAll();
+                    //OnSourceData?.Invoke(c, data, "Tuner " + c.ToString());
+
+                    var source_data = new OTSourceData();
+                    source_data.frequency = GetFrequency(c, true);
+                    source_data.video_number = 0;
+                    source_data.mer = 0;
+                    source_data.db_margin = 0;
+                    source_data.demod_locked = false;
+
+                    OnSourceData?.Invoke(c, source_data, "Tuner " + (c+1).ToString());
                 }
             }
             catch (Exception Ex)
@@ -688,5 +743,43 @@ namespace opentuner.MediaSources.Winterhill
             _frequency_presets = FrequencyPresets;
         }
 
+        public override void UpdateVolume(int device, int volume)
+        {
+            if (device >= _media_player.Count() || device < 0)
+                return;
+
+            if (_media_player[device] == null)
+                return;
+
+            int new_volume = _media_player[device].GetVolume() + volume;
+
+            if (new_volume < 0) new_volume = 0;
+            if (new_volume > 200) new_volume = 200;
+            
+            _media_player[device].SetVolume(new_volume);
+
+            if (device >= _tuner_properties.Count())
+                return;
+
+            if (_tuner_properties[device] == null)
+                return;
+
+            _tuner_properties[device].UpdateValue("volume_slider_" + device.ToString(), new_volume.ToString());
+        }
+
+        public override void ToggleMute(int device)
+        {
+        }
+
+        public override int GetVolume(int device)
+        {
+            if (device >= _media_player.Count() || device < 0)
+                return -1;
+
+            if (_media_player[device] == null)
+                return -1;
+
+            return _media_player[device].GetVolume();
+        }
     }
 }

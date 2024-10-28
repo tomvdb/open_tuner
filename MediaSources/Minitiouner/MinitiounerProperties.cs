@@ -183,8 +183,8 @@ namespace opentuner.MediaSources.Minitiouner
                     {
                         if (!muted[0])
                         {
-                            preMute[0] = _media_players[0].GetVolume();
-                            _media_players[0].SetVolume(0);
+                            preMute[0] = _media_player[0].GetVolume();
+                            UpdateVolume(0, 0);
                             _tuner1_properties.UpdateValue("volume_slider_1", "0");
                             _settings.DefaultVolume[0] = (byte)preMute[0];
                             _settings.DefaultMuted[0] = muted[0] = true;
@@ -192,7 +192,7 @@ namespace opentuner.MediaSources.Minitiouner
                         }
                         else
                         {
-                            _media_players[0].SetVolume(preMute[0]);
+                            _media_player[0].SetVolume(preMute[0]);
                             _tuner1_properties.UpdateValue("volume_slider_1", preMute[0].ToString());
                             _settings.DefaultMuted[0] = muted[0] = false;
                             _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
@@ -202,8 +202,8 @@ namespace opentuner.MediaSources.Minitiouner
                     {
                         if (!muted[1])
                         {
-                            preMute[1] = _media_players[1].GetVolume();
-                            _media_players[1].SetVolume(0);
+                            preMute[1] = _media_player[1].GetVolume();
+                            _media_player[1].SetVolume(0);
                             _tuner2_properties.UpdateValue("volume_slider_2", "0");
                             _settings.DefaultVolume[1] = (byte)preMute[1];
                             _settings.DefaultMuted[1] = muted[1] = true;
@@ -211,7 +211,7 @@ namespace opentuner.MediaSources.Minitiouner
                         }
                         else
                         {
-                            _media_players[1].SetVolume(preMute[1]);
+                            _media_player[1].SetVolume(preMute[1]);
                             _tuner2_properties.UpdateValue("volume_slider_2", preMute[1].ToString());
                             _settings.DefaultMuted[1] = muted[1] = false;
                             _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Transparent);
@@ -222,7 +222,7 @@ namespace opentuner.MediaSources.Minitiouner
                     break;
                 case 1: // snaphost
                     Log.Information("Snapshot: " + tuner.ToString());
-                    _media_players[tuner].SnapShot(_mediapath + CommonFunctions.GenerateTimestampFilename() + ".png");
+                    _media_player[tuner].SnapShot(_mediapath + CommonFunctions.GenerateTimestampFilename() + ".png");
 
                     break;
                 case 2: // record
@@ -314,9 +314,9 @@ namespace opentuner.MediaSources.Minitiouner
                 case "volume_slider_1":
                     // cancel mute
                     _settings.DefaultMuted[0] = muted[0] = false;
-                    if (_media_players.Count > 0) 
+                    if (_media_player.Count > 0) 
                     {
-                        _media_players[0]?.SetVolume(value);
+                        _media_player[0]?.SetVolume(value);
                     }
                     
                     _settings.DefaultVolume[0] = (byte)value;
@@ -325,9 +325,9 @@ namespace opentuner.MediaSources.Minitiouner
                 case "volume_slider_2":
                     // cancel mute
                     _settings.DefaultMuted[1] = muted[1] = false;
-                    if (_media_players.Count > 0)
+                    if (_media_player.Count > 0)
                     {
-                        _media_players[1]?.SetVolume(value);
+                        _media_player[1]?.SetVolume(value);
                     }
                     _settings.DefaultVolume[1] = (byte)value;
                     _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Transparent);
@@ -362,7 +362,7 @@ namespace opentuner.MediaSources.Minitiouner
 
             DynamicPropertyGroup _tuner = (tuner == 1 ? _tuner1_properties : _tuner2_properties);
 
-            _tuner.UpdateTitle("Tuner " + tuner.ToString() + " - " + _media_players[player].GetName());
+            _tuner.UpdateTitle("Tuner " + tuner.ToString() + " - " + _media_player[player].GetName());
 
             string video_res = media_status.VideoWidth.ToString() + " x " + media_status.VideoHeight.ToString();
             string audio_rate = media_status.AudioRate.ToString() + " Hz, " + media_status.AudioChannels.ToString() + " channels";
@@ -496,11 +496,26 @@ namespace opentuner.MediaSources.Minitiouner
             //_tuner1_properties.UpdateValue("db_margin", db_margin_text);
             _tuner1_properties.UpdateValue("modcod", modcod_text);
 
-            var data1 = _tuner1_properties.GetAll();
-            data1.Add("frequency", GetFrequency(0, true).ToString());
-            OnSourceData?.Invoke(data1, "Tuner 1");
+            // var data1 = _tuner1_properties.GetAll();
+            //data1.Add("frequency", GetFrequency(0, true).ToString());
 
+            var source_data = new OTSourceData();
+            source_data.frequency = GetFrequency(0, true);
+            source_data.video_number = 0;
+            source_data.mer = mer;
+            source_data.db_margin = dbmargin;
+            source_data.service_name = _tuner1_properties.GetValue("service_name");
+            source_data.symbol_rate = (int)(new_status.T1P2_symbol_rate / 1000);
 
+            if (_media_player.Count > 0)
+            {
+                if (_media_player[0] != null)
+                    source_data.volume = _media_player[0].GetVolume();
+            }
+            
+            source_data.demod_locked = (new_status.T1P2_demod_status >  1);
+
+            OnSourceData?.Invoke(0, source_data, "Tuner 1");
 
             if (ts_devices == 2 && _tuner2_properties != null)
             {
@@ -596,9 +611,25 @@ namespace opentuner.MediaSources.Minitiouner
                 //_tuner2_properties.UpdateValue("db_margin", db_margin_text);
                 _tuner2_properties.UpdateValue("modcod", modcod_text);
 
-                var data2 = _tuner2_properties.GetAll();
-                data2.Add("frequency", GetFrequency(1, true).ToString());
-                OnSourceData?.Invoke(data2, "Tuner 2");
+                //var data2 = _tuner2_properties.GetAll();
+                //data2.Add("frequency", GetFrequency(1, true).ToString());
+
+                var source_data_2 = new OTSourceData();
+                source_data_2.frequency = GetFrequency(1, true);
+                source_data_2.video_number = 1;
+                source_data_2.mer = mer2;
+                source_data_2.db_margin = dbmargin;
+                source_data_2.service_name = _tuner2_properties.GetValue("service_name");
+                source_data_2.demod_locked = (new_status.T2P1_demod_status > 1);
+                source_data_2.symbol_rate = (int)(new_status.T2P1_symbol_rate / 1000);
+
+                if (_media_player.Count > 1)
+                {
+                    if (_media_player[1] != null)
+                        source_data_2.volume = _media_player[1].GetVolume();
+                }
+
+                OnSourceData?.Invoke(1, source_data_2, "Tuner 2");
 
             }
         }
@@ -814,6 +845,44 @@ namespace opentuner.MediaSources.Minitiouner
         public override void UpdateFrequencyPresets(List<StoredFrequency> FrequencyPresets)
         {
             _frequency_presets = FrequencyPresets;
+        }
+
+        public override void UpdateVolume(int device, int volume)
+        {
+            if (device >= _media_player.Count || device < 0)
+                return;
+
+            if (_media_player[device] == null)
+                return;
+
+            int new_volume = _media_player[device].GetVolume() + volume;
+
+            if (new_volume < 0) new_volume = 0;
+            if (new_volume > 200) new_volume = 200;
+
+            _media_player[device].SetVolume(new_volume);
+
+            switch (device)
+            {
+                case 0: _tuner1_properties?.UpdateValue("volume_slider_" + (device + 1).ToString(), new_volume.ToString()); break;
+                case 1: _tuner2_properties?.UpdateValue("volume_slider_" + (device + 1).ToString(), new_volume.ToString()); break;
+            }
+        }
+
+        public override void ToggleMute(int device)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetVolume(int device)
+        {
+            if (device >= _media_player.Count || device < 0)
+                return -1;
+
+            if (_media_player[device] == null)
+                return -1;
+        
+            return _media_player[device].GetVolume();   
         }
     }
 }

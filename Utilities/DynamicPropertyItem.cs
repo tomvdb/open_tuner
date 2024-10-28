@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace opentuner.Utilities
 {
@@ -125,7 +126,16 @@ namespace opentuner.Utilities
             //_titleLabel.BorderStyle = BorderStyle.FixedSingle;
             _titleLabel.AutoSize = false;
             _titleLabel.Width = _parent.Width / 2 - 5;
+            _titleLabel.BackColor = Color.Transparent;
+
             _titleLabel.Height = ItemHeight;
+
+            using (Graphics g = _titleLabel.CreateGraphics())
+            {
+                SizeF textSize = g.MeasureString("Hyq", _titleLabel.Font);
+                _titleLabel.Height = 2 + (int)Math.Ceiling(textSize.Height);
+            }
+
             _titleLabel.Left = 5;
             _titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 

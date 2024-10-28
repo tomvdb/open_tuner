@@ -43,8 +43,8 @@ namespace opentuner.MediaSources.Minitiouner
         bool T1P2_prevLocked = false;
         bool T2P1_prevLocked = false;
 
-        
-        private List<OTMediaPlayer> _media_players = new List<OTMediaPlayer> ();
+
+        List<OTMediaPlayer> _media_player = new List<OTMediaPlayer> ();
         private List<TSRecorder> _ts_recorders;
         private List<TSUdpStreamer> _ts_streamers;
         private List<TunerControlForm> _tuner_forms;
@@ -418,8 +418,6 @@ namespace opentuner.MediaSources.Minitiouner
         private int Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial, Control Parent)
         {
 
-            int result = -1;
-
             this.VideoChangeCB = VideoChangeCB;
             this.SourceStatusCB = SourceStatusCB;
 
@@ -695,15 +693,15 @@ namespace opentuner.MediaSources.Minitiouner
 
             for (int c = 0; c < MediaPlayers.Count; c++)
             {
-                _media_players.Add(MediaPlayers[c]);
-                _media_players[c].onVideoOut += MinitiounerSource_onVideoOut;
+                _media_player.Add(MediaPlayers[c]);
+                _media_player[c].onVideoOut += MinitiounerSource_onVideoOut;
                 if (_settings.DefaultMuted[c])
                 {
-                    _media_players[c].SetVolume(0);
+                    _media_player[c].SetVolume(0);
                 }
                 else
                 {
-                    _media_players[c].SetVolume((int)_settings.DefaultVolume[c]);
+                    _media_player[c].SetVolume((int)_settings.DefaultVolume[c]);
                 }
             }
 
@@ -711,19 +709,19 @@ namespace opentuner.MediaSources.Minitiouner
 
         private void MinitiounerSource_onVideoOut(object sender, MediaStatus e)
         {
-            for (int c = 0; c < _media_players.Count; c++)
+            for (int c = 0; c < _media_player.Count; c++)
             {
-                if ((OTMediaPlayer)sender == _media_players[c])
+                if ((OTMediaPlayer)sender == _media_player[c])
                 {
                     preMute[c] = (int)_settings.DefaultVolume[c];
                     muted[c] = _settings.DefaultMuted[c];
                     if (muted[c] == true)
                     {
-                        _media_players[c].SetVolume(0);
+                        _media_player[c].SetVolume(0);
                     }
                     else
                     {
-                        _media_players[c].SetVolume(preMute[c]);
+                        _media_player[c].SetVolume(preMute[c]);
                     }
 
                     UpdateMediaProperties(c, e);

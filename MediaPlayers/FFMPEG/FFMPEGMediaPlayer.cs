@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Serilog;
+using LibVLCSharp.Shared;
 
 namespace opentuner.MediaPlayers.FFMPEG
 {
@@ -29,7 +30,6 @@ namespace opentuner.MediaPlayers.FFMPEG
 
         MediaStream media_stream;
 
-        int counter = 0;
         CircularBuffer ts_data_queue;
 
         int _id = 0;
@@ -41,7 +41,7 @@ namespace opentuner.MediaPlayers.FFMPEG
             config = new Config();
             config.Video.BackgroundColor = System.Windows.Media.Colors.Black;
             config.Demuxer.AllowTimeouts = false;
-
+            
             config.Player.MinBufferDuration = TimeSpan.FromSeconds(1.5).Ticks;
             config.Decoder.MaxAudioFrames = 40;
             //config.Decoder.VideoThreads = 2;
@@ -59,11 +59,15 @@ namespace opentuner.MediaPlayers.FFMPEG
             config.Decoder.MaxVideoFrames = 3;
             */
 
-            player = new Player(config);
+            //config.Player.KeyBindings.Remove(KeyBindingAction.FullScreen);
 
+            player = new Player(config);
+            
             media_player.Player = player;
             player.OpenCompleted += Player_OpenCompleted;
             player.PlaybackStopped += Player_PlaybackStopped;
+
+            
             //player.BufferingStarted += Player_BufferingStarted;
             //player.PropertyChanged += Player_PropertyChanged;
 
@@ -215,7 +219,7 @@ namespace opentuner.MediaPlayers.FFMPEG
         public override int Read(byte[] buffer, int offset, int count)
         {
             //Log.Information("Buffer: Len: " + buffer.Length.ToString() + "," + offset.ToString() + "," + count.ToString());
-
+        
             while (ts_data_queue.Count< 100000)
             {
                 if (end == true)
@@ -231,7 +235,7 @@ namespace opentuner.MediaPlayers.FFMPEG
             {
                 byte raw_ts_data = 0;
 
-                int buildLen = count-1;
+                int buildLen = count-2;
 
                 if (queue_count < buildLen)
                 {
@@ -262,10 +266,11 @@ namespace opentuner.MediaPlayers.FFMPEG
                         Log.Information("Warning: Trying to dequeue, but nothing available : ffmpeg: read : " + queue_count.ToString());
                     }
                 }
-
+                //Log.Information("Sent " + buildLen);
                 return buildLen;
             }
 
+            
             Log.Information("TS StreamInput: Shouldn't be here");
             return 0;
         }

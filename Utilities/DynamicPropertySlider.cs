@@ -13,7 +13,7 @@ namespace opentuner.Utilities
     {
         public delegate void SliderChanged(string key, int value);
 
-        private const int ItemHeight = 20;
+        //private const int ItemHeight = 20;
         private TrackBar _trackBar;
 
         private int _min;
@@ -56,7 +56,14 @@ namespace opentuner.Utilities
             //_titleLabel.BorderStyle = BorderStyle.FixedSingle;
             _titleLabel.AutoSize = false;
             _titleLabel.Width = _parent.Width / 2 - 5;
-            _titleLabel.Height = ItemHeight;
+            //_titleLabel.Height = ItemHeight;
+
+            using (Graphics g = _titleLabel.CreateGraphics())
+            {
+                SizeF textSize = g.MeasureString("Hyq", _titleLabel.Font);
+                _titleLabel.Height = 2 + (int)Math.Ceiling(textSize.Height);
+            }
+
             _titleLabel.Left = 5;
             _titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
@@ -68,7 +75,7 @@ namespace opentuner.Utilities
             _trackBar = new TrackBar();
             _trackBar.AutoSize = false;
             _trackBar.Top = _titleLabel.Top;
-            _trackBar.Height = ItemHeight;
+            _trackBar.Height = _titleLabel.Height;
             _trackBar.Width = _parent.Width - _trackBar.Left - 5;
             _trackBar.Minimum = _min;
             _trackBar.Maximum = _max;

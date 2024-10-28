@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using System.Net;
 using System.Net.Sockets;
 using Serilog;
-using System.Collections;
 using opentuner.Utilities;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace opentuner.MediaSources.Winterhill
 {
@@ -19,8 +12,6 @@ namespace opentuner.MediaSources.Winterhill
         UdpClient WH_Client = new UdpClient();
 
         UDPClient longmynd_status;
-
-        
 
         public void ConnectWinterhillUDP(int port)
         {
@@ -40,13 +31,11 @@ namespace opentuner.MediaSources.Winterhill
             }
             else
                 Log.Warning("UDP Status Port Disconnected");
-
         }
-
 
         public void DisconnectWinterhillUDP()
         {
-            longmynd_status.Close();
+            longmynd_status?.Close();
         }
 
         private void Longmynd_status_DataReceived(object sender, byte[] e)
@@ -75,7 +64,7 @@ namespace opentuner.MediaSources.Winterhill
 
             for (int c = 0; c <  status_strings.Length; c++)
             {
-                string[] dt = status_strings[c].Split(',');
+                string[] dt = status_strings[c].Trim().Split(',');
 
 
                 switch(dt[0])
@@ -88,7 +77,7 @@ namespace opentuner.MediaSources.Winterhill
 
                         if (receiver < 1 || receiver > 2 )
                         {
-                            Log.Information( "receiver: " + receiver.ToString() + " : " + status_strings[c]);
+                            //Log.Information( "receiver: " + receiver.ToString() + " : " + status_strings[c]);
                             return;
                         }
                         

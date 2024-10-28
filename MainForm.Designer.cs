@@ -44,6 +44,9 @@
             this.linkOpenTunerUpdates = new System.Windows.Forms.Label();
             this.linkDocumentation = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.LinkDatvReportMoreInfo = new System.Windows.Forms.Label();
+            this.linkDATVReporterSettings = new System.Windows.Forms.Label();
+            this.checkDATVReporter = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.linkQuickTuneSettings = new System.Windows.Forms.Label();
@@ -72,6 +75,8 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.ExtraToolsTab = new System.Windows.Forms.TabControl();
+            this.ExtraSpectrumTab = new System.Windows.Forms.TabPage();
             this.spectrum = new System.Windows.Forms.PictureBox();
             this.contextSpectrumMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.autoTuneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +85,8 @@
             this.autoHoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstripConnectToggle = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuManageFrequencyPresets = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -113,6 +120,8 @@
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.SuspendLayout();
+            this.ExtraToolsTab.SuspendLayout();
+            this.ExtraSpectrumTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
             this.contextSpectrumMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -120,7 +129,7 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.splitContainer1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             resources.ApplyResources(this.splitContainer1, "splitContainer1");
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Name = "splitContainer1";
@@ -237,6 +246,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.LinkDatvReportMoreInfo);
+            this.groupBox2.Controls.Add(this.linkDATVReporterSettings);
+            this.groupBox2.Controls.Add(this.checkDATVReporter);
             this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.linkQuickTuneSettings);
@@ -254,6 +266,29 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // LinkDatvReportMoreInfo
+            // 
+            resources.ApplyResources(this.LinkDatvReportMoreInfo, "LinkDatvReportMoreInfo");
+            this.LinkDatvReportMoreInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.LinkDatvReportMoreInfo.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.LinkDatvReportMoreInfo.Name = "LinkDatvReportMoreInfo";
+            this.LinkDatvReportMoreInfo.Click += new System.EventHandler(this.LinkDatvReportMoreInfo_Click);
+            // 
+            // linkDATVReporterSettings
+            // 
+            resources.ApplyResources(this.linkDATVReporterSettings, "linkDATVReporterSettings");
+            this.linkDATVReporterSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkDATVReporterSettings.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.linkDATVReporterSettings.Name = "linkDATVReporterSettings";
+            this.linkDATVReporterSettings.Click += new System.EventHandler(this.linkDATVReporterSettings_Click);
+            // 
+            // checkDATVReporter
+            // 
+            resources.ApplyResources(this.checkDATVReporter, "checkDATVReporter");
+            this.checkDATVReporter.Name = "checkDATVReporter";
+            this.checkDATVReporter.UseVisualStyleBackColor = true;
+            this.checkDATVReporter.CheckedChanged += new System.EventHandler(this.checkDATVReporter_CheckedChanged);
             // 
             // checkBox2
             // 
@@ -432,6 +467,7 @@
             // 
             // splitContainer2
             // 
+            this.splitContainer2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             resources.ApplyResources(this.splitContainer2, "splitContainer2");
             this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer2.Name = "splitContainer2";
@@ -442,7 +478,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.spectrum);
+            this.splitContainer2.Panel2.Controls.Add(this.ExtraToolsTab);
             // 
             // splitContainer3
             // 
@@ -486,6 +522,21 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.BackColor = System.Drawing.Color.Black;
+            // 
+            // ExtraToolsTab
+            // 
+            this.ExtraToolsTab.Controls.Add(this.ExtraSpectrumTab);
+            resources.ApplyResources(this.ExtraToolsTab, "ExtraToolsTab");
+            this.ExtraToolsTab.Name = "ExtraToolsTab";
+            this.ExtraToolsTab.SelectedIndex = 0;
+            this.ExtraToolsTab.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ExtraToolsTab_DrawItem);
+            // 
+            // ExtraSpectrumTab
+            // 
+            this.ExtraSpectrumTab.BackColor = System.Drawing.Color.Black;
+            this.ExtraSpectrumTab.Controls.Add(this.spectrum);
+            resources.ApplyResources(this.ExtraSpectrumTab, "ExtraSpectrumTab");
+            this.ExtraSpectrumTab.Name = "ExtraSpectrumTab";
             // 
             // spectrum
             // 
@@ -543,12 +594,25 @@
             // openTunerToolStripMenuItem
             // 
             this.openTunerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstripConnectToggle,
+            this.toolStripSeparator3,
             this.settingsToolStripMenuItem,
             this.menuManageFrequencyPresets,
             this.toolStripSeparator1,
             this.quitToolStripMenuItem});
             this.openTunerToolStripMenuItem.Name = "openTunerToolStripMenuItem";
             resources.ApplyResources(this.openTunerToolStripMenuItem, "openTunerToolStripMenuItem");
+            // 
+            // toolstripConnectToggle
+            // 
+            this.toolstripConnectToggle.Name = "toolstripConnectToggle";
+            resources.ApplyResources(this.toolstripConnectToggle, "toolstripConnectToggle");
+            this.toolstripConnectToggle.Click += new System.EventHandler(this.toolstripConnectToggle_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             // 
             // settingsToolStripMenuItem
             // 
@@ -622,6 +686,7 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -653,6 +718,8 @@
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
             this.splitContainer5.ResumeLayout(false);
+            this.ExtraToolsTab.ResumeLayout(false);
+            this.ExtraSpectrumTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).EndInit();
             this.contextSpectrumMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -687,7 +754,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.TabPage PropertiesPage;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.PictureBox spectrum;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;
@@ -725,6 +791,14 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ToolStripMenuItem menuManageFrequencyPresets;
+        private System.Windows.Forms.ToolStripMenuItem toolstripConnectToggle;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.Label linkDATVReporterSettings;
+        private System.Windows.Forms.CheckBox checkDATVReporter;
+        private System.Windows.Forms.TabControl ExtraToolsTab;
+        private System.Windows.Forms.TabPage ExtraSpectrumTab;
+        private System.Windows.Forms.PictureBox spectrum;
+        private System.Windows.Forms.Label LinkDatvReportMoreInfo;
     }
 }
 

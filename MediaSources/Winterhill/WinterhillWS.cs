@@ -123,10 +123,18 @@ namespace opentuner.MediaSources.Winterhill
         public void DisconnectWebsockets()
         {
             _connected = false;
-            if (monitorWS.IsAlive)
-                monitorWS.Close();
-            if (controlWS.IsAlive)
-                controlWS.Close();
+            
+            if (monitorWS != null)
+            {
+                if (monitorWS.IsAlive)
+                    monitorWS?.Close();
+            }
+
+            if (controlWS != null)
+            {
+                if (controlWS.IsAlive)
+                    controlWS?.Close();
+            }
         }
     }
 

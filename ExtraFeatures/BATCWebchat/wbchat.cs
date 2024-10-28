@@ -373,6 +373,8 @@ namespace opentuner
 
             nickDialog.txtNick.Text = txtNick.Text;
 
+            _settings.nickname = txtNick.Text;
+
             if (nickDialog.ShowDialog() == DialogResult.OK)
             {
                 txtNick.Text = nickDialog.txtNick.Text;
@@ -405,7 +407,7 @@ namespace opentuner
             {
                 // from Chris - DH3CS
                 string user = lbUsers.GetItemText(lbUsers.SelectedItem);
-                string result = null;
+
                 try
                 {
                     richChat.SelectionStart = 0;
@@ -460,7 +462,7 @@ namespace opentuner
 
             signalReport = signalReport.Replace("{SN}", data["ServiceName"]);
             signalReport = signalReport.Replace("{SP}", data["ServiceProvider"]);
-            signalReport = signalReport.Replace("{DBM}", "D" + data["dbMargin"]);
+            signalReport = signalReport.Replace("{DBM}", data["dbMargin"]);
             signalReport = signalReport.Replace("{MER}", data["Mer"] + " dB");
             signalReport = signalReport.Replace("{SR}", data["SR"] + "");
             signalReport = signalReport.Replace("{FREQ}", data["Frequency"] + "");
