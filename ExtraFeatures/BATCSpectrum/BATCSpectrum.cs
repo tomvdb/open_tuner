@@ -24,7 +24,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private static readonly Object list_lock = new Object();
 
-        static int height = 255;    //makes things easier
+        static int height = 246;    //makes things easier
         static int bandplan_height = 30;
 
         Bitmap bmp;
@@ -414,7 +414,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             tmp.FillPolygon(linGrBrush, points);
 
-            tmp.DrawImage(bmp2, 0, 255 - bandplan_height); //bandplan
+            tmp.DrawImage(bmp2, 0, height - bandplan_height); //bandplan
 
             y = 0;
 
