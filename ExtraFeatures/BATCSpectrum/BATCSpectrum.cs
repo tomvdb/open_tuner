@@ -24,7 +24,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private static readonly Object list_lock = new Object();
 
-        static readonly int height = 246;    //makes things easier
+        public static readonly int height = 246;    //makes things easier
         static readonly int bandplan_height = 30;
 
         Bitmap bmp;
@@ -353,11 +353,11 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (s.frequency > 10492.000)
                     {
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength + 50))));
                     }
                     else
                     {
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (25)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength + 50))));
                     }
                 }
             }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using opentuner.ExtraFeatures.BATCSpectrum;
 
 namespace opentuner
 {
@@ -506,7 +507,7 @@ namespace opentuner
                                 if (signal_freq < 10492000 && signal_bw > 1.0)
                                 {
                                     beacon_strength = strength_signal;
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal, signal_freq, signal_bw, false, 0));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, false, 0));
                                 }
                                 else
                                 {
@@ -543,7 +544,7 @@ namespace opentuner
                                     if (isOverPower(beacon_strength, strength_signal, signal_bw))
                                         overpower = true;
 
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal, signal_freq, signal_bw, overpower, dBb));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, overpower, dBb));
                                 }
                             }
 
