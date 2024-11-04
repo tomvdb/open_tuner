@@ -535,7 +535,7 @@ namespace opentuner
             {
                 return 0;
             }
-            else if (width < 0.065)
+            else if (width < 0.060)
             {
                 return 0.035f;
             }
@@ -543,7 +543,7 @@ namespace opentuner
             {
                 return 0.066f;
             }
-            else if (width < 0.195)
+            else if (width < 0.185)
             {
                 return 0.125f;
             }
