@@ -511,11 +511,39 @@ namespace opentuner
                                 else
                                 {
                                     bool overpower = false;
+                                    //
+                                    // The original dBb calculation code used at the QO-100 wideband spectrum web site is complicated:
+                                    // 
+                                    // -------------------------------
+                                    //
+                                    //  canvasHeight = 542;
+                                    //  var db_per_pixel;
+                                    //  var beacon_strength_pixel;
+                                    //
+                                    //  db_per_pixel = ((canvasHeight * 7/8) - (canvasHeight / 12)) / 15; // 15dB screen window
+                                    //  beacon_strength_pixel = canvasHeight - ((beacon_strength / 65536) * canvasHeight);
+                                    // 
+                                    //  signal[x].top = (canvasHeight-((strength_signal/65536) * canvasHeight);
+                                    //  dBb = ((beacon_strength_pixel - signal[x].top) / db_per_pixel).toFixed(1);
+                                    //
+                                    // -------------------------------
+                                    //
+                                    // I (DL1RF) have simplified the calculation by eliminating the 'canvasHeight' dependency.
+                                    // With canvasHeight = 1 the db_per_pixel will calculate as ((1 * 7/8) - (1 / 12)) / 15 = 0.0527777...
+                                    //
+                                    // Life comparing the dBb values calculated here with the values at QO-100 wideband spectrum
+                                    // show sometimes a diviation of -0.1dB.
+                                    //
+                                    // But this is the same while using the original calculation.
+                                    //
+                                    // Additional tests may be necessary to enshure that the simplified calcualtion is right.
+                                    //
+                                    float dBb = -1.0f * (((float)(beacon_strength - strength_signal) / 65536.0f) / 0.052778f);
 
                                     if (isOverPower(beacon_strength, strength_signal, signal_bw))
                                         overpower = true;
 
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal, signal_freq, signal_bw, overpower, 0));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal, signal_freq, signal_bw, overpower, dBb));
                                 }
                             }
 

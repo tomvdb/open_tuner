@@ -351,7 +351,14 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 //draw the text for each signal found
                 foreach (signal.Sig s in signals)
                 {
-                    tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (25)), (255 - Convert.ToSingle(s.fft_strength + 50))));
+                    if (s.frequency > 10492.000)
+                    {
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
+                    }
+                    else
+                    {
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (25)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
+                    }
                 }
             }
 
@@ -442,6 +449,15 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
                 }
+                // Test code to demonstrate how to draw the rectangle to the spectrum.
+                // It is indended to only show the rectangle if mouse is within the rectangle boundaries.
+                //
+                //if (sig.frequency > 10492.000)
+                //{
+                //    tmp.DrawLine(whitePen, Convert.ToInt16(sig.fft_start * spectrum_wScale), height - Convert.ToInt16(sig.fft_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale), height - Convert.ToInt16(sig.fft_strength / height));
+                //    tmp.DrawLine(whitePen, Convert.ToInt16(sig.fft_start * spectrum_wScale), height - Convert.ToInt16(sig.fft_strength / height), Convert.ToInt16(sig.fft_start * spectrum_wScale), height);
+                //    tmp.DrawLine(whitePen, Convert.ToInt16(sig.fft_stop * spectrum_wScale), height - Convert.ToInt16(sig.fft_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale), height);
+                //}
             }
 
             for (i = 0; i < _tuners; i++)
