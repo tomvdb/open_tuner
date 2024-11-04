@@ -382,32 +382,29 @@ namespace opentuner
                 Log.Error("info_display count does not fit video_nr");
             }
 
-            if (datv_reporter != null)
+            if (datv_reporter != null && properties.demod_locked)
             {
-                if (properties.demod_locked)
-                {
-                    bool result = datv_reporter.SendISawMessage(new ISawMessage(
-                        properties.service_name,
-                        properties.db_margin,
-                        properties.mer,
-                        properties.frequency,
-                        properties.symbol_rate,
-                        videoSource.GetDeviceName()
-                        ));
+                bool result = datv_reporter.SendISawMessage(new ISawMessage(
+                    properties.service_name,
+                    properties.db_margin,
+                    properties.mer,
+                    properties.frequency,
+                    properties.symbol_rate,
+                    videoSource.GetDeviceName()
+                    ));
 
-                    /*
-                    if (!result)
+                /*
+                if (!result)
+                {
+                    if (!datv_reporter.Connected)
                     {
-                        if (!datv_reporter.Connected)
-                        {
-                            datv_reporter.Connect();
-                        }
+                        datv_reporter.Connect();
                     }
-                    */
                 }
+                */
             }
 
-            if (batc_spectrum != null)
+            if (batc_spectrum != null && properties.demod_locked)
             {
                 float freq = properties.frequency;
                 float sr = properties.symbol_rate;
