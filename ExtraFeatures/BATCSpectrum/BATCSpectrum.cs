@@ -24,8 +24,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private static readonly Object list_lock = new Object();
 
-        static int height = 246;    //makes things easier
-        static int bandplan_height = 30;
+        static readonly int height = 246;    //makes things easier
+        static readonly int bandplan_height = 30;
 
         Bitmap bmp;
         static Bitmap bmp2;
@@ -388,12 +388,12 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             for (i = 1; i < fft_data.Length - 3; i++)     //ignore padding?
             {
-                PointF point = new PointF(i * spectrum_wScale, 255 - fft_data[i] / 255);
+                PointF point = new PointF(i * spectrum_wScale, height - fft_data[i] / height);
                 points[i] = point;
             }
 
-            points[0] = new PointF(0, 255);
-            points[points.Length - 1] = new PointF(spectrum_w, 255);
+            points[0] = new PointF(0, height);
+            points[points.Length - 1] = new PointF(spectrum_w, height);
 
             if (spectrumTunerHighlight > -1)
             {
@@ -408,7 +408,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             LinearGradientBrush linGrBrush = new LinearGradientBrush(
                new Point(0, 0),
-               new Point(0, 255),
+               new Point(0, height),
                Color.FromArgb(255, 255, 99, 132),   // Opaque red
                Color.FromArgb(255, 54, 162, 235));  // Opaque blue
 
@@ -440,7 +440,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
                 if (sig.overpower)
                 {
-                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), (255) - 4) });
+                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
                 }
             }
 
