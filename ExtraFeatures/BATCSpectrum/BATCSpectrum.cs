@@ -257,6 +257,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private void spectrum_MouseLeave(object sender, EventArgs e)
         {
+            get_bandplan_TX_freq(0, 0);  // dh3cs
+            mousePos_x = 0;
+            mousePos_y = 0;
             spectrumTunerHighlight = -1;
         }
 
@@ -585,7 +588,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
         }
 
-        public void spectrum_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        public void spectrum_MouseMove(object sender, MouseEventArgs e)
         {
             get_bandplan_TX_freq(e.X, e.Y);  // dh3cs
             // save mouse position for rendering signal box
@@ -601,7 +604,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             int n = 0;
             string tx_freq_MHz = "";
-            if (x > (_spectrum.Height - bandplan_height))
+            if (y > (_spectrum.Height - bandplan_height))
             {
                 if (channels != null)
                 {
@@ -614,6 +617,14 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                                 tx_freq_MHz = indexedbandplan[n].Element("s-freq").Value;
                                 InfoText = " Dn: " + indexedbandplan[n].Element("x-freq").Value + "  SR: " + indexedbandplan[n].Element("name").Value + Environment.NewLine
                                     + " Up: " + tx_freq_MHz;
+                                break;
+                            }
+                            else
+                            {
+                                if (InfoText != "")
+                                {
+                                    InfoText = "";
+                                }
                             }
                         }
                         n++;
