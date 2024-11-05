@@ -32,6 +32,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Pen greyPen = new Pen(Color.FromArgb(200, 123, 123, 123));
         Pen greyPen2 = new Pen(Color.FromArgb(200, 123, 123, 123));
         Pen whitePen = new Pen(Color.FromArgb(200, 255, 255, 255));
+        Pen overpowerPen = new Pen(Color.FromArgb(200, Color.Red));
         SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
         SolidBrush bandplanBrush = new SolidBrush(Color.FromArgb(180, 250, 250, 255));
         SolidBrush overpowerBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
@@ -459,7 +460,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (sig.overpower)
                     {
-                        tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                        tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 10), height - Convert.ToInt16(sig.max_strength), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 10), height - Convert.ToInt16(sig.max_strength));
+                        tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), height - Convert.ToInt16(sig.max_strength), Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
                     }
                 }
             }
@@ -476,7 +478,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private void spectrum_Click(object sender, EventArgs e)
         {
-
+            int spectrum_h = _spectrum.Height - bandplan_height;
             float spectrum_w = _spectrum.Width;
             float spectrum_wScale = spectrum_w / 922;
 
@@ -486,29 +488,48 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             int X = pos.X;
             int Y = pos.Y;
 
-            if (me.Button == MouseButtons.Right)
+            if (Y > spectrum_h)
             {
-                int spectrum_h = _spectrum.Height - bandplan_height;
-
-                if (Y > spectrum_h)
+                switch (me.Button)
                 {
-                    int freq = Convert.ToInt32((10490.5 + ((X / spectrum_wScale) / 922.0) * 9.0) * 1000.0);
-                    //UpdateTextBox(txtFreq, freq.ToString());
-
-                    string tx_freq = get_bandplan_TX_freq(X, Y);
-                    debug("TX-Freq: " + tx_freq + " MHz");
-                    // dh3cs
-                    if (!string.IsNullOrEmpty(tx_freq))
-                    {
-                        //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
-                        Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
-                        TX_Text = " TX: " + tx_freq;
-                    }
+                    case MouseButtons.Left:
+                        string tx_freq = get_bandplan_TX_freq(X, Y);
+                        debug("TX-Freq: " + tx_freq + " MHz");
+                        // dh3cs
+                        if (!string.IsNullOrEmpty(tx_freq))
+                        {
+                            //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
+                            Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
+                            TX_Text = " TX: " + tx_freq;
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
             else
             {
-                selectSignal(X, Y);
+                switch (me.Button)
+                {
+                    case MouseButtons.Left:
+                        selectSignal(X, Y);
+                        break;
+                    case MouseButtons.Right:
+                        uint freq = Convert.ToUInt32((10490.5 + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
+
+                        using (opentuner.SRForm srForm = new opentuner.SRForm(freq))      //open up the manual sr select form
+                        {
+                            srForm.StartPosition = FormStartPosition.CenterParent;
+                            DialogResult result = srForm.ShowDialog();
+                            if (result == DialogResult.OK)
+                            {
+                                OnSignalSelected?.Invoke(determine_rx(Y), freq, srForm.getsr());
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
 
         }
