@@ -279,7 +279,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             catch (Exception Ex)
             {
-
+                MessageBox.Show(Ex.Message);
             }
         }
 
@@ -383,7 +383,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             catch (Exception Ex)
             {
-
+                MessageBox.Show(Ex.Message);
             }
 
         }
