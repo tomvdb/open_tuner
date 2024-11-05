@@ -320,7 +320,7 @@ namespace opentuner
             frequenciesManager = new SettingsManager<List<StoredFrequency>>("frequency_presets");
             stored_frequencies = frequenciesManager.LoadSettings(stored_frequencies);
 
-            Text = "Open Tuner (ZR6TG) - Version " + GlobalDefines.Version + " - Build: " + opentuner.Properties.Resources.BuildDate;
+            Text = "Open Tuner (ZR6TG) - Version " + GlobalDefines.Version + " (modified by DL1RF) - Build: " + opentuner.Properties.Resources.BuildDate;
         }
 
         /// <summary>
