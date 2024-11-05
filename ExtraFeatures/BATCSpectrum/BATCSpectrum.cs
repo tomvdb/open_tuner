@@ -480,28 +480,31 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             float spectrum_w = _spectrum.Width;
             float spectrum_wScale = spectrum_w / 922;
 
-            System.Windows.Forms.MouseEventArgs me = (System.Windows.Forms.MouseEventArgs)e;
+            MouseEventArgs me = (MouseEventArgs)e;
             var pos = me.Location;
-
 
             int X = pos.X;
             int Y = pos.Y;
 
             if (me.Button == MouseButtons.Right)
             {
-                int freq = Convert.ToInt32((10490.5 + ((X / spectrum_wScale) / 922.0) * 9.0) * 1000.0);
-                //UpdateTextBox(txtFreq, freq.ToString());
+                int spectrum_h = _spectrum.Height - bandplan_height;
 
-                string tx_freq = get_bandplan_TX_freq(X, Y);
-                debug("TX-Freq: " + tx_freq + " MHz");
-                // dh3cs
-                if (!string.IsNullOrEmpty(tx_freq))
+                if (Y > spectrum_h)
                 {
-                    //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
-                    Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
-                    TX_Text = " TX: " + tx_freq;
-                }
+                    int freq = Convert.ToInt32((10490.5 + ((X / spectrum_wScale) / 922.0) * 9.0) * 1000.0);
+                    //UpdateTextBox(txtFreq, freq.ToString());
 
+                    string tx_freq = get_bandplan_TX_freq(X, Y);
+                    debug("TX-Freq: " + tx_freq + " MHz");
+                    // dh3cs
+                    if (!string.IsNullOrEmpty(tx_freq))
+                    {
+                        //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
+                        Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
+                        TX_Text = " TX: " + tx_freq;
+                    }
+                }
             }
             else
             {
@@ -614,7 +617,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         {
                             if (y - (_spectrum.Height - bandplan_height) >= ch.Location.Y - (ch.Height / 2) + 3 & y - (_spectrum.Height - bandplan_height) <= ch.Location.Y + (ch.Height / 2) + 3)
                             {
-                                tx_freq_MHz = indexedbandplan[n].Element("s-freq").Value;
+                                if (indexedbandplan[n].Element("name").Value != "BEACON")
+                                {
+                                    tx_freq_MHz = indexedbandplan[n].Element("s-freq").Value;
+                                }
                                 InfoText = " Dn: " + indexedbandplan[n].Element("x-freq").Value + "  SR: " + indexedbandplan[n].Element("name").Value + Environment.NewLine
                                     + " Up: " + tx_freq_MHz;
                                 break;
