@@ -519,7 +519,18 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                         using (opentuner.SRForm srForm = new opentuner.SRForm(freq))      //open up the manual sr select form
                         {
-                            srForm.StartPosition = FormStartPosition.CenterParent;
+                            Point spectrum_screen_location = _spectrum.PointToScreen(_spectrum.Location);
+                            Point new_srForm_location = spectrum_screen_location;
+                            int spectrum_width = _spectrum.Size.Width;
+                            int srForm_width = srForm.Size.Width;
+
+                            if (X > (srForm_width/2))
+                                new_srForm_location.X = spectrum_screen_location.X + X - srForm.Size.Width/2;
+                            if (X > (spectrum_width - srForm.Size.Width/2))
+                                new_srForm_location.X = spectrum_screen_location.X + (spectrum_width - srForm.Size.Width);
+
+                            srForm.StartPosition = FormStartPosition.Manual;
+                            srForm.Location = new_srForm_location;
                             DialogResult result = srForm.ShowDialog();
                             if (result == DialogResult.OK)
                             {
