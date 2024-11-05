@@ -541,7 +541,6 @@
             // spectrum
             // 
             this.spectrum.BackColor = System.Drawing.Color.Black;
-            this.spectrum.ContextMenuStrip = this.contextSpectrumMenu;
             resources.ApplyResources(this.spectrum, "spectrum");
             this.spectrum.Name = "spectrum";
             this.spectrum.TabStop = false;
