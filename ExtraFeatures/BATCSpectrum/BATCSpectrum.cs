@@ -31,6 +31,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         static Bitmap bmp2;
         Pen greyPen = new Pen(Color.FromArgb(200, 123, 123, 123));
         Pen greyPen2 = new Pen(Color.FromArgb(200, 123, 123, 123));
+        Pen whitePen = new Pen(Color.FromArgb(200, 255, 255, 255));
         SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
         SolidBrush bandplanBrush = new SolidBrush(Color.FromArgb(180, 250, 250, 255));
         SolidBrush overpowerBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
@@ -68,6 +69,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         int connect_retries = 5;
         int connect_retry_count = 0;
+
+        private int mousePos_x = 0;
+        private int mousePos_y = 0;
 
         public void updateSignalCallsign(string callsign, double freq, float sr)
         {
@@ -351,8 +355,11 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 //draw the text for each signal found
                 foreach (signal.Sig s in signals)
                 {
-                    if (s.frequency > 10492.000)
+                    if (check_mouse_over_signal(s))
                     {
+                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength));
+                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_start * spectrum_wScale), height);
+                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_stop * spectrum_wScale), height);
                         tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength + 50))));
                     }
                     else
@@ -443,21 +450,15 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             sigs.detect_signals(fft_data);
 
             // draw over power
-            foreach (var sig in sigs.signalsData)
+            lock (list_lock)
             {
-                if (sig.overpower)
+                foreach (var sig in sigs.signalsData)
                 {
-                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                    if (sig.overpower)
+                    {
+                        tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                    }
                 }
-                // Test code to demonstrate how to draw the rectangle to the spectrum.
-                // It is indended to only show the rectangle if mouse is within the rectangle boundaries.
-                //
-                //if (sig.frequency > 10492.000)
-                //{
-                //    tmp.DrawLine(whitePen, Convert.ToInt16(sig.fft_start * spectrum_wScale), height - Convert.ToInt16(sig.fft_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale), height - Convert.ToInt16(sig.fft_strength / height));
-                //    tmp.DrawLine(whitePen, Convert.ToInt16(sig.fft_start * spectrum_wScale), height - Convert.ToInt16(sig.fft_strength / height), Convert.ToInt16(sig.fft_start * spectrum_wScale), height);
-                //    tmp.DrawLine(whitePen, Convert.ToInt16(sig.fft_stop * spectrum_wScale), height - Convert.ToInt16(sig.fft_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale), height);
-                //}
             }
 
             for (i = 0; i < _tuners; i++)
@@ -531,36 +532,65 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             try
             {
-                foreach (signal.Sig s in sigs.signals)
+                lock (list_lock)
                 {
-                    if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
+                    foreach (signal.Sig s in sigs.signals)
                     {
+                        if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
+                        {
 
-                        sigs.set_tuned(s, rx);
-                        rx_blocks[rx, 0] = Convert.ToInt16(s.fft_centre);
-                        rx_blocks[rx, 1] = Convert.ToInt16((s.fft_stop) - (s.fft_start));
-                        UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
-                        UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));
+                            sigs.set_tuned(s, rx);
+                            rx_blocks[rx, 0] = Convert.ToInt16(s.fft_centre);
+                            rx_blocks[rx, 1] = Convert.ToInt16((s.fft_stop) - (s.fft_start));
+                            UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
+                            UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));
 
-                        debug("Freq: " + freq.ToString());
-                        debug("SR: " + sr.ToString());
+                            debug("Freq: " + freq.ToString());
+                            debug("SR: " + sr.ToString());
 
-                        OnSignalSelected?.Invoke(rx, freq, sr);
+                            OnSignalSelected?.Invoke(rx, freq, sr);
 
+                        }
                     }
                 }
             }
             catch (Exception Ex)
             {
-
+                MessageBox.Show(Ex.Message);
             }
         }
 
         int spectrumTunerHighlight = -1;
 
+        private bool check_mouse_over_signal(signal.Sig s)
+        {
+            int spectrum_h = _spectrum.Height - bandplan_height;
+            float spectrum_w = _spectrum.Width;
+            float spectrum_wScale = spectrum_w / 922;
+
+            if (mousePos_y < spectrum_h)
+            {
+                if ((mousePos_x > (s.fft_start * spectrum_wScale)) && (mousePos_x < (s.fft_stop * spectrum_wScale)) && (mousePos_y > (_spectrum.Height - s.fft_strength)))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void spectrum_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             get_bandplan_TX_freq(e.X, e.Y);  // dh3cs
+            // save mouse position for rendering signal box
+            mousePos_x = e.X;
+            mousePos_y = e.Y;
 
             spectrumTunerHighlight = determine_rx(e.Y);
 
