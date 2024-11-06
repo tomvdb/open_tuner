@@ -438,17 +438,14 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             tmp.DrawImage(bmp2, 0, height - bandplan_height); //bandplan
 
             y = 0;
-            if (quicktune_enabled)
+            for (int tuner = 0; tuner < _tuners; tuner++)
             {
-                for (int tuner = 0; tuner < _tuners; tuner++)
-                {
-                    y = tuner * (spectrum_h / _tuners);
+                y = tuner * (spectrum_h / _tuners);
 
-                    //draw block showing signal selected
-                    if (rx_blocks[tuner, 0] > 0)
-                    {
-                        tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale) / 2), y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
-                    }
+                //draw block showing signal selected
+                if (rx_blocks[tuner, 0] > 0)
+                {
+                    tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale) / 2), y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
                 }
             }
 
