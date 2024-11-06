@@ -33,7 +33,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Pen greyPen2 = new Pen(Color.FromArgb(200, 123, 123, 123));
         Pen whitePen = new Pen(Color.FromArgb(200, 255, 255, 255));
         Pen overpowerPen = new Pen(Color.FromArgb(200, Color.Red));
-        SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
+        SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(200, Color.Gray));
         SolidBrush bandplanBrush = new SolidBrush(Color.FromArgb(180, 250, 250, 255));
         SolidBrush overpowerBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
 
@@ -43,7 +43,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Graphics tmp;
         Graphics tmp2;
 
-        int[,] rx_blocks = new int[4, 3];
+        int[,] rx_blocks = new int[4, 3];   // first index: Tuner; second index: 0 := center, 1 := width 
 
         double start_freq = 10490.5f;
 
@@ -80,6 +80,13 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         public void updateSignalCallsign(string callsign, double freq, float sr)
         {
             sigs.updateCurrentSignal(callsign, freq, sr);
+        }
+
+        public void updateTuner(int tuner, double freq, float sr)
+        {
+            double fft_factor = 922.0f / 9.0f;
+            rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_factor);
+            rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_factor);
         }
 
         public BATCSpectrum(PictureBox Spectrum, int Tuners) 
@@ -131,8 +138,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             sigs.set_num_rx_scan(num_rxs_to_scan);
             sigs.set_num_rx(1);
-
-            sigs.set_avoidbeacon(true);
 
             SpectrumTuneTimer = new Timer();
             SpectrumTuneTimer.Enabled = false;
@@ -445,7 +450,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 //draw block showing signal selected
                 if (rx_blocks[tuner, 0] > 0)
                 {
-                    tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale) / 2), y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
+                    tmp.FillRectangle(shadowBrush, new RectangleF((rx_blocks[tuner, 0] * spectrum_wScale) - ((rx_blocks[tuner, 1] * spectrum_wScale) / 2), y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
                 }
             }
 
