@@ -99,17 +99,10 @@ namespace opentuner
 
         }
 
-        bool avoid_beacon = false;
-
         private Sig[] last_sig = new Sig[8];             //last tune signal - detail
         private Sig[] next_sig = new Sig[8];             //last tune signal - detail
 
         private DateTime[] last_tuned_time = new DateTime[8];   //time the last signal was tuned
-
-        public void set_avoidbeacon(bool b)
-        {
-            avoid_beacon = b;
-        }
 
         public void set_tuned(Sig s, int rx)
         {
@@ -158,7 +151,7 @@ namespace opentuner
                     if ((t.Minutes * 60) + t.Seconds > time)
                     {
                         //          Log.Information("elapsed: "+rx.ToString());
-                        next_sig[rx] = find_next(rx);
+                        next_sig[rx] = find_next(rx, true);
 
                         if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
                         {
@@ -169,7 +162,7 @@ namespace opentuner
                     {
                         if (!find_signal(last_sig[rx], rx))      //if the selected signal goes off then find another one to tune to
                         {
-                            next_sig[rx] = find_next(rx);
+                            next_sig[rx] = find_next(rx, true);
 
                             if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
                             {
@@ -182,7 +175,7 @@ namespace opentuner
                 {
                     if (!find_signal(last_sig[rx], rx))  //if the selected signal goes off then find another one to tune to
                     {
-                        next_sig[rx] = find_next(rx);
+                        next_sig[rx] = find_next(rx, true);
 
                         if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
                         {
@@ -323,7 +316,7 @@ namespace opentuner
 
         }
 
-        private Sig find_next(int rx)
+        private Sig find_next(int rx, bool avoid_beacon)
         {
 
             Sig newsig = new Sig();
@@ -335,7 +328,7 @@ namespace opentuner
             }
             else
             {
-                startfreq = startfreq = 10490; ;
+                startfreq = startfreq = 10490.5f;
             }
 
             //      Console.Write("Rx:" + rx.ToString() + " Current Tuned:" + last_sig[rx].frequency+"\n");
