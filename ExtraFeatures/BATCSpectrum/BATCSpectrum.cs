@@ -74,6 +74,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         private int mousePos_x = 0;
         private int mousePos_y = 0;
 
+        public bool quicktune_enabled = false;
+        public bool pluto_control_enabled = false;
+
         public void updateSignalCallsign(string callsign, double freq, float sr)
         {
             sigs.updateCurrentSignal(callsign, freq, sr);
@@ -413,10 +416,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             points[0] = new PointF(0, height);
             points[points.Length - 1] = new PointF(spectrum_w, height);
 
-            if (spectrumTunerHighlight > -1)
+            if (spectrumTunerHighlight > -1 && quicktune_enabled)
             {
                 y = spectrumTunerHighlight * (spectrum_h / _tuners);
-                tmp.FillRectangle(tuner1Brush, new RectangleF(0, y, spectrum_w, (spectrum_h/_tuners)));
+                tmp.FillRectangle(tuner1Brush, new RectangleF(0, y, spectrum_w, (spectrum_h / _tuners)));
             }
 
             //tmp.FillRectangle((spectrumTunerHighlight == 1 ? tuner1Brush : tuner2Brush), new RectangleF(0, (spectrumTunerHighlight == 1 ? 0 : spectrum_h / 2), spectrum_w, _tuners == 1 ? spectrum_h : spectrum_h / 2));
@@ -435,15 +438,17 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             tmp.DrawImage(bmp2, 0, height - bandplan_height); //bandplan
 
             y = 0;
-
-            for (int tuner = 0; tuner < _tuners; tuner++)
+            if (quicktune_enabled)
             {
-                y = tuner * (spectrum_h / _tuners);
-
-                //draw block showing signal selected
-                if (rx_blocks[tuner, 0] > 0)
+                for (int tuner = 0; tuner < _tuners; tuner++)
                 {
-                    tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale)/2) , y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
+                    y = tuner * (spectrum_h / _tuners);
+
+                    //draw block showing signal selected
+                    if (rx_blocks[tuner, 0] > 0)
+                    {
+                        tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale) / 2), y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
+                    }
                 }
             }
 
@@ -465,14 +470,16 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     }
                 }
             }
-
-            for (i = 0; i < _tuners; i++)
+            
+            if (quicktune_enabled)
             {
-                y = i * (spectrum_h / _tuners);
-                tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
-                tmp.DrawString("RX " + (i+1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
+                for (i = 0; i < _tuners; i++)
+                {
+                    y = i * (spectrum_h / _tuners);
+                    tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
+                    tmp.DrawString("RX " + (i + 1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
+                }
             }
-
             drawspectrum_signals(sigs.signalsData);
         }
 
@@ -490,59 +497,64 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             if (Y > spectrum_h)
             {
-                switch (me.Button)
+                if (pluto_control_enabled)
                 {
-                    case MouseButtons.Left:
-                        string tx_freq = get_bandplan_TX_freq(X, Y);
-                        debug("TX-Freq: " + tx_freq + " MHz");
-                        // dh3cs
-                        if (!string.IsNullOrEmpty(tx_freq))
-                        {
-                            //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
-                            Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
-                            TX_Text = " TX: " + tx_freq;
-                        }
-                        break;
-                    default:
-                        break;
+                    switch (me.Button)
+                    {
+                        case MouseButtons.Left:
+                            string tx_freq = get_bandplan_TX_freq(X, Y);
+                            debug("TX-Freq: " + tx_freq + " MHz");
+                            // dh3cs
+                            if (!string.IsNullOrEmpty(tx_freq))
+                            {
+                                //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
+                                Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
+                                TX_Text = " TX: " + tx_freq;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
             else
             {
-                switch (me.Button)
+                if (quicktune_enabled)
                 {
-                    case MouseButtons.Left:
-                        selectSignal(X, Y);
-                        break;
-                    case MouseButtons.Right:
-                        uint freq = Convert.ToUInt32((10490.5 + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
+                    switch (me.Button)
+                    {
+                        case MouseButtons.Left:
+                            selectSignal(X, Y);
+                            break;
+                        case MouseButtons.Right:
+                            uint freq = Convert.ToUInt32((10490.5 + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
 
-                        using (opentuner.SRForm srForm = new opentuner.SRForm(freq))      //open up the manual sr select form
-                        {
-                            Point spectrum_screen_location = _spectrum.PointToScreen(_spectrum.Location);
-                            Point new_srForm_location = spectrum_screen_location;
-                            int spectrum_width = _spectrum.Size.Width;
-                            int srForm_width = srForm.Size.Width;
-
-                            if (X > (srForm_width/2))
-                                new_srForm_location.X = spectrum_screen_location.X + X - srForm.Size.Width/2;
-                            if (X > (spectrum_width - srForm.Size.Width/2))
-                                new_srForm_location.X = spectrum_screen_location.X + (spectrum_width - srForm.Size.Width);
-
-                            srForm.StartPosition = FormStartPosition.Manual;
-                            srForm.Location = new_srForm_location;
-                            DialogResult result = srForm.ShowDialog();
-                            if (result == DialogResult.OK)
+                            using (opentuner.SRForm srForm = new opentuner.SRForm(freq))      //open up the manual sr select form
                             {
-                                OnSignalSelected?.Invoke(determine_rx(Y), freq, srForm.getsr());
+                                Point spectrum_screen_location = _spectrum.PointToScreen(_spectrum.Location);
+                                Point new_srForm_location = spectrum_screen_location;
+                                int spectrum_width = _spectrum.Size.Width;
+                                int srForm_width = srForm.Size.Width;
+
+                                if (X > (srForm_width / 2))
+                                    new_srForm_location.X = spectrum_screen_location.X + X - srForm.Size.Width / 2;
+                                if (X > (spectrum_width - srForm.Size.Width / 2))
+                                    new_srForm_location.X = spectrum_screen_location.X + (spectrum_width - srForm.Size.Width);
+
+                                srForm.StartPosition = FormStartPosition.Manual;
+                                srForm.Location = new_srForm_location;
+                                DialogResult result = srForm.ShowDialog();
+                                if (result == DialogResult.OK)
+                                {
+                                    OnSignalSelected?.Invoke(determine_rx(Y), freq, srForm.getsr());
+                                }
                             }
-                        }
-                        break;
-                    default:
-                        break;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-
         }
 
 
