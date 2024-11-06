@@ -191,8 +191,6 @@ namespace opentuner
                     }
                 }
 
-
-                // Log.Information("Count3:" + signals.Count().ToString());
                 if (change)
                 {
                     last_sig[rx] = next_sig[rx];
