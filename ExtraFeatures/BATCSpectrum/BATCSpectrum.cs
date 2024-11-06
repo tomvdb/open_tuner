@@ -471,14 +471,11 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 }
             }
             
-            if (quicktune_enabled)
+            for (i = 0; i < _tuners; i++)
             {
-                for (i = 0; i < _tuners; i++)
-                {
-                    y = i * (spectrum_h / _tuners);
-                    tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
-                    tmp.DrawString("RX " + (i + 1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
-                }
+                y = i * (spectrum_h / _tuners);
+                tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
+                tmp.DrawString("RX " + (i + 1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
             }
             drawspectrum_signals(sigs.signalsData);
         }
