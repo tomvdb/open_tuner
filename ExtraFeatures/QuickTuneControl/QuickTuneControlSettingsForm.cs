@@ -23,6 +23,14 @@ namespace opentuner.ExtraFeatures.QuickTuneControl
             txtUdp2.Text = _settings.UDPListenPorts[1].ToString();
             txtUdp3.Text = _settings.UDPListenPorts[2].ToString();
             txtUdp4.Text = _settings.UDPListenPorts[3].ToString();
+            Tuner1TuningMode.SelectedIndex = _settings.TuningMode[0];
+            Tuner2TuningMode.SelectedIndex = _settings.TuningMode[1];
+            Tuner3TuningMode.SelectedIndex = _settings.TuningMode[2];
+            Tuner4TuningMode.SelectedIndex = _settings.TuningMode[3];
+            AvoidBeacon1.Checked = _settings.AvoidBeacon[0];
+            AvoidBeacon2.Checked = _settings.AvoidBeacon[1];
+            AvoidBeacon3.Checked = _settings.AvoidBeacon[2];
+            AvoidBeacon4.Checked = _settings.AvoidBeacon[3];
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -66,9 +74,22 @@ namespace opentuner.ExtraFeatures.QuickTuneControl
             _settings.UDPListenPorts[1] = udp2;
             _settings.UDPListenPorts[2] = udp3;
             _settings.UDPListenPorts[3] = udp4;
+            _settings.TuningMode[0] = Tuner1TuningMode.SelectedIndex;
+            _settings.TuningMode[1] = Tuner2TuningMode.SelectedIndex;
+            _settings.TuningMode[2] = Tuner3TuningMode.SelectedIndex;
+            _settings.TuningMode[3] = Tuner4TuningMode.SelectedIndex;
+            _settings.AvoidBeacon[0] = AvoidBeacon1.Checked;
+            _settings.AvoidBeacon[1] = AvoidBeacon2.Checked;
+            _settings.AvoidBeacon[2] = AvoidBeacon3.Checked;
+            _settings.AvoidBeacon[3] = AvoidBeacon4.Checked;
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
