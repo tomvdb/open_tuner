@@ -552,35 +552,6 @@
             this.contextSpectrumMenu.Name = "contextSpectrumMenu";
             resources.ApplyResources(this.contextSpectrumMenu, "contextSpectrumMenu");
             // 
-            // autoTuneToolStripMenuItem
-            // 
-            this.autoTuneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manualToolStripMenuItem,
-            this.autoTimedToolStripMenuItem,
-            this.autoHoldToolStripMenuItem});
-            this.autoTuneToolStripMenuItem.Name = "autoTuneToolStripMenuItem";
-            resources.ApplyResources(this.autoTuneToolStripMenuItem, "autoTuneToolStripMenuItem");
-            // 
-            // manualToolStripMenuItem
-            // 
-            this.manualToolStripMenuItem.Checked = true;
-            this.manualToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
-            resources.ApplyResources(this.manualToolStripMenuItem, "manualToolStripMenuItem");
-            this.manualToolStripMenuItem.Click += new System.EventHandler(this.manualToolStripMenuItem_Click);
-            // 
-            // autoTimedToolStripMenuItem
-            // 
-            this.autoTimedToolStripMenuItem.Name = "autoTimedToolStripMenuItem";
-            resources.ApplyResources(this.autoTimedToolStripMenuItem, "autoTimedToolStripMenuItem");
-            this.autoTimedToolStripMenuItem.Click += new System.EventHandler(this.autoTimedToolStripMenuItem_Click);
-            // 
-            // autoHoldToolStripMenuItem
-            // 
-            this.autoHoldToolStripMenuItem.Name = "autoHoldToolStripMenuItem";
-            resources.ApplyResources(this.autoHoldToolStripMenuItem, "autoHoldToolStripMenuItem");
-            this.autoHoldToolStripMenuItem.Click += new System.EventHandler(this.autoHoldToolStripMenuItem_Click);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {

@@ -649,29 +649,6 @@ namespace opentuner
                 batc_chat.Show();
         }
 
-        private void manualToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            batc_spectrum.changeTuneMode(0);
-            manualToolStripMenuItem.Checked = true;
-            autoHoldToolStripMenuItem.Checked = false;
-            autoTimedToolStripMenuItem.Checked = false;
-        }
-
-        private void autoTimedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            batc_spectrum.changeTuneMode(2);
-            manualToolStripMenuItem.Checked = false;
-            autoHoldToolStripMenuItem.Checked = false;
-            autoTimedToolStripMenuItem.Checked = true;
-        }
-
-        private void autoHoldToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            batc_spectrum.changeTuneMode(3);
-            manualToolStripMenuItem.Checked = false;
-            autoHoldToolStripMenuItem.Checked = true;
-            autoTimedToolStripMenuItem.Checked = false;
-        }
 
         private void configureCallsignToolStripMenuItem_Click(object sender, EventArgs e)
         {

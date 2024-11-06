@@ -1539,30 +1539,6 @@
   <metadata name="contextSpectrumMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>437, 14</value>
   </metadata>
-  <data name="manualToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="manualToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Manual</value>
-  </data>
-  <data name="autoTimedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="autoTimedToolStripMenuItem.Text" xml:space="preserve">
-    <value>Auto (Timed)</value>
-  </data>
-  <data name="autoHoldToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="autoHoldToolStripMenuItem.Text" xml:space="preserve">
-    <value>Auto (Hold)</value>
-  </data>
-  <data name="autoTuneToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
-  </data>
-  <data name="autoTuneToolStripMenuItem.Text" xml:space="preserve">
-    <value>AutoTune (RX1)</value>
-  </data>
   <data name="contextSpectrumMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 26</value>
   </data>
