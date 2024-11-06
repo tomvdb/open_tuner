@@ -43,7 +43,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Graphics tmp;
         Graphics tmp2;
 
-        int[,] rx_blocks = new int[4, 3];   // first index: Tuner; second index: 0 := center, 1 := width 
+        int[,] rx_blocks = new int[4, 4];   // first index: Tuner; second index: 0 := center, 1 := width, 2 := demod_locked, 3 := switching
 
         double start_freq = 10490.5f;
 
@@ -82,11 +82,25 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             sigs.updateCurrentSignal(callsign, freq, sr);
         }
 
-        public void updateTuner(int tuner, double freq, float sr)
+        public void updateTuner(int tuner, double freq, float sr, bool demod_locked)
+        {
+            double fft_factor = 922.0f / 9.0f;
+            if (demod_locked)
+            {
+                rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_factor);
+                rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_factor);
+                rx_blocks[tuner, 2] = demod_locked ? 1 : 0;
+                rx_blocks[tuner, 3] = 0;
+            }
+        }
+
+        public void switchTuner(int tuner, double freq, float sr)
         {
             double fft_factor = 922.0f / 9.0f;
             rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_factor);
             rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_factor);
+            rx_blocks[tuner, 2] = 0;
+            rx_blocks[tuner, 3] = 1;
         }
 
         public BATCSpectrum(PictureBox Spectrum, int Tuners) 
@@ -591,6 +605,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             sigs.set_tuned(s, rx);
                             rx_blocks[rx, 0] = Convert.ToInt16(s.fft_centre);
                             rx_blocks[rx, 1] = Convert.ToInt16((s.fft_stop) - (s.fft_start));
+                            rx_blocks[rx, 2] = 0;
+                            rx_blocks[rx, 3] = 1;
                             UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
                             UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));
 

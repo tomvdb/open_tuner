@@ -407,21 +407,14 @@ namespace opentuner
             if (batc_spectrum != null)
             {
                 int tuner = properties.video_number;
+                float freq = properties.frequency;
+                float sr = properties.symbol_rate;
+                string callsign = properties.service_name;
 
+                batc_spectrum.updateTuner(tuner, freq / 1000, sr / 1000, properties.demod_locked);
                 if (properties.demod_locked)
                 {
-                    float freq = properties.frequency;
-                    float sr = properties.symbol_rate;
-                    string callsign = properties.service_name;
-
-                    //Log.Information(callsign.ToString() + "," + freq.ToString() + "," + sr.ToString());
-
                     batc_spectrum.updateSignalCallsign(callsign, freq / 1000, sr / 1000);
-                    batc_spectrum.updateTuner(tuner, freq / 1000, sr / 1000);
-                }
-                else
-                {
-                    batc_spectrum.updateTuner(tuner, 0, 0);
                 }
             }
 
@@ -635,6 +628,7 @@ namespace opentuner
         private void Batc_spectrum_OnSignalSelected(int Receiver, uint Freq, uint SymbolRate)
         {
             videoSource.SetFrequency(Receiver, Freq, SymbolRate, true);
+            batc_spectrum.switchTuner(Receiver, Convert.ToDouble(Freq) / 1000.0f, SymbolRate / 1000.0f);
         }
 
 
