@@ -696,9 +696,6 @@
   <data name="linkBatcSpectrumSettings.Text" xml:space="preserve">
     <value>Settings ...</value>
   </data>
-  <data name="linkBatcSpectrumSettings.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;linkBatcSpectrumSettings.Name" xml:space="preserve">
     <value>linkBatcSpectrumSettings</value>
   </data>
