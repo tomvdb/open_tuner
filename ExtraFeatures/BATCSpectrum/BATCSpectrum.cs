@@ -25,7 +25,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         private static readonly Object list_lock = new Object();
 
         public static readonly int height = 246;    //makes things easier
-        static readonly int bandplan_height = 30;
+        private static readonly int bandplan_height = 30;
+        private static double start_freq = 10490.5f;
+        private static double fft_scaling_factor = 922.0f / 9.0f;
+
 
         Bitmap bmp;
         static Bitmap bmp2;
@@ -43,9 +46,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Graphics tmp;
         Graphics tmp2;
 
-        int[,] rx_blocks = new int[4, 4];   // first index: Tuner; second index: 0 := center, 1 := width, 2 := demod_locked, 3 := switching
-
-        double start_freq = 10490.5f;
+        int[,] rx_blocks = new int[4, 4];   // first index: Tuner; second index: 0 := center, 1 := width, 2 := demode locked state, 3 := switching flag
 
         XElement bandplan;
         Rectangle[] channels;
@@ -63,7 +64,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         private PictureBox _spectrum;
         private int _tuners;
 
-        Timer SpectrumTuneTimer;
+        //Timer SpectrumTuneTimer;
         Timer websocketTimer;
 
         private int _autoTuneMode = 0;
@@ -84,228 +85,27 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public void updateTuner(int tuner, double freq, float sr, bool demod_locked)
         {
-            double fft_factor = 922.0f / 9.0f;
             if (demod_locked)
             {
-                rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_factor);
-                rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_factor);
-                rx_blocks[tuner, 2] = demod_locked ? 1 : 0;
-                rx_blocks[tuner, 3] = 0;
+                rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_scaling_factor);
+                rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_scaling_factor);
+                rx_blocks[tuner, 2] = 1;    // locked
+                rx_blocks[tuner, 3] = 0;    // switching finished
             }
         }
 
         public void switchTuner(int tuner, double freq, float sr)
         {
-            double fft_factor = 922.0f / 9.0f;
-            rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_factor);
-            rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_factor);
-            rx_blocks[tuner, 2] = 0;
-            rx_blocks[tuner, 3] = 1;
-        }
-
-        public BATCSpectrum(PictureBox Spectrum, int Tuners) 
-        {
-            _spectrum = Spectrum;
-
-            _tuners = Tuners;
-
-            _spectrum.Click += new System.EventHandler(this.spectrum_Click);
-            _spectrum.MouseLeave += new System.EventHandler(this.spectrum_MouseLeave);
-            _spectrum.MouseMove += new System.Windows.Forms.MouseEventHandler(this.spectrum_MouseMove);
-            _spectrum.SizeChanged += new System.EventHandler(this.spectrum_SizeChanged);
-
-            bmp2 = new Bitmap(_spectrum.Width, bandplan_height);     //bandplan
-            bmp = new Bitmap(_spectrum.Width, height + 20);
-            tmp = Graphics.FromImage(bmp);
-            tmp2 = Graphics.FromImage(bmp2);
-
-            greyPen.DashCap = System.Drawing.Drawing2D.DashCap.Round;
-            greyPen.DashPattern = new float[] { 4.0F, 4.0F };
-
-            try
-            {
-                bandplan = XElement.Load(Path.GetDirectoryName(Application.ExecutablePath) + @"\bandplan.xml");
-                drawspectrum_bandplan();
-                indexedbandplan = bandplan.Elements().ToList();
-                foreach (var channel in bandplan.Elements("channel"))
-                {
-                    if (!blocks.Contains(channel.Element("block").Value))
-                    {
-                        blocks.Add(channel.Element("block").Value);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            web_socket = new socket();
-
-            sigs = new signal(list_lock);
-            web_socket.callback += drawspectrum;
-            web_socket.ConnectionStatusChanged += Web_socket_ConnectionStatusChanged;
-            sigs.debug += debug;
-
-            // try to connect
-            web_socket.start();
-
-            sigs.set_num_rx_scan(num_rxs_to_scan);
-            sigs.set_num_rx(1);
-
-            SpectrumTuneTimer = new Timer();
-            SpectrumTuneTimer.Enabled = false;
-            SpectrumTuneTimer.Interval = 1500;
-            SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
-
-            websocketTimer = new Timer();
-            websocketTimer.Interval = 2000;
-            websocketTimer.Tick += new System.EventHandler(this.websocketTimer_Tick);
-            websocketTimer.Enabled = true;
-
-            draw_disconnect();
-        }
-
-        private void draw_disconnect()
-        {
-            tmp.Clear(Color.Black);
-            tmp.DrawString("FFT Service Disconnected", new Font("Tahoma", 10), Brushes.Red, new PointF(10, 10));
-
-            if (connect_retry_count < connect_retries)
-            {
-                tmp.DrawString("Retrying ...." + connect_retry_count.ToString() + "/" + connect_retries.ToString(), new Font("Tahoma", 10), Brushes.Red, new PointF(10, 30));
-            }
-            else
-            {
-                tmp.DrawString("", new Font("Tahoma", 10), Brushes.Red, new PointF(10, 30));
-            }
-            UpdateDrawing();
-        }
-
-        private void Web_socket_ConnectionStatusChanged(object sender, bool connection_status)
-        {
-            if (connection_status)  // we are connected
-            {
-                // reset retry count
-                connect_retry_count = 0;
-                
-            }
-            else
-            {
-                // if we lost connection then disable autotune
-                _autoTuneMode = 0;
-                SpectrumTuneTimer.Enabled = false;
-            }
-            
-        }
-
-        public void Close()
-        {
-            websocketTimer?.Stop();
-            websocketTimer?.Dispose();
-
-            SpectrumTuneTimer?.Stop();
-            SpectrumTuneTimer?.Dispose();
-            
-            // stop socket
-            web_socket?.stop();
-        }
-
-        private void websocketTimer_Tick(object sender, EventArgs e)
-        {
-            if (web_socket != null)
-            {
-
-                TimeSpan t = DateTime.Now - web_socket.lastdata;
-
-                if (t.Seconds > 2)
-                {
-                    web_socket.stop();
-                }
-
-                if (!web_socket.connected)
-                {
-                    draw_disconnect();
-                    connect_retry_count += 1;
-
-                    if (connect_retry_count < connect_retries)
-                    {
-                        debug("Websocket Not Connected: Retrying " + connect_retry_count.ToString() + "/" + connect_retries.ToString());
-                        web_socket.start();
-                    }
-                }
-
-            }
-        }
-
-        public void changeTuneMode(int mode)
-        {
-            _autoTuneMode = mode;
-
-            if (mode == 0)
-            {
-                SpectrumTuneTimer?.Stop();
-            }
-            else
-            {
-                SpectrumTuneTimer?.Start();
-            }
-
-        }
-
-        private void SpectrumTuneTimer_Tick(object sender, EventArgs e)
-        {
-            int mode = _autoTuneMode;
-            float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
-
-            ushort autotuneWait = 30;
-
-            Tuple<signal.Sig, int> ret = sigs.tune(mode, Convert.ToInt16(autotuneWait), 0);
-            if (ret.Item1.frequency > 0)      //above 0 is a change in signal
-            {
-                System.Threading.Thread.Sleep(100);
-                selectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale), 0);
-                sigs.set_tuned(ret.Item1, 0);
-                rx_blocks[0, 0] = Convert.ToInt16(ret.Item1.fft_centre);
-                rx_blocks[0, 1] = Convert.ToInt16(ret.Item1.fft_stop - ret.Item1.fft_start);
-            }
-
+            rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_scaling_factor);
+            rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_scaling_factor);
+            rx_blocks[tuner, 2] = 0;    // not locked
+            rx_blocks[tuner, 3] = 1;    // switching started
         }
 
         private void debug(string msg)
         {
             Log.Information(msg);
         }
-
-        private void spectrum_MouseLeave(object sender, EventArgs e)
-        {
-            get_bandplan_TX_freq(0, 0);  // dh3cs
-            mousePos_x = 0;
-            mousePos_y = 0;
-            spectrumTunerHighlight = -1;
-        }
-
-        private void spectrum_SizeChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                bmp2 = new Bitmap(_spectrum.Width, bandplan_height);     //bandplan
-                bmp = new Bitmap(_spectrum.Width, height + 20);
-                tmp = Graphics.FromImage(bmp);
-                tmp2 = Graphics.FromImage(bmp2);
-
-                if (bandplan != null)
-                {
-                    drawspectrum_bandplan();
-                }
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show(Ex.Message);
-            }
-        }
-
 
         // quicktune functions
         private void drawspectrum_bandplan()
@@ -371,31 +171,202 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
         }
 
-        private void drawspectrum_signals(List<signal.Sig> signals)
+        public BATCSpectrum(PictureBox Spectrum, int Tuners) 
         {
-            float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
+            _spectrum = Spectrum;
 
-            lock (list_lock)        //hopefully lock signals list while drawing
+            _tuners = Tuners;
+
+            _spectrum.Click += new System.EventHandler(this.spectrum_Click);
+            _spectrum.MouseLeave += new System.EventHandler(this.spectrum_MouseLeave);
+            _spectrum.MouseMove += new System.Windows.Forms.MouseEventHandler(this.spectrum_MouseMove);
+            _spectrum.SizeChanged += new System.EventHandler(this.spectrum_SizeChanged);
+
+            bmp2 = new Bitmap(_spectrum.Width, bandplan_height);     //bandplan
+            bmp = new Bitmap(_spectrum.Width, height + 20);
+            tmp = Graphics.FromImage(bmp);
+            tmp2 = Graphics.FromImage(bmp2);
+
+            greyPen.DashCap = System.Drawing.Drawing2D.DashCap.Round;
+            greyPen.DashPattern = new float[] { 4.0F, 4.0F };
+
+            try
             {
-                //draw the text for each signal found
-                foreach (signal.Sig s in signals)
+                bandplan = XElement.Load(Path.GetDirectoryName(Application.ExecutablePath) + @"\bandplan.xml");
+                drawspectrum_bandplan();
+                indexedbandplan = bandplan.Elements().ToList();
+                foreach (var channel in bandplan.Elements("channel"))
                 {
-                    if (check_mouse_over_signal(s))
+                    if (!blocks.Contains(channel.Element("block").Value))
                     {
-                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength));
-                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_start * spectrum_wScale), height);
-                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_stop * spectrum_wScale), height);
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength + 50))));
-                    }
-                    else
-                    {
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength + 50))));
+                        blocks.Add(channel.Element("block").Value);
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
+            web_socket = new socket();
+
+            sigs = new signal(list_lock);
+            web_socket.callback += drawspectrum;
+            web_socket.ConnectionStatusChanged += Web_socket_ConnectionStatusChanged;
+            sigs.debug += debug;
+
+            // try to connect
+            web_socket.start();
+
+            sigs.set_num_rx_scan(num_rxs_to_scan);
+            sigs.set_num_rx(1);
+
+            //SpectrumTuneTimer = new Timer();
+            //SpectrumTuneTimer.Enabled = false;
+            //SpectrumTuneTimer.Interval = 1500;
+            //SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
+
+            websocketTimer = new Timer();
+            websocketTimer.Interval = 2000;
+            websocketTimer.Tick += new System.EventHandler(this.websocketTimer_Tick);
+            websocketTimer.Enabled = true;
+
+            draw_disconnect();
+        }
+
+        private void draw_disconnect()
+        {
+            tmp.Clear(Color.Black);
+            tmp.DrawString("FFT Service Disconnected", new Font("Tahoma", 10), Brushes.Red, new PointF(10, 10));
+
+            if (connect_retry_count < connect_retries)
+            {
+                tmp.DrawString("Retrying ...." + connect_retry_count.ToString() + "/" + connect_retries.ToString(), new Font("Tahoma", 10), Brushes.Red, new PointF(10, 30));
+            }
+            else
+            {
+                tmp.DrawString("", new Font("Tahoma", 10), Brushes.Red, new PointF(10, 30));
+            }
             UpdateDrawing();
+        }
+
+        private void Web_socket_ConnectionStatusChanged(object sender, bool connection_status)
+        {
+            if (connection_status)  // we are connected
+            {
+                // reset retry count
+                connect_retry_count = 0;
+                
+            }
+            //else
+            //{
+                // if we lost connection then disable autotune
+                //_autoTuneMode = 0;
+                //if (SpectrumTuneTimer != null)
+                //    SpectrumTuneTimer.Enabled = false;
+            //}
+        }
+
+        public void Close()
+        {
+            websocketTimer?.Stop();
+            websocketTimer?.Dispose();
+
+            //SpectrumTuneTimer?.Stop();
+            //SpectrumTuneTimer?.Dispose();
+            
+            // stop socket
+            web_socket?.stop();
+        }
+
+        private void websocketTimer_Tick(object sender, EventArgs e)
+        {
+            if (web_socket != null)
+            {
+
+                TimeSpan t = DateTime.Now - web_socket.lastdata;
+
+                if (t.Seconds > 2)
+                {
+                    web_socket.stop();
+                }
+
+                if (!web_socket.connected)
+                {
+                    draw_disconnect();
+                    connect_retry_count += 1;
+
+                    if (connect_retry_count < connect_retries)
+                    {
+                        debug("Websocket Not Connected: Retrying " + connect_retry_count.ToString() + "/" + connect_retries.ToString());
+                        web_socket.start();
+                    }
+                }
+
+            }
+        }
+
+        //public void changeTuneMode(int mode)
+        //{
+        //    _autoTuneMode = mode;
+        //
+        //    if (mode == 0)
+        //    {
+        //        SpectrumTuneTimer?.Stop();
+        //    }
+        //    else
+        //    {
+        //        SpectrumTuneTimer?.Start();
+        //    }
+        //
+        //}
+
+        //private void SpectrumTuneTimer_Tick(object sender, EventArgs e)
+        //{
+        //    int mode = _autoTuneMode;
+        //    float spectrum_w = _spectrum.Width;
+        //    float spectrum_wScale = spectrum_w / 922;
+        //
+        //    ushort autotuneWait = 30;
+        //
+        //    Tuple<signal.Sig, int> ret = sigs.tune(mode, Convert.ToInt16(autotuneWait), 0);
+        //    if (ret.Item1.frequency > 0)      //above 0 is a change in signal
+        //    {
+        //        System.Threading.Thread.Sleep(100);
+        //        selectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale), 0);
+        //        sigs.set_tuned(ret.Item1, 0);
+        //        rx_blocks[0, 0] = Convert.ToInt16(ret.Item1.fft_centre);
+        //        rx_blocks[0, 1] = Convert.ToInt16(ret.Item1.fft_stop - ret.Item1.fft_start);
+        //    }
+        //
+        //}
+
+        private void spectrum_MouseLeave(object sender, EventArgs e)
+        {
+            get_bandplan_TX_freq(0, 0);  // dh3cs
+            mousePos_x = 0;
+            mousePos_y = 0;
+            spectrumTunerHighlight = -1;
+        }
+
+        private void spectrum_SizeChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                bmp2 = new Bitmap(_spectrum.Width, bandplan_height);     //bandplan
+                bmp = new Bitmap(_spectrum.Width, height + 20);
+                tmp = Graphics.FromImage(bmp);
+                tmp2 = Graphics.FromImage(bmp2);
+
+                if (bandplan != null)
+                {
+                    drawspectrum_bandplan();
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
         }
 
         private void UpdateDrawing()
@@ -411,6 +382,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         }
 
+        // Entrypoint with new fft_data from websocket
         private void drawspectrum(UInt16[] fft_data)
         {
             tmp.Clear(Color.Black);     //clear canvas
@@ -493,7 +465,27 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
                 tmp.DrawString("RX " + (i + 1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
             }
-            drawspectrum_signals(sigs.signalsData);
+
+            lock (list_lock)        //hopefully lock signals list while drawing
+            {
+                //draw the text for each signal found
+                foreach (var s in sigs.signalsData)
+                {
+                    if (check_mouse_over_signal(s))
+                    {
+                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength));
+                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_start * spectrum_wScale), height);
+                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_stop * spectrum_wScale), height);
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength + 50))));
+                    }
+                    else
+                    {
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength + 50))));
+                    }
+                }
+            }
+
+            UpdateDrawing();
         }
 
         private void spectrum_Click(object sender, EventArgs e)
@@ -537,7 +529,14 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     switch (me.Button)
                     {
                         case MouseButtons.Left:
-                            selectSignal(X, Y);
+                            if (Control.ModifierKeys == Keys.Shift)
+                            {
+
+                            }
+                            else
+                            {
+                                selectSignal(X, Y);
+                            }
                             break;
                         case MouseButtons.Right:
                             uint freq = Convert.ToUInt32((10490.5 + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
