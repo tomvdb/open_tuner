@@ -968,14 +968,59 @@ namespace opentuner
             _settings.enable_mqtt_checkbox = checkMqttClient.Checked;
         }
 
+        private void linkMqttSettings_Click(object sender, EventArgs e)
+        {
+            // mqtt settings
+            MqttManagerSettings mqtt_settings = new MqttManagerSettings();
+            SettingsManager<MqttManagerSettings> mqtt_settingsManager = new SettingsManager<MqttManagerSettings>("mqttclient_settings");
+            mqtt_settings = mqtt_settingsManager.LoadSettings(mqtt_settings);
+
+            MqttSettingsForm mqtt_settings_form = new MqttSettingsForm(ref mqtt_settings);
+
+            if (mqtt_settings_form.ShowDialog() == DialogResult.OK)
+            {
+                mqtt_settingsManager.SaveSettings(mqtt_settings);
+            }
+        }
+
         private void checkQuicktune_CheckedChanged(object sender, EventArgs e)
         {
             _settings.enable_quicktune_checkbox = checkQuicktune.Checked;
         }
 
+        private void linkQuickTuneSettings_Click(object sender, EventArgs e)
+        {
+            // quick tune settings
+            QuickTuneControlSettings quicktune_settings = new QuickTuneControlSettings();
+            SettingsManager<QuickTuneControlSettings> quicktune_settingsManager = new SettingsManager<QuickTuneControlSettings>("quicktune_settings");
+            quicktune_settings = quicktune_settingsManager.LoadSettings(quicktune_settings);
+
+            QuickTuneControlSettingsForm quicktune_settings_form = new QuickTuneControlSettingsForm(ref quicktune_settings);
+
+            if (quicktune_settings_form.ShowDialog() == DialogResult.OK)
+            {
+                quicktune_settingsManager.SaveSettings(quicktune_settings);
+            }
+        }
+
         private void checkBatcSpectrum_CheckedChanged(object sender, EventArgs e)
         {
             _settings.enable_spectrum_checkbox = checkBatcSpectrum.Checked;
+        }
+
+        private void linkBatcSpectrumSettings_Click(object sender, EventArgs e)
+        {
+            // BATC tune settings
+            tuneModeSettings batc_settings = new tuneModeSettings();
+            SettingsManager<tuneModeSettings> batc_settingsManager = new SettingsManager<tuneModeSettings>("tunemode_settings");
+            batc_settings = batc_settingsManager.LoadSettings(batc_settings);
+
+            tuneModeSettingsForm batc_settings_form = new tuneModeSettingsForm(ref batc_settings);
+
+            if (batc_settings_form.ShowDialog() == DialogResult.OK)
+            {
+                batc_settingsManager.SaveSettings(batc_settings);
+            }
         }
 
         private void checkBatcChat_CheckedChanged(object sender, EventArgs e)
@@ -1002,36 +1047,6 @@ namespace opentuner
         private void linkDocumentation_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-documentation/");
-        }
-
-        private void linkMqttSettings_Click(object sender, EventArgs e)
-        {
-            // mqtt settings
-            MqttManagerSettings mqtt_settings = new MqttManagerSettings();
-            SettingsManager<MqttManagerSettings> mqtt_settingsManager = new SettingsManager<MqttManagerSettings>("mqttclient_settings");
-            mqtt_settings = mqtt_settingsManager.LoadSettings(mqtt_settings);
-
-            MqttSettingsForm mqtt_settings_form = new MqttSettingsForm(ref mqtt_settings);
-
-            if (mqtt_settings_form.ShowDialog() == DialogResult.OK)
-            {
-                mqtt_settingsManager.SaveSettings(mqtt_settings);
-            }
-        }
-
-        private void linkQuickTuneSettings_Click(object sender, EventArgs e)
-        {
-            // quick tune settings
-            QuickTuneControlSettings quicktune_settings = new QuickTuneControlSettings();
-            SettingsManager<QuickTuneControlSettings> quicktune_settingsManager = new SettingsManager<QuickTuneControlSettings>("quicktune_settings");
-            quicktune_settings = quicktune_settingsManager.LoadSettings(quicktune_settings);
-
-            QuickTuneControlSettingsForm quicktune_settings_form = new QuickTuneControlSettingsForm(ref quicktune_settings);
-
-            if (quicktune_settings_form.ShowDialog() == DialogResult.OK)
-            {
-                quicktune_settingsManager.SaveSettings(quicktune_settings);
-            }
         }
 
         private void linkSpectrumDocumentation_Click(object sender, EventArgs e)
@@ -1169,6 +1184,4 @@ namespace opentuner
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-datv-reporter/");
         }
     }
-
-
 }
