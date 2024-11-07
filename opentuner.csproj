@@ -275,6 +275,12 @@
     <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneControlSettingsForm.Designer.cs">
       <DependentUpon>QuickTuneControlSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneTunerModeSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtraFeatures\QuickTuneControl\QuickTuneTunerModeSettings.Designer.cs">
+      <DependentUpon>QuickTuneTunerModeSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainSettings.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndMqtt.cs" />
     <Compile Include="MediaSources\Longmynd\LongmyndProperties.cs" />
@@ -488,6 +494,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExtraFeatures\QuickTuneControl\QuickTuneControlSettingsForm.resx">
       <DependentUpon>QuickTuneControlSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExtraFeatures\QuickTuneControl\QuickTuneTunerModeSettings.resx">
+      <DependentUpon>QuickTuneTunerModeSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.af-ZA.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
