@@ -120,6 +120,15 @@ namespace opentuner.MediaSources.Winterhill
                     break;
             }
 
+            while (!_connected)
+            {
+                Thread.Sleep(500);
+                if (!_connected)
+                {
+                    Log.Information("Waiting on websockets to connect");
+                }
+            }
+
             for (int c = 0; c < ts_devices; c++)
                 SetFrequency(c, _settings.DefaultFrequency[c], _settings.DefaultSR[c], true);
 
