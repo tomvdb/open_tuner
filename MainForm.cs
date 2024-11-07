@@ -902,7 +902,6 @@ namespace opentuner
                 this.DoubleBuffered = true;
                 batc_spectrum = new BATCSpectrum(spectrum, videoSource.GetVideoSourceCount());
                 batc_spectrum.OnSignalSelected += Batc_spectrum_OnSignalSelected;
-                batc_spectrum.quicktune_enabled = _settings.enable_quicktune_checkbox;
             }
 
             if (checkBatcChat.Checked)

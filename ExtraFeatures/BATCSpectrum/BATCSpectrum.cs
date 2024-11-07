@@ -75,7 +75,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         private int mousePos_x = 0;
         private int mousePos_y = 0;
 
-        public bool quicktune_enabled = false;
+        //public bool quicktune_enabled = false;
         public bool pluto_control_enabled = false;
 
         public void updateSignalCallsign(string callsign, double freq, float sr)
@@ -407,7 +407,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             points[0] = new PointF(0, height);
             points[points.Length - 1] = new PointF(spectrum_w, height);
 
-            if (spectrumTunerHighlight > -1 && quicktune_enabled)
+            //if (spectrumTunerHighlight > -1 && quicktune_enabled)
+            if (spectrumTunerHighlight > -1)
             {
                 y = spectrumTunerHighlight * (spectrum_h / _tuners);
                 tmp.FillRectangle(tuner1Brush, new RectangleF(0, y, spectrum_w, (spectrum_h / _tuners)));
@@ -524,47 +525,44 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             else
             {
-                if (quicktune_enabled)
+                switch (me.Button)
                 {
-                    switch (me.Button)
-                    {
-                        case MouseButtons.Left:
-                            if (Control.ModifierKeys == Keys.Shift)
+                    case MouseButtons.Left:
+                        if (Control.ModifierKeys == Keys.Shift)
+                        {
+
+                        }
+                        else
+                        {
+                            selectSignal(X, Y);
+                        }
+                        break;
+                    case MouseButtons.Right:
+                        uint freq = Convert.ToUInt32((10490.5 + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
+
+                        using (opentuner.SRForm srForm = new opentuner.SRForm(freq))      //open up the manual sr select form
+                        {
+                            Point spectrum_screen_location = _spectrum.PointToScreen(_spectrum.Location);
+                            Point new_srForm_location = spectrum_screen_location;
+                            int spectrum_width = _spectrum.Size.Width;
+                            int srForm_width = srForm.Size.Width;
+
+                            if (X > (srForm_width / 2))
+                                new_srForm_location.X = spectrum_screen_location.X + X - srForm.Size.Width / 2;
+                            if (X > (spectrum_width - srForm.Size.Width / 2))
+                                new_srForm_location.X = spectrum_screen_location.X + (spectrum_width - srForm.Size.Width);
+
+                            srForm.StartPosition = FormStartPosition.Manual;
+                            srForm.Location = new_srForm_location;
+                            DialogResult result = srForm.ShowDialog();
+                            if (result == DialogResult.OK)
                             {
-
+                                OnSignalSelected?.Invoke(determine_rx(Y), freq, srForm.getsr());
                             }
-                            else
-                            {
-                                selectSignal(X, Y);
-                            }
-                            break;
-                        case MouseButtons.Right:
-                            uint freq = Convert.ToUInt32((10490.5 + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
-
-                            using (opentuner.SRForm srForm = new opentuner.SRForm(freq))      //open up the manual sr select form
-                            {
-                                Point spectrum_screen_location = _spectrum.PointToScreen(_spectrum.Location);
-                                Point new_srForm_location = spectrum_screen_location;
-                                int spectrum_width = _spectrum.Size.Width;
-                                int srForm_width = srForm.Size.Width;
-
-                                if (X > (srForm_width / 2))
-                                    new_srForm_location.X = spectrum_screen_location.X + X - srForm.Size.Width / 2;
-                                if (X > (spectrum_width - srForm.Size.Width / 2))
-                                    new_srForm_location.X = spectrum_screen_location.X + (spectrum_width - srForm.Size.Width);
-
-                                srForm.StartPosition = FormStartPosition.Manual;
-                                srForm.Location = new_srForm_location;
-                                DialogResult result = srForm.ShowDialog();
-                                if (result == DialogResult.OK)
-                                {
-                                    OnSignalSelected?.Invoke(determine_rx(Y), freq, srForm.getsr());
-                                }
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
