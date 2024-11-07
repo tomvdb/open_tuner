@@ -193,6 +193,7 @@ namespace opentuner
             // SRForm
             // 
             this.ClientSize = new System.Drawing.Size(188, 175);
+            this.ControlBox = false;
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
