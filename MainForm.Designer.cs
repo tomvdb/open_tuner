@@ -79,10 +79,6 @@
             this.ExtraSpectrumTab = new System.Windows.Forms.TabPage();
             this.spectrum = new System.Windows.Forms.PictureBox();
             this.contextSpectrumMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.autoTuneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autoTimedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autoHoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstripConnectToggle = new System.Windows.Forms.ToolStripMenuItem();
@@ -324,6 +320,7 @@
             this.linkBatcSpectrumSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkBatcSpectrumSettings.ForeColor = System.Drawing.Color.RoyalBlue;
             this.linkBatcSpectrumSettings.Name = "linkBatcSpectrumSettings";
+            this.linkBatcSpectrumSettings.Click += new System.EventHandler(this.linkBatcSpectrumSettings_Click);
             // 
             // linkMqttSettings
             // 
