@@ -26,8 +26,9 @@ namespace opentuner
             public float sr;
             public string callsign;
             public bool overpower;
+            public int max_strength;
             public float dbb;
-            public Sig(int _fft_start, int _fft_stop, int _fft_centre, int _fft_strength, double _frequency, float _sr, bool overpower, float _dbb)
+            public Sig(int _fft_start, int _fft_stop, int _fft_centre, int _fft_strength, double _frequency, float _sr, bool _overpower, int _max_strength, float _dbb)
             {
                 this.fft_start = _fft_start;
                 this.fft_stop = _fft_stop;
@@ -36,11 +37,12 @@ namespace opentuner
                 this.frequency = _frequency;
                 this.sr = _sr;
                 this.callsign = "";
-                this.overpower = overpower;
+                this.overpower = _overpower;
+                this.max_strength = _max_strength;
                 this.dbb = _dbb;
             }
 
-            public Sig(Sig old, string callsign)
+            public Sig(Sig old, string _callsign)
             {
                 this.fft_start = old.fft_start;
                 this.fft_stop = old.fft_stop;
@@ -48,28 +50,30 @@ namespace opentuner
                 this.fft_strength = old.fft_strength;
                 this.frequency = old.frequency;
                 this.sr = old.sr;
-                this.callsign = callsign;
+                this.callsign = _callsign;
                 this.overpower = old.overpower;
+                this.max_strength = old.max_strength;
                 this.dbb = old.dbb;
             }
 
-            public Sig(Sig old, string callsign, float sr)
+            public Sig(Sig old, string _callsign, float _sr)
             {
                 this.fft_start = old.fft_start;
                 this.fft_stop = old.fft_stop;
                 this.fft_centre = old.fft_centre;
                 this.fft_strength = old.fft_strength;
                 this.frequency = old.frequency;
-                this.sr = sr;
-                this.callsign = callsign;
+                this.sr = _sr;
+                this.callsign = _callsign;
                 this.overpower = old.overpower;
+                this.max_strength = old.max_strength;
                 this.dbb = old.dbb;
             }
 
 
-            public void updateCallsign(string callsign)
+            public void updateCallsign(string _callsign)
             {
-                this.callsign = callsign;
+                this.callsign = _callsign;
             }
 
         }
@@ -333,7 +337,7 @@ namespace opentuner
             }
             else
             {
-                startfreq = startfreq = 10490;
+                startfreq = 10490.466f;
             }
 
             //      Console.Write("Rx:" + rx.ToString() + " Current Tuned:" + last_sig[rx].frequency+"\n");
@@ -507,11 +511,12 @@ namespace opentuner
                                 if (signal_freq < 10492000 && signal_bw > 1.0)
                                 {
                                     beacon_strength = strength_signal;
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, false, 0));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, false, 0, 0));
                                 }
                                 else
                                 {
                                     bool overpower = false;
+                                    int max_strength = (int)(beacon_strength - (0.75 * 3276.8));
                                     //
                                     // The original dBb calculation code used at the QO-100 wideband spectrum web site is complicated:
                                     // 
@@ -544,7 +549,7 @@ namespace opentuner
                                     if (isOverPower(beacon_strength, strength_signal, signal_bw))
                                         overpower = true;
 
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, overpower, dBb));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, overpower, (max_strength / BATCSpectrum.height), dBb));
                                 }
                             }
 

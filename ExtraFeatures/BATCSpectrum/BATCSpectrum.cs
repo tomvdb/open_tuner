@@ -26,12 +26,14 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public static readonly int height = 246;    //makes things easier
         static readonly int bandplan_height = 30;
+        private const double start_freq = 10490.466f;
 
         Bitmap bmp;
         static Bitmap bmp2;
         Pen greyPen = new Pen(Color.FromArgb(200, 123, 123, 123));
         Pen greyPen2 = new Pen(Color.FromArgb(200, 123, 123, 123));
         Pen whitePen = new Pen(Color.FromArgb(200, 255, 255, 255));
+        Pen overpowerPen = new Pen(Color.FromArgb(200, Color.Red));
         SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
         SolidBrush bandplanBrush = new SolidBrush(Color.FromArgb(180, 250, 250, 255));
         SolidBrush overpowerBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
@@ -43,8 +45,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Graphics tmp2;
 
         int[,] rx_blocks = new int[4, 3];
-
-        const double start_freq = 10490.466f;
 
         XElement bandplan;
         Rectangle[] channels;
@@ -461,6 +461,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (sig.overpower)
                     {
+                        tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength));
                         tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
                     }
                 }
