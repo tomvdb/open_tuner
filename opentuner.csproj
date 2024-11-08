@@ -612,7 +612,7 @@
     <None Include="Resources\BuildDate.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bandplan.xml">
+    <Content Include="extra\bandplan.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="tv.ico" />
