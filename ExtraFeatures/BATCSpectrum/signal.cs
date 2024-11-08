@@ -80,7 +80,7 @@ namespace opentuner
         Object list_lock;
         public List<Sig> signals = new List<Sig>();  //list of signals found: 
         public List<Sig> signalsData = new List<Sig>();
-        double start_freq = 10490.5f;
+        const double start_freq = 10490.466f;
         float minsr = 0.065f;
         int num_rx_scan = 1;
         int num_rx = 1;
@@ -333,7 +333,7 @@ namespace opentuner
             }
             else
             {
-                startfreq = startfreq = 10490; ;
+                startfreq = startfreq = 10490;
             }
 
             //      Console.Write("Rx:" + rx.ToString() + " Current Tuned:" + last_sig[rx].frequency+"\n");
