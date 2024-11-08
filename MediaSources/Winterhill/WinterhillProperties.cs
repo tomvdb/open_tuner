@@ -535,7 +535,7 @@ namespace opentuner.MediaSources.Winterhill
                     {
                         if (rx.scanstate == 2 || rx.scanstate == 3)
                         {
-                            Log.Information("Playing" + c.ToString());
+                            Log.Information("Playing " + c.ToString());
                             VideoChangeCB?.Invoke(c + 1, true);
                             playing[c] = true;
                             _tuner_properties[c].UpdateColor("demodstate", Color.PaleGreen);
