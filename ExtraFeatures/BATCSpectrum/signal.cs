@@ -26,9 +26,8 @@ namespace opentuner
             public float sr;
             public string callsign;
             public bool overpower;
-            public int max_strength;
             public float dbb;
-            public Sig(int _fft_start, int _fft_stop, int _fft_centre, int _fft_strength, double _frequency, float _sr, bool _overpower, int _max_strength, float _dbb)
+            public Sig(int _fft_start, int _fft_stop, int _fft_centre, int _fft_strength, double _frequency, float _sr, bool overpower, float _dbb)
             {
                 this.fft_start = _fft_start;
                 this.fft_stop = _fft_stop;
@@ -37,12 +36,11 @@ namespace opentuner
                 this.frequency = _frequency;
                 this.sr = _sr;
                 this.callsign = "";
-                this.overpower = _overpower;
-                this.max_strength = _max_strength;
+                this.overpower = overpower;
                 this.dbb = _dbb;
             }
 
-            public Sig(Sig old, string _callsign)
+            public Sig(Sig old, string callsign)
             {
                 this.fft_start = old.fft_start;
                 this.fft_stop = old.fft_stop;
@@ -50,30 +48,28 @@ namespace opentuner
                 this.fft_strength = old.fft_strength;
                 this.frequency = old.frequency;
                 this.sr = old.sr;
-                this.callsign = _callsign;
+                this.callsign = callsign;
                 this.overpower = old.overpower;
-                this.max_strength = old.max_strength;
                 this.dbb = old.dbb;
             }
 
-            public Sig(Sig old, string _callsign, float _sr)
+            public Sig(Sig old, string callsign, float sr)
             {
                 this.fft_start = old.fft_start;
                 this.fft_stop = old.fft_stop;
                 this.fft_centre = old.fft_centre;
                 this.fft_strength = old.fft_strength;
                 this.frequency = old.frequency;
-                this.sr = _sr;
-                this.callsign = _callsign;
+                this.sr = sr;
+                this.callsign = callsign;
                 this.overpower = old.overpower;
-                this.max_strength = old.max_strength;
                 this.dbb = old.dbb;
             }
 
 
-            public void updateCallsign(string _callsign)
+            public void updateCallsign(string callsign)
             {
-                this.callsign = _callsign;
+                this.callsign = callsign;
             }
 
         }
@@ -84,7 +80,7 @@ namespace opentuner
         Object list_lock;
         public List<Sig> signals = new List<Sig>();  //list of signals found: 
         public List<Sig> signalsData = new List<Sig>();
-        double start_freq = 10490.5f;
+        const double start_freq = 10490.466f;
         float minsr = 0.065f;
         int num_rx_scan = 1;
         int num_rx = 1;
@@ -99,10 +95,17 @@ namespace opentuner
 
         }
 
+        bool avoid_beacon = false;
+
         private Sig[] last_sig = new Sig[8];             //last tune signal - detail
         private Sig[] next_sig = new Sig[8];             //last tune signal - detail
 
         private DateTime[] last_tuned_time = new DateTime[8];   //time the last signal was tuned
+
+        public void set_avoidbeacon(bool b)
+        {
+            avoid_beacon = b;
+        }
 
         public void set_tuned(Sig s, int rx)
         {
@@ -151,7 +154,7 @@ namespace opentuner
                     if ((t.Minutes * 60) + t.Seconds > time)
                     {
                         //          Log.Information("elapsed: "+rx.ToString());
-                        next_sig[rx] = find_next(rx, true);
+                        next_sig[rx] = find_next(rx);
 
                         if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
                         {
@@ -162,7 +165,7 @@ namespace opentuner
                     {
                         if (!find_signal(last_sig[rx], rx))      //if the selected signal goes off then find another one to tune to
                         {
-                            next_sig[rx] = find_next(rx, true);
+                            next_sig[rx] = find_next(rx);
 
                             if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
                             {
@@ -175,7 +178,7 @@ namespace opentuner
                 {
                     if (!find_signal(last_sig[rx], rx))  //if the selected signal goes off then find another one to tune to
                     {
-                        next_sig[rx] = find_next(rx, true);
+                        next_sig[rx] = find_next(rx);
 
                         if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
                         {
@@ -184,6 +187,8 @@ namespace opentuner
                     }
                 }
 
+
+                // Log.Information("Count3:" + signals.Count().ToString());
                 if (change)
                 {
                     last_sig[rx] = next_sig[rx];
@@ -316,7 +321,7 @@ namespace opentuner
 
         }
 
-        private Sig find_next(int rx, bool avoid_beacon)
+        private Sig find_next(int rx)
         {
 
             Sig newsig = new Sig();
@@ -328,7 +333,7 @@ namespace opentuner
             }
             else
             {
-                startfreq = startfreq = 10490.5f;
+                startfreq = startfreq = 10490;
             }
 
             //      Console.Write("Rx:" + rx.ToString() + " Current Tuned:" + last_sig[rx].frequency+"\n");
@@ -502,12 +507,11 @@ namespace opentuner
                                 if (signal_freq < 10492000 && signal_bw > 1.0)
                                 {
                                     beacon_strength = strength_signal;
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, false, 0, 0));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, false, 0));
                                 }
                                 else
                                 {
                                     bool overpower = false;
-                                    int max_strength = (int)(beacon_strength - (0.75 * 3276.8));
                                     //
                                     // The original dBb calculation code used at the QO-100 wideband spectrum web site is complicated:
                                     // 
@@ -539,7 +543,8 @@ namespace opentuner
 
                                     if (isOverPower(beacon_strength, strength_signal, signal_bw))
                                         overpower = true;
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, overpower, (max_strength / BATCSpectrum.height), dBb));
+
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, overpower, dBb));
                                 }
                             }
 

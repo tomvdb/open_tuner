@@ -119,7 +119,6 @@
             this.ExtraToolsTab.SuspendLayout();
             this.ExtraSpectrumTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
-            this.contextSpectrumMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -320,7 +319,6 @@
             this.linkBatcSpectrumSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkBatcSpectrumSettings.ForeColor = System.Drawing.Color.RoyalBlue;
             this.linkBatcSpectrumSettings.Name = "linkBatcSpectrumSettings";
-            this.linkBatcSpectrumSettings.Click += new System.EventHandler(this.linkBatcSpectrumSettings_Click);
             // 
             // linkMqttSettings
             // 
@@ -544,8 +542,6 @@
             // 
             // contextSpectrumMenu
             // 
-            this.contextSpectrumMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.autoTuneToolStripMenuItem});
             this.contextSpectrumMenu.Name = "contextSpectrumMenu";
             resources.ApplyResources(this.contextSpectrumMenu, "contextSpectrumMenu");
             // 
@@ -688,7 +684,6 @@
             this.ExtraToolsTab.ResumeLayout(false);
             this.ExtraSpectrumTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).EndInit();
-            this.contextSpectrumMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -709,10 +704,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem qO100WidebandChatToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextSpectrumMenu;
-        private System.Windows.Forms.ToolStripMenuItem autoTuneToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem autoTimedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem autoHoldToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem plutoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem commandsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem systemFunctionsToolStripMenuItem;
