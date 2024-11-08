@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
-using static opentuner.signal;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Diagnostics;
@@ -26,7 +25,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public static readonly int height = 246;    //makes things easier
         static readonly int bandplan_height = 30;
-        private const double start_freq = 10490.466f;
+        private const double start_freq = 10490.475;
 
         Bitmap bmp;
         static Bitmap bmp2;
@@ -34,7 +33,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Pen greyPen2 = new Pen(Color.FromArgb(200, 123, 123, 123));
         Pen whitePen = new Pen(Color.FromArgb(200, 255, 255, 255));
         Pen overpowerPen = new Pen(Color.FromArgb(200, Color.Red));
-        SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(128, Color.Gray));
+        SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(200, Color.Gray));
         SolidBrush bandplanBrush = new SolidBrush(Color.FromArgb(180, 250, 250, 255));
         SolidBrush overpowerBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
 
@@ -362,14 +361,14 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (check_mouse_over_signal(s))
                     {
-                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength));
-                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_start * spectrum_wScale), height);
-                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength), Convert.ToInt16(s.fft_stop * spectrum_wScale), height);
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength + 50))));
+                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height));
+                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_start * spectrum_wScale), height);
+                        tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_stop * spectrum_wScale), height);
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
                     }
                     else
                     {
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength + 50))));
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
                     }
                 }
             }
@@ -390,6 +389,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         }
 
+        // Entrypoint with new fft_data from websocket
         private void drawspectrum(UInt16[] fft_data)
         {
             fft_data_length = fft_data.Length;

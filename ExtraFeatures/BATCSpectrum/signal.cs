@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using opentuner.ExtraFeatures.BATCSpectrum;
 
-namespace opentuner
+
+namespace opentuner.ExtraFeatures.BATCSpectrum
 {
     class signal
     {
@@ -28,6 +28,7 @@ namespace opentuner
             public bool overpower;
             public int max_strength;
             public float dbb;
+
             public Sig(int _fft_start, int _fft_stop, int _fft_centre, int _fft_strength, double _frequency, float _sr, bool _overpower, int _max_strength, float _dbb)
             {
                 this.fft_start = _fft_start;
@@ -84,7 +85,7 @@ namespace opentuner
         Object list_lock;
         public List<Sig> signals = new List<Sig>();  //list of signals found: 
         public List<Sig> signalsData = new List<Sig>();
-        const double start_freq = 10490.466f;
+        private const double start_freq = 10490.475;
         float minsr = 0.065f;
         int num_rx_scan = 1;
         int num_rx = 1;
@@ -135,7 +136,6 @@ namespace opentuner
             last_sig[rx] = new Sig();
         }
 
-
         //function to find out whether to change tuning and which signal to tune to - auto tune mode
         public Tuple<Sig, int> tune(int mode, int time, int rx)
         {
@@ -148,16 +148,14 @@ namespace opentuner
             //Log.Information(rx);
             TimeSpan t = DateTime.Now - last_tuned_time[rx];
 
-
             lock (list_lock)
             {
-
                 if (mode == 2)      //auto timed
                 {
                     //Log.Information(t.Seconds);
                     if ((t.Minutes * 60) + t.Seconds > time)
                     {
-                        //          Log.Information("elapsed: "+rx.ToString());
+                        //Log.Information("elapsed: "+rx.ToString());
                         next_sig[rx] = find_next(rx);
 
                         if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
@@ -191,7 +189,6 @@ namespace opentuner
                     }
                 }
 
-
                 // Log.Information("Count3:" + signals.Count().ToString());
                 if (change)
                 {
@@ -206,8 +203,6 @@ namespace opentuner
             }
         }
 
-
-
         public bool find_signal(Sig lastsig, int rx)
         {
             float span;
@@ -216,7 +211,7 @@ namespace opentuner
 
             foreach (Sig s in signals)
             {
-                if (s.sr < 0.070)
+                if (s.sr < 0.070f)
                 {
                     span = 0.01f;
                 }
@@ -238,7 +233,7 @@ namespace opentuner
             // Log.Information(lastsig.frequency-next.frequency);
             float span;
             bool diff = true;
-            if (lastsig.sr < 0.070 | next.sr < 0.070)
+            if (lastsig.sr < 0.070f | next.sr < 0.070f)
             {
                 span = 0.01f;
             }
@@ -256,10 +251,10 @@ namespace opentuner
         public bool diff_signals(Sig sig, double frequency, float sr)
         {
             //debug(sig.frequency.ToString() + "," + frequency.ToString());
-            // Log.Information(lastsig.frequency-next.frequency);
+            //Log.Information(lastsig.frequency-next.frequency);
             float span;
             bool diff = true;
-            if (sig.sr < 0.070 | sr < 0.070)
+            if (sig.sr < 0.070f | sr < 0.070f)
             {
                 span = 0.01f;
             }
@@ -319,31 +314,26 @@ namespace opentuner
                     signalsData.Add(s);
                 }
             }
-
-
-
-
         }
 
         private Sig find_next(int rx)
         {
-
             Sig newsig = new Sig();
             int n = 0;
-            float startfreq;
+            double startfreq;
             if (avoid_beacon)
             {
-                startfreq = 10492;
+                startfreq = 10492.0;
             }
             else
             {
-                startfreq = 10490.466f;
+                startfreq = 10490.5;
             }
 
-            //      Console.Write("Rx:" + rx.ToString() + " Current Tuned:" + last_sig[rx].frequency+"\n");
+            //Log.Information("Rx:" + rx.ToString() + " Current Tuned:" + last_sig[rx].frequency);
             foreach (Sig s in signals)
             {
-                //         Console.Write("Rx:" + rx.ToString() + " 1st Try:" + s.frequency.ToString()+" ");
+                //Log.Information("Rx:" + rx.ToString() + " 1st Try:" + s.frequency.ToString());
                 bool newfreq = true;
                 for (int i = 0; i < num_rx; i++)
                 {
@@ -352,7 +342,7 @@ namespace opentuner
                         newfreq = false;
                     }
                 }
-                //          Console.Write("Available=" + newfreq.ToString() + " \n");
+                //Log.Information("Available=" + newfreq.ToString());
                 if (s.frequency > startfreq && s.frequency > (last_sig[rx].frequency + 0.05) && s.sr >= minsr && newfreq)      // +/- span, signal freq varies!
                 {
                     newsig = s;
@@ -367,7 +357,7 @@ namespace opentuner
             {
                 foreach (Sig s in signals)
                 {
-                    //             Console.Write("Rx:"+rx.ToString()+" 2nd Try:" + s.frequency.ToString()+" ");
+                    //Log.Information("Rx:"+rx.ToString()+" 2nd Try:" + s.frequency.ToString());
                     bool newfreq = true;
                     for (int i = 0; i < num_rx; i++)
                     {
@@ -376,17 +366,16 @@ namespace opentuner
                             newfreq = false;
                         }
                     }
-                    //              Console.Write("Available="+newfreq.ToString()+" \n");
+                    //Log.Information("Available="+newfreq.ToString());
                     if (s.frequency > startfreq && s.frequency < (last_sig[rx].frequency - 0.05) && s.sr >= minsr && newfreq)
                     {
                         newsig = s;
-
                         break;
                     }
 
                 }
             }
-            //       Log.Information("new=:" + newsig.frequency.ToString()+"\n");
+            //Log.Information("new=:" + newsig.frequency.ToString());
             return newsig;
         }
 
@@ -411,12 +400,12 @@ namespace opentuner
         {
             if (beacon_strength != 0)
             {
-                if (signal_bw < 0.4)
+                if (signal_bw < 0.4f)
                 {
                     return false;
                 }
 
-                if (signal_strength > (beacon_strength - (0.75 * 3276.8)))
+                if (signal_strength > Math.Round(beacon_strength - (0.75 * 3276.8)))
                 {
                     return true;
                 }
@@ -425,11 +414,10 @@ namespace opentuner
             {
                 Log.Information("Beacon Strength = 0");
             }
-
-
             return false;
         }
 
+        // Entrypoint with new fft_data from drawspectrum
         public List<Sig> detect_signals(UInt16[] fft_data)
         {
             lock (list_lock)
@@ -444,7 +432,7 @@ namespace opentuner
                 Boolean in_signal = false;
                 int start_signal = 0;
                 int end_signal;
-                float mid_signal;
+                double mid_signal;
                 int strength_signal;
                 float signal_bw;
                 double signal_freq;
@@ -455,7 +443,7 @@ namespace opentuner
                 {
                     if (!in_signal)
                     {
-                        if ((fft_data[i] + fft_data[i - 1] + fft_data[i - 2]) / 3.0 > signal_threshold)
+                        if ((fft_data[i] + fft_data[i - 1] + fft_data[i - 2]) / 3.0f > signal_threshold)
                         {
                             in_signal = true;
                             start_signal = i;
@@ -464,7 +452,7 @@ namespace opentuner
                     }
                     else /* in_signal == true */
                     {
-                        if ((fft_data[i] + fft_data[i - 1] + fft_data[i - 2]) / 3.0 < signal_threshold)
+                        if ((fft_data[i] + fft_data[i - 1] + fft_data[i - 2]) / 3.0f < signal_threshold)
                         {
                             in_signal = false;
 
@@ -472,46 +460,48 @@ namespace opentuner
 
                             acc = 0;
                             acc_i = 0;
-                            // Log.Information(Convert.ToInt16(start_signal + (0.3 * (end_signal - start_signal))));
-                            //  Log.Information( start_signal + (0.7 * (end_signal - start_signal)));
+                            //Log.Information(Math.Round((start_signal + (0.3f * (end_signal - start_signal)))).ToString());
+                            //Log.Information(Math.Round((start_signal + (0.8f * (end_signal - start_signal)))).ToString());
 
-                            for (j = Convert.ToInt16(start_signal + (0.3 * (end_signal - start_signal))) | 0; j < start_signal + (0.8 * (end_signal - start_signal)); j++)
+                            for (j = Convert.ToInt16(Math.Round(start_signal + (0.3f * (end_signal - start_signal)))) | 0; j < Math.Round(start_signal + (0.8f * (end_signal - start_signal))); j++)
                             {
                                 acc = acc + fft_data[j];
                                 acc_i = acc_i + 1;
                             }
 
-
                             strength_signal = acc / acc_i;
 
                             /* Find real start of top of signal */
-                            for (j = start_signal; (fft_data[j] - noise_level) < 0.75 * (strength_signal - noise_level); j++)
+                            for (j = start_signal; (fft_data[j] - noise_level) < 0.75f * (strength_signal - noise_level); j++)
                             {
                                 start_signal = j;
                             }
 
-
                             /* Find real end of the top of signal */
-                            for (j = end_signal; (fft_data[j] - noise_level) < 0.75 * (strength_signal - noise_level); j--)
+                            for (j = end_signal; (fft_data[j] - noise_level) < 0.75f * (strength_signal - noise_level); j--)
                             {
                                 end_signal = j;
                             }
-                            //  Log.Information("Start:" + start_signal.ToString());
-                            //  Log.Information("End:" + end_signal.ToString());
-                            // Log.Information("Strength:" + strength_signal.ToString());
-                            mid_signal = Convert.ToSingle(start_signal + ((end_signal - start_signal) / 2.0));
 
-                            signal_bw = align_symbolrate(Convert.ToSingle((end_signal - start_signal) * (9.0 / (fft_data.Length))));
-                            signal_freq = Convert.ToDouble(start_freq + (((mid_signal + 1) / (fft_data.Length)) * 9.0));
+                            mid_signal = start_signal + ((end_signal - start_signal) / 2.0);
 
+                            signal_bw = align_symbolrate((end_signal - start_signal) * 8.9995f / fft_data.Length);
+                            signal_freq = Math.Round((start_freq + mid_signal / fft_data.Length * 8.9995),3);
+
+                            //Log.Information("Start   :" + start_signal.ToString());
+                            //Log.Information("Middle  :" + mid_signal.ToString());
+                            //Log.Information("End     :" + end_signal.ToString());
+                            //Log.Information("Strength:" + strength_signal.ToString());
+                            //Log.Information("QRG     :" + signal_freq.ToString());
+                            //Log.Information("BW      :" + signal_bw.ToString());
 
                             // Exclude signals in beacon band
                             if (signal_bw >= 0.033)
                             {
-                                if (signal_freq < 10492000 && signal_bw > 1.0)
+                                if (signal_freq < 10492000.0 && signal_bw > 1.0f)
                                 {
                                     beacon_strength = strength_signal;
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, false, 0, 0));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal, signal_freq, signal_bw, false, 0, 0));
                                 }
                                 else
                                 {
@@ -549,7 +539,7 @@ namespace opentuner
                                     if (isOverPower(beacon_strength, strength_signal, signal_bw))
                                         overpower = true;
 
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), (strength_signal / BATCSpectrum.height), signal_freq, signal_bw, overpower, (max_strength / BATCSpectrum.height), dBb));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal, signal_freq, signal_bw, overpower, max_strength, dBb));
                                 }
                             }
 
@@ -558,56 +548,55 @@ namespace opentuner
                     }
                 }
                 updateSignalList();
-
             }
             return signals;
         }
 
         public float align_symbolrate(float width)
         {
-            if (width < 0.022)
+            if (width < 0.022f)
             {
                 return 0;
             }
-            else if (width < 0.060)
+            else if (width < 0.060f)
             {
                 return 0.035f;
             }
-            else if (width < 0.086)
+            else if (width < 0.086f)
             {
                 return 0.066f;
             }
-            else if (width < 0.185)
+            else if (width < 0.185f)
             {
                 return 0.125f;
             }
-            else if (width < 0.277)
+            else if (width < 0.277f)
             {
                 return 0.250f;
             }
-            else if (width < 0.388)
+            else if (width < 0.388f)
             {
                 return 0.333f;
             }
-            else if (width < 0.700)
+            else if (width < 0.700f)
             {
                 return 0.500f;
             }
-            else if (width < 1.2)
+            else if (width < 1.2f)
             {
                 return 1.000f;
             }
-            else if (width < 1.6)
+            else if (width < 1.6f)
             {
                 return 1.500f;
             }
-            else if (width < 2.2)
+            else if (width < 2.2f)
             {
                 return 2.000f;
             }
             else
             {
-                return Convert.ToSingle(Math.Round(width * 5) / 5.0);
+                return Convert.ToSingle(Math.Round(width * 5.0) / 5.0);
             }
         }
     }
