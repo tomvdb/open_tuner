@@ -44,7 +44,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         int[,] rx_blocks = new int[4, 3];
 
-        double start_freq = 10490.5f;
+        const double start_freq = 10490.466f;
 
         XElement bandplan;
         Rectangle[] channels;
@@ -72,6 +72,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private int mousePos_x = 0;
         private int mousePos_y = 0;
+
+        private int fft_data_length = 918;
 
         public void updateSignalCallsign(string callsign, double freq, float sr)
         {
@@ -234,7 +236,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             int mode = _autoTuneMode;
             float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
+            float spectrum_wScale = spectrum_w / fft_data_length;
 
             ushort autotuneWait = 30;
 
@@ -291,7 +293,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             int count = 0;
 
             float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
+            float spectrum_wScale = spectrum_w / fft_data_length;
 
             List<string> blocks = new List<string>();
 
@@ -323,8 +325,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 freq = Convert.ToSingle(xval, CultureInfo.InvariantCulture);
                 sr = Convert.ToInt32(channel.Element("sr").Value, CultureInfo.InvariantCulture);
 
-                int pos = Convert.ToInt16((922.0 / span) * (freq - start_freq));
-                w = Convert.ToInt32(sr / (span * 1000.0) * 922 * rolloff);
+                int pos = Convert.ToInt16((fft_data_length / span) * (freq - start_freq));
+                w = Convert.ToInt32(sr / (span * 1000.0) * fft_data_length * rolloff);
                 w = Convert.ToInt32(w * spectrum_wScale);
 
                 int split = bandplan_height / blocks.Count();
@@ -351,7 +353,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         private void drawspectrum_signals(List<signal.Sig> signals)
         {
             float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
+            float spectrum_wScale = spectrum_w / fft_data_length;
 
             lock (list_lock)        //hopefully lock signals list while drawing
             {
@@ -390,20 +392,20 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private void drawspectrum(UInt16[] fft_data)
         {
+            fft_data_length = fft_data.Length;
             tmp.Clear(Color.Black);     //clear canvas
-
 
             int spectrum_h = _spectrum.Height - bandplan_height;
             float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
+            float spectrum_wScale = spectrum_w / fft_data_length;
 
             int i = 1;
             int y = 0;
 
 
-            PointF[] points = new PointF[fft_data.Length - 2];
+            PointF[] points = new PointF[fft_data.Length];
 
-            for (i = 1; i < fft_data.Length - 3; i++)     //ignore padding?
+            for (i = 1; i < fft_data.Length; i++)     //ignore padding?
             {
                 PointF point = new PointF(i * spectrum_wScale, height - fft_data[i] / height);
                 points[i] = point;
@@ -478,7 +480,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
 
             float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
+            float spectrum_wScale = spectrum_w / fft_data_length;
 
             MouseEventArgs me = (MouseEventArgs)e;
             var pos = me.Location;
@@ -492,7 +494,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                 if (Y > spectrum_h)
                 {
-                    int freq = Convert.ToInt32((10490.5 + ((X / spectrum_wScale) / 922.0) * 9.0) * 1000.0);
+                    int freq = Convert.ToInt32((10490.466 + ((X / spectrum_wScale) / fft_data_length) * 9.0) * 1000.0);
                     //UpdateTextBox(txtFreq, freq.ToString());
 
                     string tx_freq = get_bandplan_TX_freq(X, Y);
@@ -529,7 +531,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
 
             float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
+            float spectrum_wScale = spectrum_w / fft_data_length;
             int spectrum_h = _spectrum.Height - bandplan_height;
 
             int rx = determine_rx(Y);
@@ -572,7 +574,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             int spectrum_h = _spectrum.Height - bandplan_height;
             float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / 922;
+            float spectrum_wScale = spectrum_w / fft_data_length;
 
             if (mousePos_y < spectrum_h)
             {
