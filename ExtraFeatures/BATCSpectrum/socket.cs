@@ -12,6 +12,8 @@ namespace opentuner
 {
     class socket
     {
+        private const int padding = 8;  // useless bytes to remove at the end of the socket data package
+
         public Action<ushort[]> callback;
 
         private WebSocket ws;       //websocket client
@@ -84,13 +86,14 @@ namespace opentuner
         {
             lastdata = DateTime.Now;
 
-            fft_data = new UInt16[data.Length / 2];
+            int data_length = data.Length - padding;    // data length to process
+            fft_data = new UInt16[data_length / 2];
 
             //unpack bytes to unsigned short int values
             int n = 0;
             byte[] buf = new byte[2];
 
-            for (int i = 0; i < data.Length; i += 2)
+            for (int i = 0; i < data_length; i += 2)
             {
                 buf[0] = data[i];
                 buf[1] = data[i + 1];
