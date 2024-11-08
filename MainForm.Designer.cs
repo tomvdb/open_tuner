@@ -79,10 +79,6 @@
             this.ExtraSpectrumTab = new System.Windows.Forms.TabPage();
             this.spectrum = new System.Windows.Forms.PictureBox();
             this.contextSpectrumMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.autoTuneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autoTimedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autoHoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openTunerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstripConnectToggle = new System.Windows.Forms.ToolStripMenuItem();
@@ -123,7 +119,6 @@
             this.ExtraToolsTab.SuspendLayout();
             this.ExtraSpectrumTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).BeginInit();
-            this.contextSpectrumMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -547,39 +542,8 @@
             // 
             // contextSpectrumMenu
             // 
-            this.contextSpectrumMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.autoTuneToolStripMenuItem});
             this.contextSpectrumMenu.Name = "contextSpectrumMenu";
             resources.ApplyResources(this.contextSpectrumMenu, "contextSpectrumMenu");
-            // 
-            // autoTuneToolStripMenuItem
-            // 
-            this.autoTuneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manualToolStripMenuItem,
-            this.autoTimedToolStripMenuItem,
-            this.autoHoldToolStripMenuItem});
-            this.autoTuneToolStripMenuItem.Name = "autoTuneToolStripMenuItem";
-            resources.ApplyResources(this.autoTuneToolStripMenuItem, "autoTuneToolStripMenuItem");
-            // 
-            // manualToolStripMenuItem
-            // 
-            this.manualToolStripMenuItem.Checked = true;
-            this.manualToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
-            resources.ApplyResources(this.manualToolStripMenuItem, "manualToolStripMenuItem");
-            this.manualToolStripMenuItem.Click += new System.EventHandler(this.manualToolStripMenuItem_Click);
-            // 
-            // autoTimedToolStripMenuItem
-            // 
-            this.autoTimedToolStripMenuItem.Name = "autoTimedToolStripMenuItem";
-            resources.ApplyResources(this.autoTimedToolStripMenuItem, "autoTimedToolStripMenuItem");
-            this.autoTimedToolStripMenuItem.Click += new System.EventHandler(this.autoTimedToolStripMenuItem_Click);
-            // 
-            // autoHoldToolStripMenuItem
-            // 
-            this.autoHoldToolStripMenuItem.Name = "autoHoldToolStripMenuItem";
-            resources.ApplyResources(this.autoHoldToolStripMenuItem, "autoHoldToolStripMenuItem");
-            this.autoHoldToolStripMenuItem.Click += new System.EventHandler(this.autoHoldToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -720,7 +684,6 @@
             this.ExtraToolsTab.ResumeLayout(false);
             this.ExtraSpectrumTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spectrum)).EndInit();
-            this.contextSpectrumMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -741,10 +704,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem qO100WidebandChatToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextSpectrumMenu;
-        private System.Windows.Forms.ToolStripMenuItem autoTuneToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem autoTimedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem autoHoldToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem plutoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem commandsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem systemFunctionsToolStripMenuItem;
