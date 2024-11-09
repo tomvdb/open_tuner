@@ -166,7 +166,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
                 // reset retry count
                 connect_retry_count = 0;
-                
             }
             else
             {
@@ -402,7 +401,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             int i = 1;
             int y = 0;
 
-
             PointF[] points = new PointF[fft_data.Length];
 
             for (i = 1; i < fft_data.Length; i++)     //ignore padding?
@@ -417,7 +415,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             if (spectrumTunerHighlight > -1)
             {
                 y = spectrumTunerHighlight * (spectrum_h / _tuners);
-                tmp.FillRectangle(tuner1Brush, new RectangleF(0, y, spectrum_w, (spectrum_h/_tuners)));
+                tmp.FillRectangle(tuner1Brush, new RectangleF(0, y, spectrum_w, (spectrum_h / _tuners)));
             }
 
             //tmp.FillRectangle((spectrumTunerHighlight == 1 ? tuner1Brush : tuner2Brush), new RectangleF(0, (spectrumTunerHighlight == 1 ? 0 : spectrum_h / 2), spectrum_w, _tuners == 1 ? spectrum_h : spectrum_h / 2));
@@ -495,7 +493,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                 if (Y > spectrum_h)
                 {
-                    int freq = Convert.ToInt32((10490.466 + ((X / spectrum_wScale) / fft_data_length) * 9.0) * 1000.0);
+                    int freq = Convert.ToInt32((10490.4754901 + ((X / spectrum_wScale) / fft_data_length) * 9.0) * 1000.0);
                     //UpdateTextBox(txtFreq, freq.ToString());
 
                     string tx_freq = get_bandplan_TX_freq(X, Y);
@@ -547,7 +545,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     {
                         if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
                         {
-
                             sigs.set_tuned(s, rx);
                             rx_blocks[rx, 0] = Convert.ToInt16(s.fft_centre);
                             rx_blocks[rx, 1] = Convert.ToInt16((s.fft_stop) - (s.fft_start));
@@ -558,7 +555,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             debug("SR: " + sr.ToString());
 
                             OnSignalSelected?.Invoke(rx, freq, sr);
-
                         }
                     }
                 }
