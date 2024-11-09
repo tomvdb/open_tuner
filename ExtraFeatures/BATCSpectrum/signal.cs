@@ -20,7 +20,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             public int fft_start;
             public int fft_stop;
-            public int fft_centre;
+            public float fft_centre;
+            public float text_pos;      // not wobbling position for showing the text message. (derived from fft_centre)
             public int fft_strength;
             public double frequency;
             public float sr;
@@ -29,11 +30,12 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             public int max_strength;
             public float dbb;
 
-            public Sig(int _fft_start, int _fft_stop, int _fft_centre, int _fft_strength, double _frequency, float _sr, bool _overpower, int _max_strength, float _dbb)
+            public Sig(int _fft_start, int _fft_stop, float _fft_centre, int _fft_strength, double _frequency, float _sr, bool _overpower, int _max_strength, float _dbb)
             {
                 this.fft_start = _fft_start;
                 this.fft_stop = _fft_stop;
                 this.fft_centre = _fft_centre;
+                this.text_pos = _fft_centre;
                 this.fft_strength = _fft_strength;
                 this.frequency = _frequency;
                 this.sr = _sr;
@@ -48,9 +50,25 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 this.fft_start = old.fft_start;
                 this.fft_stop = old.fft_stop;
                 this.fft_centre = old.fft_centre;
+                this.text_pos = old.text_pos;
                 this.fft_strength = old.fft_strength;
                 this.frequency = old.frequency;
                 this.sr = old.sr;
+                this.callsign = _callsign;
+                this.overpower = old.overpower;
+                this.max_strength = old.max_strength;
+                this.dbb = old.dbb;
+            }
+
+            public Sig(Sig old, float _text_pos, string _callsign, double _frequency, float _sr)
+            {
+                this.fft_start = old.fft_start;
+                this.fft_stop = old.fft_stop;
+                this.fft_centre = old.fft_centre;
+                this.text_pos = _text_pos;
+                this.fft_strength = old.fft_strength;
+                this.frequency = _frequency;
+                this.sr = _sr;
                 this.callsign = _callsign;
                 this.overpower = old.overpower;
                 this.max_strength = old.max_strength;
@@ -62,6 +80,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 this.fft_start = old.fft_start;
                 this.fft_stop = old.fft_stop;
                 this.fft_centre = old.fft_centre;
+                this.text_pos = old.text_pos;
                 this.fft_strength = old.fft_strength;
                 this.frequency = _frequency;
                 this.sr = _sr;
@@ -281,7 +300,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (diff_signals(signalsData[x], sl) == false) // same sig
                     {
-                        signalsData[x] = new Sig(sl, signalsData[x].callsign, signalsData[x].frequency, signalsData[x].sr);
+                        signalsData[x] = new Sig(sl, signalsData[x].text_pos, signalsData[x].callsign, signalsData[x].frequency, signalsData[x].sr);
                         found = true;
                         break;
                     }
@@ -388,8 +407,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     if (diff_signals(signalsData[x], freq, sr) == false)
                     {
                         //debug("updateCurrentSignal: found! x: " + x.ToString() +", Call: " + callsign + "QRG: " + freq.ToString() + ", SR: " + sr.ToString());
-                        signalsData[x] = new Sig(signalsData[x], callsign, freq, sr);
-
+                        signalsData[x] = new Sig(signalsData[x], Convert.ToSingle(Math.Round((freq - start_freq) * 102.0f, 1)), callsign, freq, sr);
                         break;
                     }
                 }
@@ -447,7 +465,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         {
                             in_signal = true;
                             start_signal = i;
-
                         }
                     }
                     else /* in_signal == true */
@@ -501,7 +518,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                                 if (signal_freq < 10492000.0 && signal_bw > 1.0f)
                                 {
                                     beacon_strength = strength_signal;
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal, signal_freq, signal_bw, false, 0, 0));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToSingle(mid_signal), strength_signal, signal_freq, signal_bw, false, 0, 0));
                                 }
                                 else
                                 {
@@ -539,7 +556,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                                     if (isOverPower(beacon_strength, strength_signal, signal_bw))
                                         overpower = true;
 
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToInt32(mid_signal), strength_signal, signal_freq, signal_bw, overpower, max_strength, dBb));
+                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToSingle(mid_signal), strength_signal, signal_freq, signal_bw, overpower, max_strength, dBb));
                                 }
                             }
 
