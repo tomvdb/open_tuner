@@ -167,7 +167,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     //Log.Information(t.Seconds);
                     if ((t.Minutes * 60) + t.Seconds > time)
                     {
-                        //Log.Information("elapsed: "+rx.ToString());
+                        //Log.Information("elapsed: " + rx.ToString());
                         next_sig[rx] = find_next(rx);
 
                         if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
