@@ -57,13 +57,13 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 this.dbb = old.dbb;
             }
 
-            public Sig(Sig old, string _callsign, float _sr)
+            public Sig(Sig old, string _callsign, double _frequency, float _sr)
             {
                 this.fft_start = old.fft_start;
                 this.fft_stop = old.fft_stop;
                 this.fft_centre = old.fft_centre;
                 this.fft_strength = old.fft_strength;
-                this.frequency = old.frequency;
+                this.frequency = _frequency;
                 this.sr = _sr;
                 this.callsign = _callsign;
                 this.overpower = old.overpower;
@@ -281,7 +281,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (diff_signals(signalsData[x], sl) == false) // same sig
                     {
-                        signalsData[x] = new Sig(sl, signalsData[x].callsign);
+                        signalsData[x] = new Sig(sl, signalsData[x].callsign, signalsData[x].frequency, signalsData[x].sr);
                         found = true;
                         break;
                     }
@@ -387,8 +387,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (diff_signals(signalsData[x], freq, sr) == false)
                     {
-                        //debug("found - updating callsign");
-                        signalsData[x] = new Sig(signalsData[x], callsign, sr);
+                        //debug("updateCurrentSignal: found! x: " + x.ToString() +", Call: " + callsign + "QRG: " + freq.ToString() + ", SR: " + sr.ToString());
+                        signalsData[x] = new Sig(signalsData[x], callsign, freq, sr);
 
                         break;
                     }
@@ -493,7 +493,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             //Log.Information("End     :" + end_signal.ToString());
                             //Log.Information("Strength:" + strength_signal.ToString());
                             //Log.Information("QRG     :" + signal_freq.ToString());
-                            //Log.Information("BW      :" + signal_bw.ToString());
+                            //Log.Information("BW      :" + signal_bw.ToString() + "\n");
 
                             // Exclude signals in beacon band
                             if (signal_bw >= 0.033)

@@ -113,7 +113,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Log.Error(ex.Message);
             }
 
             web_socket = new socket();
@@ -459,7 +459,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (sig.overpower)
                     {
-                        tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength));
+                        tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
                         tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.fft_centre * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
                     }
                 }
@@ -516,6 +516,21 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
 
         // quick tune functions - From https://github.com/m0dts/QO-100-WB-Live-Tune - Rob Swinbank
+
+        public void updateTuner(int tuner, double freq, float sr, bool demod_locked)
+        {
+            if (demod_locked)
+            {
+                rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_data_length / 9.0f);
+                rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_data_length / 9.0f);
+            }
+        }
+
+        public void switchTuner(int tuner, double freq, float sr)
+        {
+            rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_data_length / 9.0f);
+            rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_data_length / 9.0f);
+        }
 
         private int determine_rx(int pos)
         {
