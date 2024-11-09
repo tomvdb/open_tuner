@@ -12,11 +12,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Drawing.Drawing2D;
 using Serilog;
+using opentuner.Utilities;
 
 namespace opentuner.ExtraFeatures.BATCSpectrum
 {
     public class BATCSpectrum
     {
+        private tuneModeSettings _tuneModeSettings;
+        private SettingsManager<tuneModeSettings> _settingsManager;
+
         public delegate void SignalSelected(int Receiver, uint Freq, uint SymbolRate);
 
         public event SignalSelected OnSignalSelected;
@@ -24,7 +28,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         private static readonly Object list_lock = new Object();
 
         private const int height = 246;    //makes things easier
-        static readonly int bandplan_height = 30;
+        private static readonly int bandplan_height = 30;
         private const double start_freq = 10490.4754901;
 
         Bitmap bmp;
@@ -82,6 +86,11 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public BATCSpectrum(PictureBox Spectrum, int Tuners) 
         {
+            _tuneModeSettings = new tuneModeSettings();
+            _settingsManager = new SettingsManager<tuneModeSettings>("tunemode_settings");
+
+            _tuneModeSettings = _settingsManager.LoadSettings(_tuneModeSettings);
+
             _spectrum = Spectrum;
 
             _tuners = Tuners;
@@ -443,7 +452,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 //draw block showing signal selected
                 if (rx_blocks[tuner, 0] > 0)
                 {
-                    tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale)/2) , y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
+                    tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale) / 2), y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
                 }
             }
 
@@ -460,17 +469,62 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (sig.overpower)
                     {
-                        tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
-                        tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.text_pos * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                        switch (_tuneModeSettings.overPowerIndicatorLayout)
+                        {
+                            case 0:     // classic
+                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.text_pos * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                                break;
+                            case 1:     // classic + line only
+                                tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
+                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.text_pos * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                                break;
+                            case 2:     // box from top to line
+                                tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
+                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.text_pos * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - Convert.ToInt16(sig.max_strength / height)) });
+                                break;
+                            case 3:     // box from line to bottom
+                                tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
+                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.text_pos * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                                break;
+                            case 4:     // line only
+                                tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
+                                break;
+                            default:    // no indication
+                                break;
+                        }
                     }
                 }
             }
 
             for (i = 0; i < _tuners; i++)
             {
+                if (_tuneModeSettings.tuneMode[i] == 1 && rx_blocks[0, 2] == 0)
+                {
+                    Tuple<signal.Sig, int> ret = sigs.tune(_tuneModeSettings.tuneMode[i], 30, i);
+                    if (ret.Item1.frequency > 0)      //above 0 is a change in signal
+                    {
+                        System.Threading.Thread.Sleep(100);
+                        selectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale), y);
+                        sigs.set_tuned(ret.Item1, i);
+                        rx_blocks[i, 0] = Convert.ToInt16(ret.Item1.fft_centre);
+                        rx_blocks[i, 1] = Convert.ToInt16(ret.Item1.fft_stop - ret.Item1.fft_start);
+                    }
+                }
+
                 y = i * (spectrum_h / _tuners);
                 tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
                 tmp.DrawString("RX " + (i + 1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
+                switch (_tuneModeSettings.tuneMode[i])
+                {
+                    case 0:
+                        tmp.DrawString("Manual", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
+                        break;
+                    case 1:
+                        tmp.DrawString("Auto", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
+                        break;
+                    default:
+                        break;
+                }
             }
 
             drawspectrum_signals(sigs.signals);
@@ -517,6 +571,31 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     case MouseButtons.Left:
                         if (Control.ModifierKeys == Keys.Shift)
                         {
+                            int tuner = determine_rx(Y);
+                            using (oneTunerTuneModeForm oTTMForm = new oneTunerTuneModeForm(
+                                tuner + 1,
+                                _tuneModeSettings.tuneMode[tuner],
+                                _tuneModeSettings.avoidBeacon[tuner]))      //open up the single tune mode select form
+                            {
+                                Point spectrum_screen_location = _spectrum.PointToScreen(_spectrum.Location);
+                                Point new_oTTMForm_location = spectrum_screen_location;
+                                int spectrum_width = _spectrum.Size.Width;
+                                int oTTMForm_width = oTTMForm.Size.Width;
+
+                                if (X > (oTTMForm_width / 2))
+                                    new_oTTMForm_location.X = spectrum_screen_location.X + X - oTTMForm.Size.Width / 2;
+                                if (X > (spectrum_width - oTTMForm.Size.Width / 2))
+                                    new_oTTMForm_location.X = spectrum_screen_location.X + (spectrum_width - oTTMForm.Size.Width);
+
+                                oTTMForm.StartPosition = FormStartPosition.Manual;
+                                oTTMForm.Location = new_oTTMForm_location;
+                                DialogResult result = oTTMForm.ShowDialog();
+                                if (result == DialogResult.OK)
+                                {
+                                    _tuneModeSettings.tuneMode[tuner] = oTTMForm.getTuneMode();
+                                    _tuneModeSettings.avoidBeacon[tuner] = oTTMForm.getAvoidBeacon();
+                                }
+                            }
 
                         }
                         else
