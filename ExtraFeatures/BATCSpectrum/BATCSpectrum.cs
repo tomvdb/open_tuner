@@ -73,6 +73,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         private int mousePos_y = 0;
 
         private int fft_data_length = 918;
+        public bool pluto_control_enabled = false;
 
         public void updateSignalCallsign(string callsign, double freq, float sr)
         {
@@ -279,7 +280,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             catch (Exception Ex)
             {
-
+                Log.Error(Ex.Message);
             }
         }
 
@@ -363,11 +364,11 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height));
                         tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_start * spectrum_wScale), height);
                         tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_stop * spectrum_wScale), height);
-                        tmp.DrawString(s.callsign + "\n" + Math.Round(s.frequency, 2).ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(s.text_pos * spectrum_wScale - 30.0f, height - Convert.ToSingle(s.fft_strength / height + 50)));
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.000") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(s.text_pos * spectrum_wScale - 30.0f, height - Convert.ToSingle(s.fft_strength / height + 50)));
                     }
                     else
                     {
-                        tmp.DrawString(s.callsign + "\n" + Math.Round(s.frequency,2).ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(s.text_pos * spectrum_wScale - 30.0f, height - Convert.ToSingle(s.fft_strength / height + 50)));
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.000") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(s.text_pos * spectrum_wScale - 30.0f, height - Convert.ToSingle(s.fft_strength / height + 50)));
                     }
                 }
             }
@@ -383,7 +384,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             catch (Exception Ex)
             {
-
+                Log.Error(Ex.Message);
             }
 
         }
@@ -469,7 +470,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
                 y = i * (spectrum_h / _tuners);
                 tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
-                tmp.DrawString("RX " + (i+1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
+                tmp.DrawString("RX " + (i + 1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
             }
 
             drawspectrum_signals(sigs.signals);
@@ -477,7 +478,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private void spectrum_Click(object sender, EventArgs e)
         {
-
+            int spectrum_h = _spectrum.Height - bandplan_height;
             float spectrum_w = _spectrum.Width;
             float spectrum_wScale = spectrum_w / fft_data_length;
 
@@ -487,33 +488,71 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             int X = pos.X;
             int Y = pos.Y;
 
-            if (me.Button == MouseButtons.Right)
+            if (Y > spectrum_h)
             {
-                int spectrum_h = _spectrum.Height - bandplan_height;
-
-                if (Y > spectrum_h)
+                if (pluto_control_enabled)
                 {
-                    int freq = Convert.ToInt32(start_freq + X / (double)spectrum_wScale / fft_data_length * 9.0 * 1000.0);
-                    //UpdateTextBox(txtFreq, freq.ToString());
-
-                    string tx_freq = get_bandplan_TX_freq(X, Y);
-                    debug("TX-Freq: " + tx_freq + " MHz");
-                    // dh3cs
-                    if (!string.IsNullOrEmpty(tx_freq))
+                    switch (me.Button)
                     {
-                        //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
-                        Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
-                        TX_Text = " TX: " + tx_freq;
+                        case MouseButtons.Left:
+                            string tx_freq = get_bandplan_TX_freq(X, Y);
+                            debug("TX-Freq: " + tx_freq + " MHz");
+                            // dh3cs
+                            if (!string.IsNullOrEmpty(tx_freq))
+                            {
+                                //Clipboard.SetText((Convert.ToDecimal(tx_freq) * 1000).ToString());    //DATV Express in Hz
+                                Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
+                                TX_Text = " TX: " + tx_freq;
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
             else
             {
-                selectSignal(X, Y);
+                switch (me.Button)
+                {
+                    case MouseButtons.Left:
+                        if (Control.ModifierKeys == Keys.Shift)
+                        {
+
+                        }
+                        else
+                        {
+                            selectSignal(X, Y);
+                        }
+                        break;
+                    case MouseButtons.Right:
+                        uint freq = Convert.ToUInt32((10490.5 + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
+
+                        using (opentuner.SRForm srForm = new opentuner.SRForm(freq))      //open up the manual sr select form
+                        {
+                            Point spectrum_screen_location = _spectrum.PointToScreen(_spectrum.Location);
+                            Point new_srForm_location = spectrum_screen_location;
+                            int spectrum_width = _spectrum.Size.Width;
+                            int srForm_width = srForm.Size.Width;
+
+                            if (X > (srForm_width / 2))
+                                new_srForm_location.X = spectrum_screen_location.X + X - srForm.Size.Width / 2;
+                            if (X > (spectrum_width - srForm.Size.Width / 2))
+                                new_srForm_location.X = spectrum_screen_location.X + (spectrum_width - srForm.Size.Width);
+
+                            srForm.StartPosition = FormStartPosition.Manual;
+                            srForm.Location = new_srForm_location;
+                            DialogResult result = srForm.ShowDialog();
+                            if (result == DialogResult.OK)
+                            {
+                                OnSignalSelected?.Invoke(determine_rx(Y), freq, srForm.getsr());
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
-
         }
-
 
         // quick tune functions - From https://github.com/m0dts/QO-100-WB-Live-Tune - Rob Swinbank
 
