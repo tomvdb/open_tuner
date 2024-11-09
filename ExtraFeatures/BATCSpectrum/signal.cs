@@ -85,7 +85,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Object list_lock;
         public List<Sig> signals = new List<Sig>();  //list of signals found: 
         public List<Sig> signalsData = new List<Sig>();
-        private const double start_freq = 10490.475;
+        private const double start_freq = 10490.4754901;
         float minsr = 0.065f;
         int num_rx_scan = 1;
         int num_rx = 1;

@@ -23,9 +23,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private static readonly Object list_lock = new Object();
 
-        public static readonly int height = 246;    //makes things easier
+        private const int height = 246;    //makes things easier
         static readonly int bandplan_height = 30;
-        private const double start_freq = 10490.475;
+        private const double start_freq = 10490.4754901;
 
         Bitmap bmp;
         static Bitmap bmp2;
@@ -364,11 +364,11 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height));
                         tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_start * spectrum_wScale), height);
                         tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_stop * spectrum_wScale), height);
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
+                        tmp.DrawString(s.callsign + "\n" + Math.Round(s.frequency, 2).ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
                     }
                     else
                     {
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
+                        tmp.DrawString(s.callsign + "\n" + Math.Round(s.frequency,2).ToString("#0.00") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(Convert.ToSingle((s.fft_centre * spectrum_wScale) - (30)), (height - Convert.ToSingle(s.fft_strength / height + 50))));
                     }
                 }
             }
@@ -565,7 +565,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message);
+                Log.Error(Ex.Message);
             }
         }
 
