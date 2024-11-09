@@ -455,7 +455,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             // draw over power
             lock (list_lock)
             {
-                foreach (var sig in sigs.signalsData)
+                foreach (var sig in sigs.signals)
                 {
                     if (sig.overpower)
                     {
@@ -472,7 +472,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 tmp.DrawString("RX " + (i+1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
             }
 
-            drawspectrum_signals(sigs.signalsData);
+            drawspectrum_signals(sigs.signals);
         }
 
         private void spectrum_Click(object sender, EventArgs e)
@@ -556,7 +556,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
                 lock (list_lock)
                 {
-                    foreach (signal.Sig s in sigs.signals)
+                    foreach (signal.Sig s in sigs.newSignals)
                     {
                         if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
                         {
@@ -590,7 +590,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             if (mousePos_y < spectrum_h)
             {
-                if ((mousePos_x > (s.fft_start * spectrum_wScale)) && (mousePos_x < (s.fft_stop * spectrum_wScale)) && (mousePos_y > (_spectrum.Height - s.fft_strength)))
+                if ((mousePos_x > (s.fft_start * spectrum_wScale)) && (mousePos_x < (s.fft_stop * spectrum_wScale)) && (mousePos_y > (_spectrum.Height - s.fft_strength / height)))
                 {
                     return true;
                 }

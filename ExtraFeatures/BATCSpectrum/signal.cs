@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace opentuner.ExtraFeatures.BATCSpectrum
 {
     class signal
@@ -90,7 +89,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 this.dbb = old.dbb;
             }
 
-
             public void updateCallsign(string _callsign)
             {
                 this.callsign = _callsign;
@@ -100,23 +98,17 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public Action<string> debug;
 
-
         Object list_lock;
-        public List<Sig> signals = new List<Sig>();  //list of signals found: 
-        public List<Sig> signalsData = new List<Sig>();
+        public List<Sig> newSignals = new List<Sig>();      // list of signals new arrived from websocket
+        public List<Sig> signals = new List<Sig>();         // actual list of signals (processed)
         private const double start_freq = 10490.4754901;
         float minsr = 0.065f;
         int num_rx_scan = 1;
         int num_rx = 1;
 
-        Random rnd = new Random();
-
         public signal(object _list_lock)
         {
             list_lock = _list_lock;
-            //init nothing!
-
-
         }
 
         bool avoid_beacon = false;
@@ -145,6 +137,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             num_rx = _num_rx;
         }
+
         public void set_num_rx_scan(int _num_rx_scan)
         {
             num_rx_scan = _num_rx_scan;
@@ -208,7 +201,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     }
                 }
 
-                // Log.Information("Count3:" + signals.Count().ToString());
+                // Log.Information("Count3:" + newSignals.Count().ToString());
                 if (change)
                 {
                     last_sig[rx] = next_sig[rx];
@@ -228,7 +221,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             bool found = false;
             int n = 0;
 
-            foreach (Sig s in signals)
+            foreach (Sig s in newSignals)
             {
                 if (s.sr < 0.070f)
                 {
@@ -291,16 +284,16 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         public void updateSignalList()
         {
             // check current signal list
-            //foreach (Sig s in signalsData.ToList())
-            for (int x = 0; x < signalsData.Count; x++)
+            //foreach (Sig s in signals.ToList())
+            for (int x = 0; x < signals.Count; x++)
             {
                 bool found = false;
 
-                foreach (Sig sl in signals)
+                foreach (Sig sl in newSignals)
                 {
-                    if (diff_signals(signalsData[x], sl) == false) // same sig
+                    if (diff_signals(signals[x], sl) == false) // same sig
                     {
-                        signalsData[x] = new Sig(sl, signalsData[x].text_pos, signalsData[x].callsign, signalsData[x].frequency, signalsData[x].sr);
+                        signals[x] = new Sig(sl, signals[x].text_pos, signals[x].callsign, signals[x].frequency, signals[x].sr);
                         found = true;
                         break;
                     }
@@ -309,16 +302,16 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 if (!found)
                 {
                     //debug("Removing a signal");
-                    signalsData.Remove(signalsData[x]);
+                    signals.Remove(signals[x]);
                 }
             }
 
             // check new signal list
-            foreach (Sig s in signals)
+            foreach (Sig s in newSignals)
             {
                 bool found = false;
 
-                foreach (Sig sl in signalsData)
+                foreach (Sig sl in signals)
                 {
                     if (diff_signals(s, sl) == false) // same sig
                     {
@@ -330,7 +323,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 if (!found)
                 {
                     //debug("Adding a signal");
-                    signalsData.Add(s);
+                    signals.Add(s);
                 }
             }
         }
@@ -350,7 +343,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
 
             //Log.Information("Rx:" + rx.ToString() + " Current Tuned:" + last_sig[rx].frequency);
-            foreach (Sig s in signals)
+            foreach (Sig s in newSignals)
             {
                 //Log.Information("Rx:" + rx.ToString() + " 1st Try:" + s.frequency.ToString());
                 bool newfreq = true;
@@ -374,7 +367,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             if (newsig.frequency < 1)       //nothing available above last freq, return to bottom and start again until orig signal freq
             {
-                foreach (Sig s in signals)
+                foreach (Sig s in newSignals)
                 {
                     //Log.Information("Rx:"+rx.ToString()+" 2nd Try:" + s.frequency.ToString());
                     bool newfreq = true;
@@ -402,12 +395,12 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             lock (list_lock)
             {
-                for (int x = 0; x < signalsData.Count; x++)
+                for (int x = 0; x < signals.Count; x++)
                 {
-                    if (diff_signals(signalsData[x], freq, sr) == false)
+                    if (diff_signals(signals[x], freq, sr) == false)
                     {
                         //debug("updateCurrentSignal: found! x: " + x.ToString() +", Call: " + callsign + "QRG: " + freq.ToString() + ", SR: " + sr.ToString());
-                        signalsData[x] = new Sig(signalsData[x], Convert.ToSingle(Math.Round((freq - start_freq) * 102.0f, 1)), callsign, freq, sr);
+                        signals[x] = new Sig(signals[x], Convert.ToSingle(Math.Round((freq - start_freq) * 102.0f, 1)), callsign, freq, sr);
                         break;
                     }
                 }
@@ -440,7 +433,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             lock (list_lock)
             {
-                signals.Clear();
+                newSignals.Clear();
                 int i;
                 int j;
 
@@ -518,7 +511,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                                 if (signal_freq < 10492000.0 && signal_bw > 1.0f)
                                 {
                                     beacon_strength = strength_signal;
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToSingle(mid_signal), strength_signal, signal_freq, signal_bw, false, 0, 0));
+                                    newSignals.Add(new Sig(start_signal, end_signal, Convert.ToSingle(mid_signal), strength_signal, signal_freq, signal_bw, false, 0, 0));
                                 }
                                 else
                                 {
@@ -556,7 +549,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                                     if (isOverPower(beacon_strength, strength_signal, signal_bw))
                                         overpower = true;
 
-                                    signals.Add(new Sig(start_signal, end_signal, Convert.ToSingle(mid_signal), strength_signal, signal_freq, signal_bw, overpower, max_strength, dBb));
+                                    newSignals.Add(new Sig(start_signal, end_signal, Convert.ToSingle(mid_signal), strength_signal, signal_freq, signal_bw, overpower, max_strength, dBb));
                                 }
                             }
 
@@ -566,7 +559,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 }
                 updateSignalList();
             }
-            return signals;
+            return newSignals;
         }
 
         public float align_symbolrate(float width)
