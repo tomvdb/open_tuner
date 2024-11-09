@@ -233,6 +233,12 @@
   <ItemGroup>
     <Compile Include="BBFrameUDP.cs" />
     <Compile Include="ExtraFeatures\BATCSpectrum\BATCSpectrum.cs" />
+    <Compile Include="ExtraFeatures\BATCSpectrum\oneTunerTuneModeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtraFeatures\BATCSpectrum\oneTunerTuneModeForm.Designer.cs">
+      <DependentUpon>oneTunerTuneModeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExtraFeatures\BATCSpectrum\SRForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -240,6 +246,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SRForm.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ExtraFeatures\BATCSpectrum\TuneModeSettings.cs" />
+    <Compile Include="ExtraFeatures\BATCSpectrum\TuneModeSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtraFeatures\BATCSpectrum\TuneModeSettingsForm.Designer.cs">
+      <DependentUpon>TuneModeSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ExtraFeatures\BATCWebchat\BatcChat.cs" />
     <Compile Include="ExtraFeatures\BATCWebchat\WebChatSettings.cs" />
@@ -472,10 +485,16 @@
     <EmbeddedResource Include="externalToolsManager.resx">
       <DependentUpon>externalToolsManager.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ExtraFeatures\BATCSpectrum\oneTunerTuneModeForm.resx">
+      <DependentUpon>oneTunerTuneModeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ExtraFeatures\BATCSpectrum\SRForm.resx">
       <DependentUpon>SRForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SRForm.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExtraFeatures\BATCSpectrum\TuneModeSettingsForm.resx">
+      <DependentUpon>TuneModeSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExtraFeatures\BATCWebchat\WebChatSettngsForm.resx">
       <DependentUpon>WebChatSettngsForm.cs</DependentUpon>

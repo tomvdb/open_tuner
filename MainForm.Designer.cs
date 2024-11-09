@@ -319,6 +319,7 @@
             this.linkBatcSpectrumSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkBatcSpectrumSettings.ForeColor = System.Drawing.Color.RoyalBlue;
             this.linkBatcSpectrumSettings.Name = "linkBatcSpectrumSettings";
+            this.linkBatcSpectrumSettings.Click += new System.EventHandler(this.linkBatcSpectrumSettings_Click);
             // 
             // linkMqttSettings
             // 

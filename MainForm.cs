@@ -979,6 +979,21 @@ namespace opentuner
             _settings.enable_spectrum_checkbox = checkBatcSpectrum.Checked;
         }
 
+        private void linkBatcSpectrumSettings_Click(object sender, EventArgs e)
+        {
+            // BATC tune settings
+            tuneModeSettings batc_settings = new tuneModeSettings();
+            SettingsManager<tuneModeSettings> batc_settingsManager = new SettingsManager<tuneModeSettings>("tunemode_settings");
+            batc_settings = batc_settingsManager.LoadSettings(batc_settings);
+
+            tuneModeSettingsForm batc_settings_form = new tuneModeSettingsForm(ref batc_settings);
+
+            if (batc_settings_form.ShowDialog() == DialogResult.OK)
+            {
+                batc_settingsManager.SaveSettings(batc_settings);
+            }
+        }
+
         private void checkBatcChat_CheckedChanged(object sender, EventArgs e)
         {
             _settings.enable_chatform_checkbox = checkBatcChat.Checked;
