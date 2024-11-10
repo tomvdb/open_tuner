@@ -472,19 +472,19 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         switch (_tuneModeSettings.overPowerIndicatorLayout)
                         {
                             case 0:     // classic
-                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.text_pos * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
                                 break;
                             case 1:     // classic + line only
                                 tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
-                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.text_pos * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
                                 break;
                             case 2:     // box from top to line
                                 tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
-                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.text_pos * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), 1, Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - Convert.ToInt16(sig.max_strength / height)) });
+                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - Convert.ToInt16(sig.max_strength / height)) });
                                 break;
                             case 3:     // box from line to bottom
                                 tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
-                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.Rectangle(Convert.ToInt16(sig.text_pos * spectrum_wScale) - (Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale) / 2), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16((sig.fft_stop - sig.fft_start) * spectrum_wScale), height - 4) });
+                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), height - sig.max_strength / height, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
                                 break;
                             case 4:     // line only
                                 tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
