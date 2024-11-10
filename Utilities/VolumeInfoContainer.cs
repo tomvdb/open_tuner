@@ -49,8 +49,6 @@ namespace opentuner.Utilities
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-
-
             base.OnPaint(pe);
 
             pe.Graphics.FillRectangle(Brushes.Black, 0, 0, Width, Height);
@@ -60,6 +58,7 @@ namespace opentuner.Utilities
 
             Rectangle barRect = new Rectangle(4, Height - 3 - bar_size, Width - 7, bar_size);
             pe.Graphics.FillRectangle(Brushes.White, barRect);
+            pe.Graphics.DrawString(_last_volume.ToString() + "%", new Font("Tahoma", 7), Brushes.White, new PointF(0, 2));
         }
     }
 
