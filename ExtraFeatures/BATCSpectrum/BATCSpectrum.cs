@@ -47,7 +47,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Graphics tmp;
         Graphics tmp2;
 
-        int[,] rx_blocks = new int[4, 3];
+        float[,] rx_blocks = new float[4, 3];
 
         XElement bandplan;
         Rectangle[] channels;
@@ -252,10 +252,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             if (ret.Item1.frequency > 0)      //above 0 is a change in signal
             {
                 System.Threading.Thread.Sleep(100);
-                selectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale), 0);
+                selectSignal(Convert.ToInt32(ret.Item1.text_pos * spectrum_wScale), 0);
                 sigs.set_tuned(ret.Item1, 0);
-                rx_blocks[0, 0] = Convert.ToInt16(ret.Item1.fft_centre);
-                rx_blocks[0, 1] = Convert.ToInt16(ret.Item1.fft_stop - ret.Item1.fft_start);
+                rx_blocks[0, 0] = ret.Item1.text_pos;
+                rx_blocks[0, 1] = ret.Item1.sr * 100.0f / fft_data_length / 9.0f;
             }
 
         }
@@ -450,7 +450,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 y = tuner * (spectrum_h / _tuners);
 
                 //draw block showing signal selected
-                if (rx_blocks[tuner, 0] > 0)
+                if (rx_blocks[tuner, 0] > 0.0f)
                 {
                     tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale) / 2), y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
                 }
@@ -498,16 +498,16 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             for (i = 0; i < _tuners; i++)
             {
-                if (_tuneModeSettings.tuneMode[i] == 1 && rx_blocks[0, 2] == 0)
+                if (_tuneModeSettings.tuneMode[i] == 1 && rx_blocks[0, 2] == 0.0f)
                 {
                     Tuple<signal.Sig, int> ret = sigs.tune(_tuneModeSettings.tuneMode[i], 30, i);
                     if (ret.Item1.frequency > 0)      //above 0 is a change in signal
                     {
                         System.Threading.Thread.Sleep(100);
-                        selectSignal(Convert.ToInt32(ret.Item1.fft_centre * spectrum_wScale), y);
+                        selectSignal(Convert.ToInt32(ret.Item1.text_pos * spectrum_wScale), y);
                         sigs.set_tuned(ret.Item1, i);
-                        rx_blocks[i, 0] = Convert.ToInt16(ret.Item1.fft_centre);
-                        rx_blocks[i, 1] = Convert.ToInt16(ret.Item1.fft_stop - ret.Item1.fft_start);
+                        rx_blocks[i, 0] = ret.Item1.text_pos;
+                        rx_blocks[i, 1] = ret.Item1.sr * 100.0f / fft_data_length / 9.0f;
                     }
                 }
 
@@ -639,15 +639,15 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             if (demod_locked)
             {
-                rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_data_length / 9.0f);
-                rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_data_length / 9.0f);
+                rx_blocks[tuner, 0] = Convert.ToSingle((freq - start_freq) * fft_data_length / 9.0f);
+                rx_blocks[tuner, 1] = sr * fft_data_length / 9.0f;
             }
         }
 
         public void switchTuner(int tuner, double freq, float sr)
         {
-            rx_blocks[tuner, 0] = Convert.ToInt32((freq - start_freq) * fft_data_length / 9.0f);
-            rx_blocks[tuner, 1] = Convert.ToInt32(sr * fft_data_length / 9.0f);
+            rx_blocks[tuner, 0] = Convert.ToSingle((freq - start_freq) * fft_data_length / 9.0f);
+            rx_blocks[tuner, 1] = sr * fft_data_length / 9.0f;
         }
 
         private int determine_rx(int pos)
@@ -679,8 +679,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
                         {
                             sigs.set_tuned(s, rx);
-                            rx_blocks[rx, 0] = Convert.ToInt16(s.fft_centre);
-                            rx_blocks[rx, 1] = Convert.ToInt16((s.fft_stop) - (s.fft_start));
+                            rx_blocks[rx, 0] = s.text_pos;
+                            rx_blocks[rx, 1] = s.sr * 100.0f / fft_data_length / 9.0f;
                             UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
                             UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));
 
