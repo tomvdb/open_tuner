@@ -36,6 +36,7 @@ namespace opentuner.MediaSources
         public abstract int GetVolume(int device);
         public abstract void UpdateVolume(int device, int volume_delta);
         public abstract void ToggleMute(int device);
+        public abstract bool GetMuteState(int device);
 
         public abstract Dictionary<string, string> GetSignalData(int device);
 

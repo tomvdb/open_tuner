@@ -179,46 +179,7 @@ namespace opentuner.MediaSources.Minitiouner
             switch (function)
             {
                 case 0: // mute
-                    if (tuner == 0)
-                    {
-                        if (!muted[0])
-                        {
-                            preMute[0] = _media_player[0].GetVolume();
-                            UpdateVolume(0, 0);
-                            _tuner1_properties.UpdateValue("volume_slider_1", "0");
-                            _settings.DefaultVolume[0] = (byte)preMute[0];
-                            _settings.DefaultMuted[0] = muted[0] = true;
-                            _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
-                        }
-                        else
-                        {
-                            _media_player[0].SetVolume(preMute[0]);
-                            _tuner1_properties.UpdateValue("volume_slider_1", preMute[0].ToString());
-                            _settings.DefaultMuted[0] = muted[0] = false;
-                            _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
-                        }
-                    }
-                    else
-                    {
-                        if (!muted[1])
-                        {
-                            preMute[1] = _media_player[1].GetVolume();
-                            _media_player[1].SetVolume(0);
-                            _tuner2_properties.UpdateValue("volume_slider_2", "0");
-                            _settings.DefaultVolume[1] = (byte)preMute[1];
-                            _settings.DefaultMuted[1] = muted[1] = true;
-                            _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.PaleVioletRed);
-                        }
-                        else
-                        {
-                            _media_player[1].SetVolume(preMute[1]);
-                            _tuner2_properties.UpdateValue("volume_slider_2", preMute[1].ToString());
-                            _settings.DefaultMuted[1] = muted[1] = false;
-                            _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Transparent);
-                        }
-
-                    }
-
+                    ToggleMute(tuner);
                     break;
                 case 1: // snaphost
                     Log.Information("Snapshot: " + tuner.ToString());
@@ -871,7 +832,49 @@ namespace opentuner.MediaSources.Minitiouner
 
         public override void ToggleMute(int device)
         {
-            throw new NotImplementedException();
+            if (device == 0)
+            {
+                if (!muted[0])
+                {
+                    preMute[0] = _media_player[0].GetVolume();
+                    _media_player[0].SetVolume(0);
+                    _tuner1_properties.UpdateValue("volume_slider_1", "0");
+                    _settings.DefaultVolume[0] = (byte)preMute[0];
+                    _settings.DefaultMuted[0] = muted[0] = true;
+                    _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
+                }
+                else
+                {
+                    _media_player[0].SetVolume(preMute[0]);
+                    _tuner1_properties.UpdateValue("volume_slider_1", preMute[0].ToString());
+                    _settings.DefaultMuted[0] = muted[0] = false;
+                    _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
+                }
+            }
+            else
+            {
+                if (!muted[1])
+                {
+                    preMute[1] = _media_player[1].GetVolume();
+                    _media_player[1].SetVolume(0);
+                    _tuner2_properties.UpdateValue("volume_slider_2", "0");
+                    _settings.DefaultVolume[1] = (byte)preMute[1];
+                    _settings.DefaultMuted[1] = muted[1] = true;
+                    _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.PaleVioletRed);
+                }
+                else
+                {
+                    _media_player[1].SetVolume(preMute[1]);
+                    _tuner2_properties.UpdateValue("volume_slider_2", preMute[1].ToString());
+                    _settings.DefaultMuted[1] = muted[1] = false;
+                    _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.Transparent);
+                }
+            }
+        }
+
+        public override bool GetMuteState(int device)
+        {
+            return muted[device];
         }
 
         public override int GetVolume(int device)

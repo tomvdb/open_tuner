@@ -139,22 +139,7 @@ namespace opentuner.MediaSources.Longmynd
             switch (function)
             {
                 case 0: // mute
-                    if (!muted)
-                    {
-                        preMute = _media_player.GetVolume();
-                        _media_player.SetVolume(0);
-                        _tuner1_properties.UpdateValue("volume_slider_1", "0");
-                        _settings.DefaultVolume = (byte)preMute;
-                        _settings.DefaultMuted = muted = true;
-                        _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
-                    }
-                    else
-                    {
-                        _media_player.SetVolume(preMute);
-                        _tuner1_properties.UpdateValue("volume_slider_1", preMute.ToString());
-                        _settings.DefaultMuted = muted = false;
-                        _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
-                    }
+                    ToggleMute(0);
                     break;
                 case 1: // snapshot
                     Log.Information("Snapshot");
@@ -377,7 +362,27 @@ namespace opentuner.MediaSources.Longmynd
 
         public override void ToggleMute(int device)
         {
+            if (!muted)
+            {
+                preMute = _media_player.GetVolume();
+                _media_player.SetVolume(0);
+                _tuner1_properties.UpdateValue("volume_slider_1", "0");
+                _settings.DefaultVolume = (byte)preMute;
+                _settings.DefaultMuted = muted = true;
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
+            }
+            else
+            {
+                _media_player.SetVolume(preMute);
+                _tuner1_properties.UpdateValue("volume_slider_1", preMute.ToString());
+                _settings.DefaultMuted = muted = false;
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
+            }
+        }
 
+        public override bool GetMuteState(int device)
+        {
+            return muted;
         }
 
         public override int GetVolume(int device)
