@@ -495,8 +495,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                             mid_signal = start_signal + ((end_signal - start_signal) / 2.0);
 
-                            signal_bw = align_symbolrate((end_signal - start_signal) * 8.9995f / fft_data.Length);
-                            signal_freq = Math.Round((start_freq + mid_signal / fft_data.Length * 8.9995),3);
+                            signal_bw = align_symbolrate((end_signal - start_signal) * 9.0f / fft_data.Length);
+                            signal_freq = Math.Round((start_freq + mid_signal / fft_data.Length * 9.0f),3);
 
                             //Log.Information("Start   :" + start_signal.ToString());
                             //Log.Information("Middle  :" + mid_signal.ToString());
@@ -588,9 +588,13 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
                 return 0.333f;
             }
-            else if (width < 0.700f)
+            else if (width < 0.7f)
             {
                 return 0.500f;
+            }
+            else if (width < 0.85f)
+            {
+                return 0.750f;
             }
             else if (width < 1.2f)
             {
