@@ -772,13 +772,21 @@ namespace opentuner
 
             int video_nr = (int)((Control)sender).Tag;
 
-            if (e.Delta < 0)
+            //if muted: unmute and restore last volume value with first wheel action.
+            if (videoSource.GetMuteState(video_nr))
             {
-                videoSource.UpdateVolume(video_nr, -1 * wheel_volume_rate);
+                videoSource.ToggleMute(video_nr);
             }
-            if (e.Delta > 0)
+            else
             {
-                videoSource.UpdateVolume(video_nr, wheel_volume_rate);
+                if (e.Delta < 0)
+                {
+                    videoSource.UpdateVolume(video_nr, -1 * wheel_volume_rate);
+                }
+                if (e.Delta > 0)
+                {
+                    videoSource.UpdateVolume(video_nr, wheel_volume_rate);
+                }
             }
 
             if (volume_display.Count > video_nr)
@@ -791,10 +799,24 @@ namespace opentuner
         {
             int video_nr = (int)((Control)sender).Tag;
 
-            if (info_display.Count > video_nr)
+            if (e.Button == MouseButtons.Left)
             {
-                if (info_display[video_nr] != null)
-                    info_display[video_nr].Visible = !info_display[video_nr].Visible;
+                if (info_display.Count > video_nr)
+                {
+                    if (info_display[video_nr] != null)
+                        info_display[video_nr].Visible = !info_display[video_nr].Visible;
+                }
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                if (info_display.Count > video_nr)
+                {
+                    videoSource.ToggleMute(video_nr);
+                    if (volume_display.Count > video_nr)
+                    {
+                        volume_display[video_nr].UpdateVolume(videoSource.GetVolume(video_nr));
+                    }
+                }
             }
         }
 
