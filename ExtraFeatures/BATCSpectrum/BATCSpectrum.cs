@@ -18,8 +18,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 {
     public class BATCSpectrum
     {
-        private tuneModeSettings _tuneModeSettings;
-        private SettingsManager<tuneModeSettings> _settingsManager;
+        private BATCSpectrumSettings spectrumSettings;
+        private SettingsManager<BATCSpectrumSettings> batc_settingsManager;
 
         public delegate void SignalSelected(int Receiver, uint Freq, uint SymbolRate);
 
@@ -86,10 +86,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public BATCSpectrum(PictureBox Spectrum, int Tuners) 
         {
-            _tuneModeSettings = new tuneModeSettings();
-            _settingsManager = new SettingsManager<tuneModeSettings>("tunemode_settings");
+            spectrumSettings = new BATCSpectrumSettings();
+            batc_settingsManager = new SettingsManager<BATCSpectrumSettings>("tunemode_settings");
 
-            _tuneModeSettings = _settingsManager.LoadSettings(_tuneModeSettings);
+            spectrumSettings = batc_settingsManager.LoadSettings(spectrumSettings);
 
             _spectrum = Spectrum;
 
@@ -469,7 +469,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (sig.overpower)
                     {
-                        switch (_tuneModeSettings.overPowerIndicatorLayout)
+                        switch (spectrumSettings.overPowerIndicatorLayout)
                         {
                             case 0:     // classic
                                 tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
@@ -498,9 +498,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             for (i = 0; i < _tuners; i++)
             {
-                if (_tuneModeSettings.tuneMode[i] == 1 && rx_blocks[0, 2] == 0.0f)
+                if (spectrumSettings.tuneMode[i] == 1 && rx_blocks[0, 2] == 0.0f)
                 {
-                    Tuple<signal.Sig, int> ret = sigs.tune(_tuneModeSettings.tuneMode[i], 30, i);
+                    Tuple<signal.Sig, int> ret = sigs.tune(spectrumSettings.tuneMode[i], 30, i);
                     if (ret.Item1.frequency > 0)      //above 0 is a change in signal
                     {
                         System.Threading.Thread.Sleep(100);
@@ -514,7 +514,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 y = i * (spectrum_h / _tuners);
                 tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
                 tmp.DrawString("RX " + (i + 1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
-                switch (_tuneModeSettings.tuneMode[i])
+                switch (spectrumSettings.tuneMode[i])
                 {
                     case 0:
                         tmp.DrawString("Manual", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
@@ -574,8 +574,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             int tuner = determine_rx(Y);
                             using (oneTunerTuneModeForm oTTMForm = new oneTunerTuneModeForm(
                                 tuner + 1,
-                                _tuneModeSettings.tuneMode[tuner],
-                                _tuneModeSettings.avoidBeacon[tuner]))      //open up the single tune mode select form
+                                spectrumSettings.tuneMode[tuner],
+                                spectrumSettings.avoidBeacon[tuner]))      //open up the single tune mode select form
                             {
                                 Point spectrum_screen_location = _spectrum.PointToScreen(_spectrum.Location);
                                 Point new_oTTMForm_location = spectrum_screen_location;
@@ -592,8 +592,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                                 DialogResult result = oTTMForm.ShowDialog();
                                 if (result == DialogResult.OK)
                                 {
-                                    _tuneModeSettings.tuneMode[tuner] = oTTMForm.getTuneMode();
-                                    _tuneModeSettings.avoidBeacon[tuner] = oTTMForm.getAvoidBeacon();
+                                    spectrumSettings.tuneMode[tuner] = oTTMForm.getTuneMode();
+                                    spectrumSettings.avoidBeacon[tuner] = oTTMForm.getAvoidBeacon();
                                 }
                             }
 

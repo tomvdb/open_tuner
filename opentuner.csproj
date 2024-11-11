@@ -247,12 +247,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SRForm.resx</DependentUpon>
     </Compile>
-    <Compile Include="ExtraFeatures\BATCSpectrum\TuneModeSettings.cs" />
-    <Compile Include="ExtraFeatures\BATCSpectrum\TuneModeSettingsForm.cs">
+    <Compile Include="ExtraFeatures\BATCSpectrum\BATCSpectrumSettings.cs" />
+    <Compile Include="ExtraFeatures\BATCSpectrum\BATCSpectrumSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExtraFeatures\BATCSpectrum\TuneModeSettingsForm.Designer.cs">
-      <DependentUpon>TuneModeSettingsForm.cs</DependentUpon>
+    <Compile Include="ExtraFeatures\BATCSpectrum\BATCSpectrumSettingsForm.Designer.cs">
+      <DependentUpon>BATCSpectrumSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ExtraFeatures\BATCWebchat\BatcChat.cs" />
     <Compile Include="ExtraFeatures\BATCWebchat\WebChatSettings.cs" />
@@ -493,8 +493,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SRForm.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExtraFeatures\BATCSpectrum\TuneModeSettingsForm.resx">
-      <DependentUpon>TuneModeSettingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="ExtraFeatures\BATCSpectrum\BATCSpectrumSettingsForm.resx">
+      <DependentUpon>BATCSpectrumSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExtraFeatures\BATCWebchat\WebChatSettngsForm.resx">
       <DependentUpon>WebChatSettngsForm.cs</DependentUpon>

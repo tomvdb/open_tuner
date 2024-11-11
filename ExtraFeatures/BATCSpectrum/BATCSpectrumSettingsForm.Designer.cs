@@ -1,6 +1,6 @@
 ﻿namespace opentuner.ExtraFeatures.BATCSpectrum
 {
-    partial class tuneModeSettingsForm
+    partial class BATCSpectrumSettingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -263,7 +263,7 @@
             this.overPowerIndicatorLayout.Size = new System.Drawing.Size(162, 21);
             this.overPowerIndicatorLayout.TabIndex = 0;
             // 
-            // tuneModeSettingsForm
+            // BATCSpectrumSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -275,9 +275,9 @@
             this.Controls.Add(this.btnSave);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "tuneModeSettingsForm";
+            this.Name = "BATCSpectrumSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "tuneModeSettings";
+            this.Text = "BATCSpectrumSettings";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

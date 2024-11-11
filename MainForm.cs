@@ -1004,11 +1004,11 @@ namespace opentuner
         private void linkBatcSpectrumSettings_Click(object sender, EventArgs e)
         {
             // BATC tune settings
-            tuneModeSettings batc_settings = new tuneModeSettings();
-            SettingsManager<tuneModeSettings> batc_settingsManager = new SettingsManager<tuneModeSettings>("tunemode_settings");
+            BATCSpectrumSettings batc_settings = new BATCSpectrumSettings();
+            SettingsManager<BATCSpectrumSettings> batc_settingsManager = new SettingsManager<BATCSpectrumSettings>("spectrumSettings");
             batc_settings = batc_settingsManager.LoadSettings(batc_settings);
 
-            tuneModeSettingsForm batc_settings_form = new tuneModeSettingsForm(ref batc_settings);
+            BATCSpectrumSettingsForm batc_settings_form = new BATCSpectrumSettingsForm(ref batc_settings);
 
             if (batc_settings_form.ShowDialog() == DialogResult.OK)
             {

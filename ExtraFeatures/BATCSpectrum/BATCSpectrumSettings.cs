@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace opentuner.ExtraFeatures.BATCSpectrum
 {
-    public class tuneModeSettings
+    public class BATCSpectrumSettings
     {
         public int[] tuneMode = { 0, 0, 0, 0 };
         public bool[] avoidBeacon = { false, false, false, false };
