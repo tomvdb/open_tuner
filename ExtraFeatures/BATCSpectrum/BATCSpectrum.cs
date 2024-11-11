@@ -137,7 +137,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             web_socket.start();
 
             sigs.set_num_rx_scan(num_rxs_to_scan);
-            sigs.set_num_rx(1);
+            sigs.set_num_rx(Tuners);
 
             sigs.set_avoidbeacon(true);
 
