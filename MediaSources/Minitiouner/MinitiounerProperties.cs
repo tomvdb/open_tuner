@@ -415,16 +415,6 @@ namespace opentuner.MediaSources.Minitiouner
 //                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
                 }
 
-                // stop streaming
-                if (_ts_streamers[0].stream)
-                {
-//                    ClearIndicator(ref indicatorStatus1, PropertyIndicators.StreamingIndicator);
-                    _ts_streamers[0].stream = false;    // stop streaming
-                    _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
-//                    _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
-                }
-
-
             }
 
             // db margin / modcod
@@ -529,16 +519,6 @@ namespace opentuner.MediaSources.Minitiouner
                         _tuner2_properties.UpdateRecordButtonColor("media_controls_2", Color.Transparent);
 //                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
                     }
-
-                    // stop streaming
-                    if (_ts_streamers[1].stream)
-                    {
-//                        ClearIndicator(ref indicatorStatus2, PropertyIndicators.StreamingIndicator);
-                        _ts_streamers[1].stream = false;    // stop streaming
-                        _tuner2_properties.UpdateStreamButtonColor("media_controls_2", Color.Transparent);
-//                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
-                    }
-
 
                 }
 

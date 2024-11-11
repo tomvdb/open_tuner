@@ -204,15 +204,6 @@ namespace opentuner.MediaSources.Longmynd
                     _tuner1_properties.UpdateValue("media_controls", indicatorStatus.ToString());
                 }
 
-                // stop streaming if we lost lock
-                if (_streamer.stream)
-                {
-                    _streamer.stream = false;
-//                    ClearIndicator(ref indicatorStatus, PropertyIndicators.StreamingIndicator);
-                    _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
-                    _tuner1_properties.UpdateValue("media_controls", indicatorStatus.ToString());
-                }
-
             }
 
         }
