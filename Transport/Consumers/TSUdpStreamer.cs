@@ -68,7 +68,6 @@ namespace opentuner
             _StreamThread?.Abort();
         }
 
-
         public void worker_thread()
         {
             byte data;
@@ -167,11 +166,8 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Log.Information("TS UDP Thread: Closing ");
-            }
-            finally
-            {
-                Log.Information("Closing TS UDP");
+                Log.Information("TS UDP Thread Closed");
+                Thread.ResetAbort();
             }
         }
     }

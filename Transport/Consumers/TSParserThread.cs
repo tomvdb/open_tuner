@@ -135,7 +135,6 @@ namespace opentuner
                                         Log.Warning("TS_TABLE_SDT Exception : " + Ex.Message);
                                     }
 
-
                                     UInt32 ts_payload_section_length = ((UInt32)(ts_packet[ts_payload_offset + 1] & 0x0F) << 8) | (UInt32)ts_packet[ts_payload_offset + 2];
 
                                     if (ts_payload_section_length < 1)
@@ -183,7 +182,6 @@ namespace opentuner
                                         prevServiceProvider = service_provider;
                                     }
 
-
                                     if (ts_data_callback != null)
                                     {
                                         TSStatus new_status = new TSStatus();
@@ -198,9 +196,7 @@ namespace opentuner
 
                                         ts_data_callback(new_status);
                                     }
-
                                 }
-
                             }
                             else
                             {
@@ -215,20 +211,13 @@ namespace opentuner
                     {
                         Thread.Sleep(100);
                     }
-
-
                 }
-
             }
             catch (ThreadAbortException)
             {
-                Log.Information("TS Thread: Closing ");
+                Log.Information("TS Parser Thread Closed");
+                Thread.ResetAbort();
             }
-            finally
-            {
-                Log.Information("Closing TS");
-            }
-
         }
     }
 }
