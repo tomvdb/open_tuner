@@ -16,6 +16,7 @@ namespace opentuner.Utilities
         private UdpClient udpClient;
         private int port;
         private bool isListening;
+        private bool isStopped;
         private Thread listenThread;
         
         private int _id;
@@ -54,6 +55,7 @@ namespace opentuner.Utilities
             if (!isListening)
             {
                 isListening = true;
+                isStopped = false;
                 listenThread.Start();
 
                 OnConnectionStatusChanged(true);
@@ -65,8 +67,11 @@ namespace opentuner.Utilities
             if (isListening)
             {
                 isListening = false;
+                for (int i = 0; (i < 50) && !isStopped; i++) // wait till thread is stopped. max. 0.5 Seconds
+                {
+                    Thread.Sleep(100);
+                }
 //                listenThread.Join(); // Wait for the thread to finish
-
                 udpClient.Close();
 
                 OnConnectionStatusChanged(false);
@@ -79,7 +84,6 @@ namespace opentuner.Utilities
 
             try
             {
-
                 while (isListening)
                 {
                     byte[] receivedBytes = udpClient.Receive(ref remoteEndPoint);
@@ -93,11 +97,13 @@ namespace opentuner.Utilities
                         Log.Information("OnDataReceived event failed: " + ex.Message);
                     }
                 }
+                isStopped = true;
             }
             catch (Exception ex)
             {
                 Log.Information("Listen for UDP Data Exception: "  + this.port.ToString() + " : "+  ex.Message);
                 OnConnectionStatusChanged(false);
+                isStopped = true;
             }
         }
 
