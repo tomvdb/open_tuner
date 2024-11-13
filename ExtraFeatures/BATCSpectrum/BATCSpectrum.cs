@@ -408,46 +408,47 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         // Entrypoint with new fft_data from websocket
         private void drawspectrum(UInt16[] fft_data)
         {
-            fft_data_length = fft_data.Length;
-            tmp.Clear(Color.Black);     //clear canvas
-
-            int spectrum_h = _spectrum.Height - bandplan_height;
-            float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / fft_data_length;
-
-            int i = 1;
-            int y = 0;
-
-            PointF[] points = new PointF[fft_data.Length];
-
-            for (i = 1; i < fft_data.Length; i++)     //ignore padding?
-            {
-                PointF point = new PointF(i * spectrum_wScale, height - fft_data[i] / height);
-                points[i] = point;
-            }
-
-            points[0] = new PointF(0, height);
-            points[points.Length - 1] = new PointF(spectrum_w, height);
-
-            if (spectrumTunerHighlight > -1)
-            {
-                y = spectrumTunerHighlight * (spectrum_h / _tuners);
-                tmp.FillRectangle(tuner1Brush, new RectangleF(0, y, spectrum_w, (spectrum_h / _tuners)));
-            }
-
-            //tmp.FillRectangle((spectrumTunerHighlight == 1 ? tuner1Brush : tuner2Brush), new RectangleF(0, (spectrumTunerHighlight == 1 ? 0 : spectrum_h / 2), spectrum_w, _tuners == 1 ? spectrum_h : spectrum_h / 2));
-
-            //tmp.DrawPolygon(greenpen, points);
-            SolidBrush spectrumBrush = new SolidBrush(Color.Blue);
-
-            LinearGradientBrush linGrBrush = new LinearGradientBrush(
-               new Point(0, 0),
-               new Point(0, height),
-               Color.FromArgb(255, 255, 99, 132),   // Opaque red
-               Color.FromArgb(255, 54, 162, 235));  // Opaque blue
-
             lock (drawing_lock)
             {
+
+                fft_data_length = fft_data.Length;
+
+                tmp.Clear(Color.Black);     //clear canvas
+
+                int spectrum_h = _spectrum.Height - bandplan_height;
+                float spectrum_w = _spectrum.Width;
+                float spectrum_wScale = spectrum_w / fft_data_length;
+
+                int i = 1;
+                int y = 0;
+
+                PointF[] points = new PointF[fft_data.Length];
+
+                for (i = 1; i < fft_data.Length; i++)     //ignore padding?
+                {
+                    PointF point = new PointF(i * spectrum_wScale, height - fft_data[i] / height);
+                    points[i] = point;
+                }
+
+                points[0] = new PointF(0, height);
+                points[points.Length - 1] = new PointF(spectrum_w, height);
+
+                if (spectrumTunerHighlight > -1)
+                {
+                    y = spectrumTunerHighlight * (spectrum_h / _tuners);
+                    tmp.FillRectangle(tuner1Brush, new RectangleF(0, y, spectrum_w, (spectrum_h / _tuners)));
+                }
+
+                //tmp.FillRectangle((spectrumTunerHighlight == 1 ? tuner1Brush : tuner2Brush), new RectangleF(0, (spectrumTunerHighlight == 1 ? 0 : spectrum_h / 2), spectrum_w, _tuners == 1 ? spectrum_h : spectrum_h / 2));
+
+                //tmp.DrawPolygon(greenpen, points);
+                SolidBrush spectrumBrush = new SolidBrush(Color.Blue);
+
+                LinearGradientBrush linGrBrush = new LinearGradientBrush(
+                new Point(0, 0),
+                new Point(0, height),
+                Color.FromArgb(255, 255, 99, 132),   // Opaque red
+                Color.FromArgb(255, 54, 162, 235));  // Opaque blue
 
                 tmp.FillPolygon(linGrBrush, points);
 
