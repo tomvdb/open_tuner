@@ -87,7 +87,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         public BATCSpectrum(PictureBox Spectrum, int Tuners) 
         {
             spectrumSettings = new BATCSpectrumSettings();
-            batc_settingsManager = new SettingsManager<BATCSpectrumSettings>("tunemode_settings");
+            batc_settingsManager = new SettingsManager<BATCSpectrumSettings>("spectrumSettings");
 
             spectrumSettings = batc_settingsManager.LoadSettings(spectrumSettings);
 
