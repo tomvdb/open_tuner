@@ -47,6 +47,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Graphics tmp;
         Graphics tmp2;
 
+        private static readonly Object drawing_lock = new Object();
+
         float[,] rx_blocks = new float[4, 3];
 
         XElement bandplan;
@@ -151,7 +153,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             websocketTimer.Tick += new System.EventHandler(this.websocketTimer_Tick);
             websocketTimer.Enabled = true;
 
-            draw_disconnect();
+            lock (drawing_lock)
+            {
+                draw_disconnect();
+            }
         }
 
         private void draw_disconnect()
@@ -211,7 +216,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                 if (!web_socket.connected)
                 {
-                    draw_disconnect();
+                    lock (drawing_lock)
+                    {
+                        draw_disconnect();
+                    }
 
                     if (connect_retry_count < connect_retries)
                     {
@@ -438,95 +446,99 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                Color.FromArgb(255, 255, 99, 132),   // Opaque red
                Color.FromArgb(255, 54, 162, 235));  // Opaque blue
 
-            tmp.FillPolygon(linGrBrush, points);
-
-            tmp.DrawImage(bmp2, 0, height - bandplan_height); //bandplan
-
-            y = 0;
-
-            for (int tuner = 0; tuner < _tuners; tuner++)
+            lock (drawing_lock)
             {
-                y = tuner * (spectrum_h / _tuners);
 
-                //draw block showing signal selected
-                if (rx_blocks[tuner, 0] > 0.0f)
+                tmp.FillPolygon(linGrBrush, points);
+
+                tmp.DrawImage(bmp2, 0, height - bandplan_height); //bandplan
+
+                y = 0;
+
+                for (int tuner = 0; tuner < _tuners; tuner++)
                 {
-                    tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale) / 2), y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
-                }
-            }
+                    y = tuner * (spectrum_h / _tuners);
 
-            tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
-            tmp.DrawString(TX_Text, new Font("Tahoma", 15), Brushes.Red, new PointF(70, _spectrum.Height - 50));  //dh3cs
-
-            //drawspectrum_signals(sigs.detect_signals(fft_data));
-            sigs.detect_signals(fft_data);
-
-            // draw over power
-            lock (list_lock)
-            {
-                foreach (var sig in sigs.signals)
-                {
-                    if (sig.overpower)
+                    //draw block showing signal selected
+                    if (rx_blocks[tuner, 0] > 0.0f)
                     {
-                        switch (spectrumSettings.overPowerIndicatorLayout)
+                        tmp.FillRectangle(shadowBrush, new RectangleF(rx_blocks[tuner, 0] * spectrum_wScale - ((rx_blocks[tuner, 1] * spectrum_wScale) / 2), y, rx_blocks[tuner, 1] * spectrum_wScale, (spectrum_h / _tuners)));
+                    }
+                }
+
+                tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
+                tmp.DrawString(TX_Text, new Font("Tahoma", 15), Brushes.Red, new PointF(70, _spectrum.Height - 50));  //dh3cs
+
+                //drawspectrum_signals(sigs.detect_signals(fft_data));
+                sigs.detect_signals(fft_data);
+
+                // draw over power
+                lock (list_lock)
+                {
+                    foreach (var sig in sigs.signals)
+                    {
+                        if (sig.overpower)
                         {
-                            case 0:     // classic
-                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
-                                break;
-                            case 1:     // classic + line only
-                                tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
-                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
-                                break;
-                            case 2:     // box from top to line
-                                tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
-                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - Convert.ToInt16(sig.max_strength / height)) });
-                                break;
-                            case 3:     // box from line to bottom
-                                tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
-                                tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), height - sig.max_strength / height, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
-                                break;
-                            case 4:     // line only
-                                tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
-                                break;
-                            default:    // no indication
-                                break;
+                            switch (spectrumSettings.overPowerIndicatorLayout)
+                            {
+                                case 0:     // classic
+                                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
+                                    break;
+                                case 1:     // classic + line only
+                                    tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
+                                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
+                                    break;
+                                case 2:     // box from top to line
+                                    tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
+                                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), 1, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - Convert.ToInt16(sig.max_strength / height)) });
+                                    break;
+                                case 3:     // box from line to bottom
+                                    tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
+                                    tmp.FillRectangles(overpowerBrush, new RectangleF[] { new System.Drawing.RectangleF(sig.text_pos * spectrum_wScale - ((sig.fft_stop - sig.fft_start) * spectrum_wScale / 2), height - sig.max_strength / height, (sig.fft_stop - sig.fft_start) * spectrum_wScale, height - 4) });
+                                    break;
+                                case 4:     // line only
+                                    tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
+                                    break;
+                                default:    // no indication
+                                    break;
+                            }
                         }
                     }
                 }
-            }
 
-            for (i = 0; i < _tuners; i++)
-            {
-                if (spectrumSettings.tuneMode[i] == 1 && rx_blocks[0, 2] == 0.0f)
+                for (i = 0; i < _tuners; i++)
                 {
-                    Tuple<signal.Sig, int> ret = sigs.tune(spectrumSettings.tuneMode[i], 30, i);
-                    if (ret.Item1.frequency > 0)      //above 0 is a change in signal
+                    if (spectrumSettings.tuneMode[i] == 1 && rx_blocks[0, 2] == 0.0f)
                     {
-                        System.Threading.Thread.Sleep(100);
-                        selectSignal(Convert.ToInt32(ret.Item1.text_pos * spectrum_wScale), y);
-                        sigs.set_tuned(ret.Item1, i);
-                        rx_blocks[i, 0] = ret.Item1.text_pos;
-                        rx_blocks[i, 1] = ret.Item1.sr * 100.0f / fft_data_length / 9.0f;
+                        Tuple<signal.Sig, int> ret = sigs.tune(spectrumSettings.tuneMode[i], 30, i);
+                        if (ret.Item1.frequency > 0)      //above 0 is a change in signal
+                        {
+                            //System.Threading.Thread.Sleep(100);
+                            selectSignal(Convert.ToInt32(ret.Item1.text_pos * spectrum_wScale), y);
+                            sigs.set_tuned(ret.Item1, i);
+                            rx_blocks[i, 0] = ret.Item1.text_pos;
+                            rx_blocks[i, 1] = ret.Item1.sr * 100.0f / fft_data_length / 9.0f;
+                        }
+                    }
+
+                    y = i * (spectrum_h / _tuners);
+                    tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
+                    tmp.DrawString("RX " + (i + 1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
+                    switch (spectrumSettings.tuneMode[i])
+                    {
+                        case 0:
+                            tmp.DrawString("Manual", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
+                            break;
+                        case 1:
+                            tmp.DrawString("Auto", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
+                            break;
+                        default:
+                            break;
                     }
                 }
 
-                y = i * (spectrum_h / _tuners);
-                tmp.DrawLine(greyPen, 10, y, spectrum_w, y);
-                tmp.DrawString("RX " + (i + 1).ToString(), new Font("Tahoma", 10), Brushes.White, new PointF(5, y));
-                switch (spectrumSettings.tuneMode[i])
-                {
-                    case 0:
-                        tmp.DrawString("Manual", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
-                        break;
-                    case 1:
-                        tmp.DrawString("Auto", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
-                        break;
-                    default:
-                        break;
-                }
+                drawspectrum_signals(sigs.signals);
             }
-
-            drawspectrum_signals(sigs.signals);
         }
 
         private void spectrum_Click(object sender, EventArgs e)
