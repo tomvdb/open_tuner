@@ -35,7 +35,6 @@ namespace opentuner
         {
             if (!connected)
             {
-                Log.Information(connected.ToString());
                 Log.Information("Websocket: QO_Spectrum: Try connect..\n");
 
                 ws = new WebSocket("wss://eshail.batc.org.uk/wb/fft", "fft_m0dtslivetune");
