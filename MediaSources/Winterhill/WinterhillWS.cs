@@ -145,7 +145,6 @@ namespace opentuner.MediaSources.Winterhill
             {
                 if (monitorWS.IsAlive)
                 {
-                    debug("Attempting to reconnect...");
                     monitorDisconnect = true;
                     monitorWS?.Close();
                 }
