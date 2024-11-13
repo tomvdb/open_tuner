@@ -187,7 +187,6 @@ namespace opentuner.MediaSources.Winterhill
                     }
                     break;
                 case "ts_addr":
-
                     // get local ip's
                     if (_LocalIp.Length == 0)
                     {
@@ -401,16 +400,9 @@ namespace opentuner.MediaSources.Winterhill
                     }
                     else
                     {
-                        if (demodstate[tuner] == 3 || demodstate[tuner] == 2)
-                        {
-                            _streamer[tuner].stream = true;
-//                            SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
-                            _tuner_properties[tuner].UpdateStreamButtonColor("media_controls_" + tuner.ToString(), Color.PaleTurquoise);
-                        }
-                        else
-                        {
-                            Log.Error("Can't stream, not locked to a signal");
-                        }
+                        _streamer[tuner].stream = true;
+//                        SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
+                        _tuner_properties[tuner].UpdateStreamButtonColor("media_controls_" + tuner.ToString(), Color.PaleTurquoise);
                     }
 
                     _tuner_properties[tuner].UpdateValue("media_controls_" + tuner.ToString(), indicatorStatus[tuner].ToString());
