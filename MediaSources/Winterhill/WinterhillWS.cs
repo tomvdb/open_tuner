@@ -16,6 +16,8 @@ namespace opentuner.MediaSources.Winterhill
         // ws interface
         private WebSocket controlWS;        // longmynd control ws websocket
         private WebSocket monitorWS;        // longmynd monitor ws websocket
+        private bool controlDisconnect;
+        private bool monitorDisconnect;
 
         private void WSSetFrequency(int device, int freq, int sr)
         {           
@@ -40,6 +42,7 @@ namespace opentuner.MediaSources.Winterhill
             monitorWS.OnClose += Monitorws_OnClose;
             monitorWS.OnError += MonitorWS_OnError;
             monitorWS.ConnectAsync();
+            monitorDisconnect = false;
 
             controlWS = new WebSocket(url, "control");
             controlWS.OnClose += Controlws_OnClose;
@@ -47,7 +50,7 @@ namespace opentuner.MediaSources.Winterhill
             controlWS.OnOpen += Controlws_OnOpen;
             controlWS.OnError += ControlWS_OnError;
             controlWS.ConnectAsync();
-
+            controlDisconnect = false;
         }
 
         private void ControlWS_OnError(object sender, ErrorEventArgs e)
@@ -102,16 +105,30 @@ namespace opentuner.MediaSources.Winterhill
 
         private void Controlws_OnClose(object sender, CloseEventArgs e)
         {
-            debug("Error: Control WS Closed - Check WS IP");
-            debug("Attempting to reconnect...");
-            controlWS.ConnectAsync();
+            if (!controlDisconnect)
+            {
+                debug("Error: Control WS Closed - Check WS IP");
+                debug("Attempting to reconnect...");
+                controlWS.ConnectAsync();
+            }
+            else
+            {
+                debug("Control WS Closed");
+            }
         }
 
         private void Monitorws_OnClose(object sender, CloseEventArgs e)
         {
-            debug("Error: Monitor WS Closed - Check WS IP");
-            debug("Attempting to reconnect...");
-            monitorWS.ConnectAsync();
+            if (!monitorDisconnect)
+            {
+                debug("Error: Monitor WS Closed - Check WS IP");
+                debug("Attempting to reconnect...");
+                monitorWS.ConnectAsync();
+            }
+            else
+            {
+                debug("Monitor WS Closed");
+            }
         }
 
         private void Monitorws_OnMessage(object sender, MessageEventArgs e)
@@ -127,13 +144,20 @@ namespace opentuner.MediaSources.Winterhill
             if (monitorWS != null)
             {
                 if (monitorWS.IsAlive)
+                {
+                    debug("Attempting to reconnect...");
+                    monitorDisconnect = true;
                     monitorWS?.Close();
+                }
             }
 
             if (controlWS != null)
             {
                 if (controlWS.IsAlive)
+                {
+                    controlDisconnect = true;
                     controlWS?.Close();
+                }
             }
         }
     }
