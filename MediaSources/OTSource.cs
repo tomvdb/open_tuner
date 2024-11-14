@@ -49,7 +49,7 @@ namespace opentuner.MediaSources
         public abstract void Close();
 
         // initialize returns how many video players it need
-        public abstract int Initialize(VideoChangeCallback VideoChangeCB, Control Parent);
+        public abstract int Initialize(VideoChangeCallback VideoChangeCB, Control Parent, bool mute_at_startup);
 
         public abstract void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers);
 

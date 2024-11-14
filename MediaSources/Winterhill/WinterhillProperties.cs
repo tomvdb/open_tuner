@@ -39,7 +39,7 @@ namespace opentuner.MediaSources.Winterhill
         };
 
 
-        private bool BuildSourceProperties()
+        private bool BuildSourceProperties(bool mute_at_startup)
         {
             if (_parent == null)
             {
@@ -81,6 +81,11 @@ namespace opentuner.MediaSources.Winterhill
                 _tuner_properties[c].AddItem("audio_rate", "Audio Rate");
                 _tuner_properties[c].AddSlider("volume_slider_" + c.ToString(), "Volume", 0, 200);
                 _tuner_properties[c].AddMediaControls("media_controls_" + c.ToString(), "Media Controls");
+
+                if (mute_at_startup)
+                {
+                    _settings.DefaultMuted[c] = true;
+                }
 
                 muted[c] = _settings.DefaultMuted[c];
                 preMute[c] = (int)_settings.DefaultVolume[c];

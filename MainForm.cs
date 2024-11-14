@@ -327,13 +327,13 @@ namespace opentuner
         /// Connect to Media Source and configure Media Players + extra's based on Media Source initialization.
         /// </summary>
         /// <param name="MediaSource"></param>
-        private bool SourceConnect(OTSource MediaSource)
+        private bool SourceConnect(OTSource MediaSource, bool mute_at_startup)
         {
             Log.Information("Connecting to " + MediaSource.GetName());
 
             videoSource = MediaSource;
 
-            int video_players_required = videoSource.Initialize(ChangeVideo, PropertiesPage);
+            int video_players_required = videoSource.Initialize(ChangeVideo, PropertiesPage, mute_at_startup);
 
             if (video_players_required < 0)
             {
@@ -913,7 +913,7 @@ namespace opentuner
 
         private bool ConnectSelectedSource()
         {
-            if (!SourceConnect(_availableSources[comboAvailableSources.SelectedIndex]))
+            if (!SourceConnect(_availableSources[comboAvailableSources.SelectedIndex], _settings.mute_at_startup))
                 return false;
 
             if (checkBatcSpectrum.Checked)
@@ -950,12 +950,6 @@ namespace opentuner
                     Log.Error("DATV Reporter can't connect - check your settings");
                 }
             }
-
-            if (_settings.mute_at_startup)
-            {
-                _availableSources[comboAvailableSources.SelectedIndex].OverrideDefaultMuted(_settings.mute_at_startup);
-            }
-
 
             splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
 

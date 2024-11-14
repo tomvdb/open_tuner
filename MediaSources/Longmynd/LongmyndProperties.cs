@@ -49,7 +49,7 @@ namespace opentuner.MediaSources.Longmynd
 
         private List<StoredFrequency> _frequency_presets = null;
 
-        private bool BuildSourceProperties()
+        private bool BuildSourceProperties(bool mute_at_startup)
         {
             if (_parent == null)
             {
@@ -62,6 +62,11 @@ namespace opentuner.MediaSources.Longmynd
 
 
             _tuner1_properties = ConfigureTunerProperties(1);
+
+            if (mute_at_startup)
+            {
+                _settings.DefaultMuted = true;
+            }
 
             muted = _settings.DefaultMuted;
             preMute = (int)_settings.DefaultVolume;

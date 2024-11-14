@@ -273,7 +273,7 @@ namespace opentuner.MediaSources.Minitiouner
         //    return hardware_interface.hw_set_polarization_supply(lnb_num, supply_enable, supply_horizontal);
         //}
 
-        public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
+        public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent, bool mute_at_startup)
         {            
             switch (_settings.DefaultInterface)
             {
@@ -296,7 +296,7 @@ namespace opentuner.MediaSources.Minitiouner
             }
 
 
-            return Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "", Parent);
+            return Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "", Parent, mute_at_startup);
         }
 
         public void nim_status_feedback(TunerStatus nim_status)
@@ -415,7 +415,7 @@ namespace opentuner.MediaSources.Minitiouner
 
         }
 
-        private int Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial, Control Parent)
+        private int Initialize(VideoChangeCallback VideoChangeCB, SourceStatusCallback SourceStatusCB, bool manual, string i2c_serial, string ts_serial, string ts2_serial, Control Parent, bool mute_at_startup)
         {
 
             this.VideoChangeCB = VideoChangeCB;
@@ -431,7 +431,7 @@ namespace opentuner.MediaSources.Minitiouner
 
             // build properties
             _parent = Parent;
-            BuildSourceProperties();
+            BuildSourceProperties(mute_at_startup);
 
             _source_properties.UpdateValue("source_hw_interface", hardware_interface.GetName);
 

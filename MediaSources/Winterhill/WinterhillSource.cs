@@ -72,7 +72,7 @@ namespace opentuner.MediaSources.Winterhill
         }
 
 
-        public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
+        public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent, bool mute_at_startup)
         {
             _parent = Parent;
 
@@ -171,7 +171,7 @@ namespace opentuner.MediaSources.Winterhill
 
             }
 
-            BuildSourceProperties();
+            BuildSourceProperties(mute_at_startup);
 
             this.VideoChangeCB = VideoChangeCB;
 

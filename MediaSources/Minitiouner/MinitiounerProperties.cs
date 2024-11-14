@@ -51,7 +51,7 @@ namespace opentuner.MediaSources.Minitiouner
         public override event SourceDataChange OnSourceData;
 
         private List<StoredFrequency> _frequency_presets = null;
-        private bool BuildSourceProperties()
+        private bool BuildSourceProperties(bool mute_at_startup)
         {
             if (_parent == null)
             {
@@ -66,6 +66,10 @@ namespace opentuner.MediaSources.Minitiouner
             if (ts_devices == 2)
             {
                 _tuner2_properties = ConfigureTunerProperties(2);
+                if (mute_at_startup)
+                {
+                    _settings.DefaultMuted[1] = true;
+                }
                 muted[1] = _settings.DefaultMuted[1];
                 preMute[1] = (int)_settings.DefaultVolume[1];
 
@@ -84,6 +88,10 @@ namespace opentuner.MediaSources.Minitiouner
             }
 
             _tuner1_properties = ConfigureTunerProperties(1);
+            if (mute_at_startup)
+            {
+                _settings.DefaultMuted[0] = true;
+            }
             muted[0] = _settings.DefaultMuted[0];
             preMute[0] = (int)_settings.DefaultVolume[0];
 

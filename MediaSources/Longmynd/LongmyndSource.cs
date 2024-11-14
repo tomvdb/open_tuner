@@ -181,7 +181,7 @@ namespace opentuner.MediaSources.Longmynd
 
 
 
-        public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent)
+        public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent, bool mute_at_startup)
         {
             _parent = Parent;
 
@@ -208,7 +208,7 @@ namespace opentuner.MediaSources.Longmynd
             ts_thread_t = new Thread(ts_thread.worker_thread);
             ts_thread_t.Start();
 
-            BuildSourceProperties();
+            BuildSourceProperties(mute_at_startup);
 
             switch(_settings.DefaultInterface)
             {
