@@ -903,6 +903,10 @@ namespace opentuner
             return err;
         }
 
+        public override void hw_close()
+        {
+        }
+
         byte ftdi_gpio_write_lowbyte(byte pin_id, bool pin_value)
         {
             Log.Information("Flow: FTDI GPIO Write: pin {0} -> value {1}", pin_id, pin_value);

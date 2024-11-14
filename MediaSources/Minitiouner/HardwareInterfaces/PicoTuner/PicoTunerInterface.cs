@@ -91,6 +91,9 @@ namespace opentuner
 
         public override string GetName => "PicoTuner";
 
+        private UsbContext usbContext;
+        private UsbDeviceCollection usbDeviceCollection;
+
         private byte Receive_Data_i2c(uint BytesToRead)
         {
             uint QueueTimeOut = 0;
@@ -650,8 +653,8 @@ namespace opentuner
             byte err = 0;
 
 
-            UsbContext usbContext = new UsbContext();
-            var usbDeviceCollection = usbContext.List();
+            usbContext = new UsbContext();
+            usbDeviceCollection = usbContext.List();
 
             i2c_pt_device = null;
 
@@ -707,6 +710,12 @@ namespace opentuner
             if (err == 0) err = ftdi_nim_reset();
 
             return err;            
+        }
+
+        public override void hw_close()
+        {
+            usbDeviceCollection.Dispose();
+            usbContext.Dispose();
         }
 
         byte gpio_write(byte pin_id, bool pin_value)
