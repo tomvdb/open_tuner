@@ -778,7 +778,7 @@ namespace opentuner.MediaSources.Minitiouner
             ts_thread_t?.Abort();
             ts_thread_2_t?.Abort();
             nim_thread_t?.Abort();
-            hardware_interface.hw_close();
+            hardware_interface?.hw_close();
         }
 
         public override void ShowSettings()
