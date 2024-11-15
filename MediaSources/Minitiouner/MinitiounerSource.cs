@@ -295,8 +295,12 @@ namespace opentuner.MediaSources.Minitiouner
                 case 2: hardware_interface = new PicoTunerInterface(); break;
             }
 
-
-            return Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "", Parent, mute_at_startup);
+            int retCode = Initialize(VideoChangeCB, SourceStatusCB, false, "", "", "", Parent, mute_at_startup);
+            if(retCode == -1)
+            {
+                hardware_interface = null;
+            }
+            return retCode;
         }
 
         public void nim_status_feedback(TunerStatus nim_status)
@@ -672,7 +676,7 @@ namespace opentuner.MediaSources.Minitiouner
 
             if (err != 0)
             {
-                Log.Information("Main: Error: FTDI Failed " + err.ToString());
+                Log.Error("Main: Error: FTDI Failed " + err.ToString());
                 hardware_connected = false;
                 return;
             }
