@@ -646,6 +646,9 @@ namespace opentuner.MediaSources.Winterhill
                             source_data.volume = _media_player[c].GetVolume();
                     }
 
+                    source_data.streaming = _streamer[c].stream;
+                    source_data.recording = _recorders[c].record;
+
                     OnSourceData?.Invoke(c, source_data, "Tuner " + c.ToString());
                 }
             }

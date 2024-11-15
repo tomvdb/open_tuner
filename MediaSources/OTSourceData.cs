@@ -16,5 +16,7 @@ namespace opentuner.MediaSources
         public int symbol_rate = 0;
         public string service_name = "";
         public int volume = 0;
+        public bool streaming = false;
+        public bool recording = false;
     }
 }

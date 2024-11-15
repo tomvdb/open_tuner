@@ -87,9 +87,20 @@ namespace opentuner.Utilities
                     pe.Graphics.DrawString(audio_icon_high, emojiFont, Brushes.LimeGreen, new PointF(x_pos -5, 2));
                 else
                     pe.Graphics.DrawString(audio_icon_mute, emojiFont, Brushes.IndianRed, new PointF(x_pos -5, 2));
+
+                x_pos += (int)pe.Graphics.MeasureString(audio_icon_mute, emojiFont).Width;
             }
 
+            if (last_info_data.streaming)
+            {
+                pe.Graphics.DrawString("U", font, Brushes.PaleTurquoise, new PointF(x_pos, y_pos));
+                x_pos += (int)pe.Graphics.MeasureString("U ", font).Width;
+            }
 
+            if (last_info_data.recording)
+            {
+                pe.Graphics.DrawString("R", font, Brushes.PaleVioletRed, new PointF(x_pos, y_pos));
+            }
 
         }
 
