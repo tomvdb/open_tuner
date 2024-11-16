@@ -114,7 +114,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         bool avoid_beacon = false;
 
         private Sig[] last_sig = new Sig[8];             //last tune signal - detail
-        private Sig[] next_sig = new Sig[8];             //last tune signal - detail
+        private Sig[] next_sig = new Sig[8];             //next tune signal - detail
 
         private DateTime[] last_tuned_time = new DateTime[8];   //time the last signal was tuned
 
@@ -164,7 +164,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
                 if (mode == 2)      //auto timed
                 {
-                    //Log.Information(t.Seconds);
+                    //Log.Information(t.Seconds.ToString());
                     if ((t.Minutes * 60) + t.Seconds > time)
                     {
                         //Log.Information("elapsed: " + rx.ToString());
@@ -201,7 +201,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     }
                 }
 
-                // Log.Information("Count3:" + newSignals.Count().ToString());
+                //Log.Information("Count3:" + newSignals.Count().ToString());
                 if (change)
                 {
                     last_sig[rx] = next_sig[rx];
@@ -242,7 +242,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public bool diff_signals(Sig lastsig, Sig next)
         {
-            // Log.Information(lastsig.frequency-next.frequency);
+            //Log.Information("diff_signals(): last QRG: " + lastsig.frequency.ToString() + ", next QRG: " + next.frequency.ToString());
+            //Log.Information("diff_signals(): last SR: " + lastsig.sr.ToString() + ", next SR: " + next.sr.ToString());
+
             float span;
             bool diff = true;
             if (lastsig.sr < 0.070f | next.sr < 0.070f)
@@ -253,7 +255,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
                 span = 0.075f;
             }
-            if (next.frequency > (lastsig.frequency - span) && next.frequency < (lastsig.frequency + span) && next.sr == lastsig.sr)      // +/- span, signal freq varies!
+            if (next.frequency > (lastsig.frequency - span) && next.frequency < (lastsig.frequency + span) && align_symbolrate(next.sr) == lastsig.sr)      // +/- span, signal freq varies!  align_symbol new SR as it may vary!
             {
                 diff = false;
             }
@@ -263,7 +265,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         public bool diff_signals(Sig sig, double frequency, float sr)
         {
             //debug(sig.frequency.ToString() + "," + frequency.ToString());
-            //Log.Information(lastsig.frequency-next.frequency);
+            //Log.Information((sig.frequency - frequency).ToString());
             float span;
             bool diff = true;
             if (sig.sr < 0.070f | sr < 0.070f)
@@ -315,6 +317,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (diff_signals(s, sl) == false) // same sig
                     {
+                        //debug("same signal");
                         found = true;
                         break;
                     }
@@ -391,8 +394,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             return newsig;
         }
 
-        public void updateCurrentSignal(string callsign, double freq, float sr)
+        public void updateCurrentSignal(string callsign, double freq, float _sr)
         {
+            float sr = align_symbolrate(_sr);
             lock (list_lock)
             {
                 for (int x = 0; x < signals.Count; x++)
