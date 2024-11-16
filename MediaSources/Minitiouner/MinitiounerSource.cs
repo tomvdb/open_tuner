@@ -521,11 +521,11 @@ namespace opentuner.MediaSources.Minitiouner
                     break;
             }
 
-            current_frequency_0 = 741525;
-            current_frequency_1 = 741525;
-
             current_offset_0 = _settings.Offset1;
             current_offset_1 = _settings.Offset2;
+
+            current_frequency_0 = 10491500 - current_offset_0;
+            current_frequency_1 = 10491500 - current_offset_1;
 
             current_sr_0 = 1500;
             current_sr_1 = 1500;
