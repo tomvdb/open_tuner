@@ -461,6 +461,7 @@ namespace opentuner
                             initialConfig = true;
                             reset = true;
                         }
+                        get_nim_status();
                     }
                     else
                     {
@@ -474,9 +475,7 @@ namespace opentuner
                 Log.Information("Nim Thread: Closed");
                 Thread.ResetAbort();
             }
-
         }
-
     }
 
     public class StatusEvent : EventArgs
