@@ -34,6 +34,7 @@ namespace opentuner.MediaPlayers.MPV
 
         public override event EventHandler<MediaStatus> onVideoOut;
         private IntPtr _mpvHandle;
+        private Task evlTask;
 
         private Int64 _videoViewHandle;
         private long _volume = 100;
@@ -52,7 +53,7 @@ namespace opentuner.MediaPlayers.MPV
 
         public void startEventLoop()
         {
-            Task.Run(() => {
+            evlTask = Task.Run(() => {
                 try
                 {
                     EventLoop();
@@ -88,17 +89,18 @@ namespace opentuner.MediaPlayers.MPV
 
         public void EventLoop()
         {
-            while (true)
+            bool running = true;
+            while (running)
             {
 
                 if (_mpvHandle == IntPtr.Zero)
                     break;
 
-                IntPtr ptr = LibMpv.mpv_wait_event(_mpvHandle, -1);
-                mpv_event evt = (mpv_event)Marshal.PtrToStructure(ptr, typeof(mpv_event));
-
                 try
                 {
+                    IntPtr ptr = LibMpv.mpv_wait_event(_mpvHandle, -1);
+                    mpv_event evt = (mpv_event)Marshal.PtrToStructure(ptr, typeof(mpv_event));
+
                     switch (evt.event_id)
                     {
                         case (mpv_event_id.MPV_EVENT_VIDEO_RECONFIG):
@@ -137,7 +139,14 @@ namespace opentuner.MediaPlayers.MPV
 
                             onVideoOut?.Invoke(this,info);
                             break;
-                        default: debug("MPV Event: " + evt.event_id.ToString()); break;
+
+                        case (mpv_event_id.MPV_EVENT_SHUTDOWN):
+                            running = false;
+                            break;
+
+                        default:
+                            debug("MPV Event: " + evt.event_id.ToString());
+                            break;
                     }
                 }
                 catch (Exception Ex)
@@ -295,11 +304,7 @@ namespace opentuner.MediaPlayers.MPV
 
         public override void Close()
         {
-            if (_mpvHandle != IntPtr.Zero)
-            {
-                LibMpv.mpv_destroy(_mpvHandle);
-                _mpvHandle = IntPtr.Zero;
-            }
+            Stop();
         }
 
         public override int GetVolume()
@@ -379,6 +384,10 @@ namespace opentuner.MediaPlayers.MPV
             stopFlag = true;
             if (_mpvHandle != IntPtr.Zero)
             {
+                LibMpv.mpv_command_string(_mpvHandle, "quit");
+                while (!evlTask.IsCompleted)
+                    Thread.Sleep(10);
+                evlTask.Dispose();
                 LibMpv.mpv_destroy(_mpvHandle);
                 _mpvHandle = IntPtr.Zero;
             }
