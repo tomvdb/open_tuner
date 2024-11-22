@@ -883,11 +883,21 @@ namespace opentuner
             {
                 return 1;
             }
+            ftStatus = ftdiDevice_ts.SetTimeouts(250, 500);
+            if (ftStatus != FTD2XX_NET.FTDI.FT_STATUS.FT_OK)
+            {
+                return 1;
+            }
 
             if (ts_device2 != 99)
             {
                 ftStatus = ftdiDevice_ts2.OpenByIndex(ts_device2);
 
+                if (ftStatus != FTD2XX_NET.FTDI.FT_STATUS.FT_OK)
+                {
+                    return 1;
+                }
+                ftStatus = ftdiDevice_ts2.SetTimeouts(250, 500);
                 if (ftStatus != FTD2XX_NET.FTDI.FT_STATUS.FT_OK)
                 {
                     return 1;
