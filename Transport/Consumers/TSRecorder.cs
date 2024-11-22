@@ -51,7 +51,7 @@ namespace opentuner
             this._id = id;
 
             // register for TS Stream
-            TSSource.RegisterTSConsumer(0, ts_data_queue);
+            TSSource.RegisterTSConsumer(id, ts_data_queue);
 
             recording = false;
 
