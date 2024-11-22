@@ -217,13 +217,11 @@ namespace opentuner
             if (err == 0) err = _stv0910.stv0910_read_errors_bch_count(stv0910.STV0910_DEMOD_BOTTOM, ref errors_bch_count);
             nim_status.T2P1_errors_bch_count = errors_bch_count;
 
-
+            // RF level TOP
             // agc1 gain
             ushort agc1_gain = 0;
             if (err == 0) err = _stv0910.stv0910_read_agc1_gain(stv0910.STV0910_DEMOD_TOP, ref agc1_gain);
             nim_status.T1P2_agc1_gain = agc1_gain;
-            if (err == 0) err = _stv0910.stv0910_read_agc1_gain(stv0910.STV0910_DEMOD_BOTTOM, ref agc1_gain);
-            nim_status.T2P1_agc1_gain = agc1_gain;
 
             // agc2 gain
             ushort agc2_gain = 0;
@@ -231,6 +229,14 @@ namespace opentuner
             nim_status.T1P2_agc2_gain = agc2_gain;
             nim_status.T1P2_input_power_level = get_rf_level(agc1_gain, agc2_gain);
 
+            // RF level BOTTOM
+            // agc1 gain
+            agc1_gain = 0;
+            if (err == 0) err = _stv0910.stv0910_read_agc1_gain(stv0910.STV0910_DEMOD_BOTTOM, ref agc1_gain);
+            nim_status.T2P1_agc1_gain = agc1_gain;
+
+            // agc2 gain
+            agc2_gain = 0;
             if (err == 0) err = _stv0910.stv0910_read_agc2_gain(stv0910.STV0910_DEMOD_BOTTOM, ref agc2_gain);
             nim_status.T2P1_agc2_gain = agc2_gain;
             nim_status.T2P1_input_power_level = get_rf_level(agc1_gain, agc2_gain);
