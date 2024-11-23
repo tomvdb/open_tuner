@@ -337,7 +337,7 @@ namespace opentuner
 
                 if (err != 0)
                 {
-                    Log.Information("STV0910 Init Error: " + err.ToString());
+                    Log.Error("STV0910 Init Error: " + err.ToString());
                 }
 
                 Log.Information("Init Nim");
@@ -398,7 +398,7 @@ namespace opentuner
                             }
                             else
                             {
-                                Log.Information("Error before Demod");
+                                Log.Error("Error before Demod");
                             }
 
                             // configure tuner
@@ -418,7 +418,7 @@ namespace opentuner
                             }
                             else
                             {
-                                Log.Information("Error before Tuner");
+                                Log.Error("Error before Tuner");
                             }
 
                             // demod - start scan
@@ -437,7 +437,7 @@ namespace opentuner
                             }
                             else
                             {
-                                Log.Information("Error before demod scan");
+                                Log.Error("Error before demod scan");
                             }
 
                            
@@ -451,11 +451,11 @@ namespace opentuner
                             // done, if we have errors, then exit thread
                             if (err != 0)
                             {
-                                Log.Information("****** Nim Thread: Hardware Error: " + err.ToString() + " ******");
+                                Log.Error("****** Nim Thread: Hardware Error: " + err.ToString() + " ******");
                                 hw_errors += 1;
                                 if (hw_errors > 5)
                                 {
-                                    Log.Information("Too many hardware errors");
+                                    Log.Error("Too many hardware errors");
                                     return;
                                 }
                             }
@@ -477,7 +477,7 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Log.Information("Nim Thread: Closed");
+                Log.Warning("Nim Thread: Closed");
                 Thread.ResetAbort();
             }
         }

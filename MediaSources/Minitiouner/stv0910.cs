@@ -139,7 +139,7 @@ namespace opentuner
 
             info = (UInt32)(temp0 | (temp1 << 8));
 
-            if (err != 0) Log.Information("ERROR: STV0910 read multistream0\r\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read multistream0\r\n");
 
             return (err);
         }
@@ -273,7 +273,7 @@ namespace opentuner
 
             if (err != 0)
             {
-                Log.Information("Error switching 22khz - P1");
+                Log.Error("Error switching 22khz - P1");
             }
 
             if (err == 0)
@@ -289,7 +289,7 @@ namespace opentuner
 
                 if (err != 0)
                 {
-                    Log.Information("Error switching 22khz - P2");
+                    Log.Error("Error switching 22khz - P2");
                 }
 
             }
@@ -358,7 +358,7 @@ namespace opentuner
             err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_MATSTR0 : stv0910_regs.RSTV0910_P1_MATSTR0, ref regval);
             matype2 = regval;
 
-            if (err != 0) Log.Information("ERROR: STV0910 read MATYPE");
+            if (err != 0) Log.Error("ERROR: STV0910 read MATYPE");
 
             return err;
         }
@@ -390,7 +390,7 @@ namespace opentuner
                 if (err == 0) err = stv0910_write_reg_field(demod == STV0910_DEMOD_TOP ? stv0910_regs.FSTV0910_P2_NOSRAM_ACTIVATION : stv0910_regs.FSTV0910_P1_NOSRAM_ACTIVATION, 0x02);
             }
 
-            if (err != 0) Log.Information("ERROR: STV0910 read DVBS2 MER\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read DVBS2 MER\n");
 
             return err;
 
@@ -414,7 +414,7 @@ namespace opentuner
 
             errors_ldpc_count = (UInt32)high << 8 | (UInt32)low;
 
-            if (err != 0) Log.Information("ERROR: STV0910 read LDPC Errors Count\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read LDPC Errors Count\n");
 
             return err;
         }
@@ -443,7 +443,7 @@ namespace opentuner
             else
                 pilots = false;
 
-            if (err != 0) Log.Information("ERROR: STV0910 read MODCOD\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read MODCOD\n");
 
             err = stv0910_read_reg_field(demod == STV0910_DEMOD_TOP ? stv0910_regs.FSTV0910_P2_ROLLOFF_STATUS : stv0910_regs.FSTV0910_P1_ROLLOFF_STATUS, ref regval);
 
@@ -464,7 +464,7 @@ namespace opentuner
 
             errors_bch_count = (UInt32)result;
 
-            if (err != 0) Log.Information("ERROR: STV0910 read BCH Errors Count\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read BCH Errors Count\n");
             return err;
         }
 
@@ -487,7 +487,7 @@ namespace opentuner
                 errors_bch_uncorrected = false;
             }
 
-            if (err != 0) Log.Information("ERROR: STV0910 read BCH Errors Uncorrected\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read BCH Errors Uncorrected\n");
 
             return err;
         }
@@ -517,7 +517,7 @@ namespace opentuner
 
             ber = (UInt32)(10000.0 * errs / (cpt * 8.0));
 
-            if (err != 0) Log.Information("ERROR: STV0910 read BER\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read BER\n");
 
             return err;
         }
@@ -534,7 +534,7 @@ namespace opentuner
             /* also want to round up to the nearest integer just to be pedantic */
             vit_errs = ((((UInt32)val) * 100000 / 4096) + 5) / 10;
 
-            if (err != 0) Log.Information("ERROR: STV0910 read viterbi error rate\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read viterbi error rate\n");
 
             return err;
         }
@@ -600,7 +600,7 @@ namespace opentuner
             tempf = tempf * sr / 1000;                                      // multiply by nominal symbol rate
             found_sr = (uint)(sr + tempf);							// update the value
 
-            if (err != 0) Log.Information("ERROR: STV0910 read symbol rate\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read symbol rate\n");
 
             return err;
         }
@@ -633,7 +633,7 @@ namespace opentuner
 
             cf = (Int32)car_offset_freq;
 
-            if (err != 0) Log.Information("ERROR: STV0910 read carrier frequency\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read carrier frequency\n");
 
             return err;
         }
@@ -663,7 +663,7 @@ namespace opentuner
                 default: err = Errors.ERROR_VITERBI_PUNCTURE_RATE; break;
             }
 
-            if (err != 0) Log.Information("ERROR: STV0910 read puncture rate");
+            if (err != 0) Log.Error("ERROR: STV0910 read puncture rate");
 
             return err;
 
@@ -676,7 +676,7 @@ namespace opentuner
             err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_ISYMB : stv0910_regs.RSTV0910_P1_ISYMB, ref i);
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_QSYMB : stv0910_regs.RSTV0910_P1_QSYMB, ref q);
 
-            if (err != 0) Log.Information("ERROR: STV0910 read constellation");
+            if (err != 0) Log.Error("ERROR: STV0910 read constellation");
 
             return err;
         }
@@ -698,7 +698,7 @@ namespace opentuner
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_AGCIQIN1 : stv0910_regs.RSTV0910_P1_AGCIQIN1, ref agc_high);
             if (err == 0) agc = (ushort)((ushort)agc_high << 8 | (ushort)agc_low);
 
-            if (err != 0) Log.Information("ERROR: STV0910 read agc1 gain\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read agc1 gain\n");
 
             return err;
         }
@@ -719,7 +719,7 @@ namespace opentuner
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_AGC2I1 : stv0910_regs.RSTV0910_P1_AGC2I1, ref agc_high);
             if (err == 0) agc = (ushort)((ushort)agc_high << 8 | (ushort)agc_low);
 
-            if (err != 0) Log.Information("ERROR: STV0910 read agc2 gain\n");
+            if (err != 0) Log.Error("ERROR: STV0910 read agc2 gain\n");
 
             return err;
         }
@@ -731,7 +731,7 @@ namespace opentuner
             err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_POWERI : stv0910_regs.RSTV0910_P1_POWERI, ref power_i);
             if (err == 0) err = stv0910_read_reg(demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_POWERQ : stv0910_regs.RSTV0910_P1_POWERQ, ref power_q);
 
-            if (err != 0) Log.Information("ERROR: STV0910 read power");
+            if (err != 0) Log.Error("ERROR: STV0910 read power");
 
             return err;
         }
@@ -745,7 +745,7 @@ namespace opentuner
             if (err == 0) err = stv0910_write_reg((demod == STV0910_DEMOD_TOP ? stv0910_regs.RSTV0910_P2_DMDISTATE : stv0910_regs.RSTV0910_P1_DMDISTATE),
                                                                                              STV0910_SCAN_BLIND_BEST_GUESS);
 
-            if (err != 0) Log.Information("ERROR: STV0910 start scan");
+            if (err != 0) Log.Error("ERROR: STV0910 start scan");
 
             return err;
         }

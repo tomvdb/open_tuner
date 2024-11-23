@@ -621,7 +621,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Log.Information("FTDI Detect Error: " + Ex.Message);
+                Log.Error("FTDI Detect Error: " + Ex.Message);
             }
 
             return ftdi_devices;
@@ -647,7 +647,7 @@ namespace opentuner
                 // we need atleast two ports
                 if (devcount < 2)
                 {
-                    Log.Information("Not enough FTDI devices detected");
+                    Log.Error("Not enough FTDI devices detected");
                     return 1;
                 }
 
@@ -689,7 +689,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Log.Information("FTDI Error: " + Ex.Message);
+                Log.Error("FTDI Error: " + Ex.Message);
                 return 1;
             }
 
@@ -716,7 +716,7 @@ namespace opentuner
                 // we need atleast two ports
                 if (devcount < 2)
                 {
-                    Log.Information("Not enough FTDI devices detected");
+                    Log.Error("Not enough FTDI devices detected");
                     return 1;
                 }
 
@@ -845,7 +845,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Log.Information("FTDI Error: " + Ex.Message);
+                Log.Error("FTDI Error: " + Ex.Message);
                 return 1;
             }
 
@@ -866,7 +866,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Log.Information("FTDI Error: " + Ex.Message);
+                Log.Error("FTDI Error: " + Ex.Message);
                 return 1;
             }
 
