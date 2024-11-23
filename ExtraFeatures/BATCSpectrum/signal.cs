@@ -403,7 +403,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (diff_signals(signals[x], freq, sr) == false)
                     {
-                        //debug("updateCurrentSignal: found! x: " + x.ToString() +", Call: " + callsign + "QRG: " + freq.ToString() + ", SR: " + sr.ToString());
+                        //debug("updateCurrentSignal: found! Index: " + x.ToString() +", Call: " + callsign + ", QRG: " + freq.ToString() + ", SR: " + sr.ToString());
                         signals[x] = new Sig(signals[x], Convert.ToSingle(Math.Round((freq - start_freq) * 102.0f, 1)), callsign, freq, sr);
                         break;
                     }
