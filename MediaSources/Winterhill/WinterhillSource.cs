@@ -129,9 +129,6 @@ namespace opentuner.MediaSources.Winterhill
                 }
             }
 
-            for (int c = 0; c < ts_devices; c++)
-                SetFrequency(c, _settings.DefaultFrequency[c], _settings.DefaultSR[c], true);
-
             // open udp ts ports
             udp_clients = new UDPClient[4];
             ts_threads = new TSThread[4];
@@ -164,11 +161,9 @@ namespace opentuner.MediaSources.Winterhill
                     case 3: flush_ts = FlushTS3; read_ts = ReadTS3; break;
                 }
 
-
                 ts_threads[c] = new TSThread(ts_data_queue[c], flush_ts, read_ts, "WH TS" + c.ToString());
                 ts_thread_t[c] = new Thread(ts_threads[c].worker_thread);
                 ts_thread_t[c].Start();
-
             }
 
             BuildSourceProperties(mute_at_startup);
@@ -189,6 +184,9 @@ namespace opentuner.MediaSources.Winterhill
                 }
                 Log.Warning("Multiple IP's detected, using " + _LocalIp);
             }
+
+            for (int c = 0; c < ts_devices; c++)
+                SetFrequency(c, _settings.DefaultFrequency[c], _settings.DefaultSR[c], true);
 
             return ts_devices;
         }
