@@ -21,7 +21,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         public float fft_centre;    // signal center position in spectrum
         public float fft_width;     // signal width in spectrum
         public bool locked;         // demode locked state
-        public bool switching;      // switching flag
+        public bool streaming;      // streaming flag
     }
 
     public class BATCSpectrum
@@ -89,9 +89,17 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         private int fft_data_length = 918;
         public bool pluto_control_enabled = false;
 
-        public void updateSignalCallsign(string callsign, double freq, float sr)
+        public void updateStreaming(int tuner, bool streaming)
         {
-            sigs.updateCurrentSignal(callsign, freq, sr);
+            rx_blocks[tuner].streaming = streaming;
+        }
+
+        public void updateSignalCallsign(int tuner, string callsign, double freq, float sr)
+        {
+            if (rx_blocks[tuner].streaming && rx_blocks[tuner].locked)
+            {
+                sigs.updateCurrentSignal(callsign, freq, sr);
+            }
         }
 
         public BATCSpectrum(PictureBox Spectrum, int Tuners) 
@@ -272,15 +280,12 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 sigs.set_tuned(ret.Item1, 0);
                 rx_blocks[0].fft_centre = ret.Item1.text_pos;
                 rx_blocks[0].fft_width = ret.Item1.sr * 100.0f / fft_data_length / 9.0f;
-                rx_blocks[0].locked = false;
-                rx_blocks[0].switching = true;
             }
-
         }
 
         private void debug(string msg)
         {
-            Log.Information(msg);
+            //Log.Information(msg);
         }
 
         private void spectrum_MouseLeave(object sender, EventArgs e)
@@ -675,22 +680,11 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     float fft_centre = Convert.ToSingle((freq - start_freq) * fft_data_length / 9.0f);
                     float fft_width = sr * fft_data_length / 9.0f;
-                    if (rx_blocks[tuner].switching)
-                    {
-                        if (rx_blocks[tuner].fft_centre == fft_centre && rx_blocks[tuner].fft_width == fft_width)
-                        {
-                            rx_blocks[tuner].fft_centre = fft_centre;
-                            rx_blocks[tuner].fft_width = fft_width;
-                            rx_blocks[tuner].locked = true;     // locked
-                            rx_blocks[tuner].switching = false; // switching finished
-                        }
-                    }
-                    else
+                    if (rx_blocks[tuner].streaming)
                     {
                         rx_blocks[tuner].fft_centre = fft_centre;
                         rx_blocks[tuner].fft_width = fft_width;
                         rx_blocks[tuner].locked = true;     // locked
-                        rx_blocks[tuner].switching = false; // switching finished
                     }
                 }
             }
@@ -699,7 +693,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 if (rx_blocks[tuner].locked)
                 {
                     rx_blocks[tuner].locked = false;    // not locked
-                    rx_blocks[tuner].switching = false; // switching finished
                 }
             }
         }
@@ -708,8 +701,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             rx_blocks[tuner].fft_centre = Convert.ToSingle((freq - start_freq) * fft_data_length / 9.0f);
             rx_blocks[tuner].fft_width = sr * fft_data_length / 9.0f;
-            rx_blocks[tuner].locked = false;    // not locked
-            rx_blocks[tuner].switching = true;  // switching started
         }
 
         private int determine_rx(int pos)
@@ -743,8 +734,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             sigs.set_tuned(s, rx);
                             rx_blocks[rx].fft_centre = s.text_pos;
                             rx_blocks[rx].fft_width = s.sr * fft_data_length / 9.0f;
-                            rx_blocks[rx].locked = false;   // not locked
-                            rx_blocks[rx].switching = true; // switching started
 
                             UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
                             UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));

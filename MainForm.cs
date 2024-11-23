@@ -416,7 +416,7 @@ namespace opentuner
                 {
                     //Log.Information(callsign.ToString() + "," + freq.ToString() + "," + sr.ToString());
 
-                    batc_spectrum.updateSignalCallsign(callsign, Math.Round(freq / 1000.0f,3), sr / 1000);
+                    batc_spectrum.updateSignalCallsign(tuner, callsign, Math.Round(freq / 1000.0f,3), sr / 1000);
                 }
             }
 
@@ -478,6 +478,7 @@ namespace opentuner
                 }
 
                 videoSource.StartStreaming(video_number);
+                batc_spectrum?.updateStreaming(video_number, true);
                 _mediaPlayers[video_number].Play();
                 // Start with volume "muted".
                 // The real audio volume is set later.
@@ -499,6 +500,7 @@ namespace opentuner
             if (video_number < _mediaPlayers.Count)
             {
                 videoSource.StopStreaming(video_number);
+                batc_spectrum?.updateStreaming(video_number, false);
                 _mediaPlayers[video_number].Stop();
             }
         }
@@ -672,8 +674,9 @@ namespace opentuner
 
         private void Batc_spectrum_OnSignalSelected(int Receiver, uint Freq, uint SymbolRate)
         {
-            videoSource.SetFrequency(Receiver, Freq, SymbolRate, true);
+            stop_video(Receiver);
             batc_spectrum.switchTuner(Receiver, Convert.ToDouble(Freq) / 1000.0f, SymbolRate / 1000.0f);
+            videoSource.SetFrequency(Receiver, Freq, SymbolRate, true);
         }
 
 
