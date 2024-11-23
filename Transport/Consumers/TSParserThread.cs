@@ -133,6 +133,7 @@ namespace opentuner
                                     catch ( Exception Ex )
                                     {
                                         Log.Warning("TS_TABLE_SDT Exception : " + Ex.Message);
+                                        continue;
                                     }
 
                                     UInt32 ts_payload_section_length = ((UInt32)(ts_packet[ts_payload_offset + 1] & 0x0F) << 8) | (UInt32)ts_packet[ts_payload_offset + 2];
