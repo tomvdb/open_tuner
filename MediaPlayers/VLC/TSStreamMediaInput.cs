@@ -103,7 +103,8 @@ namespace opentuner
                     }
                     else
                     {
-                        Log.Information("Warning: Failing to dequeue, nothing to dequeue: TSStream");
+                        Log.Warning("Warning: Failing to dequeue, nothing to dequeue: TSStream");
+                        return 0;
                     }
                     //}
                 }
