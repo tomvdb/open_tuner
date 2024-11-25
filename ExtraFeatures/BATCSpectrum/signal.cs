@@ -556,8 +556,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                                     newSignals.Add(new Sig(start_signal, end_signal, Convert.ToSingle(mid_signal), strength_signal, signal_freq, signal_bw, overpower, max_strength, dBb));
                                 }
                             }
-
-
                         }
                     }
                 }
