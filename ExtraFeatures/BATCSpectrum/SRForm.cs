@@ -50,6 +50,7 @@ namespace opentuner
             // 
             // button25
             // 
+            this.button25.Enabled = false;
             this.button25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button25.Location = new System.Drawing.Point(13, 43);
             this.button25.Name = "button25";
@@ -57,10 +58,12 @@ namespace opentuner
             this.button25.TabIndex = 1;
             this.button25.Text = "25";
             this.button25.UseVisualStyleBackColor = true;
+            this.button25.Visible = false;
             this.button25.Click += new System.EventHandler(this.button2_Click);
             // 
             // button33
             // 
+            this.button33.Enabled = false;
             this.button33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button33.Location = new System.Drawing.Point(69, 42);
             this.button33.Name = "button33";
@@ -68,6 +71,7 @@ namespace opentuner
             this.button33.TabIndex = 2;
             this.button33.Text = "33";
             this.button33.UseVisualStyleBackColor = true;
+            this.button33.Visible = false;
             this.button33.Click += new System.EventHandler(this.button3_Click);
             // 
             // button66
