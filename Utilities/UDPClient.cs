@@ -96,19 +96,19 @@ namespace opentuner.Utilities
                         }
                         catch (Exception ex)
                         {
-                            Log.Information("OnDataReceived event failed: " + ex.Message);
+                            Log.Error("OnDataReceived event failed: " + ex.Message);
                         }
                     }
                     else
                     {
-                        Thread.Sleep(100);
+                        Thread.Sleep(25);
                     }
                 }
                 isStopped = true;
             }
             catch (Exception ex)
             {
-                Log.Information("Listen for UDP Data Exception: "  + this.port.ToString() + " : "+  ex.Message);
+                Log.Error("Listen for UDP Data Exception: "  + this.port.ToString() + " : "+  ex.Message);
                 OnConnectionStatusChanged(false);
                 isStopped = true;
             }
