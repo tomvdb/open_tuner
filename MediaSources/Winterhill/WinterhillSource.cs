@@ -59,7 +59,7 @@ namespace opentuner.MediaSources.Winterhill
 
         private bool[] playing = new bool[4] {false, false, false, false};
 
-        bool _videoPlayersReady = false;
+        bool _Ready = false;
 
         int hw_device = 1;
 
@@ -75,6 +75,7 @@ namespace opentuner.MediaSources.Winterhill
         public override int Initialize(VideoChangeCallback VideoChangeCB, Control Parent, bool mute_at_startup)
         {
             _parent = Parent;
+            this.VideoChangeCB = VideoChangeCB;
 
             int udp_port = _settings.WinterhillWSUdpBasePort;
 
@@ -164,11 +165,10 @@ namespace opentuner.MediaSources.Winterhill
                 ts_threads[c] = new TSThread(ts_data_queue[c], flush_ts, read_ts, "WH TS" + c.ToString());
                 ts_thread_t[c] = new Thread(ts_threads[c].worker_thread);
                 ts_thread_t[c].Start();
+                VideoChangeCB?.Invoke(c + 1, false); ;
             }
 
             BuildSourceProperties(mute_at_startup);
-
-            this.VideoChangeCB = VideoChangeCB;
 
             // get local ip
             List<string> detected_ips = CommonFunctions.determineIP();
@@ -184,9 +184,6 @@ namespace opentuner.MediaSources.Winterhill
                 }
                 Log.Warning("Multiple IP's detected, using " + _LocalIp);
             }
-
-            for (int c = 0; c < ts_devices; c++)
-                SetFrequency(c, _settings.DefaultFrequency[c], _settings.DefaultSR[c], true);
 
             return ts_devices;
         }
@@ -268,6 +265,15 @@ namespace opentuner.MediaSources.Winterhill
             Log.Information("Connection Status " + ((UDPClient)sender).getID() + " : " + (connection_status ? "Connected" : "Disconnected"));
         }
 
+        public override void Start()
+        {
+            for (int c = 0; c < ts_devices; c++)
+            {
+                SetFrequency(c, _settings.DefaultFrequency[c], _settings.DefaultSR[c], true);
+            }
+            _Ready = true;
+        }
+
         public override void Close()
         {
             Log.Information("Closing Winterhill Source");
@@ -339,8 +345,6 @@ namespace opentuner.MediaSources.Winterhill
                     _media_player[c].SetVolume((int)_settings.DefaultVolume[c]);
                 }
             }
-
-            _videoPlayersReady = true;
         }
 
         private void WinterhillSource_onVideoOut(object sender, MediaStatus e)

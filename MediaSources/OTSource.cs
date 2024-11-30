@@ -46,6 +46,8 @@ namespace opentuner.MediaSources
         public abstract CircularBuffer GetVideoDataQueue(int device);
         public abstract void RegisterTSConsumer(int device, CircularBuffer ts_buffer_queue);
 
+        public abstract void Start();
+
         public abstract void Close();
 
         // initialize returns how many video players it need

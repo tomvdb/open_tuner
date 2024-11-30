@@ -69,6 +69,10 @@ namespace opentuner.MediaSources.Longmynd
             _settings = (_settingsManager.LoadSettings(_settings));
         }
 
+        public override void Start()
+        {
+        }
+
         public override void Close()
         {
             _settingsManager.SaveSettings(_settings);

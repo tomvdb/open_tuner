@@ -769,6 +769,10 @@ namespace opentuner.MediaSources.Minitiouner
             "Select FTDI or PicoTuner interface in Settings";
         }
 
+        public override void Start()
+        {
+        }
+
         public override void Close()
         {
             _settingsManager.SaveSettings(_settings);

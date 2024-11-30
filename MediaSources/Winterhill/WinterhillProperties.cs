@@ -495,7 +495,7 @@ namespace opentuner.MediaSources.Winterhill
             try
             {
                 // still setting up
-                if (!_videoPlayersReady)
+                if (!_Ready)
                     return;
 
                 if (_tuner_properties == null)
@@ -663,7 +663,7 @@ namespace opentuner.MediaSources.Winterhill
             try
             {
                 // still setting up
-                if (!_videoPlayersReady)
+                if (!_Ready)
                     return;
 
                 if (_tuner_properties == null)

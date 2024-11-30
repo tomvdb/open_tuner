@@ -420,14 +420,11 @@ namespace opentuner
                 }
             }
 
-            
             if (mqtt_client != null)
             {
                 // send mqtt data
                 mqtt_client.SendProperties(properties, videoSource.GetName() + "/" + description);
             }
-            
-
         }
 
         public static void UpdateLB(ListBox LB, Object obj)
@@ -996,10 +993,9 @@ namespace opentuner
                     Log.Error("DATV Reporter can't connect - check your settings");
                 }
             }
+            videoSource.Start();
 
             splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
-
-            videoSource.UpdateFrequencyPresets(stored_frequencies);
 
             //toolstripConnectToggle.Text = "Disconnect Source";
             toolstripConnectToggle.Visible = false;
