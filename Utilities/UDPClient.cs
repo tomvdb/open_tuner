@@ -86,15 +86,22 @@ namespace opentuner.Utilities
             {
                 while (isListening)
                 {
-                    byte[] receivedBytes = udpClient.Receive(ref remoteEndPoint);
+                    if (0 != udpClient.Available)
+                    {
+                        byte[] receivedBytes = udpClient.Receive(ref remoteEndPoint);
 
-                    try
-                    {
-                        OnDataReceived(receivedBytes);
+                        try
+                        {
+                            OnDataReceived(receivedBytes);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Information("OnDataReceived event failed: " + ex.Message);
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Log.Information("OnDataReceived event failed: " + ex.Message);
+                        Thread.Sleep(100);
                     }
                 }
                 isStopped = true;
