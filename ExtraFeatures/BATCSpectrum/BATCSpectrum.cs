@@ -20,8 +20,28 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
     {
         public float fft_centre;    // signal center position in spectrum
         public float fft_width;     // signal width in spectrum
+        public double frequency;    // signal frequency
+        public float sr;            // signal symbol rate
         public bool locked;         // demode locked state
         public bool streaming;      // streaming flag
+        public DateTime dateTime;   // date and time of last change (used for autotune functions)
+        public bool signalLost;     // signal is lost (used for autotune functions)
+        public double freq_next;    // next signal frequency to tune
+        public float sr_next;       // next signal symbol rate to tune
+    }
+
+    public struct RX_Sig
+    {
+        public int tuner;
+        public double frequency;    // signal frequency
+        public float sr;            // signal symbol rate
+
+        public RX_Sig(int tuner, double frequency, float sr)
+        {
+            this.tuner = tuner;
+            this.frequency = frequency;
+            this.sr = sr;
+        }
     }
 
     public class BATCSpectrum
@@ -68,15 +88,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         socket web_socket;
         signal sigs;
 
-        int num_rxs_to_scan = 1;
-
         private PictureBox _spectrum;
         private int _tuners;
 
-        System.Windows.Forms.Timer SpectrumTuneTimer;
         System.Windows.Forms.Timer websocketTimer;
-
-        private int _autoTuneMode = 0;
 
         int connect_retries = 5;
         int connect_retry_count = 0;
@@ -92,13 +107,19 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         public void updateStreaming(int tuner, bool streaming)
         {
             rx_blocks[tuner].streaming = streaming;
+            rx_blocks[tuner].dateTime = DateTime.Now;
+            debug("updateStreaming: Tuner = " + tuner.ToString() + ", streaming = " + streaming.ToString() + ", dateTime = " + rx_blocks[tuner].dateTime.ToLongTimeString());
         }
 
         public void updateSignalCallsign(int tuner, string callsign, double freq, float sr)
         {
-            if (rx_blocks[tuner].streaming && rx_blocks[tuner].locked)
+            if (callsign != "")
             {
-                sigs.updateCurrentSignal(callsign, freq, sr);
+                if (rx_blocks[tuner].streaming && rx_blocks[tuner].locked)
+                {
+                    //debug("updateSignalCallsign: Tuner = " + tuner.ToString() + ", Call: " + callsign + ", QRG: " + freq.ToString() + ", SR: " + sr.ToString());
+                    sigs.updateCurrentSignal(callsign, freq, sr);
+                }
             }
         }
 
@@ -114,15 +135,23 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             _tuners = Tuners;
             rx_blocks = new RX[Tuners];
 
+            for (int i = 0; i < Tuners; i++)
+            {
+                rx_blocks[i].dateTime = DateTime.Now;
+                rx_blocks[i].signalLost = false;
+            }
+
+
             thread_wait_event_handles = new EventWaitHandle[]
                 {
                     new AutoResetEvent(false),  // index 0: disconnected
                     new AutoResetEvent(false),  // index 1: draw bandplan
                     new AutoResetEvent(false),  // index 2: new fft_data
-                    new AutoResetEvent(false)   // index 3: resize graphics
+                    new AutoResetEvent(false),  // index 3: resize graphics
+                    new AutoResetEvent(false)   // index 4: exit
                 };
             drawingThreadHandle = new Thread(drawingThread);
-            drawingThreadHandle.Priority = ThreadPriority.BelowNormal;
+            drawingThreadHandle.Priority = ThreadPriority.AboveNormal;
             drawingThreadHandle.Start();
 
             _spectrum.Click += new System.EventHandler(this.spectrum_Click);
@@ -158,28 +187,20 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             web_socket = new socket();
 
-            sigs = new signal(list_lock);
             web_socket.callback += new_fft_data;
             web_socket.ConnectionStatusChanged += Web_socket_ConnectionStatusChanged;
-            sigs.debug += debug;
 
             // try to connect
             web_socket.start();
 
-            sigs.set_num_rx_scan(num_rxs_to_scan);
+            sigs = new signal(list_lock);
+            sigs.debug += debug;
             sigs.set_num_rx(Tuners);
-
-            sigs.set_avoidbeacon(true);
-
-            SpectrumTuneTimer = new System.Windows.Forms.Timer();
-            SpectrumTuneTimer.Enabled = false;
-            SpectrumTuneTimer.Interval = 1500;
-            SpectrumTuneTimer.Tick += new System.EventHandler(this.SpectrumTuneTimer_Tick);
 
             websocketTimer = new System.Windows.Forms.Timer();
             websocketTimer.Interval = 2000;
             websocketTimer.Tick += new System.EventHandler(this.websocketTimer_Tick);
-            websocketTimer.Enabled = true;
+            websocketTimer.Start();
 
             thread_wait_event_handles[0].Set(); // fire worker thread to draw disconnected
         }
@@ -207,24 +228,15 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 // reset retry count
                 connect_retry_count = 0;
             }
-            else
-            {
-                // if we lost connection then disable autotune
-                _autoTuneMode = 0;
-                SpectrumTuneTimer.Enabled = false;
-            }
         }
 
         public void Close()
         {
-            drawingThreadHandle?.Abort();
+            thread_wait_event_handles[4].Set(); // fire worker thread to exit
 
             websocketTimer?.Stop();
             websocketTimer?.Dispose();
 
-            SpectrumTuneTimer?.Stop();
-            SpectrumTuneTimer?.Dispose();
-            
             // stop socket
             web_socket?.stop();
         }
@@ -256,43 +268,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
         }
 
-        public void changeTuneMode(int mode)
-        {
-            _autoTuneMode = mode;
-
-            if (mode == 0)
-            {
-                SpectrumTuneTimer?.Stop();
-            }
-            else
-            {
-                SpectrumTuneTimer?.Start();
-            }
-
-        }
-
-        private void SpectrumTuneTimer_Tick(object sender, EventArgs e)
-        {
-            int mode = _autoTuneMode;
-            float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / fft_data_length;
-
-            ushort autotuneWait = 30;
-
-            Tuple<signal.Sig, int> ret = sigs.tune(mode, Convert.ToInt16(autotuneWait), 0);
-            if (ret.Item1.frequency > 0)      //above 0 is a change in signal
-            {
-                System.Threading.Thread.Sleep(100);
-                selectSignal(Convert.ToInt32(ret.Item1.text_pos * spectrum_wScale), 0);
-                sigs.set_tuned(ret.Item1, 0);
-                rx_blocks[0].fft_centre = ret.Item1.text_pos;
-                rx_blocks[0].fft_width = ret.Item1.sr * 100.0f / fft_data_length / 9.0f;
-            }
-        }
-
         private void debug(string msg)
         {
-            //Log.Information(msg);
+            Log.Information(msg);
         }
 
         private void spectrum_MouseLeave(object sender, EventArgs e)
@@ -435,29 +413,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             fft_data = _fft_data;
             fft_data_length = fft_data.Length;
 
-            sigs.detect_signals(fft_data);
+            sigs.detect_signals(fft_data);  // detect new signals and remove lost signals
 
-            int spectrum_h = _spectrum.Height - bandplan_height;
-            float spectrum_w = _spectrum.Width;
-            float spectrum_wScale = spectrum_w / fft_data_length;
-            int y;
+            autoTune();
 
-            // auto tune function
-            for (int i = 0; i < _tuners; i++)
-            {
-                y = i * (spectrum_h / _tuners);
-                if (spectrumSettings.tuneMode[i] == 1 && rx_blocks[i].locked == false)
-                {
-                    Tuple<signal.Sig, int> ret = sigs.tune(spectrumSettings.tuneMode[i], 30, i);
-                    if (ret.Item1.frequency > 0)      //above 0 is a change in signal
-                    {
-                        selectSignal(Convert.ToInt32(ret.Item1.text_pos * spectrum_wScale), y);
-                        sigs.set_tuned(ret.Item1, i);
-                        rx_blocks[i].fft_centre = ret.Item1.text_pos;
-                        rx_blocks[i].fft_width = ret.Item1.sr * 100.0f / fft_data_length / 9.0f;
-                    }
-                }
-            }
             thread_wait_event_handles[2].Set(); // fire worker thread to draw new fft_data
         }
 
@@ -520,9 +479,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
             tmp.DrawString(TX_Text, new Font("Tahoma", 15), Brushes.Red, new PointF(70, _spectrum.Height - 50));  //dh3cs
 
-            //drawspectrum_signals(sigs.detect_signals(fft_data));
-            //sigs.detect_signals(fft_data);
-
             // draw over power
             lock (list_lock)
             {
@@ -550,7 +506,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             case 4:     // line only
                                 tmp.DrawLine(overpowerPen, Convert.ToInt16(sig.fft_start * spectrum_wScale - 15), height - Convert.ToInt16(sig.max_strength / height), Convert.ToInt16(sig.fft_stop * spectrum_wScale + 15), height - Convert.ToInt16(sig.max_strength / height));
                                 break;
-                            default:    // no indication
+                            default:
                                 break;
                         }
                     }
@@ -568,7 +524,15 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         tmp.DrawString("Manual", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
                         break;
                     case 1:
-                        tmp.DrawString("Auto", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
+                        tmp.DrawString("Auto (Hold)", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
+                        break;
+                    case 2:
+                        tmp.DrawString("Auto (Next)", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
+                        break;
+                    case 3:
+                        tmp.DrawString("Auto (Timed)", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 14));
+                        if (spectrumSettings.avoidBeacon[i])
+                            tmp.DrawString("avoid Beacon", new Font("Tahoma", 10), Brushes.White, new PointF(5, y + 28));
                         break;
                     default:
                         break;
@@ -620,7 +584,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         case MouseButtons.Left:
                             if (Control.ModifierKeys == Keys.Shift)
                             {
-                                uint freq = Convert.ToUInt32((10490.5 + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
+                                uint freq = Convert.ToUInt32((start_freq + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
 
                                 using (opentuner.SRForm srForm = new opentuner.SRForm(freq))      //open up the manual sr select form
                                 {
@@ -690,6 +654,121 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         }
 
         // quick tune functions - From https://github.com/m0dts/QO-100-WB-Live-Tune - Rob Swinbank
+        // auto tune function
+        private void autoTune()
+        {
+            float spectrum_w = _spectrum.Width;
+            float spectrum_wScale = spectrum_w / fft_data_length;
+
+            List<RX_Sig> sig_tuned = new List<RX_Sig>();
+
+            // first check for signal lost
+            for (int i = 0; i < _tuners; i++)
+            {
+                bool signalLost = sigs.signalLost(rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i]);
+                if (signalLost && !rx_blocks[i].signalLost)
+                {
+                    Log.Information("Lost Signal: " + i.ToString() + ", " + rx_blocks[i].frequency.ToString() + ", " + rx_blocks[i].sr.ToString());
+                    rx_blocks[i].dateTime = DateTime.Now;
+                }
+                rx_blocks[i].signalLost = signalLost;
+            }
+
+            // second create tuned signal list
+            for (int i = 0; i < _tuners; i++)
+            {
+                if (rx_blocks[i].frequency != 0)   // are we ready?
+                {
+                    if (spectrumSettings.tuneMode[i] < 3)       // don't include 'auto timed' tuners
+                    {
+                        if (rx_blocks[i].frequency >= 10492.0)  // do not include Beacon
+                        {
+                            sig_tuned.Add(new RX_Sig(i, rx_blocks[i].frequency, rx_blocks[i].sr));
+                        }
+                    }
+                }
+            }
+
+            // first round: go through the list of tuners and look for signal with same frequency at last tuned frequncy of tuner 
+            for (int i = 0; i < _tuners; i++)
+            {
+                if (rx_blocks[i].signalLost)
+                {
+                    switch (spectrumSettings.tuneMode[i])
+                    {
+                        case 1: // Auto (Hold)
+                        case 2: // Auto (Next new)
+                            signal.Sig ret = sigs.findSameSignal(rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
+                            if (ret.frequency > 0)      //above 0 signal found
+                            {
+                                Log.Information("same Signal: " + ret.frequency.ToString() + ", " + ret.sr.ToString());
+                                if (ret.sr != rx_blocks[i].sr)
+                                {
+                                    Log.Information("same Signal diff SR retune: " + rx_blocks[i].sr.ToString() + ", " + ret.sr.ToString());
+                                    int mul = (_spectrum.Height - bandplan_height) / _tuners;
+                                    selectSignal(Convert.ToInt32(ret.text_pos * spectrum_wScale), i * mul);
+                                }
+                                rx_blocks[i].dateTime = DateTime.Now;
+                                rx_blocks[i].signalLost = false;
+                                return;
+                            }
+                            break;
+                        default: // Auto (Timed) or Manual or invalid
+                            break;
+                    }
+                }
+            }
+
+            // second round: go through the list of tuners and look for next nearest signal
+            //  also process "Auto (Timed)" tuners here
+            for (int i = 0; i < _tuners; i++)
+            {
+                TimeSpan t = DateTime.Now - rx_blocks[i].dateTime;
+                switch (spectrumSettings.tuneMode[i])
+                {
+                    case 1: // Auto (Hold)
+                    case 2: // Auto (Next new)
+                        if (rx_blocks[i].signalLost)
+                        {
+                            signal.Sig ret = sigs.findNextNearestSignal(sig_tuned, rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
+                            if (ret.frequency > 0)      //above 0 signal found
+                            {
+                                if ((t > TimeSpan.FromSeconds(spectrumSettings.autoHoldTimeValue) && spectrumSettings.tuneMode[i] == 1) ||
+                                    (spectrumSettings.avoidBeacon[i] && rx_blocks[i].frequency < 10492.0))
+                                {
+                                    Log.Information("new Signal to tune: " + ret.frequency.ToString() + ", " + ret.sr.ToString());
+                                    int mul = (_spectrum.Height - bandplan_height) / _tuners;
+                                    selectSignal(Convert.ToInt32(ret.text_pos * spectrum_wScale), i * mul);
+                                    rx_blocks[i].dateTime = DateTime.Now;
+                                    rx_blocks[i].signalLost = false;
+                                    return; // exit here
+                                }
+                            }
+                        }
+                        break;
+                    case 3: // Auto (Timed)
+                        if (t > TimeSpan.FromSeconds(spectrumSettings.autoTuneTimeValue) || rx_blocks[i].signalLost)
+                        {
+                            signal.Sig ret = sigs.findNextSignalTimed(rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
+                            if (ret.frequency > 0)      //above 0 signal found
+                            {
+                                if (0 != sigs.compareFrequency(ret.frequency, rx_blocks[i].frequency, rx_blocks[i].sr))
+                                {
+                                    Log.Information("timed Signal to tune: " + ret.frequency.ToString() + ", " + ret.sr.ToString());
+                                    int mul = (_spectrum.Height - bandplan_height) / _tuners;
+                                    selectSignal(Convert.ToInt32(ret.text_pos * spectrum_wScale), i * mul);
+                                    rx_blocks[i].dateTime = DateTime.Now;
+                                    rx_blocks[i].signalLost = false;
+                                    return;
+                                }
+                            }
+                        }
+                        break;
+                    default:    // Manual or invalid
+                        break;
+                }
+            }
+        }
 
         public void updateTuner(int tuner, double freq, float sr, bool demod_locked)
         {
@@ -703,6 +782,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     {
                         rx_blocks[tuner].fft_centre = fft_centre;
                         rx_blocks[tuner].fft_width = fft_width;
+                        rx_blocks[tuner].frequency = freq;
+                        rx_blocks[tuner].sr = sr;
                         rx_blocks[tuner].locked = true;     // locked
                     }
                 }
@@ -720,6 +801,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             rx_blocks[tuner].fft_centre = Convert.ToSingle((freq - start_freq) * fft_data_length / 9.0f);
             rx_blocks[tuner].fft_width = sr * fft_data_length / 9.0f;
+            rx_blocks[tuner].frequency = freq;
+            rx_blocks[tuner].sr = sr;
+            rx_blocks[tuner].dateTime = DateTime.Now;
+            debug("switchTuner: Tuner = " + tuner.ToString() + ", streaming = " + rx_blocks[tuner].streaming.ToString() + ", locked = " + rx_blocks[tuner].locked.ToString());
         }
 
         private int determine_rx(int pos)
@@ -744,24 +829,26 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             try
             {
-                lock (list_lock)
+                List<signal.Sig> signals = new List<signal.Sig>(sigs.signals);
+
+                foreach (signal.Sig s in signals)
                 {
-                    foreach (signal.Sig s in sigs.newSignals)
+                    if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
                     {
-                        if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
-                        {
-                            sigs.set_tuned(s, rx);
-                            rx_blocks[rx].fft_centre = s.text_pos;
-                            rx_blocks[rx].fft_width = s.sr * fft_data_length / 9.0f;
+                        rx_blocks[rx].fft_centre = s.text_pos;
+                        rx_blocks[rx].fft_width = s.sr * fft_data_length / 9.0f;
+                        rx_blocks[rx].frequency = s.frequency;
+                        rx_blocks[rx].sr = s.sr;
+                        rx_blocks[rx].signalLost = false;
+                        debug("selectSignal: Tuner = " + rx.ToString() + ", streaming = " + rx_blocks[rx].streaming.ToString() + ", locked = " + rx_blocks[rx].locked.ToString());
 
-                            UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
-                            UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));
+                        UInt32 freq = Convert.ToUInt32((s.frequency) * 1000);
+                        UInt32 sr = Convert.ToUInt32((s.sr * 1000.0));
 
-                            debug("Freq: " + freq.ToString());
-                            debug("SR: " + sr.ToString());
+                        debug("Freq: " + freq.ToString());
+                        debug("SR: " + sr.ToString());
 
-                            OnSignalSelected?.Invoke(rx, freq, sr);
-                        }
+                        OnSignalSelected?.Invoke(rx, freq, sr);
                     }
                 }
             }
@@ -887,8 +974,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             bmp = new Bitmap(_spectrum.Width, height + 20); // ?
                             tmp = Graphics.FromImage(bmp);
                             break;
+                        case 4:
+                            return;
                         default:
-                            Log.Information("drawingThread event: " + eventIndex.ToString());
+                            Log.Error("drawingThread event: " + eventIndex.ToString());
                             break;
                     }
                 }

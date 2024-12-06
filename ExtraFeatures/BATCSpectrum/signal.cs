@@ -11,7 +11,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 {
     class signal
     {
-
         public int beacon_strength = -1;
 
         //struct for signal information
@@ -19,7 +18,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         {
             public int fft_start;
             public int fft_stop;
-            public float fft_centre;
+            public float fft_centre;    // signal center position in spectrum
             public float text_pos;      // not wobbling position for showing the text message. (derived from fft_centre)
             public int fft_strength;
             public double frequency;
@@ -44,21 +43,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 this.dbb = _dbb;
             }
 
-            public Sig(Sig old, string _callsign)
-            {
-                this.fft_start = old.fft_start;
-                this.fft_stop = old.fft_stop;
-                this.fft_centre = old.fft_centre;
-                this.text_pos = old.text_pos;
-                this.fft_strength = old.fft_strength;
-                this.frequency = old.frequency;
-                this.sr = old.sr;
-                this.callsign = _callsign;
-                this.overpower = old.overpower;
-                this.max_strength = old.max_strength;
-                this.dbb = old.dbb;
-            }
-
             public Sig(Sig old, float _text_pos, string _callsign, double _frequency, float _sr)
             {
                 this.fft_start = old.fft_start;
@@ -73,27 +57,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 this.max_strength = old.max_strength;
                 this.dbb = old.dbb;
             }
-
-            public Sig(Sig old, string _callsign, double _frequency, float _sr)
-            {
-                this.fft_start = old.fft_start;
-                this.fft_stop = old.fft_stop;
-                this.fft_centre = old.fft_centre;
-                this.text_pos = old.text_pos;
-                this.fft_strength = old.fft_strength;
-                this.frequency = _frequency;
-                this.sr = _sr;
-                this.callsign = _callsign;
-                this.overpower = old.overpower;
-                this.max_strength = old.max_strength;
-                this.dbb = old.dbb;
-            }
-
-            public void updateCallsign(string _callsign)
-            {
-                this.callsign = _callsign;
-            }
-
         }
 
         public Action<string> debug;
@@ -101,9 +64,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         Object list_lock;
         public List<Sig> newSignals = new List<Sig>();      // list of signals new arrived from websocket
         public List<Sig> signals = new List<Sig>();         // actual list of signals (processed)
+
         private const double start_freq = 10490.4754901;
         float minsr = 0.065f;
-        int num_rx_scan = 1;
         int num_rx = 1;
 
         public signal(object _list_lock)
@@ -111,21 +74,60 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             list_lock = _list_lock;
         }
 
-        bool avoid_beacon = false;
-
-        private Sig[] last_sig = new Sig[8];             //last tune signal - detail
-        private Sig[] next_sig = new Sig[8];             //next tune signal - detail
-
-        private DateTime[] last_tuned_time = new DateTime[8];   //time the last signal was tuned
-
-        public void set_avoidbeacon(bool b)
+        public int compareFrequency(double frequency1, double frequency2, float sr)
         {
-            avoid_beacon = b;
+            float span;
+
+            if (sr < 0.070f)
+                span = 0.01f;
+            else
+                span = 0.075f;
+
+            if ((frequency1 + span) < (frequency2 - span))      // +/- span, signal freq varies!
+            {
+                //Log.Information("compareFrequency: -1, " + frequency1.ToString() + ", " + frequency2.ToString());
+                return -1;
+            }
+            else if ((frequency1 - span) > (frequency2 + span)) // +/- span, signal freq varies!
+            {
+                //Log.Information("compareFrequency: 1, " + frequency1.ToString() + ", " + frequency2.ToString());
+                return 1;
+            }
+            //Log.Information("compareFrequency: 0, " + frequency1.ToString() + ", " + frequency2.ToString());
+            return 0;
         }
 
-        public void set_tuned(Sig s, int rx)
+        private int signalCompare(Sig s1, Sig s2)
         {
-            last_sig[rx] = s;
+            if (0 == compareFrequency(s1.frequency, s2.frequency, Math.Max(s1.sr, s2.sr)))
+            {
+                return 0;
+            }
+            else if (0 < compareFrequency(s1.frequency, s2.frequency, Math.Max(s1.sr, s2.sr)))
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        private void print_Signal(Sig _sig, int index, string name)
+        {
+            Log.Information(name.ToString() + "[" + index.ToString() + "]");
+            Log.Information(" fft_start    : " + _sig.fft_start.ToString());
+            Log.Information(" fft_centre   : " + _sig.fft_centre.ToString());
+            Log.Information(" fft_stop     : " + _sig.fft_stop.ToString());
+            Log.Information(" fft_strength : " + _sig.fft_strength.ToString());
+            Log.Information(" frequency    : " + _sig.frequency.ToString());
+            Log.Information(" sr           : " + _sig.sr.ToString());
+            Log.Information(" callsign     : " + _sig.callsign.ToString());
+            Log.Information(" text_pos     : " + _sig.text_pos.ToString());
+            Log.Information(" max_strength : " + _sig.max_strength.ToString());
+            Log.Information(" overpower    : " + _sig.overpower.ToString());
+            Log.Information(" dbb          : " + _sig.dbb.ToString());
+            Log.Information("");
         }
 
         public void set_minsr(float _minsr)
@@ -138,112 +140,178 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             num_rx = _num_rx;
         }
 
-        public void set_num_rx_scan(int _num_rx_scan)
+        public bool signalLost(double frequency, float sr, bool avoidBeacon)
         {
-            num_rx_scan = _num_rx_scan;
-        }
+            bool found = false;
 
-        public void clear(int rx)
-        {
-            last_sig[rx] = new Sig();
-        }
-
-        //function to find out whether to change tuning and which signal to tune to - auto tune mode
-        public Tuple<Sig, int> tune(int mode, int time, int rx)
-        {
-            // int rx = 0;
-            bool change = false;
-            //mode
-            //0=manual
-            //1=auto wait
-            //2=auto timed
-            //Log.Information(rx);
-            TimeSpan t = DateTime.Now - last_tuned_time[rx];
+            if (avoidBeacon && frequency < 10492.0)
+                return !found;
 
             lock (list_lock)
             {
-                if (mode == 2)      //auto timed
+                foreach (Sig s in signals)
                 {
-                    //Log.Information(t.Seconds.ToString());
-                    if ((t.Minutes * 60) + t.Seconds > time)
+                    if (0 == compareFrequency(s.frequency, frequency, sr))
                     {
-                        //Log.Information("elapsed: " + rx.ToString());
-                        next_sig[rx] = find_next(rx);
-
-                        if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
+                        if (s.sr == sr)
                         {
-                            change = true;
+                            found = true;
+                            break;
                         }
                     }
-                    else
-                    {
-                        if (!find_signal(last_sig[rx], rx))      //if the selected signal goes off then find another one to tune to
-                        {
-                            next_sig[rx] = find_next(rx);
+                }
+            }
+            return !found;
+        }
 
-                            if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
+        private Sig compareSignalFrequencies(Sig old_signal, Sig new_signal, double own_freq)
+        {
+            double absDiffOld2Own = Math.Abs(own_freq - old_signal.frequency);
+            double absDiffNew2Own = Math.Abs(own_freq - new_signal.frequency);
+            if (absDiffNew2Own < absDiffOld2Own)
+                return new_signal;
+            else
+                return old_signal;
+        }
+
+        public Sig findSameSignal(double frequency, float sr, bool avoidBeacon, float treshHold)
+        {
+            Sig newSig = new Sig();
+
+            lock (list_lock)
+            {
+                foreach (Sig s in signals)
+                {
+                    if (!avoidBeacon || s.frequency >= 10492.0)
+                    {
+                        if (s.dbb >= treshHold)
+                        {
+                            if (0 == compareFrequency(s.frequency, frequency, Math.Max(s.sr, sr)))
                             {
-                                change = true;
+                                newSig = s;
+                                break;
                             }
                         }
                     }
                 }
-                else
-                {
-                    if (!find_signal(last_sig[rx], rx))  //if the selected signal goes off then find another one to tune to
-                    {
-                        next_sig[rx] = find_next(rx);
+            }
+            return newSig;
+        }
 
-                        if (diff_signals(last_sig[rx], next_sig[rx]) && next_sig[rx].frequency > 0)       //check if next is not the same as current
+        public Sig findNextNearestSignal(List<RX_Sig> inuse, double frequency, float sr, bool avoidBeacon, float treshHold)
+        {
+            Sig newSig = new Sig();
+            List<Sig> notTunedSignals = new List<Sig>();
+
+            lock (list_lock)
+            {
+                foreach (Sig s in signals)
+                {
+                    bool skip = false;
+                    // create signal list of not tuned signals
+                    foreach (RX_Sig skipSignal in inuse)
+                    {
+                        if (0 == compareFrequency(s.frequency, skipSignal.frequency, skipSignal.sr))
                         {
-                            change = true;
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if (!skip)
+                    {
+                        notTunedSignals.Add(s);
+                    }
+                }
+            }
+            if (notTunedSignals.Count > 0)
+            {
+                // first search for signal with same frequency
+                foreach (Sig notTunedSignal in notTunedSignals)
+                {
+                    //Log.Information("not tuned Signal: " + notTunedSignal.frequency.ToString() + ", " + notTunedSignal.sr.ToString());
+                    if (!avoidBeacon || notTunedSignal.frequency >= 10492.0)
+                    {
+                        if (notTunedSignal.dbb >= treshHold)
+                        {
+                            if (0 == compareFrequency(notTunedSignal.frequency, frequency, sr))
+                            {
+                                return notTunedSignal;
+                            }
                         }
                     }
                 }
-
-                //Log.Information("Count3:" + newSignals.Count().ToString());
-                if (change)
+                // second search for next nearest signal
+                bool first = true;
+                foreach (Sig notTunedSignal in notTunedSignals)
                 {
-                    last_sig[rx] = next_sig[rx];
-                    last_tuned_time[rx] = DateTime.Now.AddSeconds(rx);
-                    return new Tuple<Sig, int>(last_sig[rx], rx);
-                }
-                else
-                {
-                    return new Tuple<Sig, int>(new Sig(), rx);
+                    //Log.Information("not tuned Signal: " + notTunedSignal.frequency.ToString() + ", " + notTunedSignal.sr.ToString());
+                    if (!avoidBeacon || notTunedSignal.frequency >= 10492.0)
+                    {
+                        if (notTunedSignal.dbb >= treshHold)
+                        {
+                            newSig = compareSignalFrequencies(newSig, notTunedSignal, frequency);
+                        }
+                    }
                 }
             }
+            return newSig;
         }
 
-        public bool find_signal(Sig lastsig, int rx)
+        public Sig findNextSignalTimed(double frequency, float sr, bool avoidBeacon, float treshHold)
         {
-            float span;
             bool found = false;
-            int n = 0;
+            Sig newSig = new Sig();
 
-            foreach (Sig s in newSignals)
+            lock (list_lock)
             {
-                if (s.sr < 0.070f)
+                foreach (Sig s in signals)
                 {
-                    span = 0.01f;
+                    if (0 < compareFrequency(s.frequency, frequency, sr))
+                    {
+                        if (!avoidBeacon || s.frequency >= 10492.0)
+                        {
+                            if (s.dbb >= treshHold)
+                            {
+                                found = true;
+                                newSig = s;
+                                break;
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    span = 0.05f;
-                }
-                if (s.frequency > (last_sig[rx].frequency - span) && s.frequency < (last_sig[rx].frequency + span) && s.sr == last_sig[rx].sr)      // +/- span, signal freq varies!
-                {
-                    found = true;
-                }
-                n++;
             }
-            return found;
+            if (!found)
+            {
+                newSig = signals[0];
+                if (avoidBeacon)
+                {
+                    lock (list_lock)
+                    {
+                        foreach (Sig s in signals)
+                        {
+                            if (0 < compareFrequency(s.frequency, newSig.frequency, newSig.sr))
+                            {
+                                if (!avoidBeacon || s.frequency >= 10492.0)
+                                {
+                                    if (s.dbb >= treshHold)
+                                    {
+                                        found = true;
+                                        newSig = s;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return newSig;
         }
 
         public bool diff_signals(Sig lastsig, Sig next)
         {
-            //Log.Information("diff_signals(): last QRG: " + lastsig.frequency.ToString() + ", next QRG: " + next.frequency.ToString());
-            //Log.Information("diff_signals(): last SR: " + lastsig.sr.ToString() + ", next SR: " + next.sr.ToString());
+            //debug("diff_signals(): last QRG: " + lastsig.frequency.ToString() + ", next QRG: " + next.frequency.ToString());
+            //debug("diff_signals(): last SR: " + lastsig.sr.ToString() + ", next SR: " + next.sr.ToString());
 
             float span;
             bool diff = true;
@@ -285,9 +353,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public void updateSignalList()
         {
+            int x;
             // check current signal list
             //foreach (Sig s in signals.ToList())
-            for (int x = 0; x < signals.Count; x++)
+            for (x = 0; x < signals.Count; x++)
             {
                 bool found = false;
 
@@ -303,11 +372,12 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                 if (!found)
                 {
-                    //debug("Removing a signal");
+                    print_Signal(signals[x], x, "Removing signal");
                     signals.Remove(signals[x]);
                 }
             }
 
+            x = 0;
             // check new signal list
             foreach (Sig s in newSignals)
             {
@@ -325,73 +395,12 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                 if (!found)
                 {
-                    //debug("Adding a signal");
+                    print_Signal(s, x, "Adding signal");
                     signals.Add(s);
                 }
+                x++;
             }
-        }
-
-        private Sig find_next(int rx)
-        {
-            Sig newsig = new Sig();
-            int n = 0;
-            double startfreq;
-            if (avoid_beacon)
-            {
-                startfreq = 10492.0;
-            }
-            else
-            {
-                startfreq = 10490.5;
-            }
-
-            //Log.Information("Rx:" + rx.ToString() + " Current Tuned:" + last_sig[rx].frequency);
-            foreach (Sig s in newSignals)
-            {
-                //Log.Information("Rx:" + rx.ToString() + " 1st Try:" + s.frequency.ToString());
-                bool newfreq = true;
-                for (int i = 0; i < num_rx; i++)
-                {
-                    if (!diff_signals(s, last_sig[i]))
-                    {
-                        newfreq = false;
-                    }
-                }
-                //Log.Information("Available=" + newfreq.ToString());
-                if (s.frequency > startfreq && s.frequency > (last_sig[rx].frequency + 0.05) && s.sr >= minsr && newfreq)      // +/- span, signal freq varies!
-                {
-                    newsig = s;
-                    break;
-                }
-                n++;
-                if (newsig.frequency > 0)
-                    break;
-
-            }
-            if (newsig.frequency < 1)       //nothing available above last freq, return to bottom and start again until orig signal freq
-            {
-                foreach (Sig s in newSignals)
-                {
-                    //Log.Information("Rx:"+rx.ToString()+" 2nd Try:" + s.frequency.ToString());
-                    bool newfreq = true;
-                    for (int i = 0; i < num_rx; i++)
-                    {
-                        if (!diff_signals(s, last_sig[i]))
-                        {
-                            newfreq = false;
-                        }
-                    }
-                    //Log.Information("Available="+newfreq.ToString());
-                    if (s.frequency > startfreq && s.frequency < (last_sig[rx].frequency - 0.05) && s.sr >= minsr && newfreq)
-                    {
-                        newsig = s;
-                        break;
-                    }
-
-                }
-            }
-            //Log.Information("new=:" + newsig.frequency.ToString());
-            return newsig;
+            signals.Sort(signalCompare);
         }
 
         public void updateCurrentSignal(string callsign, double freq, float _sr)
@@ -403,7 +412,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 {
                     if (diff_signals(signals[x], freq, sr) == false)
                     {
-                        //debug("updateCurrentSignal: found! Index: " + x.ToString() +", Call: " + callsign + ", QRG: " + freq.ToString() + ", SR: " + sr.ToString());
+                        //debug("updateCurrentSignal: found! Index: " + x.ToString() + ", Call: " + callsign + ", QRG: " + freq.ToString() + ", SR: " + sr.ToString());
                         signals[x] = new Sig(signals[x], Convert.ToSingle(Math.Round((freq - start_freq) * 102.0f, 1)), callsign, freq, sr);
                         break;
                     }
@@ -502,13 +511,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             signal_bw = align_symbolrate((end_signal - start_signal) * 9.0f / fft_data.Length);
                             signal_freq = Math.Round((start_freq + mid_signal / fft_data.Length * 9.0f),3);
 
-                            //Log.Information("Start   :" + start_signal.ToString());
-                            //Log.Information("Middle  :" + mid_signal.ToString());
-                            //Log.Information("End     :" + end_signal.ToString());
-                            //Log.Information("Strength:" + strength_signal.ToString());
-                            //Log.Information("QRG     :" + signal_freq.ToString());
-                            //Log.Information("BW      :" + signal_bw.ToString() + "\n");
-
                             // Exclude signals in beacon band
                             if (signal_bw >= 0.033)
                             {
@@ -572,7 +574,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
             else if (width < 0.060f)
             {
-                return 0.035f;
+                return 0.033f;
             }
             else if (width < 0.086f)
             {
