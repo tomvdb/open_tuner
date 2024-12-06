@@ -240,7 +240,7 @@ namespace opentuner.MediaSources.Winterhill
             
             try
             {
-                VideoChangeCB?.Invoke(device + 1, false);
+                VideoChangeCB?.Invoke(device, false);
                 playing[device] = false;
                 demodstate[device] = -1;
             }

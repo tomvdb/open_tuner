@@ -507,9 +507,9 @@ namespace opentuner
             Log.Information("Change Video " + video_number.ToString());
 
             if (start)
-                start_video(video_number-1);
+                start_video(video_number);
             else 
-                stop_video(video_number-1);
+                stop_video(video_number);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -557,7 +557,7 @@ namespace opentuner
                 {
                     for (int i = 0; i < videoSource.GetVideoSourceCount(); i++)
                     {
-                        ChangeVideo(i+1, false);
+                        ChangeVideo(i, false);
                     }
                 }
 
@@ -993,6 +993,7 @@ namespace opentuner
                     Log.Error("DATV Reporter can't connect - check your settings");
                 }
             }
+            videoSource.UpdateFrequencyPresets(stored_frequencies);
             videoSource.Start();
 
             splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
@@ -1182,10 +1183,7 @@ namespace opentuner
 
             frequenciesManager.SaveSettings(stored_frequencies);
 
-            if (videoSource != null)
-            {
-                videoSource.UpdateFrequencyPresets(stored_frequencies);
-            }
+            videoSource?.UpdateFrequencyPresets(stored_frequencies);
         }
 
         private void TogglePropertiesPanel(bool hide)

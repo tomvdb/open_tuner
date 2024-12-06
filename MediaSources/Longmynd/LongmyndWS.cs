@@ -93,13 +93,13 @@ namespace opentuner.MediaSources.Longmynd
                 if (mm.packet.rx.demod_state < 3)
                 {
                     Log.Information("Stopping");
-                    VideoChangeCB?.Invoke(1, false);
+                    VideoChangeCB?.Invoke(0, false);
                     playing = false;
                 }
                 else
                 {
                     Log.Information("Playing");
-                    VideoChangeCB?.Invoke(1, true);
+                    VideoChangeCB?.Invoke(0, true);
                     playing = true;
                 }
 

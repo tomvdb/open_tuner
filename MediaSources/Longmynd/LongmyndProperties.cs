@@ -332,7 +332,7 @@ namespace opentuner.MediaSources.Longmynd
 
 
                         // reset status
-                        VideoChangeCB?.Invoke(option + 1, false);
+                        VideoChangeCB?.Invoke(option, false);
                         playing = false;
                         _tuner1_properties.UpdateColor("demodstate", Color.PaleVioletRed);
                         demodState = -1;

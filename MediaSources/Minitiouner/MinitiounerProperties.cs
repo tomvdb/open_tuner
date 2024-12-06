@@ -759,11 +759,7 @@ namespace opentuner.MediaSources.Minitiouner
 
         private void ResetVideo(int tuner)
         {
-            if (VideoChangeCB != null)
-            {
-                VideoChangeCB(tuner + 1, false);
-            }
-
+            VideoChangeCB?.Invoke(tuner, false);
         }
 
         public override Dictionary<string, string> GetSignalData(int device)

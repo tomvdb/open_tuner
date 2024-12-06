@@ -236,11 +236,7 @@ namespace opentuner.MediaSources.Minitiouner
                 current_sr_0 = sr;
                 current_rf_input_0 = rf_input;
 
-                if (VideoChangeCB != null)
-                {
-                    VideoChangeCB(1, false);
-                }
-               
+                VideoChangeCB?.Invoke(0, false);
             }
             else
             {
@@ -248,11 +244,7 @@ namespace opentuner.MediaSources.Minitiouner
                 current_sr_1 = sr;
                 current_rf_input_1 = rf_input;
 
-                if (VideoChangeCB != null)
-                {
-                    VideoChangeCB(2, false);
-                }
-
+                VideoChangeCB?.Invoke(1, false);
             }
 
             current_tone_22kHz_P1 = tone_22kHz_P1;
@@ -318,19 +310,12 @@ namespace opentuner.MediaSources.Minitiouner
 
                 if (nim_status.T1P2_demod_status >= 2)
                 {
-                    if (VideoChangeCB != null)
-                    {
-                        VideoChangeCB(1, true);
-                    }
+                    VideoChangeCB?.Invoke(0, true);
                     hardware_interface.hw_ts_led(0, true);
                 }
                 else
                 {
-                    if (VideoChangeCB != null)
-                    {
-                        VideoChangeCB(1, false);
-                    }
-
+                    VideoChangeCB?.Invoke(0, false);
                     hardware_interface.hw_ts_led(0, false);
                 }
 
@@ -345,20 +330,12 @@ namespace opentuner.MediaSources.Minitiouner
 
                     if (nim_status.T2P1_demod_status >= 2)
                     {
-                        if (VideoChangeCB != null)
-                        {
-                            VideoChangeCB(2, true);
-                        }
-
+                        VideoChangeCB?.Invoke(1, true);
                         hardware_interface.hw_ts_led(1, true);
                     }
                     else
                     {
-                        if (VideoChangeCB != null)
-                        {
-                            VideoChangeCB(2, false);
-                        }
-
+                        VideoChangeCB?.Invoke(1, false);
                         hardware_interface.hw_ts_led(1, false);
                     }
 
