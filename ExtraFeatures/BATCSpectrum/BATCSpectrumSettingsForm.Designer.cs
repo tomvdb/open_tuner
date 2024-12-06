@@ -159,7 +159,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(68, 16);
             this.label9.TabIndex = 10;
-            this.label9.Text = "Treshhold";
+            this.label9.Text = "Threshold";
             // 
             // avoidBeacon2
             // 
