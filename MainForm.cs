@@ -846,7 +846,22 @@ namespace opentuner
             {
                 if (info_display.Count > video_nr)
                 {
-                    if (info_display[video_nr] != null)
+                    if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.R))
+                    {
+                        //Log.Information("video_player_MouseClick: 'R' pressed");
+                        videoSource.InvokeOnMediaButtonPressed("media_controls_" + video_nr.ToString(), 2);
+                    }
+                    else if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.S))
+                    {
+                        //Log.Information("video_player_MouseClick: 'S' pressed");
+                        videoSource.InvokeOnMediaButtonPressed("media_controls_" + video_nr.ToString(), 1);
+                    }
+                    else if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.U))
+                    {
+                        //Log.Information("video_player_MouseClick: 'U' pressed");
+                        videoSource.InvokeOnMediaButtonPressed("media_controls_" + video_nr.ToString(), 3);
+                    }
+                    else if (info_display[video_nr] != null)
                         info_display[video_nr].Visible = !info_display[video_nr].Visible;
                 }
             }

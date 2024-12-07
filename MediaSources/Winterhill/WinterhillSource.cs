@@ -498,6 +498,11 @@ namespace opentuner.MediaSources.Winterhill
             }
         }
 
+        public override void InvokeOnMediaButtonPressed(string key, int function)
+        {
+            WinterhillSource_OnMediaButtonPressed(key, function);
+        }
+
         public override string GetMoreInfoLink()
         {
             return "https://www.zr6tg.co.za/opentuner-winterhill-source/";

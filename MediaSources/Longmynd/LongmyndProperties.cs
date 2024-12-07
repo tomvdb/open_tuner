@@ -73,15 +73,15 @@ namespace opentuner.MediaSources.Longmynd
 
             if (!_settings.DefaultMuted)
             {
-                _tuner1_properties.UpdateValue("volume_slider_1", _settings.DefaultVolume.ToString());
+                _tuner1_properties.UpdateValue("volume_slider_0", _settings.DefaultVolume.ToString());
                 _settings.DefaultVolume = (uint)preMute;        // restore as changed by update volume_slider function
-                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_0", Color.Transparent);
             }
             else
             {
-                _tuner1_properties.UpdateValue("volume_slider_1", "0");
+                _tuner1_properties.UpdateValue("volume_slider_0", "0");
                 _settings.DefaultVolume = (uint)preMute;        // restore as changed by update volume_slider function
-                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_0", Color.PaleVioletRed);
             }
 
             // source properties
@@ -118,8 +118,8 @@ namespace opentuner.MediaSources.Longmynd
             dynamicPropertyGroup.AddItem("video_resolution", "Video Resolution");
             dynamicPropertyGroup.AddItem("audio_codec", "Audio Codec");
             dynamicPropertyGroup.AddItem("audio_rate", "Audio Rate");
-            dynamicPropertyGroup.AddSlider("volume_slider_" + tuner.ToString(), "Volume", 0, 200);
-            dynamicPropertyGroup.AddMediaControls("media_controls_" + tuner.ToString(), "Media Controls");
+            dynamicPropertyGroup.AddSlider("volume_slider_" + (tuner - 1).ToString(), "Volume", 0, 200);
+            dynamicPropertyGroup.AddMediaControls("media_controls_" + (tuner - 1).ToString(), "Media Controls");
             return dynamicPropertyGroup;
         }
 
@@ -210,11 +210,11 @@ namespace opentuner.MediaSources.Longmynd
         {
             switch (key)
             {
-                case "volume_slider_1":
+                case "volume_slider_0":
                     _settings.DefaultMuted = muted = false;
                     _media_player?.SetVolume(value);
                     _settings.DefaultVolume = (byte)value;
-                    _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
+                    _tuner1_properties.UpdateMuteButtonColor("media_controls_0", Color.Transparent);
                     break;
             }
         }
@@ -362,7 +362,7 @@ namespace opentuner.MediaSources.Longmynd
 
             _media_player.SetVolume(new_volume);
 
-            _tuner1_properties?.UpdateValue("volume_slider_1", new_volume.ToString());
+            _tuner1_properties?.UpdateValue("volume_slider_0", new_volume.ToString());
         }
 
         public override void ToggleMute(int device)
@@ -371,17 +371,17 @@ namespace opentuner.MediaSources.Longmynd
             {
                 preMute = _media_player.GetVolume();
                 _media_player.SetVolume(0);
-                _tuner1_properties.UpdateValue("volume_slider_1", "0");
+                _tuner1_properties.UpdateValue("volume_slider_0", "0");
                 _settings.DefaultVolume = (byte)preMute;
                 _settings.DefaultMuted = muted = true;
-                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_0", Color.PaleVioletRed);
             }
             else
             {
                 _media_player.SetVolume(preMute);
-                _tuner1_properties.UpdateValue("volume_slider_1", preMute.ToString());
+                _tuner1_properties.UpdateValue("volume_slider_0", preMute.ToString());
                 _settings.DefaultMuted = muted = false;
-                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.Transparent);
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_0", Color.Transparent);
             }
         }
 

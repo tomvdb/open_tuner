@@ -149,8 +149,8 @@ namespace opentuner.MediaSources.Longmynd
             if (Override)
             {
                 preMute = (int)_settings.DefaultVolume;                             // save DefaultVolume in preMute
-                _tuner1_properties.UpdateValue("volume_slider_1", "0");             // side effect: will set DefaultVolume to 0
-                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
+                _tuner1_properties.UpdateValue("volume_slider_0", "0");             // side effect: will set DefaultVolume to 0
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_0", Color.PaleVioletRed);
                 muted = _settings.DefaultMuted = true;
                 _settings.DefaultVolume = (uint)preMute;                            // restore DefaultVolume
                 _settings.DefaultMuted = true;
@@ -318,6 +318,11 @@ namespace opentuner.MediaSources.Longmynd
         public override void ConfigureMediaPath(string MediaPath)
         {
             _mediaPath = MediaPath;
+        }
+
+        public override void InvokeOnMediaButtonPressed(string key, int function)
+        {
+            DynamicPropertyGroup_OnMediaButtonPressed(key, function);
         }
 
         public override string GetMoreInfoLink()

@@ -38,6 +38,8 @@ namespace opentuner.MediaSources
         public abstract void ToggleMute(int device);
         public abstract bool GetMuteState(int device);
 
+        public abstract void InvokeOnMediaButtonPressed(string key, int function);
+
         public abstract Dictionary<string, string> GetSignalData(int device);
 
         public abstract void StartStreaming(int device);

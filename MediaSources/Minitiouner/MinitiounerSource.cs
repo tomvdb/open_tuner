@@ -721,16 +721,16 @@ namespace opentuner.MediaSources.Minitiouner
             if (Override)
             {
                 preMute[0] = (int)_settings.DefaultVolume[0];               // save DefaultVolume in preMute
-                _tuner1_properties.UpdateValue("volume_slider_1", "0");     // side effect: will set DefaultVolume to 0
-                _tuner1_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
+                _tuner1_properties.UpdateValue("volume_slider_0", "0");     // side effect: will set DefaultVolume to 0
+                _tuner1_properties.UpdateMuteButtonColor("media_controls_0", Color.PaleVioletRed);
                 muted[0] = _settings.DefaultMuted[0] = true;
                 _settings.DefaultVolume[0] = (uint)preMute[0];              // restore DefaultVolume
 
                 if (ts_devices == 2)
                 {
                     preMute[1] = (int)_settings.DefaultVolume[1];           // save DefaultVolume in preMute
-                    _tuner2_properties.UpdateValue("volume_slider_2", "0"); // side effect: will set DefaultVolume to 0
-                    _tuner2_properties.UpdateMuteButtonColor("media_controls_2", Color.PaleVioletRed);
+                    _tuner2_properties.UpdateValue("volume_slider_1", "0"); // side effect: will set DefaultVolume to 0
+                    _tuner2_properties.UpdateMuteButtonColor("media_controls_1", Color.PaleVioletRed);
                     muted[1] = _settings.DefaultMuted[1] = true;
                     _settings.DefaultVolume[1] = (uint)preMute[1];          // restore DefaultVolume
                 }
@@ -809,6 +809,11 @@ namespace opentuner.MediaSources.Minitiouner
         public override void ConfigureMediaPath(string MediaPath)
         {
             _mediapath = MediaPath;
+        }
+
+        public override void InvokeOnMediaButtonPressed(string key, int function)
+        {
+            DynamicPropertyGroup_OnMediaButtonPressed(key, function);
         }
 
         public override string GetMoreInfoLink()
