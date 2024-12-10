@@ -128,7 +128,7 @@
     <value>69, 16</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Frequenz: </value>
+    <value>Verfügbare Quellen:</value>
   </data>
   <data name="lblVolume.Location" type="System.Drawing.Point, System.Drawing">
     <value>99, 521</value>
