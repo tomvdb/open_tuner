@@ -241,7 +241,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     }
                 }
                 // second search for next nearest signal
-                bool first = true;
                 foreach (Sig notTunedSignal in notTunedSignals)
                 {
                     //Log.Information("not tuned Signal: " + notTunedSignal.frequency.ToString() + ", " + notTunedSignal.sr.ToString());
