@@ -66,7 +66,10 @@ namespace opentuner.ExtraFeatures.MqttClient
             {
                 _mqtt_client.DisconnectAsync();
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
         }
 
         public void SendProperties(OTSourceData properties, string ChildTopic)

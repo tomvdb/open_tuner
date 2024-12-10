@@ -444,8 +444,9 @@ namespace opentuner.MediaSources.Minitiouner
                         break;
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
+                Log.Error(ex.Message);
             }
 
             last_dbm_0 = db_margin_text;
@@ -551,8 +552,9 @@ namespace opentuner.MediaSources.Minitiouner
                             break;
                     }
                 }
-                catch (Exception Ex)
+                catch (Exception ex)
                 {
+                    Log.Error(ex.Message);
                 }
 
                 last_dbm_1 = db_margin_text;
