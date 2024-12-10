@@ -152,8 +152,10 @@ namespace opentuner
                                     {
                                         service_provider = System.Text.Encoding.ASCII.GetString(ts_packet, ts_payload_offset + 19 + 1, ts_service_provider_name_length);
                                     }
-                                    catch (Exception Ex)
-                                    { }
+                                    catch (Exception ex)
+                                    {
+                                        Log.Error(ex.Message);
+                                    }
 
                                     //Log.Information(service_provider);
 
@@ -165,9 +167,9 @@ namespace opentuner
                                     {
                                         service_provider_name = System.Text.Encoding.ASCII.GetString(ts_packet, ts_payload_offset + 19 + ts_service_provider_name_length + 2, ts_service_name_length);
                                     }
-                                    catch (Exception Ex)
+                                    catch (Exception ex)
                                     {
-
+                                        Log.Error(ex.Message);
                                     }
 
                                     //Log.Information(service_provider);
