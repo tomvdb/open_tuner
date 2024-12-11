@@ -558,6 +558,7 @@ namespace opentuner
                     for (int i = 0; i < videoSource.GetVideoSourceCount(); i++)
                     {
                         ChangeVideo(i, false);
+                        _mediaPlayers[i].Close();
                     }
                 }
 
