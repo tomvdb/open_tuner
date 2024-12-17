@@ -441,7 +441,6 @@ namespace opentuner.MediaSources.Minitiouner
 
             */
 
-            /*
             current_lnba_psu = _settings.DefaultLnbASupply;
             switch (current_lnba_psu)
             {
@@ -468,7 +467,6 @@ namespace opentuner.MediaSources.Minitiouner
                     hardware_interface.hw_set_polarization_supply(1, true, true);
                     break;
             }
-            */
 
             current_lnba_psu = _settings.DefaultLnbASupply;
             current_lnbb_psu = _settings.DefaultLnbBSupply;
@@ -476,7 +474,7 @@ namespace opentuner.MediaSources.Minitiouner
             current_tone_22kHz_P1 = false;
 
             
-            hardware_interface.hw_set_polarization_supply(1, false, false);
+            //hardware_interface.hw_set_polarization_supply(1, false, false);
 
             // set startup rf inputs according to settings
             current_rf_input_0 = nim.NIM_INPUT_TOP;

@@ -86,6 +86,8 @@ namespace opentuner
         const byte GPIO_LNB2_ENABLE = 5;
         const byte GPIO_LNB2_VSEL = 6;
         const byte GPIO_LNB1_VSEL = 7;
+        const byte GPIO_LNB_ENABLE = 4;
+        const byte GPIO_LNB_VSEL = 7;
 
         public override bool RequireSerialTS => true;
 
@@ -849,7 +851,6 @@ namespace opentuner
         {
             byte err = 0;
 
-        
             if (supply_enable)
             {
                 // set voltage
@@ -857,62 +858,57 @@ namespace opentuner
                 {
                     if (lnb_num == 0)
                     {
-                        Log.Information("Enable LNB2 VSEL");
-                        gpio_write(GPIO_LNB2_VSEL, true);
+                        Log.Information("Enable LNB VSEL");
+                        gpio_write(GPIO_LNB_VSEL, true);
                     }
-                    else
-                    {
-                        Log.Information("Enable LNB1 VSEL");
-                        gpio_write(GPIO_LNB1_VSEL, true);
-                    }
-
+                    //else
+                    //{
+                    //    Log.Information("Enable LNB1 VSEL");
+                    //    gpio_write(GPIO_LNB1_VSEL, true);
+                    //}
                 }
                 else
                 {
                     if (lnb_num == 0)
                     {
-                        Log.Information("Disable LNB2 VSEL");
-                        gpio_write(GPIO_LNB2_VSEL, false);
+                        Log.Information("Disable LNB VSEL");
+                        gpio_write(GPIO_LNB_VSEL, false);
                     }
-                    else
-                    {
-                        Log.Information("Disable LNB1 VSEL");
-                        gpio_write(GPIO_LNB1_VSEL, false);
-                    }
+                    //else
+                    //{
+                    //    Log.Information("Disable LNB1 VSEL");
+                    //    gpio_write(GPIO_LNB1_VSEL, false);
+                    //}
                 }
 
                 if (lnb_num == 0)
                 {
-                    Log.Information("Enable LNB1 Power");
-                    gpio_write(GPIO_LNB2_ENABLE, true);
+                    Log.Information("Enable LNB Power");
+                    gpio_write(GPIO_LNB_ENABLE, true);
                 }
-                else
-                {
-                    Log.Information("Enable LNB2 Power");
-                    gpio_write(GPIO_LNB1_ENABLE, true);
-                }
+                //else
+                //{
+                //    Log.Information("Enable LNB2 Power");
+                //    gpio_write(GPIO_LNB1_ENABLE, true);
+                //}
             }
             else
             {
                 // disable
                 if (lnb_num == 0)
                 {
-                    Log.Information("Disable LNB1 Power");
-                    gpio_write(GPIO_LNB2_ENABLE, false);
-                    gpio_write(GPIO_LNB2_VSEL, false);
+                    Log.Information("Disable LNB Power");
+                    gpio_write(GPIO_LNB_ENABLE, false);
+                    gpio_write(GPIO_LNB_VSEL, false);
                 }
-                else
-                {
-                    Log.Information("Disable LNB1 Power");
-                    gpio_write(GPIO_LNB1_ENABLE, false);
-                    gpio_write(GPIO_LNB1_VSEL, false);
-
-                }
+                //else
+                //{
+                //    Log.Information("Disable LNB1 Power");
+                //    gpio_write(GPIO_LNB1_ENABLE, false);
+                //    gpio_write(GPIO_LNB1_VSEL, false);
+                //}
             }
-
-            
             return err;
-
         }
     }
 
