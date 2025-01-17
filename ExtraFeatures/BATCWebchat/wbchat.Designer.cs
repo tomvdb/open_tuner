@@ -37,6 +37,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lbUsers = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkStayOnTop = new System.Windows.Forms.CheckBox();
             this.btnSigReportTuner4 = new System.Windows.Forms.Button();
             this.btnSigReportTuner3 = new System.Windows.Forms.Button();
             this.btnSigReportTuner2 = new System.Windows.Forms.Button();
@@ -48,7 +49,6 @@
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.textInputContextStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkStayOnTop = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -148,6 +148,17 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
+            // checkStayOnTop
+            // 
+            this.checkStayOnTop.AutoSize = true;
+            this.checkStayOnTop.Location = new System.Drawing.Point(12, 140);
+            this.checkStayOnTop.Name = "checkStayOnTop";
+            this.checkStayOnTop.Size = new System.Drawing.Size(86, 17);
+            this.checkStayOnTop.TabIndex = 4;
+            this.checkStayOnTop.Text = "Stay On Top";
+            this.checkStayOnTop.UseVisualStyleBackColor = true;
+            this.checkStayOnTop.CheckedChanged += new System.EventHandler(this.checkStayOnTop_CheckedChanged);
+            // 
             // btnSigReportTuner4
             // 
             this.btnSigReportTuner4.Enabled = false;
@@ -210,13 +221,13 @@
             this.chatContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copySelectedTextToolStripMenuItem});
             this.chatContextMenuStrip.Name = "contextMenuStrip1";
-            this.chatContextMenuStrip.Size = new System.Drawing.Size(216, 26);
+            this.chatContextMenuStrip.Size = new System.Drawing.Size(218, 26);
             // 
             // copySelectedTextToolStripMenuItem
             // 
             this.copySelectedTextToolStripMenuItem.Name = "copySelectedTextToolStripMenuItem";
             this.copySelectedTextToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copySelectedTextToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.copySelectedTextToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.copySelectedTextToolStripMenuItem.Text = "Copy Selected Text";
             this.copySelectedTextToolStripMenuItem.Click += new System.EventHandler(this.copySelectedTextToolStripMenuItem_Click);
             // 
@@ -252,26 +263,15 @@
             this.textInputContextStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem});
             this.textInputContextStrip.Name = "textInputContextStrip";
-            this.textInputContextStrip.Size = new System.Drawing.Size(144, 26);
+            this.textInputContextStrip.Size = new System.Drawing.Size(146, 26);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.selectAllToolStripMenuItem.Text = "&Paste";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
-            // 
-            // checkStayOnTop
-            // 
-            this.checkStayOnTop.AutoSize = true;
-            this.checkStayOnTop.Location = new System.Drawing.Point(12, 140);
-            this.checkStayOnTop.Name = "checkStayOnTop";
-            this.checkStayOnTop.Size = new System.Drawing.Size(86, 17);
-            this.checkStayOnTop.TabIndex = 4;
-            this.checkStayOnTop.Text = "Stay On Top";
-            this.checkStayOnTop.UseVisualStyleBackColor = true;
-            this.checkStayOnTop.CheckedChanged += new System.EventHandler(this.checkStayOnTop_CheckedChanged);
             // 
             // WebChatForm
             // 
@@ -282,6 +282,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Name = "WebChatForm";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "QO-100 Wideband Chat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.wbchat_FormClosing);
             this.Load += new System.EventHandler(this.wbchat_Load);

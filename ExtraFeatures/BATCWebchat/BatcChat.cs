@@ -27,12 +27,15 @@ namespace opentuner.ExtraFeatures.BATCWebchat
             {
                 _form.Size = new Size(wc_settings.gui_chat_width, wc_settings.gui_chat_height);
             }
+            _form.Location = new Point(wc_settings.gui_chat_x, wc_settings.gui_chat_y);
         }
 
         private void _form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
             wc_settings.gui_chat_width = _form.Size.Width;
             wc_settings.gui_chat_height = _form.Size.Height;
+            wc_settings.gui_chat_x = _form.Left;
+            wc_settings.gui_chat_y = _form.Top;
 
             wc_settingsManager.SaveSettings(wc_settings);
         }
