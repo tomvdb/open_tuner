@@ -327,7 +327,14 @@ namespace opentuner.MediaSources.Winterhill
             for (int c = 0; c < TSStreamers.Count; c++)
             {
                 _streamer[c] = TSStreamers[c];
+                _streamer[c].onStreamStatusChange += WinterhillSource_onStreamStatusChange;
+                _streamer[c].stream = _settings.DefaultUDPStreaming[c];
             }
+        }
+
+        private void WinterhillSource_onStreamStatusChange(object sender, bool e)
+        {
+            Log.Information(((TSUdpStreamer)(sender)).ID.ToString() + " streaming status : " + e.ToString());
         }
 
         public override void ConfigureVideoPlayers(List<OTMediaPlayer> MediaPlayers)

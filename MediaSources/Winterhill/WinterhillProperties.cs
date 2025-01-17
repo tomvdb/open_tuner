@@ -399,13 +399,13 @@ namespace opentuner.MediaSources.Winterhill
                 case 3: // udp stream
                     if (_streamer[tuner].stream)
                     {
-                        _streamer[tuner].stream = false;
+                        _settings.DefaultUDPStreaming[tuner] = _streamer[tuner].stream = false;
 //                        ClearIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
                         _tuner_properties[tuner].UpdateStreamButtonColor("media_controls_" + tuner.ToString(), Color.Transparent);
                     }
                     else
                     {
-                        _streamer[tuner].stream = true;
+                        _settings.DefaultUDPStreaming[tuner] = _streamer[tuner].stream = true;
 //                        SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
                         _tuner_properties[tuner].UpdateStreamButtonColor("media_controls_" + tuner.ToString(), Color.PaleTurquoise);
                     }

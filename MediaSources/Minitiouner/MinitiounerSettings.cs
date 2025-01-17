@@ -22,5 +22,6 @@ namespace opentuner.MediaSources.Minitiouner
 
         public uint[] DefaultVolume = new uint[] { 50, 50 };
         public bool[] DefaultMuted = new bool[] { true, true };
+        public bool[] DefaultUDPStreaming = new bool[] { false, false };
     }
 }

@@ -2,6 +2,7 @@
 using opentuner.MediaPlayers;
 using opentuner.MediaSources.Minitiouner;
 using opentuner.Utilities;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -313,6 +314,13 @@ namespace opentuner.MediaSources.Longmynd
         public override void ConfigureTSStreamers(List<TSUdpStreamer> TSStreamers)
         {
             _streamer = TSStreamers[0];
+            _streamer.onStreamStatusChange += LongmyndSource_onStreamStatusChange;
+            _streamer.stream = _settings.DefaultUDPStreaming;
+        }
+
+        private void LongmyndSource_onStreamStatusChange(object sender, bool e)
+        {
+            Log.Information(((TSUdpStreamer)(sender)).ID.ToString() + " streaming status : " + e.ToString());
         }
 
         public override void ConfigureMediaPath(string MediaPath)

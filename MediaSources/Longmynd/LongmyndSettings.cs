@@ -25,6 +25,6 @@ namespace opentuner.MediaSources.Longmynd
         public uint Offset1 = 9750000;
         public uint DefaultVolume = 50;
         public bool DefaultMuted = true;
-
+        public bool DefaultUDPStreaming = false;
     }
 }

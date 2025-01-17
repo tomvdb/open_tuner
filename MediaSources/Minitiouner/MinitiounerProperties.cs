@@ -239,12 +239,12 @@ namespace opentuner.MediaSources.Minitiouner
                     if (_ts_streamers[tuner].stream)
                     {
 //                        ClearIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.StreamingIndicator);
-                        _ts_streamers[tuner].stream = false;
+                        _settings.DefaultUDPStreaming[tuner] = _ts_streamers[tuner].stream = false;
                     }
                     else
                     {
 //                        SetIndicator(ref ((tuner == 0) ? ref indicatorStatus1 : ref indicatorStatus2), PropertyIndicators.StreamingIndicator);
-                        _ts_streamers[tuner].stream = true;
+                        _settings.DefaultUDPStreaming[tuner] = _ts_streamers[tuner].stream = true;
                     }
 
                     if (tuner == 0)

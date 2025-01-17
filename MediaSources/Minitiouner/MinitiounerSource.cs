@@ -796,6 +796,7 @@ namespace opentuner.MediaSources.Minitiouner
             for (int c = 0; c < _ts_streamers.Count; c++)
             {
                 _ts_streamers[c].onStreamStatusChange += MinitiounerSource_onStreamStatusChange;
+                _ts_streamers[c].stream = _settings.DefaultUDPStreaming[c];
             }
         }
 

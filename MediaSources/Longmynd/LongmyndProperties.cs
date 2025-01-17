@@ -185,18 +185,15 @@ namespace opentuner.MediaSources.Longmynd
                     
                     if ( _streamer.stream)
                     {
-                        _streamer.stream = false;   
+                        _settings.DefaultUDPStreaming = _streamer.stream = false;   
 //                        ClearIndicator(ref indicatorStatus, PropertyIndicators.StreamingIndicator);
                         _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
                     }
                     else
                     {
-                        if (demodState >= 3)
-                        {
-                            _streamer.stream = true;
-//                            SetIndicator(ref indicatorStatus, PropertyIndicators.StreamingIndicator);
-                            _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.PaleTurquoise);
-                        }
+                        _settings.DefaultUDPStreaming = _streamer.stream = true;
+//                        SetIndicator(ref indicatorStatus, PropertyIndicators.StreamingIndicator);
+                        _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.PaleTurquoise);
                     }
 
                     _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus.ToString());
