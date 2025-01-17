@@ -181,7 +181,7 @@ namespace opentuner.MediaSources.Minitiouner
         {
             int tuner = 0;
 
-            if (key == "media_controls_2")
+            if (key == "media_controls_1")
                 tuner = 1;
 
             switch (function)
@@ -212,25 +212,25 @@ namespace opentuner.MediaSources.Minitiouner
                     {
                         if (_ts_recorders[0].record == true)
                         {
-                            _tuner1_properties.UpdateRecordButtonColor("media_controls_1", Color.PaleVioletRed);
+                            _tuner1_properties.UpdateRecordButtonColor("media_controls_0", Color.PaleVioletRed);
                         }
                         else
                         {
-                            _tuner1_properties.UpdateRecordButtonColor("media_controls_1", Color.Transparent);
+                            _tuner1_properties.UpdateRecordButtonColor("media_controls_0", Color.Transparent);
                         }
-//                        _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+//                        _tuner1_properties.UpdateValue("media_controls_0", indicatorStatus1.ToString());
                     }
                     else
                     {
                         if (_ts_recorders[1].record == true)
                         {
-                            _tuner2_properties.UpdateRecordButtonColor("media_controls_2", Color.PaleVioletRed);
+                            _tuner2_properties.UpdateRecordButtonColor("media_controls_1", Color.PaleVioletRed);
                         }
                         else
                         {
-                            _tuner2_properties.UpdateRecordButtonColor("media_controls_2", Color.Transparent);
+                            _tuner2_properties.UpdateRecordButtonColor("media_controls_1", Color.Transparent);
                         }
-//                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+//                        _tuner2_properties.UpdateValue("media_controls_1", indicatorStatus2.ToString());
                     }
                     break;
                 case 3: // udp stream
@@ -251,25 +251,25 @@ namespace opentuner.MediaSources.Minitiouner
                     {
                         if (_ts_streamers[0].stream == true)
                         {
-                            _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.PaleTurquoise);
+                            _tuner1_properties.UpdateStreamButtonColor("media_controls_0", Color.PaleTurquoise);
                         }
                         else
                         {
-                            _tuner1_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
+                            _tuner1_properties.UpdateStreamButtonColor("media_controls_0", Color.Transparent);
                         }
-//                        _tuner1_properties.UpdateValue("media_controls_1", indicatorStatus1.ToString());
+//                        _tuner1_properties.UpdateValue("media_controls_0", indicatorStatus1.ToString());
                     }
                     else
                     {
                         if (_ts_streamers[1].stream == true)
                         {
-                            _tuner2_properties.UpdateStreamButtonColor("media_controls_2", Color.PaleTurquoise);
+                            _tuner2_properties.UpdateStreamButtonColor("media_controls_1", Color.PaleTurquoise);
                         }
                         else
                         {
-                            _tuner2_properties.UpdateStreamButtonColor("media_controls_2", Color.Transparent);
+                            _tuner2_properties.UpdateStreamButtonColor("media_controls_1", Color.Transparent);
                         }
-//                        _tuner2_properties.UpdateValue("media_controls_2", indicatorStatus2.ToString());
+//                        _tuner2_properties.UpdateValue("media_controls_1", indicatorStatus2.ToString());
                     }
 
                     break;
