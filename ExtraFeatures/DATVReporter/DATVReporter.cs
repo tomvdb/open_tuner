@@ -9,6 +9,7 @@ using System.Drawing.Printing;
 using Serilog;
 using opentuner.Utilities;
 using System.Timers;
+using System.Globalization;
 
 namespace opentuner.ExtraFeatures.DATVReporter
 {
@@ -177,7 +178,11 @@ namespace opentuner.ExtraFeatures.DATVReporter
             message.observer_callsign = _datv_reporter_settings.callsign;
             message.observer_gridlocator = _datv_reporter_settings.grid_locator;
             message.application = "OpenTuner";
-            message.application_version = GlobalDefines.Version + " - " + opentuner.Properties.Resources.BuildDate.Trim();
+
+            var compileTime = new DateTime(Builtin.CompileTime, DateTimeKind.Utc);
+            DateTimeFormatInfo usDateFormat = new CultureInfo("en-US", false).DateTimeFormat;
+            string compileTime_usFormat = compileTime.ToString("u", usDateFormat);
+            message.application_version = GlobalDefines.Version + " - " + compileTime_usFormat;
 
             string json_output = JsonConvert.SerializeObject(message, Formatting.Indented);
 
