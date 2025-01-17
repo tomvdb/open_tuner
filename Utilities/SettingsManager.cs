@@ -52,7 +52,16 @@ namespace opentuner.Utilities
             
             Debug(json_input);
 
-            var settings_object = (T)JsonConvert.DeserializeObject(json_input, typeof(T));
+            T settings_object = default(T);
+
+            try
+            {
+                settings_object = (T)JsonConvert.DeserializeObject(json_input, typeof(T));
+            }
+
+            catch (Exception)
+            {
+            }
 
             if (settings_object == null)
             {
