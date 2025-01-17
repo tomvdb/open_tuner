@@ -29,7 +29,7 @@ namespace opentuner
         public bool auto_connect = false;
 
         public bool hide_properties = false; // can also be toggled with CTRL-P
-        public bool show_video_overlay = true;
+        public bool[] show_video_overlay = { true, true, true, true };
 
         public int[] mediaplayer_preferences = { 0, 1, 1, 1 };
         public bool[] mediaplayer_windowed = { false, false, false, false };

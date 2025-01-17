@@ -165,11 +165,13 @@ namespace opentuner
                         break;
 
                     case "--hidevideoinfo":
-                        _settings.show_video_overlay = false;
+                        for (int j = 0; j < 4; j++)
+                            _settings.show_video_overlay[j] = false;
                         break;
 
                     case "--showvideoinfo":
-                        _settings.show_video_overlay = true;
+                        for (int j = 0; j < 4; j++)
+                            _settings.show_video_overlay[j] = true;
                         break;
 
                     case "--windowwidth":
@@ -739,7 +741,7 @@ namespace opentuner
             video_volume_display = new VolumeInfoContainer();
             video_volume_display.Tag = nr;
 
-            video_info_display = new StreamInfoContainer(_settings.show_video_overlay);
+            video_info_display = new StreamInfoContainer(_settings.show_video_overlay[nr]);
             video_info_display.Tag = nr;
 
 
@@ -886,7 +888,7 @@ namespace opentuner
                         videoSource.InvokeOnMediaButtonPressed("media_controls_" + video_nr.ToString(), 3);
                     }
                     else if (info_display[video_nr] != null)
-                        info_display[video_nr].Visible = !info_display[video_nr].Visible;
+                        _settings.show_video_overlay[video_nr] = info_display[video_nr].Visible = !info_display[video_nr].Visible;
                 }
             }
             else if (e.Button == MouseButtons.Right)
