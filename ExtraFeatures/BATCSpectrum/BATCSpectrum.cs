@@ -584,7 +584,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     switch (me.Button)
                     {
                         case MouseButtons.Left:
-                            if (Control.ModifierKeys == Keys.Shift)
+                            if (Control.ModifierKeys == Keys.Control)
                             {
                                 uint freq = Convert.ToUInt32((start_freq + (X / spectrum_wScale / 922.0) * 9.0) * 1000.0);
 
