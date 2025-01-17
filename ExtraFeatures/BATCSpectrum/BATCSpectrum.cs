@@ -476,8 +476,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 }
             }
 
-            tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(10, 10));
-            tmp.DrawString(TX_Text, new Font("Tahoma", 15), Brushes.Red, new PointF(70, _spectrum.Height - 50));  //dh3cs
+            tmp.DrawString(InfoText, new Font("Tahoma", 15), Brushes.White, new PointF(80, _spectrum.Height - 100));
+            tmp.DrawString(TX_Text, new Font("Tahoma", 15), Brushes.Red, new PointF(80, _spectrum.Height - 50));  //dh3cs
 
             // draw over power
             lock (list_lock)
@@ -571,6 +571,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                                     Clipboard.SetText(tx_freq);                                             //DATV-Easy in MHz
                                     TX_Text = " TX: " + tx_freq;
                                 }
+                                break;
+                            case MouseButtons.Right:
                                 break;
                             default:
                                 break;
