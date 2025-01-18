@@ -170,7 +170,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             try
             {
                 bandplan = XElement.Load(Path.GetDirectoryName(Application.ExecutablePath) + @"\extra\bandplan.xml");
-                thread_wait_event_handles[1].Set(); // fire worker thread to draw bandplan
                 indexedbandplan = bandplan.Elements().ToList();
                 foreach (var channel in bandplan.Elements("channel"))
                 {
@@ -179,6 +178,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         blocks.Add(channel.Element("block").Value);
                     }
                 }
+                thread_wait_event_handles[1].Set(); // fire worker thread to draw bandplan
             }
             catch (Exception ex)
             {
@@ -283,24 +283,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         private void spectrum_SizeChanged(object sender, EventArgs e)
         {
-            try
-            {
-                thread_wait_event_handles[3].Set(); // fire worker thread to resize graphics
-
-                bmp2 = new Bitmap(_spectrum.Width, bandplan_height);    // bandplan
-                bmp = new Bitmap(_spectrum.Width, height + 20);
-                tmp = Graphics.FromImage(bmp);
-                tmp2 = Graphics.FromImage(bmp2);
-
-                if (bandplan != null)
-                {
-                    thread_wait_event_handles[1].Set(); // fire worker thread to draw bandplan
-                }
-            }
-            catch (Exception Ex)
-            {
-                Log.Error(Ex.Message);
-            }
+            thread_wait_event_handles[3].Set(); // fire worker thread to resize graphics
         }
 
 
@@ -971,12 +954,18 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             drawspectrum();
                             break;
                         case 3:
+                            //Log.Information("drawingThread event resize graphics");
                             bmp2 = new Bitmap(_spectrum.Width, bandplan_height);    // bandplan
                             tmp2 = Graphics.FromImage(bmp2);
                             bmp = new Bitmap(_spectrum.Width, height + 20); // ?
                             tmp = Graphics.FromImage(bmp);
+                            if (bandplan != null)
+                            {
+                                drawspectrum_bandplan();
+                            }
                             break;
                         case 4:
+                            //Log.Information("drawingThread event exit");
                             return;
                         default:
                             Log.Error("drawingThread event: " + eventIndex.ToString());
