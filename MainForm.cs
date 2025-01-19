@@ -750,6 +750,7 @@ namespace opentuner
                     var vlc_video_player = new LibVLCSharp.WinForms.VideoView();
                     vlc_video_player.Dock = DockStyle.Fill;
                     vlc_video_player.MouseClick += video_player_MouseClick;
+                    vlc_video_player.MouseDoubleClick += video_player_MouseDoubleClick;
                     vlc_video_player.MouseWheel += video_player_MouseWheel;
                     vlc_video_player.Tag = nr;
 
@@ -772,8 +773,10 @@ namespace opentuner
                 case 1: // ffmpeg
                     Log.Information(nr.ToString() + " - " + "FFMPEG");
                     var ffmpeg_video_player = new FlyleafLib.Controls.WinForms.FlyleafHost();
+                    ffmpeg_video_player.ToggleFullScreenOnDoubleClick = false;
                     ffmpeg_video_player.Dock = DockStyle.Fill;
                     ffmpeg_video_player.MouseClick += video_player_MouseClick;
+                    ffmpeg_video_player.MouseDoubleClick += video_player_MouseDoubleClick;
                     ffmpeg_video_player.MouseWheel += video_player_MouseWheel;
                     ffmpeg_video_player.Tag = nr;
 
@@ -798,6 +801,7 @@ namespace opentuner
                     var mpv_video_player = new PictureBox();
                     mpv_video_player.Dock = DockStyle.Fill;
                     mpv_video_player.MouseClick += video_player_MouseClick;
+                    mpv_video_player.MouseDoubleClick += video_player_MouseDoubleClick;
                     mpv_video_player.MouseWheel += video_player_MouseWheel;
                     mpv_video_player.Tag = nr;
 
@@ -896,6 +900,109 @@ namespace opentuner
                     }
                 }
             }
+        }
+
+        bool fullScreen = false;
+
+        private void resetFullView()
+        {
+            switch (videoSource.GetVideoSourceCount())
+            {
+                case 2:
+                    splitContainer3.Panel1Collapsed = false;
+                    splitContainer3.Panel2Collapsed = false;
+                    splitContainer3.Panel1.Show();
+                    splitContainer3.Panel2.Show();
+                    break;
+                case 4:
+                    splitContainer3.Panel1Collapsed = false;
+                    splitContainer3.Panel2Collapsed = false;
+                    splitContainer4.Panel1Collapsed = false;
+                    splitContainer4.Panel2Collapsed = false;
+                    splitContainer5.Panel1Collapsed = false;
+                    splitContainer5.Panel2Collapsed = false;
+                    splitContainer3.Panel1.Show();
+                    splitContainer3.Panel2.Show();
+                    splitContainer4.Panel1.Show();
+                    splitContainer4.Panel2.Show();
+                    splitContainer5.Panel1.Show();
+                    splitContainer5.Panel2.Show();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void changeView(int video_nr)
+        {
+            if (fullScreen == true)
+            {
+                resetFullView();
+                fullScreen = false;
+            }
+            else
+            {
+                fullScreen = true;
+                switch (videoSource.GetVideoSourceCount())
+                {
+                    case 2:
+                        switch (video_nr)
+                        {
+                            case 0:
+                                splitContainer3.Panel2Collapsed = true;
+                                splitContainer3.Panel2.Hide();
+                                break;
+                            case 1:
+                                splitContainer3.Panel1Collapsed = true;
+                                splitContainer3.Panel1.Hide();
+                                break;
+                        }
+                        break;
+                    case 4:
+                        switch (video_nr)
+                        {
+                            case 0:
+                                splitContainer3.Panel2Collapsed = true;
+                                splitContainer3.Panel2.Hide();
+                                splitContainer4.Panel2Collapsed = true;
+                                splitContainer4.Panel2.Hide();
+                                break;
+                            case 1:
+                                splitContainer3.Panel2Collapsed = true;
+                                splitContainer3.Panel2.Hide();
+                                splitContainer4.Panel1Collapsed = true;
+                                splitContainer4.Panel1.Hide();
+                                break;
+                            case 2:
+                                splitContainer3.Panel1Collapsed = true;
+                                splitContainer3.Panel1.Hide();
+                                splitContainer5.Panel2Collapsed = true;
+                                splitContainer5.Panel2.Hide();
+                                break;
+                            case 3:
+                                splitContainer3.Panel1Collapsed = true;
+                                splitContainer3.Panel1.Hide();
+                                splitContainer5.Panel1Collapsed = true;
+                                splitContainer5.Panel1.Hide();
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void video_player_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int video_nr = (int)((Control)sender).Tag;
+
+            // restore info_display changed by first mouse click
+            if (info_display[video_nr] != null)
+                _settings.show_video_overlay[video_nr] = info_display[video_nr].Visible = !info_display[video_nr].Visible;
+
+            if (videoSource.GetVideoSourceCount() > 1)
+                changeView(video_nr);
         }
 
         // configure TS recorders
