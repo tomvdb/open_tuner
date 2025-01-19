@@ -88,6 +88,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dATVReporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.plutoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -551,6 +552,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTunerToolStripMenuItem,
             this.qO100WidebandChatToolStripMenuItem,
+            this.dATVReporterToolStripMenuItem,
             this.plutoToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
@@ -606,6 +608,12 @@
             this.qO100WidebandChatToolStripMenuItem.Name = "qO100WidebandChatToolStripMenuItem";
             resources.ApplyResources(this.qO100WidebandChatToolStripMenuItem, "qO100WidebandChatToolStripMenuItem");
             this.qO100WidebandChatToolStripMenuItem.Click += new System.EventHandler(this.qO100WidebandChatToolStripMenuItem_Click);
+            // 
+            // dATVReporterToolStripMenuItem
+            // 
+            this.dATVReporterToolStripMenuItem.Name = "dATVReporterToolStripMenuItem";
+            resources.ApplyResources(this.dATVReporterToolStripMenuItem, "dATVReporterToolStripMenuItem");
+            this.dATVReporterToolStripMenuItem.Click += new System.EventHandler(this.dATVReporterToolStripMenuItem_Click);
             // 
             // plutoToolStripMenuItem
             // 
@@ -758,6 +766,7 @@
         private System.Windows.Forms.TabPage ExtraSpectrumTab;
         private System.Windows.Forms.PictureBox spectrum;
         private System.Windows.Forms.Label LinkDatvReportMoreInfo;
+        private System.Windows.Forms.ToolStripMenuItem dATVReporterToolStripMenuItem;
     }
 }
 

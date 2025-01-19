@@ -10,6 +10,6 @@ namespace opentuner.ExtraFeatures.DATVReporter
     {
         public string callsign;
         public string grid_locator;
-        public string service_url;
+        public string service_url = "wss://datvreporter.info:3000";
     }
 }

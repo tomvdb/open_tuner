@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Diagnostics;
 
 using opentuner.MediaSources;
 using opentuner.MediaSources.Minitiouner;
@@ -704,6 +705,19 @@ namespace opentuner
                 batc_chat.Show();
         }
 
+        private void dATVReporterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // URL to open
+            string url = "https://www.datvreporter.info/";
+
+            // Open the default web browser with the specified URL
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
+        }
+
         private void configureCallsignToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pluto_client.ConfigureCallsignAndReboot("ZR6TG");
@@ -1009,6 +1023,7 @@ namespace opentuner
 
             if (checkDATVReporter.Checked)
             {
+                dATVReporterToolStripMenuItem.Visible = true;
                 if (!datv_reporter.Connect())
                 {
                     Log.Error("DATV Reporter can't connect - check your settings");

@@ -1737,6 +1737,15 @@
   <data name="qO100WidebandChatToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
+  <data name="dATVReporterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 20</value>
+  </data>
+  <data name="dATVReporterToolStripMenuItem.Text" xml:space="preserve">
+    <value>DATV Reporter</value>
+  </data>
+  <data name="dATVReporterToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>161, 22</value>
   </data>
@@ -2389,6 +2398,12 @@
     <value>qO100WidebandChatToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;qO100WidebandChatToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dATVReporterToolStripMenuItem.Name" xml:space="preserve">
+    <value>dATVReporterToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;dATVReporterToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;plutoToolStripMenuItem.Name" xml:space="preserve">
