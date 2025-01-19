@@ -66,7 +66,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         public List<Sig> signals = new List<Sig>();         // actual list of signals (processed)
 
         private const double start_freq = 10490.4754901;
-        float minsr = 0.065f;
+        float minsr = 0.033f;
         int num_rx = 1;
 
         public signal(object _list_lock)
@@ -510,9 +510,10 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             signal_bw = align_symbolrate((end_signal - start_signal) * 9.0f / fft_data.Length);
                             signal_freq = Math.Round((start_freq + mid_signal / fft_data.Length * 9.0f),3);
 
-                            // Exclude signals in beacon band
-                            if (signal_bw >= 0.033)
+                            // Exclude signals lower minsr
+                            if (signal_bw >= minsr)
                             {
+                                // Exclude signals in beacon band
                                 if (signal_freq < 10492000.0 && signal_bw > 1.0f)
                                 {
                                     beacon_strength = strength_signal;
