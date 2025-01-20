@@ -307,6 +307,64 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             return newSig;
         }
 
+        public Sig findNextNewSignal(List<RX_Sig> inuse, double frequency, float sr, bool avoidBeacon, float treshHold)
+        {
+            Sig newSig = new Sig();
+            List<Sig> notTunedSignals = new List<Sig>();
+
+            lock (list_lock)
+            {
+                foreach (Sig s in signals)
+                {
+                    bool skip = false;
+                    // create signal list of not tuned signals
+                    foreach (RX_Sig skipSignal in inuse)
+                    {
+                        if (0 == compareFrequency(s.frequency, skipSignal.frequency, skipSignal.sr))
+                        {
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if (!skip)
+                    {
+                        notTunedSignals.Add(s);
+                    }
+                }
+            }
+            if (notTunedSignals.Count > 0)
+            {
+                // first search for signal with same frequency
+                foreach (Sig notTunedSignal in notTunedSignals)
+                {
+                    //Log.Information("not tuned Signal: " + notTunedSignal.frequency.ToString() + ", " + notTunedSignal.sr.ToString());
+                    if (!avoidBeacon || notTunedSignal.frequency >= 10492.0)
+                    {
+                        if (notTunedSignal.dbb >= treshHold)
+                        {
+                            if (0 == compareFrequency(notTunedSignal.frequency, frequency, sr))
+                            {
+                                return notTunedSignal;
+                            }
+                        }
+                    }
+                }
+                // second search for next nearest signal
+                foreach (Sig notTunedSignal in notTunedSignals)
+                {
+                    //Log.Information("not tuned Signal: " + notTunedSignal.frequency.ToString() + ", " + notTunedSignal.sr.ToString());
+                    if (!avoidBeacon || notTunedSignal.frequency >= 10492.0 && notTunedSignal.callsign == "")
+                    {
+                        if (notTunedSignal.dbb >= treshHold)
+                        {
+                            newSig = compareSignalFrequencies(newSig, notTunedSignal, frequency);
+                        }
+                    }
+                }
+            }
+            return newSig;
+        }
+
         public bool diff_signals(Sig lastsig, Sig next)
         {
             //debug("diff_signals(): last QRG: " + lastsig.frequency.ToString() + ", next QRG: " + next.frequency.ToString());

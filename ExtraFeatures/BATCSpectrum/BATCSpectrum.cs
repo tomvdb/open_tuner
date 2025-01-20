@@ -718,7 +718,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             signal.Sig ret = sigs.findNextNearestSignal(sig_tuned, rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
                             if (ret.frequency > 0)      //above 0 signal found
                             {
-                                if ((t > TimeSpan.FromSeconds(spectrumSettings.autoHoldTimeValue) && spectrumSettings.tuneMode[i] == 1) ||
+                                if ((t > TimeSpan.FromSeconds(spectrumSettings.autoHoldTimeValue)) ||
                                     (spectrumSettings.avoidBeacon[i] && rx_blocks[i].frequency < 10492.0))
                                 {
                                     Log.Information("new Signal to tune: " + ret.frequency.ToString() + ", " + ret.sr.ToString());
@@ -751,6 +751,32 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                         break;
                     default:    // Manual or invalid
                         break;
+                }
+            }
+
+            // third round: go through the list of tuners and look for next new signal without callsign
+            //  only process "Auto (next)" tuners here
+            for (int i = 0; i < _tuners; i++)
+            {
+                if (spectrumSettings.tuneMode[i] == 2)
+                {
+                    TimeSpan t = DateTime.Now - rx_blocks[i].dateTime;
+                    if (t > TimeSpan.FromSeconds(spectrumSettings.autoTuneTimeValue) || rx_blocks[i].signalLost)
+                    {
+                        signal.Sig ret = sigs.findNextNewSignal(sig_tuned, rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
+                        if (ret.frequency > 0)      //above 0 signal found
+                        {
+                            if (0 != sigs.compareFrequency(ret.frequency, rx_blocks[i].frequency, rx_blocks[i].sr))
+                            {
+                                Log.Information("new Signal to tune: " + ret.frequency.ToString() + ", " + ret.sr.ToString());
+                                int mul = (_spectrum.Height - bandplan_height) / _tuners;
+                                selectSignal(Convert.ToInt32(ret.text_pos * spectrum_wScale), i * mul);
+                                rx_blocks[i].dateTime = DateTime.Now;
+                                rx_blocks[i].signalLost = false;
+                                return;
+                            }
+                        }
+                    }
                 }
             }
         }
