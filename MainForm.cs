@@ -1001,7 +1001,7 @@ namespace opentuner
             if (info_display[video_nr] != null)
                 _settings.show_video_overlay[video_nr] = info_display[video_nr].Visible = !info_display[video_nr].Visible;
 
-            if (videoSource.GetVideoSourceCount() > 1)
+            if (videoSource.GetVideoSourceCount() > 1 && _settings.mediaplayer_windowed[video_nr] == false)
                 changeView(video_nr);
         }
 
