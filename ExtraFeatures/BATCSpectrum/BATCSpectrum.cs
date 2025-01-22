@@ -361,16 +361,19 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                 //draw the text for each signal found
                 foreach (signal.Sig s in signals)
                 {
+                    float textPosX = Convert.ToSingle(s.fft_strength / height + 50);
+                    if (textPosX > height)
+                        textPosX = height;
                     if (check_mouse_over_signal(s))
                     {
                         tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height));
                         tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_start * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_start * spectrum_wScale), height);
                         tmp.DrawLine(whitePen, Convert.ToInt16(s.fft_stop * spectrum_wScale), height - Convert.ToInt16(s.fft_strength / height), Convert.ToInt16(s.fft_stop * spectrum_wScale), height);
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.000") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(s.text_pos * spectrum_wScale - 30.0f, height - Convert.ToSingle(s.fft_strength / height + 50)));
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.000") + "\n " + (s.sr * 1000).ToString("#Ks") + "\n " + s.dbb.ToString("#0.0dBb"), new Font("Tahoma", 10), Brushes.White, new PointF(s.text_pos * spectrum_wScale - 30.0f, height - textPosX));
                     }
                     else
                     {
-                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.000") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(s.text_pos * spectrum_wScale - 30.0f, height - Convert.ToSingle(s.fft_strength / height + 50)));
+                        tmp.DrawString(s.callsign + "\n" + s.frequency.ToString("#0.000") + "\n " + (s.sr * 1000).ToString("#Ks"), new Font("Tahoma", 10), Brushes.White, new PointF(s.text_pos * spectrum_wScale - 30.0f, height - textPosX));
                     }
                 }
             }
