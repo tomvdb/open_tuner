@@ -361,7 +361,7 @@ namespace opentuner
 
 
             // set recorders
-            _ts_recorders = ConfigureTSRecorders(videoSource, _settings.media_path);
+            _ts_recorders = ConfigureTSRecorders(videoSource, _settings.media_video_path);
             videoSource.ConfigureTSRecorders(_ts_recorders);
 
             // set udp streamers

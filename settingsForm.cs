@@ -43,6 +43,7 @@ namespace opentuner
             txtStreaming4Port.Text = _settings.streamer_udp_ports[3].ToString();
 
             txtSnapshotPath.Text = _settings.media_path;
+            txtVideoPath.Text = _settings.media_video_path;
 
             checkBoxMuted.Checked = _settings.mute_at_startup;
 
@@ -107,6 +108,7 @@ namespace opentuner
             _settings.mediaplayer_windowed[3] = checkWindowed4.Checked;
 
             _settings.media_path = txtSnapshotPath.Text;
+            _settings.media_video_path = txtVideoPath.Text;
 
             _settings.default_source = comboDefaultSource.SelectedIndex;
 
@@ -124,6 +126,17 @@ namespace opentuner
             if (fbd.ShowDialog() == DialogResult.OK )
             {
                 txtSnapshotPath.Text = fbd.SelectedPath + "\\";
+            }
+        }
+
+        private void btnBrowseFolder1_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.SelectedPath = txtVideoPath.Text;
+
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                txtVideoPath.Text = fbd.SelectedPath + "\\";
             }
         }
     }

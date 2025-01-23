@@ -12,6 +12,7 @@ namespace opentuner
         [Group("Settings 1")]
         [FriendlyName("Media Path")]
         public string media_path = "";
+        public string media_video_path = "";
 
         [Group("Settings 2")]
         public bool enable_spectrum_checkbox = true;
