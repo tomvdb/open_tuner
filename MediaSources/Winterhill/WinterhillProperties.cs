@@ -38,6 +38,9 @@ namespace opentuner.MediaSources.Winterhill
             { 0x82 , "Idle" },
         };
 
+        private bool[] muted = new bool[] { true, true, true, true };
+        private int[] preMute = new int[] { 50, 50, 50, 50 };
+
 
         private bool BuildSourceProperties(bool mute_at_startup)
         {
@@ -50,10 +53,9 @@ namespace opentuner.MediaSources.Winterhill
             _genericContextStrip = new ContextMenuStrip();
             _genericContextStrip.Opening += _genericContextStrip_Opening;
 
-
             for (int c = ts_devices-1; c >= 0; c--)
             {
-                _tuner_properties[c] = new DynamicPropertyGroup("Tuner " +  (c+1).ToString(), _parent);
+                _tuner_properties[c] = new DynamicPropertyGroup("Tuner " +  (c + 1).ToString(), _parent);
                 _tuner_properties[c].setID(c);  // set this before creating any items
                 _tuner_properties[c].OnSlidersChanged += WinterhillSource_OnSlidersChanged;
                 _tuner_properties[c].OnMediaButtonPressed += WinterhillSource_OnMediaButtonPressed;
@@ -116,8 +118,8 @@ namespace opentuner.MediaSources.Winterhill
             else
             {
                 _source_properties.UpdateValue("hardware", "Picotuner (ETH)");
-                _source_properties.AddItem("hw_lnba", "LNB-A Power Supply", _genericContextStrip);
-                _source_properties.AddItem("hw_lnbb", "LNB-B Power Supply", _genericContextStrip);
+                //_source_properties.AddItem("hw_lnba", "LNB-A Power Supply", _genericContextStrip);
+                _source_properties.AddItem("hw_lnbb", "LNB Power Supply", _genericContextStrip);
             }
 
             _tuner_forms = new List<TunerControlForm>();
@@ -343,16 +345,6 @@ namespace opentuner.MediaSources.Winterhill
             }
         }
 
-//        public void SetIndicator(ref int indicatorInput, PropertyIndicators indicator)
-//        {
-//            indicatorInput |= (byte)(1 << (int)indicator);
-//        }
-
-//        public void ClearIndicator(ref int indicatorInput, PropertyIndicators indicator)
-//        {
-//            indicatorInput &= (byte)~(1 << (int)indicator);
-//        }
-
         private void MediaControlsHandler(int tuner, int function)
         {
             switch (function)
@@ -363,20 +355,18 @@ namespace opentuner.MediaSources.Winterhill
                 case 1: // snapshot
                     if (playing[tuner])
                     {
-                        _media_player[tuner].SnapShot(_MediaPath + CommonFunctions.GenerateTimestampFilename() + ".png");
+                        _media_player[tuner]?.SnapShot(_MediaPath + CommonFunctions.GenerateTimestampFilename() + ".png");
                     }
                     else
                     {
                         Log.Error("Can't do snapshot, not locked to a signal");
                     }
-
                     break;
 
                 case 2: // record
                     if (_recorders[tuner].record)
                     {
                         _recorders[tuner].record = false;
-//                        ClearIndicator(ref indicatorStatus[tuner], PropertyIndicators.RecordingIndicator);
                         _tuner_properties[tuner].UpdateRecordButtonColor("media_controls_" + tuner.ToString(), Color.Transparent);
                     }
                     else
@@ -384,7 +374,6 @@ namespace opentuner.MediaSources.Winterhill
                         if (demodstate[tuner] == 3 || demodstate[tuner] == 2)
                         {
                             _recorders[tuner].record = true;
-//                            SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.RecordingIndicator);
                             _tuner_properties[tuner].UpdateRecordButtonColor("media_controls_" + tuner.ToString(), Color.PaleVioletRed);
                         }
                         else
@@ -392,26 +381,19 @@ namespace opentuner.MediaSources.Winterhill
                             Log.Error("Can't record, not locked to a signal");
                         }
                     }
-
-                    _tuner_properties[tuner].UpdateValue("media_controls_" + tuner.ToString(), indicatorStatus[tuner].ToString());
-
                     break;
+
                 case 3: // udp stream
                     if (_streamer[tuner].stream)
                     {
                         _settings.DefaultUDPStreaming[tuner] = _streamer[tuner].stream = false;
-//                        ClearIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
                         _tuner_properties[tuner].UpdateStreamButtonColor("media_controls_" + tuner.ToString(), Color.Transparent);
                     }
                     else
                     {
                         _settings.DefaultUDPStreaming[tuner] = _streamer[tuner].stream = true;
-//                        SetIndicator(ref indicatorStatus[tuner], PropertyIndicators.StreamingIndicator);
                         _tuner_properties[tuner].UpdateStreamButtonColor("media_controls_" + tuner.ToString(), Color.PaleTurquoise);
                     }
-
-                    _tuner_properties[tuner].UpdateValue("media_controls_" + tuner.ToString(), indicatorStatus[tuner].ToString());
-
                     break;
             }
         }
@@ -434,10 +416,6 @@ namespace opentuner.MediaSources.Winterhill
                     break;
             }
         }
-
-        private bool[] muted = new bool[] {true, true, true, true};
-        private int[] preMute = new int[] { 50, 50, 50, 50 };
-        private int[] indicatorStatus = new int[] {0, 0, 0, 0};
 
         private void WinterhillSource_OnSlidersChanged(string key, int value)
         {
