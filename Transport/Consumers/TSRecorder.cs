@@ -148,7 +148,7 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Log.Information("TS Recorder Thread: Closed");
+                //Log.Information("TS Recorder Thread: Closed");
                 Thread.ResetAbort();
             }
         }

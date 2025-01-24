@@ -477,7 +477,7 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Log.Warning("Nim Thread: Closed");
+                //Log.Information("Nim Thread: Closed");
                 Thread.ResetAbort();
             }
         }

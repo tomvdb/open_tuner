@@ -120,7 +120,7 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Log.Information("TS Thread: Closed");
+                //Log.Information("TS Thread: Closed");
                 Thread.ResetAbort();
             }
         }

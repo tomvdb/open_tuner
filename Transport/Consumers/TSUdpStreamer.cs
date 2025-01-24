@@ -166,7 +166,7 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Log.Information("TS UDP Thread Closed");
+                //Log.Information("TS UDP Thread Closed");
                 Thread.ResetAbort();
             }
         }

@@ -218,7 +218,7 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Log.Information("TS Parser Thread Closed");
+                //Log.Information("TS Parser Thread Closed");
                 Thread.ResetAbort();
             }
         }
