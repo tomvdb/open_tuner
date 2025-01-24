@@ -60,6 +60,7 @@ namespace opentuner
         private SettingsManager<MainSettings> _settingsManager;
 
         private bool _settings_save = true;
+        private bool _settings_align = true;
 
         SettingsManager<List<StoredFrequency>> frequenciesManager;
 
@@ -106,6 +107,9 @@ namespace opentuner
             {
                 switch (args[i])
                 {
+                    case "--nowindowalign":
+                        _settings_align = false;
+                        break;
                     case "--nosave":
                         _settings_save = false;
                         break;
@@ -621,8 +625,8 @@ namespace opentuner
             if (_settings.gui_window_width != -1)
             {
                 Log.Information("Restoring Window Positions:");
-                Log.Information(" Size: (" + _settings.gui_window_height.ToString() + "," + _settings.gui_window_width.ToString() + ")");
-                Log.Information(" Position: (" + _settings.gui_window_x.ToString() + "," + _settings.gui_window_y.ToString() + ")");
+                Log.Information(" Size: (h = " + _settings.gui_window_height.ToString() + ", w = " + _settings.gui_window_width.ToString() + ")");
+                Log.Information(" Position: (x = " + _settings.gui_window_x.ToString() + ", y = " + _settings.gui_window_y.ToString() + ")");
 
                 this.Height = _settings.gui_window_height;
                 this.Width = _settings.gui_window_width;
@@ -630,48 +634,52 @@ namespace opentuner
                 this.Left = _settings.gui_window_x;
                 this.Top = _settings.gui_window_y;
 
-                //align to current available screens
-                
-                //first: create a virtual screen area as a combination of all screens
-                Rectangle vScreenRect = new Rectangle(0, 0, 0, 0);
-                int vScreenRight = 0;
-                int vScreenBottom = 0;
-                Screen[] screens = System.Windows.Forms.Screen.AllScreens;
-                foreach(Screen s in screens)
+                //align to current available screens if not disabled
+                if (_settings_align)
                 {
-                    Log.Information(s.ToString());
-                    if (s.WorkingArea.Top < vScreenRect.Top)
-                        vScreenRect.Y = s.WorkingArea.Top;
-                    if (s.WorkingArea.Left < vScreenRect.Left)
-                        vScreenRect.X = s.WorkingArea.Left;
-                    if (s.WorkingArea.Bottom > vScreenBottom)
-                        vScreenBottom = s.WorkingArea.Bottom;
-                    if (s.WorkingArea.Right > vScreenRight)
-                        vScreenRight = s.WorkingArea.Right;
+                    //first: create a virtual screen area as a combination of all screens
+                    Rectangle vScreenRect = new Rectangle(0, 0, 0, 0);
+                    int vScreenRight = 0;
+                    int vScreenBottom = 0;
+                    Screen[] screens = System.Windows.Forms.Screen.AllScreens;
+                    foreach (Screen s in screens)
+                    {
+                        Log.Information(s.ToString());
+                        if (s.WorkingArea.Top < vScreenRect.Top)
+                            vScreenRect.Y = s.WorkingArea.Top;
+                        if (s.WorkingArea.Left < vScreenRect.Left)
+                            vScreenRect.X = s.WorkingArea.Left;
+                        if (s.WorkingArea.Bottom > vScreenBottom)
+                            vScreenBottom = s.WorkingArea.Bottom;
+                        if (s.WorkingArea.Right > vScreenRight)
+                            vScreenRight = s.WorkingArea.Right;
 
+                    }
+                    vScreenRect.Height = vScreenBottom - vScreenRect.Top;
+                    vScreenRect.Width = vScreenRight - vScreenRect.Left;
+
+                    //second: if necessary align the gui window to fit into the virual screen area
+                    if (this.Top < vScreenRect.Top)
+                        this.Top = vScreenRect.Top;
+                    if (this.Top > vScreenBottom)
+                        this.Top = vScreenRect.Top;
+                    if (this.Left < vScreenRect.Left)
+                        this.Left = vScreenRect.Left;
+                    if (this.Left > vScreenRight)
+                        this.Left = vScreenRect.Left;
+                    if (this.Right > vScreenRight)
+                        this.Left = vScreenRect.Left;
+                    if (this.Height > vScreenRect.Height)
+                        this.Height = vScreenRect.Height;
+                    if (this.Width > vScreenRect.Width)
+                        this.Width = vScreenRect.Width;
+
+                    // it is intended not to save the aligned position here
+
+                    Log.Information("Aligned Window Positions:");
+                    Log.Information(" Size: (h = " + this.Height.ToString() + ", w = " + this.Width.ToString() + ")");
+                    Log.Information(" Position: (x = " + this.Left.ToString() + ", y = " + this.Top.ToString() + ")");
                 }
-                vScreenRect.Height = vScreenBottom - vScreenRect.Top;
-                vScreenRect.Width = vScreenRight - vScreenRect.Left;
-
-                //second: if necessary align the gui window to fit into the virual screen area
-                if (this.Top < vScreenRect.Top)
-                    this.Top = vScreenRect.Top;
-                if (this.Left < vScreenRect.Left)
-                    this.Left = vScreenRect.Left;
-                if (this.Height > vScreenRect.Height)
-                    this.Height = vScreenRect.Height;
-                if (this.Width > vScreenRect.Width)
-                    this.Width = vScreenRect.Width;
-
-                //third: ensure that the menu bar is visible on one screen
-                //       to make resize etc. possible
-                // not yet implemented (necessary?)
-
-                // it is intended not to save the aligned position here
-
-                Log.Information("Aligned Window Positions:");
-                Log.Information(" Size: (" + _settings.gui_window_height.ToString() + "," + _settings.gui_window_width.ToString() + ")");
-                Log.Information(" Position: (" + _settings.gui_window_x.ToString() + "," + _settings.gui_window_y.ToString() + ")");
             }
 
 
