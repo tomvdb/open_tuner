@@ -74,6 +74,7 @@ namespace opentuner
         SplitterPanel[] video_panels = new SplitterPanel[4];
 
         bool properties_hidden = false;
+        bool ExtraTool_hidden = false;
 
         public void UpdateInfo(StreamInfoContainer info_object, OTSourceData info)
         {
@@ -162,6 +163,14 @@ namespace opentuner
 
                     case "--showproperties":
                         _settings.hide_properties = false;
+                        break;
+
+                    case "--showextratools":
+                        _settings.hide_ExtraTool = false;
+                        break;
+
+                    case "--hideextratools":
+                        _settings.hide_ExtraTool = true;
                         break;
 
                     case "--hidevideoinfo":
@@ -1146,8 +1155,9 @@ namespace opentuner
             //toolstripConnectToggle.Text = "Disconnect Source";
             toolstripConnectToggle.Visible = false;
 
-            // hide/show panel
+            // hide/show panels
             TogglePropertiesPanel(_settings.hide_properties);
+            ToggleExtraToolPanel(_settings.hide_ExtraTool);
 
             return true;
         }
@@ -1347,12 +1357,34 @@ namespace opentuner
             }
         }
 
+        private void ToggleExtraToolPanel(bool hide)
+        {
+            if (hide)
+            {
+                splitContainer2.Panel2.Hide();
+                splitContainer2.Panel2Collapsed = true;
+                ExtraTool_hidden = true;
+            }
+            else
+            {
+                splitContainer2.Panel2.Show();
+                splitContainer2.Panel2Collapsed = false;
+                ExtraTool_hidden = false;
+            }
+        }
+
         public bool PreFilterMessage(ref Message m)
         {
             if (m.Msg == 0X0100 && (Keys)m.WParam.ToInt32() == Keys.P && ModifierKeys == Keys.Control)
             {
                 TogglePropertiesPanel(!properties_hidden);
                 _settings.hide_properties = properties_hidden;
+                return true;
+            }
+            if (m.Msg == 0X0100 && (Keys)m.WParam.ToInt32() == Keys.E && ModifierKeys == Keys.Control)
+            {
+                ToggleExtraToolPanel(!ExtraTool_hidden);
+                _settings.hide_ExtraTool = ExtraTool_hidden;
                 return true;
             }
 
