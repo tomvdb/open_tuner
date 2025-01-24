@@ -112,22 +112,23 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
         }
 
-        private void print_Signal(Sig _sig, int index, string name)
-        {
-            Log.Information(name.ToString() + "[" + index.ToString() + "]");
-            Log.Information(" fft_start    : " + _sig.fft_start.ToString());
-            Log.Information(" fft_centre   : " + _sig.fft_centre.ToString());
-            Log.Information(" fft_stop     : " + _sig.fft_stop.ToString());
-            Log.Information(" fft_strength : " + _sig.fft_strength.ToString());
-            Log.Information(" frequency    : " + _sig.frequency.ToString());
-            Log.Information(" sr           : " + _sig.sr.ToString());
-            Log.Information(" callsign     : " + _sig.callsign.ToString());
-            Log.Information(" text_pos     : " + _sig.text_pos.ToString());
-            Log.Information(" max_strength : " + _sig.max_strength.ToString());
-            Log.Information(" overpower    : " + _sig.overpower.ToString());
-            Log.Information(" dbb          : " + _sig.dbb.ToString());
-            Log.Information("");
-        }
+        //This is for debug only
+        //private void print_Signal(Sig _sig, int index, string name)
+        //{
+            //Log.Information(name.ToString() + "[" + index.ToString() + "]");
+            //Log.Information(" fft_start    : " + _sig.fft_start.ToString());
+            //Log.Information(" fft_centre   : " + _sig.fft_centre.ToString());
+            //Log.Information(" fft_stop     : " + _sig.fft_stop.ToString());
+            //Log.Information(" fft_strength : " + _sig.fft_strength.ToString());
+            //Log.Information(" frequency    : " + _sig.frequency.ToString());
+            //Log.Information(" sr           : " + _sig.sr.ToString());
+            //Log.Information(" callsign     : " + _sig.callsign.ToString());
+            //Log.Information(" text_pos     : " + _sig.text_pos.ToString());
+            //Log.Information(" max_strength : " + _sig.max_strength.ToString());
+            //Log.Information(" overpower    : " + _sig.overpower.ToString());
+            //Log.Information(" dbb          : " + _sig.dbb.ToString());
+            //Log.Information("");
+        //}
 
         public void set_minsr(float _minsr)
         {
@@ -423,7 +424,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                 if (!found)
                 {
-                    print_Signal(signals[x], x, "Removing signal");
+                    //print_Signal(signals[x], x, "Removing signal");
                     signals.Remove(signals[x]);
                 }
             }
@@ -446,7 +447,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
                 if (!found)
                 {
-                    print_Signal(s, x, "Adding signal");
+                    //print_Signal(s, x, "Adding signal");
                     signals.Add(s);
                 }
                 x++;
