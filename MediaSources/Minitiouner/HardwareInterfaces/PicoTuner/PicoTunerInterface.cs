@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using FTD2XX_NET;
 using System.Threading;
-using LibUsbDotNet.Info;
+using LibUsbDotNet;
 using LibUsbDotNet.LibUsb;
 using LibUsbDotNet.Main;
 using System.Collections.ObjectModel;
@@ -19,6 +19,7 @@ namespace opentuner
         const int USB_TIMEOUT = 5000;
 
         static UsbDevice i2c_pt_device;
+        static UsbDevice ts_pt_device;
 
         static UsbEndpointWriter i2cEndPointWriter = null;
         static UsbEndpointReader i2cEndPointReader = null;
@@ -91,9 +92,6 @@ namespace opentuner
 
         public override string GetName => "PicoTuner";
 
-        private UsbContext usbContext = null;
-        private UsbDeviceCollection usbDeviceCollection = null;
-
         private byte Receive_Data_i2c(uint BytesToRead)
         {
             uint QueueTimeOut = 0;
@@ -124,7 +122,7 @@ namespace opentuner
                     Log.Information("Empty Response");
                 }
 
-                if (error == LibUsbDotNet.Error.Success)
+                if (error == ErrorCode.Success)
                 {
                     // first two bytes are ftdi bytes
                     Buffer1Index = 2;
@@ -177,7 +175,7 @@ namespace opentuner
             var error = i2cEndPointWriter.Write(MPSSEbuffer, 0, (int)BytesToSend, USB_TIMEOUT, out NumBytesSent);
 
             // Ensure that call completed OK and that all bytes sent as requested
-            if ((NumBytesSent != NumBytesToSend) || error != LibUsbDotNet.Error.Success)
+            if ((NumBytesSent != NumBytesToSend) || error != ErrorCode.Success)
             {
                 Log.Information("Error: " + error.ToString());
                 Log.Information("Send: " + NumBytesToSend.ToString());
@@ -651,64 +649,82 @@ namespace opentuner
         public override byte hw_init(uint i2c_device, uint ts_device, uint ts_device2)
         {
             byte err = 0;
+            UsbRegDeviceList allDevices = UsbDevice.AllDevices;
 
-
-            usbContext = new UsbContext();
-            usbDeviceCollection = usbContext.List();
-
-            i2c_pt_device = null;
-
-            for (int c = 0; c < usbDeviceCollection.Count;c++)
+            foreach (UsbRegistry usbRegistry in allDevices)
             {
-                if (usbDeviceCollection[c].Info.VendorId == 0x2E8A)
+                string Name = usbRegistry.Name;
+                if (Name.Contains("PicoTuner"))
                 {
-                    i2c_pt_device = (UsbDevice)usbDeviceCollection[c].Clone();
-                    //ts_pt_device = (UsbDevice)usbDeviceCollection[c].Clone();
-                    break;
+                    if (Name.Contains("i2c"))
+                    {
+                        if (!usbRegistry.Open(out i2c_pt_device))
+                        {
+                            Log.Error("PicoTuner I2C device open failed");
+                            hw_close();
+                            return 1;
+                        }
+                    }
+                    else if (Name.Contains("TS"))
+                    {
+                        if (!usbRegistry.Open(out ts_pt_device))
+                        {
+                            Log.Error("PicoTuner TS device open failed");
+                            hw_close();
+                            return 1;
+                        }
+                    }
                 }
             }
-
             if (i2c_pt_device == null)
             {
-                Log.Error("pt device is null");
-                usbDeviceCollection?.Dispose();
-                usbContext?.Dispose();
+                Log.Error("PicoTuner I2C device not found");
+                hw_close();
                 return 1;
             }
 
-            if (i2c_pt_device.TryOpen() )
+            if (ts_pt_device == null)
             {
-                Log.Information("Device Open");
-            }
-            else
-            {
-                Log.Error("Error o2c Device Open");
-                i2c_pt_device?.Dispose();
-                usbDeviceCollection?.Dispose();
-                usbContext?.Dispose();
+                Log.Error("PicoTuner TS device not found");
+                hw_close();
                 return 1;
             }
-                       
-            // got all the info, lets see if we can do something with it
-            bool claim0 = i2c_pt_device.ClaimInterface(i2c_pt_device.Configs[0].Interfaces[0].Number);
-            bool claim1 = i2c_pt_device.ClaimInterface(i2c_pt_device.Configs[0].Interfaces[1].Number);
-
-            Log.Information("Claim 0: " + claim0);
-            Log.Information("Claim 1: " + claim1);
 
             i2cEndPointWriter = i2c_pt_device.OpenEndpointWriter(WriteEndpointID.Ep02);
+            if (i2cEndPointWriter == null)
+            {
+                Log.Error("PicoTuner i2c WriteEndpoint not found");
+                hw_close();
+                return 1;
+            }
+            Log.Information("I2C Endpoint Writer : " + i2cEndPointWriter.EndpointInfo.ToString());//EndpointAddress.ToString("X"));
+
             i2cEndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep01);
+            if (i2cEndPointReader == null)
+            {
+                Log.Error("PicoTuner i2c ReadEndpoint not found");
+                hw_close();
+                return 1;
+            }
+            Log.Information("I2C Endpoint Reader : " + i2cEndPointReader.EndpointInfo.ToString());//     EndpointAddress.ToString("X"));
 
-            Log.Information("I2C Endpoint Reader Address : " + i2cEndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
-            Log.Information("I2C Endpoint Writer Address : " + i2cEndPointWriter.EndpointInfo.EndpointAddress.ToString("X"));
+            ts2EndPointReader = ts_pt_device.OpenEndpointReader(ReadEndpointID.Ep03);
+            if (ts2EndPointReader == null)
+            {
+                Log.Error("PicoTuner TS2 ReadEndpoint not found");
+                hw_close();
+                return 1;
+            }
+            Log.Information("TS2 Endpoint Reader : " + ts2EndPointReader.EndpointInfo.ToString());//EndpointAddress.ToString("X"));
 
-            ts2EndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep03);
-            ts1EndPointReader = i2c_pt_device.OpenEndpointReader(ReadEndpointID.Ep04);
-
-            Log.Information("TS2 Endpoint Reader Address : " + ts2EndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
-            Log.Information("TS1 Endpoint Reader Address : " + ts1EndPointReader.EndpointInfo.EndpointAddress.ToString("X"));
-
-            Log.Information(i2c_pt_device.IsOpen.ToString());
+            ts1EndPointReader = ts_pt_device.OpenEndpointReader(ReadEndpointID.Ep04);
+            if (ts1EndPointReader == null)
+            {
+                Log.Error("PicoTuner TS1 ReadEndpoint not found");
+                hw_close();
+                return 1;
+            }
+            Log.Information("TS1 Endpoint Reader : " + ts1EndPointReader.EndpointInfo.ToString());//EndpointAddress.ToString("X"));
 
             err = ftdi_set_mpsse_mode(null);
             if (err == 0) err = ftdi_set_ftdi_io(null);
@@ -719,9 +735,13 @@ namespace opentuner
 
         public override void hw_close()
         {
-            i2c_pt_device?.Dispose();
-            usbDeviceCollection?.Dispose();
-            usbContext?.Dispose();
+            ts1EndPointReader?.Dispose();
+            ts2EndPointReader?.Dispose();
+            i2c_pt_device?.Close();
+            ts_pt_device?.Close();
+            // Free usb resources.
+            // This is necessary for libusb-1.0 and Linux compatibility.
+            UsbDevice.Exit();
         }
 
         byte gpio_write(byte pin_id, bool pin_value)
@@ -763,7 +783,7 @@ namespace opentuner
 
             int iBytesRead = 0;
 
-            LibUsbDotNet.Error error;
+            ErrorCode error;
 
             if (device == TS2)
             {
@@ -774,7 +794,7 @@ namespace opentuner
                 error = ts1EndPointReader.Read(readdata, USB_TIMEOUT, out iBytesRead);
             }
 
-            if (error != LibUsbDotNet.Error.Success)
+            if (error != ErrorCode.Success)
             {
                 Log.Information("TS Read Error" + error.ToString());
                 return 1;
