@@ -856,12 +856,12 @@ namespace opentuner
                 {
                     if (lnb_num == 0)
                     {
-                        Log.Information("Enable LNB1 VSEL");
+                        Log.Information("Enable LNB2 VSEL");
                         gpio_write(GPIO_LNB2_VSEL, true);
                     }
                     else
                     {
-                        Log.Information("Enable LNB2 VSEL");
+                        Log.Information("Enable LNB1 VSEL");
                         gpio_write(GPIO_LNB1_VSEL, true);
                     }
                 }
@@ -869,12 +869,12 @@ namespace opentuner
                 {
                     if (lnb_num == 0)
                     {
-                        Log.Information("Disable LNB1 VSEL");
+                        Log.Information("Disable LNB2 VSEL");
                         gpio_write(GPIO_LNB2_VSEL, false);
                     }
                     else
                     {
-                        Log.Information("Disable LNB2 VSEL");
+                        Log.Information("Disable LNB1 VSEL");
                         gpio_write(GPIO_LNB1_VSEL, false);
                     }
                 }
