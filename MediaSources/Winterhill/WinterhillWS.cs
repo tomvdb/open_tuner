@@ -18,6 +18,10 @@ namespace opentuner.MediaSources.Winterhill
         private WebSocket monitorWS;        // longmynd monitor ws websocket
         private bool controlDisconnect;
         private bool monitorDisconnect;
+        private bool controlConnected;
+        private bool monitorConnected;
+        private bool controlClosed;
+        private bool monitorClosed;
 
         private void WSSetFrequency(int device, int freq, int sr)
         {           
@@ -42,7 +46,9 @@ namespace opentuner.MediaSources.Winterhill
             monitorWS.OnClose += Monitorws_OnClose;
             monitorWS.OnError += MonitorWS_OnError;
             monitorWS.ConnectAsync();
-            monitorDisconnect = false;
+            monitorDisconnect = true;
+            monitorConnected = false;
+            monitorClosed = false;
 
             controlWS = new WebSocket(url, "control");
             controlWS.OnClose += Controlws_OnClose;
@@ -50,7 +56,9 @@ namespace opentuner.MediaSources.Winterhill
             controlWS.OnOpen += Controlws_OnOpen;
             controlWS.OnError += ControlWS_OnError;
             controlWS.ConnectAsync();
-            controlDisconnect = false;
+            controlDisconnect = true;
+            controlConnected = false;
+            controlClosed = false;
         }
 
         private void ControlWS_OnError(object sender, ErrorEventArgs e)
@@ -63,26 +71,10 @@ namespace opentuner.MediaSources.Winterhill
             debug("MonitorWS_OnError: " + e.ToString());
         }
 
-        private void OnTimeoutEvent(object sender, ElapsedEventArgs e)
-        {
-            debug("Monitor WS Timeout");
-            WebSocketTimeout();
-            if (monitorWS.IsAlive)
-            {
-                debug("Closing Monitor WS");
-                monitorWS.Close();
-            }
-            _connected = false;
-            if (controlWS.IsAlive)
-            {
-                debug("Closing Control WS");
-                controlWS.Close();
-            }
-        }
-
         private void Monitorws_OnOpen(object sender, EventArgs e)
         {
             debug("Success: Monitor WS Open");
+            monitorConnected = true;
             _connected = true;
         }
 
@@ -96,6 +88,7 @@ namespace opentuner.MediaSources.Winterhill
         private void Controlws_OnOpen(object sender, EventArgs e)
         {
             debug("Success: Control WS Open");
+            controlConnected = true;
         }
 
 
@@ -113,6 +106,7 @@ namespace opentuner.MediaSources.Winterhill
             }
             else
             {
+                controlClosed = true;
                 debug("Control WS Closed");
             }
         }
@@ -127,6 +121,7 @@ namespace opentuner.MediaSources.Winterhill
             }
             else
             {
+                monitorClosed = true;
                 debug("Monitor WS Closed");
             }
         }

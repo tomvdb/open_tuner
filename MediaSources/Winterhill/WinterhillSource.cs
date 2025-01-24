@@ -107,6 +107,25 @@ namespace opentuner.MediaSources.Winterhill
                     ts_devices = 4;
                     hw_device = 1;
 
+                    while (!_connected)
+                    {
+                        if (monitorConnected && controlConnected)
+                            _connected = true;
+
+                        if (!_connected)
+                        {
+                            Log.Information("Waiting on websockets to connect");
+                            Thread.Sleep(1000);
+                            if (monitorClosed || controlClosed)
+                            {
+                                DisconnectWebsockets();
+                                return -1;
+                            }
+                        }
+                    }
+                    monitorDisconnect = false;
+                    controlDisconnect = false;
+
                     break;
                 case 2: // udp pico wh
                     udp_port = _settings.WinterhillUdpBasePort;
@@ -119,15 +138,6 @@ namespace opentuner.MediaSources.Winterhill
                     ts_devices = 2;
                     hw_device = 2;
                     break;
-            }
-
-            while (!_connected)
-            {
-                Thread.Sleep(500);
-                if (!_connected)
-                {
-                    Log.Information("Waiting on websockets to connect");
-                }
             }
 
             // open udp ts ports
