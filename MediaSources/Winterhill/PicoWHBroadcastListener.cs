@@ -38,14 +38,14 @@ namespace opentuner.MediaSources.Winterhill
         public void ListenerThread()
         {
             int port = 9997;
-        
+
             while (!CloseThread)
             {
 
                 //Log.Information("Listening for PicoTuner (WH) Broadcasts");
                 
                 try
-                { 
+                {
                     IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, port);
                     byte[] data = listener.Receive(ref remoteEndPoint);
 
@@ -55,16 +55,18 @@ namespace opentuner.MediaSources.Winterhill
 
                     //Log.Information(remoteEndPoint.ToString());
                     //Log.Information(receivedMessage);
-                } 
+                }
+                catch (ThreadAbortException)
+                {
+                    //Log.Information("Broadcast Listener Thread: Closed");
+                    Thread.ResetAbort();
+                }
                 catch (Exception)
                 {
                 }
-                
-
-             }
-
+            }
             listener.Close();
-            Log.Information("Broadcast Listener Thread Closed");
+            Log.Information("Broadcast Listener Closed");
         }
     }
 }
