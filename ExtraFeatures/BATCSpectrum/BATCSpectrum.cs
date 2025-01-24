@@ -86,7 +86,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         List<string> blocks = new List<string>();
 
         socket web_socket;
-        signal sigs;
+        Signal sigs;
 
         private PictureBox _spectrum;
         private int _tuners;
@@ -193,9 +193,8 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             // try to connect
             web_socket.start();
 
-            sigs = new signal(list_lock);
+            sigs = new Signal(list_lock);
             sigs.debug += debug;
-            sigs.set_num_rx(Tuners);
 
             websocketTimer = new System.Windows.Forms.Timer();
             websocketTimer.Interval = 2000;
@@ -351,7 +350,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             }
         }
 
-        private void drawspectrum_signals(List<signal.Sig> signals)
+        private void drawspectrum_signals(List<Signal.Sig> signals)
         {
             float spectrum_w = _spectrum.Width;
             float spectrum_wScale = spectrum_w / fft_data_length;
@@ -359,7 +358,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             lock (list_lock)        //hopefully lock signals list while drawing
             {
                 //draw the text for each signal found
-                foreach (signal.Sig s in signals)
+                foreach (Signal.Sig s in signals)
                 {
                     float textPosX = Convert.ToSingle(s.fft_strength / height + 50);
                     if (textPosX > height)
@@ -686,7 +685,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     {
                         case 1: // Auto (Hold)
                         case 2: // Auto (Next new)
-                            signal.Sig ret = sigs.findSameSignal(rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
+                            Signal.Sig ret = sigs.findSameSignal(rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
                             if (ret.frequency > 0)      //above 0 signal found
                             {
                                 Log.Information("same Signal: " + ret.frequency.ToString() + ", " + ret.sr.ToString());
@@ -718,7 +717,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     case 2: // Auto (Next new)
                         if (rx_blocks[i].signalLost)
                         {
-                            signal.Sig ret = sigs.findNextNearestSignal(sig_tuned, rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
+                            Signal.Sig ret = sigs.findNextNearestSignal(sig_tuned, rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
                             if (ret.frequency > 0)      //above 0 signal found
                             {
                                 if ((t > TimeSpan.FromSeconds(spectrumSettings.autoHoldTimeValue)) ||
@@ -737,7 +736,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     case 3: // Auto (Timed)
                         if (t > TimeSpan.FromSeconds(spectrumSettings.autoTuneTimeValue) || rx_blocks[i].signalLost)
                         {
-                            signal.Sig ret = sigs.findNextSignalTimed(rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
+                            Signal.Sig ret = sigs.findNextSignalTimed(rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
                             if (ret.frequency > 0)      //above 0 signal found
                             {
                                 if (0 != sigs.compareFrequency(ret.frequency, rx_blocks[i].frequency, rx_blocks[i].sr))
@@ -766,7 +765,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     TimeSpan t = DateTime.Now - rx_blocks[i].dateTime;
                     if (t > TimeSpan.FromSeconds(spectrumSettings.autoTuneTimeValue) || rx_blocks[i].signalLost)
                     {
-                        signal.Sig ret = sigs.findNextNewSignal(sig_tuned, rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
+                        Signal.Sig ret = sigs.findNextNewSignal(sig_tuned, rx_blocks[i].frequency, rx_blocks[i].sr, spectrumSettings.avoidBeacon[i], spectrumSettings.treshHold);
                         if (ret.frequency > 0)      //above 0 signal found
                         {
                             if (0 != sigs.compareFrequency(ret.frequency, rx_blocks[i].frequency, rx_blocks[i].sr))
@@ -843,9 +842,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             try
             {
-                List<signal.Sig> signals = new List<signal.Sig>(sigs.signals);
+                List<Signal.Sig> signals = new List<Signal.Sig>(sigs.signals);
 
-                foreach (signal.Sig s in signals)
+                foreach (Signal.Sig s in signals)
                 {
                     if ((X / spectrum_wScale) > s.fft_start & (X / spectrum_wScale) < s.fft_stop)
                     {
@@ -874,7 +873,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         int spectrumTunerHighlight = -1;
 
-        private bool check_mouse_over_signal(signal.Sig s)
+        private bool check_mouse_over_signal(Signal.Sig s)
         {
             int spectrum_h = _spectrum.Height - bandplan_height;
             float spectrum_w = _spectrum.Width;

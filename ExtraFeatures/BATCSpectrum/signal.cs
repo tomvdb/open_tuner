@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace opentuner.ExtraFeatures.BATCSpectrum
 {
-    class signal
+    internal class Signal
     {
         public int beacon_strength = -1;
 
@@ -66,10 +66,9 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         public List<Sig> signals = new List<Sig>();         // actual list of signals (processed)
 
         private const double start_freq = 10490.4754901;
-        float minsr = 0.033f;
-        int num_rx = 1;
+        float minsr = 0.065f;
 
-        public signal(object _list_lock)
+        public Signal(object _list_lock)
         {
             list_lock = _list_lock;
         }
@@ -133,11 +132,6 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
         public void set_minsr(float _minsr)
         {
             minsr = _minsr;
-        }
-
-        public void set_num_rx(int _num_rx)
-        {
-            num_rx = _num_rx;
         }
 
         public bool signalLost(double frequency, float sr, bool avoidBeacon)
@@ -552,13 +546,13 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                             strength_signal = acc / acc_i;
 
                             /* Find real start of top of signal */
-                            for (j = start_signal; (fft_data[j] - noise_level) < 0.75f * (strength_signal - noise_level); j++)
+                            for (j = start_signal; (fft_data[j] - noise_level) < 0.725f * (strength_signal - noise_level); j++)
                             {
                                 start_signal = j;
                             }
 
                             /* Find real end of the top of signal */
-                            for (j = end_signal; (fft_data[j] - noise_level) < 0.75f * (strength_signal - noise_level); j--)
+                            for (j = end_signal; (fft_data[j] - noise_level) < 0.725f * (strength_signal - noise_level); j--)
                             {
                                 end_signal = j;
                             }
@@ -626,47 +620,51 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
         public float align_symbolrate(float width)
         {
-            if (width < 0.022f)
+            if (width < 0.020f)
             {
                 return 0;
+            }
+            if (width < 0.030f)
+            {
+                return 0.025f;
             }
             else if (width < 0.060f)
             {
                 return 0.033f;
             }
-            else if (width < 0.086f)
+            else if (width < 0.099f)
             {
                 return 0.066f;
             }
-            else if (width < 0.185f)
+            else if (width < 0.190f)
             {
                 return 0.125f;
             }
-            else if (width < 0.277f)
+            else if (width < 0.292f)
             {
                 return 0.250f;
             }
-            else if (width < 0.388f)
+            else if (width < 0.417f)
             {
                 return 0.333f;
             }
-            else if (width < 0.7f)
+            else if (width < 0.625f)
             {
                 return 0.500f;
             }
-            else if (width < 0.85f)
+            else if (width < 0.875f)
             {
                 return 0.750f;
             }
-            else if (width < 1.2f)
+            else if (width < 1.25f)
             {
                 return 1.000f;
             }
-            else if (width < 1.6f)
+            else if (width < 1.75f)
             {
                 return 1.500f;
             }
-            else if (width < 2.2f)
+            else if (width < 2.5f)
             {
                 return 2.000f;
             }
