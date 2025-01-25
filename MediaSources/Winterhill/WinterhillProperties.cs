@@ -118,8 +118,8 @@ namespace opentuner.MediaSources.Winterhill
             else
             {
                 _source_properties.UpdateValue("hardware", "Picotuner (ETH)");
-                _source_properties.AddItem("hw_lnba", "LNB Power Supply", _genericContextStrip);
-                //_source_properties.AddItem("hw_lnbb", "LNB-B Power Supply", _genericContextStrip);
+                _source_properties.AddItem("hw_lnba", "LNB-A Power Supply", _genericContextStrip);
+                _source_properties.AddItem("hw_lnbb", "LNB-B Power Supply", _genericContextStrip);
             }
 
             _tuner_forms = new List<TunerControlForm>();
