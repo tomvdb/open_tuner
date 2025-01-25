@@ -1016,12 +1016,26 @@ namespace opentuner
         {
             int video_nr = (int)((Control)sender).Tag;
 
-            // restore info_display changed by first mouse click
-            if (info_display[video_nr] != null)
-                _settings.show_video_overlays[video_nr] = info_display[video_nr].Visible = !info_display[video_nr].Visible;
+            if (e.Button == MouseButtons.Left)
+            {
+                // restore info_display changed by first mouse click
+                if (info_display[video_nr] != null)
+                    _settings.show_video_overlays[video_nr] = info_display[video_nr].Visible = !info_display[video_nr].Visible;
 
-            if (videoSource.GetVideoSourceCount() > 1 && _settings.mediaplayer_windowed[video_nr] == false)
-                changeView(video_nr);
+                if (videoSource.GetVideoSourceCount() > 1 && _settings.mediaplayer_windowed[video_nr] == false)
+                    changeView(video_nr);
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                if (info_display.Count > video_nr)
+                {
+                    videoSource.ToggleMute(video_nr);
+                    if (volume_display.Count > video_nr)
+                    {
+                        volume_display[video_nr].UpdateVolume(videoSource.GetVolume(video_nr));
+                    }
+                }
+            }
         }
 
         // configure TS recorders
