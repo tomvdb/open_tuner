@@ -624,7 +624,7 @@ namespace opentuner
 
             if (_settings.gui_window_width != -1)
             {
-                Log.Information("Restoring Window Positions:");
+                Log.Information("Restoring Window Position:");
                 Log.Information(" Size: (h = " + _settings.gui_window_height.ToString() + ", w = " + _settings.gui_window_width.ToString() + ")");
                 Log.Information(" Position: (x = " + _settings.gui_window_x.ToString() + ", y = " + _settings.gui_window_y.ToString() + ")");
 
@@ -637,6 +637,9 @@ namespace opentuner
                 //align to current available screens if not disabled
                 if (_settings_align)
                 {
+                    bool reposition = false;
+                    Size MainScreen_Size = new Size(new Point(640, 480));
+
                     //first: create a virtual screen area as a combination of all screens
                     Rectangle vScreenRect = new Rectangle(0, 0, 0, 0);
                     int vScreenRight = 0;
@@ -645,6 +648,8 @@ namespace opentuner
                     foreach (Screen s in screens)
                     {
                         Log.Information(s.ToString());
+                        if (s.WorkingArea.Top == 0)
+                            MainScreen_Size = s.WorkingArea.Size;
                         if (s.WorkingArea.Top < vScreenRect.Top)
                             vScreenRect.Y = s.WorkingArea.Top;
                         if (s.WorkingArea.Left < vScreenRect.Left)
@@ -660,23 +665,27 @@ namespace opentuner
 
                     //second: if necessary align the gui window to fit into the virual screen area
                     if (this.Top < vScreenRect.Top)
-                        this.Top = vScreenRect.Top;
+                        reposition = true;
                     if (this.Top > vScreenBottom)
-                        this.Top = vScreenRect.Top;
+                        reposition = true;
                     if (this.Left < vScreenRect.Left)
-                        this.Left = vScreenRect.Left;
+                        reposition = true;
                     if (this.Left > vScreenRight)
-                        this.Left = vScreenRect.Left;
+                        reposition = true;
                     if (this.Right > vScreenRight)
-                        this.Left = vScreenRect.Left;
-                    if (this.Height > vScreenRect.Height)
-                        this.Height = vScreenRect.Height;
-                    if (this.Width > vScreenRect.Width)
-                        this.Width = vScreenRect.Width;
+                        reposition = true;
+
+                    if (reposition)
+                    {
+                        this.Top = 0;
+                        this.Left = 0;
+                        this.Height = MainScreen_Size.Height;
+                        this.Width = MainScreen_Size.Width;
+                    }
 
                     // it is intended not to save the aligned position here
 
-                    Log.Information("Aligned Window Positions:");
+                    Log.Information("Aligned Window Position:");
                     Log.Information(" Size: (h = " + this.Height.ToString() + ", w = " + this.Width.ToString() + ")");
                     Log.Information(" Position: (x = " + this.Left.ToString() + ", y = " + this.Top.ToString() + ")");
                 }
