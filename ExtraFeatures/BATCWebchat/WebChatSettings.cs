@@ -16,6 +16,7 @@ namespace opentuner.ExtraFeatures.BATCWebchat
         public int gui_chat_height = 500;
         public int gui_chat_x = 0;
         public int gui_chat_y = 0;
+        public int gui_chat_windowstate = 0;
         public int gui_chat_seperator = 180;
     }
 }

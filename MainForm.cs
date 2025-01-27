@@ -542,6 +542,12 @@ namespace opentuner
             Log.Information("* Saving Settings");
 
             // save current windows properties
+            _settings.gui_window_state = (int)this.WindowState;
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                _settings.gui_window_state = (int)FormWindowState.Normal;
+            }
+            this.WindowState = FormWindowState.Normal;
             _settings.gui_window_width = this.Width;
             _settings.gui_window_height = this.Height;
             _settings.gui_window_x = this.Left;
@@ -681,6 +687,11 @@ namespace opentuner
                         this.Left = 0;
                         this.Height = MainScreen_Size.Height;
                         this.Width = MainScreen_Size.Width;
+                        this.WindowState = FormWindowState.Normal;
+                    }
+                    else
+                    {
+                        this.WindowState = (FormWindowState)_settings.gui_window_state;
                     }
 
                     // it is intended not to save the aligned position here
