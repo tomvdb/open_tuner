@@ -9,6 +9,7 @@ using opentuner.MediaSources;
 using Serilog;
 using System.Windows.Forms;
 using opentuner.ExtraFeatures.BATCSpectrum;
+using System.Runtime;
 
 namespace opentuner.ExtraFeatures.BATCWebchat
 {
@@ -18,9 +19,6 @@ namespace opentuner.ExtraFeatures.BATCWebchat
         private WebChatSettings wc_settings;
         SettingsManager<WebChatSettings> wc_settingsManager;
         public BATCChat(OTSource Source) {
-            bool reposition = false;
-            Size MainScreen_Size = new Size(new Point(640, 480));
-
             // webchat settings
             wc_settings = new WebChatSettings();
             wc_settingsManager = new SettingsManager<WebChatSettings>("qo100_webchat_settings");
@@ -39,42 +37,57 @@ namespace opentuner.ExtraFeatures.BATCWebchat
             {
                 _form.Size = new Size(wc_settings.gui_chat_width, wc_settings.gui_chat_height);
             }
+            else
+            {
+                wc_settings.gui_chat_width = _form.Size.Width;
+                wc_settings.gui_chat_height = _form.Size.Height;
+            }
             _form.Location = new Point(wc_settings.gui_chat_x, wc_settings.gui_chat_y);
 
-            //first: create a virtual screen area as a combination of all screens
-            Rectangle vScreenRect = new Rectangle(0, 0, 0, 0);
-            int vScreenRight = 0;
-            int vScreenBottom = 0;
+            bool reposition = true;
+
+            int wHeight = wc_settings.gui_chat_height;
+            int wWidth = wc_settings.gui_chat_width;
+            int wTop = wc_settings.gui_chat_y;
+            int wLeft = wc_settings.gui_chat_x;
+            int wBottom = wTop + wHeight;
+            int wRight = wLeft + wWidth;
+
             Screen[] screens = System.Windows.Forms.Screen.AllScreens;
+            Size MainScreen_Size = new Size(new Point(640, 480));
+
             foreach (Screen s in screens)
             {
                 Log.Information(s.ToString());
                 if (s.WorkingArea.Top == 0)
                     MainScreen_Size = s.WorkingArea.Size;
-                if (s.WorkingArea.Top < vScreenRect.Top)
-                    vScreenRect.Y = s.WorkingArea.Top;
-                if (s.WorkingArea.Left < vScreenRect.Left)
-                    vScreenRect.X = s.WorkingArea.Left;
-                if (s.WorkingArea.Bottom > vScreenBottom)
-                    vScreenBottom = s.WorkingArea.Bottom;
-                if (s.WorkingArea.Right > vScreenRight)
-                    vScreenRight = s.WorkingArea.Right;
-
+                // fit window on screen?
+                if (s.WorkingArea.Top <= wTop &&
+                    s.WorkingArea.Bottom >= wBottom &&
+                    s.WorkingArea.Left <= wLeft &&
+                    s.WorkingArea.Right >= wRight)
+                {
+                    // yes: nothing to do
+                    reposition = false;
+                    break;
+                }
+                // window within screen?
+                if (s.WorkingArea.Top <= wTop &&
+                    wTop < s.WorkingArea.Bottom &&
+                    s.WorkingArea.Left <= wLeft &&
+                    wLeft < s.WorkingArea.Right)
+                {
+                    // yes: realign window to this screen
+                    if (s.WorkingArea.Width < wWidth)
+                        wWidth = s.WorkingArea.Width;
+                    if (s.WorkingArea.Height < wHeight)
+                        wHeight = s.WorkingArea.Height;
+                    _form.Top = s.WorkingArea.Top + ((s.WorkingArea.Height - wHeight) / 2);
+                    _form.Left = s.WorkingArea.Left + ((s.WorkingArea.Width - wWidth) / 2);
+                    reposition = false;
+                    break;
+                }
             }
-            vScreenRect.Height = vScreenBottom - vScreenRect.Top;
-            vScreenRect.Width = vScreenRight - vScreenRect.Left;
-
-            //second: if necessary align the gui window to fit into the virual screen area
-            if (_form.Top < vScreenRect.Top)
-                reposition = true;
-            if (_form.Top > vScreenBottom)
-                reposition = true;
-            if (_form.Left < vScreenRect.Left)
-                reposition = true;
-            if (_form.Left > vScreenRight)
-                reposition = true;
-            if (_form.Right > vScreenRight)
-                reposition = true;
 
             if (reposition)
             {
