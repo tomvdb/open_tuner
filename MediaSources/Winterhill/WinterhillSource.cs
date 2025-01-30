@@ -91,7 +91,7 @@ namespace opentuner.MediaSources.Winterhill
                 }
                 else
                 {
-                    return -1;
+                    return 0;   // canceled
                 }
             }
 
@@ -286,6 +286,8 @@ namespace opentuner.MediaSources.Winterhill
 
         public override void Close()
         {
+            _Ready = false;
+
             Log.Information("Closing Winterhill Source");
 
             int defaultInterface = _settings.DefaultInterface;
@@ -385,9 +387,10 @@ namespace opentuner.MediaSources.Winterhill
         public override string GetDescription()
         {
             return "Winterhill Client, Compatible with:" +
-            Environment.NewLine + Environment.NewLine +
-            "ZR6TG - WH Variant (websocket)" + Environment.NewLine +
-            "G4EWJ - PicoTuner WH (Ethernet)" + Environment.NewLine;
+                    Environment.NewLine + Environment.NewLine +
+                    "ZR6TG - WH Variant (websocket)" +
+					Environment.NewLine +
+                    "G4EWJ - PicoTuner WH (Ethernet)" + Environment.NewLine;
 
         }
 
@@ -451,7 +454,6 @@ namespace opentuner.MediaSources.Winterhill
             SetFrequency(device, (uint)_current_frequency[device], (uint)_current_sr[device], false);
         }
 
-
         public override void SetFrequency(int device, uint frequency, uint symbol_rate, bool offset_included)
         {
             Log.Information("SetFrequency: " + device.ToString() + "," + frequency.ToString() + "," + symbol_rate.ToString() + "," + offset_included.ToString());
@@ -467,7 +469,6 @@ namespace opentuner.MediaSources.Winterhill
                     case 2: UDPSetFrequency(device, (int)frequency, (int)symbol_rate);
                         break;
                 }
-
             }
             else
             {
@@ -479,7 +480,6 @@ namespace opentuner.MediaSources.Winterhill
                         break;
                 }
             }
-
         }
 
         public override void ShowSettings()
@@ -490,7 +490,6 @@ namespace opentuner.MediaSources.Winterhill
             {
                 _settingsManager.SaveSettings(_settings);
             }
-
         }
 
         public override void StartStreaming(int device)

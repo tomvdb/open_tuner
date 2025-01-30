@@ -134,7 +134,7 @@ namespace opentuner.MediaSources.Minitiouner
             DynamicPropertyGroup dynamicPropertyGroup = new DynamicPropertyGroup("Tuner " +  tuner.ToString(), _parent);
             dynamicPropertyGroup.setID(tuner);
             dynamicPropertyGroup.OnSlidersChanged += DynamicPropertyGroup_OnSliderChanged;
-            dynamicPropertyGroup.OnMediaButtonPressed += DynamicPropertyGroup_OnMediaButtonPressed;
+            dynamicPropertyGroup.OnMediaButtonPressed += MinitiounerSource_OnMediaButtonPressed;
             dynamicPropertyGroup.AddItem("demodstate", "Demod State", Color.PaleVioletRed);
             dynamicPropertyGroup.AddItem("mer", "Mer");
             //dynamicPropertyGroup.AddItem("db_margin", "db Margin");
@@ -177,7 +177,7 @@ namespace opentuner.MediaSources.Minitiouner
 //            indicatorInput &= (byte)~(1 << (int)indicator);
 //        }
 
-        private void DynamicPropertyGroup_OnMediaButtonPressed(string key, int function)
+        private void MinitiounerSource_OnMediaButtonPressed(string key, int function)
         {
             int tuner = 0;
 

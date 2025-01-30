@@ -274,14 +274,16 @@ namespace opentuner.MediaSources.Minitiouner
 
                     if (hw_ask.ShowDialog() == DialogResult.OK)
                     {
-                        switch(hw_ask.comboHardwareSelect.SelectedIndex)
+                        switch (hw_ask.comboHardwareSelect.SelectedIndex)
                         {
                             case 0: hardware_interface = new FTDIInterface(); break;
                             case 1: hardware_interface = new PicoTunerInterface(); break;
                         }
                     }
-                    else return -1;
-
+                    else
+                    {
+                        return 0;   // canceled
+                    }
                     break;
                 case 1: hardware_interface = new FTDIInterface(); break;
                 case 2: hardware_interface = new PicoTunerInterface(); break;
@@ -750,6 +752,8 @@ namespace opentuner.MediaSources.Minitiouner
 
         public override void Close()
         {
+            Log.Information("Closing Minitiouner Source");
+
             _settingsManager.SaveSettings(_settings);
 
             // switch off TS led's
@@ -812,7 +816,7 @@ namespace opentuner.MediaSources.Minitiouner
 
         public override void InvokeOnMediaButtonPressed(string key, int function)
         {
-            DynamicPropertyGroup_OnMediaButtonPressed(key, function);
+            MinitiounerSource_OnMediaButtonPressed(key, function);
         }
 
         public override string GetMoreInfoLink()
