@@ -362,6 +362,11 @@ namespace opentuner
                 MessageBox.Show("Error Connecting MediaSource: " + videoSource.GetName());
                 return false;
             }
+            else if (video_players_required == 0)
+            {
+                Log.Information("Connecting MediaSource canceled: " + videoSource.GetName());
+                return false;
+            }
 
             this.Text = this.Text += " - " + videoSource.GetDeviceName();
 
