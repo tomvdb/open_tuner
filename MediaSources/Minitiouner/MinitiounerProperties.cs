@@ -103,7 +103,7 @@ namespace opentuner.MediaSources.Minitiouner
             }
             else
             {
-                _tuner1_properties.UpdateMuteButtonColor("media_controls_0", Color.PaleVioletRed);
+                _tuner1_properties.UpdateValue("volume_slider_0", "0");
                 _settings.DefaultVolume[0] = (uint)preMute[0];  // restore as changed by update volume_slider function
                 _tuner1_properties.UpdateMuteButtonColor("media_controls_0", Color.PaleVioletRed);
             }
@@ -426,7 +426,7 @@ namespace opentuner.MediaSources.Minitiouner
             }
 
             // db margin / modcod
-            string modcod_text = "Unknown";
+            string modcod_text = "";
             string db_margin_text = "";
             try
             {
@@ -467,6 +467,7 @@ namespace opentuner.MediaSources.Minitiouner
             source_data.service_name = _tuner1_properties.GetValue("service_name");
             source_data.demod_locked = (new_status.T1P2_demod_status > 1);
             source_data.symbol_rate = (int)(new_status.T1P2_symbol_rate / 1000);
+            source_data.modcode = modcod_text;
 
             if (_media_player.Count > 0)
             {
@@ -534,7 +535,7 @@ namespace opentuner.MediaSources.Minitiouner
                 }
 
                 // db margin / modcod
-                modcod_text = "Unknown";
+                modcod_text = "";
                 db_margin_text = "";
                 try
                 {
@@ -575,6 +576,7 @@ namespace opentuner.MediaSources.Minitiouner
                 source_data_2.service_name = _tuner2_properties.GetValue("service_name");
                 source_data_2.demod_locked = (new_status.T2P1_demod_status > 1);
                 source_data_2.symbol_rate = (int)(new_status.T2P1_symbol_rate / 1000);
+                source_data_2.modcode = modcod_text;
 
                 if (_media_player.Count > 1)
                 {

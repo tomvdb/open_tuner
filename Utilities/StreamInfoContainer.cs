@@ -53,10 +53,12 @@ namespace opentuner.Utilities
             string locked_info = last_info_data.service_name + " - " +
                 " D" + last_info_data.db_margin.ToString("F1");
 
-            info = 
+            info =
                 "MER: " + last_info_data.mer.ToString("F1") + " dB - " +
                 last_info_data.frequency.ToString("N0", CultureInfo.InvariantCulture) +
                 " - " + last_info_data.symbol_rate.ToString();
+            if (last_info_data.modcode != "")
+                info = info + " - " + last_info_data.modcode;
 
             int x_pos = 2;
             int y_pos = 5;

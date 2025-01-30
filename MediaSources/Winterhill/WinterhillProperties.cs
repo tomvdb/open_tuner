@@ -617,6 +617,7 @@ namespace opentuner.MediaSources.Winterhill
                     source_data.symbol_rate = symbol_rate_i;
                     source_data.demod_locked = (rx.scanstate == 2 || rx.scanstate == 3);
                     source_data.service_name = rx.service_name;
+                    source_data.modcode = rx.modcod;
 
                     if (_media_player.Count() > c)
                     {
