@@ -88,7 +88,7 @@ namespace opentuner.MediaSources.Winterhill
                             case "DVB-S2":
                                 mm.rx[receiver].scanstate = 2;
                                 break;
-                            case "DVB-S1":
+                            case "DVB-S":
                                 mm.rx[receiver].scanstate = 3;
                                 break;
                             case "header":
