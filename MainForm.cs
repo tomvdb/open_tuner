@@ -60,7 +60,6 @@ namespace opentuner
         private SettingsManager<MainSettings> _settingsManager;
 
         private bool _settings_save = true;
-        private bool _settings_align = true;
 
         SettingsManager<List<StoredFrequency>> frequenciesManager;
 
@@ -107,9 +106,6 @@ namespace opentuner
             {
                 switch (args[i])
                 {
-                    case "--nowindowalign":
-                        _settings_align = false;
-                        break;
                     case "--nosave":
                         _settings_save = false;
                         break;
@@ -645,76 +641,8 @@ namespace opentuner
                 this.Left = _settings.gui_window_x;
                 this.Top = _settings.gui_window_y;
 
-                //align to current available screens if not disabled
-                if (_settings_align)
-                {
-                    bool reposition = true;
-
-                    int wHeight = _settings.gui_window_height;
-                    int wWidth = _settings.gui_window_width;
-                    int wTop = _settings.gui_window_y;
-                    int wLeft = _settings.gui_window_x;
-                    int wBottom = wTop + wHeight;
-                    int wRight = wLeft + wWidth;
-
-                    Size MainScreen_Size = new Size(new Point(640, 480));
-                    Screen[] screens = System.Windows.Forms.Screen.AllScreens;
-
-                    foreach (Screen s in screens)
-                    {
-                        Log.Information(s.ToString());
-                        if (s.WorkingArea.Top == 0)
-                            MainScreen_Size = s.WorkingArea.Size;
-                        // fit window on screen?
-                        if (s.WorkingArea.Top <= wTop &&
-                            s.WorkingArea.Bottom >= wBottom &&
-                            s.WorkingArea.Left <= wLeft &&
-                            s.WorkingArea.Right >= wRight)
-                        {
-                            // yes: nothing to do
-                            reposition = false;
-                            break;
-                        }
-                        // window within screen?
-                        if (s.WorkingArea.Top <= wTop &&
-                            wTop < s.WorkingArea.Bottom &&
-                            s.WorkingArea.Left <= wLeft &&
-                            wLeft < s.WorkingArea.Right)
-                        {
-                            // yes: realign window to this screen
-                            if (s.WorkingArea.Width < wWidth)
-                                wWidth = s.WorkingArea.Width;
-                            if (s.WorkingArea.Height < wHeight)
-                                wHeight = s.WorkingArea.Height;
-                            this.Top = s.WorkingArea.Top + ((s.WorkingArea.Height - wHeight)/2);
-                            this.Left = s.WorkingArea.Left + ((s.WorkingArea.Width - wWidth)/2);
-                            reposition = false;
-                            break;
-                        }
-                    }
-
-                    if (reposition)
-                    {
-                        // window do not fit to any screen. do a reposition to main screen
-                        this.Top = 30;
-                        this.Left = 30;
-                        this.Height = MainScreen_Size.Height - 60;
-                        this.Width = MainScreen_Size.Width - 60;
-                        this.WindowState = FormWindowState.Normal;
-                    }
-                    else
-                    {
-                        this.WindowState = (FormWindowState)_settings.gui_window_state;
-                    }
-
-                    // it is intended not to save the aligned position here
-
-                    Log.Information("Aligned Window Position:");
-                    Log.Information(" Size: (h = " + this.Height.ToString() + ", w = " + this.Width.ToString() + ")");
-                    Log.Information(" Position: (x = " + this.Left.ToString() + ", y = " + this.Top.ToString() + ")");
-                }
+                this.WindowState = (FormWindowState)_settings.gui_window_state;
             }
-
 
             // auto connect if specified
             if (_settings.auto_connect)
@@ -722,10 +650,7 @@ namespace opentuner
                 source_connected = ConnectSelectedSource();
             }
 
-
-
             // hide/show video overlay
-
         }
 
         private void Batc_spectrum_OnSignalSelected(int Receiver, uint Freq, uint SymbolRate)
