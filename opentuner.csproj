@@ -79,6 +79,9 @@
     <Reference Include="FTD2XX_NET">
       <HintPath>.\FTD2XX_NET.dll</HintPath>
     </Reference>
+    <Reference Include="LibUsbDotNet.LibUsbDotNet, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c677239abe1e02a9, processorArchitecture=MSIL">
+      <HintPath>packages\LibUsbDotNet.2.2.29\lib\net45\LibUsbDotNet.LibUsbDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="LibVLCSharp, Version=3.8.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\LibVLCSharp.3.8.5\lib\net471\LibVLCSharp.dll</HintPath>
     </Reference>
@@ -598,12 +601,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\picotuner\LibUsbDotNet\src\LibUsbDotNet\LibUsbDotNet.csproj">
-      <Project>{165d23f3-fdc1-444a-b350-93cc5b5dd2fb}</Project>
-      <Name>LibUsbDotNet</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MediaSources\Minitiouner\HardwareInterfaces\PicoTunerEthernet\" />

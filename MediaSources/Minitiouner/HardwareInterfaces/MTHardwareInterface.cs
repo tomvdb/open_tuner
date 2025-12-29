@@ -21,6 +21,8 @@ namespace opentuner.MediaSources.Minitiouner.HardwareInterfaces
         // TODO: change to more generic init
         public abstract byte hw_init(uint i2c_device, uint ts_device, uint ts_device2);
 
+        public abstract void hw_close();
+
         public abstract byte hw_set_polarization_supply(byte lnb_num, bool supply_enable, bool supply_horizontal);
         public abstract byte hw_ts_led(int led, bool setting);
 

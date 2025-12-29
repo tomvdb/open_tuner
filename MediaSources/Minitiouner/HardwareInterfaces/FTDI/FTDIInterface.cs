@@ -621,7 +621,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Log.Information("FTDI Detect Error: " + Ex.Message);
+                Log.Error("FTDI Detect Error: " + Ex.Message);
             }
 
             return ftdi_devices;
@@ -647,7 +647,7 @@ namespace opentuner
                 // we need atleast two ports
                 if (devcount < 2)
                 {
-                    Log.Information("Not enough FTDI devices detected");
+                    Log.Error("Not enough FTDI devices detected");
                     return 1;
                 }
 
@@ -689,7 +689,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Log.Information("FTDI Error: " + Ex.Message);
+                Log.Error("FTDI Error: " + Ex.Message);
                 return 1;
             }
 
@@ -716,7 +716,7 @@ namespace opentuner
                 // we need atleast two ports
                 if (devcount < 2)
                 {
-                    Log.Information("Not enough FTDI devices detected");
+                    Log.Error("Not enough FTDI devices detected");
                     return 1;
                 }
 
@@ -845,7 +845,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Log.Information("FTDI Error: " + Ex.Message);
+                Log.Error("FTDI Error: " + Ex.Message);
                 return 1;
             }
 
@@ -866,7 +866,7 @@ namespace opentuner
             }
             catch (Exception Ex)
             {
-                Log.Information("FTDI Error: " + Ex.Message);
+                Log.Error("FTDI Error: " + Ex.Message);
                 return 1;
             }
 
@@ -883,11 +883,21 @@ namespace opentuner
             {
                 return 1;
             }
+            ftStatus = ftdiDevice_ts.SetTimeouts(250, 500);
+            if (ftStatus != FTD2XX_NET.FTDI.FT_STATUS.FT_OK)
+            {
+                return 1;
+            }
 
             if (ts_device2 != 99)
             {
                 ftStatus = ftdiDevice_ts2.OpenByIndex(ts_device2);
 
+                if (ftStatus != FTD2XX_NET.FTDI.FT_STATUS.FT_OK)
+                {
+                    return 1;
+                }
+                ftStatus = ftdiDevice_ts2.SetTimeouts(250, 500);
                 if (ftStatus != FTD2XX_NET.FTDI.FT_STATUS.FT_OK)
                 {
                     return 1;
@@ -901,6 +911,10 @@ namespace opentuner
 
 
             return err;
+        }
+
+        public override void hw_close()
+        {
         }
 
         byte ftdi_gpio_write_lowbyte(byte pin_id, bool pin_value)
