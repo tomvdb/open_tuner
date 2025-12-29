@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -317,7 +318,12 @@ namespace opentuner
             frequenciesManager = new SettingsManager<List<StoredFrequency>>("frequency_presets");
             stored_frequencies = frequenciesManager.LoadSettings(stored_frequencies);
 
-            Text = "Open Tuner (ZR6TG) - Version " + GlobalDefines.Version + " - Build: " + opentuner.Properties.Resources.BuildDate;
+            var compileTime = new DateTime(Builtin.CompileTime, DateTimeKind.Utc);
+            DateTimeFormatInfo usDateFormat = new CultureInfo("en-US", false).DateTimeFormat;
+            string compileTime_usFormat = compileTime.ToString("u", usDateFormat);
+
+            Text = "Open Tuner (ZR6TG) - Version: " + GlobalDefines.Version + " - Build: " + compileTime_usFormat;
+            Log.Information(Text);
         }
 
         /// <summary>

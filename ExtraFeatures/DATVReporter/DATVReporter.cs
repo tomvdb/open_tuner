@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using WebSocketSharp;
 using Newtonsoft.Json;
-using System.Drawing.Printing;
 using Serilog;
 using opentuner.Utilities;
 using System.Timers;
@@ -174,10 +170,14 @@ namespace opentuner.ExtraFeatures.DATVReporter
                     return false;
             }
 
+            var compileTime = new DateTime(Builtin.CompileTime, DateTimeKind.Utc);
+            DateTimeFormatInfo usDateFormat = new CultureInfo("en-US", false).DateTimeFormat;
+            string compileTime_usFormat = compileTime.ToString("u", usDateFormat);
+
             message.observer_callsign = _datv_reporter_settings.callsign;
             message.observer_gridlocator = _datv_reporter_settings.grid_locator;
             message.application = "OpenTuner";
-            message.application_version = GlobalDefines.Version + " - " + opentuner.Properties.Resources.BuildDate.Trim();
+            message.application_version = GlobalDefines.Version + " - " + compileTime_usFormat.Trim();
 
             string json_output = JsonConvert.SerializeObject(message, Formatting.Indented);
 
