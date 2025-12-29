@@ -95,7 +95,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
 
             try
             {
-                bandplan = XElement.Load(Path.GetDirectoryName(Application.ExecutablePath) + @"\bandplan.xml");
+                bandplan = XElement.Load(Path.GetDirectoryName(Application.ExecutablePath) + @"\extra\bandplan.xml");
                 drawspectrum_bandplan();
                 indexedbandplan = bandplan.Elements().ToList();
                 foreach (var channel in bandplan.Elements("channel"))

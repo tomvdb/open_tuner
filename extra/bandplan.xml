@@ -18,14 +18,14 @@
         <x-freq>10494.75</x-freq>
         <s-freq>2405.25</s-freq>
         <sr>1000</sr>
-        <name>1000</name>
+        <name>1500/1000</name>
         <block>A</block>
     </channel>
     <channel>
         <x-freq>10496.25</x-freq>
         <s-freq>2406.75</s-freq>
         <sr>1000</sr>
-        <name>1000</name>
+        <name>1500/1000</name>
         <block>A</block>
     </channel>
     <channel>
@@ -95,35 +95,35 @@
         <x-freq>10497.25</x-freq>
         <s-freq>2407.75</s-freq>
         <sr>333</sr>
-        <name>500/333/250</name>
+        <name>333/250</name>
         <block>B</block>
     </channel>
     <channel>
         <x-freq>10497.75</x-freq>
         <s-freq>2408.25</s-freq>
         <sr>333</sr>
-        <name>500/333/250</name>
+        <name>333/250</name>
         <block>B</block>
     </channel>
     <channel>
         <x-freq>10498.25</x-freq>
         <s-freq>2408.75</s-freq>
         <sr>333</sr>
-        <name>500/333/250</name>
+        <name>333/250</name>
         <block>B</block>
     </channel>
     <channel>
         <x-freq>10498.75</x-freq>
         <s-freq>2409.25</s-freq>
         <sr>333</sr>
-        <name>500/333/250</name>
+        <name>333/250</name>
         <block>B</block>
     </channel>
     <channel>
         <x-freq>10499.25</x-freq>
         <s-freq>2409.75</s-freq>
         <sr>333</sr>
-        <name>500/333/250</name>
+        <name>333/250</name>
         <block>B</block>
     </channel>
     <channel>
