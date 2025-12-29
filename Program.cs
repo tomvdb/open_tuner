@@ -1,8 +1,7 @@
 ﻿using FlyleafLib;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Serilog;
 
@@ -16,6 +15,7 @@ namespace opentuner
         [STAThread]
         static void Main(string[] args)
         {
+            int i = 0;
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -23,7 +23,35 @@ namespace opentuner
                 .WriteTo.File("logs\\ot_log_" + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".txt")
                 .CreateLogger();
 
-            Log.Information("Starting OT");
+            Log.Information("Starting OpenTuner");
+
+            string logDirectory = AppDomain.CurrentDomain.BaseDirectory + "logs\\";
+
+            if (Directory.Exists(logDirectory))
+            {
+                var logFiles = Directory.GetFiles(logDirectory, "*.txt").Select(f => new FileInfo(f)).OrderByDescending(f => f.CreationTime);
+                int fileCount = logFiles.Count();
+                if (fileCount > 10)
+                {
+                    i = 0;
+                    foreach (var file in logFiles)
+                    {
+                        if (i > 9)
+                        {
+                            try
+                            {
+                                File.Delete(file.FullName);
+                                Log.Debug("Log file deleted: " + file.Name);
+                            }
+                            catch
+                            {
+                                Log.Warning("Log file for deletion not found: " + file.Name);
+                            }
+                        }
+                        i++;
+                    }
+                }
+            }
 
             try
             {
@@ -48,7 +76,7 @@ namespace opentuner
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Uncaught Exception");
+                Log.Fatal(ex, "Program.Main: Uncaught Exception");
             }
             finally
             {
