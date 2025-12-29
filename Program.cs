@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Serilog;
 using Serilog.Core;
@@ -15,6 +16,12 @@ namespace opentuner
         /// The main entry point for the application.
         /// </summary>
         public static LoggingLevelSwitch levelSwitch;
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow([In] IntPtr hWnd, [In] int nCmdShow);
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
 
         [STAThread]
 
@@ -38,6 +45,15 @@ namespace opentuner
                                 debugLevel = new_debug_level;
                             }
                             i += 1;
+                        }
+                        break;
+
+                    case "--hideconsolewindow":
+                        // minimize console window
+                        IntPtr handle = GetConsoleWindow();
+                        if (handle != IntPtr.Zero)
+                        {
+                            ShowWindow(handle, 0);
                         }
                         break;
 
