@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 
 namespace opentuner
 {
@@ -12,18 +14,86 @@ namespace opentuner
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        public static LoggingLevelSwitch levelSwitch;
+
         [STAThread]
+
         static void Main(string[] args)
         {
             int i = 0;
+            int debugLevel = 3; // Warning
+            levelSwitch = new LoggingLevelSwitch();
+
+            while (i < args.Length)
+            {
+                switch (args[i])
+                {
+                    case "--debuglevel":
+                        int new_debug_level = -1;
+
+                        if (int.TryParse(args[i + 1], out new_debug_level))
+                        {
+                            if (new_debug_level < 6 && new_debug_level >= 0)
+                            {
+                                debugLevel = new_debug_level;
+                            }
+                            i += 1;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+                // grab next param
+                i += 1;
+            }
+
+            switch (debugLevel)
+            {
+                case 0: // Verbose
+                    levelSwitch.MinimumLevel = LogEventLevel.Verbose;
+                    break;
+
+                case 1: // Debug
+                    levelSwitch.MinimumLevel = LogEventLevel.Debug;
+                    break;
+
+                case 2: // Information
+                    levelSwitch.MinimumLevel = LogEventLevel.Information;
+                    break;
+
+                case 3: // Warning
+                    levelSwitch.MinimumLevel = LogEventLevel.Warning;
+                    break;
+
+                case 4: // Error
+                    levelSwitch.MinimumLevel = LogEventLevel.Error;
+                    break;
+
+                case 5: // Fatal
+                    levelSwitch.MinimumLevel = LogEventLevel.Fatal;
+                    break;
+
+                default:
+                    levelSwitch.MinimumLevel = LogEventLevel.Warning;
+                    break;
+            }
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
+                .MinimumLevel.ControlledBy(levelSwitch)
                 .WriteTo.Console()
                 .WriteTo.File("logs\\ot_log_" + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".txt")
                 .CreateLogger();
 
+            // Always log the starting information
+            // swith logging level to Information
+            LogEventLevel lastMinimumLevel = levelSwitch.MinimumLevel;
+            levelSwitch.MinimumLevel = LogEventLevel.Information;
+
             Log.Information("Starting OpenTuner");
+
+            // swith logging level back
+            levelSwitch.MinimumLevel = lastMinimumLevel;
 
             string logDirectory = AppDomain.CurrentDomain.BaseDirectory + "logs\\";
 

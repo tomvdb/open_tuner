@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
-using System.Globalization;
 
 using opentuner.MediaSources;
 using opentuner.MediaSources.Minitiouner;
@@ -23,9 +22,7 @@ using opentuner.ExtraFeatures.QuickTuneControl;
 using opentuner.ExtraFeatures.DATVReporter;
 
 using Serilog;
-using System.Runtime.CompilerServices;
-using System.Drawing;
-using opentuner.SettingsManagement;
+using Serilog.Events;
 
 namespace opentuner
 {
@@ -588,10 +585,15 @@ namespace opentuner
                 Log.Error( Ex, "Closing Exception");
             }
 
-
+            // Always log the starting information
+            // swith logging level to Information
+            LogEventLevel lastMinimumLevel = Program.levelSwitch.MinimumLevel;
+            Program.levelSwitch.MinimumLevel = LogEventLevel.Information;
 
             Log.Information("Bye!");
 
+            // swith logging level back
+            Program.levelSwitch.MinimumLevel = lastMinimumLevel;
         }
 
         private void Form1_Load(object sender, EventArgs e)
