@@ -168,11 +168,13 @@ namespace opentuner
                         break;
 
                     case "--hidevideoinfo":
-                        _settings.show_video_overlay = false;
+                        for (int j = 0; j < 4; j++)
+                            _settings.show_video_info[j] = false;
                         break;
 
                     case "--showvideoinfo":
-                        _settings.show_video_overlay = true;
+                        for (int j = 0; j < 4; j++)
+                            _settings.show_video_info[j] = true;
                         break;
 
                     case "--windowwidth":
@@ -738,7 +740,7 @@ namespace opentuner
             video_volume_display = new VolumeInfoContainer();
             video_volume_display.Tag = nr;
 
-            video_info_display = new StreamInfoContainer(_settings.show_video_overlay);
+            video_info_display = new StreamInfoContainer(_settings.show_video_info[nr]);
             video_info_display.Tag = nr;
 
 
@@ -856,7 +858,7 @@ namespace opentuner
             if (info_display.Count > video_nr)
             {
                 if (info_display[video_nr] != null)
-                    info_display[video_nr].Visible = !info_display[video_nr].Visible;
+                    _settings.show_video_info[video_nr] = info_display[video_nr].Visible = !info_display[video_nr].Visible;
             }
         }
 

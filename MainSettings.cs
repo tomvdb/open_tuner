@@ -31,7 +31,7 @@ namespace opentuner
 
         public bool hide_properties = false; // can also be toggled with CTRL-P
         public bool hide_ExtraTool = false;  // can also be toggled with CTRL-E
-        public bool show_video_overlay = true;
+        public bool[] show_video_info = { true, true, true, true };
 
         public int[] mediaplayer_preferences = { 0, 1, 1, 1 };
         public bool[] mediaplayer_windowed = { false, false, false, false };
