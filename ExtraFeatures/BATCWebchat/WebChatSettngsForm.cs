@@ -21,6 +21,8 @@ namespace opentuner.ExtraFeatures.BATCWebchat
             numChatFontSize.Value = _settings.chat_font_size;
             txtSigReportTemplate.Text = _settings.sigreport_template;
             txtNick.Text = _settings.nickname;
+            checkAutoStart.Checked = _settings.gui_autostart;
+            checkAutoLogin.Checked = _settings.gui_autologin;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -34,6 +36,8 @@ namespace opentuner.ExtraFeatures.BATCWebchat
             _settings.chat_font_size = (int)numChatFontSize.Value;
             _settings.sigreport_template = txtSigReportTemplate.Text;
             _settings.nickname = txtNick.Text;
+            _settings.gui_autostart = checkAutoStart.Checked;
+            _settings.gui_autologin = checkAutoLogin.Checked;
 
             DialogResult = DialogResult.OK;
             Close();

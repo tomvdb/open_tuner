@@ -1,19 +1,10 @@
 ﻿using SocketIOClient;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.Json.Serialization;
-using System.Windows.Interop;
-using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
-using System.Diagnostics.Contracts;
-using System.Security.Cryptography;
 using System.Threading;
 using Serilog;
 using opentuner.ExtraFeatures.BATCWebchat;
@@ -93,6 +84,18 @@ namespace opentuner
             {
                 btnSigReportTuner3.Enabled = true;
                 btnSigReportTuner4.Enabled = true;
+            }
+            int count = 200;
+            while (!client.Connected)
+            {
+                Thread.Sleep(100);
+                count--;
+                if (count == 0)
+                    return;
+            }
+            if (_settings.gui_autologin)
+            {
+                setNick();
             }
         }
 

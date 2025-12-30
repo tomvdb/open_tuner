@@ -210,13 +210,13 @@
             this.chatContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copySelectedTextToolStripMenuItem});
             this.chatContextMenuStrip.Name = "contextMenuStrip1";
-            this.chatContextMenuStrip.Size = new System.Drawing.Size(216, 26);
+            this.chatContextMenuStrip.Size = new System.Drawing.Size(218, 26);
             // 
             // copySelectedTextToolStripMenuItem
             // 
             this.copySelectedTextToolStripMenuItem.Name = "copySelectedTextToolStripMenuItem";
             this.copySelectedTextToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copySelectedTextToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.copySelectedTextToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.copySelectedTextToolStripMenuItem.Text = "Copy Selected Text";
             this.copySelectedTextToolStripMenuItem.Click += new System.EventHandler(this.copySelectedTextToolStripMenuItem_Click);
             // 
@@ -252,13 +252,13 @@
             this.textInputContextStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem});
             this.textInputContextStrip.Name = "textInputContextStrip";
-            this.textInputContextStrip.Size = new System.Drawing.Size(144, 26);
+            this.textInputContextStrip.Size = new System.Drawing.Size(146, 26);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.selectAllToolStripMenuItem.Text = "&Paste";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
@@ -282,6 +282,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Name = "WebChatForm";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "QO-100 Wideband Chat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.wbchat_FormClosing);
             this.Load += new System.EventHandler(this.wbchat_Load);

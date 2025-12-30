@@ -38,12 +38,16 @@
             this.label13 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.checkAutoStart = new System.Windows.Forms.CheckBox();
+            this.checkAutoLogin = new System.Windows.Forms.CheckBox();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numChatFontSize)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.checkAutoLogin);
+            this.groupBox4.Controls.Add(this.checkAutoStart);
             this.groupBox4.Controls.Add(this.txtNick);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.label17);
@@ -115,17 +119,17 @@
             // 
             this.label14.AutoSize = true;
             this.label14.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label14.Location = new System.Drawing.Point(19, 162);
+            this.label14.Location = new System.Drawing.Point(30, 129);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(142, 96);
+            this.label14.Size = new System.Drawing.Size(230, 96);
             this.label14.TabIndex = 5;
             this.label14.Text = "{SN} - ServiceName\r\n{SP} - ServiceProvider\r\n{DBM} - db Margin (D)\r\n{MER} - Mer\r\n{" +
     "SR} - Symbol Rate\r\n{FREQ} - Freq\r\n";
             // 
             // txtSigReportTemplate
             // 
-            this.txtSigReportTemplate.Location = new System.Drawing.Point(23, 128);
+            this.txtSigReportTemplate.Location = new System.Drawing.Point(22, 103);
             this.txtSigReportTemplate.Margin = new System.Windows.Forms.Padding(4);
             this.txtSigReportTemplate.Name = "txtSigReportTemplate";
             this.txtSigReportTemplate.Size = new System.Drawing.Size(892, 22);
@@ -135,7 +139,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label13.Location = new System.Drawing.Point(19, 101);
+            this.label13.Location = new System.Drawing.Point(19, 83);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(153, 16);
@@ -164,6 +168,26 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // checkAutoStart
+            // 
+            this.checkAutoStart.AutoSize = true;
+            this.checkAutoStart.Location = new System.Drawing.Point(22, 245);
+            this.checkAutoStart.Name = "checkAutoStart";
+            this.checkAutoStart.Size = new System.Drawing.Size(110, 20);
+            this.checkAutoStart.TabIndex = 10;
+            this.checkAutoStart.Text = "Chat auto start";
+            this.checkAutoStart.UseVisualStyleBackColor = true;
+            // 
+            // checkAutoLogin
+            // 
+            this.checkAutoLogin.AutoSize = true;
+            this.checkAutoLogin.Location = new System.Drawing.Point(168, 245);
+            this.checkAutoLogin.Name = "checkAutoLogin";
+            this.checkAutoLogin.Size = new System.Drawing.Size(114, 20);
+            this.checkAutoLogin.TabIndex = 11;
+            this.checkAutoLogin.Text = "Chat auto login";
+            this.checkAutoLogin.UseVisualStyleBackColor = true;
             // 
             // WebChatSettngsForm
             // 
@@ -201,5 +225,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TextBox txtNick;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkAutoLogin;
+        private System.Windows.Forms.CheckBox checkAutoStart;
     }
 }
