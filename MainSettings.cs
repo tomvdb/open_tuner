@@ -23,7 +23,7 @@ namespace opentuner
         // future
         public bool enable_pluto_checkbox = false;
 
-        public int default_source = 0;        
+        public int default_source = 0;
         public bool mute_at_startup = true;
 
         public bool auto_connect = false;
@@ -41,7 +41,7 @@ namespace opentuner
         public int gui_window_height = -1;
         public int gui_window_x = -1;
         public int gui_window_y = -1;
+        public int gui_window_state = 0;
         public int gui_main_splitter_position = 436;
-
     }
 }
