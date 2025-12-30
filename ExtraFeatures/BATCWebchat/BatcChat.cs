@@ -1,6 +1,9 @@
 ﻿using opentuner.Utilities;
+using System;
 using System.Drawing;
+using System.Windows.Forms;
 using opentuner.MediaSources;
+using Serilog;
 
 namespace opentuner.ExtraFeatures.BATCWebchat
 {
@@ -18,22 +21,62 @@ namespace opentuner.ExtraFeatures.BATCWebchat
 
             _form = new WebChatForm(wc_settings, Source);
             _form.FormClosing += _form_FormClosing;
+            _form.Resize += _form_Resize;
+            _form.LocationChanged += _form_LocationChanged;
+
+            Log.Information("Restoring BATCWebChat Window Position:");
+            Log.Information(" Size: (h = " + wc_settings.gui_chat_height.ToString() + ", w = " + wc_settings.gui_chat_width.ToString() + ")");
+            Log.Information(" Position: (x = " + wc_settings.gui_chat_x.ToString() + ", y = " + wc_settings.gui_chat_y.ToString() + ")");
 
             if (wc_settings.gui_chat_width > 0)
             {
                 _form.Size = new Size(wc_settings.gui_chat_width, wc_settings.gui_chat_height);
             }
+            else
+            {
+                wc_settings.gui_chat_width = _form.Size.Width;
+                wc_settings.gui_chat_height = _form.Size.Height;
+            }
+            _form.Location = new Point(wc_settings.gui_chat_x, wc_settings.gui_chat_y);
+            _form.WindowState = (FormWindowState)wc_settings.gui_chat_windowstate;
             if (wc_settings.gui_autostart)
             {
                 _form.Show();
             }
         }
 
+        private void _form_LocationChanged(object sender, EventArgs e)
+        {
+            if (_form.WindowState == FormWindowState.Normal)
+            {
+                wc_settings.gui_chat_x = _form.Left;
+                wc_settings.gui_chat_y = _form.Top;
+            }
+        }
+
+        private void _form_Resize(object sender, EventArgs e)
+        {
+            if (_form.WindowState == FormWindowState.Normal)
+            {
+                wc_settings.gui_chat_width = _form.Size.Width;
+                wc_settings.gui_chat_height = _form.Size.Height;
+            }
+        }
+
         private void _form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
-            wc_settings.gui_chat_width = _form.Size.Width;
-            wc_settings.gui_chat_height = _form.Size.Height;
-
+            wc_settings.gui_chat_windowstate = (int)_form.WindowState;
+            if (_form.WindowState == FormWindowState.Normal)
+            {
+                wc_settings.gui_chat_width = _form.Size.Width;
+                wc_settings.gui_chat_height = _form.Size.Height;
+                wc_settings.gui_chat_x = _form.Left;
+                wc_settings.gui_chat_y = _form.Top;
+            }
+            else if (_form.WindowState == FormWindowState.Minimized)
+            {
+                wc_settings.gui_chat_windowstate = (int)FormWindowState.Normal;
+            }
             wc_settingsManager.SaveSettings(wc_settings);
         }
 
