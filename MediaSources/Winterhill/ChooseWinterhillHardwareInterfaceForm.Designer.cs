@@ -1,6 +1,6 @@
-﻿namespace opentuner.MediaSources.Winterhill
+﻿namespace opentuner.MediaSources.WinterHill
 {
-    partial class ChooseWinterhillHardwareInterfaceForm
+    partial class ChooseWinterHillHardwareInterfaceForm
     {
         /// <summary>
         /// Required designer variable.
@@ -50,7 +50,7 @@
             this.comboHardwareInterface.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboHardwareInterface.FormattingEnabled = true;
             this.comboHardwareInterface.Items.AddRange(new object[] {
-            "Winterhill (ZR6TG Variant)",
+            "WinterHill (ZR6TG Variant)",
             "PicoTuner (G4EWJ Ethernet WH)"});
             this.comboHardwareInterface.Location = new System.Drawing.Point(151, 19);
             this.comboHardwareInterface.Name = "comboHardwareInterface";
@@ -81,7 +81,7 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // ChooseWinterhillHardwareInterfaceForm
+            // ChooseWinterHillHardwareInterfaceForm
             // 
             this.AcceptButton = this.btnSelect;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -96,10 +96,10 @@
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ChooseWinterhillHardwareInterfaceForm";
+            this.Name = "ChooseWinterHillHardwareInterfaceForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Choose Winterhill Hardware Interface";
-            this.Load += new System.EventHandler(this.ChooseWinterhillHardwareInterfaceForm_Load);
+            this.Text = "Choose WinterHill Hardware Interface";
+            this.Load += new System.EventHandler(this.ChooseWinterHillHardwareInterfaceForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

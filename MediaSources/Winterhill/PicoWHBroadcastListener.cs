@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using NAudio.Dmo;
 using Serilog;
-using static opentuner.MediaSources.OTSource;
 
-namespace opentuner.MediaSources.Winterhill
+namespace opentuner.MediaSources.WinterHill
 {
     public class PicoWHBroadcastListener
     {

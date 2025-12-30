@@ -330,7 +330,7 @@
             this.comboDefaultSource.Items.AddRange(new object[] {
             "Minitiouner Variant",
             "Longmynd Variant",
-            "Winterhill Variant"});
+            "WinterHill Variant"});
             this.comboDefaultSource.Location = new System.Drawing.Point(171, 33);
             this.comboDefaultSource.Margin = new System.Windows.Forms.Padding(4);
             this.comboDefaultSource.Name = "comboDefaultSource";

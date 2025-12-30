@@ -1,4 +1,4 @@
-﻿namespace opentuner.MediaSources.Winterhill
+﻿namespace opentuner.MediaSources.WinterHill
 {
     partial class PicoWHBroadcastListenerForm
     {

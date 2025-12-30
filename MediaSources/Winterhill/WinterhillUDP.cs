@@ -5,15 +5,15 @@ using System.Net.Sockets;
 using Serilog;
 using opentuner.Utilities;
 
-namespace opentuner.MediaSources.Winterhill
+namespace opentuner.MediaSources.WinterHill
 {
-    public partial class WinterhillSource
+    public partial class WinterHillSource
     {
         UdpClient WH_Client = new UdpClient();
 
         UDPClient longmynd_status;
 
-        public void ConnectWinterhillUDP(int port)
+        public void ConnectWinterHillUDP(int port)
         {
 
             longmynd_status = new UDPClient(port);
@@ -33,7 +33,7 @@ namespace opentuner.MediaSources.Winterhill
                 Log.Warning("UDP Status Port Disconnected");
         }
 
-        public void DisconnectWinterhillUDP()
+        public void DisconnectWinterHillUDP()
         {
             longmynd_status?.Close();
         }
@@ -44,7 +44,7 @@ namespace opentuner.MediaSources.Winterhill
 
             var data = Encoding.ASCII.GetString(e);
 
-            int udp_base_port = _settings.WinterhillUdpBasePort;
+            int udp_base_port = _settings.WinterHillUdpBasePort;
 
             string[] status_strings = data.Split('\n');
 
@@ -190,9 +190,9 @@ namespace opentuner.MediaSources.Winterhill
 
         public void UDPSetVoltage(int plug, uint voltage)
         {
-            int base_port = _settings.WinterhillUdpBasePort;
+            int base_port = _settings.WinterHillUdpBasePort;
 
-            IPEndPoint winterhill_end_point = new IPEndPoint(IPAddress.Parse(_settings.WinterhillUdpHost), base_port + 21);
+            IPEndPoint WinterHill_end_point = new IPEndPoint(IPAddress.Parse(_settings.WinterHillUdpHost), base_port + 21);
 
             string command2 = "";
             string vg = "vgx";
@@ -219,7 +219,7 @@ namespace opentuner.MediaSources.Winterhill
             byte[] outStream = Encoding.ASCII.GetBytes(command2);
             try
             {
-                WH_Client.Client.SendTo(outStream, winterhill_end_point);
+                WH_Client.Client.SendTo(outStream, WinterHill_end_point);
             }
             catch
             {
@@ -230,13 +230,13 @@ namespace opentuner.MediaSources.Winterhill
 
         public void UDPSetFrequency(int device, int freq, int sr)
         {
-            int base_port = _settings.WinterhillUdpBasePort + ( device == 0 ? 21 :  22);
+            int base_port = _settings.WinterHillUdpBasePort + ( device == 0 ? 21 :  22);
 
-            int receiver_num = (_settings.WinterhillUdpBasePort % 100) + 1 + device;
+            int receiver_num = (_settings.WinterHillUdpBasePort % 100) + 1 + device;
 
-            IPEndPoint winterhill_end_point = new IPEndPoint(IPAddress.Parse(_settings.WinterhillUdpHost), base_port );
+            IPEndPoint WinterHill_end_point = new IPEndPoint(IPAddress.Parse(_settings.WinterHillUdpHost), base_port );
 
-            Log.Information("UDP Set Frequency Device: " + device + " : " + _settings.WinterhillUdpHost + " : " + base_port.ToString() );
+            Log.Information("UDP Set Frequency Device: " + device + " : " + _settings.WinterHillUdpHost + " : " + base_port.ToString() );
             
             try
             {
@@ -255,7 +255,7 @@ namespace opentuner.MediaSources.Winterhill
             try
             {
                 Log.Information("Setting WH UDP Frequency: " + freq.ToString());
-                WH_Client.Client.SendTo(outStream, winterhill_end_point);
+                WH_Client.Client.SendTo(outStream, WinterHill_end_point);
             }
             catch
             {

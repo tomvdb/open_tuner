@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Net.Sockets;
 using Serilog;
 
-namespace opentuner.MediaSources.Winterhill
+namespace opentuner.MediaSources.WinterHill
 {
     public partial class PicoWHBroadcastListenerForm : Form
     {

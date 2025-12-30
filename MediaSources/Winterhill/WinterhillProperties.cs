@@ -2,21 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using opentuner.MediaSources.Longmynd;
 using Serilog;
 using System.Globalization;
-using System.Timers;
-using System.Runtime.ConstrainedExecution;
-using opentuner.MediaSources.Minitiouner;
 
-namespace opentuner.MediaSources.Winterhill
+namespace opentuner.MediaSources.WinterHill
 {
-    public partial class WinterhillSource
+    public partial class WinterHillSource
     {
         private Control _parent;
 
@@ -55,8 +49,8 @@ namespace opentuner.MediaSources.Winterhill
             {
                 _tuner_properties[c] = new DynamicPropertyGroup("Tuner " +  (c+1).ToString(), _parent);
                 _tuner_properties[c].setID(c);  // set this before creating any items
-                _tuner_properties[c].OnSlidersChanged += WinterhillSource_OnSlidersChanged;
-                _tuner_properties[c].OnMediaButtonPressed += WinterhillSource_OnMediaButtonPressed;
+                _tuner_properties[c].OnSlidersChanged += WinterHillSource_OnSlidersChanged;
+                _tuner_properties[c].OnMediaButtonPressed += WinterHillSource_OnMediaButtonPressed;
                 _tuner_properties[c].AddItem("demodstate", "Demod State", Color.PaleVioletRed);
                 _tuner_properties[c].AddItem("mer", "Mer");
 
@@ -106,7 +100,7 @@ namespace opentuner.MediaSources.Winterhill
 
             if (hw_device == 1)
             {
-                _source_properties.UpdateValue("hardware", "Winterhill");
+                _source_properties.UpdateValue("hardware", "WinterHill");
             }
             else
             {
@@ -435,7 +429,7 @@ namespace opentuner.MediaSources.Winterhill
             }
         }
 
-        private void WinterhillSource_OnMediaButtonPressed(string key, int function)
+        private void WinterHillSource_OnMediaButtonPressed(string key, int function)
         {
             switch(key)
             {
@@ -458,7 +452,7 @@ namespace opentuner.MediaSources.Winterhill
         private int[] preMute = new int[] { 50, 50, 50, 50 };
         private int[] indicatorStatus = new int[] {0, 0, 0, 0};
 
-        private void WinterhillSource_OnSlidersChanged(string key, int value)
+        private void WinterHillSource_OnSlidersChanged(string key, int value)
         {
             // TODO: pull in id and simplify
             switch(key)

@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace opentuner.MediaSources.Winterhill
+﻿namespace opentuner.MediaSources.WinterHill
 { 
-    public class WinterhillSettings
+    public class WinterHillSettings
     {
         // websocket
-        public string WinterhillWSHost = "192.168.0.122";
-        public int WinterhillWSPort = 8080;
-        public int WinterhillWSUdpBasePort = 9900;
+        public string WinterHillWSHost = "192.168.0.122";
+        public int WinterHillWSPort = 8080;
+        public int WinterHillWSUdpBasePort = 9900;
 
         public byte DefaultInterface = 1;
 
-        public string WinterhillUdpHost = "192.168.0.124";
-        public int WinterhillUdpBasePort = 9900;
+        public string WinterHillUdpHost = "192.168.0.124";
+        public int WinterHillUdpBasePort = 9900;
 
 
         public uint[] RFPort = new uint[] { 0, 0, 0, 0 };

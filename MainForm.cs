@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using opentuner.MediaSources;
 using opentuner.MediaSources.Minitiouner;
 using opentuner.MediaSources.Longmynd;
-using opentuner.MediaSources.Winterhill;
+using opentuner.MediaSources.WinterHill;
 
 using opentuner.MediaPlayers;
 using opentuner.MediaPlayers.MPV;
@@ -304,7 +304,7 @@ namespace opentuner
             // load available sources
             _availableSources.Add(new MinitiounerSource());
             _availableSources.Add(new LongmyndSource());
-            _availableSources.Add(new WinterhillSource());
+            _availableSources.Add(new WinterHillSource());
 
             comboAvailableSources.Items.Clear();
 
