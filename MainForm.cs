@@ -41,7 +41,7 @@ namespace opentuner
         // extras
         MqttManager mqtt_client;
         F5OEOPlutoControl pluto_client;
-        BATCSpectrum batc_spectrum;
+        BATCSpectrum batc_spectrum = null;
         BATCChat batc_chat;
         QuickTuneControl quickTune_control;
         DATVReporter datv_reporter = new DATVReporter();
@@ -84,7 +84,6 @@ namespace opentuner
             if (info_object.InvokeRequired)
             {
                 UpdateInfoDelegate ulb = new UpdateInfoDelegate(UpdateInfo);
-
                 info_object?.Invoke(ulb, new object[] { info_object, info });
             }
             else
@@ -98,13 +97,14 @@ namespace opentuner
         {
             int i = 0;
 
-            while ( i < args.Length )
+            while (i < args.Length)
             {
                 switch (args[i])
                 {
                     case "--nosave":
                         _settings_save = false;
                         break;
+
                     case "--autoconnect":
                         _settings.auto_connect = true;
                         break;
@@ -114,7 +114,7 @@ namespace opentuner
                         break;
 
                     case "--enablebatcspectrum":
-                        _settings.enable_spectrum_checkbox = true; 
+                        _settings.enable_spectrum_checkbox = true;
                         break;
 
                     case "--disablebatcspectrum":
@@ -170,10 +170,9 @@ namespace opentuner
                         break;
 
                     case "--windowwidth":
-                        
                         int new_window_width = 0;
 
-                        if (int.TryParse(args[i+1], out new_window_width))
+                        if (int.TryParse(args[i + 1], out new_window_width))
                         {
                             _settings.gui_window_width = new_window_width;
                         }
@@ -181,13 +180,10 @@ namespace opentuner
                         {
                             Log.Error(args[i + 1] + " is not a valid window width. Integer Expected");
                         }
-
                         i += 1;
-
                         break;
 
                     case "--windowheight":
-
                         int new_window_height = 0;
 
                         if (int.TryParse(args[i + 1], out new_window_height))
@@ -198,9 +194,7 @@ namespace opentuner
                         {
                             Log.Error(args[i + 1] + " is not a valid window height. Integer Expected");
                         }
-
                         i += 1;
-
                         break;
 
                     case "--windowx":
@@ -214,9 +208,7 @@ namespace opentuner
                         {
                             Log.Error(args[i + 1] + " is not a valid window x. Integer Expected");
                         }
-
                         i += 1;
-
                         break;
 
                     case "--windowy":
@@ -230,14 +222,10 @@ namespace opentuner
                         {
                             Log.Error(args[i + 1] + " is not a valid window y. Integer Expected");
                         }
-
                         i += 1;
-
                         break;
 
-
                     case "--defaultsource":
-
                         int new_default_source = 0;
 
                         if (int.TryParse(args[i + 1], out new_default_source))
@@ -255,16 +243,20 @@ namespace opentuner
                         {
                             Log.Error(args[i + 1] + " is not a valid default source parameter. 0-2 Expected");
                         }
-                        
                         i += 1;
+                        break;
 
+                    case "--hideconsolewindow":
+                        break;
+
+                    case "--debuglevel":
+                        i += 1;
                         break;
 
                     default:
                         Log.Warning("Unknown command line param: " + args[i]);
                         break;
                 }
-
                 // grab next param
                 i += 1;
             }
@@ -354,7 +346,6 @@ namespace opentuner
             videoSource.ConfigureVideoPlayers(_mediaPlayers);
             videoSource.ConfigureMediaPath(_settings.media_path);
 
-
             // set recorders
             _ts_recorders = ConfigureTSRecorders(videoSource, _settings.media_path);
             videoSource.ConfigureTSRecorders(_ts_recorders);
@@ -421,19 +412,15 @@ namespace opentuner
                 batc_spectrum.updateSignalCallsign(callsign, freq/1000, sr/1000);
             }
 
-            
             if (mqtt_client != null)
             {
                 // send mqtt data
                 mqtt_client.SendProperties(properties, videoSource.GetName() + "/" + description);
             }
-            
-
         }
 
         public static void UpdateLB(ListBox LB, Object obj)
         {
-
             if (LB == null)
                 return;
 
@@ -571,9 +558,8 @@ namespace opentuner
                     _ts_streamers[c].Close();
                 }
 
-
                 // close ts recorders
-                for (int c = 0; c < _ts_recorders.Count; c++) 
+                for (int c = 0; c < _ts_recorders.Count; c++)
                 {
                     _ts_recorders[c].Close();
                 }
@@ -583,7 +569,6 @@ namespace opentuner
                 {
                     _availableSources[c].Close();
                 }
-
             }
             catch ( Exception Ex)
             {
@@ -609,9 +594,9 @@ namespace opentuner
 
             if (_settings.gui_window_width != -1)
             {
-                Log.Information("Restoring Window Positions:");
-                Log.Information(" Size: (" + _settings.gui_window_height.ToString() + "," + _settings.gui_window_width.ToString() + ")");
-                Log.Information(" Position: (" + _settings.gui_window_x.ToString() + "," + _settings.gui_window_y.ToString() + ")");
+                Log.Information("Restoring Window Position:");
+                Log.Information(" Size: (h = " + _settings.gui_window_height.ToString() + ", w = " + _settings.gui_window_width.ToString() + ")");
+                Log.Information(" Position: (x = " + _settings.gui_window_x.ToString() + ", y = " + _settings.gui_window_y.ToString() + ")");
 
                 this.Height = _settings.gui_window_height;
                 this.Width = _settings.gui_window_width;
@@ -620,17 +605,12 @@ namespace opentuner
                 this.Top = _settings.gui_window_y;
             }
 
-
             // auto connect if specified
             if (_settings.auto_connect)
             {
                 source_connected = ConnectSelectedSource();
             }
-
-
-
             // hide/show video overlay
-
         }
 
         private void Batc_spectrum_OnSignalSelected(int Receiver, uint Freq, uint SymbolRate)
@@ -909,7 +889,6 @@ namespace opentuner
                     splitContainer5.Panel2Collapsed = true;
                     splitContainer5.Panel2.Hide();
                     break;
-
             }
         }
 
@@ -971,7 +950,7 @@ namespace opentuner
             //toolstripConnectToggle.Text = "Disconnect Source";
             toolstripConnectToggle.Visible = false;
 
-            // hide/show panel
+            // hide/show panels
             TogglePropertiesPanel(_settings.hide_properties);
 
             return true;
@@ -1199,6 +1178,4 @@ namespace opentuner
             System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-datv-reporter/");
         }
     }
-
-
 }
