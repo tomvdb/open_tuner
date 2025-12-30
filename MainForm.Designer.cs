@@ -48,7 +48,7 @@
             this.linkDATVReporterSettings = new System.Windows.Forms.Label();
             this.checkDATVReporter = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkPlutoCtrl = new System.Windows.Forms.CheckBox();
             this.linkQuickTuneSettings = new System.Windows.Forms.Label();
             this.linkBatcWebchatSettings = new System.Windows.Forms.Label();
             this.linkBatcSpectrumSettings = new System.Windows.Forms.Label();
@@ -252,7 +252,7 @@
             this.groupBox2.Controls.Add(this.linkDATVReporterSettings);
             this.groupBox2.Controls.Add(this.checkDATVReporter);
             this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.checkPlutoCtrl);
             this.groupBox2.Controls.Add(this.linkQuickTuneSettings);
             this.groupBox2.Controls.Add(this.linkBatcWebchatSettings);
             this.groupBox2.Controls.Add(this.linkBatcSpectrumSettings);
@@ -298,11 +298,11 @@
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // checkPlutoCtrl
             // 
-            resources.ApplyResources(this.checkBox1, "checkBox1");
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.checkPlutoCtrl, "checkPlutoCtrl");
+            this.checkPlutoCtrl.Name = "checkPlutoCtrl";
+            this.checkPlutoCtrl.UseVisualStyleBackColor = true;
             // 
             // linkQuickTuneSettings
             // 
@@ -805,7 +805,7 @@
         private System.Windows.Forms.Label link2ndTS;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkPlutoCtrl;
         private System.Windows.Forms.ToolStripMenuItem menuManageFrequencyPresets;
         private System.Windows.Forms.ToolStripMenuItem toolstripConnectToggle;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;

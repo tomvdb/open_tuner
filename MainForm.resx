@@ -576,37 +576,37 @@
   <data name="&gt;&gt;checkBox2.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="checkBox1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="checkPlutoCtrl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="checkBox1.Enabled" type="System.Boolean, mscorlib">
+  <data name="checkPlutoCtrl.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="checkBox1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="checkPlutoCtrl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkBox1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="checkPlutoCtrl.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 78</value>
   </data>
-  <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="checkPlutoCtrl.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 20</value>
   </data>
-  <data name="checkBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="checkPlutoCtrl.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
-  <data name="checkBox1.Text" xml:space="preserve">
+  <data name="checkPlutoCtrl.Text" xml:space="preserve">
     <value>Pluto Control (F5OEO)</value>
   </data>
-  <data name="&gt;&gt;checkBox1.Name" xml:space="preserve">
-    <value>checkBox1</value>
+  <data name="&gt;&gt;checkPlutoCtrl.Name" xml:space="preserve">
+    <value>checkPlutoCtrl</value>
   </data>
-  <data name="&gt;&gt;checkBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;checkPlutoCtrl.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;checkBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;checkPlutoCtrl.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="&gt;&gt;checkBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;checkPlutoCtrl.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="linkQuickTuneSettings.AutoSize" type="System.Boolean, mscorlib">
