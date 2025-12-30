@@ -369,7 +369,9 @@ namespace opentuner
             // update gui
             SourcePage.Hide();
             tabControl1.TabPages.Remove(SourcePage);
-
+            tabControl1.TabPages.Add(PropertiesPage);
+            tabControl1.Width = 100;
+            tabControl1.Update();
             videoSource.OnSourceData += VideoSource_OnSourceData;
 
             return true;
@@ -695,30 +697,6 @@ namespace opentuner
                 batc_chat.Show();
         }
 
-        private void manualToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            batc_spectrum.changeTuneMode(0);
-            manualToolStripMenuItem.Checked = true;
-            autoHoldToolStripMenuItem.Checked = false;
-            autoTimedToolStripMenuItem.Checked = false;
-        }
-
-        private void autoTimedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            batc_spectrum.changeTuneMode(2);
-            manualToolStripMenuItem.Checked = false;
-            autoHoldToolStripMenuItem.Checked = false;
-            autoTimedToolStripMenuItem.Checked = true;
-        }
-
-        private void autoHoldToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            batc_spectrum.changeTuneMode(3);
-            manualToolStripMenuItem.Checked = false;
-            autoHoldToolStripMenuItem.Checked = true;
-            autoTimedToolStripMenuItem.Checked = false;
-        }
-
         private void configureCallsignToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pluto_client.ConfigureCallsignAndReboot("ZR6TG");
@@ -1000,7 +978,6 @@ namespace opentuner
             {
                 _availableSources[comboAvailableSources.SelectedIndex].OverrideDefaultMuted(_settings.mute_at_startup);
             }
-
 
             splitContainer1.SplitterDistance = _settings.gui_main_splitter_position;
 

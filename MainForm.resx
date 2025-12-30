@@ -1254,12 +1254,6 @@
   <data name="&gt;&gt;PropertiesPage.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PropertiesPage.Parent" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="&gt;&gt;PropertiesPage.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="dbgListBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1304,12 +1298,6 @@
   </data>
   <data name="&gt;&gt;debugPage.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;debugPage.Parent" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="&gt;&gt;debugPage.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1536,42 +1524,6 @@
   <data name="&gt;&gt;splitContainer2.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="contextSpectrumMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>437, 14</value>
-  </metadata>
-  <data name="manualToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="manualToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Manual</value>
-  </data>
-  <data name="autoTimedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="autoTimedToolStripMenuItem.Text" xml:space="preserve">
-    <value>Auto (Timed)</value>
-  </data>
-  <data name="autoHoldToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="autoHoldToolStripMenuItem.Text" xml:space="preserve">
-    <value>Auto (Hold)</value>
-  </data>
-  <data name="autoTuneToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
-  </data>
-  <data name="autoTuneToolStripMenuItem.Text" xml:space="preserve">
-    <value>AutoTune (RX1)</value>
-  </data>
-  <data name="contextSpectrumMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 26</value>
-  </data>
-  <data name="&gt;&gt;contextSpectrumMenu.Name" xml:space="preserve">
-    <value>contextSpectrumMenu</value>
-  </data>
-  <data name="&gt;&gt;contextSpectrumMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="spectrum.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1714,7 +1666,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>157, 17</value>
@@ -1840,7 +1792,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -2387,30 +2339,6 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Open Tuner (ZR6TG) - 0.B Version - 2024/07/09</value>
-  </data>
-  <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
-    <value>autoTuneToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;autoTuneToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;manualToolStripMenuItem.Name" xml:space="preserve">
-    <value>manualToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;manualToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;autoTimedToolStripMenuItem.Name" xml:space="preserve">
-    <value>autoTimedToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;autoTimedToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;autoHoldToolStripMenuItem.Name" xml:space="preserve">
-    <value>autoHoldToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;autoHoldToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;openTunerToolStripMenuItem.Name" xml:space="preserve">
     <value>openTunerToolStripMenuItem</value>
