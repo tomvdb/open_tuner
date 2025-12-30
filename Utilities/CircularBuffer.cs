@@ -1,13 +1,8 @@
 ﻿using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace opentuner
 {
-
     public class CircularBuffer
     {
         private byte[] buffer;
@@ -81,12 +76,11 @@ namespace opentuner
                      * This happend while stop playing or leaving the program at all
                      * Occured only a very times.
                      */
-                    Log.Error("Dequeue(): Buffer is empty.");
+                    Log.Warning("CircularBuffer.Dequeue: Buffer is empty.");
                     return 0;
                 }
 
                 byte item = buffer[tail];
-                // buffer[tail] = 0;    // mod dl1rf: I think no need to do this.
                 tail = (tail + 1) % capacity;
                 Count--;
 
@@ -107,7 +101,7 @@ namespace opentuner
                      * This happend while stop playing or leaving the program at all
                      * Occured only a very few times.
                      */
-                    Log.Error("Peek(): Buffer is empty.");
+                    Log.Warning("CircularBuffer.Peek: Buffer is empty.");
                     return 0;
                 }
 
@@ -167,126 +161,8 @@ namespace opentuner
         {
             lock (syncRoot)
             {
-                Array.Clear(buffer, 0, buffer.Length);
                 head = tail = Count = 0;
             }
         }
     }
-
-    /*
-    public class CircularBuffer<T>
-    {
-        private T[] buffer;
-        private int capacity;
-        private int head;
-        private int tail;
-
-        public CircularBuffer(int initialCapacity)
-        {
-            if (initialCapacity < 1)
-            {
-                throw new ArgumentException("Initial capacity must be greater than zero.");
-            }
-
-            capacity = initialCapacity;
-            buffer = new T[capacity];
-            head = 0;
-            tail = 0;
-        }
-
-        public int Count
-        {
-            get
-            {
-                lock (buffer)
-                {
-                    if (head >= tail)
-                    {
-                        return head - tail;
-                    }
-                    else
-                    {
-                        return capacity - (tail - head);
-                    }
-                }
-            }
-        }
-
-        public void Enqueue(T item)
-        {
-            lock (buffer)
-            {
-                buffer[head] = item;
-                head = (head + 1) % capacity;
-                if (head == tail)
-                {
-                    ResizeBuffer();
-                }
-            }
-        }
-
-        public bool TryDequeue(out T result)
-        {
-            lock (buffer)
-            {
-                if (head == tail)
-                {
-                    result = default(T);
-                    return false;
-                }
-                else
-                {
-                    result = buffer[tail];
-                    tail = (tail + 1) % capacity;
-                    return true;
-                }
-            }
-        }
-
-        public bool TryPeek(out T result)
-        {
-            lock (buffer)
-            {
-                if (head == tail)
-                {
-                    result = default(T);
-                    return false;
-                }
-                else
-                {
-                    result = buffer[tail];
-                    return true;
-                }
-            }
-        }
-
-        public void Clear()
-        {
-            lock (buffer)
-            {
-                head = 0;
-                tail = 0;
-                buffer = new T[capacity];
-            }
-        }
-
-        private void ResizeBuffer()
-        {
-            T[] newBuffer = new T[capacity * 2];
-            int i = 0;
-            for (int j = tail; j != head; j = (j + 1) % capacity)
-            {
-                newBuffer[i++] = buffer[j];
-            }
-            buffer = newBuffer;
-            capacity *= 2;
-            head = i;
-            tail = 0;
-
-            //Log.Information("Need to resize buffer: " + capacity.ToString());
-        }
-
-    }
-    */
-
 }
