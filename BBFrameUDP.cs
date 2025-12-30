@@ -55,8 +55,6 @@ namespace opentuner
             IPAddress vlcIpAddress = IPAddress.Parse(udp_address); 
             int vlcPort = udp_port;
 
-            bool header_sync = false;
-
             BinaryWriter binWriter = null;
 
             try
@@ -69,7 +67,6 @@ namespace opentuner
                         Log.Information("New BBFrame File: " + fileName);
                         binWriter = new BinaryWriter(File.Open(fileName, FileMode.Create));
                         streaming = true;
-                        header_sync = false;
                     }
                     else
                     {
@@ -83,26 +80,7 @@ namespace opentuner
                         }
                     }
 
-                    /*
-                    // if we are streaming, throw away data until synced
-                    if (streaming == true && header_sync == false)
-                    {
-                        if (_ts_data_queue.Count > 0)
-                        {
-                            if (_ts_data_queue.TryPeek() == 0x47)
-                            {
-                                Log.Information("TS Synced");
-                                ts_sync = true;
-                            }
-                            else
-                            {
-                                data = _ts_data_queue.Dequeue();
-                            }
-                        }
-                    }
-                    */
-
-                    // we are streaming and in sync
+                    // we are streaming
                     if (streaming )
                     {
                         if (_ts_data_queue.Count > 0)
@@ -138,7 +116,6 @@ namespace opentuner
                 {
                     binWriter.Close();
                 }
-
             }
         }
     }
