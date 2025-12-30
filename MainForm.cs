@@ -110,10 +110,6 @@ namespace opentuner
                         _settings.auto_connect = true;
                         break;
 
-                    case "--noconnect":
-                        _settings.auto_connect = false;
-                        break;
-
                     case "--enablebatcspectrum":
                         _settings.enable_spectrum_checkbox = true;
                         break;
@@ -286,6 +282,9 @@ namespace opentuner
 
             _settingsManager = new SettingsManager<MainSettings>("open_tuner_settings");
             _settings = (_settingsManager.LoadSettings(_settings));
+
+            // reset autoconnect. Will be updated in the next step
+            _settings.auto_connect = false;
 
             // parse command line options
             ParseCommandLineOptions(args);
