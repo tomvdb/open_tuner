@@ -71,6 +71,7 @@ namespace opentuner
         SplitterPanel[] video_panels = new SplitterPanel[4];
 
         bool properties_hidden = false;
+        bool ExtraTool_hidden = false;
 
         public void UpdateInfo(StreamInfoContainer info_object, OTSourceData info)
         {
@@ -159,6 +160,14 @@ namespace opentuner
 
                     case "--showproperties":
                         _settings.hide_properties = false;
+                        break;
+
+                    case "--showextratools":
+                        _settings.hide_ExtraTool = false;
+                        break;
+
+                    case "--hideextratools":
+                        _settings.hide_ExtraTool = true;
                         break;
 
                     case "--hidevideoinfo":
@@ -284,6 +293,7 @@ namespace opentuner
             //setup
             splitContainer2.Panel2Collapsed = true;
             splitContainer2.Panel2.Enabled = false;
+            splitContainer2.Panel2.Hide();
 
             checkBatcSpectrum.Checked = _settings.enable_spectrum_checkbox;
             checkBatcChat.Checked = _settings.enable_chatform_checkbox;
@@ -910,11 +920,15 @@ namespace opentuner
             if (!SourceConnect(_availableSources[comboAvailableSources.SelectedIndex]))
                 return false;
 
+            hidePanelToolStripMenuItem.Visible = true;
+
             if (checkBatcSpectrum.Checked)
             {
+                hideExtraToolStripMenuItem.Visible = true;
                 // show spectrum
                 splitContainer2.Panel2Collapsed = false;
                 splitContainer2.Panel2.Enabled = true;
+                splitContainer2.Panel2.Show();
 
                 this.DoubleBuffered = true;
                 batc_spectrum = new BATCSpectrum(spectrum, videoSource.GetVideoSourceCount());
@@ -960,7 +974,11 @@ namespace opentuner
 
             // hide/show panels
             TogglePropertiesPanel(_settings.hide_properties);
-
+            if (checkBatcSpectrum.Checked)
+            {
+                ToggleExtraToolPanel(_settings.hide_ExtraTool);
+            }
+            this.Focus();
             return true;
         }
 
@@ -1138,12 +1156,32 @@ namespace opentuner
                 splitContainer1.Panel1.Hide();
                 splitContainer1.Panel1Collapsed = true;
                 properties_hidden = true;
+                hidePanelToolStripMenuItem.Text = "Show Properties";
             }
             else
             {
                 splitContainer1.Panel1.Show();
                 splitContainer1.Panel1Collapsed = false;
                 properties_hidden = false;
+                hidePanelToolStripMenuItem.Text = "Hide Properties";
+            }
+        }
+
+        private void ToggleExtraToolPanel(bool hide)
+        {
+            if (hide)
+            {
+                splitContainer2.Panel2.Hide();
+                splitContainer2.Panel2Collapsed = true;
+                ExtraTool_hidden = true;
+                hideExtraToolStripMenuItem.Text = "Show Spectrum";
+            }
+            else
+            {
+                splitContainer2.Panel2.Show();
+                splitContainer2.Panel2Collapsed = false;
+                ExtraTool_hidden = false;
+                hideExtraToolStripMenuItem.Text = "Hide Spectrum";
             }
         }
 
@@ -1152,6 +1190,16 @@ namespace opentuner
             if (m.Msg == 0X0100 && (Keys)m.WParam.ToInt32() == Keys.P && ModifierKeys == Keys.Control)
             {
                 TogglePropertiesPanel(!properties_hidden);
+                _settings.hide_properties = properties_hidden;
+                return true;
+            }
+            if (m.Msg == 0X0100 && (Keys)m.WParam.ToInt32() == Keys.E && ModifierKeys == Keys.Control)
+            {
+                if (checkBatcSpectrum.Checked)
+                {
+                    ToggleExtraToolPanel(!ExtraTool_hidden);
+                    _settings.hide_ExtraTool = ExtraTool_hidden;
+                }
                 return true;
             }
 
@@ -1176,14 +1224,49 @@ namespace opentuner
             _settings.enable_datvreporter_checkbox = checkDATVReporter.Checked;
         }
 
+        private void LinkDatvReportMoreInfo_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-datv-reporter/");
+        }
+
         private void ExtraToolsTab_DrawItem(object sender, DrawItemEventArgs e)
         {
 
         }
 
-        private void LinkDatvReportMoreInfo_Click(object sender, EventArgs e)
+        private void splitContainer3_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.zr6tg.co.za/opentuner-datv-reporter/");
+            splitContainer3.SplitterDistance = (int)(splitContainer3.Height * 0.5);
+            if (splitContainer4.Panel2Collapsed == false)
+                splitContainer4.SplitterDistance = (int)(splitContainer4.Width * 0.5);
+            if (splitContainer5.Panel2Collapsed == false)
+                splitContainer5.SplitterDistance = (int)(splitContainer5.Width * 0.5);
+        }
+
+        private void splitContainer4_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            splitContainer3.SplitterDistance = (int)(splitContainer3.Height * 0.5);
+            splitContainer4.SplitterDistance = (int)(splitContainer4.Width * 0.5);
+            if (splitContainer5.Panel2Collapsed == false)
+                splitContainer5.SplitterDistance = (int)(splitContainer5.Width * 0.5);
+        }
+
+        private void splitContainer5_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            splitContainer3.SplitterDistance = (int)(splitContainer3.Height * 0.5);
+            if (splitContainer4.Panel2Collapsed == false)
+                splitContainer4.SplitterDistance = (int)(splitContainer4.Width * 0.5);
+            splitContainer5.SplitterDistance = (int)(splitContainer5.Width * 0.5);
+        }
+
+        private void hidePanelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TogglePropertiesPanel(!properties_hidden);
+        }
+
+        private void hideExtraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToggleExtraToolPanel(!ExtraTool_hidden);
         }
     }
 }

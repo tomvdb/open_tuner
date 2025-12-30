@@ -91,6 +91,8 @@
             this.menuManageFrequencyPresets = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hidePanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideExtraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.qO100WidebandChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.plutoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -586,6 +588,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTunerToolStripMenuItem,
+            this.hidePanelToolStripMenuItem,
+            this.hideExtraToolStripMenuItem,
             this.qO100WidebandChatToolStripMenuItem,
             this.plutoToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
@@ -636,6 +640,18 @@
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             resources.ApplyResources(this.quitToolStripMenuItem, "quitToolStripMenuItem");
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            // 
+            // hidePanelToolStripMenuItem
+            // 
+            this.hidePanelToolStripMenuItem.Name = "hidePanelToolStripMenuItem";
+            resources.ApplyResources(this.hidePanelToolStripMenuItem, "hidePanelToolStripMenuItem");
+            this.hidePanelToolStripMenuItem.Click += new System.EventHandler(this.hidePanelToolStripMenuItem_Click);
+            // 
+            // hideExtraToolStripMenuItem
+            // 
+            this.hideExtraToolStripMenuItem.Name = "hideExtraToolStripMenuItem";
+            resources.ApplyResources(this.hideExtraToolStripMenuItem, "hideExtraToolStripMenuItem");
+            this.hideExtraToolStripMenuItem.Click += new System.EventHandler(this.hideExtraToolStripMenuItem_Click);
             // 
             // qO100WidebandChatToolStripMenuItem
             // 
@@ -794,11 +810,13 @@
         private System.Windows.Forms.ToolStripMenuItem toolstripConnectToggle;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.Label linkDATVReporterSettings;
+        private System.Windows.Forms.Label LinkDatvReportMoreInfo;
         private System.Windows.Forms.CheckBox checkDATVReporter;
         private System.Windows.Forms.TabControl ExtraToolsTab;
         private System.Windows.Forms.TabPage ExtraSpectrumTab;
         private System.Windows.Forms.PictureBox spectrum;
-        private System.Windows.Forms.Label LinkDatvReportMoreInfo;
+        private System.Windows.Forms.ToolStripMenuItem hidePanelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideExtraToolStripMenuItem;
     }
 }
 

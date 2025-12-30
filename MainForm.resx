@@ -1755,6 +1755,24 @@
   <data name="openTunerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Main</value>
   </data>
+  <data name="hidePanelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="hidePanelToolStripMenuItem.Text" xml:space="preserve">
+    <value>Hide Properties</value>
+  </data>
+  <data name="hidePanelToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="hideExtraToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 20</value>
+  </data>
+  <data name="hideExtraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Hide Spectrum</value>
+  </data>
+  <data name="hideExtraToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="qO100WidebandChatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 20</value>
   </data>
@@ -2368,7 +2386,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Open Tuner  (ZR6TG) - 0.B Version - 2024/07/09</value>
+    <value>Open Tuner (ZR6TG) - 0.B Version - 2024/07/09</value>
   </data>
   <data name="&gt;&gt;autoTuneToolStripMenuItem.Name" xml:space="preserve">
     <value>autoTuneToolStripMenuItem</value>
@@ -2434,6 +2452,18 @@
     <value>quitToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;quitToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;hidePanelToolStripMenuItem.Name" xml:space="preserve">
+    <value>hidePanelToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;hidePanelToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;hideExtraToolStripMenuItem.Name" xml:space="preserve">
+    <value>hideExtraToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;hideExtraToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;qO100WidebandChatToolStripMenuItem.Name" xml:space="preserve">
