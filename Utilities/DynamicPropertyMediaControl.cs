@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using static opentuner.Utilities.DynamicPropertyMediaControls;
 
 namespace opentuner.Utilities
 {
-    public enum PropertyIndicators
-    {
-        RecordingIndicator,
-        StreamingIndicator
-    };
-
     public class DynamicPropertyMediaControls : DynamicPropertyInterface
     {
         private delegate void UpdateLabelDelegate(Label Lbl, Object obj);
@@ -34,14 +23,9 @@ namespace opentuner.Utilities
         private Button _UDPStreamButton;
         private Button _RecordButton;
 
-//        private PictureBox _recordIndicator;
-//        private PictureBox _streamIndicator;
+        private readonly int buttonSize = 32;
+        private readonly int left_margin = -10;
 
-//        Bitmap _recordBitmap;
-//        Bitmap _streamBitmap;
-//        Bitmap _offBitmap;
-
-        private int buttonSize = 32;
         public override string Key
         {
             get { return _key; }
@@ -52,12 +36,8 @@ namespace opentuner.Utilities
 
         ButtonPressedCallback _buttonPressedCallback;
 
-        // height of the property row
-        private const int ItemHeight = 20;
-
         private void UpdateLabel(Label Lbl, Object obj)
         {
-
             if (Lbl == null)
                 return;
 
@@ -72,14 +52,11 @@ namespace opentuner.Utilities
             else
             {
                 Lbl.Text = obj.ToString();
-                
             }
-
         }
 
         private void UpdateColor(Label Lbl, Color Col)
         {
-
             if (Lbl == null)
                 return;
 
@@ -95,76 +72,15 @@ namespace opentuner.Utilities
             {
                 Lbl.BackColor = Col;
             }
-
         }
-
-/*
-        public bool IsIndicatorSet(int indicatorInput, PropertyIndicators indicator)
-        {
-            
-            return (indicatorInput & (1 << (int)indicator)) != 0;
-        }
-*/
 
         public override void UpdateValue(string Value)
         {
-/*
-            _value = Value;
-
-            int indicatorInput = 0;
-
-            if (int.TryParse(Value, out indicatorInput))
-            {
-                if (IsIndicatorSet(indicatorInput, PropertyIndicators.RecordingIndicator))
-                {
-                    _recordIndicator.Image = _recordBitmap;
-                }
-                else
-                {
-                    _recordIndicator.Image = _offBitmap;
-                }
-
-                if (IsIndicatorSet(indicatorInput, PropertyIndicators.StreamingIndicator))
-                {
-                    _streamIndicator.Image = _streamBitmap;
-                }
-                else
-                {
-                    _streamIndicator.Image = _offBitmap;
-                }
-
-            }
-*/
-        }
-
-        private void DrawIndicator(ref Bitmap bmp, Brush brush)
-        {
-            using(Graphics g = Graphics.FromImage(bmp))
-            {
-                g.Clear(Color.Transparent);
-
-                // Draw a red filled circle
-                int circleDiameter = 30; // Diameter of the circle
-                int x = (32 - circleDiameter) / 2; // X-coordinate of the circle
-                int y = (32 - circleDiameter) / 2; // Y-coordinate of the circle
-                g.FillEllipse(brush, x, y, circleDiameter, circleDiameter);
-                g.DrawEllipse(Pens.Gray, x, y, circleDiameter, circleDiameter);
-            }
         }
 
         public DynamicPropertyMediaControls(GroupBox Group, string Key, string Title, ButtonPressedCallback ButtonPressedCB)
         {
             _buttonPressedCallback = ButtonPressedCB;
-/*
-            _recordBitmap = new Bitmap(32,32);
-            DrawIndicator(ref _recordBitmap, Brushes.PaleVioletRed);
-
-            _streamBitmap = new Bitmap(32,32);
-            DrawIndicator(ref _streamBitmap, Brushes.PaleTurquoise);
-
-            _offBitmap = new Bitmap(32,32);
-            DrawIndicator(ref _offBitmap, Brushes.LightGray);
-*/
             InitComponents(Group, Key, Title, Color.Transparent);
         }
 
@@ -184,7 +100,7 @@ namespace opentuner.Utilities
             _MuteButton.Height = buttonSize;
             _MuteButton.Width = buttonSize;
             _MuteButton.Top = _parent.Controls[_parent.Controls.Count - 1].Top + _parent.Controls[_parent.Controls.Count - 1].Height + top_margin;
-            _MuteButton.Left = _parent.Width - (4 * (buttonSize + 2)) - (_parent.Width / 4) / 2;
+            _MuteButton.Left = left_margin + _parent.Width - (4 * (buttonSize + 2));
             _MuteButton.Click += _MuteButton_Click;
             _toolTip.SetToolTip(_MuteButton, "Mute");
 
@@ -194,7 +110,7 @@ namespace opentuner.Utilities
             _SnapshotButton.Height = buttonSize;
             _SnapshotButton.Width = buttonSize;
             _SnapshotButton.Top = _parent.Controls[_parent.Controls.Count - 1].Top + _parent.Controls[_parent.Controls.Count - 1].Height + top_margin;
-            _SnapshotButton.Left = _parent.Width - (3 * (buttonSize + 2)) - (_parent.Width / 4) /2;
+            _SnapshotButton.Left = left_margin + _parent.Width - (3 * (buttonSize + 2));
             _SnapshotButton.Click += _SnapshotButton_Click;
             _toolTip.SetToolTip(_SnapshotButton, "Snapshot");
 
@@ -204,7 +120,7 @@ namespace opentuner.Utilities
             _UDPStreamButton.Height = buttonSize;
             _UDPStreamButton.Width = buttonSize;
             _UDPStreamButton.Top = _parent.Controls[_parent.Controls.Count - 1].Top + _parent.Controls[_parent.Controls.Count - 1].Height + top_margin;
-            _UDPStreamButton.Left = _parent.Width - (2 * (buttonSize + 2)) - (_parent.Width / 4) / 2;
+            _UDPStreamButton.Left = left_margin + _parent.Width - (2 * (buttonSize + 2));
             _UDPStreamButton.Click += _UDPStreamButton_Click;
             _toolTip.SetToolTip(_UDPStreamButton, "UDP Stream");
 
@@ -214,31 +130,14 @@ namespace opentuner.Utilities
             _RecordButton.Height = buttonSize;
             _RecordButton.Width = buttonSize;
             _RecordButton.Top = _parent.Controls[_parent.Controls.Count - 1].Top + _parent.Controls[_parent.Controls.Count - 1].Height + top_margin;
-            _RecordButton.Left = _parent.Width - (1 * (buttonSize + 2)) - (_parent.Width / 4) / 2;
+            _RecordButton.Left = left_margin + _parent.Width - (1 * (buttonSize + 2));
             _RecordButton.Click += _RecordButton_Click;
             _toolTip.SetToolTip(_RecordButton, "Record");
-/*
-            _streamIndicator = new PictureBox();
-            _streamIndicator.Size = new Size(buttonSize, buttonSize);
-            _streamIndicator.Image = _offBitmap;
-            _streamIndicator.Top = _MuteButton.Top;
-            _streamIndicator.Left = 10;
-            _toolTip.SetToolTip(_streamIndicator, "UDP Stream Indicator");
 
-            _recordIndicator = new PictureBox();
-            _recordIndicator.Size = new Size(buttonSize, buttonSize);
-            _recordIndicator.Image = _offBitmap;
-            _recordIndicator.Top = _MuteButton.Top;
-            _recordIndicator.Left = 10 + 42;
-            _toolTip.SetToolTip(_recordIndicator, "Record Indicator");
-*/
- //           _parent.Controls.Add(_recordIndicator);
- //           _parent.Controls.Add(_streamIndicator);
             _parent.Controls.Add(_MuteButton);
             _parent.Controls.Add(_SnapshotButton);
             _parent.Controls.Add(_RecordButton);
             _parent.Controls.Add(_UDPStreamButton);
-
         }
 
         private void _UDPStreamButton_Click(object sender, EventArgs e)
@@ -263,11 +162,10 @@ namespace opentuner.Utilities
 
         protected virtual void _parent_Resize(object sender, EventArgs e)
         {
-            _MuteButton.Left = _parent.Width - (4 * (buttonSize + 2)) - (_parent.Width/4) / 2;
-            _SnapshotButton.Left = _parent.Width - (3 * (buttonSize + 2)) - (_parent.Width / 4) / 2;
-            _UDPStreamButton.Left = _parent.Width - (2 * (buttonSize + 2)) - (_parent.Width / 4) / 2;
-            _RecordButton.Left = _parent.Width - (1 * (buttonSize + 2)) - (_parent.Width / 4) / 2;
-
+            _MuteButton.Left = left_margin + _parent.Width - (4 * (buttonSize + 2));
+            _SnapshotButton.Left = left_margin + _parent.Width - (3 * (buttonSize + 2));
+            _UDPStreamButton.Left = left_margin + _parent.Width - (2 * (buttonSize + 2));
+            _RecordButton.Left = left_margin + _parent.Width - (1 * (buttonSize + 2));
         }
 
         public override void UpdateColor(Color Col)

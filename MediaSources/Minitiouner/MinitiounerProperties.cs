@@ -113,7 +113,7 @@ namespace opentuner.MediaSources.Minitiouner
             // tuner for each device
             for (int c = 0; c < ts_devices; c++)
             {
-                var tunerControl = new TunerControlForm(c, 0, 0, (int)(c == 0 ? current_offset_0 : current_offset_1), this);
+                var tunerControl = new TunerControlForm(c, 0, 0, (c == 0 ? current_offset_0 : current_offset_1), this);
                 tunerControl.OnTunerChange += TunerControl_OnTunerChange;
                 _tuner_forms.Add(tunerControl);
             }
@@ -721,7 +721,7 @@ namespace opentuner.MediaSources.Minitiouner
             {
                 case MinitiounerPropertyCommands.SETFREQUENCY:
                     tuner = options[0];
-                    _tuner_forms[tuner].ShowTuner((int)(tuner == 0 ? current_frequency_0 : current_frequency_1), (int)(tuner == 0 ? current_sr_0 : current_sr_1), (int)(tuner == 0 ? current_offset_0 : current_offset_1));
+                    _tuner_forms[tuner].ShowTuner((tuner == 0 ? current_frequency_0 : current_frequency_1), (tuner == 0 ? current_sr_0 : current_sr_1), (tuner == 0 ? current_offset_0 : current_offset_1));
                     break;
                 case MinitiounerPropertyCommands.SETRFINPUTA:
                     ChangeRFInput((byte)options[0], nim.NIM_INPUT_TOP);

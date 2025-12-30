@@ -20,9 +20,9 @@ namespace opentuner
 
     public partial class TunerControlForm : Form
     {
-        private int _frequency = 0;
-        private int _symbol_rate = 0;
-        private int _offset = 0;
+        private uint _frequency = 0;
+        private uint _symbol_rate = 0;
+        private uint _offset = 0;
 
         private int _id;
 
@@ -30,7 +30,7 @@ namespace opentuner
 
         OTSource _source = null;
 
-        public TunerControlForm(int Id, int initialFrequency, int initialSr, int Offset, OTSource Source)
+        public TunerControlForm(int Id, uint initialFrequency, uint initialSr, uint Offset, OTSource Source)
         {
             InitializeComponent();
 
@@ -53,7 +53,7 @@ namespace opentuner
             this.Text += " - Tuner " + (Id + 1).ToString();
         }
 
-        void scroll_frequency(int freq_modifier, int delta)
+        void scroll_frequency(uint freq_modifier, int delta)
         {
             if (delta == 0)
                 return;
@@ -70,6 +70,7 @@ namespace opentuner
 
             update_freq(_frequency);
         }
+
         private void LblgHz_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             scroll_frequency(1000000, e.Delta);
@@ -77,7 +78,7 @@ namespace opentuner
 
         private void LblmHz_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            int modifier = 1000;
+            uint modifier = 1000;
 
             if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 modifier = 10000;
@@ -91,7 +92,7 @@ namespace opentuner
 
         private void LblkHz_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            int modifier = 1;
+            uint modifier = 1;
 
             if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 modifier = 10;
@@ -102,13 +103,13 @@ namespace opentuner
             scroll_frequency(modifier, e.Delta);
         }
 
-        private void update_freq(int new_freq)
+        private void update_freq(uint new_freq)
         {
-            int freq = Convert.ToInt32(new_freq) + _offset;
+            uint freq = new_freq + _offset;
 
-            int kHz = 0;
-            int mHz = 0;
-            int gHz = 0;
+            uint kHz = 0;
+            uint mHz = 0;
+            uint gHz = 0;
 
             gHz = freq / 1000000;
             mHz = (freq - (gHz * 1000000)) / 1000;
@@ -132,7 +133,6 @@ namespace opentuner
             }
         }
 
-
         private void update_offset()
         {
             lblOffset.Text = _offset.ToString();
@@ -153,21 +153,21 @@ namespace opentuner
             OnTunerChange?.Invoke(_id, Convert.ToUInt32(_frequency));
         }
 
-        private void update_sr(int symbolrate)
+        private void update_sr(uint symbolrate)
         {
             lblSR.Text = symbolrate.ToString();
         }
 
-        private void update_offset(int offset)
+        private void update_offset(uint offset)
         {
             lblOffset.Text = offset.ToString();
         }
 
         private void UpdateTunerInvoke(uint freq, uint symbolrate, uint offset)
         {
-            _frequency = (int)freq;
-            _symbol_rate = (int)symbolrate;
-            _offset = (int)offset;
+            _frequency = freq;
+            _symbol_rate = symbolrate;
+            _offset = offset;
 
             update_sr(_symbol_rate);
             update_offset(_offset);
@@ -192,7 +192,7 @@ namespace opentuner
             }
         }
 
-        public void ShowTuner(int freq, int symbolrate, int offset)
+        public void ShowTuner(uint freq, uint symbolrate, uint offset)
         {
             _frequency = freq;
             _symbol_rate = symbolrate;

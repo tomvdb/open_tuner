@@ -30,7 +30,6 @@ namespace opentuner.Utilities
             Invalidate();
         }
 
-        
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
@@ -40,23 +39,30 @@ namespace opentuner.Utilities
             SizeF temp_text_size = pe.Graphics.MeasureString("Temp", font);
             this.Height = (int)temp_text_size.Height + 10;
 
-
             pe.Graphics.FillRectangle(Brushes.Black, 0, 0, Width, Height);
             pe.Graphics.DrawRectangle(Pens.White, 0, 0, Width - 1, Height - 1);
 
             if (last_info_data == null)
                 return;
 
-
             string info = "";
 
-            string locked_info = last_info_data.service_name + " - " +
-                " D" + last_info_data.db_margin.ToString("F1");
+            string locked_info = (last_info_data.service_name.Length == 0 ? "Lock" : last_info_data.service_name) + " - " + " D" + last_info_data.db_margin.ToString("F1");
 
-            info = 
-                "MER: " + last_info_data.mer.ToString("F1") + " dB - " +
-                last_info_data.frequency.ToString("N0", CultureInfo.InvariantCulture) +
-                " - " + last_info_data.symbol_rate.ToString();
+            if (last_info_data.demod_locked)
+            {
+                info = "MER: " + last_info_data.mer.ToString("F1") + " dB";
+            }
+            info = info + " - " + last_info_data.frequency.ToString("N0", CultureInfo.CurrentCulture);
+            if (last_info_data.demod_locked)
+            {
+                info = info + " - " + last_info_data.demode_state;
+            }
+            info = info + " - " + last_info_data.symbol_rate.ToString();
+            if (last_info_data.demod_locked)
+            {
+                info = info + " - " + last_info_data.modcode;
+            }
 
             int x_pos = 2;
             int y_pos = 5;
@@ -87,11 +93,20 @@ namespace opentuner.Utilities
                     pe.Graphics.DrawString(audio_icon_high, emojiFont, Brushes.LimeGreen, new PointF(x_pos -5, 2));
                 else
                     pe.Graphics.DrawString(audio_icon_mute, emojiFont, Brushes.IndianRed, new PointF(x_pos -5, 2));
+
+                x_pos += (int)pe.Graphics.MeasureString(audio_icon_mute, emojiFont).Width;
             }
 
+            if (last_info_data.streaming)
+            {
+                pe.Graphics.DrawString("U", font, Brushes.PaleTurquoise, new PointF(x_pos, y_pos));
+                x_pos += (int)pe.Graphics.MeasureString("U ", font).Width;
+            }
 
-
+            if (last_info_data.recording)
+            {
+                pe.Graphics.DrawString("R", font, Brushes.PaleVioletRed, new PointF(x_pos, y_pos));
+            }
         }
-
     }
 }

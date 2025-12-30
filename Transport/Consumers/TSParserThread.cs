@@ -133,8 +133,8 @@ namespace opentuner
                                     catch ( Exception Ex )
                                     {
                                         Log.Warning("TS_TABLE_SDT Exception : " + Ex.Message);
+                                        continue;
                                     }
-
 
                                     UInt32 ts_payload_section_length = ((UInt32)(ts_packet[ts_payload_offset + 1] & 0x0F) << 8) | (UInt32)ts_packet[ts_payload_offset + 2];
 
@@ -152,8 +152,10 @@ namespace opentuner
                                     {
                                         service_provider = System.Text.Encoding.ASCII.GetString(ts_packet, ts_payload_offset + 19 + 1, ts_service_provider_name_length);
                                     }
-                                    catch (Exception Ex)
-                                    { }
+                                    catch (Exception ex)
+                                    {
+                                        Log.Error(ex.Message);
+                                    }
 
                                     //Log.Information(service_provider);
 
@@ -165,9 +167,9 @@ namespace opentuner
                                     {
                                         service_provider_name = System.Text.Encoding.ASCII.GetString(ts_packet, ts_payload_offset + 19 + ts_service_provider_name_length + 2, ts_service_name_length);
                                     }
-                                    catch (Exception Ex)
+                                    catch (Exception ex)
                                     {
-
+                                        Log.Error(ex.Message);
                                     }
 
                                     //Log.Information(service_provider);
@@ -183,7 +185,6 @@ namespace opentuner
                                         prevServiceProvider = service_provider;
                                     }
 
-
                                     if (ts_data_callback != null)
                                     {
                                         TSStatus new_status = new TSStatus();
@@ -198,14 +199,11 @@ namespace opentuner
 
                                         ts_data_callback(new_status);
                                     }
-
                                 }
-
                             }
                             else
                             {
                                 // remove the byte and continue
-                                
                                 check = parser_ts_data_queue.Dequeue();
                                 continue;
                             }
@@ -215,20 +213,13 @@ namespace opentuner
                     {
                         Thread.Sleep(100);
                     }
-
-
                 }
-
             }
             catch (ThreadAbortException)
             {
-                Log.Information("TS Thread: Closing ");
+                //Log.Information("TS Parser Thread Closed");
+                Thread.ResetAbort();
             }
-            finally
-            {
-                Log.Information("Closing TS");
-            }
-
         }
     }
 }

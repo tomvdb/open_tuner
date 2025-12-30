@@ -16,6 +16,7 @@ namespace opentuner.Utilities
         private UdpClient udpClient;
         private int port;
         private bool isListening;
+        private bool isStopped;
         private Thread listenThread;
         
         private int _id;
@@ -29,7 +30,6 @@ namespace opentuner.Utilities
         {
             udpClient?.Close();
         }
-
 
         public UDPClient(int port)
         {
@@ -54,6 +54,7 @@ namespace opentuner.Utilities
             if (!isListening)
             {
                 isListening = true;
+                isStopped = false;
                 listenThread.Start();
 
                 OnConnectionStatusChanged(true);
@@ -65,8 +66,11 @@ namespace opentuner.Utilities
             if (isListening)
             {
                 isListening = false;
+                for (int i = 0; (i < 50) && !isStopped; i++) // wait till thread is stopped. max. 0.5 Seconds
+                {
+                    Thread.Sleep(100);
+                }
 //                listenThread.Join(); // Wait for the thread to finish
-
                 udpClient.Close();
 
                 OnConnectionStatusChanged(false);
@@ -79,25 +83,33 @@ namespace opentuner.Utilities
 
             try
             {
-
                 while (isListening)
                 {
-                    byte[] receivedBytes = udpClient.Receive(ref remoteEndPoint);
+                    if (0 != udpClient.Available)
+                    {
+                        byte[] receivedBytes = udpClient.Receive(ref remoteEndPoint);
 
-                    try
-                    {
-                        OnDataReceived(receivedBytes);
+                        try
+                        {
+                            OnDataReceived(receivedBytes);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error("OnDataReceived event failed: " + ex.Message);
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Log.Information("OnDataReceived event failed: " + ex.Message);
+                        Thread.Sleep(25);
                     }
                 }
+                isStopped = true;
             }
             catch (Exception ex)
             {
-                Log.Information("Listen for UDP Data Exception: "  + this.port.ToString() + " : "+  ex.Message);
+                Log.Error("Listen for UDP Data Exception: "  + this.port.ToString() + " : "+  ex.Message);
                 OnConnectionStatusChanged(false);
+                isStopped = true;
             }
         }
 

@@ -114,7 +114,7 @@ namespace opentuner.MediaSources.WinterHill
             // tuner for each device
             for (int c = 0; c < ts_devices; c++)
             {
-                var tunerControl = new TunerControlForm(c, 0, 0, (int)_current_offset[c], this);
+                var tunerControl = new TunerControlForm(c, 0, 0, (uint)_current_offset[c], this);
                 tunerControl.OnTunerChange += TunerControl_OnTunerChange;
 
                 _tuner_forms.Add(tunerControl);
@@ -277,7 +277,7 @@ namespace opentuner.MediaSources.WinterHill
 
                 case LongmyndPropertyCommands.SETFREQUENCY:
                     tuner = option[0];
-                    _tuner_forms[tuner].ShowTuner(_current_frequency[tuner], _current_sr[tuner], (int)_current_offset[tuner]);
+                    _tuner_forms[tuner].ShowTuner((uint)_current_frequency[tuner], (uint)_current_sr[tuner], (uint)_current_offset[tuner]);
                     break;
 
                 case LongmyndPropertyCommands.SETPRESET:

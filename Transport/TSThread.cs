@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace opentuner
 {
@@ -21,6 +22,8 @@ namespace opentuner
         private string identifier = "";
 
         private EventWaitHandle thread_wait_event_handle;
+        private bool worker_thread_stopped = false;
+        private bool shutdown_worker_thread = false;
 
         public TSThread(CircularBuffer _raw_ts_data_queue, FlushTS _flush_ts_callback, ReadTS _read_ts_callback, string _identifier)
         {
@@ -61,6 +64,21 @@ namespace opentuner
             thread_wait_event_handle.Set(); // fire worker thread to handle start event
         }
 
+        public void Stop(ref bool stopped)
+        {
+            Log.Verbose("TS Thread: Stopping Worker Thread...");
+            ts_build_queue = false;
+            shutdown_worker_thread = true;
+            thread_wait_event_handle.Set(); // fire worker thread to handle stop event
+
+            int count = 10;
+            while (!worker_thread_stopped && count != 0)
+            {
+                Task.Delay(100);    // delay to allow worker thread to stop
+            }
+            stopped = worker_thread_stopped;
+        }
+
         public void worker_thread()
         {
             bool bufferingData = false;
@@ -85,7 +103,15 @@ namespace opentuner
 
                         bufferingData = false;
                         registered_consumers[0].Clear();
-                        continue;
+                        if (shutdown_worker_thread)
+                        {
+                            worker_thread_stopped = true;
+                            break;
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
 
                     if (ts_build_queue == true && bufferingData == false)
@@ -120,13 +146,9 @@ namespace opentuner
             }
             catch (ThreadAbortException)
             {
-                Log.Information("TS Thread: Closing ");
+                //Log.Information("TS Thread: Closed");
+                Thread.ResetAbort();
             }
-            finally
-            {
-            }
-
-            Log.Information("TS Thread Closed");
         }
     }
 }
