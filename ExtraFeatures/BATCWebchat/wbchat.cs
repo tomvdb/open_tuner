@@ -45,7 +45,6 @@ namespace opentuner
 
         private void wbchat_Load(object sender, EventArgs e)
         {
-
             if (_settings.nickname.Length > 0)
             {
                 txtNick.Text = _settings.nickname;
@@ -153,7 +152,6 @@ namespace opentuner
             }
             else
             {
-
                 // 204, 204, 204
                 rtb.SelectionStart = rtb.TextLength;
                 rtb.ScrollToCaret();
@@ -161,7 +159,6 @@ namespace opentuner
                 rtb.SelectionColor = Color.FromArgb(204, 204, 204);
                 rtb.SelectionStart = rtb.TextLength;
                 rtb.AppendText(tstr);
-
 
                 rtb.SelectionFont = consoleFontBold;
                 rtb.SelectionStart = rtb.TextLength;
@@ -179,6 +176,7 @@ namespace opentuner
         }
 
         private delegate void ClearRTBDelegate(RichTextBox rtb);
+
         public static void ClearChat(RichTextBox rtb)
         {
             if (rtb.InvokeRequired)
@@ -204,7 +202,6 @@ namespace opentuner
                 LB.Items.Clear();
             }
         }
-
 
         private void initUsers(SocketIOResponse response)
         {
@@ -262,6 +259,7 @@ namespace opentuner
             initUsers(response);
             initHistory(response);
         }
+
         class nickInfo
         {
             [JsonPropertyName("nick")]
@@ -286,7 +284,7 @@ namespace opentuner
             {
                 string nick = txtNick.Text.Trim();
 
-                if (nick.Length > 0)
+                if (nick.Length > 0 && nick != "NONICK")
                 {
                     client.EmitAsync("setnick", new nickInfo { nick = nick });
                     txtMessage.Enabled = true;
@@ -380,14 +378,13 @@ namespace opentuner
                 txtNick.Text = nickDialog.txtNick.Text;
                 setNick();
 
-                DateTime timeobj = DateTime.Now;
-                AddChat(richChat, timeobj.ToString("HH:mm"), "Chat","You are now known as '" + txtNick.Text + "'");
-
+                if (txtNick.Text.Length > 0 && txtNick.Text != "NONICK")
+                {
+                    DateTime timeobj = DateTime.Now;
+                    AddChat(richChat, timeobj.ToString("HH:mm"), "Chat", "You are now known as '" + txtNick.Text + "'");
+                }
             }
         }
-
-
-
 
         private void lbChat_Resize(object sender, EventArgs e)
         {

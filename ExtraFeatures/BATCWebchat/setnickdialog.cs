@@ -24,10 +24,14 @@ namespace opentuner
                 MessageBox.Show("Your nick is too short...");
                 return;
             }
+            if (txtNick.Text == "NONICK")
+            {
+                MessageBox.Show("'NONICK' is not a call sign.");
+                return;
+            }
 
             DialogResult = DialogResult.OK;
             Close();
         }
-
     }
 }

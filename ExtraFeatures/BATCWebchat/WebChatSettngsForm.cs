@@ -20,6 +20,7 @@ namespace opentuner.ExtraFeatures.BATCWebchat
             _settings = Settings;
             numChatFontSize.Value = _settings.chat_font_size;
             txtSigReportTemplate.Text = _settings.sigreport_template;
+            txtNick.Text = _settings.nickname;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -32,6 +33,7 @@ namespace opentuner.ExtraFeatures.BATCWebchat
         {
             _settings.chat_font_size = (int)numChatFontSize.Value;
             _settings.sigreport_template = txtSigReportTemplate.Text;
+            _settings.nickname = txtNick.Text;
 
             DialogResult = DialogResult.OK;
             Close();

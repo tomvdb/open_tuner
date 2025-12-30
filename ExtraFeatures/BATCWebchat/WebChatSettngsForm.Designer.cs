@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txtNick = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.numChatFontSize = new System.Windows.Forms.NumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
@@ -42,19 +44,37 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.txtNick);
+            this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.numChatFontSize);
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.txtSigReportTemplate);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Location = new System.Drawing.Point(16, 15);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox4.Size = new System.Drawing.Size(924, 279);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "QO-100 Specific";
+            // 
+            // txtNick
+            // 
+            this.txtNick.Location = new System.Drawing.Point(343, 42);
+            this.txtNick.Name = "txtNick";
+            this.txtNick.Size = new System.Drawing.Size(572, 22);
+            this.txtNick.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(266, 46);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 16);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Nickname:";
             // 
             // label17
             // 
@@ -70,7 +90,7 @@
             // numChatFontSize
             // 
             this.numChatFontSize.Location = new System.Drawing.Point(132, 43);
-            this.numChatFontSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numChatFontSize.Margin = new System.Windows.Forms.Padding(4);
             this.numChatFontSize.Maximum = new decimal(new int[] {
             20,
             0,
@@ -106,7 +126,7 @@
             // txtSigReportTemplate
             // 
             this.txtSigReportTemplate.Location = new System.Drawing.Point(23, 128);
-            this.txtSigReportTemplate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSigReportTemplate.Margin = new System.Windows.Forms.Padding(4);
             this.txtSigReportTemplate.Name = "txtSigReportTemplate";
             this.txtSigReportTemplate.Size = new System.Drawing.Size(892, 22);
             this.txtSigReportTemplate.TabIndex = 4;
@@ -125,7 +145,7 @@
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(840, 302);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 5;
@@ -137,7 +157,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(732, 302);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 6;
@@ -158,7 +178,7 @@
             this.Controls.Add(this.groupBox4);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "WebChatSettngsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "QO-100 Web Chat Settings";
@@ -179,5 +199,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.TextBox txtNick;
+        private System.Windows.Forms.Label label1;
     }
 }
