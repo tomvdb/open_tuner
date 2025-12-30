@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnBrowseFolder1 = new System.Windows.Forms.Button();
+            this.txtVideoPath = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.checkWindowed4 = new System.Windows.Forms.CheckBox();
             this.checkWindowed3 = new System.Windows.Forms.CheckBox();
             this.comboMediaPlayer4 = new System.Windows.Forms.ComboBox();
@@ -76,6 +79,9 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnBrowseFolder1);
+            this.groupBox3.Controls.Add(this.txtVideoPath);
+            this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.checkWindowed4);
             this.groupBox3.Controls.Add(this.checkWindowed3);
             this.groupBox3.Controls.Add(this.comboMediaPlayer4);
@@ -100,11 +106,39 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Media Player Settings";
             // 
+            // btnBrowseFolder1
+            // 
+            this.btnBrowseFolder1.Location = new System.Drawing.Point(396, 54);
+            this.btnBrowseFolder1.Name = "btnBrowseFolder1";
+            this.btnBrowseFolder1.Size = new System.Drawing.Size(50, 23);
+            this.btnBrowseFolder1.TabIndex = 17;
+            this.btnBrowseFolder1.Text = "...";
+            this.btnBrowseFolder1.UseVisualStyleBackColor = true;
+            this.btnBrowseFolder1.Click += new System.EventHandler(this.btnBrowseFolder1_Click);
+            // 
+            // txtVideoPath
+            // 
+            this.txtVideoPath.Location = new System.Drawing.Point(171, 54);
+            this.txtVideoPath.Margin = new System.Windows.Forms.Padding(4);
+            this.txtVideoPath.Name = "txtVideoPath";
+            this.txtVideoPath.ReadOnly = true;
+            this.txtVideoPath.Size = new System.Drawing.Size(219, 22);
+            this.txtVideoPath.TabIndex = 16;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(13, 57);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(117, 16);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "Media Video Path:";
+            // 
             // checkWindowed4
             // 
             this.checkWindowed4.AutoSize = true;
             this.checkWindowed4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.checkWindowed4.Location = new System.Drawing.Point(171, 286);
+            this.checkWindowed4.Location = new System.Drawing.Point(171, 302);
             this.checkWindowed4.Margin = new System.Windows.Forms.Padding(4);
             this.checkWindowed4.Name = "checkWindowed4";
             this.checkWindowed4.Size = new System.Drawing.Size(133, 20);
@@ -116,7 +150,7 @@
             // 
             this.checkWindowed3.AutoSize = true;
             this.checkWindowed3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.checkWindowed3.Location = new System.Drawing.Point(171, 223);
+            this.checkWindowed3.Location = new System.Drawing.Point(171, 242);
             this.checkWindowed3.Margin = new System.Windows.Forms.Padding(4);
             this.checkWindowed3.Name = "checkWindowed3";
             this.checkWindowed3.Size = new System.Drawing.Size(133, 20);
@@ -132,7 +166,7 @@
             "VLC",
             "FFMPEG",
             "MPV"});
-            this.comboMediaPlayer4.Location = new System.Drawing.Point(171, 252);
+            this.comboMediaPlayer4.Location = new System.Drawing.Point(171, 270);
             this.comboMediaPlayer4.Margin = new System.Windows.Forms.Padding(4);
             this.comboMediaPlayer4.Name = "comboMediaPlayer4";
             this.comboMediaPlayer4.Size = new System.Drawing.Size(219, 24);
@@ -146,7 +180,7 @@
             "VLC",
             "FFMPEG",
             "MPV"});
-            this.comboMediaPlayer3.Location = new System.Drawing.Point(171, 190);
+            this.comboMediaPlayer3.Location = new System.Drawing.Point(171, 210);
             this.comboMediaPlayer3.Margin = new System.Windows.Forms.Padding(4);
             this.comboMediaPlayer3.Name = "comboMediaPlayer3";
             this.comboMediaPlayer3.Size = new System.Drawing.Size(219, 24);
@@ -156,7 +190,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label1.Location = new System.Drawing.Point(13, 256);
+            this.label1.Location = new System.Drawing.Point(13, 273);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 16);
@@ -167,7 +201,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label2.Location = new System.Drawing.Point(13, 193);
+            this.label2.Location = new System.Drawing.Point(13, 213);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 16);
@@ -178,7 +212,7 @@
             // 
             this.checkWindowed2.AutoSize = true;
             this.checkWindowed2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.checkWindowed2.Location = new System.Drawing.Point(171, 161);
+            this.checkWindowed2.Location = new System.Drawing.Point(171, 182);
             this.checkWindowed2.Margin = new System.Windows.Forms.Padding(4);
             this.checkWindowed2.Name = "checkWindowed2";
             this.checkWindowed2.Size = new System.Drawing.Size(133, 20);
@@ -189,7 +223,7 @@
             // checkWindowed1
             // 
             this.checkWindowed1.AutoSize = true;
-            this.checkWindowed1.Location = new System.Drawing.Point(171, 98);
+            this.checkWindowed1.Location = new System.Drawing.Point(171, 122);
             this.checkWindowed1.Margin = new System.Windows.Forms.Padding(4);
             this.checkWindowed1.Name = "checkWindowed1";
             this.checkWindowed1.Size = new System.Drawing.Size(133, 20);
@@ -205,7 +239,7 @@
             "VLC",
             "FFMPEG",
             "MPV"});
-            this.comboMediaPlayer2.Location = new System.Drawing.Point(171, 128);
+            this.comboMediaPlayer2.Location = new System.Drawing.Point(171, 150);
             this.comboMediaPlayer2.Margin = new System.Windows.Forms.Padding(4);
             this.comboMediaPlayer2.Name = "comboMediaPlayer2";
             this.comboMediaPlayer2.Size = new System.Drawing.Size(219, 24);
@@ -219,7 +253,7 @@
             "VLC",
             "FFMPEG",
             "MPV"});
-            this.comboMediaPlayer1.Location = new System.Drawing.Point(171, 65);
+            this.comboMediaPlayer1.Location = new System.Drawing.Point(171, 90);
             this.comboMediaPlayer1.Margin = new System.Windows.Forms.Padding(4);
             this.comboMediaPlayer1.Name = "comboMediaPlayer1";
             this.comboMediaPlayer1.Size = new System.Drawing.Size(219, 24);
@@ -229,7 +263,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label8.Location = new System.Drawing.Point(13, 132);
+            this.label8.Location = new System.Drawing.Point(13, 153);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(100, 16);
@@ -240,7 +274,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(13, 69);
+            this.label7.Location = new System.Drawing.Point(13, 93);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(100, 16);
@@ -249,7 +283,7 @@
             // 
             // btnBrowseFolder
             // 
-            this.btnBrowseFolder.Location = new System.Drawing.Point(399, 32);
+            this.btnBrowseFolder.Location = new System.Drawing.Point(398, 21);
             this.btnBrowseFolder.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowseFolder.Name = "btnBrowseFolder";
             this.btnBrowseFolder.Size = new System.Drawing.Size(48, 26);
@@ -260,7 +294,7 @@
             // 
             // txtSnapshotPath
             // 
-            this.txtSnapshotPath.Location = new System.Drawing.Point(171, 33);
+            this.txtSnapshotPath.Location = new System.Drawing.Point(171, 23);
             this.txtSnapshotPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtSnapshotPath.Name = "txtSnapshotPath";
             this.txtSnapshotPath.ReadOnly = true;
@@ -270,7 +304,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 36);
+            this.label4.Location = new System.Drawing.Point(13, 26);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(138, 16);
@@ -609,5 +643,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.CheckBox checkBoxMuted;
+        private System.Windows.Forms.Button btnBrowseFolder1;
+        private System.Windows.Forms.TextBox txtVideoPath;
+        private System.Windows.Forms.Label label9;
     }
 }
