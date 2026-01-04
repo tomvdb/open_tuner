@@ -485,7 +485,7 @@ namespace opentuner.MediaSources.Minitiouner
                         break;
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
             }
 
@@ -600,7 +600,7 @@ namespace opentuner.MediaSources.Minitiouner
                             break;
                     }
                 }
-                catch (Exception Ex)
+                catch (Exception ex)
                 {
                 }
 

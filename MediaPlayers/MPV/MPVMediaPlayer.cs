@@ -57,9 +57,9 @@ namespace opentuner.MediaPlayers.MPV
                 {
                     EventLoop();
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    debug("Eventloop Exception : " + e.ToString());
+                    debug("Eventloop Exception : " + ex.ToString());
                 }
             });
 
@@ -140,9 +140,9 @@ namespace opentuner.MediaPlayers.MPV
                         default: debug("MPV Event: " + evt.event_id.ToString()); break;
                     }
                 }
-                catch (Exception Ex)
+                catch (Exception ex)
                 {
-                    debug(Ex.ToString());
+                    debug(ex.ToString());
                 }
             }
 

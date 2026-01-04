@@ -619,9 +619,9 @@ namespace opentuner
                     ftdi_devices.Add(detected_ftdi_device);
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                Log.Error("FTDI Detect Error: " + Ex.Message);
+                Log.Error("FTDI Detect Error: " + ex.Message);
             }
 
             return ftdi_devices;
@@ -687,9 +687,9 @@ namespace opentuner
                     ftdi_device.Close();
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                Log.Error("FTDI Error: " + Ex.Message);
+                Log.Error("FTDI Error: " + ex.Message);
                 return 1;
             }
 
@@ -843,9 +843,9 @@ namespace opentuner
 
 
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                Log.Error("FTDI Error: " + Ex.Message);
+                Log.Error("FTDI Error: " + ex.Message);
                 return 1;
             }
 
@@ -864,9 +864,9 @@ namespace opentuner
                 ftStatus = ftdiDevice_i2c.GetNumberOfDevices(ref devcount);
                 Log.Information("Number of FTDI Devices: " + devcount.ToString());
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                Log.Error("FTDI Error: " + Ex.Message);
+                Log.Error("FTDI Error: " + ex.Message);
                 return 1;
             }
 

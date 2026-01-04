@@ -614,9 +614,9 @@ namespace opentuner
                     ftdi_devices.Add(detected_ftdi_device);
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                Log.Information("FTDI Detect Error: " + Ex.Message);               
+                Log.Information("FTDI Detect Error: " + ex.Message);
             }
             */
 

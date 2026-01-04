@@ -60,9 +60,8 @@ namespace opentuner.ExtraFeatures.QuickTuneControl
                 _videoSource.SetFrequency(udpListener.ID, freq-offset, sr, false);
                 
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-
             }
 
         }

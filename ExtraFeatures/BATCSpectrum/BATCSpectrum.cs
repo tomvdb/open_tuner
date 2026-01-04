@@ -270,7 +270,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     drawspectrum_bandplan();
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
 
             }
@@ -364,7 +364,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
             {
                 _spectrum.Parent?.Invoke(new MethodInvoker(delegate () { _spectrum.Image = bmp; _spectrum.Update(); }));
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
 
             }
@@ -534,7 +534,7 @@ namespace opentuner.ExtraFeatures.BATCSpectrum
                     }
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
 
             }

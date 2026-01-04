@@ -244,8 +244,9 @@ namespace opentuner.MediaSources.WinterHill
                 playing[device] = false;
                 demodstate[device] = -1;
             }
-            catch (Exception ex) { }
-
+            catch (Exception ex)
+            {
+            }
 
             string command = "[to@wh] rcv=" + receiver_num.ToString() + ",freq=" + freq.ToString() + ",offset=" + _current_offset[device].ToString() + ",srate=" + sr.ToString()  + ",fplug=" + (_settings.RFPort[device] == 0 ? "A" : "B") + "\n";
 

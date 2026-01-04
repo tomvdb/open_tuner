@@ -92,7 +92,6 @@ namespace opentuner
             {
                 info_object.UpdateInfo(info);
             }
-
         }
 
         void ParseCommandLineOptions(string[] args)
@@ -272,6 +271,22 @@ namespace opentuner
 
         public MainForm(string[] args)
         {
+            var compileTime = new DateTime(Builtin.CompileTime, DateTimeKind.Utc);
+            DateTimeFormatInfo usDateFormat = new CultureInfo("en-US", false).DateTimeFormat;
+            string compileTime_usFormat = compileTime.ToString("u", usDateFormat);
+
+            Text = "Open Tuner (ZR6TG) - Version: " + GlobalDefines.Version + " - Build: " + compileTime_usFormat;
+
+            // Always log the version information
+            // swith logging level to Information
+            LogEventLevel lastMinimumLevel = Program.levelSwitch.MinimumLevel;
+            Program.levelSwitch.MinimumLevel = LogEventLevel.Information;
+
+            Log.Information(Text);
+
+            // swith logging level back
+            Program.levelSwitch.MinimumLevel = lastMinimumLevel;
+
             ThreadPool.GetMinThreads(out int workers, out int ports);
             ThreadPool.SetMinThreads(workers + 6, ports + 6);
 
@@ -321,13 +336,6 @@ namespace opentuner
             // load stored presets
             frequenciesManager = new SettingsManager<List<StoredFrequency>>("frequency_presets");
             stored_frequencies = frequenciesManager.LoadSettings(stored_frequencies);
-
-            var compileTime = new DateTime(Builtin.CompileTime, DateTimeKind.Utc);
-            DateTimeFormatInfo usDateFormat = new CultureInfo("en-US", false).DateTimeFormat;
-            string compileTime_usFormat = compileTime.ToString("u", usDateFormat);
-
-            Text = "Open Tuner (ZR6TG) - Version: " + GlobalDefines.Version + " - Build: " + compileTime_usFormat;
-            Log.Information(Text);
         }
 
         /// <summary>
@@ -379,11 +387,16 @@ namespace opentuner
 
         private void VideoSource_OnSourceData(int video_nr, OTSourceData properties, string description)
         {
-            
             if (video_nr < info_display.Count && video_nr >= 0)
             {
                 if (info_display[video_nr] != null)
+                {
                     UpdateInfo(info_display[video_nr], properties);
+                }
+                else
+                {
+                    Log.Error("info_display is a NULL ponter");
+                }
             }
             else
             {
@@ -456,12 +469,6 @@ namespace opentuner
                 int i = LB.Items.Add(DateTime.Now.ToShortTimeString() + " : " + obj);
                 LB.TopIndex = i;
             }
-
-        }
-
-        private void debug(string msg)
-        {
-            UpdateLB(dbgListBox, msg);
         }
 
         public void start_video(int video_number)
@@ -541,12 +548,10 @@ namespace opentuner
 
             try
             {
-                /*
-                if (mqtt_client !=  null)
+                if (mqtt_client != null)
                 {
                     mqtt_client.Disconnect();
                 }
-                */
 
                 if (batc_spectrum != null)
                     batc_spectrum.Close();
@@ -590,13 +595,12 @@ namespace opentuner
                     _availableSources[c].Close();
                 }
             }
-            catch ( Exception Ex)
+            catch (Exception ex)
             {
                 // we are closing, we don't really care about exceptions at this point
-                Log.Error( Ex, "Closing Exception");
+                Log.Error(ex, "Closing Exception");
             }
 
-            // Always log the starting information
             // swith logging level to Information
             LogEventLevel lastMinimumLevel = Program.levelSwitch.MinimumLevel;
             Program.levelSwitch.MinimumLevel = LogEventLevel.Information;
@@ -1157,10 +1161,7 @@ namespace opentuner
 
             frequenciesManager.SaveSettings(stored_frequencies);
 
-            if (videoSource != null)
-            {
-                videoSource.UpdateFrequencyPresets(stored_frequencies);
-            }
+            videoSource?.UpdateFrequencyPresets(stored_frequencies);
         }
 
         private void TogglePropertiesPanel(bool hide)
