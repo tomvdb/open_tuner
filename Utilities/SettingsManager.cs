@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using Serilog;
-using System;
+﻿using System;
 using System.IO;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace opentuner.Utilities
 {
