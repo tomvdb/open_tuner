@@ -24,8 +24,8 @@ namespace opentuner.ExtraFeatures.DATVReporter
         {
             this.target_callsign = callsign;
             this.observed_time = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
-            this.db_margin = db_margin;
-            this.mer = mer;
+            this.db_margin = Math.Round(db_margin,2);
+            this.mer = Math.Round(mer,2);
             this.frequency = frequency;
             this.symbol_rate = symbol_rate;
             this.hardware = hardware;
